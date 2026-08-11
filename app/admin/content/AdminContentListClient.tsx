@@ -6,6 +6,7 @@ import { ArrowRight, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { deleteContent, saveContent } from "@/app/admin/content/actions";
+import { ResponsiveEntityEditor } from "@/components/admin/ResponsiveEntityEditor";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -75,6 +76,7 @@ export default function AdminContentListClient({
   const [isSaving, startSaveTransition] = useTransition();
   const [isDeleting, startDeleteTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [form, setForm] = useState({
     classId: "",
     subjectId: "",
@@ -163,6 +165,12 @@ export default function AdminContentListClient({
       lessonId: "",
       topicId: "",
     });
+  }
+
+  function beginCreate() {
+    setError(null);
+    resetForm();
+    setIsEditorOpen(true);
   }
 
   function applyFilters() {
@@ -331,97 +339,17 @@ export default function AdminContentListClient({
             <Badge variant="outline">{contents.length} records</Badge>
           </div>
         </CardHeader>
-        <CardContent className="space-y-5">
-          <FieldGroup className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-            <SelectField
-              label="Class"
-              value={form.classId}
-              onChange={(classId) =>
-                setForm({
-                  classId,
-                  subjectId: "",
-                  unitId: "",
-                  lessonId: "",
-                  topicId: "",
-                })
-              }
-              options={classes.map((item) => ({ id: item.id, label: item.name }))}
-              placeholder="Select class"
-            />
-            <SelectField
-              label="Subject"
-              value={form.subjectId}
-              onChange={(subjectId) =>
-                setForm((current) => ({
-                  ...current,
-                  subjectId,
-                  unitId: "",
-                  lessonId: "",
-                  topicId: "",
-                }))
-              }
-              options={availableSubjects.map((item) => ({ id: item.id, label: item.name }))}
-              placeholder={form.classId ? "Select subject" : "Select class first"}
-              disabled={!form.classId}
-            />
-            <SelectField
-              label="Unit"
-              value={form.unitId}
-              onChange={(unitId) =>
-                setForm((current) => ({
-                  ...current,
-                  unitId,
-                  lessonId: "",
-                  topicId: "",
-                }))
-              }
-              options={availableUnits.map((item) => ({ id: item.id, label: item.title }))}
-              placeholder={form.subjectId ? "Select unit" : "Select subject first"}
-              disabled={!form.subjectId}
-            />
-            <SelectField
-              label="Lesson"
-              value={form.lessonId}
-              onChange={(lessonId) =>
-                setForm((current) => ({
-                  ...current,
-                  lessonId,
-                  topicId: "",
-                }))
-              }
-              options={availableLessons.map((item) => ({ id: item.id, label: item.title }))}
-              placeholder={form.unitId ? "Select lesson" : "Select unit first"}
-              disabled={!form.unitId}
-            />
-            <SelectField
-              label="Topic"
-              value={form.topicId}
-              onChange={(topicId) => setForm((current) => ({ ...current, topicId }))}
-              options={availableTopics.map((item) => ({ id: item.id, label: item.title }))}
-              placeholder={form.lessonId ? "Optional topic" : "Select lesson first"}
-              disabled={!form.lessonId}
-            />
-          </FieldGroup>
+        <CardContent>
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <FieldDescription>
               Leave topic empty to create lesson-level content. Add a topic only when content belongs to a specific
               topic record.
             </FieldDescription>
-            <div className="flex items-center gap-3">
-              <Button type="button" variant="outline" onClick={resetForm}>
-                Reset
-              </Button>
-              <Button
-                type="button"
-                onClick={handleCreateContent}
-                disabled={isSaving || !form.classId || !form.subjectId || !form.unitId || !form.lessonId}
-              >
-                <Plus className="mr-2 h-4 w-4" />
-                {isSaving ? "Creating..." : "Create Content"}
-              </Button>
-            </div>
+            <Button type="button" onClick={beginCreate}>
+              <Plus className="mr-2 h-4 w-4" />
+              New Content
+            </Button>
           </div>
-          {error ? <div className="text-sm font-medium text-destructive">{error}</div> : null}
         </CardContent>
       </Card>
 
@@ -491,6 +419,99 @@ export default function AdminContentListClient({
           )}
         </CardContent>
       </Card>
+
+      <ResponsiveEntityEditor
+        open={isEditorOpen}
+        onOpenChange={setIsEditorOpen}
+        title="Create content record"
+        description="Choose the exact class, subject, unit, lesson, and optional topic path."
+        footer={
+          <div className="flex items-center justify-end gap-3">
+            <Button type="button" variant="outline" onClick={() => setIsEditorOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              onClick={handleCreateContent}
+              disabled={isSaving || !form.classId || !form.subjectId || !form.unitId || !form.lessonId}
+            >
+              {isSaving ? "Creating..." : "Create Content"}
+            </Button>
+          </div>
+        }
+      >
+        <FieldGroup className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+          <SelectField
+            label="Class"
+            value={form.classId}
+            onChange={(classId) =>
+              setForm({
+                classId,
+                subjectId: "",
+                unitId: "",
+                lessonId: "",
+                topicId: "",
+              })
+            }
+            options={classes.map((item) => ({ id: item.id, label: item.name }))}
+            placeholder="Select class"
+          />
+          <SelectField
+            label="Subject"
+            value={form.subjectId}
+            onChange={(subjectId) =>
+              setForm((current) => ({
+                ...current,
+                subjectId,
+                unitId: "",
+                lessonId: "",
+                topicId: "",
+              }))
+            }
+            options={availableSubjects.map((item) => ({ id: item.id, label: item.name }))}
+            placeholder={form.classId ? "Select subject" : "Select class first"}
+            disabled={!form.classId}
+          />
+          <SelectField
+            label="Unit"
+            value={form.unitId}
+            onChange={(unitId) =>
+              setForm((current) => ({
+                ...current,
+                unitId,
+                lessonId: "",
+                topicId: "",
+              }))
+            }
+            options={availableUnits.map((item) => ({ id: item.id, label: item.title }))}
+            placeholder={form.subjectId ? "Select unit" : "Select subject first"}
+            disabled={!form.subjectId}
+          />
+          <SelectField
+            label="Lesson"
+            value={form.lessonId}
+            onChange={(lessonId) =>
+              setForm((current) => ({
+                ...current,
+                lessonId,
+                topicId: "",
+              }))
+            }
+            options={availableLessons.map((item) => ({ id: item.id, label: item.title }))}
+            placeholder={form.unitId ? "Select lesson" : "Select unit first"}
+            disabled={!form.unitId}
+          />
+          <SelectField
+            label="Topic"
+            value={form.topicId}
+            onChange={(topicId) => setForm((current) => ({ ...current, topicId }))}
+            options={availableTopics.map((item) => ({ id: item.id, label: item.title }))}
+            placeholder={form.lessonId ? "Optional topic" : "Select lesson first"}
+            disabled={!form.lessonId}
+          />
+        </FieldGroup>
+        {error ? <div className="mt-4 text-sm font-medium text-destructive">{error}</div> : null}
+      </ResponsiveEntityEditor>
     </div>
   );
 }
