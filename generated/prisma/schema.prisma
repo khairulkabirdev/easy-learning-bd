@@ -1,0 +1,621 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  admin
+  student
+}
+
+enum PublishStatus {
+  draft
+  published
+  inactive
+}
+
+model User {
+  id             String   @id @default(cuid())
+  name           String
+  email          String   @unique
+  passwordHash   String
+  role           UserRole
+  organizationId String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  sessions AuthSession[]
+}
+
+model AuthSession {
+  id         String   @id @default(cuid())
+  userId     String
+  tokenHash  String   @unique
+  expiresAt  DateTime
+  lastUsedAt DateTime
+  createdAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AuditLog {
+  id             String   @id @default(cuid())
+  userId         String?
+  userName       String
+  action         String
+  entityName     String
+  entityId       String
+  changes        String
+  organizationId String
+  createdAt      DateTime @default(now())
+}
+
+model Class {
+  id             String        @id @default(cuid())
+  name           String
+  slug           String        @unique
+  code           String        @default("")
+  description    String        @default("")
+  status         PublishStatus @default(published)
+  sortOrder      Int           @default(0)
+  iconType       String        @default("none")
+  iconLibrary    String        @default("")
+  iconName       String        @default("")
+  iconColor      String        @default("")
+  imagePath      String        @default("")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  subjects Subject[]
+  units    Unit[]
+  contents Content[]
+}
+
+model Subject {
+  id             String        @id @default(cuid())
+  classId        String
+  name           String
+  slug           String        @unique
+  code           String        @default("")
+  description    String        @default("")
+  status         PublishStatus @default(published)
+  sortOrder      Int           @default(0)
+  iconType       String        @default("none")
+  iconLibrary    String        @default("")
+  iconName       String        @default("")
+  iconColor      String        @default("")
+  imagePath      String        @default("")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  class    Class     @relation(fields: [classId], references: [id], onDelete: Cascade)
+  units    Unit[]
+  contents Content[]
+}
+
+model Unit {
+  id             String        @id @default(cuid())
+  classId        String
+  subjectId      String
+  title          String
+  slug           String        @unique
+  unitNumber     String        @default("")
+  description    String        @default("")
+  status         PublishStatus @default(published)
+  sortOrder      Int           @default(0)
+  iconType       String        @default("none")
+  iconLibrary    String        @default("")
+  iconName       String        @default("")
+  iconColor      String        @default("")
+  imagePath      String        @default("")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  class    Class     @relation(fields: [classId], references: [id], onDelete: Cascade)
+  subject  Subject   @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  lessons  Lesson[]
+  contents Content[]
+}
+
+model Lesson {
+  id               String        @id @default(cuid())
+  unitId           String
+  title            String
+  slug             String        @unique
+  lessonNumber     String        @default("")
+  shortDescription String        @default("")
+  status           PublishStatus @default(published)
+  sortOrder        Int           @default(0)
+  iconType         String        @default("none")
+  iconLibrary      String        @default("")
+  iconName         String        @default("")
+  iconColor        String        @default("")
+  imagePath        String        @default("")
+  organizationId   String
+  createdBy        String
+  updatedBy        String
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  unit     Unit      @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  topics   Topic[]
+  contents Content[]
+}
+
+model Topic {
+  id               String        @id @default(cuid())
+  lessonId         String
+  title            String
+  slug             String        @unique
+  topicNumber      String        @default("")
+  shortDescription String        @default("")
+  status           PublishStatus @default(published)
+  sortOrder        Int           @default(0)
+  iconType         String        @default("none")
+  iconLibrary      String        @default("")
+  iconName         String        @default("")
+  iconColor        String        @default("")
+  imagePath        String        @default("")
+  organizationId   String
+  createdBy        String
+  updatedBy        String
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  lesson   Lesson    @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  contents Content[]
+}
+
+model Content {
+  id             String   @id @default(cuid())
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  class   Class          @relation(fields: [classId], references: [id], onDelete: Cascade)
+  subject Subject        @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  unit    Unit           @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  lesson  Lesson         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  topic   Topic?         @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  blocks  ContentBlock[]
+
+  @@unique([classId, subjectId, unitId, lessonId, topicId, organizationId])
+}
+
+model ContentBlock {
+  id        String   @id @default(cuid())
+  contentId String
+  kind      String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  content                      Content                       @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  paragraph                    Paragraph?
+  vocabulary                   Vocabulary?
+  synonymsAntonyms             SynonymsAntonyms?
+  gapFillExercise              GapFillExercise?
+  mcqSection                   McqSection?
+  questionAnswerExercise       QuestionAnswerExercise?
+  trueFalseExercise            TrueFalseExercise?
+  informationTransfer          InformationTransfer?
+  substitutionTable            SubstitutionTable?
+  rightFormOfVerb              RightFormOfVerb?
+  narration                    Narration?
+  changingSentence             ChangingSentence?
+  punctuationAndCapitalization PunctuationAndCapitalization?
+  preposition                  Preposition?
+  suffixAndPrefix              SuffixAndPrefix?
+  tagQuestion                  TagQuestion?
+  connector                    Connector?
+}
+
+model Paragraph {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  body           String   @default("")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+}
+
+model Vocabulary {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock ContentBlock      @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+  entries      VocabularyEntry[]
+}
+
+model VocabularyEntry {
+  id             String   @id @default(cuid())
+  vocabularyId   String
+  word           String   @default("")
+  meaning        String   @default("")
+  sortOrder      Int      @default(0)
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  vocabulary Vocabulary @relation(fields: [vocabularyId], references: [id], onDelete: Cascade)
+}
+
+model SynonymsAntonyms {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock ContentBlock            @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+  entries      SynonymsAntonymsEntry[]
+}
+
+model SynonymsAntonymsEntry {
+  id                 String   @id @default(cuid())
+  synonymsAntonymsId String
+  word               String   @default("")
+  meanings           String   @default("")
+  synonyms           String   @default("")
+  antonyms           String   @default("")
+  details            String   @default("")
+  sortOrder          Int      @default(0)
+  organizationId     String
+  createdBy          String
+  updatedBy          String
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  synonymsAntonyms SynonymsAntonyms @relation(fields: [synonymsAntonymsId], references: [id], onDelete: Cascade)
+}
+
+model GapFillExercise {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  question       String   @default("")
+  answer         String   @default("")
+  details        String   @default("")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+}
+
+model McqSection {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  title          String   @default("")
+  description    String   @default("")
+  documentJson   String   @default("{\"questions\":[]}")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+}
+
+model QuestionAnswerExercise {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  title          String   @default("")
+  instruction    String   @default("")
+  question       String   @default("")
+  answer         String   @default("")
+  details        String   @default("")
+  layoutKind     String   @default("question-answer")
+  documentJson   String   @default("{\"rows\":[]}")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+}
+
+model TrueFalseExercise {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  title          String   @default("")
+  instruction    String   @default("")
+  passage        String   @default("")
+  documentJson   String   @default("{\"rows\":[]}")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+}
+
+model InformationTransfer {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  question       String   @default("")
+  answer         String   @default("")
+  details        String   @default("")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+}
+
+model SubstitutionTable {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  question       String   @default("")
+  answer         String   @default("")
+  details        String   @default("")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+}
+
+model RightFormOfVerb {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  question       String   @default("")
+  answer         String   @default("")
+  details        String   @default("")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+}
+
+model Narration {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  question       String   @default("")
+  answer         String   @default("")
+  details        String   @default("")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+}
+
+model ChangingSentence {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  question       String   @default("")
+  answer         String   @default("")
+  details        String   @default("")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+}
+
+model PunctuationAndCapitalization {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  question       String   @default("")
+  answer         String   @default("")
+  details        String   @default("")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+}
+
+model Preposition {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  question       String   @default("")
+  answer         String   @default("")
+  details        String   @default("")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+}
+
+model SuffixAndPrefix {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  question       String   @default("")
+  answer         String   @default("")
+  details        String   @default("")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+}
+
+model TagQuestion {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  question       String   @default("")
+  answer         String   @default("")
+  details        String   @default("")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+}
+
+model Connector {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  question       String   @default("")
+  answer         String   @default("")
+  details        String   @default("")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+}
