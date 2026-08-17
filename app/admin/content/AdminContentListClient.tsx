@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
@@ -10,7 +10,7 @@ import { ResponsiveEntityEditor } from "@/components/admin/ResponsiveEntityEdito
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { FieldDescription, FieldGroup } from "@/components/ui/field";
 import { AdminSelectField as SelectField } from "@/components/admin/AdminSelectField";
 
 type ClassOption = {
@@ -207,6 +207,7 @@ export default function AdminContentListClient({
           topicId: form.topicId || undefined,
         });
         resetForm();
+        setIsEditorOpen(false);
         router.refresh();
       } catch (createError) {
         setError(createError instanceof Error ? createError.message : "Failed to create content.");
@@ -229,15 +230,13 @@ export default function AdminContentListClient({
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-3xl">Content</CardTitle>
-          <CardDescription>
-            Create one content record per exact curriculum path, then open the dedicated editor to manage its content
-            blocks.
-          </CardDescription>
-        </CardHeader>
-      </Card>
+      <div className="space-y-2">
+        <h1 className="text-3xl font-semibold tracking-tight">Content</h1>
+        <p className="text-sm text-muted-foreground">
+          Create one content record per exact curriculum path, then open the dedicated editor to manage its content
+          blocks.
+        </p>
+      </div>
 
       <Card>
         <CardHeader>
@@ -330,33 +329,28 @@ export default function AdminContentListClient({
       </Card>
 
       <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <CardTitle>Create content record</CardTitle>
-              <CardDescription>Choose the exact class, subject, unit, lesson, and optional topic path.</CardDescription>
-            </div>
-            <Badge variant="outline">{contents.length} records</Badge>
+        <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="space-y-1">
+            <CardTitle>Create content record</CardTitle>
+            <CardDescription>
+              Choose the exact class, subject, unit, lesson, and optional topic path. Leave topic empty for lesson-level
+              content.
+            </CardDescription>
           </div>
+          <Button type="button" onClick={beginCreate} className="sm:self-center">
+            <Plus className="mr-2 h-4 w-4" />
+            New Content
+          </Button>
         </CardHeader>
-        <CardContent>
-          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <FieldDescription>
-              Leave topic empty to create lesson-level content. Add a topic only when content belongs to a specific
-              topic record.
-            </FieldDescription>
-            <Button type="button" onClick={beginCreate}>
-              <Plus className="mr-2 h-4 w-4" />
-              New Content
-            </Button>
-          </div>
-        </CardContent>
       </Card>
 
       <Card>
-        <CardHeader>
-          <CardTitle>Content records</CardTitle>
-          <CardDescription>Open a record to manage its content blocks or delete it if the hierarchy path is wrong.</CardDescription>
+        <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div className="space-y-1">
+            <CardTitle>Content records</CardTitle>
+            <CardDescription>Open a record to manage its content blocks or delete it if the hierarchy path is wrong.</CardDescription>
+          </div>
+          <Badge variant="outline">{contents.length} records</Badge>
         </CardHeader>
         <CardContent className="space-y-4">
           {!appliedFilterClassId || !appliedFilterSubjectId || !appliedFilterUnitId || !appliedFilterLessonId ? (
@@ -422,11 +416,17 @@ export default function AdminContentListClient({
 
       <ResponsiveEntityEditor
         open={isEditorOpen}
-        onOpenChange={setIsEditorOpen}
+        onOpenChange={(open) => {
+          setIsEditorOpen(open);
+          if (!open) {
+            setError(null);
+          }
+        }}
         title="Create content record"
         description="Choose the exact class, subject, unit, lesson, and optional topic path."
+        className="max-w-3xl"
         footer={
-          <div className="flex items-center justify-end gap-3">
+          <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-end">
             <Button type="button" variant="outline" onClick={() => setIsEditorOpen(false)}>
               Cancel
             </Button>
@@ -440,7 +440,7 @@ export default function AdminContentListClient({
           </div>
         }
       >
-        <FieldGroup className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+        <div className="space-y-4">
           <SelectField
             label="Class"
             value={form.classId}
@@ -509,9 +509,11 @@ export default function AdminContentListClient({
             placeholder={form.lessonId ? "Optional topic" : "Select lesson first"}
             disabled={!form.lessonId}
           />
-        </FieldGroup>
+        </div>
         {error ? <div className="mt-4 text-sm font-medium text-destructive">{error}</div> : null}
       </ResponsiveEntityEditor>
     </div>
   );
 }
+
+
