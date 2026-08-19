@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
+  ArrowDown,
+  ArrowUp,
   BookText,
   CheckSquare,
   FileOutput,
@@ -29,6 +31,8 @@ import {
   updateChangingSentence,
   updateConnector,
   updateGapFillExercise,
+  updateGapFillFirstPaper,
+  updateGapFillSecondPaper,
   updateInformationTransfer,
   updateMcqSection,
   updateNarration,
@@ -96,6 +100,8 @@ type TrueFalseRowDraft = {
   expectedAnswer: boolean;
   correction: string;
 };
+
+const BLOCK_CONTENT_CLASS = "max-h-[70vh] overflow-y-auto pr-2";
 
 function createEmptyMcqQuestionDraft(): McqQuestionDraft {
   return {
@@ -202,37 +208,83 @@ function TagChipInput({
   );
 }
 
-const BLOCK_CHOOSER: Array<{
+const BLOCK_META: Array<{
   kind: ContentBlockKind;
   title: string;
   description: string;
+  icon: React.ReactNode;
 }> = [
-  { kind: "paragraph", title: "Paragraph", description: "Add a paragraph block." },
-  { kind: "vocabulary", title: "Vocabulary", description: "Add vocabulary words and meanings." },
-  { kind: "synonyms-antonyms", title: "Synonyms / Antonyms", description: "Add synonyms and antonyms rows." },
-  { kind: "gap-fill", title: "Gap Fill", description: "Add question, answer, and details for gap fill." },
-  { kind: "mcq", title: "MCQ", description: "Add an MCQ section." },
-  { kind: "true-false", title: "True / False", description: "Add a true/false exercise." },
-  { kind: "table-completion", title: "Table Completion", description: "Add question, answer, and details." },
-  { kind: "column-matching", title: "Column Matching", description: "Add question, answer, and details." },
-  { kind: "sentence-ordering", title: "Rearrange Sentence", description: "Add rearrange sentence content." },
-  { kind: "information-transfer", title: "Information Transfer", description: "Add question, answer, and details." },
-  { kind: "substitution-table", title: "Substitution Table", description: "Add question, answer, and details." },
-  { kind: "right-form-of-verb", title: "Right Form of Verb", description: "Add question, answer, and details." },
-  { kind: "narration", title: "Narration", description: "Add question, answer, and details." },
-  { kind: "changing-sentence", title: "Changing Sentence", description: "Add question, answer, and details." },
-  { kind: "punctuation-and-capitalization", title: "Punctuation and Capitalization", description: "Add question, answer, and details." },
-  { kind: "preposition", title: "Preposition", description: "Add question, answer, and details." },
-  { kind: "suffix-and-prefix", title: "Suffix and Prefix", description: "Add question, answer, and details." },
-  { kind: "tag-question", title: "Tag Question", description: "Add question, answer, and details." },
-  { kind: "connector", title: "Connector", description: "Add question, answer, and details." },
+  { kind: "paragraph", title: "Paragraph", description: "Add a paragraph block.", icon: <BookText className="h-4 w-4" /> },
+  { kind: "vocabulary", title: "Vocabulary", description: "Add vocabulary words and meanings.", icon: <SpellCheck2 className="h-4 w-4" /> },
+  { kind: "synonyms-antonyms", title: "Synonyms / Antonyms", description: "Add synonyms and antonyms rows.", icon: <Languages className="h-4 w-4" /> },
+  { kind: "gap-fill", title: "Gap Fill (Legacy)", description: "Legacy gap fill block.", icon: <FileQuestion className="h-4 w-4" /> },
+  { kind: "gap-fill-first-paper", title: "Fill in the Blanks", description: "Add question, answer, and details for English 1st paper.", icon: <FileQuestion className="h-4 w-4" /> },
+  { kind: "gap-fill-second-paper", title: "Gap Filling", description: "Add question, answer, and details for English 2nd paper.", icon: <FileQuestion className="h-4 w-4" /> },
+  { kind: "mcq", title: "MCQ", description: "Add an MCQ section.", icon: <CheckSquare className="h-4 w-4" /> },
+  { kind: "true-false", title: "True / False", description: "Add a true/false exercise.", icon: <CheckSquare className="h-4 w-4" /> },
+  { kind: "question-answer", title: "Question Answer", description: "Add question, answer, and details.", icon: <Rows3 className="h-4 w-4" /> },
+  { kind: "table-completion", title: "Table Completion", description: "Add question, answer, and details.", icon: <Rows3 className="h-4 w-4" /> },
+  { kind: "column-matching", title: "Column Matching", description: "Add question, answer, and details.", icon: <FileSpreadsheet className="h-4 w-4" /> },
+  { kind: "sentence-ordering", title: "Rearrange Sentence", description: "Add rearrange sentence content.", icon: <ListOrdered className="h-4 w-4" /> },
+  { kind: "information-transfer", title: "Information Transfer", description: "Add question, answer, and details.", icon: <FileOutput className="h-4 w-4" /> },
+  { kind: "substitution-table", title: "Substitution Table", description: "Add question, answer, and details.", icon: <FileText className="h-4 w-4" /> },
+  { kind: "right-form-of-verb", title: "Right Form of Verb", description: "Add question, answer, and details.", icon: <FileText className="h-4 w-4" /> },
+  { kind: "narration", title: "Narration", description: "Add question, answer, and details.", icon: <FileText className="h-4 w-4" /> },
+  { kind: "changing-sentence", title: "Changing Sentence", description: "Add question, answer, and details.", icon: <FileText className="h-4 w-4" /> },
+  { kind: "punctuation-and-capitalization", title: "Punctuation and Capitalization", description: "Add question, answer, and details.", icon: <FileText className="h-4 w-4" /> },
+  { kind: "preposition", title: "Preposition", description: "Add question, answer, and details.", icon: <FileText className="h-4 w-4" /> },
+  { kind: "suffix-and-prefix", title: "Suffix and Prefix", description: "Add question, answer, and details.", icon: <FileText className="h-4 w-4" /> },
+  { kind: "tag-question", title: "Tag Question", description: "Add question, answer, and details.", icon: <FileText className="h-4 w-4" /> },
+  { kind: "connector", title: "Connector", description: "Add question, answer, and details.", icon: <FileText className="h-4 w-4" /> },
 ];
 
-function getBlockTitle(kind: ContentBlockKind) {
-  if (kind === "question-answer") {
-    return "Question Answer";
+const BLOCK_META_BY_KIND = Object.fromEntries(BLOCK_META.map((item) => [item.kind, item])) as Record<
+  ContentBlockKind,
+  (typeof BLOCK_META)[number]
+>;
+
+const ENGLISH_FIRST_PAPER_KINDS: ContentBlockKind[] = [
+  "paragraph",
+  "vocabulary",
+  "mcq",
+  "gap-fill-first-paper",
+  "table-completion",
+  "question-answer",
+  "sentence-ordering",
+  "synonyms-antonyms",
+  "information-transfer",
+  "true-false",
+];
+
+const ENGLISH_SECOND_PAPER_KINDS: ContentBlockKind[] = [
+  "gap-fill-second-paper",
+  "substitution-table",
+  "right-form-of-verb",
+  "narration",
+  "changing-sentence",
+  "punctuation-and-capitalization",
+  "preposition",
+  "suffix-and-prefix",
+  "tag-question",
+  "connector",
+];
+
+function getAllowedBlockKinds(subjectName: string) {
+  const normalized = subjectName.toLowerCase();
+
+  if (normalized.includes("english") && (normalized.includes("2nd") || normalized.includes("second"))) {
+    return new Set<ContentBlockKind>(ENGLISH_SECOND_PAPER_KINDS);
   }
-  return BLOCK_CHOOSER.find((item) => item.kind === kind)?.title ?? kind.replaceAll("-", " ");
+
+  if (normalized.includes("english")) {
+    return new Set<ContentBlockKind>(ENGLISH_FIRST_PAPER_KINDS);
+  }
+
+  return null;
+}
+
+function getBlockTitle(kind: ContentBlockKind) {
+  return BLOCK_META_BY_KIND[kind]?.title ?? kind.replaceAll("-", " ");
 }
 
 const THREE_FIELD_BLOCK_META: Partial<
@@ -266,6 +318,30 @@ const THREE_FIELD_BLOCK_META: Partial<
     patchBlock: (block, next) => ({
       ...block,
       gapFill: block.gapFill ? { ...block.gapFill, ...next } : null,
+    }),
+  },
+  "gap-fill-first-paper": {
+    title: "Fill in the Blanks",
+    questionPlaceholder: "Write the fill in the blanks question here...",
+    answerPlaceholder: "Write the answer here...",
+    detailsPlaceholder: "Add details here...",
+    getValue: (block) => block.gapFillFirstPaper,
+    updateAction: updateGapFillFirstPaper,
+    patchBlock: (block, next) => ({
+      ...block,
+      gapFillFirstPaper: block.gapFillFirstPaper ? { ...block.gapFillFirstPaper, ...next } : null,
+    }),
+  },
+  "gap-fill-second-paper": {
+    title: "Gap Filling",
+    questionPlaceholder: "Write the gap filling question here...",
+    answerPlaceholder: "Write the answer here...",
+    detailsPlaceholder: "Add details here...",
+    getValue: (block) => block.gapFillSecondPaper,
+    updateAction: updateGapFillSecondPaper,
+    patchBlock: (block, next) => ({
+      ...block,
+      gapFillSecondPaper: block.gapFillSecondPaper ? { ...block.gapFillSecondPaper, ...next } : null,
     }),
   },
   "information-transfer": {
@@ -393,30 +469,7 @@ const THREE_FIELD_BLOCK_META: Partial<
 };
 
 function getBlockIcon(kind: ContentBlockKind) {
-  switch (kind) {
-    case "paragraph":
-      return <BookText className="h-4 w-4" />;
-    case "vocabulary":
-      return <SpellCheck2 className="h-4 w-4" />;
-    case "synonyms-antonyms":
-      return <Languages className="h-4 w-4" />;
-    case "gap-fill":
-      return <FileQuestion className="h-4 w-4" />;
-    case "mcq":
-    case "true-false":
-      return <CheckSquare className="h-4 w-4" />;
-    case "question-answer":
-    case "table-completion":
-      return <Rows3 className="h-4 w-4" />;
-    case "column-matching":
-      return <FileSpreadsheet className="h-4 w-4" />;
-    case "sentence-ordering":
-      return <ListOrdered className="h-4 w-4" />;
-    case "information-transfer":
-      return <FileOutput className="h-4 w-4" />;
-    default:
-      return <FileText className="h-4 w-4" />;
-  }
+  return BLOCK_META_BY_KIND[kind]?.icon ?? <FileText className="h-4 w-4" />;
 }
 
 export function ContentBlocksEditorClient({
@@ -446,11 +499,22 @@ export function ContentBlocksEditorClient({
   const [isTrueFalseModalOpen, setIsTrueFalseModalOpen] = useState(false);
   const [activeTrueFalseBlockId, setActiveTrueFalseBlockId] = useState<string | null>(null);
   const [newTrueFalseDraft, setNewTrueFalseDraft] = useState<TrueFalseRowDraft>(createEmptyTrueFalseRowDraft());
+  const [actionError, setActionError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     setBlocks(content.blocks);
   }, [content.blocks]);
+
+  const allowedBlockKinds = useMemo(() => getAllowedBlockKinds(content.subject.name), [content.subject.name]);
+  const visibleBlocks = useMemo(
+    () => (allowedBlockKinds ? blocks.filter((block) => allowedBlockKinds.has(block.kind)) : blocks),
+    [allowedBlockKinds, blocks],
+  );
+  const visibleBlockChooser = useMemo(
+    () => (allowedBlockKinds ? BLOCK_META.filter((item) => allowedBlockKinds.has(item.kind)) : BLOCK_META),
+    [allowedBlockKinds],
+  );
 
   const pathLabel = useMemo(() => {
     const items = [content.class.name, content.subject.name, content.unit.title, content.lesson.title];
@@ -462,6 +526,33 @@ export function ContentBlocksEditorClient({
 
   function patchBlock(blockId: string, updater: (block: BlockDraft) => BlockDraft) {
     setBlocks((current) => current.map((block) => (block.id === blockId ? updater(block) : block)));
+  }
+
+  async function handleMoveBlock(blockId: string, direction: "up" | "down") {
+    const currentIndex = blocks.findIndex((block) => block.id === blockId);
+    if (currentIndex === -1) return;
+
+    const nextIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
+    if (nextIndex < 0 || nextIndex >= blocks.length) return;
+
+    const nextBlocks = [...blocks];
+    const [moved] = nextBlocks.splice(currentIndex, 1);
+    nextBlocks.splice(nextIndex, 0, moved);
+
+    const normalized = nextBlocks.map((block, index) => ({
+      ...block,
+      sortOrder: index,
+    }));
+
+    setBlocks(normalized);
+
+    try {
+      await reorderContentBlocks(normalized.map((block) => ({ id: block.id, sortOrder: block.sortOrder })));
+      router.refresh();
+    } catch (error) {
+      setBlocks(content.blocks);
+      setActionError(error instanceof Error ? error.message : "Failed to reorder blocks.");
+    }
   }
 
   function resetVocabularyModal() {
@@ -488,6 +579,7 @@ export function ContentBlocksEditorClient({
   }
 
   async function handleAddBlock(kind: ContentBlockKind) {
+    setActionError(null);
     startTransition(async () => {
       await createContentBlock({ contentId: content.id, kind });
       router.refresh();
@@ -495,10 +587,14 @@ export function ContentBlocksEditorClient({
   }
 
   async function handleDeleteBlock(blockId: string) {
-    startTransition(async () => {
+    setActionError(null);
+    try {
       await deleteContentBlock(blockId);
       setBlocks((current) => current.filter((block) => block.id !== blockId));
-    });
+      router.refresh();
+    } catch (error) {
+      setActionError(error instanceof Error ? error.message : "Failed to delete block.");
+    }
   }
 
   async function handleParagraphChange(blockId: string, paragraphId: string, body: string) {
@@ -639,24 +735,30 @@ export function ContentBlocksEditorClient({
   }
 
   async function handleDeleteVocabularyRow(blockId: string, vocabularyId: string, vocabularyEntryId: string) {
-    await deleteVocabularyEntry({
-      contentId: content.id,
-      blockId,
-      vocabularyId,
-      vocabularyEntryId,
-    });
+    setActionError(null);
+    try {
+      await deleteVocabularyEntry({
+        contentId: content.id,
+        blockId,
+        vocabularyId,
+        vocabularyEntryId,
+      });
 
-    patchBlock(blockId, (block) => ({
-      ...block,
-      vocabulary: block.vocabulary
-        ? {
-            ...block.vocabulary,
-            entries: block.vocabulary.entries
-              .filter((entry) => entry.id !== vocabularyEntryId)
-              .map((entry, index) => ({ ...entry, sortOrder: index })),
-          }
-        : null,
-    }));
+      patchBlock(blockId, (block) => ({
+        ...block,
+        vocabulary: block.vocabulary
+          ? {
+              ...block.vocabulary,
+              entries: block.vocabulary.entries
+                .filter((entry) => entry.id !== vocabularyEntryId)
+                .map((entry, index) => ({ ...entry, sortOrder: index })),
+            }
+          : null,
+      }));
+      router.refresh();
+    } catch (error) {
+      setActionError(error instanceof Error ? error.message : "Failed to delete vocabulary row.");
+    }
   }
 
   async function handleSynonymsAntonymsEntryChange(
@@ -757,24 +859,30 @@ export function ContentBlocksEditorClient({
   }
 
   async function handleDeleteSynonymsRow(blockId: string, synonymsAntonymsId: string, entryId: string) {
-    await deleteSynonymsAntonymsEntry({
-      contentId: content.id,
-      blockId,
-      synonymsAntonymsId,
-      synonymsAntonymsEntryId: entryId,
-    });
+    setActionError(null);
+    try {
+      await deleteSynonymsAntonymsEntry({
+        contentId: content.id,
+        blockId,
+        synonymsAntonymsId,
+        synonymsAntonymsEntryId: entryId,
+      });
 
-    patchBlock(blockId, (block) => ({
-      ...block,
-      synonymsAntonyms: block.synonymsAntonyms
-        ? {
-            ...block.synonymsAntonyms,
-            entries: block.synonymsAntonyms.entries
-              .filter((entry) => entry.id !== entryId)
-              .map((entry, index) => ({ ...entry, sortOrder: index })),
-          }
-        : null,
-    }));
+      patchBlock(blockId, (block) => ({
+        ...block,
+        synonymsAntonyms: block.synonymsAntonyms
+          ? {
+              ...block.synonymsAntonyms,
+              entries: block.synonymsAntonyms.entries
+                .filter((entry) => entry.id !== entryId)
+                .map((entry, index) => ({ ...entry, sortOrder: index })),
+            }
+          : null,
+      }));
+      router.refresh();
+    } catch (error) {
+      setActionError(error instanceof Error ? error.message : "Failed to delete row.");
+    }
   }
 
   async function handleMcqSectionChange(
@@ -926,11 +1034,17 @@ export function ContentBlocksEditorClient({
     const currentBlock = blocks.find((block) => block.id === blockId);
     if (!currentBlock?.mcqSection) return;
 
-    await handleMcqSectionChange(blockId, {
-      questions: currentBlock.mcqSection.questions
-        .filter((question) => question.id !== questionId)
-        .map((question, index) => ({ ...question, sortOrder: index })),
-    });
+    setActionError(null);
+    try {
+      await handleMcqSectionChange(blockId, {
+        questions: currentBlock.mcqSection.questions
+          .filter((question) => question.id !== questionId)
+          .map((question, index) => ({ ...question, sortOrder: index })),
+      });
+      router.refresh();
+    } catch (error) {
+      setActionError(error instanceof Error ? error.message : "Failed to delete question.");
+    }
   }
 
   async function handleTrueFalseExerciseChange(
@@ -1030,11 +1144,17 @@ export function ContentBlocksEditorClient({
     const currentBlock = blocks.find((block) => block.id === blockId);
     if (!currentBlock?.trueFalseExercise) return;
 
-    await handleTrueFalseExerciseChange(blockId, {
-      rows: currentBlock.trueFalseExercise.rows
-        .filter((row) => row.id !== rowId)
-        .map((row, index) => ({ ...row, sortOrder: index })),
-    });
+    setActionError(null);
+    try {
+      await handleTrueFalseExerciseChange(blockId, {
+        rows: currentBlock.trueFalseExercise.rows
+          .filter((row) => row.id !== rowId)
+          .map((row, index) => ({ ...row, sortOrder: index })),
+      });
+      router.refresh();
+    } catch (error) {
+      setActionError(error instanceof Error ? error.message : "Failed to delete statement.");
+    }
   }
 
   async function handleInformationTransferChange(
@@ -1069,6 +1189,12 @@ export function ContentBlocksEditorClient({
 
   return (
     <div className="space-y-6">
+      {actionError ? (
+        <Card className="border-destructive/40 bg-destructive/5 shadow-none">
+          <CardContent className="pt-6 text-sm text-destructive">{actionError}</CardContent>
+        </Card>
+      ) : null}
+
       <Card className="shadow-none">
         <CardHeader>
           <CardTitle>Manage Content Blocks</CardTitle>
@@ -1083,7 +1209,7 @@ export function ContentBlocksEditorClient({
         </Button>
       </div>
 
-      {blocks.length === 0 ? (
+      {visibleBlocks.length === 0 ? (
         <Empty>
           <EmptyHeader>
             <EmptyTitle>No blocks yet</EmptyTitle>
@@ -1097,7 +1223,7 @@ export function ContentBlocksEditorClient({
         </Empty>
       ) : (
         <div className="space-y-6">
-          {blocks.map((block) => (
+          {visibleBlocks.map((block) => (
             <Card key={block.id} className="shadow-none">
               <CardHeader className="flex flex-row items-start justify-between gap-4 space-y-0">
                 <div className="space-y-2">
@@ -1112,6 +1238,24 @@ export function ContentBlocksEditorClient({
                   <Button type="button" variant="outline" size="icon">
                     <GripVertical className="h-4 w-4" />
                   </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    onClick={() => void handleMoveBlock(block.id, "up")}
+                    disabled={isPending || block.sortOrder === 0}
+                  >
+                    <ArrowUp className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    onClick={() => void handleMoveBlock(block.id, "down")}
+                    disabled={isPending || block.sortOrder === blocks.length - 1}
+                  >
+                    <ArrowDown className="h-4 w-4" />
+                  </Button>
                   <Button type="button" variant="outline" size="icon" onClick={() => void handleDeleteBlock(block.id)}>
                     <Trash2 className="h-4 w-4" />
                   </Button>
@@ -1119,7 +1263,7 @@ export function ContentBlocksEditorClient({
               </CardHeader>
 
               {block.kind === "paragraph" && block.paragraph ? (
-                <CardContent>
+                <CardContent className={BLOCK_CONTENT_CLASS}>
                   <Field>
                     <FieldContent>
                       <FieldLabel>Paragraph</FieldLabel>
@@ -1135,7 +1279,7 @@ export function ContentBlocksEditorClient({
               ) : null}
 
               {block.kind === "vocabulary" && block.vocabulary ? (
-                <CardContent className="space-y-5">
+                <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-5`}>
                   <div className="flex items-center justify-between gap-4">
                     <div className="space-y-1">
                       <h3 className="text-sm font-medium">Vocabulary rows</h3>
@@ -1200,7 +1344,7 @@ export function ContentBlocksEditorClient({
               ) : null}
 
               {block.kind === "synonyms-antonyms" && block.synonymsAntonyms ? (
-                <CardContent className="space-y-5">
+                <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-5`}>
                   <div className="flex items-center justify-between gap-4">
                     <div className="space-y-1">
                       <h3 className="text-sm font-medium">Synonyms and antonyms rows</h3>
@@ -1310,7 +1454,7 @@ export function ContentBlocksEditorClient({
               ) : null}
 
               {block.kind === "mcq" && block.mcqSection ? (
-                <CardContent className="space-y-5">
+                <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-5`}>
                   <FieldGroup className="gap-5">
                     <Field>
                       <FieldContent>
@@ -1444,7 +1588,7 @@ export function ContentBlocksEditorClient({
               ) : null}
 
               {block.kind === "true-false" && block.trueFalseExercise ? (
-                <CardContent className="space-y-5">
+                <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-5`}>
                   <FieldGroup className="gap-5">
                     <Field>
                       <FieldContent>
@@ -1570,7 +1714,7 @@ export function ContentBlocksEditorClient({
                 block.kind === "column-matching" ||
                 block.kind === "sentence-ordering") &&
               block.questionAnswerExercise ? (
-                <CardContent className="space-y-5">
+                <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-5`}>
                   {block.kind === "sentence-ordering" ? (
                     <Field>
                       <FieldContent>
@@ -1636,7 +1780,7 @@ export function ContentBlocksEditorClient({
               ) : null}
 
               {THREE_FIELD_BLOCK_META[block.kind] && THREE_FIELD_BLOCK_META[block.kind]!.getValue(block) ? (
-                <CardContent className="space-y-5">
+                <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-5`}>
                   <FieldGroup className="gap-5">
                     <Field>
                       <FieldContent>
@@ -1711,7 +1855,7 @@ export function ContentBlocksEditorClient({
       >
         <ScrollArea className="max-h-[70vh] pr-4">
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {BLOCK_CHOOSER.map((item) => (
+            {visibleBlockChooser.map((item) => (
               <Card key={item.kind} className="shadow-none">
                 <CardHeader>
                   <div className="flex h-12 w-12 items-center justify-center rounded-xl border bg-muted">

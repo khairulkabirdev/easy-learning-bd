@@ -76,8 +76,8 @@ export function AppDashboardShell({
 }: AppDashboardShellProps) {
   return (
     <SidebarProvider>
-      <aside className="hidden w-64 shrink-0 border-r bg-background md:flex md:flex-col">
-        <div className="flex items-center gap-3 border-b px-4 py-4">
+      <aside className="sticky top-0 hidden h-svh w-64 shrink-0 border-r bg-background md:flex md:flex-col">
+        <div className="flex h-16 items-center gap-3 border-b px-4">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
             <BookOpen className="h-5 w-5" />
           </div>
@@ -104,7 +104,7 @@ export function AppDashboardShell({
       </aside>
 
       <SidebarInset>
-        <header className="sticky top-0 z-20 flex h-16 items-center gap-3 border-b bg-background/95 px-4 backdrop-blur">
+        <header className="sticky top-0 z-20 flex h-16 items-center gap-3 border-b bg-background/75 px-4 backdrop-blur-md">
           <SidebarTrigger className="md:hidden" />
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">

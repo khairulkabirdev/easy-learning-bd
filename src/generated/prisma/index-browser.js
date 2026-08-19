@@ -375,6 +375,44 @@ exports.Prisma.GapFillExerciseScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.GapFillFirstPaperScalarFieldEnum = {
+  id: 'id',
+  contentBlockId: 'contentBlockId',
+  contentId: 'contentId',
+  classId: 'classId',
+  subjectId: 'subjectId',
+  unitId: 'unitId',
+  lessonId: 'lessonId',
+  topicId: 'topicId',
+  question: 'question',
+  answer: 'answer',
+  details: 'details',
+  organizationId: 'organizationId',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.GapFillSecondPaperScalarFieldEnum = {
+  id: 'id',
+  contentBlockId: 'contentBlockId',
+  contentId: 'contentId',
+  classId: 'classId',
+  subjectId: 'subjectId',
+  unitId: 'unitId',
+  lessonId: 'lessonId',
+  topicId: 'topicId',
+  question: 'question',
+  answer: 'answer',
+  details: 'details',
+  organizationId: 'organizationId',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.McqSectionScalarFieldEnum = {
   id: 'id',
   contentBlockId: 'contentBlockId',
@@ -664,6 +702,8 @@ exports.Prisma.ModelName = {
   SynonymsAntonyms: 'SynonymsAntonyms',
   SynonymsAntonymsEntry: 'SynonymsAntonymsEntry',
   GapFillExercise: 'GapFillExercise',
+  GapFillFirstPaper: 'GapFillFirstPaper',
+  GapFillSecondPaper: 'GapFillSecondPaper',
   McqSection: 'McqSection',
   QuestionAnswerExercise: 'QuestionAnswerExercise',
   TrueFalseExercise: 'TrueFalseExercise',

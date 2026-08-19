@@ -12,6 +12,8 @@ const contentBlockKindSchema = z.enum([
   "vocabulary",
   "synonyms-antonyms",
   "gap-fill",
+  "gap-fill-first-paper",
+  "gap-fill-second-paper",
   "mcq",
   "true-false",
   "question-answer",
@@ -429,6 +431,28 @@ export async function createContentBlock(input: unknown) {
 
       case "gap-fill":
         await tx.gapFillExercise.create({
+          data: {
+            ...baseData,
+            question: "",
+            answer: "",
+            details: "",
+          },
+        });
+        break;
+
+      case "gap-fill-first-paper":
+        await tx.gapFillFirstPaper.create({
+          data: {
+            ...baseData,
+            question: "",
+            answer: "",
+            details: "",
+          },
+        });
+        break;
+
+      case "gap-fill-second-paper":
+        await tx.gapFillSecondPaper.create({
           data: {
             ...baseData,
             question: "",
@@ -1108,6 +1132,38 @@ export async function updateGapFillExercise(input: unknown) {
     entityName: "GapFillExercise",
     update: (parsed, userId) =>
       prisma.gapFillExercise.update({
+        where: { id: parsed.recordId },
+        data: {
+          question: parsed.question,
+          answer: parsed.answer,
+          details: parsed.details,
+          updatedBy: userId,
+        },
+      }),
+  });
+}
+
+export async function updateGapFillFirstPaper(input: unknown) {
+  return updateThreeFieldRecord(input, {
+    entityName: "GapFillFirstPaper",
+    update: (parsed, userId) =>
+      prisma.gapFillFirstPaper.update({
+        where: { id: parsed.recordId },
+        data: {
+          question: parsed.question,
+          answer: parsed.answer,
+          details: parsed.details,
+          updatedBy: userId,
+        },
+      }),
+  });
+}
+
+export async function updateGapFillSecondPaper(input: unknown) {
+  return updateThreeFieldRecord(input, {
+    entityName: "GapFillSecondPaper",
+    update: (parsed, userId) =>
+      prisma.gapFillSecondPaper.update({
         where: { id: parsed.recordId },
         data: {
           question: parsed.question,

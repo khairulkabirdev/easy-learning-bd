@@ -162,6 +162,36 @@ export default async function AdminContentBlocksPage({
               details: true,
             },
           },
+          gapFillFirstPaper: {
+            select: {
+              id: true,
+              contentBlockId: true,
+              contentId: true,
+              classId: true,
+              subjectId: true,
+              unitId: true,
+              lessonId: true,
+              topicId: true,
+              question: true,
+              answer: true,
+              details: true,
+            },
+          },
+          gapFillSecondPaper: {
+            select: {
+              id: true,
+              contentBlockId: true,
+              contentId: true,
+              classId: true,
+              subjectId: true,
+              unitId: true,
+              lessonId: true,
+              topicId: true,
+              question: true,
+              answer: true,
+              details: true,
+            },
+          },
           mcqSection: {
             select: {
               id: true,
@@ -410,6 +440,8 @@ export default async function AdminContentBlocksPage({
           }
         : null,
       gapFill: block.gapFillExercise,
+      gapFillFirstPaper: block.gapFillFirstPaper,
+      gapFillSecondPaper: block.gapFillSecondPaper,
     })),
   };
 

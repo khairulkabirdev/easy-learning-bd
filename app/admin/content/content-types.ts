@@ -33,6 +33,8 @@ export type ContentBlockKind =
   | "vocabulary"
   | "synonyms-antonyms"
   | "gap-fill"
+  | "gap-fill-first-paper"
+  | "gap-fill-second-paper"
   | "mcq"
   | "true-false"
   | "question-answer"
@@ -118,6 +120,9 @@ export type GapFillExerciseRecord = {
   answer: string;
   details: string;
 };
+
+export type GapFillFirstPaperRecord = GapFillExerciseRecord;
+export type GapFillSecondPaperRecord = GapFillExerciseRecord;
 
 export type McqQuestionOptionRecord = {
   id: string;
@@ -240,6 +245,8 @@ export type ContentBlockRecord = {
   vocabulary: VocabularyRecord | null;
   synonymsAntonyms: SynonymsAntonymsRecord | null;
   gapFill: GapFillExerciseRecord | null;
+  gapFillFirstPaper: GapFillFirstPaperRecord | null;
+  gapFillSecondPaper: GapFillSecondPaperRecord | null;
   mcqSection: McqSectionRecord | null;
   questionAnswerExercise: QuestionAnswerExerciseRecord | null;
   trueFalseExercise: TrueFalseExerciseRecord | null;

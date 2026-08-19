@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -216,6 +216,8 @@ model ContentBlock {
   vocabulary                   Vocabulary?
   synonymsAntonyms             SynonymsAntonyms?
   gapFillExercise              GapFillExercise?
+  gapFillFirstPaper            GapFillFirstPaper?
+  gapFillSecondPaper           GapFillSecondPaper?
   mcqSection                   McqSection?
   questionAnswerExercise       QuestionAnswerExercise?
   trueFalseExercise            TrueFalseExercise?
@@ -322,6 +324,48 @@ model SynonymsAntonymsEntry {
 }
 
 model GapFillExercise {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  question       String   @default("")
+  answer         String   @default("")
+  details        String   @default("")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+}
+
+model GapFillFirstPaper {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  question       String   @default("")
+  answer         String   @default("")
+  details        String   @default("")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+}
+
+model GapFillSecondPaper {
   id             String   @id @default(cuid())
   contentBlockId String   @unique
   contentId      String

@@ -94,6 +94,16 @@ export type SynonymsAntonymsEntry = $Result.DefaultSelection<Prisma.$SynonymsAnt
  */
 export type GapFillExercise = $Result.DefaultSelection<Prisma.$GapFillExercisePayload>
 /**
+ * Model GapFillFirstPaper
+ * 
+ */
+export type GapFillFirstPaper = $Result.DefaultSelection<Prisma.$GapFillFirstPaperPayload>
+/**
+ * Model GapFillSecondPaper
+ * 
+ */
+export type GapFillSecondPaper = $Result.DefaultSelection<Prisma.$GapFillSecondPaperPayload>
+/**
  * Model McqSection
  * 
  */
@@ -466,6 +476,26 @@ export class PrismaClient<
     * ```
     */
   get gapFillExercise(): Prisma.GapFillExerciseDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.gapFillFirstPaper`: Exposes CRUD operations for the **GapFillFirstPaper** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GapFillFirstPapers
+    * const gapFillFirstPapers = await prisma.gapFillFirstPaper.findMany()
+    * ```
+    */
+  get gapFillFirstPaper(): Prisma.GapFillFirstPaperDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.gapFillSecondPaper`: Exposes CRUD operations for the **GapFillSecondPaper** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GapFillSecondPapers
+    * const gapFillSecondPapers = await prisma.gapFillSecondPaper.findMany()
+    * ```
+    */
+  get gapFillSecondPaper(): Prisma.GapFillSecondPaperDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.mcqSection`: Exposes CRUD operations for the **McqSection** model.
@@ -1053,6 +1083,8 @@ export namespace Prisma {
     SynonymsAntonyms: 'SynonymsAntonyms',
     SynonymsAntonymsEntry: 'SynonymsAntonymsEntry',
     GapFillExercise: 'GapFillExercise',
+    GapFillFirstPaper: 'GapFillFirstPaper',
+    GapFillSecondPaper: 'GapFillSecondPaper',
     McqSection: 'McqSection',
     QuestionAnswerExercise: 'QuestionAnswerExercise',
     TrueFalseExercise: 'TrueFalseExercise',
@@ -1084,7 +1116,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "authSession" | "auditLog" | "class" | "subject" | "unit" | "lesson" | "topic" | "content" | "contentBlock" | "paragraph" | "vocabulary" | "vocabularyEntry" | "synonymsAntonyms" | "synonymsAntonymsEntry" | "gapFillExercise" | "mcqSection" | "questionAnswerExercise" | "trueFalseExercise" | "informationTransfer" | "substitutionTable" | "rightFormOfVerb" | "narration" | "changingSentence" | "punctuationAndCapitalization" | "preposition" | "suffixAndPrefix" | "tagQuestion" | "connector"
+      modelProps: "user" | "authSession" | "auditLog" | "class" | "subject" | "unit" | "lesson" | "topic" | "content" | "contentBlock" | "paragraph" | "vocabulary" | "vocabularyEntry" | "synonymsAntonyms" | "synonymsAntonymsEntry" | "gapFillExercise" | "gapFillFirstPaper" | "gapFillSecondPaper" | "mcqSection" | "questionAnswerExercise" | "trueFalseExercise" | "informationTransfer" | "substitutionTable" | "rightFormOfVerb" | "narration" | "changingSentence" | "punctuationAndCapitalization" | "preposition" | "suffixAndPrefix" | "tagQuestion" | "connector"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2272,6 +2304,154 @@ export namespace Prisma {
           }
         }
       }
+      GapFillFirstPaper: {
+        payload: Prisma.$GapFillFirstPaperPayload<ExtArgs>
+        fields: Prisma.GapFillFirstPaperFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GapFillFirstPaperFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GapFillFirstPaperPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GapFillFirstPaperFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GapFillFirstPaperPayload>
+          }
+          findFirst: {
+            args: Prisma.GapFillFirstPaperFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GapFillFirstPaperPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GapFillFirstPaperFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GapFillFirstPaperPayload>
+          }
+          findMany: {
+            args: Prisma.GapFillFirstPaperFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GapFillFirstPaperPayload>[]
+          }
+          create: {
+            args: Prisma.GapFillFirstPaperCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GapFillFirstPaperPayload>
+          }
+          createMany: {
+            args: Prisma.GapFillFirstPaperCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GapFillFirstPaperCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GapFillFirstPaperPayload>[]
+          }
+          delete: {
+            args: Prisma.GapFillFirstPaperDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GapFillFirstPaperPayload>
+          }
+          update: {
+            args: Prisma.GapFillFirstPaperUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GapFillFirstPaperPayload>
+          }
+          deleteMany: {
+            args: Prisma.GapFillFirstPaperDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GapFillFirstPaperUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.GapFillFirstPaperUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GapFillFirstPaperPayload>[]
+          }
+          upsert: {
+            args: Prisma.GapFillFirstPaperUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GapFillFirstPaperPayload>
+          }
+          aggregate: {
+            args: Prisma.GapFillFirstPaperAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGapFillFirstPaper>
+          }
+          groupBy: {
+            args: Prisma.GapFillFirstPaperGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GapFillFirstPaperGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GapFillFirstPaperCountArgs<ExtArgs>
+            result: $Utils.Optional<GapFillFirstPaperCountAggregateOutputType> | number
+          }
+        }
+      }
+      GapFillSecondPaper: {
+        payload: Prisma.$GapFillSecondPaperPayload<ExtArgs>
+        fields: Prisma.GapFillSecondPaperFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GapFillSecondPaperFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GapFillSecondPaperPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GapFillSecondPaperFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GapFillSecondPaperPayload>
+          }
+          findFirst: {
+            args: Prisma.GapFillSecondPaperFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GapFillSecondPaperPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GapFillSecondPaperFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GapFillSecondPaperPayload>
+          }
+          findMany: {
+            args: Prisma.GapFillSecondPaperFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GapFillSecondPaperPayload>[]
+          }
+          create: {
+            args: Prisma.GapFillSecondPaperCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GapFillSecondPaperPayload>
+          }
+          createMany: {
+            args: Prisma.GapFillSecondPaperCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GapFillSecondPaperCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GapFillSecondPaperPayload>[]
+          }
+          delete: {
+            args: Prisma.GapFillSecondPaperDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GapFillSecondPaperPayload>
+          }
+          update: {
+            args: Prisma.GapFillSecondPaperUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GapFillSecondPaperPayload>
+          }
+          deleteMany: {
+            args: Prisma.GapFillSecondPaperDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GapFillSecondPaperUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.GapFillSecondPaperUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GapFillSecondPaperPayload>[]
+          }
+          upsert: {
+            args: Prisma.GapFillSecondPaperUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GapFillSecondPaperPayload>
+          }
+          aggregate: {
+            args: Prisma.GapFillSecondPaperAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGapFillSecondPaper>
+          }
+          groupBy: {
+            args: Prisma.GapFillSecondPaperGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GapFillSecondPaperGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GapFillSecondPaperCountArgs<ExtArgs>
+            result: $Utils.Optional<GapFillSecondPaperCountAggregateOutputType> | number
+          }
+        }
+      }
       McqSection: {
         payload: Prisma.$McqSectionPayload<ExtArgs>
         fields: Prisma.McqSectionFieldRefs
@@ -3346,6 +3526,8 @@ export namespace Prisma {
     synonymsAntonyms?: SynonymsAntonymsOmit
     synonymsAntonymsEntry?: SynonymsAntonymsEntryOmit
     gapFillExercise?: GapFillExerciseOmit
+    gapFillFirstPaper?: GapFillFirstPaperOmit
+    gapFillSecondPaper?: GapFillSecondPaperOmit
     mcqSection?: McqSectionOmit
     questionAnswerExercise?: QuestionAnswerExerciseOmit
     trueFalseExercise?: TrueFalseExerciseOmit
@@ -14984,6 +15166,8 @@ export namespace Prisma {
     vocabulary?: boolean | ContentBlock$vocabularyArgs<ExtArgs>
     synonymsAntonyms?: boolean | ContentBlock$synonymsAntonymsArgs<ExtArgs>
     gapFillExercise?: boolean | ContentBlock$gapFillExerciseArgs<ExtArgs>
+    gapFillFirstPaper?: boolean | ContentBlock$gapFillFirstPaperArgs<ExtArgs>
+    gapFillSecondPaper?: boolean | ContentBlock$gapFillSecondPaperArgs<ExtArgs>
     mcqSection?: boolean | ContentBlock$mcqSectionArgs<ExtArgs>
     questionAnswerExercise?: boolean | ContentBlock$questionAnswerExerciseArgs<ExtArgs>
     trueFalseExercise?: boolean | ContentBlock$trueFalseExerciseArgs<ExtArgs>
@@ -15035,6 +15219,8 @@ export namespace Prisma {
     vocabulary?: boolean | ContentBlock$vocabularyArgs<ExtArgs>
     synonymsAntonyms?: boolean | ContentBlock$synonymsAntonymsArgs<ExtArgs>
     gapFillExercise?: boolean | ContentBlock$gapFillExerciseArgs<ExtArgs>
+    gapFillFirstPaper?: boolean | ContentBlock$gapFillFirstPaperArgs<ExtArgs>
+    gapFillSecondPaper?: boolean | ContentBlock$gapFillSecondPaperArgs<ExtArgs>
     mcqSection?: boolean | ContentBlock$mcqSectionArgs<ExtArgs>
     questionAnswerExercise?: boolean | ContentBlock$questionAnswerExerciseArgs<ExtArgs>
     trueFalseExercise?: boolean | ContentBlock$trueFalseExerciseArgs<ExtArgs>
@@ -15064,6 +15250,8 @@ export namespace Prisma {
       vocabulary: Prisma.$VocabularyPayload<ExtArgs> | null
       synonymsAntonyms: Prisma.$SynonymsAntonymsPayload<ExtArgs> | null
       gapFillExercise: Prisma.$GapFillExercisePayload<ExtArgs> | null
+      gapFillFirstPaper: Prisma.$GapFillFirstPaperPayload<ExtArgs> | null
+      gapFillSecondPaper: Prisma.$GapFillSecondPaperPayload<ExtArgs> | null
       mcqSection: Prisma.$McqSectionPayload<ExtArgs> | null
       questionAnswerExercise: Prisma.$QuestionAnswerExercisePayload<ExtArgs> | null
       trueFalseExercise: Prisma.$TrueFalseExercisePayload<ExtArgs> | null
@@ -15484,6 +15672,8 @@ export namespace Prisma {
     vocabulary<T extends ContentBlock$vocabularyArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$vocabularyArgs<ExtArgs>>): Prisma__VocabularyClient<$Result.GetResult<Prisma.$VocabularyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     synonymsAntonyms<T extends ContentBlock$synonymsAntonymsArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$synonymsAntonymsArgs<ExtArgs>>): Prisma__SynonymsAntonymsClient<$Result.GetResult<Prisma.$SynonymsAntonymsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     gapFillExercise<T extends ContentBlock$gapFillExerciseArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$gapFillExerciseArgs<ExtArgs>>): Prisma__GapFillExerciseClient<$Result.GetResult<Prisma.$GapFillExercisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    gapFillFirstPaper<T extends ContentBlock$gapFillFirstPaperArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$gapFillFirstPaperArgs<ExtArgs>>): Prisma__GapFillFirstPaperClient<$Result.GetResult<Prisma.$GapFillFirstPaperPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    gapFillSecondPaper<T extends ContentBlock$gapFillSecondPaperArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$gapFillSecondPaperArgs<ExtArgs>>): Prisma__GapFillSecondPaperClient<$Result.GetResult<Prisma.$GapFillSecondPaperPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     mcqSection<T extends ContentBlock$mcqSectionArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$mcqSectionArgs<ExtArgs>>): Prisma__McqSectionClient<$Result.GetResult<Prisma.$McqSectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     questionAnswerExercise<T extends ContentBlock$questionAnswerExerciseArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$questionAnswerExerciseArgs<ExtArgs>>): Prisma__QuestionAnswerExerciseClient<$Result.GetResult<Prisma.$QuestionAnswerExercisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     trueFalseExercise<T extends ContentBlock$trueFalseExerciseArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$trueFalseExerciseArgs<ExtArgs>>): Prisma__TrueFalseExerciseClient<$Result.GetResult<Prisma.$TrueFalseExercisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -15999,6 +16189,44 @@ export namespace Prisma {
      */
     include?: GapFillExerciseInclude<ExtArgs> | null
     where?: GapFillExerciseWhereInput
+  }
+
+  /**
+   * ContentBlock.gapFillFirstPaper
+   */
+  export type ContentBlock$gapFillFirstPaperArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillFirstPaper
+     */
+    select?: GapFillFirstPaperSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillFirstPaper
+     */
+    omit?: GapFillFirstPaperOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillFirstPaperInclude<ExtArgs> | null
+    where?: GapFillFirstPaperWhereInput
+  }
+
+  /**
+   * ContentBlock.gapFillSecondPaper
+   */
+  export type ContentBlock$gapFillSecondPaperArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillSecondPaper
+     */
+    select?: GapFillSecondPaperSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillSecondPaper
+     */
+    omit?: GapFillSecondPaperOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillSecondPaperInclude<ExtArgs> | null
+    where?: GapFillSecondPaperWhereInput
   }
 
   /**
@@ -23365,6 +23593,2404 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: GapFillExerciseInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model GapFillFirstPaper
+   */
+
+  export type AggregateGapFillFirstPaper = {
+    _count: GapFillFirstPaperCountAggregateOutputType | null
+    _min: GapFillFirstPaperMinAggregateOutputType | null
+    _max: GapFillFirstPaperMaxAggregateOutputType | null
+  }
+
+  export type GapFillFirstPaperMinAggregateOutputType = {
+    id: string | null
+    contentBlockId: string | null
+    contentId: string | null
+    classId: string | null
+    subjectId: string | null
+    unitId: string | null
+    lessonId: string | null
+    topicId: string | null
+    question: string | null
+    answer: string | null
+    details: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GapFillFirstPaperMaxAggregateOutputType = {
+    id: string | null
+    contentBlockId: string | null
+    contentId: string | null
+    classId: string | null
+    subjectId: string | null
+    unitId: string | null
+    lessonId: string | null
+    topicId: string | null
+    question: string | null
+    answer: string | null
+    details: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GapFillFirstPaperCountAggregateOutputType = {
+    id: number
+    contentBlockId: number
+    contentId: number
+    classId: number
+    subjectId: number
+    unitId: number
+    lessonId: number
+    topicId: number
+    question: number
+    answer: number
+    details: number
+    organizationId: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type GapFillFirstPaperMinAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    question?: true
+    answer?: true
+    details?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GapFillFirstPaperMaxAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    question?: true
+    answer?: true
+    details?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GapFillFirstPaperCountAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    question?: true
+    answer?: true
+    details?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type GapFillFirstPaperAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GapFillFirstPaper to aggregate.
+     */
+    where?: GapFillFirstPaperWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GapFillFirstPapers to fetch.
+     */
+    orderBy?: GapFillFirstPaperOrderByWithRelationInput | GapFillFirstPaperOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GapFillFirstPaperWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GapFillFirstPapers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GapFillFirstPapers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned GapFillFirstPapers
+    **/
+    _count?: true | GapFillFirstPaperCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GapFillFirstPaperMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GapFillFirstPaperMaxAggregateInputType
+  }
+
+  export type GetGapFillFirstPaperAggregateType<T extends GapFillFirstPaperAggregateArgs> = {
+        [P in keyof T & keyof AggregateGapFillFirstPaper]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGapFillFirstPaper[P]>
+      : GetScalarType<T[P], AggregateGapFillFirstPaper[P]>
+  }
+
+
+
+
+  export type GapFillFirstPaperGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GapFillFirstPaperWhereInput
+    orderBy?: GapFillFirstPaperOrderByWithAggregationInput | GapFillFirstPaperOrderByWithAggregationInput[]
+    by: GapFillFirstPaperScalarFieldEnum[] | GapFillFirstPaperScalarFieldEnum
+    having?: GapFillFirstPaperScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GapFillFirstPaperCountAggregateInputType | true
+    _min?: GapFillFirstPaperMinAggregateInputType
+    _max?: GapFillFirstPaperMaxAggregateInputType
+  }
+
+  export type GapFillFirstPaperGroupByOutputType = {
+    id: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId: string | null
+    question: string
+    answer: string
+    details: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: GapFillFirstPaperCountAggregateOutputType | null
+    _min: GapFillFirstPaperMinAggregateOutputType | null
+    _max: GapFillFirstPaperMaxAggregateOutputType | null
+  }
+
+  type GetGapFillFirstPaperGroupByPayload<T extends GapFillFirstPaperGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GapFillFirstPaperGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GapFillFirstPaperGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GapFillFirstPaperGroupByOutputType[P]>
+            : GetScalarType<T[P], GapFillFirstPaperGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GapFillFirstPaperSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gapFillFirstPaper"]>
+
+  export type GapFillFirstPaperSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gapFillFirstPaper"]>
+
+  export type GapFillFirstPaperSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gapFillFirstPaper"]>
+
+  export type GapFillFirstPaperSelectScalar = {
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type GapFillFirstPaperOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "question" | "answer" | "details" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["gapFillFirstPaper"]>
+  export type GapFillFirstPaperInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+  export type GapFillFirstPaperIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+  export type GapFillFirstPaperIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+
+  export type $GapFillFirstPaperPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "GapFillFirstPaper"
+    objects: {
+      contentBlock: Prisma.$ContentBlockPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      contentBlockId: string
+      contentId: string
+      classId: string
+      subjectId: string
+      unitId: string
+      lessonId: string
+      topicId: string | null
+      question: string
+      answer: string
+      details: string
+      organizationId: string
+      createdBy: string
+      updatedBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["gapFillFirstPaper"]>
+    composites: {}
+  }
+
+  type GapFillFirstPaperGetPayload<S extends boolean | null | undefined | GapFillFirstPaperDefaultArgs> = $Result.GetResult<Prisma.$GapFillFirstPaperPayload, S>
+
+  type GapFillFirstPaperCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<GapFillFirstPaperFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: GapFillFirstPaperCountAggregateInputType | true
+    }
+
+  export interface GapFillFirstPaperDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GapFillFirstPaper'], meta: { name: 'GapFillFirstPaper' } }
+    /**
+     * Find zero or one GapFillFirstPaper that matches the filter.
+     * @param {GapFillFirstPaperFindUniqueArgs} args - Arguments to find a GapFillFirstPaper
+     * @example
+     * // Get one GapFillFirstPaper
+     * const gapFillFirstPaper = await prisma.gapFillFirstPaper.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GapFillFirstPaperFindUniqueArgs>(args: SelectSubset<T, GapFillFirstPaperFindUniqueArgs<ExtArgs>>): Prisma__GapFillFirstPaperClient<$Result.GetResult<Prisma.$GapFillFirstPaperPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one GapFillFirstPaper that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {GapFillFirstPaperFindUniqueOrThrowArgs} args - Arguments to find a GapFillFirstPaper
+     * @example
+     * // Get one GapFillFirstPaper
+     * const gapFillFirstPaper = await prisma.gapFillFirstPaper.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GapFillFirstPaperFindUniqueOrThrowArgs>(args: SelectSubset<T, GapFillFirstPaperFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GapFillFirstPaperClient<$Result.GetResult<Prisma.$GapFillFirstPaperPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GapFillFirstPaper that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GapFillFirstPaperFindFirstArgs} args - Arguments to find a GapFillFirstPaper
+     * @example
+     * // Get one GapFillFirstPaper
+     * const gapFillFirstPaper = await prisma.gapFillFirstPaper.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GapFillFirstPaperFindFirstArgs>(args?: SelectSubset<T, GapFillFirstPaperFindFirstArgs<ExtArgs>>): Prisma__GapFillFirstPaperClient<$Result.GetResult<Prisma.$GapFillFirstPaperPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GapFillFirstPaper that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GapFillFirstPaperFindFirstOrThrowArgs} args - Arguments to find a GapFillFirstPaper
+     * @example
+     * // Get one GapFillFirstPaper
+     * const gapFillFirstPaper = await prisma.gapFillFirstPaper.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GapFillFirstPaperFindFirstOrThrowArgs>(args?: SelectSubset<T, GapFillFirstPaperFindFirstOrThrowArgs<ExtArgs>>): Prisma__GapFillFirstPaperClient<$Result.GetResult<Prisma.$GapFillFirstPaperPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more GapFillFirstPapers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GapFillFirstPaperFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all GapFillFirstPapers
+     * const gapFillFirstPapers = await prisma.gapFillFirstPaper.findMany()
+     * 
+     * // Get first 10 GapFillFirstPapers
+     * const gapFillFirstPapers = await prisma.gapFillFirstPaper.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const gapFillFirstPaperWithIdOnly = await prisma.gapFillFirstPaper.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GapFillFirstPaperFindManyArgs>(args?: SelectSubset<T, GapFillFirstPaperFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GapFillFirstPaperPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a GapFillFirstPaper.
+     * @param {GapFillFirstPaperCreateArgs} args - Arguments to create a GapFillFirstPaper.
+     * @example
+     * // Create one GapFillFirstPaper
+     * const GapFillFirstPaper = await prisma.gapFillFirstPaper.create({
+     *   data: {
+     *     // ... data to create a GapFillFirstPaper
+     *   }
+     * })
+     * 
+     */
+    create<T extends GapFillFirstPaperCreateArgs>(args: SelectSubset<T, GapFillFirstPaperCreateArgs<ExtArgs>>): Prisma__GapFillFirstPaperClient<$Result.GetResult<Prisma.$GapFillFirstPaperPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many GapFillFirstPapers.
+     * @param {GapFillFirstPaperCreateManyArgs} args - Arguments to create many GapFillFirstPapers.
+     * @example
+     * // Create many GapFillFirstPapers
+     * const gapFillFirstPaper = await prisma.gapFillFirstPaper.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GapFillFirstPaperCreateManyArgs>(args?: SelectSubset<T, GapFillFirstPaperCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many GapFillFirstPapers and returns the data saved in the database.
+     * @param {GapFillFirstPaperCreateManyAndReturnArgs} args - Arguments to create many GapFillFirstPapers.
+     * @example
+     * // Create many GapFillFirstPapers
+     * const gapFillFirstPaper = await prisma.gapFillFirstPaper.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many GapFillFirstPapers and only return the `id`
+     * const gapFillFirstPaperWithIdOnly = await prisma.gapFillFirstPaper.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GapFillFirstPaperCreateManyAndReturnArgs>(args?: SelectSubset<T, GapFillFirstPaperCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GapFillFirstPaperPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a GapFillFirstPaper.
+     * @param {GapFillFirstPaperDeleteArgs} args - Arguments to delete one GapFillFirstPaper.
+     * @example
+     * // Delete one GapFillFirstPaper
+     * const GapFillFirstPaper = await prisma.gapFillFirstPaper.delete({
+     *   where: {
+     *     // ... filter to delete one GapFillFirstPaper
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GapFillFirstPaperDeleteArgs>(args: SelectSubset<T, GapFillFirstPaperDeleteArgs<ExtArgs>>): Prisma__GapFillFirstPaperClient<$Result.GetResult<Prisma.$GapFillFirstPaperPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one GapFillFirstPaper.
+     * @param {GapFillFirstPaperUpdateArgs} args - Arguments to update one GapFillFirstPaper.
+     * @example
+     * // Update one GapFillFirstPaper
+     * const gapFillFirstPaper = await prisma.gapFillFirstPaper.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GapFillFirstPaperUpdateArgs>(args: SelectSubset<T, GapFillFirstPaperUpdateArgs<ExtArgs>>): Prisma__GapFillFirstPaperClient<$Result.GetResult<Prisma.$GapFillFirstPaperPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more GapFillFirstPapers.
+     * @param {GapFillFirstPaperDeleteManyArgs} args - Arguments to filter GapFillFirstPapers to delete.
+     * @example
+     * // Delete a few GapFillFirstPapers
+     * const { count } = await prisma.gapFillFirstPaper.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GapFillFirstPaperDeleteManyArgs>(args?: SelectSubset<T, GapFillFirstPaperDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GapFillFirstPapers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GapFillFirstPaperUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many GapFillFirstPapers
+     * const gapFillFirstPaper = await prisma.gapFillFirstPaper.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GapFillFirstPaperUpdateManyArgs>(args: SelectSubset<T, GapFillFirstPaperUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GapFillFirstPapers and returns the data updated in the database.
+     * @param {GapFillFirstPaperUpdateManyAndReturnArgs} args - Arguments to update many GapFillFirstPapers.
+     * @example
+     * // Update many GapFillFirstPapers
+     * const gapFillFirstPaper = await prisma.gapFillFirstPaper.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more GapFillFirstPapers and only return the `id`
+     * const gapFillFirstPaperWithIdOnly = await prisma.gapFillFirstPaper.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends GapFillFirstPaperUpdateManyAndReturnArgs>(args: SelectSubset<T, GapFillFirstPaperUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GapFillFirstPaperPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one GapFillFirstPaper.
+     * @param {GapFillFirstPaperUpsertArgs} args - Arguments to update or create a GapFillFirstPaper.
+     * @example
+     * // Update or create a GapFillFirstPaper
+     * const gapFillFirstPaper = await prisma.gapFillFirstPaper.upsert({
+     *   create: {
+     *     // ... data to create a GapFillFirstPaper
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the GapFillFirstPaper we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GapFillFirstPaperUpsertArgs>(args: SelectSubset<T, GapFillFirstPaperUpsertArgs<ExtArgs>>): Prisma__GapFillFirstPaperClient<$Result.GetResult<Prisma.$GapFillFirstPaperPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of GapFillFirstPapers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GapFillFirstPaperCountArgs} args - Arguments to filter GapFillFirstPapers to count.
+     * @example
+     * // Count the number of GapFillFirstPapers
+     * const count = await prisma.gapFillFirstPaper.count({
+     *   where: {
+     *     // ... the filter for the GapFillFirstPapers we want to count
+     *   }
+     * })
+    **/
+    count<T extends GapFillFirstPaperCountArgs>(
+      args?: Subset<T, GapFillFirstPaperCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GapFillFirstPaperCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a GapFillFirstPaper.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GapFillFirstPaperAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GapFillFirstPaperAggregateArgs>(args: Subset<T, GapFillFirstPaperAggregateArgs>): Prisma.PrismaPromise<GetGapFillFirstPaperAggregateType<T>>
+
+    /**
+     * Group by GapFillFirstPaper.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GapFillFirstPaperGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GapFillFirstPaperGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GapFillFirstPaperGroupByArgs['orderBy'] }
+        : { orderBy?: GapFillFirstPaperGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GapFillFirstPaperGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGapFillFirstPaperGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the GapFillFirstPaper model
+   */
+  readonly fields: GapFillFirstPaperFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for GapFillFirstPaper.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GapFillFirstPaperClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    contentBlock<T extends ContentBlockDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlockDefaultArgs<ExtArgs>>): Prisma__ContentBlockClient<$Result.GetResult<Prisma.$ContentBlockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the GapFillFirstPaper model
+   */
+  interface GapFillFirstPaperFieldRefs {
+    readonly id: FieldRef<"GapFillFirstPaper", 'String'>
+    readonly contentBlockId: FieldRef<"GapFillFirstPaper", 'String'>
+    readonly contentId: FieldRef<"GapFillFirstPaper", 'String'>
+    readonly classId: FieldRef<"GapFillFirstPaper", 'String'>
+    readonly subjectId: FieldRef<"GapFillFirstPaper", 'String'>
+    readonly unitId: FieldRef<"GapFillFirstPaper", 'String'>
+    readonly lessonId: FieldRef<"GapFillFirstPaper", 'String'>
+    readonly topicId: FieldRef<"GapFillFirstPaper", 'String'>
+    readonly question: FieldRef<"GapFillFirstPaper", 'String'>
+    readonly answer: FieldRef<"GapFillFirstPaper", 'String'>
+    readonly details: FieldRef<"GapFillFirstPaper", 'String'>
+    readonly organizationId: FieldRef<"GapFillFirstPaper", 'String'>
+    readonly createdBy: FieldRef<"GapFillFirstPaper", 'String'>
+    readonly updatedBy: FieldRef<"GapFillFirstPaper", 'String'>
+    readonly createdAt: FieldRef<"GapFillFirstPaper", 'DateTime'>
+    readonly updatedAt: FieldRef<"GapFillFirstPaper", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * GapFillFirstPaper findUnique
+   */
+  export type GapFillFirstPaperFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillFirstPaper
+     */
+    select?: GapFillFirstPaperSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillFirstPaper
+     */
+    omit?: GapFillFirstPaperOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillFirstPaperInclude<ExtArgs> | null
+    /**
+     * Filter, which GapFillFirstPaper to fetch.
+     */
+    where: GapFillFirstPaperWhereUniqueInput
+  }
+
+  /**
+   * GapFillFirstPaper findUniqueOrThrow
+   */
+  export type GapFillFirstPaperFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillFirstPaper
+     */
+    select?: GapFillFirstPaperSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillFirstPaper
+     */
+    omit?: GapFillFirstPaperOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillFirstPaperInclude<ExtArgs> | null
+    /**
+     * Filter, which GapFillFirstPaper to fetch.
+     */
+    where: GapFillFirstPaperWhereUniqueInput
+  }
+
+  /**
+   * GapFillFirstPaper findFirst
+   */
+  export type GapFillFirstPaperFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillFirstPaper
+     */
+    select?: GapFillFirstPaperSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillFirstPaper
+     */
+    omit?: GapFillFirstPaperOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillFirstPaperInclude<ExtArgs> | null
+    /**
+     * Filter, which GapFillFirstPaper to fetch.
+     */
+    where?: GapFillFirstPaperWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GapFillFirstPapers to fetch.
+     */
+    orderBy?: GapFillFirstPaperOrderByWithRelationInput | GapFillFirstPaperOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GapFillFirstPapers.
+     */
+    cursor?: GapFillFirstPaperWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GapFillFirstPapers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GapFillFirstPapers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GapFillFirstPapers.
+     */
+    distinct?: GapFillFirstPaperScalarFieldEnum | GapFillFirstPaperScalarFieldEnum[]
+  }
+
+  /**
+   * GapFillFirstPaper findFirstOrThrow
+   */
+  export type GapFillFirstPaperFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillFirstPaper
+     */
+    select?: GapFillFirstPaperSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillFirstPaper
+     */
+    omit?: GapFillFirstPaperOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillFirstPaperInclude<ExtArgs> | null
+    /**
+     * Filter, which GapFillFirstPaper to fetch.
+     */
+    where?: GapFillFirstPaperWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GapFillFirstPapers to fetch.
+     */
+    orderBy?: GapFillFirstPaperOrderByWithRelationInput | GapFillFirstPaperOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GapFillFirstPapers.
+     */
+    cursor?: GapFillFirstPaperWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GapFillFirstPapers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GapFillFirstPapers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GapFillFirstPapers.
+     */
+    distinct?: GapFillFirstPaperScalarFieldEnum | GapFillFirstPaperScalarFieldEnum[]
+  }
+
+  /**
+   * GapFillFirstPaper findMany
+   */
+  export type GapFillFirstPaperFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillFirstPaper
+     */
+    select?: GapFillFirstPaperSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillFirstPaper
+     */
+    omit?: GapFillFirstPaperOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillFirstPaperInclude<ExtArgs> | null
+    /**
+     * Filter, which GapFillFirstPapers to fetch.
+     */
+    where?: GapFillFirstPaperWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GapFillFirstPapers to fetch.
+     */
+    orderBy?: GapFillFirstPaperOrderByWithRelationInput | GapFillFirstPaperOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing GapFillFirstPapers.
+     */
+    cursor?: GapFillFirstPaperWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GapFillFirstPapers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GapFillFirstPapers.
+     */
+    skip?: number
+    distinct?: GapFillFirstPaperScalarFieldEnum | GapFillFirstPaperScalarFieldEnum[]
+  }
+
+  /**
+   * GapFillFirstPaper create
+   */
+  export type GapFillFirstPaperCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillFirstPaper
+     */
+    select?: GapFillFirstPaperSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillFirstPaper
+     */
+    omit?: GapFillFirstPaperOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillFirstPaperInclude<ExtArgs> | null
+    /**
+     * The data needed to create a GapFillFirstPaper.
+     */
+    data: XOR<GapFillFirstPaperCreateInput, GapFillFirstPaperUncheckedCreateInput>
+  }
+
+  /**
+   * GapFillFirstPaper createMany
+   */
+  export type GapFillFirstPaperCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many GapFillFirstPapers.
+     */
+    data: GapFillFirstPaperCreateManyInput | GapFillFirstPaperCreateManyInput[]
+  }
+
+  /**
+   * GapFillFirstPaper createManyAndReturn
+   */
+  export type GapFillFirstPaperCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillFirstPaper
+     */
+    select?: GapFillFirstPaperSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillFirstPaper
+     */
+    omit?: GapFillFirstPaperOmit<ExtArgs> | null
+    /**
+     * The data used to create many GapFillFirstPapers.
+     */
+    data: GapFillFirstPaperCreateManyInput | GapFillFirstPaperCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillFirstPaperIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GapFillFirstPaper update
+   */
+  export type GapFillFirstPaperUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillFirstPaper
+     */
+    select?: GapFillFirstPaperSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillFirstPaper
+     */
+    omit?: GapFillFirstPaperOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillFirstPaperInclude<ExtArgs> | null
+    /**
+     * The data needed to update a GapFillFirstPaper.
+     */
+    data: XOR<GapFillFirstPaperUpdateInput, GapFillFirstPaperUncheckedUpdateInput>
+    /**
+     * Choose, which GapFillFirstPaper to update.
+     */
+    where: GapFillFirstPaperWhereUniqueInput
+  }
+
+  /**
+   * GapFillFirstPaper updateMany
+   */
+  export type GapFillFirstPaperUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update GapFillFirstPapers.
+     */
+    data: XOR<GapFillFirstPaperUpdateManyMutationInput, GapFillFirstPaperUncheckedUpdateManyInput>
+    /**
+     * Filter which GapFillFirstPapers to update
+     */
+    where?: GapFillFirstPaperWhereInput
+    /**
+     * Limit how many GapFillFirstPapers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * GapFillFirstPaper updateManyAndReturn
+   */
+  export type GapFillFirstPaperUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillFirstPaper
+     */
+    select?: GapFillFirstPaperSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillFirstPaper
+     */
+    omit?: GapFillFirstPaperOmit<ExtArgs> | null
+    /**
+     * The data used to update GapFillFirstPapers.
+     */
+    data: XOR<GapFillFirstPaperUpdateManyMutationInput, GapFillFirstPaperUncheckedUpdateManyInput>
+    /**
+     * Filter which GapFillFirstPapers to update
+     */
+    where?: GapFillFirstPaperWhereInput
+    /**
+     * Limit how many GapFillFirstPapers to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillFirstPaperIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GapFillFirstPaper upsert
+   */
+  export type GapFillFirstPaperUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillFirstPaper
+     */
+    select?: GapFillFirstPaperSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillFirstPaper
+     */
+    omit?: GapFillFirstPaperOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillFirstPaperInclude<ExtArgs> | null
+    /**
+     * The filter to search for the GapFillFirstPaper to update in case it exists.
+     */
+    where: GapFillFirstPaperWhereUniqueInput
+    /**
+     * In case the GapFillFirstPaper found by the `where` argument doesn't exist, create a new GapFillFirstPaper with this data.
+     */
+    create: XOR<GapFillFirstPaperCreateInput, GapFillFirstPaperUncheckedCreateInput>
+    /**
+     * In case the GapFillFirstPaper was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GapFillFirstPaperUpdateInput, GapFillFirstPaperUncheckedUpdateInput>
+  }
+
+  /**
+   * GapFillFirstPaper delete
+   */
+  export type GapFillFirstPaperDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillFirstPaper
+     */
+    select?: GapFillFirstPaperSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillFirstPaper
+     */
+    omit?: GapFillFirstPaperOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillFirstPaperInclude<ExtArgs> | null
+    /**
+     * Filter which GapFillFirstPaper to delete.
+     */
+    where: GapFillFirstPaperWhereUniqueInput
+  }
+
+  /**
+   * GapFillFirstPaper deleteMany
+   */
+  export type GapFillFirstPaperDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GapFillFirstPapers to delete
+     */
+    where?: GapFillFirstPaperWhereInput
+    /**
+     * Limit how many GapFillFirstPapers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * GapFillFirstPaper without action
+   */
+  export type GapFillFirstPaperDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillFirstPaper
+     */
+    select?: GapFillFirstPaperSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillFirstPaper
+     */
+    omit?: GapFillFirstPaperOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillFirstPaperInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model GapFillSecondPaper
+   */
+
+  export type AggregateGapFillSecondPaper = {
+    _count: GapFillSecondPaperCountAggregateOutputType | null
+    _min: GapFillSecondPaperMinAggregateOutputType | null
+    _max: GapFillSecondPaperMaxAggregateOutputType | null
+  }
+
+  export type GapFillSecondPaperMinAggregateOutputType = {
+    id: string | null
+    contentBlockId: string | null
+    contentId: string | null
+    classId: string | null
+    subjectId: string | null
+    unitId: string | null
+    lessonId: string | null
+    topicId: string | null
+    question: string | null
+    answer: string | null
+    details: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GapFillSecondPaperMaxAggregateOutputType = {
+    id: string | null
+    contentBlockId: string | null
+    contentId: string | null
+    classId: string | null
+    subjectId: string | null
+    unitId: string | null
+    lessonId: string | null
+    topicId: string | null
+    question: string | null
+    answer: string | null
+    details: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GapFillSecondPaperCountAggregateOutputType = {
+    id: number
+    contentBlockId: number
+    contentId: number
+    classId: number
+    subjectId: number
+    unitId: number
+    lessonId: number
+    topicId: number
+    question: number
+    answer: number
+    details: number
+    organizationId: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type GapFillSecondPaperMinAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    question?: true
+    answer?: true
+    details?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GapFillSecondPaperMaxAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    question?: true
+    answer?: true
+    details?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GapFillSecondPaperCountAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    question?: true
+    answer?: true
+    details?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type GapFillSecondPaperAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GapFillSecondPaper to aggregate.
+     */
+    where?: GapFillSecondPaperWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GapFillSecondPapers to fetch.
+     */
+    orderBy?: GapFillSecondPaperOrderByWithRelationInput | GapFillSecondPaperOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GapFillSecondPaperWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GapFillSecondPapers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GapFillSecondPapers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned GapFillSecondPapers
+    **/
+    _count?: true | GapFillSecondPaperCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GapFillSecondPaperMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GapFillSecondPaperMaxAggregateInputType
+  }
+
+  export type GetGapFillSecondPaperAggregateType<T extends GapFillSecondPaperAggregateArgs> = {
+        [P in keyof T & keyof AggregateGapFillSecondPaper]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGapFillSecondPaper[P]>
+      : GetScalarType<T[P], AggregateGapFillSecondPaper[P]>
+  }
+
+
+
+
+  export type GapFillSecondPaperGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GapFillSecondPaperWhereInput
+    orderBy?: GapFillSecondPaperOrderByWithAggregationInput | GapFillSecondPaperOrderByWithAggregationInput[]
+    by: GapFillSecondPaperScalarFieldEnum[] | GapFillSecondPaperScalarFieldEnum
+    having?: GapFillSecondPaperScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GapFillSecondPaperCountAggregateInputType | true
+    _min?: GapFillSecondPaperMinAggregateInputType
+    _max?: GapFillSecondPaperMaxAggregateInputType
+  }
+
+  export type GapFillSecondPaperGroupByOutputType = {
+    id: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId: string | null
+    question: string
+    answer: string
+    details: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: GapFillSecondPaperCountAggregateOutputType | null
+    _min: GapFillSecondPaperMinAggregateOutputType | null
+    _max: GapFillSecondPaperMaxAggregateOutputType | null
+  }
+
+  type GetGapFillSecondPaperGroupByPayload<T extends GapFillSecondPaperGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GapFillSecondPaperGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GapFillSecondPaperGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GapFillSecondPaperGroupByOutputType[P]>
+            : GetScalarType<T[P], GapFillSecondPaperGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GapFillSecondPaperSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gapFillSecondPaper"]>
+
+  export type GapFillSecondPaperSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gapFillSecondPaper"]>
+
+  export type GapFillSecondPaperSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gapFillSecondPaper"]>
+
+  export type GapFillSecondPaperSelectScalar = {
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type GapFillSecondPaperOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "question" | "answer" | "details" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["gapFillSecondPaper"]>
+  export type GapFillSecondPaperInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+  export type GapFillSecondPaperIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+  export type GapFillSecondPaperIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+
+  export type $GapFillSecondPaperPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "GapFillSecondPaper"
+    objects: {
+      contentBlock: Prisma.$ContentBlockPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      contentBlockId: string
+      contentId: string
+      classId: string
+      subjectId: string
+      unitId: string
+      lessonId: string
+      topicId: string | null
+      question: string
+      answer: string
+      details: string
+      organizationId: string
+      createdBy: string
+      updatedBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["gapFillSecondPaper"]>
+    composites: {}
+  }
+
+  type GapFillSecondPaperGetPayload<S extends boolean | null | undefined | GapFillSecondPaperDefaultArgs> = $Result.GetResult<Prisma.$GapFillSecondPaperPayload, S>
+
+  type GapFillSecondPaperCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<GapFillSecondPaperFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: GapFillSecondPaperCountAggregateInputType | true
+    }
+
+  export interface GapFillSecondPaperDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GapFillSecondPaper'], meta: { name: 'GapFillSecondPaper' } }
+    /**
+     * Find zero or one GapFillSecondPaper that matches the filter.
+     * @param {GapFillSecondPaperFindUniqueArgs} args - Arguments to find a GapFillSecondPaper
+     * @example
+     * // Get one GapFillSecondPaper
+     * const gapFillSecondPaper = await prisma.gapFillSecondPaper.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GapFillSecondPaperFindUniqueArgs>(args: SelectSubset<T, GapFillSecondPaperFindUniqueArgs<ExtArgs>>): Prisma__GapFillSecondPaperClient<$Result.GetResult<Prisma.$GapFillSecondPaperPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one GapFillSecondPaper that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {GapFillSecondPaperFindUniqueOrThrowArgs} args - Arguments to find a GapFillSecondPaper
+     * @example
+     * // Get one GapFillSecondPaper
+     * const gapFillSecondPaper = await prisma.gapFillSecondPaper.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GapFillSecondPaperFindUniqueOrThrowArgs>(args: SelectSubset<T, GapFillSecondPaperFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GapFillSecondPaperClient<$Result.GetResult<Prisma.$GapFillSecondPaperPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GapFillSecondPaper that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GapFillSecondPaperFindFirstArgs} args - Arguments to find a GapFillSecondPaper
+     * @example
+     * // Get one GapFillSecondPaper
+     * const gapFillSecondPaper = await prisma.gapFillSecondPaper.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GapFillSecondPaperFindFirstArgs>(args?: SelectSubset<T, GapFillSecondPaperFindFirstArgs<ExtArgs>>): Prisma__GapFillSecondPaperClient<$Result.GetResult<Prisma.$GapFillSecondPaperPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GapFillSecondPaper that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GapFillSecondPaperFindFirstOrThrowArgs} args - Arguments to find a GapFillSecondPaper
+     * @example
+     * // Get one GapFillSecondPaper
+     * const gapFillSecondPaper = await prisma.gapFillSecondPaper.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GapFillSecondPaperFindFirstOrThrowArgs>(args?: SelectSubset<T, GapFillSecondPaperFindFirstOrThrowArgs<ExtArgs>>): Prisma__GapFillSecondPaperClient<$Result.GetResult<Prisma.$GapFillSecondPaperPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more GapFillSecondPapers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GapFillSecondPaperFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all GapFillSecondPapers
+     * const gapFillSecondPapers = await prisma.gapFillSecondPaper.findMany()
+     * 
+     * // Get first 10 GapFillSecondPapers
+     * const gapFillSecondPapers = await prisma.gapFillSecondPaper.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const gapFillSecondPaperWithIdOnly = await prisma.gapFillSecondPaper.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GapFillSecondPaperFindManyArgs>(args?: SelectSubset<T, GapFillSecondPaperFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GapFillSecondPaperPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a GapFillSecondPaper.
+     * @param {GapFillSecondPaperCreateArgs} args - Arguments to create a GapFillSecondPaper.
+     * @example
+     * // Create one GapFillSecondPaper
+     * const GapFillSecondPaper = await prisma.gapFillSecondPaper.create({
+     *   data: {
+     *     // ... data to create a GapFillSecondPaper
+     *   }
+     * })
+     * 
+     */
+    create<T extends GapFillSecondPaperCreateArgs>(args: SelectSubset<T, GapFillSecondPaperCreateArgs<ExtArgs>>): Prisma__GapFillSecondPaperClient<$Result.GetResult<Prisma.$GapFillSecondPaperPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many GapFillSecondPapers.
+     * @param {GapFillSecondPaperCreateManyArgs} args - Arguments to create many GapFillSecondPapers.
+     * @example
+     * // Create many GapFillSecondPapers
+     * const gapFillSecondPaper = await prisma.gapFillSecondPaper.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GapFillSecondPaperCreateManyArgs>(args?: SelectSubset<T, GapFillSecondPaperCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many GapFillSecondPapers and returns the data saved in the database.
+     * @param {GapFillSecondPaperCreateManyAndReturnArgs} args - Arguments to create many GapFillSecondPapers.
+     * @example
+     * // Create many GapFillSecondPapers
+     * const gapFillSecondPaper = await prisma.gapFillSecondPaper.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many GapFillSecondPapers and only return the `id`
+     * const gapFillSecondPaperWithIdOnly = await prisma.gapFillSecondPaper.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GapFillSecondPaperCreateManyAndReturnArgs>(args?: SelectSubset<T, GapFillSecondPaperCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GapFillSecondPaperPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a GapFillSecondPaper.
+     * @param {GapFillSecondPaperDeleteArgs} args - Arguments to delete one GapFillSecondPaper.
+     * @example
+     * // Delete one GapFillSecondPaper
+     * const GapFillSecondPaper = await prisma.gapFillSecondPaper.delete({
+     *   where: {
+     *     // ... filter to delete one GapFillSecondPaper
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GapFillSecondPaperDeleteArgs>(args: SelectSubset<T, GapFillSecondPaperDeleteArgs<ExtArgs>>): Prisma__GapFillSecondPaperClient<$Result.GetResult<Prisma.$GapFillSecondPaperPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one GapFillSecondPaper.
+     * @param {GapFillSecondPaperUpdateArgs} args - Arguments to update one GapFillSecondPaper.
+     * @example
+     * // Update one GapFillSecondPaper
+     * const gapFillSecondPaper = await prisma.gapFillSecondPaper.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GapFillSecondPaperUpdateArgs>(args: SelectSubset<T, GapFillSecondPaperUpdateArgs<ExtArgs>>): Prisma__GapFillSecondPaperClient<$Result.GetResult<Prisma.$GapFillSecondPaperPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more GapFillSecondPapers.
+     * @param {GapFillSecondPaperDeleteManyArgs} args - Arguments to filter GapFillSecondPapers to delete.
+     * @example
+     * // Delete a few GapFillSecondPapers
+     * const { count } = await prisma.gapFillSecondPaper.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GapFillSecondPaperDeleteManyArgs>(args?: SelectSubset<T, GapFillSecondPaperDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GapFillSecondPapers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GapFillSecondPaperUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many GapFillSecondPapers
+     * const gapFillSecondPaper = await prisma.gapFillSecondPaper.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GapFillSecondPaperUpdateManyArgs>(args: SelectSubset<T, GapFillSecondPaperUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GapFillSecondPapers and returns the data updated in the database.
+     * @param {GapFillSecondPaperUpdateManyAndReturnArgs} args - Arguments to update many GapFillSecondPapers.
+     * @example
+     * // Update many GapFillSecondPapers
+     * const gapFillSecondPaper = await prisma.gapFillSecondPaper.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more GapFillSecondPapers and only return the `id`
+     * const gapFillSecondPaperWithIdOnly = await prisma.gapFillSecondPaper.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends GapFillSecondPaperUpdateManyAndReturnArgs>(args: SelectSubset<T, GapFillSecondPaperUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GapFillSecondPaperPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one GapFillSecondPaper.
+     * @param {GapFillSecondPaperUpsertArgs} args - Arguments to update or create a GapFillSecondPaper.
+     * @example
+     * // Update or create a GapFillSecondPaper
+     * const gapFillSecondPaper = await prisma.gapFillSecondPaper.upsert({
+     *   create: {
+     *     // ... data to create a GapFillSecondPaper
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the GapFillSecondPaper we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GapFillSecondPaperUpsertArgs>(args: SelectSubset<T, GapFillSecondPaperUpsertArgs<ExtArgs>>): Prisma__GapFillSecondPaperClient<$Result.GetResult<Prisma.$GapFillSecondPaperPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of GapFillSecondPapers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GapFillSecondPaperCountArgs} args - Arguments to filter GapFillSecondPapers to count.
+     * @example
+     * // Count the number of GapFillSecondPapers
+     * const count = await prisma.gapFillSecondPaper.count({
+     *   where: {
+     *     // ... the filter for the GapFillSecondPapers we want to count
+     *   }
+     * })
+    **/
+    count<T extends GapFillSecondPaperCountArgs>(
+      args?: Subset<T, GapFillSecondPaperCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GapFillSecondPaperCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a GapFillSecondPaper.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GapFillSecondPaperAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GapFillSecondPaperAggregateArgs>(args: Subset<T, GapFillSecondPaperAggregateArgs>): Prisma.PrismaPromise<GetGapFillSecondPaperAggregateType<T>>
+
+    /**
+     * Group by GapFillSecondPaper.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GapFillSecondPaperGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GapFillSecondPaperGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GapFillSecondPaperGroupByArgs['orderBy'] }
+        : { orderBy?: GapFillSecondPaperGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GapFillSecondPaperGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGapFillSecondPaperGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the GapFillSecondPaper model
+   */
+  readonly fields: GapFillSecondPaperFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for GapFillSecondPaper.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GapFillSecondPaperClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    contentBlock<T extends ContentBlockDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlockDefaultArgs<ExtArgs>>): Prisma__ContentBlockClient<$Result.GetResult<Prisma.$ContentBlockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the GapFillSecondPaper model
+   */
+  interface GapFillSecondPaperFieldRefs {
+    readonly id: FieldRef<"GapFillSecondPaper", 'String'>
+    readonly contentBlockId: FieldRef<"GapFillSecondPaper", 'String'>
+    readonly contentId: FieldRef<"GapFillSecondPaper", 'String'>
+    readonly classId: FieldRef<"GapFillSecondPaper", 'String'>
+    readonly subjectId: FieldRef<"GapFillSecondPaper", 'String'>
+    readonly unitId: FieldRef<"GapFillSecondPaper", 'String'>
+    readonly lessonId: FieldRef<"GapFillSecondPaper", 'String'>
+    readonly topicId: FieldRef<"GapFillSecondPaper", 'String'>
+    readonly question: FieldRef<"GapFillSecondPaper", 'String'>
+    readonly answer: FieldRef<"GapFillSecondPaper", 'String'>
+    readonly details: FieldRef<"GapFillSecondPaper", 'String'>
+    readonly organizationId: FieldRef<"GapFillSecondPaper", 'String'>
+    readonly createdBy: FieldRef<"GapFillSecondPaper", 'String'>
+    readonly updatedBy: FieldRef<"GapFillSecondPaper", 'String'>
+    readonly createdAt: FieldRef<"GapFillSecondPaper", 'DateTime'>
+    readonly updatedAt: FieldRef<"GapFillSecondPaper", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * GapFillSecondPaper findUnique
+   */
+  export type GapFillSecondPaperFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillSecondPaper
+     */
+    select?: GapFillSecondPaperSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillSecondPaper
+     */
+    omit?: GapFillSecondPaperOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillSecondPaperInclude<ExtArgs> | null
+    /**
+     * Filter, which GapFillSecondPaper to fetch.
+     */
+    where: GapFillSecondPaperWhereUniqueInput
+  }
+
+  /**
+   * GapFillSecondPaper findUniqueOrThrow
+   */
+  export type GapFillSecondPaperFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillSecondPaper
+     */
+    select?: GapFillSecondPaperSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillSecondPaper
+     */
+    omit?: GapFillSecondPaperOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillSecondPaperInclude<ExtArgs> | null
+    /**
+     * Filter, which GapFillSecondPaper to fetch.
+     */
+    where: GapFillSecondPaperWhereUniqueInput
+  }
+
+  /**
+   * GapFillSecondPaper findFirst
+   */
+  export type GapFillSecondPaperFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillSecondPaper
+     */
+    select?: GapFillSecondPaperSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillSecondPaper
+     */
+    omit?: GapFillSecondPaperOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillSecondPaperInclude<ExtArgs> | null
+    /**
+     * Filter, which GapFillSecondPaper to fetch.
+     */
+    where?: GapFillSecondPaperWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GapFillSecondPapers to fetch.
+     */
+    orderBy?: GapFillSecondPaperOrderByWithRelationInput | GapFillSecondPaperOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GapFillSecondPapers.
+     */
+    cursor?: GapFillSecondPaperWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GapFillSecondPapers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GapFillSecondPapers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GapFillSecondPapers.
+     */
+    distinct?: GapFillSecondPaperScalarFieldEnum | GapFillSecondPaperScalarFieldEnum[]
+  }
+
+  /**
+   * GapFillSecondPaper findFirstOrThrow
+   */
+  export type GapFillSecondPaperFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillSecondPaper
+     */
+    select?: GapFillSecondPaperSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillSecondPaper
+     */
+    omit?: GapFillSecondPaperOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillSecondPaperInclude<ExtArgs> | null
+    /**
+     * Filter, which GapFillSecondPaper to fetch.
+     */
+    where?: GapFillSecondPaperWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GapFillSecondPapers to fetch.
+     */
+    orderBy?: GapFillSecondPaperOrderByWithRelationInput | GapFillSecondPaperOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GapFillSecondPapers.
+     */
+    cursor?: GapFillSecondPaperWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GapFillSecondPapers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GapFillSecondPapers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GapFillSecondPapers.
+     */
+    distinct?: GapFillSecondPaperScalarFieldEnum | GapFillSecondPaperScalarFieldEnum[]
+  }
+
+  /**
+   * GapFillSecondPaper findMany
+   */
+  export type GapFillSecondPaperFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillSecondPaper
+     */
+    select?: GapFillSecondPaperSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillSecondPaper
+     */
+    omit?: GapFillSecondPaperOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillSecondPaperInclude<ExtArgs> | null
+    /**
+     * Filter, which GapFillSecondPapers to fetch.
+     */
+    where?: GapFillSecondPaperWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GapFillSecondPapers to fetch.
+     */
+    orderBy?: GapFillSecondPaperOrderByWithRelationInput | GapFillSecondPaperOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing GapFillSecondPapers.
+     */
+    cursor?: GapFillSecondPaperWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GapFillSecondPapers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GapFillSecondPapers.
+     */
+    skip?: number
+    distinct?: GapFillSecondPaperScalarFieldEnum | GapFillSecondPaperScalarFieldEnum[]
+  }
+
+  /**
+   * GapFillSecondPaper create
+   */
+  export type GapFillSecondPaperCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillSecondPaper
+     */
+    select?: GapFillSecondPaperSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillSecondPaper
+     */
+    omit?: GapFillSecondPaperOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillSecondPaperInclude<ExtArgs> | null
+    /**
+     * The data needed to create a GapFillSecondPaper.
+     */
+    data: XOR<GapFillSecondPaperCreateInput, GapFillSecondPaperUncheckedCreateInput>
+  }
+
+  /**
+   * GapFillSecondPaper createMany
+   */
+  export type GapFillSecondPaperCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many GapFillSecondPapers.
+     */
+    data: GapFillSecondPaperCreateManyInput | GapFillSecondPaperCreateManyInput[]
+  }
+
+  /**
+   * GapFillSecondPaper createManyAndReturn
+   */
+  export type GapFillSecondPaperCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillSecondPaper
+     */
+    select?: GapFillSecondPaperSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillSecondPaper
+     */
+    omit?: GapFillSecondPaperOmit<ExtArgs> | null
+    /**
+     * The data used to create many GapFillSecondPapers.
+     */
+    data: GapFillSecondPaperCreateManyInput | GapFillSecondPaperCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillSecondPaperIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GapFillSecondPaper update
+   */
+  export type GapFillSecondPaperUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillSecondPaper
+     */
+    select?: GapFillSecondPaperSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillSecondPaper
+     */
+    omit?: GapFillSecondPaperOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillSecondPaperInclude<ExtArgs> | null
+    /**
+     * The data needed to update a GapFillSecondPaper.
+     */
+    data: XOR<GapFillSecondPaperUpdateInput, GapFillSecondPaperUncheckedUpdateInput>
+    /**
+     * Choose, which GapFillSecondPaper to update.
+     */
+    where: GapFillSecondPaperWhereUniqueInput
+  }
+
+  /**
+   * GapFillSecondPaper updateMany
+   */
+  export type GapFillSecondPaperUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update GapFillSecondPapers.
+     */
+    data: XOR<GapFillSecondPaperUpdateManyMutationInput, GapFillSecondPaperUncheckedUpdateManyInput>
+    /**
+     * Filter which GapFillSecondPapers to update
+     */
+    where?: GapFillSecondPaperWhereInput
+    /**
+     * Limit how many GapFillSecondPapers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * GapFillSecondPaper updateManyAndReturn
+   */
+  export type GapFillSecondPaperUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillSecondPaper
+     */
+    select?: GapFillSecondPaperSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillSecondPaper
+     */
+    omit?: GapFillSecondPaperOmit<ExtArgs> | null
+    /**
+     * The data used to update GapFillSecondPapers.
+     */
+    data: XOR<GapFillSecondPaperUpdateManyMutationInput, GapFillSecondPaperUncheckedUpdateManyInput>
+    /**
+     * Filter which GapFillSecondPapers to update
+     */
+    where?: GapFillSecondPaperWhereInput
+    /**
+     * Limit how many GapFillSecondPapers to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillSecondPaperIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GapFillSecondPaper upsert
+   */
+  export type GapFillSecondPaperUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillSecondPaper
+     */
+    select?: GapFillSecondPaperSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillSecondPaper
+     */
+    omit?: GapFillSecondPaperOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillSecondPaperInclude<ExtArgs> | null
+    /**
+     * The filter to search for the GapFillSecondPaper to update in case it exists.
+     */
+    where: GapFillSecondPaperWhereUniqueInput
+    /**
+     * In case the GapFillSecondPaper found by the `where` argument doesn't exist, create a new GapFillSecondPaper with this data.
+     */
+    create: XOR<GapFillSecondPaperCreateInput, GapFillSecondPaperUncheckedCreateInput>
+    /**
+     * In case the GapFillSecondPaper was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GapFillSecondPaperUpdateInput, GapFillSecondPaperUncheckedUpdateInput>
+  }
+
+  /**
+   * GapFillSecondPaper delete
+   */
+  export type GapFillSecondPaperDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillSecondPaper
+     */
+    select?: GapFillSecondPaperSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillSecondPaper
+     */
+    omit?: GapFillSecondPaperOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillSecondPaperInclude<ExtArgs> | null
+    /**
+     * Filter which GapFillSecondPaper to delete.
+     */
+    where: GapFillSecondPaperWhereUniqueInput
+  }
+
+  /**
+   * GapFillSecondPaper deleteMany
+   */
+  export type GapFillSecondPaperDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GapFillSecondPapers to delete
+     */
+    where?: GapFillSecondPaperWhereInput
+    /**
+     * Limit how many GapFillSecondPapers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * GapFillSecondPaper without action
+   */
+  export type GapFillSecondPaperDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GapFillSecondPaper
+     */
+    select?: GapFillSecondPaperSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GapFillSecondPaper
+     */
+    omit?: GapFillSecondPaperOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GapFillSecondPaperInclude<ExtArgs> | null
   }
 
 
@@ -39336,6 +41962,50 @@ export namespace Prisma {
   export type GapFillExerciseScalarFieldEnum = (typeof GapFillExerciseScalarFieldEnum)[keyof typeof GapFillExerciseScalarFieldEnum]
 
 
+  export const GapFillFirstPaperScalarFieldEnum: {
+    id: 'id',
+    contentBlockId: 'contentBlockId',
+    contentId: 'contentId',
+    classId: 'classId',
+    subjectId: 'subjectId',
+    unitId: 'unitId',
+    lessonId: 'lessonId',
+    topicId: 'topicId',
+    question: 'question',
+    answer: 'answer',
+    details: 'details',
+    organizationId: 'organizationId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type GapFillFirstPaperScalarFieldEnum = (typeof GapFillFirstPaperScalarFieldEnum)[keyof typeof GapFillFirstPaperScalarFieldEnum]
+
+
+  export const GapFillSecondPaperScalarFieldEnum: {
+    id: 'id',
+    contentBlockId: 'contentBlockId',
+    contentId: 'contentId',
+    classId: 'classId',
+    subjectId: 'subjectId',
+    unitId: 'unitId',
+    lessonId: 'lessonId',
+    topicId: 'topicId',
+    question: 'question',
+    answer: 'answer',
+    details: 'details',
+    organizationId: 'organizationId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type GapFillSecondPaperScalarFieldEnum = (typeof GapFillSecondPaperScalarFieldEnum)[keyof typeof GapFillSecondPaperScalarFieldEnum]
+
+
   export const McqSectionScalarFieldEnum: {
     id: 'id',
     contentBlockId: 'contentBlockId',
@@ -40651,6 +43321,8 @@ export namespace Prisma {
     vocabulary?: XOR<VocabularyNullableScalarRelationFilter, VocabularyWhereInput> | null
     synonymsAntonyms?: XOR<SynonymsAntonymsNullableScalarRelationFilter, SynonymsAntonymsWhereInput> | null
     gapFillExercise?: XOR<GapFillExerciseNullableScalarRelationFilter, GapFillExerciseWhereInput> | null
+    gapFillFirstPaper?: XOR<GapFillFirstPaperNullableScalarRelationFilter, GapFillFirstPaperWhereInput> | null
+    gapFillSecondPaper?: XOR<GapFillSecondPaperNullableScalarRelationFilter, GapFillSecondPaperWhereInput> | null
     mcqSection?: XOR<McqSectionNullableScalarRelationFilter, McqSectionWhereInput> | null
     questionAnswerExercise?: XOR<QuestionAnswerExerciseNullableScalarRelationFilter, QuestionAnswerExerciseWhereInput> | null
     trueFalseExercise?: XOR<TrueFalseExerciseNullableScalarRelationFilter, TrueFalseExerciseWhereInput> | null
@@ -40678,6 +43350,8 @@ export namespace Prisma {
     vocabulary?: VocabularyOrderByWithRelationInput
     synonymsAntonyms?: SynonymsAntonymsOrderByWithRelationInput
     gapFillExercise?: GapFillExerciseOrderByWithRelationInput
+    gapFillFirstPaper?: GapFillFirstPaperOrderByWithRelationInput
+    gapFillSecondPaper?: GapFillSecondPaperOrderByWithRelationInput
     mcqSection?: McqSectionOrderByWithRelationInput
     questionAnswerExercise?: QuestionAnswerExerciseOrderByWithRelationInput
     trueFalseExercise?: TrueFalseExerciseOrderByWithRelationInput
@@ -40708,6 +43382,8 @@ export namespace Prisma {
     vocabulary?: XOR<VocabularyNullableScalarRelationFilter, VocabularyWhereInput> | null
     synonymsAntonyms?: XOR<SynonymsAntonymsNullableScalarRelationFilter, SynonymsAntonymsWhereInput> | null
     gapFillExercise?: XOR<GapFillExerciseNullableScalarRelationFilter, GapFillExerciseWhereInput> | null
+    gapFillFirstPaper?: XOR<GapFillFirstPaperNullableScalarRelationFilter, GapFillFirstPaperWhereInput> | null
+    gapFillSecondPaper?: XOR<GapFillSecondPaperNullableScalarRelationFilter, GapFillSecondPaperWhereInput> | null
     mcqSection?: XOR<McqSectionNullableScalarRelationFilter, McqSectionWhereInput> | null
     questionAnswerExercise?: XOR<QuestionAnswerExerciseNullableScalarRelationFilter, QuestionAnswerExerciseWhereInput> | null
     trueFalseExercise?: XOR<TrueFalseExerciseNullableScalarRelationFilter, TrueFalseExerciseWhereInput> | null
@@ -41332,6 +44008,226 @@ export namespace Prisma {
     updatedBy?: StringWithAggregatesFilter<"GapFillExercise"> | string
     createdAt?: DateTimeWithAggregatesFilter<"GapFillExercise"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"GapFillExercise"> | Date | string
+  }
+
+  export type GapFillFirstPaperWhereInput = {
+    AND?: GapFillFirstPaperWhereInput | GapFillFirstPaperWhereInput[]
+    OR?: GapFillFirstPaperWhereInput[]
+    NOT?: GapFillFirstPaperWhereInput | GapFillFirstPaperWhereInput[]
+    id?: StringFilter<"GapFillFirstPaper"> | string
+    contentBlockId?: StringFilter<"GapFillFirstPaper"> | string
+    contentId?: StringFilter<"GapFillFirstPaper"> | string
+    classId?: StringFilter<"GapFillFirstPaper"> | string
+    subjectId?: StringFilter<"GapFillFirstPaper"> | string
+    unitId?: StringFilter<"GapFillFirstPaper"> | string
+    lessonId?: StringFilter<"GapFillFirstPaper"> | string
+    topicId?: StringNullableFilter<"GapFillFirstPaper"> | string | null
+    question?: StringFilter<"GapFillFirstPaper"> | string
+    answer?: StringFilter<"GapFillFirstPaper"> | string
+    details?: StringFilter<"GapFillFirstPaper"> | string
+    organizationId?: StringFilter<"GapFillFirstPaper"> | string
+    createdBy?: StringFilter<"GapFillFirstPaper"> | string
+    updatedBy?: StringFilter<"GapFillFirstPaper"> | string
+    createdAt?: DateTimeFilter<"GapFillFirstPaper"> | Date | string
+    updatedAt?: DateTimeFilter<"GapFillFirstPaper"> | Date | string
+    contentBlock?: XOR<ContentBlockScalarRelationFilter, ContentBlockWhereInput>
+  }
+
+  export type GapFillFirstPaperOrderByWithRelationInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrderInput | SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    contentBlock?: ContentBlockOrderByWithRelationInput
+  }
+
+  export type GapFillFirstPaperWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    contentBlockId?: string
+    AND?: GapFillFirstPaperWhereInput | GapFillFirstPaperWhereInput[]
+    OR?: GapFillFirstPaperWhereInput[]
+    NOT?: GapFillFirstPaperWhereInput | GapFillFirstPaperWhereInput[]
+    contentId?: StringFilter<"GapFillFirstPaper"> | string
+    classId?: StringFilter<"GapFillFirstPaper"> | string
+    subjectId?: StringFilter<"GapFillFirstPaper"> | string
+    unitId?: StringFilter<"GapFillFirstPaper"> | string
+    lessonId?: StringFilter<"GapFillFirstPaper"> | string
+    topicId?: StringNullableFilter<"GapFillFirstPaper"> | string | null
+    question?: StringFilter<"GapFillFirstPaper"> | string
+    answer?: StringFilter<"GapFillFirstPaper"> | string
+    details?: StringFilter<"GapFillFirstPaper"> | string
+    organizationId?: StringFilter<"GapFillFirstPaper"> | string
+    createdBy?: StringFilter<"GapFillFirstPaper"> | string
+    updatedBy?: StringFilter<"GapFillFirstPaper"> | string
+    createdAt?: DateTimeFilter<"GapFillFirstPaper"> | Date | string
+    updatedAt?: DateTimeFilter<"GapFillFirstPaper"> | Date | string
+    contentBlock?: XOR<ContentBlockScalarRelationFilter, ContentBlockWhereInput>
+  }, "id" | "contentBlockId">
+
+  export type GapFillFirstPaperOrderByWithAggregationInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrderInput | SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: GapFillFirstPaperCountOrderByAggregateInput
+    _max?: GapFillFirstPaperMaxOrderByAggregateInput
+    _min?: GapFillFirstPaperMinOrderByAggregateInput
+  }
+
+  export type GapFillFirstPaperScalarWhereWithAggregatesInput = {
+    AND?: GapFillFirstPaperScalarWhereWithAggregatesInput | GapFillFirstPaperScalarWhereWithAggregatesInput[]
+    OR?: GapFillFirstPaperScalarWhereWithAggregatesInput[]
+    NOT?: GapFillFirstPaperScalarWhereWithAggregatesInput | GapFillFirstPaperScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"GapFillFirstPaper"> | string
+    contentBlockId?: StringWithAggregatesFilter<"GapFillFirstPaper"> | string
+    contentId?: StringWithAggregatesFilter<"GapFillFirstPaper"> | string
+    classId?: StringWithAggregatesFilter<"GapFillFirstPaper"> | string
+    subjectId?: StringWithAggregatesFilter<"GapFillFirstPaper"> | string
+    unitId?: StringWithAggregatesFilter<"GapFillFirstPaper"> | string
+    lessonId?: StringWithAggregatesFilter<"GapFillFirstPaper"> | string
+    topicId?: StringNullableWithAggregatesFilter<"GapFillFirstPaper"> | string | null
+    question?: StringWithAggregatesFilter<"GapFillFirstPaper"> | string
+    answer?: StringWithAggregatesFilter<"GapFillFirstPaper"> | string
+    details?: StringWithAggregatesFilter<"GapFillFirstPaper"> | string
+    organizationId?: StringWithAggregatesFilter<"GapFillFirstPaper"> | string
+    createdBy?: StringWithAggregatesFilter<"GapFillFirstPaper"> | string
+    updatedBy?: StringWithAggregatesFilter<"GapFillFirstPaper"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"GapFillFirstPaper"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"GapFillFirstPaper"> | Date | string
+  }
+
+  export type GapFillSecondPaperWhereInput = {
+    AND?: GapFillSecondPaperWhereInput | GapFillSecondPaperWhereInput[]
+    OR?: GapFillSecondPaperWhereInput[]
+    NOT?: GapFillSecondPaperWhereInput | GapFillSecondPaperWhereInput[]
+    id?: StringFilter<"GapFillSecondPaper"> | string
+    contentBlockId?: StringFilter<"GapFillSecondPaper"> | string
+    contentId?: StringFilter<"GapFillSecondPaper"> | string
+    classId?: StringFilter<"GapFillSecondPaper"> | string
+    subjectId?: StringFilter<"GapFillSecondPaper"> | string
+    unitId?: StringFilter<"GapFillSecondPaper"> | string
+    lessonId?: StringFilter<"GapFillSecondPaper"> | string
+    topicId?: StringNullableFilter<"GapFillSecondPaper"> | string | null
+    question?: StringFilter<"GapFillSecondPaper"> | string
+    answer?: StringFilter<"GapFillSecondPaper"> | string
+    details?: StringFilter<"GapFillSecondPaper"> | string
+    organizationId?: StringFilter<"GapFillSecondPaper"> | string
+    createdBy?: StringFilter<"GapFillSecondPaper"> | string
+    updatedBy?: StringFilter<"GapFillSecondPaper"> | string
+    createdAt?: DateTimeFilter<"GapFillSecondPaper"> | Date | string
+    updatedAt?: DateTimeFilter<"GapFillSecondPaper"> | Date | string
+    contentBlock?: XOR<ContentBlockScalarRelationFilter, ContentBlockWhereInput>
+  }
+
+  export type GapFillSecondPaperOrderByWithRelationInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrderInput | SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    contentBlock?: ContentBlockOrderByWithRelationInput
+  }
+
+  export type GapFillSecondPaperWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    contentBlockId?: string
+    AND?: GapFillSecondPaperWhereInput | GapFillSecondPaperWhereInput[]
+    OR?: GapFillSecondPaperWhereInput[]
+    NOT?: GapFillSecondPaperWhereInput | GapFillSecondPaperWhereInput[]
+    contentId?: StringFilter<"GapFillSecondPaper"> | string
+    classId?: StringFilter<"GapFillSecondPaper"> | string
+    subjectId?: StringFilter<"GapFillSecondPaper"> | string
+    unitId?: StringFilter<"GapFillSecondPaper"> | string
+    lessonId?: StringFilter<"GapFillSecondPaper"> | string
+    topicId?: StringNullableFilter<"GapFillSecondPaper"> | string | null
+    question?: StringFilter<"GapFillSecondPaper"> | string
+    answer?: StringFilter<"GapFillSecondPaper"> | string
+    details?: StringFilter<"GapFillSecondPaper"> | string
+    organizationId?: StringFilter<"GapFillSecondPaper"> | string
+    createdBy?: StringFilter<"GapFillSecondPaper"> | string
+    updatedBy?: StringFilter<"GapFillSecondPaper"> | string
+    createdAt?: DateTimeFilter<"GapFillSecondPaper"> | Date | string
+    updatedAt?: DateTimeFilter<"GapFillSecondPaper"> | Date | string
+    contentBlock?: XOR<ContentBlockScalarRelationFilter, ContentBlockWhereInput>
+  }, "id" | "contentBlockId">
+
+  export type GapFillSecondPaperOrderByWithAggregationInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrderInput | SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: GapFillSecondPaperCountOrderByAggregateInput
+    _max?: GapFillSecondPaperMaxOrderByAggregateInput
+    _min?: GapFillSecondPaperMinOrderByAggregateInput
+  }
+
+  export type GapFillSecondPaperScalarWhereWithAggregatesInput = {
+    AND?: GapFillSecondPaperScalarWhereWithAggregatesInput | GapFillSecondPaperScalarWhereWithAggregatesInput[]
+    OR?: GapFillSecondPaperScalarWhereWithAggregatesInput[]
+    NOT?: GapFillSecondPaperScalarWhereWithAggregatesInput | GapFillSecondPaperScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"GapFillSecondPaper"> | string
+    contentBlockId?: StringWithAggregatesFilter<"GapFillSecondPaper"> | string
+    contentId?: StringWithAggregatesFilter<"GapFillSecondPaper"> | string
+    classId?: StringWithAggregatesFilter<"GapFillSecondPaper"> | string
+    subjectId?: StringWithAggregatesFilter<"GapFillSecondPaper"> | string
+    unitId?: StringWithAggregatesFilter<"GapFillSecondPaper"> | string
+    lessonId?: StringWithAggregatesFilter<"GapFillSecondPaper"> | string
+    topicId?: StringNullableWithAggregatesFilter<"GapFillSecondPaper"> | string | null
+    question?: StringWithAggregatesFilter<"GapFillSecondPaper"> | string
+    answer?: StringWithAggregatesFilter<"GapFillSecondPaper"> | string
+    details?: StringWithAggregatesFilter<"GapFillSecondPaper"> | string
+    organizationId?: StringWithAggregatesFilter<"GapFillSecondPaper"> | string
+    createdBy?: StringWithAggregatesFilter<"GapFillSecondPaper"> | string
+    updatedBy?: StringWithAggregatesFilter<"GapFillSecondPaper"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"GapFillSecondPaper"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"GapFillSecondPaper"> | Date | string
   }
 
   export type McqSectionWhereInput = {
@@ -43894,6 +46790,8 @@ export namespace Prisma {
     vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
@@ -43920,6 +46818,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
@@ -43946,6 +46846,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
@@ -43972,6 +46874,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -44676,6 +47580,270 @@ export namespace Prisma {
   }
 
   export type GapFillExerciseUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentBlockId?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GapFillFirstPaperCreateInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    question?: string
+    answer?: string
+    details?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contentBlock: ContentBlockCreateNestedOneWithoutGapFillFirstPaperInput
+  }
+
+  export type GapFillFirstPaperUncheckedCreateInput = {
+    id?: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    question?: string
+    answer?: string
+    details?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GapFillFirstPaperUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contentBlock?: ContentBlockUpdateOneRequiredWithoutGapFillFirstPaperNestedInput
+  }
+
+  export type GapFillFirstPaperUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentBlockId?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GapFillFirstPaperCreateManyInput = {
+    id?: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    question?: string
+    answer?: string
+    details?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GapFillFirstPaperUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GapFillFirstPaperUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentBlockId?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GapFillSecondPaperCreateInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    question?: string
+    answer?: string
+    details?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contentBlock: ContentBlockCreateNestedOneWithoutGapFillSecondPaperInput
+  }
+
+  export type GapFillSecondPaperUncheckedCreateInput = {
+    id?: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    question?: string
+    answer?: string
+    details?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GapFillSecondPaperUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contentBlock?: ContentBlockUpdateOneRequiredWithoutGapFillSecondPaperNestedInput
+  }
+
+  export type GapFillSecondPaperUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentBlockId?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GapFillSecondPaperCreateManyInput = {
+    id?: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    question?: string
+    answer?: string
+    details?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GapFillSecondPaperUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GapFillSecondPaperUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     contentBlockId?: StringFieldUpdateOperationsInput | string
     contentId?: StringFieldUpdateOperationsInput | string
@@ -47225,6 +50393,16 @@ export namespace Prisma {
     isNot?: GapFillExerciseWhereInput | null
   }
 
+  export type GapFillFirstPaperNullableScalarRelationFilter = {
+    is?: GapFillFirstPaperWhereInput | null
+    isNot?: GapFillFirstPaperWhereInput | null
+  }
+
+  export type GapFillSecondPaperNullableScalarRelationFilter = {
+    is?: GapFillSecondPaperWhereInput | null
+    isNot?: GapFillSecondPaperWhereInput | null
+  }
+
   export type McqSectionNullableScalarRelationFilter = {
     is?: McqSectionWhereInput | null
     isNot?: McqSectionWhereInput | null
@@ -47649,6 +50827,120 @@ export namespace Prisma {
   }
 
   export type GapFillExerciseMinOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GapFillFirstPaperCountOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GapFillFirstPaperMaxOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GapFillFirstPaperMinOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GapFillSecondPaperCountOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GapFillSecondPaperMaxOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GapFillSecondPaperMinOrderByAggregateInput = {
     id?: SortOrder
     contentBlockId?: SortOrder
     contentId?: SortOrder
@@ -49141,6 +52433,18 @@ export namespace Prisma {
     connect?: GapFillExerciseWhereUniqueInput
   }
 
+  export type GapFillFirstPaperCreateNestedOneWithoutContentBlockInput = {
+    create?: XOR<GapFillFirstPaperCreateWithoutContentBlockInput, GapFillFirstPaperUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: GapFillFirstPaperCreateOrConnectWithoutContentBlockInput
+    connect?: GapFillFirstPaperWhereUniqueInput
+  }
+
+  export type GapFillSecondPaperCreateNestedOneWithoutContentBlockInput = {
+    create?: XOR<GapFillSecondPaperCreateWithoutContentBlockInput, GapFillSecondPaperUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: GapFillSecondPaperCreateOrConnectWithoutContentBlockInput
+    connect?: GapFillSecondPaperWhereUniqueInput
+  }
+
   export type McqSectionCreateNestedOneWithoutContentBlockInput = {
     create?: XOR<McqSectionCreateWithoutContentBlockInput, McqSectionUncheckedCreateWithoutContentBlockInput>
     connectOrCreate?: McqSectionCreateOrConnectWithoutContentBlockInput
@@ -49241,6 +52545,18 @@ export namespace Prisma {
     create?: XOR<GapFillExerciseCreateWithoutContentBlockInput, GapFillExerciseUncheckedCreateWithoutContentBlockInput>
     connectOrCreate?: GapFillExerciseCreateOrConnectWithoutContentBlockInput
     connect?: GapFillExerciseWhereUniqueInput
+  }
+
+  export type GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput = {
+    create?: XOR<GapFillFirstPaperCreateWithoutContentBlockInput, GapFillFirstPaperUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: GapFillFirstPaperCreateOrConnectWithoutContentBlockInput
+    connect?: GapFillFirstPaperWhereUniqueInput
+  }
+
+  export type GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput = {
+    create?: XOR<GapFillSecondPaperCreateWithoutContentBlockInput, GapFillSecondPaperUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: GapFillSecondPaperCreateOrConnectWithoutContentBlockInput
+    connect?: GapFillSecondPaperWhereUniqueInput
   }
 
   export type McqSectionUncheckedCreateNestedOneWithoutContentBlockInput = {
@@ -49367,6 +52683,26 @@ export namespace Prisma {
     delete?: GapFillExerciseWhereInput | boolean
     connect?: GapFillExerciseWhereUniqueInput
     update?: XOR<XOR<GapFillExerciseUpdateToOneWithWhereWithoutContentBlockInput, GapFillExerciseUpdateWithoutContentBlockInput>, GapFillExerciseUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput = {
+    create?: XOR<GapFillFirstPaperCreateWithoutContentBlockInput, GapFillFirstPaperUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: GapFillFirstPaperCreateOrConnectWithoutContentBlockInput
+    upsert?: GapFillFirstPaperUpsertWithoutContentBlockInput
+    disconnect?: GapFillFirstPaperWhereInput | boolean
+    delete?: GapFillFirstPaperWhereInput | boolean
+    connect?: GapFillFirstPaperWhereUniqueInput
+    update?: XOR<XOR<GapFillFirstPaperUpdateToOneWithWhereWithoutContentBlockInput, GapFillFirstPaperUpdateWithoutContentBlockInput>, GapFillFirstPaperUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput = {
+    create?: XOR<GapFillSecondPaperCreateWithoutContentBlockInput, GapFillSecondPaperUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: GapFillSecondPaperCreateOrConnectWithoutContentBlockInput
+    upsert?: GapFillSecondPaperUpsertWithoutContentBlockInput
+    disconnect?: GapFillSecondPaperWhereInput | boolean
+    delete?: GapFillSecondPaperWhereInput | boolean
+    connect?: GapFillSecondPaperWhereUniqueInput
+    update?: XOR<XOR<GapFillSecondPaperUpdateToOneWithWhereWithoutContentBlockInput, GapFillSecondPaperUpdateWithoutContentBlockInput>, GapFillSecondPaperUncheckedUpdateWithoutContentBlockInput>
   }
 
   export type McqSectionUpdateOneWithoutContentBlockNestedInput = {
@@ -49537,6 +52873,26 @@ export namespace Prisma {
     delete?: GapFillExerciseWhereInput | boolean
     connect?: GapFillExerciseWhereUniqueInput
     update?: XOR<XOR<GapFillExerciseUpdateToOneWithWhereWithoutContentBlockInput, GapFillExerciseUpdateWithoutContentBlockInput>, GapFillExerciseUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput = {
+    create?: XOR<GapFillFirstPaperCreateWithoutContentBlockInput, GapFillFirstPaperUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: GapFillFirstPaperCreateOrConnectWithoutContentBlockInput
+    upsert?: GapFillFirstPaperUpsertWithoutContentBlockInput
+    disconnect?: GapFillFirstPaperWhereInput | boolean
+    delete?: GapFillFirstPaperWhereInput | boolean
+    connect?: GapFillFirstPaperWhereUniqueInput
+    update?: XOR<XOR<GapFillFirstPaperUpdateToOneWithWhereWithoutContentBlockInput, GapFillFirstPaperUpdateWithoutContentBlockInput>, GapFillFirstPaperUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput = {
+    create?: XOR<GapFillSecondPaperCreateWithoutContentBlockInput, GapFillSecondPaperUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: GapFillSecondPaperCreateOrConnectWithoutContentBlockInput
+    upsert?: GapFillSecondPaperUpsertWithoutContentBlockInput
+    disconnect?: GapFillSecondPaperWhereInput | boolean
+    delete?: GapFillSecondPaperWhereInput | boolean
+    connect?: GapFillSecondPaperWhereUniqueInput
+    update?: XOR<XOR<GapFillSecondPaperUpdateToOneWithWhereWithoutContentBlockInput, GapFillSecondPaperUpdateWithoutContentBlockInput>, GapFillSecondPaperUncheckedUpdateWithoutContentBlockInput>
   }
 
   export type McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput = {
@@ -49835,6 +53191,34 @@ export namespace Prisma {
     upsert?: ContentBlockUpsertWithoutGapFillExerciseInput
     connect?: ContentBlockWhereUniqueInput
     update?: XOR<XOR<ContentBlockUpdateToOneWithWhereWithoutGapFillExerciseInput, ContentBlockUpdateWithoutGapFillExerciseInput>, ContentBlockUncheckedUpdateWithoutGapFillExerciseInput>
+  }
+
+  export type ContentBlockCreateNestedOneWithoutGapFillFirstPaperInput = {
+    create?: XOR<ContentBlockCreateWithoutGapFillFirstPaperInput, ContentBlockUncheckedCreateWithoutGapFillFirstPaperInput>
+    connectOrCreate?: ContentBlockCreateOrConnectWithoutGapFillFirstPaperInput
+    connect?: ContentBlockWhereUniqueInput
+  }
+
+  export type ContentBlockUpdateOneRequiredWithoutGapFillFirstPaperNestedInput = {
+    create?: XOR<ContentBlockCreateWithoutGapFillFirstPaperInput, ContentBlockUncheckedCreateWithoutGapFillFirstPaperInput>
+    connectOrCreate?: ContentBlockCreateOrConnectWithoutGapFillFirstPaperInput
+    upsert?: ContentBlockUpsertWithoutGapFillFirstPaperInput
+    connect?: ContentBlockWhereUniqueInput
+    update?: XOR<XOR<ContentBlockUpdateToOneWithWhereWithoutGapFillFirstPaperInput, ContentBlockUpdateWithoutGapFillFirstPaperInput>, ContentBlockUncheckedUpdateWithoutGapFillFirstPaperInput>
+  }
+
+  export type ContentBlockCreateNestedOneWithoutGapFillSecondPaperInput = {
+    create?: XOR<ContentBlockCreateWithoutGapFillSecondPaperInput, ContentBlockUncheckedCreateWithoutGapFillSecondPaperInput>
+    connectOrCreate?: ContentBlockCreateOrConnectWithoutGapFillSecondPaperInput
+    connect?: ContentBlockWhereUniqueInput
+  }
+
+  export type ContentBlockUpdateOneRequiredWithoutGapFillSecondPaperNestedInput = {
+    create?: XOR<ContentBlockCreateWithoutGapFillSecondPaperInput, ContentBlockUncheckedCreateWithoutGapFillSecondPaperInput>
+    connectOrCreate?: ContentBlockCreateOrConnectWithoutGapFillSecondPaperInput
+    upsert?: ContentBlockUpsertWithoutGapFillSecondPaperInput
+    connect?: ContentBlockWhereUniqueInput
+    update?: XOR<XOR<ContentBlockUpdateToOneWithWhereWithoutGapFillSecondPaperInput, ContentBlockUpdateWithoutGapFillSecondPaperInput>, ContentBlockUncheckedUpdateWithoutGapFillSecondPaperInput>
   }
 
   export type ContentBlockCreateNestedOneWithoutMcqSectionInput = {
@@ -51807,6 +55191,8 @@ export namespace Prisma {
     vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
@@ -51832,6 +55218,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
@@ -52342,6 +55730,88 @@ export namespace Prisma {
   export type GapFillExerciseCreateOrConnectWithoutContentBlockInput = {
     where: GapFillExerciseWhereUniqueInput
     create: XOR<GapFillExerciseCreateWithoutContentBlockInput, GapFillExerciseUncheckedCreateWithoutContentBlockInput>
+  }
+
+  export type GapFillFirstPaperCreateWithoutContentBlockInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    question?: string
+    answer?: string
+    details?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GapFillFirstPaperUncheckedCreateWithoutContentBlockInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    question?: string
+    answer?: string
+    details?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GapFillFirstPaperCreateOrConnectWithoutContentBlockInput = {
+    where: GapFillFirstPaperWhereUniqueInput
+    create: XOR<GapFillFirstPaperCreateWithoutContentBlockInput, GapFillFirstPaperUncheckedCreateWithoutContentBlockInput>
+  }
+
+  export type GapFillSecondPaperCreateWithoutContentBlockInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    question?: string
+    answer?: string
+    details?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GapFillSecondPaperUncheckedCreateWithoutContentBlockInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    question?: string
+    answer?: string
+    details?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GapFillSecondPaperCreateOrConnectWithoutContentBlockInput = {
+    where: GapFillSecondPaperWhereUniqueInput
+    create: XOR<GapFillSecondPaperCreateWithoutContentBlockInput, GapFillSecondPaperUncheckedCreateWithoutContentBlockInput>
   }
 
   export type McqSectionCreateWithoutContentBlockInput = {
@@ -53102,6 +56572,100 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type GapFillFirstPaperUpsertWithoutContentBlockInput = {
+    update: XOR<GapFillFirstPaperUpdateWithoutContentBlockInput, GapFillFirstPaperUncheckedUpdateWithoutContentBlockInput>
+    create: XOR<GapFillFirstPaperCreateWithoutContentBlockInput, GapFillFirstPaperUncheckedCreateWithoutContentBlockInput>
+    where?: GapFillFirstPaperWhereInput
+  }
+
+  export type GapFillFirstPaperUpdateToOneWithWhereWithoutContentBlockInput = {
+    where?: GapFillFirstPaperWhereInput
+    data: XOR<GapFillFirstPaperUpdateWithoutContentBlockInput, GapFillFirstPaperUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type GapFillFirstPaperUpdateWithoutContentBlockInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GapFillFirstPaperUncheckedUpdateWithoutContentBlockInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GapFillSecondPaperUpsertWithoutContentBlockInput = {
+    update: XOR<GapFillSecondPaperUpdateWithoutContentBlockInput, GapFillSecondPaperUncheckedUpdateWithoutContentBlockInput>
+    create: XOR<GapFillSecondPaperCreateWithoutContentBlockInput, GapFillSecondPaperUncheckedCreateWithoutContentBlockInput>
+    where?: GapFillSecondPaperWhereInput
+  }
+
+  export type GapFillSecondPaperUpdateToOneWithWhereWithoutContentBlockInput = {
+    where?: GapFillSecondPaperWhereInput
+    data: XOR<GapFillSecondPaperUpdateWithoutContentBlockInput, GapFillSecondPaperUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type GapFillSecondPaperUpdateWithoutContentBlockInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GapFillSecondPaperUncheckedUpdateWithoutContentBlockInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type McqSectionUpsertWithoutContentBlockInput = {
     update: XOR<McqSectionUpdateWithoutContentBlockInput, McqSectionUncheckedUpdateWithoutContentBlockInput>
     create: XOR<McqSectionCreateWithoutContentBlockInput, McqSectionUncheckedCreateWithoutContentBlockInput>
@@ -53733,6 +57297,8 @@ export namespace Prisma {
     vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
@@ -53758,6 +57324,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
@@ -53799,6 +57367,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
@@ -53824,6 +57394,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -53849,6 +57421,8 @@ export namespace Prisma {
     paragraph?: ParagraphCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
@@ -53874,6 +57448,8 @@ export namespace Prisma {
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
@@ -53948,6 +57524,8 @@ export namespace Prisma {
     paragraph?: ParagraphUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
@@ -53973,6 +57551,8 @@ export namespace Prisma {
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -54110,6 +57690,8 @@ export namespace Prisma {
     paragraph?: ParagraphCreateNestedOneWithoutContentBlockInput
     vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
@@ -54135,6 +57717,8 @@ export namespace Prisma {
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
     vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
@@ -54215,6 +57799,8 @@ export namespace Prisma {
     paragraph?: ParagraphUpdateOneWithoutContentBlockNestedInput
     vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
@@ -54240,6 +57826,8 @@ export namespace Prisma {
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
     vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -54380,6 +57968,8 @@ export namespace Prisma {
     paragraph?: ParagraphCreateNestedOneWithoutContentBlockInput
     vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
@@ -54405,6 +57995,8 @@ export namespace Prisma {
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
     vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
@@ -54446,6 +58038,8 @@ export namespace Prisma {
     paragraph?: ParagraphUpdateOneWithoutContentBlockNestedInput
     vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
@@ -54471,6 +58065,256 @@ export namespace Prisma {
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
     vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
+    substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
+    rightFormOfVerb?: RightFormOfVerbUncheckedUpdateOneWithoutContentBlockNestedInput
+    narration?: NarrationUncheckedUpdateOneWithoutContentBlockNestedInput
+    changingSentence?: ChangingSentenceUncheckedUpdateOneWithoutContentBlockNestedInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
+    preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
+    suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
+    connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+  }
+
+  export type ContentBlockCreateWithoutGapFillFirstPaperInput = {
+    id?: string
+    kind: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    content: ContentCreateNestedOneWithoutBlocksInput
+    paragraph?: ParagraphCreateNestedOneWithoutContentBlockInput
+    vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
+    synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
+    gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
+    mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
+    questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
+    informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
+    substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
+    rightFormOfVerb?: RightFormOfVerbCreateNestedOneWithoutContentBlockInput
+    narration?: NarrationCreateNestedOneWithoutContentBlockInput
+    changingSentence?: ChangingSentenceCreateNestedOneWithoutContentBlockInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
+    preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
+    suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
+    connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+  }
+
+  export type ContentBlockUncheckedCreateWithoutGapFillFirstPaperInput = {
+    id?: string
+    contentId: string
+    kind: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
+    vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
+    synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
+    questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
+    substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
+    rightFormOfVerb?: RightFormOfVerbUncheckedCreateNestedOneWithoutContentBlockInput
+    narration?: NarrationUncheckedCreateNestedOneWithoutContentBlockInput
+    changingSentence?: ChangingSentenceUncheckedCreateNestedOneWithoutContentBlockInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
+    preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
+    suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
+    connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+  }
+
+  export type ContentBlockCreateOrConnectWithoutGapFillFirstPaperInput = {
+    where: ContentBlockWhereUniqueInput
+    create: XOR<ContentBlockCreateWithoutGapFillFirstPaperInput, ContentBlockUncheckedCreateWithoutGapFillFirstPaperInput>
+  }
+
+  export type ContentBlockUpsertWithoutGapFillFirstPaperInput = {
+    update: XOR<ContentBlockUpdateWithoutGapFillFirstPaperInput, ContentBlockUncheckedUpdateWithoutGapFillFirstPaperInput>
+    create: XOR<ContentBlockCreateWithoutGapFillFirstPaperInput, ContentBlockUncheckedCreateWithoutGapFillFirstPaperInput>
+    where?: ContentBlockWhereInput
+  }
+
+  export type ContentBlockUpdateToOneWithWhereWithoutGapFillFirstPaperInput = {
+    where?: ContentBlockWhereInput
+    data: XOR<ContentBlockUpdateWithoutGapFillFirstPaperInput, ContentBlockUncheckedUpdateWithoutGapFillFirstPaperInput>
+  }
+
+  export type ContentBlockUpdateWithoutGapFillFirstPaperInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
+    paragraph?: ParagraphUpdateOneWithoutContentBlockNestedInput
+    vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
+    synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
+    gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
+    mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
+    questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
+    informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
+    substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
+    rightFormOfVerb?: RightFormOfVerbUpdateOneWithoutContentBlockNestedInput
+    narration?: NarrationUpdateOneWithoutContentBlockNestedInput
+    changingSentence?: ChangingSentenceUpdateOneWithoutContentBlockNestedInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
+    preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
+    suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
+    connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+  }
+
+  export type ContentBlockUncheckedUpdateWithoutGapFillFirstPaperInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
+    vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
+    synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
+    substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
+    rightFormOfVerb?: RightFormOfVerbUncheckedUpdateOneWithoutContentBlockNestedInput
+    narration?: NarrationUncheckedUpdateOneWithoutContentBlockNestedInput
+    changingSentence?: ChangingSentenceUncheckedUpdateOneWithoutContentBlockNestedInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
+    preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
+    suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
+    connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+  }
+
+  export type ContentBlockCreateWithoutGapFillSecondPaperInput = {
+    id?: string
+    kind: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    content: ContentCreateNestedOneWithoutBlocksInput
+    paragraph?: ParagraphCreateNestedOneWithoutContentBlockInput
+    vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
+    synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
+    gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
+    questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
+    informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
+    substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
+    rightFormOfVerb?: RightFormOfVerbCreateNestedOneWithoutContentBlockInput
+    narration?: NarrationCreateNestedOneWithoutContentBlockInput
+    changingSentence?: ChangingSentenceCreateNestedOneWithoutContentBlockInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
+    preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
+    suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
+    connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+  }
+
+  export type ContentBlockUncheckedCreateWithoutGapFillSecondPaperInput = {
+    id?: string
+    contentId: string
+    kind: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
+    vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
+    synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
+    questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
+    substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
+    rightFormOfVerb?: RightFormOfVerbUncheckedCreateNestedOneWithoutContentBlockInput
+    narration?: NarrationUncheckedCreateNestedOneWithoutContentBlockInput
+    changingSentence?: ChangingSentenceUncheckedCreateNestedOneWithoutContentBlockInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
+    preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
+    suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
+    connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+  }
+
+  export type ContentBlockCreateOrConnectWithoutGapFillSecondPaperInput = {
+    where: ContentBlockWhereUniqueInput
+    create: XOR<ContentBlockCreateWithoutGapFillSecondPaperInput, ContentBlockUncheckedCreateWithoutGapFillSecondPaperInput>
+  }
+
+  export type ContentBlockUpsertWithoutGapFillSecondPaperInput = {
+    update: XOR<ContentBlockUpdateWithoutGapFillSecondPaperInput, ContentBlockUncheckedUpdateWithoutGapFillSecondPaperInput>
+    create: XOR<ContentBlockCreateWithoutGapFillSecondPaperInput, ContentBlockUncheckedCreateWithoutGapFillSecondPaperInput>
+    where?: ContentBlockWhereInput
+  }
+
+  export type ContentBlockUpdateToOneWithWhereWithoutGapFillSecondPaperInput = {
+    where?: ContentBlockWhereInput
+    data: XOR<ContentBlockUpdateWithoutGapFillSecondPaperInput, ContentBlockUncheckedUpdateWithoutGapFillSecondPaperInput>
+  }
+
+  export type ContentBlockUpdateWithoutGapFillSecondPaperInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
+    paragraph?: ParagraphUpdateOneWithoutContentBlockNestedInput
+    vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
+    synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
+    gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
+    questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
+    informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
+    substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
+    rightFormOfVerb?: RightFormOfVerbUpdateOneWithoutContentBlockNestedInput
+    narration?: NarrationUpdateOneWithoutContentBlockNestedInput
+    changingSentence?: ChangingSentenceUpdateOneWithoutContentBlockNestedInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
+    preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
+    suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
+    connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+  }
+
+  export type ContentBlockUncheckedUpdateWithoutGapFillSecondPaperInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
+    vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
+    synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -54497,6 +58341,8 @@ export namespace Prisma {
     vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
@@ -54522,6 +58368,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
@@ -54563,6 +58411,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
@@ -54588,6 +58438,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -54613,6 +58465,8 @@ export namespace Prisma {
     vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
@@ -54638,6 +58492,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
@@ -54679,6 +58535,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
@@ -54704,6 +58562,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -54729,6 +58589,8 @@ export namespace Prisma {
     vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
@@ -54754,6 +58616,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
@@ -54795,6 +58659,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
@@ -54820,6 +58686,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -54845,6 +58713,8 @@ export namespace Prisma {
     vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
@@ -54870,6 +58740,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
@@ -54911,6 +58783,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
@@ -54936,6 +58810,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -54961,6 +58837,8 @@ export namespace Prisma {
     vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
@@ -54986,6 +58864,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
@@ -55027,6 +58907,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
@@ -55052,6 +58934,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -55077,6 +58961,8 @@ export namespace Prisma {
     vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
@@ -55102,6 +58988,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
@@ -55143,6 +59031,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
@@ -55168,6 +59058,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -55193,6 +59085,8 @@ export namespace Prisma {
     vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
@@ -55218,6 +59112,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
@@ -55259,6 +59155,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
@@ -55284,6 +59182,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -55309,6 +59209,8 @@ export namespace Prisma {
     vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
@@ -55334,6 +59236,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
@@ -55375,6 +59279,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
@@ -55400,6 +59306,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -55425,6 +59333,8 @@ export namespace Prisma {
     vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
@@ -55450,6 +59360,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
@@ -55491,6 +59403,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
@@ -55516,6 +59430,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -55541,6 +59457,8 @@ export namespace Prisma {
     vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
@@ -55566,6 +59484,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
@@ -55607,6 +59527,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
@@ -55632,6 +59554,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -55657,6 +59581,8 @@ export namespace Prisma {
     vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
@@ -55682,6 +59608,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
@@ -55723,6 +59651,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
@@ -55748,6 +59678,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -55773,6 +59705,8 @@ export namespace Prisma {
     vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
@@ -55798,6 +59732,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
@@ -55839,6 +59775,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
@@ -55864,6 +59802,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -55889,6 +59829,8 @@ export namespace Prisma {
     vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
@@ -55914,6 +59856,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
     gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
@@ -55955,6 +59899,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
@@ -55980,6 +59926,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -56740,6 +60688,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
@@ -56765,6 +60715,8 @@ export namespace Prisma {
     vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
     synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
     gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
