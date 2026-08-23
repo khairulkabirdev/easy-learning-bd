@@ -2,6 +2,10 @@ import type { Node as ProseMirrorNode } from "@tiptap/pm/model"
 import type { Selection, Transaction } from "@tiptap/pm/state"
 import type { Editor } from "@tiptap/react"
 import type { NodeWithPos } from "@tiptap/core"
+import {
+  findParentNodeClosestToPos,
+  isProseMirrorCellSelection,
+} from "@tiptap/core"
 
 import { cn as baseCn } from "@/lib/utils"
 
@@ -94,10 +98,13 @@ export function getSelectedBlockNodes(editor: Editor | null): NodeWithPos[] {
   })
 
   if (nodes.length === 0) {
-    const pos = selection.$anchor.before(selection.$anchor.depth)
-    const node = selection.$anchor.node(selection.$anchor.depth)
-    if (node?.isBlock && isValidPosition(pos)) {
-      nodes.push({ node, pos })
+    for (let depth = selection.$anchor.depth; depth > 0; depth -= 1) {
+      const node = selection.$anchor.node(depth)
+      const pos = selection.$anchor.before(depth)
+      if (node?.isBlock && isValidPosition(pos)) {
+        nodes.push({ node, pos })
+        break
+      }
     }
   }
 
@@ -179,6 +186,32 @@ export function sanitizeUrl(url: string, base?: string) {
 export function focusNextNode(editor: Editor | null) {
   if (!editor) return false
   return editor.commands.focus(editor.state.selection.to + 1)
+}
+
+export function getTableSelectionState(editor: Editor | null) {
+  if (!editor) {
+    return {
+      isInsideTable: false,
+      isCellSelection: false,
+      tablePos: null as number | null,
+      cellPos: null as number | null,
+    }
+  }
+
+  const { selection } = editor.state
+  const table = findParentNodeClosestToPos(selection.$anchor, (node) =>
+    node.type.name === "table"
+  )
+  const cell = findParentNodeClosestToPos(selection.$anchor, (node) =>
+    node.type.name === "tableCell" || node.type.name === "tableHeader"
+  )
+
+  return {
+    isInsideTable: Boolean(table),
+    isCellSelection: isProseMirrorCellSelection(selection),
+    tablePos: table?.pos ?? null,
+    cellPos: cell?.pos ?? null,
+  }
 }
 
 export async function handleImageUpload(

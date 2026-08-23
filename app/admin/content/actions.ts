@@ -705,11 +705,31 @@ export async function updateParagraphBlock(input: unknown) {
   await assertTrustedMutationOrigin();
   const user = await requireAdmin();
   const parsed = updateParagraphSchema.parse(input);
+  const ownedBlock = await getOwnedContentBlock(parsed.blockId, user.organizationId);
 
-  const updated = await prisma.paragraph.update({
-    where: { id: parsed.paragraphId },
-    data: {
+  if (ownedBlock.contentId !== parsed.contentId) {
+    throw new Error("Content block does not belong to content.");
+  }
+
+  const content = await getOwnedContent(parsed.contentId, user.organizationId);
+
+  const updated = await prisma.paragraph.upsert({
+    where: { contentBlockId: parsed.blockId },
+    update: {
       body: parsed.body,
+      updatedBy: user.id,
+    },
+    create: {
+      contentBlockId: parsed.blockId,
+      contentId: parsed.contentId,
+      classId: content.classId,
+      subjectId: content.subjectId,
+      unitId: content.unitId,
+      lessonId: content.lessonId,
+      topicId: content.topicId,
+      body: parsed.body,
+      organizationId: user.organizationId,
+      createdBy: user.id,
       updatedBy: user.id,
     },
   });
@@ -723,6 +743,9 @@ export async function updateParagraphBlock(input: unknown) {
     changes: updated,
     organizationId: user.organizationId,
   });
+
+  revalidatePath("/admin/content");
+  revalidatePath(`/admin/content/${parsed.contentId}`);
 }
 
 export async function updateQuestionAnswerExercise(input: unknown) {
