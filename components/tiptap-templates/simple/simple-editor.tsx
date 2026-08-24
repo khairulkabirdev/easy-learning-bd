@@ -660,9 +660,9 @@ export function SimpleEditor({
       }
 
       const rootSelection =
-        typeof editor.view.root.getSelection === "function"
+        editor.view.root instanceof Document
           ? editor.view.root.getSelection()
-          : null
+          : window.getSelection()
       const anchorElement =
         rootSelection?.anchorNode instanceof HTMLElement
           ? rootSelection.anchorNode

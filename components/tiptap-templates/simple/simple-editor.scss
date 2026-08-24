@@ -153,6 +153,7 @@
   border: 1px solid #d9dde5;
   padding: 0.6rem 0.75rem;
   vertical-align: top;
+  position: relative;
 }
 
 .simple-editor-content .tiptap.ProseMirror th {
@@ -177,6 +178,31 @@
 .dark .simple-editor-content .tiptap.ProseMirror th,
 .simple-editor-wrapper.dark .simple-editor-content .tiptap.ProseMirror th {
   background: #232329;
+}
+
+.simple-editor-content .tiptap.ProseMirror td.selectedCell,
+.simple-editor-content .tiptap.ProseMirror th.selectedCell {
+  box-shadow: inset 0 0 0 2px #7c3aed;
+}
+
+.simple-editor-content .tiptap.ProseMirror td.selectedCell::after,
+.simple-editor-content .tiptap.ProseMirror th.selectedCell::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -0.35rem;
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 999px;
+  background: #7c3aed;
+  transform: translateY(-50%);
+}
+
+.dark .simple-editor-content .tiptap.ProseMirror td.selectedCell,
+.dark .simple-editor-content .tiptap.ProseMirror th.selectedCell,
+.simple-editor-wrapper.dark .simple-editor-content .tiptap.ProseMirror td.selectedCell,
+.simple-editor-wrapper.dark .simple-editor-content .tiptap.ProseMirror th.selectedCell {
+  box-shadow: inset 0 0 0 2px #8b5cf6;
 }
 
 .simple-editor-table-picker {
