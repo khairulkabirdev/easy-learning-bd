@@ -1737,42 +1737,48 @@ export function ContentBlocksEditorClient({
                       <FieldContent>
                         <FieldLabel>Question</FieldLabel>
                         <FieldDescription>Write the full question here.</FieldDescription>
-                        <TiptapRichTextEditor
-                          value={block.questionAnswerExercise.question}
-                          onChange={(value) =>
-                            void handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, { question: value })
-                          }
-                          minHeight={240}
-                          placeholder="Write the full question here..."
-                        />
+                        <div className="rounded-xl border bg-background p-3">
+                          <TiptapRichTextEditor
+                            value={block.questionAnswerExercise.question}
+                            onChange={(value) =>
+                              void handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, { question: value })
+                            }
+                            minHeight={240}
+                            placeholder="Write the full question here..."
+                          />
+                        </div>
                       </FieldContent>
                     </Field>
 
                     <Field>
                       <FieldContent>
                         <FieldLabel>Answer</FieldLabel>
-                        <TiptapRichTextEditor
-                          value={block.questionAnswerExercise.answer}
-                          onChange={(value) =>
-                            void handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, { answer: value })
-                          }
-                          minHeight={220}
-                          placeholder="Write the answer here..."
-                        />
+                        <div className="rounded-xl border bg-background p-3">
+                          <TiptapRichTextEditor
+                            value={block.questionAnswerExercise.answer}
+                            onChange={(value) =>
+                              void handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, { answer: value })
+                            }
+                            minHeight={220}
+                            placeholder="Write the answer here..."
+                          />
+                        </div>
                       </FieldContent>
                     </Field>
 
                     <Field>
                       <FieldContent>
                         <FieldLabel>Details</FieldLabel>
-                        <TiptapRichTextEditor
-                          value={block.questionAnswerExercise.details}
-                          onChange={(value) =>
-                            void handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, { details: value })
-                          }
-                          minHeight={180}
-                          placeholder="Add extra details here..."
-                        />
+                        <div className="rounded-xl border bg-background p-3">
+                          <TiptapRichTextEditor
+                            value={block.questionAnswerExercise.details}
+                            onChange={(value) =>
+                              void handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, { details: value })
+                            }
+                            minHeight={180}
+                            placeholder="Add extra details here..."
+                          />
+                        </div>
                       </FieldContent>
                     </Field>
                   </FieldGroup>
@@ -1785,57 +1791,63 @@ export function ContentBlocksEditorClient({
                     <Field>
                       <FieldContent>
                         <FieldLabel>Question</FieldLabel>
-                        <TiptapRichTextEditor
-                          value={THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.question}
-                          onChange={(value) =>
-                            void handleInformationTransferChange(
-                              block.kind,
-                              block.id,
-                              THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.id,
-                              { question: value },
-                            )
-                          }
-                          minHeight={240}
-                          placeholder={THREE_FIELD_BLOCK_META[block.kind]!.questionPlaceholder}
-                        />
+                        <div className="rounded-xl border bg-background p-3">
+                          <TiptapRichTextEditor
+                            value={THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.question}
+                            onChange={(value) =>
+                              void handleInformationTransferChange(
+                                block.kind,
+                                block.id,
+                                THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.id,
+                                { question: value },
+                              )
+                            }
+                            minHeight={240}
+                            placeholder={THREE_FIELD_BLOCK_META[block.kind]!.questionPlaceholder}
+                          />
+                        </div>
                       </FieldContent>
                     </Field>
 
                     <Field>
                       <FieldContent>
                         <FieldLabel>Answer</FieldLabel>
-                        <TiptapRichTextEditor
-                          value={THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.answer}
-                          onChange={(value) =>
-                            void handleInformationTransferChange(
-                              block.kind,
-                              block.id,
-                              THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.id,
-                              { answer: value },
-                            )
-                          }
-                          minHeight={220}
-                          placeholder={THREE_FIELD_BLOCK_META[block.kind]!.answerPlaceholder}
-                        />
+                        <div className="rounded-xl border bg-background p-3">
+                          <TiptapRichTextEditor
+                            value={THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.answer}
+                            onChange={(value) =>
+                              void handleInformationTransferChange(
+                                block.kind,
+                                block.id,
+                                THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.id,
+                                { answer: value },
+                              )
+                            }
+                            minHeight={220}
+                            placeholder={THREE_FIELD_BLOCK_META[block.kind]!.answerPlaceholder}
+                          />
+                        </div>
                       </FieldContent>
                     </Field>
 
                     <Field>
                       <FieldContent>
                         <FieldLabel>Details</FieldLabel>
-                        <TiptapRichTextEditor
-                          value={THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.details}
-                          onChange={(value) =>
-                            void handleInformationTransferChange(
-                              block.kind,
-                              block.id,
-                              THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.id,
-                              { details: value },
-                            )
-                          }
-                          minHeight={180}
-                          placeholder={THREE_FIELD_BLOCK_META[block.kind]!.detailsPlaceholder}
-                        />
+                        <div className="rounded-xl border bg-background p-3">
+                          <TiptapRichTextEditor
+                            value={THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.details}
+                            onChange={(value) =>
+                              void handleInformationTransferChange(
+                                block.kind,
+                                block.id,
+                                THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.id,
+                                { details: value },
+                              )
+                            }
+                            minHeight={180}
+                            placeholder={THREE_FIELD_BLOCK_META[block.kind]!.detailsPlaceholder}
+                          />
+                        </div>
                       </FieldContent>
                     </Field>
                   </FieldGroup>
