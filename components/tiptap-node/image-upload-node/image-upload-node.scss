@@ -5,8 +5,8 @@
 
   --tiptap-image-upload-text-color: var(--tt-gray-light-a-700);
   --tiptap-image-upload-subtext-color: var(--tt-gray-light-a-400);
-  --tiptap-image-upload-border: var(--tt-gray-light-a-300);
-  --tiptap-image-upload-border-hover: var(--tt-gray-light-a-400);
+  --tiptap-image-upload-border: rgba(124, 58, 237, 0.75);
+  --tiptap-image-upload-border-hover: rgba(124, 58, 237, 0.9);
   --tiptap-image-upload-border-active: var(--tt-brand-color-500);
 
   --tiptap-image-upload-icon-doc-bg: var(--tt-gray-light-a-200);
@@ -21,9 +21,9 @@
 
   --tiptap-image-upload-text-color: var(--tt-gray-dark-a-700);
   --tiptap-image-upload-subtext-color: var(--tt-gray-dark-a-400);
-  --tiptap-image-upload-border: var(--tt-gray-dark-a-300);
-  --tiptap-image-upload-border-hover: var(--tt-gray-dark-a-400);
-  --tiptap-image-upload-border-active: var(--tt-brand-color-400);
+  --tiptap-image-upload-border: rgba(139, 92, 246, 0.85);
+  --tiptap-image-upload-border-hover: rgba(139, 92, 246, 1);
+  --tiptap-image-upload-border-active: rgba(139, 92, 246, 1);
 
   --tiptap-image-upload-icon-doc-bg: var(--tt-gray-dark-a-200);
   --tiptap-image-upload-icon-doc-border: var(--tt-gray-dark-300);
@@ -102,16 +102,18 @@
 
   .tiptap-image-upload-drag-area {
     padding: 2rem 1.5rem;
-    border: 1.5px dashed var(--tiptap-image-upload-border);
+    border: 2px dashed var(--tiptap-image-upload-border);
     border-radius: var(--tt-radius-md, 0.5rem);
     text-align: center;
     cursor: pointer;
     position: relative;
     overflow: hidden;
     transition: all 0.2s ease;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tiptap-image-upload-border) 35%, transparent);
 
     &:hover {
       border-color: var(--tiptap-image-upload-border-hover);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tiptap-image-upload-border-hover) 40%, transparent);
     }
 
     &.drag-active {
@@ -120,6 +122,7 @@
         var(--tiptap-image-upload-active-rgb, 0, 123, 255),
         0.05
       );
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tiptap-image-upload-border-active) 45%, transparent);
     }
 
     &.drag-over {
@@ -128,6 +131,7 @@
         var(--tiptap-image-upload-active-rgb, 0, 123, 255),
         0.1
       );
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tiptap-image-upload-border-active) 50%, transparent);
     }
   }
 

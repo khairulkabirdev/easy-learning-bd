@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react"
 import { EditorContent, EditorContext, useEditor } from "@tiptap/react"
+import { Plugin, PluginKey } from "@tiptap/pm/state"
+import { Decoration, DecorationSet } from "@tiptap/pm/view"
 
 // --- Tiptap Core Extensions ---
 import { StarterKit } from "@tiptap/starter-kit"
@@ -21,6 +23,7 @@ import { Subscript } from "@tiptap/extension-subscript"
 import { Superscript } from "@tiptap/extension-superscript"
 import { FindAndReplace } from "@tiptap/extension-find-and-replace"
 import { Selection } from "@tiptap/extensions"
+import { CellSelection, TableMap, tableEditingKey } from "@tiptap/pm/tables"
 
 // --- UI Primitives ---
 import { Button } from "@/components/tiptap-ui-primitive/button"
@@ -92,8 +95,6 @@ import { useWindowSize } from "@/hooks/use-window-size"
 import { useCursorVisibility } from "@/hooks/use-cursor-visibility"
 
 // --- Components ---
-import { ThemeToggle } from "@/components/tiptap-templates/simple/theme-toggle"
-
 // --- Lib ---
 import {
   getTableSelectionState,
@@ -108,6 +109,8 @@ import "@/components/tiptap-templates/simple/simple-editor.scss"
 const SEARCH_AND_REPLACE_SCROLL_OPTIONS: ScrollIntoViewOptions = {
   block: "center",
 }
+
+const tableRangeMarkerPluginKey = new PluginKey("ttTableRangeMarkers")
 
 export type EmbeddedSimpleEditorProps = {
   value: string
@@ -208,6 +211,16 @@ type TableToolbarState = {
   placement: "top" | "bottom"
 }
 
+type TableSelectionOverlayState = {
+  visible: boolean
+  top: number
+  left: number
+  width: number
+  height: number
+  handleTop: number
+  handleLeft: number
+}
+
 function TableFloatingToolbar({
   editor,
   state,
@@ -232,8 +245,6 @@ function TableFloatingToolbar({
       style={{
         top: state.top,
         left: state.left,
-        background: "var(--tt-toolbar-bg-color, #ffffff)",
-        backgroundColor: "var(--tt-toolbar-bg-color, #ffffff)",
         opacity: 1,
       }}
     >
@@ -244,8 +255,7 @@ function TableFloatingToolbar({
           aria-label="Add row before"
           tooltip="Add row before"
           disabled={!can.addRowBefore()}
-          onMouseDown={(event) => event.preventDefault()}
-          onClick={handleAction(() => editor.chain().focus().addRowBefore().run())}
+          onMouseDown={handleAction(() => editor.commands.addRowBefore())}
         >
           <TableRowBeforeIcon className="tiptap-button-icon" />
         </Button>
@@ -255,8 +265,7 @@ function TableFloatingToolbar({
           aria-label="Add row after"
           tooltip="Add row after"
           disabled={!can.addRowAfter()}
-          onMouseDown={(event) => event.preventDefault()}
-          onClick={handleAction(() => editor.chain().focus().addRowAfter().run())}
+          onMouseDown={handleAction(() => editor.commands.addRowAfter())}
         >
           <TableRowAfterIcon className="tiptap-button-icon" />
         </Button>
@@ -266,8 +275,7 @@ function TableFloatingToolbar({
           aria-label="Delete row"
           tooltip="Delete row"
           disabled={!can.deleteRow()}
-          onMouseDown={(event) => event.preventDefault()}
-          onClick={handleAction(() => editor.chain().focus().deleteRow().run())}
+          onMouseDown={handleAction(() => editor.commands.deleteRow())}
         >
           <TrashIcon className="tiptap-button-icon" />
         </Button>
@@ -282,8 +290,7 @@ function TableFloatingToolbar({
           aria-label="Add column before"
           tooltip="Add column before"
           disabled={!can.addColumnBefore()}
-          onMouseDown={(event) => event.preventDefault()}
-          onClick={handleAction(() => editor.chain().focus().addColumnBefore().run())}
+          onMouseDown={handleAction(() => editor.commands.addColumnBefore())}
         >
           <TableColumnBeforeIcon className="tiptap-button-icon" />
         </Button>
@@ -293,8 +300,7 @@ function TableFloatingToolbar({
           aria-label="Add column after"
           tooltip="Add column after"
           disabled={!can.addColumnAfter()}
-          onMouseDown={(event) => event.preventDefault()}
-          onClick={handleAction(() => editor.chain().focus().addColumnAfter().run())}
+          onMouseDown={handleAction(() => editor.commands.addColumnAfter())}
         >
           <TableColumnAfterIcon className="tiptap-button-icon" />
         </Button>
@@ -304,8 +310,7 @@ function TableFloatingToolbar({
           aria-label="Delete column"
           tooltip="Delete column"
           disabled={!can.deleteColumn()}
-          onMouseDown={(event) => event.preventDefault()}
-          onClick={handleAction(() => editor.chain().focus().deleteColumn().run())}
+          onMouseDown={handleAction(() => editor.commands.deleteColumn())}
         >
           <TrashIcon className="tiptap-button-icon" />
         </Button>
@@ -320,8 +325,7 @@ function TableFloatingToolbar({
           aria-label="Merge cells"
           tooltip="Merge cells"
           disabled={!can.mergeCells()}
-          onMouseDown={(event) => event.preventDefault()}
-          onClick={handleAction(() => editor.chain().focus().mergeCells().run())}
+          onMouseDown={handleAction(() => editor.commands.mergeCells())}
         >
           <TableMergeIcon className="tiptap-button-icon" />
         </Button>
@@ -331,8 +335,7 @@ function TableFloatingToolbar({
           aria-label="Split cell"
           tooltip="Split cell"
           disabled={!can.splitCell()}
-          onMouseDown={(event) => event.preventDefault()}
-          onClick={handleAction(() => editor.chain().focus().splitCell().run())}
+          onMouseDown={handleAction(() => editor.commands.splitCell())}
         >
           <TableSplitIcon className="tiptap-button-icon" />
         </Button>
@@ -347,8 +350,7 @@ function TableFloatingToolbar({
           aria-label="Toggle header row"
           tooltip="Toggle header row"
           disabled={!can.toggleHeaderRow()}
-          onMouseDown={(event) => event.preventDefault()}
-          onClick={handleAction(() => editor.chain().focus().toggleHeaderRow().run())}
+          onMouseDown={handleAction(() => editor.commands.toggleHeaderRow())}
         >
           <TableHeaderRowIcon className="tiptap-button-icon" />
         </Button>
@@ -358,8 +360,7 @@ function TableFloatingToolbar({
           aria-label="Toggle header column"
           tooltip="Toggle header column"
           disabled={!can.toggleHeaderColumn()}
-          onMouseDown={(event) => event.preventDefault()}
-          onClick={handleAction(() => editor.chain().focus().toggleHeaderColumn().run())}
+          onMouseDown={handleAction(() => editor.commands.toggleHeaderColumn())}
         >
           <TableHeaderColumnIcon className="tiptap-button-icon" />
         </Button>
@@ -374,8 +375,7 @@ function TableFloatingToolbar({
           aria-label="Delete table"
           tooltip="Delete table"
           disabled={!can.deleteTable()}
-          onMouseDown={(event) => event.preventDefault()}
-          onClick={handleAction(() => editor.chain().focus().deleteTable().run())}
+          onMouseDown={handleAction(() => editor.commands.deleteTable())}
         >
           <TrashIcon className="tiptap-button-icon" />
         </Button>
@@ -474,7 +474,6 @@ const MainToolbarContent = ({
           data-active-state={isSearchAndReplaceOpen ? "on" : "off"}
           onClick={onSearchAndReplaceClick}
         />
-        <ThemeToggle />
       </ToolbarGroup>
     </>
   )
@@ -525,13 +524,55 @@ export function SimpleEditor({
   const toolbarRef = useRef<HTMLDivElement>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
   const tableToolbarRef = useRef<HTMLDivElement>(null)
+  const updateTableToolbarRef = useRef<(() => void) | null>(null)
   const searchAndReplaceButtonRef = useRef<HTMLButtonElement>(null)
+  const suppressNextTableClickRef = useRef(false)
+  const pendingTableSelectionRef = useRef<{
+    anchorPos: number | null
+    headPos: number | null
+  }>({
+    anchorPos: null,
+    headPos: null,
+  })
+  const tableDragSelectionRef = useRef<{
+    active: boolean
+    anchorPos: number | null
+    headPos: number | null
+    table: HTMLTableElement | null
+    anchorCell: HTMLElement | null
+    startedOnContent: boolean
+  }>({
+    active: false,
+    anchorPos: null,
+    headPos: null,
+    table: null,
+    anchorCell: null,
+    startedOnContent: false,
+  })
   const [tableToolbarState, setTableToolbarState] = useState<TableToolbarState>({
     visible: false,
     top: 0,
     left: 0,
     placement: "top",
   })
+  const [tableSelectionOverlay, setTableSelectionOverlay] =
+    useState<TableSelectionOverlayState>({
+      visible: false,
+      top: 0,
+      left: 0,
+      width: 0,
+      height: 0,
+      handleTop: 0,
+      handleLeft: 0,
+    })
+
+  const clearSelectedCellMarkers = useCallback(() => {
+    return
+  }, [])
+
+  const applySelectedCellMarkers = useCallback((selectedCells: HTMLElement[]) => {
+    return
+  }, [clearSelectedCellMarkers])
 
   const editor = useEditor({
     immediatelyRender: false,
@@ -591,6 +632,90 @@ export function SimpleEditor({
 
   useEffect(() => {
     if (!editor) return
+
+    const markerPlugin = new Plugin({
+      key: tableRangeMarkerPluginKey,
+      props: {
+        decorations(state) {
+          const tableState = getTableSelectionState(editor)
+
+          if (!tableState.isInsideTable || tableState.tablePos == null) {
+            return null
+          }
+
+          const tableNode = state.doc.nodeAt(tableState.tablePos)
+          if (!tableNode) {
+            return null
+          }
+
+          const tableStart = tableState.tablePos + 1
+          let rect:
+            | { left: number; right: number; top: number; bottom: number }
+            | null = null
+
+          if (state.selection instanceof CellSelection) {
+            rect = TableMap.get(tableNode).rectBetween(
+              state.selection.$anchorCell.pos - tableStart,
+              state.selection.$headCell.pos - tableStart
+            )
+          } else if (tableState.cellPos != null) {
+            rect = TableMap.get(tableNode).findCell(tableState.cellPos - tableStart)
+          }
+
+          if (!rect) {
+            return null
+          }
+
+          const map = TableMap.get(tableNode)
+          const cells = map.cellsInRect(rect)
+          if (cells.length === 0) {
+            return null
+          }
+
+          const handleRelativePos = cells
+            .filter((relativePos) => {
+              const cellRect = map.findCell(relativePos)
+              return cellRect.top === rect.top && cellRect.right === rect.right
+            })
+            .at(-1)
+
+          const decorations = cells.map((relativePos) => {
+            const cellRect = map.findCell(relativePos)
+            const cellNode = tableNode.nodeAt(relativePos)
+            if (!cellNode) return null
+
+            const attrs: Record<string, string> = {}
+            if (cellRect.left === rect?.left) attrs["data-tt-range-left"] = "true"
+            if (cellRect.right === rect?.right) attrs["data-tt-range-right"] = "true"
+            if (cellRect.top === rect?.top) attrs["data-tt-range-top"] = "true"
+            if (cellRect.bottom === rect?.bottom) attrs["data-tt-range-bottom"] = "true"
+            if (handleRelativePos != null && relativePos === handleRelativePos) {
+              attrs["data-tt-cell-handle"] = "true"
+            }
+
+            return Decoration.node(
+              tableStart + relativePos,
+              tableStart + relativePos + cellNode.nodeSize,
+              attrs
+            )
+          }).filter((decoration): decoration is Decoration => decoration != null)
+
+          return decorations.length > 0
+            ? DecorationSet.create(state.doc, decorations)
+            : null
+        },
+      },
+    })
+
+    editor.registerPlugin(markerPlugin)
+
+    return () => {
+      editor.unregisterPlugin(tableRangeMarkerPluginKey)
+    }
+  }, [editor])
+
+  useEffect(() => {
+    if (!editor) return
     const current = editor.getHTML()
     if (value !== current) {
       editor.commands.setContent(value || "", { emitUpdate: false })
@@ -639,11 +764,276 @@ export function SimpleEditor({
   useEffect(() => {
     if (!editor) return
 
+    const wrapper = wrapperRef.current
+    if (!wrapper) return
+
+    const resetTableDragSelection = () => {
+      wrapper.removeAttribute("data-tt-table-dragging")
+      tableDragSelectionRef.current = {
+        active: false,
+        anchorPos: null,
+        headPos: null,
+        table: null,
+        anchorCell: null,
+        startedOnContent: false,
+      }
+    }
+
+    const getCellPosFromElement = (element: HTMLElement | null) => {
+      if (!element) return null
+
+      const cellElement = element.closest<HTMLElement>("td, th")
+      if (!cellElement) return null
+
+      const viewDesc = (cellElement as HTMLElement & {
+        pmViewDesc?: { posBefore?: number }
+      }).pmViewDesc
+
+      if (typeof viewDesc?.posBefore === "number") {
+        return viewDesc.posBefore
+      }
+
+      try {
+        const domPos = editor.view.posAtDOM(cellElement, 0)
+        const $pos = editor.state.doc.resolve(domPos)
+
+        for (let depth = $pos.depth; depth > 0; depth -= 1) {
+          const node = $pos.node(depth)
+          if (node.type.name === "tableCell" || node.type.name === "tableHeader") {
+            return $pos.before(depth)
+          }
+        }
+      } catch {
+        return null
+      }
+
+      return null
+    }
+
+    const getCellPosFromPoint = (clientX: number, clientY: number) => {
+      const pointTarget = document.elementFromPoint(clientX, clientY)
+      const fromElement =
+        pointTarget instanceof HTMLElement
+          ? getCellPosFromElement(pointTarget)
+          : null
+
+      if (fromElement != null) {
+        return fromElement
+      }
+
+      const coords = editor.view.posAtCoords({ left: clientX, top: clientY })
+      if (!coords) return null
+
+      try {
+        const $pos = editor.state.doc.resolve(coords.pos)
+
+        for (let depth = $pos.depth; depth > 0; depth -= 1) {
+          const node = $pos.node(depth)
+          if (node.type.name === "tableCell" || node.type.name === "tableHeader") {
+            return $pos.before(depth)
+          }
+        }
+      } catch {
+        return null
+      }
+
+      return null
+    }
+
+    const applyCellSelection = (anchorPos: number, headPos: number) => {
+      const { state, view } = editor
+      const $anchor = state.doc.resolve(anchorPos)
+      const $head = state.doc.resolve(headPos)
+      const selection = new CellSelection($anchor, $head)
+      const transaction = state.tr
+        .setSelection(selection)
+        .setMeta(tableEditingKey, anchorPos)
+
+      view.dispatch(transaction)
+    }
+
+    const finalizeCellSelection = (anchorPos: number, headPos: number) => {
+      const selection = new CellSelection(
+        editor.state.doc.resolve(anchorPos),
+        editor.state.doc.resolve(headPos)
+      )
+
+      editor.view.dispatch(
+        editor.state.tr
+          .setSelection(selection)
+          .setMeta(tableEditingKey, anchorPos)
+      )
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          const selectedCells = Array.from(
+            wrapperRef.current?.querySelectorAll<HTMLElement>(
+              "td.selectedCell, th.selectedCell"
+            ) ?? []
+          )
+          applySelectedCellMarkers(selectedCells)
+          updateTableToolbarRef.current?.()
+        }, 40)
+      })
+    }
+
+    const handleMouseDown = (event: MouseEvent) => {
+      if (event.button !== 0 || event.ctrlKey || event.metaKey) {
+        resetTableDragSelection()
+        return
+      }
+
+      const target = event.target instanceof HTMLElement ? event.target : null
+      const cell = target?.closest<HTMLElement>("td, th")
+      const table = cell?.closest<HTMLTableElement>("table")
+
+      if (!cell || !table || !wrapper.contains(cell)) {
+        if (tableEditingKey.getState(editor.state) != null) {
+          editor.view.dispatch(editor.state.tr.setMeta(tableEditingKey, -1))
+        }
+        resetTableDragSelection()
+        return
+      }
+
+      const anchorPos =
+        getCellPosFromElement(cell) ??
+        getCellPosFromPoint(event.clientX, event.clientY)
+
+      if (anchorPos == null) {
+        resetTableDragSelection()
+        return
+      }
+
+      const startedOnContent =
+        target != null &&
+        target !== cell &&
+        (target.textContent?.trim().length ?? 0) > 0
+
+      tableDragSelectionRef.current = {
+        active: false,
+        anchorPos,
+        headPos: anchorPos,
+        table,
+        anchorCell: cell,
+        startedOnContent,
+      }
+      if (startedOnContent) {
+        event.stopPropagation()
+        event.stopImmediatePropagation()
+      }
+      setTableToolbarState((current) =>
+        current.visible ? { ...current, visible: false } : current
+      )
+    }
+
+    const handleMouseMove = (event: MouseEvent) => {
+      const dragState = tableDragSelectionRef.current
+      if (dragState.anchorPos == null || !(event.buttons & 1)) {
+        return
+      }
+
+      const pointTarget = document.elementFromPoint(event.clientX, event.clientY)
+      const hoveredCell =
+        pointTarget instanceof HTMLElement
+          ? pointTarget.closest<HTMLElement>("td, th")
+          : null
+
+      if (!hoveredCell || hoveredCell.closest("table") !== dragState.table) {
+        return
+      }
+
+      const headPos =
+        getCellPosFromElement(hoveredCell) ??
+        getCellPosFromPoint(event.clientX, event.clientY)
+
+      if (headPos == null) return
+
+      if (!dragState.active) {
+        if (hoveredCell === dragState.anchorCell && headPos === dragState.anchorPos) {
+          return
+        }
+
+        dragState.active = true
+        wrapper.setAttribute("data-tt-table-dragging", "true")
+        editor.view.focus()
+      }
+
+      dragState.headPos = headPos
+      event.preventDefault()
+      event.stopPropagation()
+      applyCellSelection(dragState.anchorPos, headPos)
+    }
+
+    const handleDragEnd = () => {
+      const dragState = tableDragSelectionRef.current
+      if (!dragState.active) return
+
+      const { anchorPos, headPos } = dragState
+      resetTableDragSelection()
+      if (anchorPos != null && headPos != null) {
+        pendingTableSelectionRef.current = { anchorPos, headPos }
+        suppressNextTableClickRef.current = anchorPos !== headPos
+        setTimeout(() => {
+          const pending = pendingTableSelectionRef.current
+          if (pending.anchorPos == null || pending.headPos == null) {
+            return
+          }
+          finalizeCellSelection(pending.anchorPos, pending.headPos)
+        }, 120)
+        return
+      }
+
+      editor.view.dispatch(editor.state.tr.setMeta(tableEditingKey, -1))
+      requestAnimationFrame(() => {
+        updateTableToolbarRef.current?.()
+      })
+    }
+
+    const handleClickCapture = (event: MouseEvent) => {
+      if (!suppressNextTableClickRef.current) return
+
+      const target = event.target instanceof HTMLElement ? event.target : null
+      if (!target?.closest("table")) {
+        suppressNextTableClickRef.current = false
+        return
+      }
+
+      event.preventDefault()
+      event.stopPropagation()
+      const pending = pendingTableSelectionRef.current
+      if (pending.anchorPos != null && pending.headPos != null) {
+        finalizeCellSelection(pending.anchorPos, pending.headPos)
+      }
+      suppressNextTableClickRef.current = false
+      pendingTableSelectionRef.current = { anchorPos: null, headPos: null }
+    }
+
+    wrapper.addEventListener("mousedown", handleMouseDown, true)
+    wrapper.addEventListener("click", handleClickCapture, true)
+    window.addEventListener("mousemove", handleMouseMove, true)
+    window.addEventListener("mouseup", handleDragEnd, true)
+    window.addEventListener("dragend", handleDragEnd, true)
+
+    return () => {
+      wrapper.removeEventListener("mousedown", handleMouseDown, true)
+      wrapper.removeEventListener("click", handleClickCapture, true)
+      window.removeEventListener("mousemove", handleMouseMove, true)
+      window.removeEventListener("mouseup", handleDragEnd, true)
+      window.removeEventListener("dragend", handleDragEnd, true)
+    }
+  }, [editor])
+
+  useEffect(() => {
+    if (!editor) return
+
     const updateTableToolbar = () => {
+      updateTableToolbarRef.current = updateTableToolbar
       const wrapper = wrapperRef.current
       const toolbar = tableToolbarRef.current
-
       if (!wrapper || !toolbar || !editor.isEditable) {
+        clearSelectedCellMarkers()
+        setTableSelectionOverlay((current) =>
+          current.visible ? { ...current, visible: false } : current
+        )
         setTableToolbarState((current) =>
           current.visible ? { ...current, visible: false } : current
         )
@@ -652,7 +1042,22 @@ export function SimpleEditor({
 
       const tableState = getTableSelectionState(editor)
 
+      if (tableDragSelectionRef.current.active) {
+        clearSelectedCellMarkers()
+        setTableSelectionOverlay((current) =>
+          current.visible ? { ...current, visible: false } : current
+        )
+        setTableToolbarState((current) =>
+          current.visible ? { ...current, visible: false } : current
+        )
+        return
+      }
+
       if (!tableState.isInsideTable || tableState.tablePos == null) {
+        clearSelectedCellMarkers()
+        setTableSelectionOverlay((current) =>
+          current.visible ? { ...current, visible: false } : current
+        )
         setTableToolbarState((current) =>
           current.visible ? { ...current, visible: false } : current
         )
@@ -663,15 +1068,55 @@ export function SimpleEditor({
         editor.view.root instanceof Document
           ? editor.view.root.getSelection()
           : window.getSelection()
+      const cellNode = tableState.cellPos != null
+        ? editor.view.nodeDOM(tableState.cellPos)
+        : null
       const anchorElement =
-        rootSelection?.anchorNode instanceof HTMLElement
-          ? rootSelection.anchorNode
-          : rootSelection?.anchorNode?.parentElement ?? null
-      const selectedCell = anchorElement?.closest("td, th")
-      const selectedTableFromCell = selectedCell?.closest("table")
-      const selectedTableFromRange = editor.view.dom.querySelector(
-        "td.selectedCell, th.selectedCell"
-      )?.closest("table")
+        cellNode instanceof HTMLElement
+          ? cellNode
+          : rootSelection?.anchorNode instanceof HTMLElement
+            ? rootSelection.anchorNode
+            : rootSelection?.anchorNode?.parentElement ?? null
+      const activeCell =
+        anchorElement?.closest<HTMLElement>("td, th") ??
+        (cellNode instanceof HTMLElement
+          ? cellNode.closest<HTMLElement>("td, th")
+          : null)
+      const selectedDomCells = Array.from(
+        wrapper.querySelectorAll<HTMLElement>("td.selectedCell, th.selectedCell")
+      )
+
+      const selectedCells =
+        selectedDomCells.length > 0
+          ? selectedDomCells
+          : activeCell
+            ? [activeCell]
+            : []
+
+      applySelectedCellMarkers(selectedCells)
+      if (selectedCells.length > 0) {
+        const rects = selectedCells.map((cell) => cell.getBoundingClientRect())
+        const minLeft = Math.min(...rects.map((rect) => rect.left))
+        const maxRight = Math.max(...rects.map((rect) => rect.right))
+        const minTop = Math.min(...rects.map((rect) => rect.top))
+        const maxBottom = Math.max(...rects.map((rect) => rect.bottom))
+
+        setTableSelectionOverlay({
+          visible: true,
+          top: minTop - wrapper.getBoundingClientRect().top,
+          left: minLeft - wrapper.getBoundingClientRect().left,
+          width: maxRight - minLeft,
+          height: maxBottom - minTop,
+          handleTop: minTop - wrapper.getBoundingClientRect().top + (maxBottom - minTop) / 2,
+          handleLeft: maxRight - wrapper.getBoundingClientRect().left,
+        })
+      } else {
+        setTableSelectionOverlay((current) =>
+          current.visible ? { ...current, visible: false } : current
+        )
+      }
+      const selectedTableFromCell = activeCell?.closest("table")
+      const selectedTableFromRange = selectedCells[0]?.closest("table")
       const tableNode = editor.view.nodeDOM(tableState.tablePos)
       const tableElement =
         selectedTableFromCell ??
@@ -747,6 +1192,76 @@ export function SimpleEditor({
     }
   }, [editor])
 
+  useEffect(() => {
+    if (!editor) return
+
+    const wrapper = wrapperRef.current
+    if (!wrapper) return
+
+    let timeoutId: ReturnType<typeof setTimeout> | null = null
+    let intervalId: ReturnType<typeof setInterval> | null = null
+
+    const syncSelectedCellMarkers = () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+      }
+
+      timeoutId = setTimeout(() => {
+        const selectedCells = Array.from(
+          wrapper.querySelectorAll<HTMLElement>("td.selectedCell, th.selectedCell")
+        )
+
+        if (selectedCells.length > 0) {
+          applySelectedCellMarkers(selectedCells)
+          updateTableToolbarRef.current?.()
+        }
+      }, 0)
+    }
+
+    intervalId = setInterval(() => {
+      const selectedCells = Array.from(
+        wrapper.querySelectorAll<HTMLElement>("td.selectedCell, th.selectedCell")
+      )
+
+      if (selectedCells.length > 0) {
+        applySelectedCellMarkers(selectedCells)
+      }
+    }, 75)
+
+    const observer = new MutationObserver((mutations) => {
+      if (
+        mutations.some((mutation) => {
+          const target = mutation.target
+          return (
+            target instanceof HTMLElement &&
+            (target.matches("td, th") ||
+              target.closest("td, th") !== null ||
+              target.matches("table"))
+          )
+        })
+      ) {
+        syncSelectedCellMarkers()
+      }
+    })
+
+    observer.observe(wrapper, {
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["class"],
+      childList: true,
+    })
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+      }
+      if (intervalId) {
+        clearInterval(intervalId)
+      }
+      observer.disconnect()
+    }
+  }, [applySelectedCellMarkers, editor])
+
   return (
     <div ref={wrapperRef} className={cn("simple-editor-wrapper", className)}>
       <EditorContext.Provider value={{ editor }}>
@@ -792,6 +1307,25 @@ export function SimpleEditor({
             <TableFloatingToolbar editor={editor} state={tableToolbarState} />
           ) : null}
         </div>
+
+        <div
+          className="simple-editor-table-selection-overlay"
+          data-visible={tableSelectionOverlay.visible ? "true" : "false"}
+          style={{
+            top: tableSelectionOverlay.top,
+            left: tableSelectionOverlay.left,
+            width: tableSelectionOverlay.width,
+            height: tableSelectionOverlay.height,
+          }}
+        />
+        <div
+          className="simple-editor-table-selection-handle"
+          data-visible={tableSelectionOverlay.visible ? "true" : "false"}
+          style={{
+            top: tableSelectionOverlay.handleTop,
+            left: tableSelectionOverlay.handleLeft,
+          }}
+        />
 
         <div className="simple-editor-content" style={{ minHeight }}>
           <EditorContent editor={editor} role="presentation" />

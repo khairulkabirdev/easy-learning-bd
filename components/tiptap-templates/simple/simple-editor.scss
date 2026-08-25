@@ -83,6 +83,10 @@
   --tt-gray-dark-a-700: rgba(250, 250, 250, 0.82);
   --tt-gray-dark-a-800: rgba(250, 250, 250, 0.9);
   --tt-gray-dark-a-900: rgba(250, 250, 250, 0.98);
+  --tt-selection-color: rgba(191, 219, 254, 0.6);
+  --tt-cursor-color: var(--tt-brand-color-500);
+  --tt-table-selection-border: #7c3aed;
+  --tt-table-selection-fill: rgba(124, 58, 237, 0.12);
   width: 100%;
   position: relative;
   overflow: visible;
@@ -97,6 +101,10 @@
     color: var(--tt-gray-dark-a-900);
     background: var(--tt-gray-dark-50);
     --tt-theme-text: var(--tt-gray-dark-900);
+    --tt-selection-color: rgba(96, 165, 250, 0.35);
+    --tt-cursor-color: var(--tt-brand-color-300);
+    --tt-table-selection-border: #8b5cf6;
+    --tt-table-selection-fill: rgba(139, 92, 246, 0.18);
   }
 }
 
@@ -132,6 +140,23 @@
   user-select: text;
   -webkit-user-select: text;
   pointer-events: auto;
+}
+
+.simple-editor-wrapper[data-tt-table-dragging="true"]
+  .simple-editor-content
+  .tiptap.ProseMirror
+  table,
+.simple-editor-wrapper[data-tt-table-dragging="true"]
+  .simple-editor-content
+  .tiptap.ProseMirror
+  table * {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.simple-editor-wrapper .tiptap.ProseMirror::selection,
+.simple-editor-wrapper .tiptap.ProseMirror *::selection {
+  background-color: var(--tt-selection-color);
 }
 
 .simple-editor-content .tiptap.ProseMirror .tableWrapper {
@@ -182,11 +207,69 @@
 
 .simple-editor-content .tiptap.ProseMirror td.selectedCell,
 .simple-editor-content .tiptap.ProseMirror th.selectedCell {
-  box-shadow: inset 0 0 0 2px #7c3aed;
+  box-shadow: none;
+  background-clip: padding-box;
+  background-color: var(--tt-table-selection-fill);
 }
 
-.simple-editor-content .tiptap.ProseMirror td.selectedCell::after,
-.simple-editor-content .tiptap.ProseMirror th.selectedCell::after {
+.simple-editor-content .tiptap.ProseMirror td.selectedCell::before,
+.simple-editor-content .tiptap.ProseMirror th.selectedCell::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  border-style: solid;
+  border-color: transparent;
+  border-width: 0;
+  z-index: 1;
+}
+
+.simple-editor-content .tiptap.ProseMirror td.selectedCell[data-tt-range-top="true"],
+.simple-editor-content .tiptap.ProseMirror th.selectedCell[data-tt-range-top="true"] {
+  border-top-color: transparent;
+}
+
+.simple-editor-content .tiptap.ProseMirror td.selectedCell[data-tt-range-bottom="true"],
+.simple-editor-content .tiptap.ProseMirror th.selectedCell[data-tt-range-bottom="true"] {
+  border-bottom-color: transparent;
+}
+
+.simple-editor-content .tiptap.ProseMirror td.selectedCell[data-tt-range-left="true"],
+.simple-editor-content .tiptap.ProseMirror th.selectedCell[data-tt-range-left="true"] {
+  border-left-color: transparent;
+}
+
+.simple-editor-content .tiptap.ProseMirror td.selectedCell[data-tt-range-right="true"],
+.simple-editor-content .tiptap.ProseMirror th.selectedCell[data-tt-range-right="true"] {
+  border-right-color: transparent;
+}
+
+.simple-editor-content .tiptap.ProseMirror td.selectedCell[data-tt-range-top="true"]::before,
+.simple-editor-content .tiptap.ProseMirror th.selectedCell[data-tt-range-top="true"]::before {
+  border-top-width: 2px;
+  border-top-color: var(--tt-table-selection-border);
+}
+
+.simple-editor-content .tiptap.ProseMirror td.selectedCell[data-tt-range-bottom="true"]::before,
+.simple-editor-content .tiptap.ProseMirror th.selectedCell[data-tt-range-bottom="true"]::before {
+  border-bottom-width: 2px;
+  border-bottom-color: var(--tt-table-selection-border);
+}
+
+.simple-editor-content .tiptap.ProseMirror td.selectedCell[data-tt-range-left="true"]::before,
+.simple-editor-content .tiptap.ProseMirror th.selectedCell[data-tt-range-left="true"]::before {
+  border-left-width: 2px;
+  border-left-color: var(--tt-table-selection-border);
+}
+
+.simple-editor-content .tiptap.ProseMirror td.selectedCell[data-tt-range-right="true"]::before,
+.simple-editor-content .tiptap.ProseMirror th.selectedCell[data-tt-range-right="true"]::before {
+  border-right-width: 2px;
+  border-right-color: var(--tt-table-selection-border);
+}
+
+.simple-editor-content .tiptap.ProseMirror td[data-tt-cell-handle="true"]::after,
+.simple-editor-content .tiptap.ProseMirror th[data-tt-cell-handle="true"]::after {
   content: "";
   position: absolute;
   top: 50%;
@@ -194,15 +277,45 @@
   width: 0.65rem;
   height: 0.65rem;
   border-radius: 999px;
-  background: #7c3aed;
+  background: var(--tt-table-selection-border);
   transform: translateY(-50%);
+  z-index: 2;
 }
 
 .dark .simple-editor-content .tiptap.ProseMirror td.selectedCell,
 .dark .simple-editor-content .tiptap.ProseMirror th.selectedCell,
 .simple-editor-wrapper.dark .simple-editor-content .tiptap.ProseMirror td.selectedCell,
 .simple-editor-wrapper.dark .simple-editor-content .tiptap.ProseMirror th.selectedCell {
-  box-shadow: inset 0 0 0 2px #8b5cf6;
+  box-shadow: none;
+}
+
+.simple-editor-table-selection-overlay {
+  position: absolute;
+  pointer-events: none;
+  z-index: 18;
+  border: 2px solid var(--tt-table-selection-border);
+  background: var(--tt-table-selection-fill);
+  box-sizing: border-box;
+}
+
+.simple-editor-table-selection-overlay[data-visible="false"] {
+  display: none;
+}
+
+.simple-editor-table-selection-handle {
+  position: absolute;
+  width: 0.65rem;
+  height: 0.65rem;
+  margin-left: -0.35rem;
+  margin-top: -0.325rem;
+  border-radius: 999px;
+  background: var(--tt-table-selection-border);
+  pointer-events: none;
+  z-index: 19;
+}
+
+.simple-editor-table-selection-handle[data-visible="false"] {
+  display: none;
 }
 
 .simple-editor-table-picker {

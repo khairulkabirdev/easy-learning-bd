@@ -193,6 +193,11 @@ export function getTableSelectionState(editor: Editor | null) {
     return {
       isInsideTable: false,
       isCellSelection: false,
+      selectionMode: "outside" as
+        | "outside"
+        | "caret-in-cell"
+        | "single-cell"
+        | "multi-cell",
       tablePos: null as number | null,
       cellPos: null as number | null,
     }
@@ -202,15 +207,31 @@ export function getTableSelectionState(editor: Editor | null) {
   const table = findParentNodeClosestToPos(selection.$anchor, (node) =>
     node.type.name === "table"
   )
-  const cell = findParentNodeClosestToPos(selection.$anchor, (node) =>
+  const anchorCell = findParentNodeClosestToPos(selection.$anchor, (node) =>
     node.type.name === "tableCell" || node.type.name === "tableHeader"
   )
+  const headCell = findParentNodeClosestToPos(selection.$head, (node) =>
+    node.type.name === "tableCell" || node.type.name === "tableHeader"
+  )
+  const isCellSelection = isProseMirrorCellSelection(selection)
+  const isMultiCellSelection =
+    isCellSelection && anchorCell?.pos != null && headCell?.pos != null
+      ? anchorCell.pos !== headCell.pos
+      : false
+  const selectionMode = !table
+    ? "outside"
+    : isMultiCellSelection
+      ? "multi-cell"
+      : isCellSelection
+        ? "single-cell"
+        : "caret-in-cell"
 
   return {
     isInsideTable: Boolean(table),
-    isCellSelection: isProseMirrorCellSelection(selection),
+    isCellSelection,
+    selectionMode,
     tablePos: table?.pos ?? null,
-    cellPos: cell?.pos ?? null,
+    cellPos: anchorCell?.pos ?? null,
   }
 }
 
