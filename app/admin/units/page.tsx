@@ -8,7 +8,15 @@ export default async function AdminUnitsPage() {
     prisma.class.findMany({
       where: { organizationId: user.organizationId },
       orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
-      select: { id: true, name: true },
+      select: {
+        id: true,
+        name: true,
+        iconType: true,
+        iconLibrary: true,
+        iconName: true,
+        iconColor: true,
+        imagePath: true,
+      },
     }),
     prisma.subject.findMany({
       where: { organizationId: user.organizationId },
@@ -17,6 +25,11 @@ export default async function AdminUnitsPage() {
         id: true,
         classId: true,
         name: true,
+        iconType: true,
+        iconLibrary: true,
+        iconName: true,
+        iconColor: true,
+        imagePath: true,
       },
     }),
     prisma.unit.findMany({
@@ -36,6 +49,11 @@ export default async function AdminUnitsPage() {
         unitNumber: true,
         description: true,
         sortOrder: true,
+        iconType: true,
+        iconLibrary: true,
+        iconName: true,
+        iconColor: true,
+        imagePath: true,
         class: {
           select: {
             name: true,
@@ -70,6 +88,11 @@ export default async function AdminUnitsPage() {
         unitNumber: item.unitNumber,
         description: item.description,
         sortOrder: item.sortOrder,
+        iconType: item.iconType,
+        iconLibrary: item.iconLibrary,
+        iconName: item.iconName,
+        iconColor: item.iconColor,
+        imagePath: item.imagePath,
         lessonsCount: item._count.lessons,
       }))}
     />

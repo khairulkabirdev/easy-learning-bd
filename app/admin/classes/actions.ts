@@ -6,6 +6,7 @@ import { z } from "zod";
 import { assertTrustedMutationOrigin, requireAdmin } from "@/lib/app-auth";
 import { logAudit } from "@/lib/auditLogger";
 import { prisma } from "@/lib/db";
+import { entityMediaSchema, resolveEntityMedia } from "@/lib/entity-media";
 
 const classSchema = z.object({
   id: z.string().optional(),
@@ -13,7 +14,7 @@ const classSchema = z.object({
   code: z.string().default(""),
   description: z.string().default(""),
   sortOrder: z.coerce.number().int().min(0).default(0),
-});
+}).merge(entityMediaSchema);
 
 function slugify(value: string) {
   return value
@@ -62,6 +63,11 @@ export async function saveClass(input: unknown) {
     id: parsed.id,
   });
 
+  const media = await resolveEntityMedia({
+    input: parsed,
+    domain: "classes",
+  });
+
   if (parsed.id) {
     const updated = await prisma.class.update({
       where: { id: parsed.id },
@@ -71,6 +77,7 @@ export async function saveClass(input: unknown) {
         code: parsed.code,
         description: parsed.description,
         sortOrder: parsed.sortOrder,
+        ...media,
         updatedBy: user.id,
       },
     });
@@ -92,6 +99,7 @@ export async function saveClass(input: unknown) {
         code: parsed.code,
         description: parsed.description,
         sortOrder: parsed.sortOrder,
+        ...media,
         organizationId: user.organizationId,
         createdBy: user.id,
         updatedBy: user.id,

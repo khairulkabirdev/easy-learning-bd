@@ -8,7 +8,15 @@ export default async function AdminTopicsPage() {
     prisma.class.findMany({
       where: { organizationId: user.organizationId },
       orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
-      select: { id: true, name: true },
+      select: {
+        id: true,
+        name: true,
+        iconType: true,
+        iconLibrary: true,
+        iconName: true,
+        iconColor: true,
+        imagePath: true,
+      },
     }),
     prisma.subject.findMany({
       where: { organizationId: user.organizationId },
@@ -17,6 +25,11 @@ export default async function AdminTopicsPage() {
         id: true,
         classId: true,
         name: true,
+        iconType: true,
+        iconLibrary: true,
+        iconName: true,
+        iconColor: true,
+        imagePath: true,
       },
     }),
     prisma.unit.findMany({
@@ -32,6 +45,11 @@ export default async function AdminTopicsPage() {
         classId: true,
         subjectId: true,
         title: true,
+        iconType: true,
+        iconLibrary: true,
+        iconName: true,
+        iconColor: true,
+        imagePath: true,
       },
     }),
     prisma.lesson.findMany({
@@ -47,6 +65,11 @@ export default async function AdminTopicsPage() {
         id: true,
         unitId: true,
         title: true,
+        iconType: true,
+        iconLibrary: true,
+        iconName: true,
+        iconColor: true,
+        imagePath: true,
       },
     }),
     prisma.topic.findMany({
@@ -67,6 +90,11 @@ export default async function AdminTopicsPage() {
         shortDescription: true,
         sortOrder: true,
         lessonId: true,
+        iconType: true,
+        iconLibrary: true,
+        iconName: true,
+        iconColor: true,
+        imagePath: true,
         lesson: {
           select: {
             title: true,
@@ -120,6 +148,11 @@ export default async function AdminTopicsPage() {
         topicNumber: item.topicNumber,
         shortDescription: item.shortDescription,
         sortOrder: item.sortOrder,
+        iconType: item.iconType,
+        iconLibrary: item.iconLibrary,
+        iconName: item.iconName,
+        iconColor: item.iconColor,
+        imagePath: item.imagePath,
         contentsCount: item._count.contents,
       }))}
     />

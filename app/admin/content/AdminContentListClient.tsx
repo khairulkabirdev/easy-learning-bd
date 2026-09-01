@@ -424,7 +424,7 @@ export default function AdminContentListClient({
         }}
         title="Create content record"
         description="Choose the exact class, subject, unit, lesson, and optional topic path."
-        className="max-w-3xl"
+        className="max-w-5xl"
         footer={
           <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-end">
             <Button type="button" variant="outline" onClick={() => setIsEditorOpen(false)}>
@@ -515,5 +515,3 @@ export default function AdminContentListClient({
     </div>
   );
 }
-
-

@@ -42,7 +42,9 @@ export function ResponsiveEntityEditor({
   if (isMobile) {
     return (
       <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className={className ? `max-h-[90vh] ${className}` : "max-h-[90vh]"}>
+        <DrawerContent
+          className={className ? `[--drawer-inset:0.75rem] max-h-[92vh] ${className}` : "[--drawer-inset:0.75rem] max-h-[92vh]"}
+        >
           <DrawerHeader>
             <DrawerTitle>{title}</DrawerTitle>
             {description ? <DrawerDescription>{description}</DrawerDescription> : null}
@@ -56,7 +58,11 @@ export function ResponsiveEntityEditor({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className={`max-h-[90vh] max-w-3xl overflow-y-auto p-0${className ? ` ${className}` : ""}`}>
+      <DialogContent
+        className={`max-h-[92vh]  overflow-y-auto p-0 sm:max-w-2xl lg:max-w-3xl 2xl:max-w-5xl${
+          className ? ` ${className}` : ""
+        }`}
+      >
         <DialogHeader className="border-b px-6 py-4">
           <DialogTitle>{title}</DialogTitle>
           {description ? <DialogDescription>{description}</DialogDescription> : null}

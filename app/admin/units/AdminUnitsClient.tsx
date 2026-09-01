@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 
 import { saveSubject } from "@/app/admin/subjects/actions";
 import { deleteUnit, saveUnit } from "@/app/admin/units/actions";
+import { EntityVisual } from "@/components/app/EntityVisual";
+import { EntityMediaField } from "@/components/admin/EntityMediaField";
 import { AdminSelectField as SelectField } from "@/components/admin/AdminSelectField";
 import { ResponsiveEntityEditor } from "@/components/admin/ResponsiveEntityEditor";
 import { Badge } from "@/components/ui/badge";
@@ -18,12 +20,22 @@ import { Textarea } from "@/components/ui/textarea";
 type ClassOption = {
   id: string;
   name: string;
+  iconType: string;
+  iconLibrary: string;
+  iconName: string;
+  iconColor: string;
+  imagePath: string;
 };
 
 type SubjectOption = {
   id: string;
   classId: string;
   name: string;
+  iconType: string;
+  iconLibrary: string;
+  iconName: string;
+  iconColor: string;
+  imagePath: string;
 };
 
 type UnitRow = {
@@ -37,6 +49,11 @@ type UnitRow = {
   unitNumber: string;
   description: string;
   sortOrder: number;
+  iconType: string;
+  iconLibrary: string;
+  iconName: string;
+  iconColor: string;
+  imagePath: string;
   lessonsCount: number;
 };
 
@@ -54,6 +71,12 @@ const initialForm = {
   unitNumber: "",
   description: "",
   sortOrder: "0",
+  iconType: "none",
+  iconLibrary: "",
+  iconName: "",
+  iconColor: "#0f766e",
+  imagePath: "",
+  persistedImagePath: "",
 };
 
 const initialSubjectForm = {
@@ -62,6 +85,12 @@ const initialSubjectForm = {
   code: "",
   description: "",
   sortOrder: "0",
+  iconType: "none",
+  iconLibrary: "",
+  iconName: "",
+  iconColor: "#0f766e",
+  imagePath: "",
+  persistedImagePath: "",
 };
 
 export default function AdminUnitsClient({ classes, subjects, units }: AdminUnitsClientProps) {
@@ -131,6 +160,12 @@ export default function AdminUnitsClient({ classes, subjects, units }: AdminUnit
       unitNumber: item.unitNumber,
       description: item.description,
       sortOrder: String(item.sortOrder),
+      iconType: item.iconType,
+      iconLibrary: item.iconLibrary,
+      iconName: item.iconName,
+      iconColor: item.iconColor || "#0f766e",
+      imagePath: item.imagePath,
+      persistedImagePath: item.imagePath,
     });
     setIsEditorOpen(true);
   }
@@ -161,6 +196,12 @@ export default function AdminUnitsClient({ classes, subjects, units }: AdminUnit
           unitNumber: form.unitNumber,
           description: form.description,
           sortOrder: form.sortOrder,
+          iconType: form.iconType,
+          iconLibrary: form.iconLibrary,
+          iconName: form.iconName,
+          iconColor: form.iconColor,
+          imagePath: form.imagePath,
+          persistedImagePath: form.persistedImagePath,
         });
         resetForm();
         setIsEditorOpen(false);
@@ -287,6 +328,14 @@ export default function AdminUnitsClient({ classes, subjects, units }: AdminUnit
                 key={item.id}
                 className="flex flex-col gap-4 rounded-xl border bg-card p-4 lg:flex-row lg:items-start lg:justify-between"
               >
+                <div className="flex gap-4">
+                  <EntityVisual
+                    title={item.title}
+                    iconType={item.iconType}
+                    iconName={item.iconName}
+                    iconColor={item.iconColor}
+                    imagePath={item.imagePath}
+                  />
                 <div className="space-y-2">
                   <div className="flex flex-wrap items-center gap-2">
                     <div className="text-lg font-semibold">{item.title}</div>
@@ -300,6 +349,7 @@ export default function AdminUnitsClient({ classes, subjects, units }: AdminUnit
                     {item.lessonsCount} lesson{item.lessonsCount === 1 ? "" : "s"} in this unit
                   </div>
                   {item.description ? <div className="text-sm text-muted-foreground">{item.description}</div> : null}
+                </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <Button type="button" variant="outline" onClick={() => beginEdit(item)}>
@@ -412,6 +462,13 @@ export default function AdminUnitsClient({ classes, subjects, units }: AdminUnit
             />
             <FieldDescription>Server actions handle slug creation and hierarchy validation.</FieldDescription>
           </Field>
+          <EntityMediaField
+            domain="units"
+            titlePreview={form.title || "Unit preview"}
+            value={form}
+            onChange={setForm}
+            error={null}
+          />
           {error ? <div className="text-sm font-medium text-destructive">{error}</div> : null}
         </FieldGroup>
       </ResponsiveEntityEditor>
@@ -477,6 +534,13 @@ export default function AdminUnitsClient({ classes, subjects, units }: AdminUnit
               placeholder="Short note about the subject"
             />
           </Field>
+          <EntityMediaField
+            domain="subjects"
+            titlePreview={subjectForm.name || "Subject preview"}
+            value={subjectForm}
+            onChange={setSubjectForm}
+            error={null}
+          />
           {error ? <div className="text-sm font-medium text-destructive">{error}</div> : null}
         </FieldGroup>
       </ResponsiveEntityEditor>

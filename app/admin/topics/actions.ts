@@ -6,6 +6,7 @@ import { z } from "zod";
 import { assertTrustedMutationOrigin, requireAdmin } from "@/lib/app-auth";
 import { logAudit } from "@/lib/auditLogger";
 import { prisma } from "@/lib/db";
+import { entityMediaSchema, resolveEntityMedia } from "@/lib/entity-media";
 
 const topicSchema = z.object({
   id: z.string().optional(),
@@ -17,7 +18,7 @@ const topicSchema = z.object({
   topicNumber: z.string().default(""),
   shortDescription: z.string().default(""),
   sortOrder: z.coerce.number().int().min(0).default(0),
-});
+}).merge(entityMediaSchema);
 
 function slugify(value: string) {
   return value
@@ -139,6 +140,11 @@ export async function saveTopic(input: unknown) {
     id: parsed.id,
   });
 
+  const media = await resolveEntityMedia({
+    input: parsed,
+    domain: "topics",
+  });
+
   if (parsed.id) {
     const updated = await prisma.topic.update({
       where: { id: parsed.id },
@@ -149,6 +155,7 @@ export async function saveTopic(input: unknown) {
         topicNumber: parsed.topicNumber,
         shortDescription: parsed.shortDescription,
         sortOrder: parsed.sortOrder,
+        ...media,
         updatedBy: user.id,
       },
     });
@@ -171,6 +178,7 @@ export async function saveTopic(input: unknown) {
         topicNumber: parsed.topicNumber,
         shortDescription: parsed.shortDescription,
         sortOrder: parsed.sortOrder,
+        ...media,
         organizationId: user.organizationId,
         createdBy: user.id,
         updatedBy: user.id,

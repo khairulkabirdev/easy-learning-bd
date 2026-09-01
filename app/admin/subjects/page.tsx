@@ -8,7 +8,15 @@ export default async function AdminSubjectsPage() {
     prisma.class.findMany({
       where: { organizationId: user.organizationId },
       orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
-      select: { id: true, name: true },
+      select: {
+        id: true,
+        name: true,
+        iconType: true,
+        iconLibrary: true,
+        iconName: true,
+        iconColor: true,
+        imagePath: true,
+      },
     }),
     prisma.subject.findMany({
       where: { organizationId: user.organizationId },
@@ -21,6 +29,11 @@ export default async function AdminSubjectsPage() {
         code: true,
         description: true,
         sortOrder: true,
+        iconType: true,
+        iconLibrary: true,
+        iconName: true,
+        iconColor: true,
+        imagePath: true,
         class: {
           select: {
             name: true,
@@ -37,7 +50,15 @@ export default async function AdminSubjectsPage() {
 
   return (
     <AdminSubjectsClient
-      classes={classes}
+      classes={classes.map((item) => ({
+        id: item.id,
+        name: item.name,
+        iconType: item.iconType,
+        iconLibrary: item.iconLibrary,
+        iconName: item.iconName,
+        iconColor: item.iconColor,
+        imagePath: item.imagePath,
+      }))}
       subjects={subjects.map((item) => ({
         id: item.id,
         classId: item.classId,
@@ -47,6 +68,11 @@ export default async function AdminSubjectsPage() {
         code: item.code,
         description: item.description,
         sortOrder: item.sortOrder,
+        iconType: item.iconType,
+        iconLibrary: item.iconLibrary,
+        iconName: item.iconName,
+        iconColor: item.iconColor,
+        imagePath: item.imagePath,
         unitsCount: item._count.units,
       }))}
     />

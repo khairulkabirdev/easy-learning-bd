@@ -5,6 +5,8 @@ import { Pencil, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { deleteClass, saveClass } from "@/app/admin/classes/actions";
+import { EntityVisual } from "@/components/app/EntityVisual";
+import { EntityMediaField } from "@/components/admin/EntityMediaField";
 import { ResponsiveEntityEditor } from "@/components/admin/ResponsiveEntityEditor";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -20,6 +22,11 @@ type ClassRow = {
   code: string;
   description: string;
   sortOrder: number;
+  iconType: string;
+  iconLibrary: string;
+  iconName: string;
+  iconColor: string;
+  imagePath: string;
   subjectsCount: number;
   unitsCount: number;
 };
@@ -34,6 +41,12 @@ const initialForm = {
   code: "",
   description: "",
   sortOrder: "0",
+  iconType: "none",
+  iconLibrary: "",
+  iconName: "",
+  iconColor: "#0f766e",
+  imagePath: "",
+  persistedImagePath: "",
 };
 
 export default function AdminClassesClient({ classes }: AdminClassesClientProps) {
@@ -74,6 +87,12 @@ export default function AdminClassesClient({ classes }: AdminClassesClientProps)
       code: item.code,
       description: item.description,
       sortOrder: String(item.sortOrder),
+      iconType: item.iconType,
+      iconLibrary: item.iconLibrary,
+      iconName: item.iconName,
+      iconColor: item.iconColor || "#0f766e",
+      imagePath: item.imagePath,
+      persistedImagePath: item.imagePath,
     });
     setIsEditorOpen(true);
   }
@@ -89,6 +108,12 @@ export default function AdminClassesClient({ classes }: AdminClassesClientProps)
           code: form.code,
           description: form.description,
           sortOrder: form.sortOrder,
+          iconType: form.iconType,
+          iconLibrary: form.iconLibrary,
+          iconName: form.iconName,
+          iconColor: form.iconColor,
+          imagePath: form.imagePath,
+          persistedImagePath: form.persistedImagePath,
         });
         resetForm();
         setIsEditorOpen(false);
@@ -159,7 +184,15 @@ export default function AdminClassesClient({ classes }: AdminClassesClientProps)
                 key={item.id}
                 className="flex flex-col gap-4 rounded-xl border bg-card p-4 lg:flex-row lg:items-start lg:justify-between"
               >
-                <div className="space-y-2">
+                <div className="flex gap-4">
+                  <EntityVisual
+                    title={item.name}
+                    iconType={item.iconType}
+                    iconName={item.iconName}
+                    iconColor={item.iconColor}
+                    imagePath={item.imagePath}
+                  />
+                  <div className="space-y-2">
                   <div className="flex flex-wrap items-center gap-2">
                     <div className="text-lg font-semibold">{item.name}</div>
                     <Badge variant="secondary">{item.code || "No code"}</Badge>
@@ -171,6 +204,7 @@ export default function AdminClassesClient({ classes }: AdminClassesClientProps)
                     {item.unitsCount === 1 ? "" : "s"}
                   </div>
                   {item.description ? <div className="text-sm text-muted-foreground">{item.description}</div> : null}
+                </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <Button type="button" variant="outline" onClick={() => beginEdit(item)}>
@@ -246,6 +280,13 @@ export default function AdminClassesClient({ classes }: AdminClassesClientProps)
               This page keeps the initial class CRUD simple. Visual identity and advanced metadata can be layered in later.
             </FieldDescription>
           </Field>
+          <EntityMediaField
+            domain="classes"
+            titlePreview={form.name || "Class preview"}
+            value={form}
+            onChange={setForm}
+            error={null}
+          />
           {error ? <div className="text-sm font-medium text-destructive">{error}</div> : null}
         </FieldGroup>
       </ResponsiveEntityEditor>

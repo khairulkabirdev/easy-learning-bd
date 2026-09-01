@@ -14,6 +14,11 @@ export default async function AdminClassesPage() {
       code: true,
       description: true,
       sortOrder: true,
+      iconType: true,
+      iconLibrary: true,
+      iconName: true,
+      iconColor: true,
+      imagePath: true,
       _count: {
         select: {
           subjects: true,
@@ -32,6 +37,11 @@ export default async function AdminClassesPage() {
         code: item.code,
         description: item.description,
         sortOrder: item.sortOrder,
+        iconType: item.iconType,
+        iconLibrary: item.iconLibrary,
+        iconName: item.iconName,
+        iconColor: item.iconColor,
+        imagePath: item.imagePath,
         subjectsCount: item._count.subjects,
         unitsCount: item._count.units,
       }))}

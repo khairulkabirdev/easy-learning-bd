@@ -7,6 +7,13 @@ import type { ShellNavGroup } from "@/components/app/AppShellNav";
 import { cn } from "@/lib/utils";
 
 function isItemActive(pathname: string, href: string) {
+  if (
+    href === "/user/chapter-preparation" &&
+    (pathname.startsWith("/user/chapter-preparation/") || pathname === "/user/chapter-preparation")
+  ) {
+    return true;
+  }
+
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 

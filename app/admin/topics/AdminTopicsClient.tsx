@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 
 import { saveLesson } from "@/app/admin/lessons/actions";
 import { deleteTopic, saveTopic } from "@/app/admin/topics/actions";
+import { EntityVisual } from "@/components/app/EntityVisual";
+import { EntityMediaField } from "@/components/admin/EntityMediaField";
 import { AdminSelectField as SelectField } from "@/components/admin/AdminSelectField";
 import { ResponsiveEntityEditor } from "@/components/admin/ResponsiveEntityEditor";
 import { Badge } from "@/components/ui/badge";
@@ -18,12 +20,22 @@ import { Textarea } from "@/components/ui/textarea";
 type ClassOption = {
   id: string;
   name: string;
+  iconType: string;
+  iconLibrary: string;
+  iconName: string;
+  iconColor: string;
+  imagePath: string;
 };
 
 type SubjectOption = {
   id: string;
   classId: string;
   name: string;
+  iconType: string;
+  iconLibrary: string;
+  iconName: string;
+  iconColor: string;
+  imagePath: string;
 };
 
 type UnitOption = {
@@ -31,12 +43,22 @@ type UnitOption = {
   classId: string;
   subjectId: string;
   title: string;
+  iconType: string;
+  iconLibrary: string;
+  iconName: string;
+  iconColor: string;
+  imagePath: string;
 };
 
 type LessonOption = {
   id: string;
   unitId: string;
   title: string;
+  iconType: string;
+  iconLibrary: string;
+  iconName: string;
+  iconColor: string;
+  imagePath: string;
 };
 
 type TopicRow = {
@@ -54,6 +76,11 @@ type TopicRow = {
   topicNumber: string;
   shortDescription: string;
   sortOrder: number;
+  iconType: string;
+  iconLibrary: string;
+  iconName: string;
+  iconColor: string;
+  imagePath: string;
   contentsCount: number;
 };
 
@@ -75,6 +102,12 @@ const initialForm = {
   topicNumber: "",
   shortDescription: "",
   sortOrder: "0",
+  iconType: "none",
+  iconLibrary: "",
+  iconName: "",
+  iconColor: "#0f766e",
+  imagePath: "",
+  persistedImagePath: "",
 };
 
 const initialLessonForm = {
@@ -85,6 +118,12 @@ const initialLessonForm = {
   lessonNumber: "",
   shortDescription: "",
   sortOrder: "0",
+  iconType: "none",
+  iconLibrary: "",
+  iconName: "",
+  iconColor: "#0f766e",
+  imagePath: "",
+  persistedImagePath: "",
 };
 
 export default function AdminTopicsClient({ classes, subjects, units, lessons, topics }: AdminTopicsClientProps) {
@@ -185,6 +224,12 @@ export default function AdminTopicsClient({ classes, subjects, units, lessons, t
       topicNumber: item.topicNumber,
       shortDescription: item.shortDescription,
       sortOrder: String(item.sortOrder),
+      iconType: item.iconType,
+      iconLibrary: item.iconLibrary,
+      iconName: item.iconName,
+      iconColor: item.iconColor || "#0f766e",
+      imagePath: item.imagePath,
+      persistedImagePath: item.imagePath,
     });
     setIsEditorOpen(true);
   }
@@ -223,6 +268,12 @@ export default function AdminTopicsClient({ classes, subjects, units, lessons, t
           topicNumber: form.topicNumber,
           shortDescription: form.shortDescription,
           sortOrder: form.sortOrder,
+          iconType: form.iconType,
+          iconLibrary: form.iconLibrary,
+          iconName: form.iconName,
+          iconColor: form.iconColor,
+          imagePath: form.imagePath,
+          persistedImagePath: form.persistedImagePath,
         });
         resetForm();
         setIsEditorOpen(false);
@@ -381,6 +432,14 @@ export default function AdminTopicsClient({ classes, subjects, units, lessons, t
                 key={item.id}
                 className="flex flex-col gap-4 rounded-xl border bg-card p-4 lg:flex-row lg:items-start lg:justify-between"
               >
+                <div className="flex gap-4">
+                  <EntityVisual
+                    title={item.title}
+                    iconType={item.iconType}
+                    iconName={item.iconName}
+                    iconColor={item.iconColor}
+                    imagePath={item.imagePath}
+                  />
                 <div className="space-y-2">
                   <div className="flex flex-wrap items-center gap-2">
                     <div className="text-lg font-semibold">{item.title}</div>
@@ -398,6 +457,7 @@ export default function AdminTopicsClient({ classes, subjects, units, lessons, t
                   {item.shortDescription ? (
                     <div className="text-sm text-muted-foreground">{item.shortDescription}</div>
                   ) : null}
+                </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <Button type="button" variant="outline" onClick={() => beginEdit(item)}>
@@ -553,6 +613,13 @@ export default function AdminTopicsClient({ classes, subjects, units, lessons, t
             />
             <FieldDescription>Server actions validate the full chain before the topic is saved.</FieldDescription>
           </Field>
+          <EntityMediaField
+            domain="topics"
+            titlePreview={form.title || "Topic preview"}
+            value={form}
+            onChange={setForm}
+            error={null}
+          />
           {error ? <div className="text-sm font-medium text-destructive">{error}</div> : null}
         </FieldGroup>
       </ResponsiveEntityEditor>
@@ -657,6 +724,13 @@ export default function AdminTopicsClient({ classes, subjects, units, lessons, t
               placeholder="Short lesson summary"
             />
           </Field>
+          <EntityMediaField
+            domain="lessons"
+            titlePreview={lessonForm.title || "Lesson preview"}
+            value={lessonForm}
+            onChange={setLessonForm}
+            error={null}
+          />
           {error ? <div className="text-sm font-medium text-destructive">{error}</div> : null}
         </FieldGroup>
       </ResponsiveEntityEditor>
