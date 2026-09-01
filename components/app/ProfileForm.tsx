@@ -51,7 +51,7 @@ export function ProfileForm({ role, user, classes = [] }: ProfileFormProps) {
     [classes]
   
   );
-  const selectedClassLabel = classOptions.find((item) => item.id === classId)?.label ?? null;
+  const selectedClassLabel = classOptions.find((item) => item.id === classId)?.label ?? null; 
 
   return (
     <Card className="w-full max-w-2xl mx-auto">
