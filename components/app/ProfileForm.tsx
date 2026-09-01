@@ -49,6 +49,7 @@ export function ProfileForm({ role, user, classes = [] }: ProfileFormProps) {
         label: item.code ? `${item.name} (${item.code})` : item.name,
       })),
     [classes]
+  
   );
   const selectedClassLabel = classOptions.find((item) => item.id === classId)?.label ?? null;
 
