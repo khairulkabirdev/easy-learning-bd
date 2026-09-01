@@ -11,6 +11,7 @@ datasource db {
 enum UserRole {
   admin
   student
+  teacher
 }
 
 enum PublishStatus {
@@ -25,11 +26,16 @@ model User {
   email          String        @unique
   passwordHash   String
   role           UserRole
+  phone          String?
+  institutionName String?
+  classId        String?
   organizationId String
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
 
+  class          Class?        @relation("StudentClass", fields: [classId], references: [id], onDelete: SetNull)
   sessions       AuthSession[]
+  passwordResetTokens PasswordResetToken[]
 }
 
 model AuthSession {
@@ -41,6 +47,29 @@ model AuthSession {
   createdAt  DateTime @default(now())
 
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AuthEmailSetting {
+  id              String   @id @default(cuid())
+  senderName      String   @default("")
+  senderEmail     String   @default("")
+  appBaseUrl      String   @default("")
+  resetEmailEnabled Boolean @default(false)
+  organizationId  String   @unique
+  updatedBy       String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model AuditLog {
@@ -77,6 +106,7 @@ model Class {
   subjects       Subject[]
   units          Unit[]
   contents       Content[]
+  students       User[]        @relation("StudentClass")
 }
 
 model Subject {

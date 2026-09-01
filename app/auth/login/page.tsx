@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState } from "react";
 
 import { loginAction, type LoginActionState } from "@/app/auth/login/actions";
@@ -20,7 +21,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>Sign in</CardTitle>
-          <CardDescription>Use your admin or student credentials to enter EasyLearningBD.</CardDescription>
+          <CardDescription>Use your admin, student, or teacher credentials to enter EasyLearningBD.</CardDescription>
         </CardHeader>
         <CardContent>
           <form action={formAction} className="space-y-4">
@@ -33,7 +34,12 @@ export default function LoginPage() {
 
             <Field>
               <FieldContent>
-                <FieldLabel>Password</FieldLabel>
+                <div className="flex items-center justify-between gap-3">
+                  <FieldLabel>Password</FieldLabel>
+                  <Link href="/auth/forgot-password" className="text-xs font-medium text-muted-foreground underline-offset-4 hover:text-foreground hover:underline">
+                    Forgot password?
+                  </Link>
+                </div>
                 <Input type="password" name="password" placeholder="Enter your password" required />
               </FieldContent>
             </Field>
@@ -44,6 +50,13 @@ export default function LoginPage() {
               {pending ? "Signing in..." : "Sign in"}
             </Button>
           </form>
+
+          <p className="mt-4 text-center text-sm text-muted-foreground">
+            Need an account?{" "}
+            <Link href="/auth/register" className="font-medium text-foreground underline-offset-4 hover:underline">
+              Register
+            </Link>
+          </p>
 
           <div className="mt-6 rounded-lg border bg-muted/30 p-3 text-sm">
             <div className="font-medium">Local seeded accounts</div>

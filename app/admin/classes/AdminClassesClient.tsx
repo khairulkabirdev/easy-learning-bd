@@ -284,7 +284,7 @@ export default function AdminClassesClient({ classes }: AdminClassesClientProps)
             domain="classes"
             titlePreview={form.name || "Class preview"}
             value={form}
-            onChange={setForm}
+            onChange={(media) => setForm((current) => ({ ...current, ...media }))}
             error={null}
           />
           {error ? <div className="text-sm font-medium text-destructive">{error}</div> : null}

@@ -124,6 +124,9 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   passwordHash: 'passwordHash',
   role: 'role',
+  phone: 'phone',
+  institutionName: 'institutionName',
+  classId: 'classId',
   organizationId: 'organizationId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -136,6 +139,27 @@ exports.Prisma.AuthSessionScalarFieldEnum = {
   expiresAt: 'expiresAt',
   lastUsedAt: 'lastUsedAt',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.PasswordResetTokenScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  tokenHash: 'tokenHash',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AuthEmailSettingScalarFieldEnum = {
+  id: 'id',
+  senderName: 'senderName',
+  senderEmail: 'senderEmail',
+  appBaseUrl: 'appBaseUrl',
+  resetEmailEnabled: 'resetEmailEnabled',
+  organizationId: 'organizationId',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.AuditLogScalarFieldEnum = {
@@ -676,7 +700,8 @@ exports.Prisma.NullsOrder = {
 };
 exports.UserRole = exports.$Enums.UserRole = {
   admin: 'admin',
-  student: 'student'
+  student: 'student',
+  teacher: 'teacher'
 };
 
 exports.PublishStatus = exports.$Enums.PublishStatus = {
@@ -688,6 +713,8 @@ exports.PublishStatus = exports.$Enums.PublishStatus = {
 exports.Prisma.ModelName = {
   User: 'User',
   AuthSession: 'AuthSession',
+  PasswordResetToken: 'PasswordResetToken',
+  AuthEmailSetting: 'AuthEmailSetting',
   AuditLog: 'AuditLog',
   Class: 'Class',
   Subject: 'Subject',

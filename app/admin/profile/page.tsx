@@ -1,14 +1,8 @@
-import { PagePlaceholder } from "@/components/app/PagePlaceholder";
+import { ProfileForm } from "@/components/app/ProfileForm";
+import { requireAdmin } from "@/lib/app-auth";
 
-export default function AdminProfilePage() {
-  return (
-    <PagePlaceholder
-      title="Admin Profile"
-      description="This route is reserved for the custom-auth profile surface described in PLAN.md, including account details and session-aware preferences."
-      primaryHref="/admin/dashboard"
-      primaryLabel="Open Dashboard"
-      secondaryHref="/admin/content"
-      secondaryLabel="Open Content"
-    />
-  );
+export default async function AdminProfilePage() {
+  const user = await requireAdmin();
+
+  return <ProfileForm role="admin" user={user} />;
 }

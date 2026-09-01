@@ -543,7 +543,7 @@ export default function AdminLessonsClient({ classes, subjects, units, lessons }
             domain="lessons"
             titlePreview={form.title || "Lesson preview"}
             value={form}
-            onChange={setForm}
+            onChange={(media) => setForm((current) => ({ ...current, ...media }))}
             error={null}
           />
           {error ? <div className="text-sm font-medium text-destructive">{error}</div> : null}
@@ -631,7 +631,7 @@ export default function AdminLessonsClient({ classes, subjects, units, lessons }
             domain="units"
             titlePreview={unitForm.title || "Unit preview"}
             value={unitForm}
-            onChange={setUnitForm}
+            onChange={(media) => setUnitForm((current) => ({ ...current, ...media }))}
             error={null}
           />
           {error ? <div className="text-sm font-medium text-destructive">{error}</div> : null}

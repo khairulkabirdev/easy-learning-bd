@@ -1,12 +1,22 @@
 import type { ReactNode } from "react";
 
-import { BookOpen, FolderOpen, LayoutDashboard, LogOut, Shapes, User2 } from "lucide-react";
+import Link from "next/link";
+import { BookOpen, ChevronDown, FolderOpen, LayoutDashboard, LogOut, Settings, Shapes, User2 } from "lucide-react";
 
 import { SidebarNavLinks } from "@/components/app/SidebarNavLinks";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { logoutAction } from "@/app/actions/session";
 
 export type ShellNavItem = {
@@ -37,6 +47,7 @@ export const adminNavGroups: ShellNavGroup[] = [
     label: "Account",
     items: [
       { title: "Audit Logs", href: "/admin/audit-logs", icon: <BookOpen className="h-4 w-4" /> },
+      { title: "Settings", href: "/admin/settings", icon: <Settings className="h-4 w-4" /> },
       { title: "Profile", href: "/admin/profile", icon: <User2 className="h-4 w-4" /> },
     ],
   },
@@ -59,6 +70,8 @@ type AppDashboardShellProps = {
   roleLabel: string;
   userName: string;
   userEmail: string;
+  userMeta?: string;
+  profileHref?: string;
   groups: ShellNavGroup[];
   action?: ReactNode;
   children: ReactNode;
@@ -71,10 +84,20 @@ export function AppDashboardShell({
   roleLabel,
   userName,
   userEmail,
+  userMeta,
+  profileHref,
   groups,
   action,
   children,
 }: AppDashboardShellProps) {
+  const resolvedProfileHref =
+    profileHref ??
+    (roleLabel.toLowerCase() === "teacher"
+      ? "/teacher/profile"
+      : roleLabel.toLowerCase() === "student"
+        ? "/user/profile"
+        : "/admin/profile");
+
   return (
     <SidebarProvider>
       <aside className="sticky top-0 hidden h-svh w-64 shrink-0 border-r bg-background md:flex md:flex-col">
@@ -91,16 +114,46 @@ export function AppDashboardShell({
           <SidebarNavLinks groups={groups} />
         </ScrollArea>
         <div className="border-t px-3 py-4">
-          <div className="mb-3 rounded-lg border px-3 py-2">
-            <div className="truncate text-sm font-medium">{userName}</div>
-            <div className="truncate text-xs text-muted-foreground">{userEmail}</div>
-          </div>
-          <form action={logoutAction}>
-            <Button type="submit" variant="outline" className="w-full justify-start gap-2">
-              <LogOut className="h-4 w-4" />
-              Log out
-            </Button>
-          </form>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="mb-3 flex w-full items-center gap-2 rounded-lg border px-3 py-2 text-left outline-none transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring">
+              <div className="min-w-0 flex-1">
+                <div className="truncate text-sm font-medium">{userName}</div>
+                <div className="truncate text-xs text-muted-foreground">{userEmail}</div>
+                {userMeta ? (
+                  <div className="mt-1 flex flex-wrap gap-1">
+                    {userMeta.split(" · ").map((item) => (
+                      <Badge key={item} variant="secondary" className="h-5 px-1.5 text-[11px]">
+                        {item}
+                      </Badge>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+              <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent side="right" align="end" className="w-56">
+              <DropdownMenuGroup>
+                <DropdownMenuLabel>Account</DropdownMenuLabel>
+                <DropdownMenuItem>
+                  <Link href={resolvedProfileHref} className="flex w-full items-center gap-2">
+                    <User2 className="h-4 w-4" />
+                    Profile
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem>
+                  <form action={logoutAction} className="w-full">
+                    <button type="submit" className="flex w-full items-center gap-2 text-left">
+                      <LogOut className="h-4 w-4" />
+                      Log out
+                    </button>
+                  </form>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </aside>
 

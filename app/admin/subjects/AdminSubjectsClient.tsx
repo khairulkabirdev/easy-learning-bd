@@ -389,7 +389,7 @@ export default function AdminSubjectsClient({ classes, subjects }: AdminSubjects
             domain="subjects"
             titlePreview={form.name || "Subject preview"}
             value={form}
-            onChange={setForm}
+            onChange={(media) => setForm((current) => ({ ...current, ...media }))}
             error={null}
           />
           {error ? <div className="text-sm font-medium text-destructive">{error}</div> : null}
@@ -450,7 +450,7 @@ export default function AdminSubjectsClient({ classes, subjects }: AdminSubjects
             domain="classes"
             titlePreview={classForm.name || "Class preview"}
             value={classForm}
-            onChange={setClassForm}
+            onChange={(media) => setClassForm((current) => ({ ...current, ...media }))}
             error={null}
           />
           {error ? <div className="text-sm font-medium text-destructive">{error}</div> : null}

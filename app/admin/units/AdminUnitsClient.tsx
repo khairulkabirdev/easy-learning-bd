@@ -466,7 +466,7 @@ export default function AdminUnitsClient({ classes, subjects, units }: AdminUnit
             domain="units"
             titlePreview={form.title || "Unit preview"}
             value={form}
-            onChange={setForm}
+            onChange={(media) => setForm((current) => ({ ...current, ...media }))}
             error={null}
           />
           {error ? <div className="text-sm font-medium text-destructive">{error}</div> : null}
@@ -538,7 +538,7 @@ export default function AdminUnitsClient({ classes, subjects, units }: AdminUnit
             domain="subjects"
             titlePreview={subjectForm.name || "Subject preview"}
             value={subjectForm}
-            onChange={setSubjectForm}
+            onChange={(media) => setSubjectForm((current) => ({ ...current, ...media }))}
             error={null}
           />
           {error ? <div className="text-sm font-medium text-destructive">{error}</div> : null}

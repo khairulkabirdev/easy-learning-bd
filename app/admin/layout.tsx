@@ -17,6 +17,8 @@ export default async function AdminLayout({
       roleLabel="Admin"
       userName={user.name}
       userEmail={user.email}
+      userMeta="Admin"
+      profileHref="/admin/profile"
       groups={adminNavGroups}
       action={<ShellActions />}
     >

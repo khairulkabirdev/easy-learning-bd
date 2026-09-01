@@ -37,5 +37,9 @@ export async function loginAction(_: LoginActionState, formData: FormData): Prom
     redirect("/admin/content");
   }
 
+  if (result.role === "teacher") {
+    redirect("/teacher/dashboard");
+  }
+
   redirect("/user/dashboard");
 }

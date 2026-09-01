@@ -617,7 +617,7 @@ export default function AdminTopicsClient({ classes, subjects, units, lessons, t
             domain="topics"
             titlePreview={form.title || "Topic preview"}
             value={form}
-            onChange={setForm}
+            onChange={(media) => setForm((current) => ({ ...current, ...media }))}
             error={null}
           />
           {error ? <div className="text-sm font-medium text-destructive">{error}</div> : null}
@@ -728,7 +728,7 @@ export default function AdminTopicsClient({ classes, subjects, units, lessons, t
             domain="lessons"
             titlePreview={lessonForm.title || "Lesson preview"}
             value={lessonForm}
-            onChange={setLessonForm}
+            onChange={(media) => setLessonForm((current) => ({ ...current, ...media }))}
             error={null}
           />
           {error ? <div className="text-sm font-medium text-destructive">{error}</div> : null}

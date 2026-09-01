@@ -9,6 +9,7 @@ import { prisma } from "@/lib/db";
 
 const SESSION_COOKIE_NAME = "easylearningbd_session";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 24 * 7;
+const PASSWORD_RESET_TTL_MS = 1000 * 60 * 30;
 
 type SessionPayload = {
   sessionId: string;
@@ -58,6 +59,10 @@ function verifySignedCookieValue(cookieValue: string) {
 }
 
 function hashSessionToken(token: string) {
+  return crypto.createHash("sha256").update(token).digest("hex");
+}
+
+function hashPasswordResetToken(token: string) {
   return crypto.createHash("sha256").update(token).digest("hex");
 }
 
@@ -179,10 +184,26 @@ export async function requireUser() {
   return user;
 }
 
+export async function requireStudent() {
+  const user = await requireUser();
+  if (user.role !== "student") {
+    redirect(user.role === "teacher" ? "/teacher/dashboard" : "/admin/dashboard");
+  }
+  return user;
+}
+
 export async function requireAdmin() {
   const user = await requireUser();
   if (user.role !== "admin") {
-    redirect("/user/dashboard");
+    redirect(user.role === "teacher" ? "/teacher/dashboard" : "/user/dashboard");
+  }
+  return user;
+}
+
+export async function requireTeacher() {
+  const user = await requireUser();
+  if (user.role !== "teacher") {
+    redirect(user.role === "admin" ? "/admin/dashboard" : "/user/dashboard");
   }
   return user;
 }
@@ -207,6 +228,160 @@ export async function loginWithPassword(email: string, password: string) {
     ok: true as const,
     role: user.role,
   };
+}
+
+export async function registerWithPassword(input: {
+  name: string;
+  email: string;
+  password: string;
+  role: "student" | "teacher";
+  phone: string;
+  institutionName?: string;
+  classId?: string;
+  organizationId: string;
+}) {
+  const email = input.email.toLowerCase().trim();
+  const existing = await prisma.user.findUnique({
+    where: { email },
+    select: { id: true },
+  });
+
+  if (existing) {
+    return { ok: false as const, error: "An account with this email already exists." };
+  }
+
+  if (input.role === "student") {
+    if (!input.classId) {
+      return { ok: false as const, error: "Please choose your class." };
+    }
+
+    const classItem = await prisma.class.findFirst({
+      where: {
+        id: input.classId,
+        organizationId: input.organizationId,
+        status: "published",
+      },
+      select: { id: true },
+    });
+
+    if (!classItem) {
+      return { ok: false as const, error: "Selected class is not available." };
+    }
+  }
+
+  const user = await prisma.user.create({
+    data: {
+      name: input.name.trim(),
+      email,
+      passwordHash: await hashPassword(input.password),
+      role: input.role,
+      phone: input.phone,
+      institutionName: input.role === "teacher" ? input.institutionName?.trim() || null : null,
+      classId: input.role === "student" ? input.classId : null,
+      organizationId: input.organizationId,
+    },
+  });
+
+  await createSession(user.id);
+
+  return { ok: true as const, role: user.role };
+}
+
+export async function requestPasswordReset(email: string) {
+  const normalizedEmail = email.toLowerCase().trim();
+  const user = await prisma.user.findUnique({
+    where: { email: normalizedEmail },
+    select: { id: true, name: true, email: true, organizationId: true },
+  });
+
+  if (!user) {
+    return { ok: true as const };
+  }
+
+  const settings = await prisma.authEmailSetting.findUnique({
+    where: { organizationId: user.organizationId },
+  });
+
+  if (!settings?.resetEmailEnabled) {
+    return { ok: false as const, error: "Password reset email is not enabled." };
+  }
+
+  if (!settings.senderEmail || !settings.appBaseUrl) {
+    return { ok: false as const, error: "Password reset email settings are incomplete." };
+  }
+
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    return { ok: false as const, error: "RESEND_API_KEY is not configured." };
+  }
+
+  const token = generateOpaqueToken();
+  const resetUrl = new URL("/auth/reset-password", settings.appBaseUrl);
+  resetUrl.searchParams.set("token", token);
+
+  await prisma.passwordResetToken.create({
+    data: {
+      userId: user.id,
+      tokenHash: hashPasswordResetToken(token),
+      expiresAt: new Date(Date.now() + PASSWORD_RESET_TTL_MS),
+    },
+  });
+
+  const from = settings.senderName
+    ? `${settings.senderName} <${settings.senderEmail}>`
+    : settings.senderEmail;
+
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from,
+      to: user.email,
+      subject: "Reset your EasyLearningBD password",
+      html: `<p>Hello ${user.name},</p><p>Use this link to reset your password. It expires in 30 minutes.</p><p><a href="${resetUrl.toString()}">Reset password</a></p>`,
+      text: `Hello ${user.name},\n\nUse this link to reset your password. It expires in 30 minutes:\n${resetUrl.toString()}`,
+    }),
+  });
+
+  if (!response.ok) {
+    return { ok: false as const, error: "Failed to send password reset email." };
+  }
+
+  return { ok: true as const };
+}
+
+export async function resetPasswordWithToken(token: string, password: string) {
+  const resetToken = await prisma.passwordResetToken.findFirst({
+    where: {
+      tokenHash: hashPasswordResetToken(token),
+      usedAt: null,
+      expiresAt: { gt: new Date() },
+    },
+    select: { id: true, userId: true },
+  });
+
+  if (!resetToken) {
+    return { ok: false as const, error: "This reset link is invalid or expired." };
+  }
+
+  await prisma.$transaction([
+    prisma.user.update({
+      where: { id: resetToken.userId },
+      data: { passwordHash: await hashPassword(password) },
+    }),
+    prisma.passwordResetToken.update({
+      where: { id: resetToken.id },
+      data: { usedAt: new Date() },
+    }),
+    prisma.authSession.deleteMany({
+      where: { userId: resetToken.userId },
+    }),
+  ]);
+
+  return { ok: true as const };
 }
 
 export async function logout() {
