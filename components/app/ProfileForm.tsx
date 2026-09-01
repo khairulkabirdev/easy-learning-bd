@@ -53,13 +53,13 @@ export function ProfileForm({ role, user, classes = [] }: ProfileFormProps) {
   const selectedClassLabel = classOptions.find((item) => item.id === classId)?.label ?? null;
 
   return (
-    <Card>
+    <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
         <CardTitle>Profile</CardTitle>
         <CardDescription>Update your account information. Email and password stay managed by auth.</CardDescription>
       </CardHeader>
       <CardContent>
-        <form action={formAction} className="grid gap-4 sm:max-w-xl">
+        <form action={formAction} className="grid gap-4 mx-auto sm:max-w-xl">
           <Field>
             <FieldContent>
               <FieldLabel>Name</FieldLabel>
