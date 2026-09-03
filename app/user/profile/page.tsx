@@ -3,12 +3,27 @@ import { prisma } from "@/lib/db";
 import { requireStudent } from "@/lib/app-auth";
 
 export default async function UserProfilePage() {
-  const user = await requireStudent();
-  const classes = await prisma.class.findMany({
-    where: { organizationId: user.organizationId, status: "published" },
-    orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
-    select: { id: true, name: true, code: true },
-  });
+  const sessionUser = await requireStudent();
+
+  const [classes, user] = await Promise.all([
+    prisma.class.findMany({
+      where: { organizationId: sessionUser.organizationId, status: "published" },
+      orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
+      select: { id: true, name: true, code: true },
+    }),
+    prisma.user.findUnique({
+      where: { id: sessionUser.id },
+      include: {
+        class: {
+          select: { id: true, name: true, code: true },
+        },
+      },
+    }),
+  ]);
+
+  if (!user) {
+    throw new Error("User profile not found.");
+  }
 
   return <ProfileForm role="student" user={user} classes={classes} />;
 }

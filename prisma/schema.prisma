@@ -26,17 +26,28 @@ model User {
   email          String        @unique
   passwordHash   String
   role           UserRole
+  profileImage   String?
   phone          String?
+  district       String?
   institutionName String?
+  instituteType  String?
+  academicYear   String?
+  rollNumber     String?
+  section        String?
+  groupName      String?
+  designation    String?
+  subject        String?
+  experience     String?
   classId        String?
   organizationId String
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
 
-  class          Class?        @relation("StudentClass", fields: [classId], references: [id], onDelete: SetNull)
-  sessions       AuthSession[]
-  passwordResetTokens PasswordResetToken[]
+  class               Class?                @relation("StudentClass", fields: [classId], references: [id], onDelete: SetNull)
+  sessions            AuthSession[]         @relation("UserSessions")
+  passwordResetTokens PasswordResetToken[]  @relation("UserPasswordResetTokens")
 }
+
 
 model AuthSession {
   id         String   @id @default(cuid())
@@ -46,7 +57,7 @@ model AuthSession {
   lastUsedAt DateTime
   createdAt  DateTime @default(now())
 
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user       User     @relation("UserSessions", fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model PasswordResetToken {
@@ -57,7 +68,7 @@ model PasswordResetToken {
   usedAt    DateTime?
   createdAt DateTime  @default(now())
 
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User      @relation("UserPasswordResetTokens", fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model AuthEmailSetting {

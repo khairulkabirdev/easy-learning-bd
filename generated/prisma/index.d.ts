@@ -4161,8 +4161,18 @@ export namespace Prisma {
     email: string | null
     passwordHash: string | null
     role: $Enums.UserRole | null
+    profileImage: string | null
     phone: string | null
+    district: string | null
     institutionName: string | null
+    instituteType: string | null
+    academicYear: string | null
+    rollNumber: string | null
+    section: string | null
+    groupName: string | null
+    designation: string | null
+    subject: string | null
+    experience: string | null
     classId: string | null
     organizationId: string | null
     createdAt: Date | null
@@ -4175,8 +4185,18 @@ export namespace Prisma {
     email: string | null
     passwordHash: string | null
     role: $Enums.UserRole | null
+    profileImage: string | null
     phone: string | null
+    district: string | null
     institutionName: string | null
+    instituteType: string | null
+    academicYear: string | null
+    rollNumber: string | null
+    section: string | null
+    groupName: string | null
+    designation: string | null
+    subject: string | null
+    experience: string | null
     classId: string | null
     organizationId: string | null
     createdAt: Date | null
@@ -4189,8 +4209,18 @@ export namespace Prisma {
     email: number
     passwordHash: number
     role: number
+    profileImage: number
     phone: number
+    district: number
     institutionName: number
+    instituteType: number
+    academicYear: number
+    rollNumber: number
+    section: number
+    groupName: number
+    designation: number
+    subject: number
+    experience: number
     classId: number
     organizationId: number
     createdAt: number
@@ -4205,8 +4235,18 @@ export namespace Prisma {
     email?: true
     passwordHash?: true
     role?: true
+    profileImage?: true
     phone?: true
+    district?: true
     institutionName?: true
+    instituteType?: true
+    academicYear?: true
+    rollNumber?: true
+    section?: true
+    groupName?: true
+    designation?: true
+    subject?: true
+    experience?: true
     classId?: true
     organizationId?: true
     createdAt?: true
@@ -4219,8 +4259,18 @@ export namespace Prisma {
     email?: true
     passwordHash?: true
     role?: true
+    profileImage?: true
     phone?: true
+    district?: true
     institutionName?: true
+    instituteType?: true
+    academicYear?: true
+    rollNumber?: true
+    section?: true
+    groupName?: true
+    designation?: true
+    subject?: true
+    experience?: true
     classId?: true
     organizationId?: true
     createdAt?: true
@@ -4233,8 +4283,18 @@ export namespace Prisma {
     email?: true
     passwordHash?: true
     role?: true
+    profileImage?: true
     phone?: true
+    district?: true
     institutionName?: true
+    instituteType?: true
+    academicYear?: true
+    rollNumber?: true
+    section?: true
+    groupName?: true
+    designation?: true
+    subject?: true
+    experience?: true
     classId?: true
     organizationId?: true
     createdAt?: true
@@ -4320,8 +4380,18 @@ export namespace Prisma {
     email: string
     passwordHash: string
     role: $Enums.UserRole
+    profileImage: string | null
     phone: string | null
+    district: string | null
     institutionName: string | null
+    instituteType: string | null
+    academicYear: string | null
+    rollNumber: string | null
+    section: string | null
+    groupName: string | null
+    designation: string | null
+    subject: string | null
+    experience: string | null
     classId: string | null
     organizationId: string
     createdAt: Date
@@ -4351,8 +4421,18 @@ export namespace Prisma {
     email?: boolean
     passwordHash?: boolean
     role?: boolean
+    profileImage?: boolean
     phone?: boolean
+    district?: boolean
     institutionName?: boolean
+    instituteType?: boolean
+    academicYear?: boolean
+    rollNumber?: boolean
+    section?: boolean
+    groupName?: boolean
+    designation?: boolean
+    subject?: boolean
+    experience?: boolean
     classId?: boolean
     organizationId?: boolean
     createdAt?: boolean
@@ -4369,8 +4449,18 @@ export namespace Prisma {
     email?: boolean
     passwordHash?: boolean
     role?: boolean
+    profileImage?: boolean
     phone?: boolean
+    district?: boolean
     institutionName?: boolean
+    instituteType?: boolean
+    academicYear?: boolean
+    rollNumber?: boolean
+    section?: boolean
+    groupName?: boolean
+    designation?: boolean
+    subject?: boolean
+    experience?: boolean
     classId?: boolean
     organizationId?: boolean
     createdAt?: boolean
@@ -4384,8 +4474,18 @@ export namespace Prisma {
     email?: boolean
     passwordHash?: boolean
     role?: boolean
+    profileImage?: boolean
     phone?: boolean
+    district?: boolean
     institutionName?: boolean
+    instituteType?: boolean
+    academicYear?: boolean
+    rollNumber?: boolean
+    section?: boolean
+    groupName?: boolean
+    designation?: boolean
+    subject?: boolean
+    experience?: boolean
     classId?: boolean
     organizationId?: boolean
     createdAt?: boolean
@@ -4399,15 +4499,25 @@ export namespace Prisma {
     email?: boolean
     passwordHash?: boolean
     role?: boolean
+    profileImage?: boolean
     phone?: boolean
+    district?: boolean
     institutionName?: boolean
+    instituteType?: boolean
+    academicYear?: boolean
+    rollNumber?: boolean
+    section?: boolean
+    groupName?: boolean
+    designation?: boolean
+    subject?: boolean
+    experience?: boolean
     classId?: boolean
     organizationId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "role" | "phone" | "institutionName" | "classId" | "organizationId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "role" | "profileImage" | "phone" | "district" | "institutionName" | "instituteType" | "academicYear" | "rollNumber" | "section" | "groupName" | "designation" | "subject" | "experience" | "classId" | "organizationId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     class?: boolean | User$classArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
@@ -4434,8 +4544,18 @@ export namespace Prisma {
       email: string
       passwordHash: string
       role: $Enums.UserRole
+      profileImage: string | null
       phone: string | null
+      district: string | null
       institutionName: string | null
+      instituteType: string | null
+      academicYear: string | null
+      rollNumber: string | null
+      section: string | null
+      groupName: string | null
+      designation: string | null
+      subject: string | null
+      experience: string | null
       classId: string | null
       organizationId: string
       createdAt: Date
@@ -4871,8 +4991,18 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly passwordHash: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'UserRole'>
+    readonly profileImage: FieldRef<"User", 'String'>
     readonly phone: FieldRef<"User", 'String'>
+    readonly district: FieldRef<"User", 'String'>
     readonly institutionName: FieldRef<"User", 'String'>
+    readonly instituteType: FieldRef<"User", 'String'>
+    readonly academicYear: FieldRef<"User", 'String'>
+    readonly rollNumber: FieldRef<"User", 'String'>
+    readonly section: FieldRef<"User", 'String'>
+    readonly groupName: FieldRef<"User", 'String'>
+    readonly designation: FieldRef<"User", 'String'>
+    readonly subject: FieldRef<"User", 'String'>
+    readonly experience: FieldRef<"User", 'String'>
     readonly classId: FieldRef<"User", 'String'>
     readonly organizationId: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
@@ -44110,8 +44240,18 @@ export namespace Prisma {
     email: 'email',
     passwordHash: 'passwordHash',
     role: 'role',
+    profileImage: 'profileImage',
     phone: 'phone',
+    district: 'district',
     institutionName: 'institutionName',
+    instituteType: 'instituteType',
+    academicYear: 'academicYear',
+    rollNumber: 'rollNumber',
+    section: 'section',
+    groupName: 'groupName',
+    designation: 'designation',
+    subject: 'subject',
+    experience: 'experience',
     classId: 'classId',
     organizationId: 'organizationId',
     createdAt: 'createdAt',
@@ -44856,8 +44996,18 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     passwordHash?: StringFilter<"User"> | string
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
+    profileImage?: StringNullableFilter<"User"> | string | null
     phone?: StringNullableFilter<"User"> | string | null
+    district?: StringNullableFilter<"User"> | string | null
     institutionName?: StringNullableFilter<"User"> | string | null
+    instituteType?: StringNullableFilter<"User"> | string | null
+    academicYear?: StringNullableFilter<"User"> | string | null
+    rollNumber?: StringNullableFilter<"User"> | string | null
+    section?: StringNullableFilter<"User"> | string | null
+    groupName?: StringNullableFilter<"User"> | string | null
+    designation?: StringNullableFilter<"User"> | string | null
+    subject?: StringNullableFilter<"User"> | string | null
+    experience?: StringNullableFilter<"User"> | string | null
     classId?: StringNullableFilter<"User"> | string | null
     organizationId?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
@@ -44873,8 +45023,18 @@ export namespace Prisma {
     email?: SortOrder
     passwordHash?: SortOrder
     role?: SortOrder
+    profileImage?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
+    district?: SortOrderInput | SortOrder
     institutionName?: SortOrderInput | SortOrder
+    instituteType?: SortOrderInput | SortOrder
+    academicYear?: SortOrderInput | SortOrder
+    rollNumber?: SortOrderInput | SortOrder
+    section?: SortOrderInput | SortOrder
+    groupName?: SortOrderInput | SortOrder
+    designation?: SortOrderInput | SortOrder
+    subject?: SortOrderInput | SortOrder
+    experience?: SortOrderInput | SortOrder
     classId?: SortOrderInput | SortOrder
     organizationId?: SortOrder
     createdAt?: SortOrder
@@ -44893,8 +45053,18 @@ export namespace Prisma {
     name?: StringFilter<"User"> | string
     passwordHash?: StringFilter<"User"> | string
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
+    profileImage?: StringNullableFilter<"User"> | string | null
     phone?: StringNullableFilter<"User"> | string | null
+    district?: StringNullableFilter<"User"> | string | null
     institutionName?: StringNullableFilter<"User"> | string | null
+    instituteType?: StringNullableFilter<"User"> | string | null
+    academicYear?: StringNullableFilter<"User"> | string | null
+    rollNumber?: StringNullableFilter<"User"> | string | null
+    section?: StringNullableFilter<"User"> | string | null
+    groupName?: StringNullableFilter<"User"> | string | null
+    designation?: StringNullableFilter<"User"> | string | null
+    subject?: StringNullableFilter<"User"> | string | null
+    experience?: StringNullableFilter<"User"> | string | null
     classId?: StringNullableFilter<"User"> | string | null
     organizationId?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
@@ -44910,8 +45080,18 @@ export namespace Prisma {
     email?: SortOrder
     passwordHash?: SortOrder
     role?: SortOrder
+    profileImage?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
+    district?: SortOrderInput | SortOrder
     institutionName?: SortOrderInput | SortOrder
+    instituteType?: SortOrderInput | SortOrder
+    academicYear?: SortOrderInput | SortOrder
+    rollNumber?: SortOrderInput | SortOrder
+    section?: SortOrderInput | SortOrder
+    groupName?: SortOrderInput | SortOrder
+    designation?: SortOrderInput | SortOrder
+    subject?: SortOrderInput | SortOrder
+    experience?: SortOrderInput | SortOrder
     classId?: SortOrderInput | SortOrder
     organizationId?: SortOrder
     createdAt?: SortOrder
@@ -44930,8 +45110,18 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     passwordHash?: StringWithAggregatesFilter<"User"> | string
     role?: EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
+    profileImage?: StringNullableWithAggregatesFilter<"User"> | string | null
     phone?: StringNullableWithAggregatesFilter<"User"> | string | null
+    district?: StringNullableWithAggregatesFilter<"User"> | string | null
     institutionName?: StringNullableWithAggregatesFilter<"User"> | string | null
+    instituteType?: StringNullableWithAggregatesFilter<"User"> | string | null
+    academicYear?: StringNullableWithAggregatesFilter<"User"> | string | null
+    rollNumber?: StringNullableWithAggregatesFilter<"User"> | string | null
+    section?: StringNullableWithAggregatesFilter<"User"> | string | null
+    groupName?: StringNullableWithAggregatesFilter<"User"> | string | null
+    designation?: StringNullableWithAggregatesFilter<"User"> | string | null
+    subject?: StringNullableWithAggregatesFilter<"User"> | string | null
+    experience?: StringNullableWithAggregatesFilter<"User"> | string | null
     classId?: StringNullableWithAggregatesFilter<"User"> | string | null
     organizationId?: StringWithAggregatesFilter<"User"> | string
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -48331,8 +48521,18 @@ export namespace Prisma {
     email: string
     passwordHash: string
     role: $Enums.UserRole
+    profileImage?: string | null
     phone?: string | null
+    district?: string | null
     institutionName?: string | null
+    instituteType?: string | null
+    academicYear?: string | null
+    rollNumber?: string | null
+    section?: string | null
+    groupName?: string | null
+    designation?: string | null
+    subject?: string | null
+    experience?: string | null
     organizationId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -48347,8 +48547,18 @@ export namespace Prisma {
     email: string
     passwordHash: string
     role: $Enums.UserRole
+    profileImage?: string | null
     phone?: string | null
+    district?: string | null
     institutionName?: string | null
+    instituteType?: string | null
+    academicYear?: string | null
+    rollNumber?: string | null
+    section?: string | null
+    groupName?: string | null
+    designation?: string | null
+    subject?: string | null
+    experience?: string | null
     classId?: string | null
     organizationId: string
     createdAt?: Date | string
@@ -48363,8 +48573,18 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
+    instituteType?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYear?: NullableStringFieldUpdateOperationsInput | string | null
+    rollNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    section?: NullableStringFieldUpdateOperationsInput | string | null
+    groupName?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -48379,8 +48599,18 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
+    instituteType?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYear?: NullableStringFieldUpdateOperationsInput | string | null
+    rollNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    section?: NullableStringFieldUpdateOperationsInput | string | null
+    groupName?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableStringFieldUpdateOperationsInput | string | null
     classId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -48395,8 +48625,18 @@ export namespace Prisma {
     email: string
     passwordHash: string
     role: $Enums.UserRole
+    profileImage?: string | null
     phone?: string | null
+    district?: string | null
     institutionName?: string | null
+    instituteType?: string | null
+    academicYear?: string | null
+    rollNumber?: string | null
+    section?: string | null
+    groupName?: string | null
+    designation?: string | null
+    subject?: string | null
+    experience?: string | null
     classId?: string | null
     organizationId: string
     createdAt?: Date | string
@@ -48409,8 +48649,18 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
+    instituteType?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYear?: NullableStringFieldUpdateOperationsInput | string | null
+    rollNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    section?: NullableStringFieldUpdateOperationsInput | string | null
+    groupName?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -48422,8 +48672,18 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
+    instituteType?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYear?: NullableStringFieldUpdateOperationsInput | string | null
+    rollNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    section?: NullableStringFieldUpdateOperationsInput | string | null
+    groupName?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableStringFieldUpdateOperationsInput | string | null
     classId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -52509,8 +52769,18 @@ export namespace Prisma {
     email?: SortOrder
     passwordHash?: SortOrder
     role?: SortOrder
+    profileImage?: SortOrder
     phone?: SortOrder
+    district?: SortOrder
     institutionName?: SortOrder
+    instituteType?: SortOrder
+    academicYear?: SortOrder
+    rollNumber?: SortOrder
+    section?: SortOrder
+    groupName?: SortOrder
+    designation?: SortOrder
+    subject?: SortOrder
+    experience?: SortOrder
     classId?: SortOrder
     organizationId?: SortOrder
     createdAt?: SortOrder
@@ -52523,8 +52793,18 @@ export namespace Prisma {
     email?: SortOrder
     passwordHash?: SortOrder
     role?: SortOrder
+    profileImage?: SortOrder
     phone?: SortOrder
+    district?: SortOrder
     institutionName?: SortOrder
+    instituteType?: SortOrder
+    academicYear?: SortOrder
+    rollNumber?: SortOrder
+    section?: SortOrder
+    groupName?: SortOrder
+    designation?: SortOrder
+    subject?: SortOrder
+    experience?: SortOrder
     classId?: SortOrder
     organizationId?: SortOrder
     createdAt?: SortOrder
@@ -52537,8 +52817,18 @@ export namespace Prisma {
     email?: SortOrder
     passwordHash?: SortOrder
     role?: SortOrder
+    profileImage?: SortOrder
     phone?: SortOrder
+    district?: SortOrder
     institutionName?: SortOrder
+    instituteType?: SortOrder
+    academicYear?: SortOrder
+    rollNumber?: SortOrder
+    section?: SortOrder
+    groupName?: SortOrder
+    designation?: SortOrder
+    subject?: SortOrder
+    experience?: SortOrder
     classId?: SortOrder
     organizationId?: SortOrder
     createdAt?: SortOrder
@@ -56902,8 +57192,18 @@ export namespace Prisma {
     email: string
     passwordHash: string
     role: $Enums.UserRole
+    profileImage?: string | null
     phone?: string | null
+    district?: string | null
     institutionName?: string | null
+    instituteType?: string | null
+    academicYear?: string | null
+    rollNumber?: string | null
+    section?: string | null
+    groupName?: string | null
+    designation?: string | null
+    subject?: string | null
+    experience?: string | null
     organizationId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -56917,8 +57217,18 @@ export namespace Prisma {
     email: string
     passwordHash: string
     role: $Enums.UserRole
+    profileImage?: string | null
     phone?: string | null
+    district?: string | null
     institutionName?: string | null
+    instituteType?: string | null
+    academicYear?: string | null
+    rollNumber?: string | null
+    section?: string | null
+    groupName?: string | null
+    designation?: string | null
+    subject?: string | null
+    experience?: string | null
     classId?: string | null
     organizationId: string
     createdAt?: Date | string
@@ -56948,8 +57258,18 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
+    instituteType?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYear?: NullableStringFieldUpdateOperationsInput | string | null
+    rollNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    section?: NullableStringFieldUpdateOperationsInput | string | null
+    groupName?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -56963,8 +57283,18 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
+    instituteType?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYear?: NullableStringFieldUpdateOperationsInput | string | null
+    rollNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    section?: NullableStringFieldUpdateOperationsInput | string | null
+    groupName?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableStringFieldUpdateOperationsInput | string | null
     classId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -56978,8 +57308,18 @@ export namespace Prisma {
     email: string
     passwordHash: string
     role: $Enums.UserRole
+    profileImage?: string | null
     phone?: string | null
+    district?: string | null
     institutionName?: string | null
+    instituteType?: string | null
+    academicYear?: string | null
+    rollNumber?: string | null
+    section?: string | null
+    groupName?: string | null
+    designation?: string | null
+    subject?: string | null
+    experience?: string | null
     organizationId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -56993,8 +57333,18 @@ export namespace Prisma {
     email: string
     passwordHash: string
     role: $Enums.UserRole
+    profileImage?: string | null
     phone?: string | null
+    district?: string | null
     institutionName?: string | null
+    instituteType?: string | null
+    academicYear?: string | null
+    rollNumber?: string | null
+    section?: string | null
+    groupName?: string | null
+    designation?: string | null
+    subject?: string | null
+    experience?: string | null
     classId?: string | null
     organizationId: string
     createdAt?: Date | string
@@ -57024,8 +57374,18 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
+    instituteType?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYear?: NullableStringFieldUpdateOperationsInput | string | null
+    rollNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    section?: NullableStringFieldUpdateOperationsInput | string | null
+    groupName?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -57039,8 +57399,18 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
+    instituteType?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYear?: NullableStringFieldUpdateOperationsInput | string | null
+    rollNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    section?: NullableStringFieldUpdateOperationsInput | string | null
+    groupName?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableStringFieldUpdateOperationsInput | string | null
     classId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -57199,8 +57569,18 @@ export namespace Prisma {
     email: string
     passwordHash: string
     role: $Enums.UserRole
+    profileImage?: string | null
     phone?: string | null
+    district?: string | null
     institutionName?: string | null
+    instituteType?: string | null
+    academicYear?: string | null
+    rollNumber?: string | null
+    section?: string | null
+    groupName?: string | null
+    designation?: string | null
+    subject?: string | null
+    experience?: string | null
     organizationId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -57214,8 +57594,18 @@ export namespace Prisma {
     email: string
     passwordHash: string
     role: $Enums.UserRole
+    profileImage?: string | null
     phone?: string | null
+    district?: string | null
     institutionName?: string | null
+    instituteType?: string | null
+    academicYear?: string | null
+    rollNumber?: string | null
+    section?: string | null
+    groupName?: string | null
+    designation?: string | null
+    subject?: string | null
+    experience?: string | null
     organizationId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -57371,8 +57761,18 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     passwordHash?: StringFilter<"User"> | string
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
+    profileImage?: StringNullableFilter<"User"> | string | null
     phone?: StringNullableFilter<"User"> | string | null
+    district?: StringNullableFilter<"User"> | string | null
     institutionName?: StringNullableFilter<"User"> | string | null
+    instituteType?: StringNullableFilter<"User"> | string | null
+    academicYear?: StringNullableFilter<"User"> | string | null
+    rollNumber?: StringNullableFilter<"User"> | string | null
+    section?: StringNullableFilter<"User"> | string | null
+    groupName?: StringNullableFilter<"User"> | string | null
+    designation?: StringNullableFilter<"User"> | string | null
+    subject?: StringNullableFilter<"User"> | string | null
+    experience?: StringNullableFilter<"User"> | string | null
     classId?: StringNullableFilter<"User"> | string | null
     organizationId?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
@@ -63512,8 +63912,18 @@ export namespace Prisma {
     email: string
     passwordHash: string
     role: $Enums.UserRole
+    profileImage?: string | null
     phone?: string | null
+    district?: string | null
     institutionName?: string | null
+    instituteType?: string | null
+    academicYear?: string | null
+    rollNumber?: string | null
+    section?: string | null
+    groupName?: string | null
+    designation?: string | null
+    subject?: string | null
+    experience?: string | null
     organizationId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -63697,8 +64107,18 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
+    instituteType?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYear?: NullableStringFieldUpdateOperationsInput | string | null
+    rollNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    section?: NullableStringFieldUpdateOperationsInput | string | null
+    groupName?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -63712,8 +64132,18 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
+    instituteType?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYear?: NullableStringFieldUpdateOperationsInput | string | null
+    rollNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    section?: NullableStringFieldUpdateOperationsInput | string | null
+    groupName?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -63727,8 +64157,18 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
+    instituteType?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYear?: NullableStringFieldUpdateOperationsInput | string | null
+    rollNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    section?: NullableStringFieldUpdateOperationsInput | string | null
+    groupName?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

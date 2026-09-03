@@ -6,13 +6,14 @@ import path from "path";
 
 import { z } from "zod";
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const MAX_FILE_SIZE = 4.8 * 1024 * 1024;
 
 const allowedMimeTypes = new Map<string, string>([
   ["image/png", ".png"],
   ["image/jpeg", ".jpg"],
   ["image/webp", ".webp"],
   ["image/gif", ".gif"],
+  ["image/jpg", ".jpg"],
 ]);
 
 const uploadDomainSchema = z.enum(["classes", "subjects", "units", "lessons", "topics"]);
@@ -59,12 +60,16 @@ export async function saveImageToTemp(file: File) {
     throw new Error("File is required.");
   }
 
-  if (file.size > MAX_FILE_SIZE) {
-    throw new Error("Image must be 5 MB or smaller.");
+  if (!file.type.startsWith("image/")) {
+    throw new Error("Only image files are allowed.");
   }
 
-  const extension = allowedMimeTypes.get(file.type);
-  if (!extension) {
+  if (file.size > MAX_FILE_SIZE) {
+    throw new Error("Image must be 4.8 MB or smaller.");
+  }
+
+  const extension = allowedMimeTypes.get(file.type.toLowerCase()) ?? path.extname(file.name).toLowerCase();
+  if (!extension || ![".png", ".jpg", ".jpeg", ".webp", ".gif"].includes(extension)) {
     throw new Error("Only PNG, JPG, JPEG, WEBP, and GIF files are allowed.");
   }
 
