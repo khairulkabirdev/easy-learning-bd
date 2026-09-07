@@ -297,3 +297,18 @@ export async function getPublishedSubjectDetail(organizationId: string, classId:
 
   return { subject, units, lessons, topics, contents: serializeContents(filteredContents) };
 }
+
+export async function getPublishedContentById(organizationId: string, contentId: string) {
+  const content = await prisma.content.findFirst({
+    where: {
+      id: contentId,
+      organizationId,
+      blocks: { some: { kind: "mcq" } },
+    },
+    select: contentSelect as any,
+  });
+
+  if (!content) return null;
+
+  return serializeContents([content])[0] ?? null;
+}

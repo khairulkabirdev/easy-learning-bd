@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2, CircleHelp, Eye, XCircle } from "lucide-react";
+import { CheckCircle2, CircleHelp, Eye, Flag, Heart, XCircle } from "lucide-react";
 
 import type {
   ContentBlockKind,
@@ -305,52 +305,78 @@ function McqBlock({ title, description, questions }: { title: string; descriptio
   }
 
   return (
-    <Card className="rounded-xl">
-      <CardHeader className="space-y-3">
-        <CardTitle className="text-lg">{title || "MCQ Section"}</CardTitle>
-        {description ? <CardDescription>{description}</CardDescription> : null}
-      </CardHeader>
-      <CardContent className="space-y-5">
-        {questions.map((question, index) => (
-          <div key={question.id} className="rounded-xl border p-4">
-            <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <Badge variant="outline">Question {index + 1}</Badge>
-                <span className="text-sm text-muted-foreground">
-                  {question.answerMode === "multiple" ? "Multiple correct" : "Single correct"}
-                </span>
+    <div className="space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-lg font-semibold">{title || "Practice MCQ"}</h2>
+        <ActionButtons onCheck={checkAnswers} onReveal={() => setShowAnswers(true)} />
+      </div>
+      {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
+      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+        <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
+        <span>অনুশীলন করা হয়েছে</span>
+      </div>
+      {questions.map((question, index) => (
+        <Card key={question.id} className="rounded-2xl shadow-sm">
+          <CardHeader className="space-y-4 pb-4">
+            <div className="flex items-start gap-3">
+              <span className="relative shrink-0">
+                <Badge className="h-7 min-w-7 justify-center rounded-md bg-sky-100 px-2 text-sky-700 hover:bg-sky-100">
+                  {index + 1}
+                </Badge>
+                <span className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full border-2 border-background bg-emerald-500" />
+              </span>
+              <div className="min-w-0 flex-1 pt-0.5 text-base font-medium leading-7">
+                <RichContent value={question.prompt} />
               </div>
+            </div>
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-xs text-muted-foreground"></span>
+              <div className="inline-flex overflow-hidden rounded-full border">
+                <Button type="button" variant="ghost" size="sm" className="h-8 rounded-none border-r px-3 text-xs">
+                  <Flag className="mr-1.5 h-3.5 w-3.5" />
+                  Flag
+                </Button>
+                <Button type="button" variant="ghost" size="sm" className="h-8 rounded-none px-3 text-xs">
+                  <Heart className="mr-1.5 h-3.5 w-3.5" />
+                  Fav
+                </Button>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            {question.options.map((option) => {
+              const checked = (selectedAnswers[question.id] || []).includes(option.id);
+              return (
+                <label
+                  key={option.id}
+                  className={cn(
+                    "group flex cursor-pointer items-center gap-3 rounded-lg border bg-muted/20 px-3 py-2 transition-colors hover:border-sky-300 hover:bg-sky-50",
+                    checked && "border-primary/50 bg-primary/5",
+                  )}
+                >
+                  <Checkbox
+                    checked={checked}
+                    className="sr-only"
+                    onCheckedChange={(next) => {
+                      toggleOption(question, option.id, Boolean(next));
+                      setStatusByQuestion((current) => ({ ...current, [question.id]: "idle" }));
+                    }}
+                  />
+                  <span className={cn("flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-xs font-semibold text-muted-foreground", checked && "border-primary bg-primary text-primary-foreground")}>
+                    {option.label}
+                  </span>
+                  <span className="min-w-0 flex-1 text-sm">{option.text || "Empty option"}</span>
+                  {showAnswers && option.isCorrect ? <Badge variant="secondary">Correct</Badge> : null}
+                </label>
+              );
+            })}
+            <div className="flex justify-end pt-2">
               <ResultBadge status={statusByQuestion[question.id] || "idle"} />
             </div>
-            <div className="mb-4 rounded-xl border p-4">
-              <RichContent value={question.prompt} />
-            </div>
-            <div className="space-y-3">
-              {question.options.map((option) => {
-                const checked = (selectedAnswers[question.id] || []).includes(option.id);
-                return (
-                  <label key={option.id} className="flex cursor-pointer items-start gap-3 rounded-xl border p-3">
-                    <Checkbox
-                      checked={checked}
-                      onCheckedChange={(next) => {
-                        toggleOption(question, option.id, Boolean(next));
-                        setStatusByQuestion((current) => ({ ...current, [question.id]: "idle" }));
-                      }}
-                    />
-                    <div className="min-w-0 space-y-1">
-                      <div className="font-medium">{option.label}</div>
-                      <div className="text-sm text-muted-foreground">{option.text || "Empty option"}</div>
-                      {showAnswers && option.isCorrect ? <Badge variant="secondary">Correct option</Badge> : null}
-                    </div>
-                  </label>
-                );
-              })}
-            </div>
-          </div>
-        ))}
-        <ActionButtons onCheck={checkAnswers} onReveal={() => setShowAnswers(true)} />
-      </CardContent>
-    </Card>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
   );
 }
 
@@ -575,21 +601,27 @@ export function StudentContentViewer({
   content,
   title = "Content viewer",
   description = "Read the lesson content and use the answer review tools where available.",
+  showHeader = true,
 }: {
   content: StudentContentRecord;
   title?: string;
   description?: string;
+  showHeader?: boolean;
 }) {
   return (
     <div className="space-y-4">
-      <div className="space-y-1">
-        <h3 className="text-lg font-semibold">{title}</h3>
-        <p className="text-sm text-muted-foreground">{description}</p>
-      </div>
-      <div className="flex flex-wrap gap-2">
-        <Badge variant="outline">{content.blocks.length} blocks</Badge>
-        <Badge variant="secondary">{content.topicId ? "Topic-level content" : "Lesson-level content"}</Badge>
-      </div>
+      {showHeader ? (
+        <>
+          <div className="space-y-1">
+            <h3 className="text-lg font-semibold">{title}</h3>
+            <p className="text-sm text-muted-foreground">{description}</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Badge variant="outline">{content.blocks.length} blocks</Badge>
+            <Badge variant="secondary">{content.topicId ? "Topic-level content" : "Lesson-level content"}</Badge>
+          </div>
+        </>
+      ) : null}
       {content.blocks.length > 0 ? (
         <div className="space-y-4">
           {content.blocks.map((block) => (
