@@ -169,7 +169,7 @@ export function AppDashboardShell({
           {action}
         </header>
         <main className="flex-1 bg-muted/20 p-4 md:p-6">
-          <div className="mx-auto max-w-7xl">{children}</div>
+          <div className="mx-auto max-w-screen-2xl">{children}</div>
         </main>
       </SidebarInset>
     </SidebarProvider>
