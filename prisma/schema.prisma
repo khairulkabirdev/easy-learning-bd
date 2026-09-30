@@ -261,6 +261,9 @@ model ContentBlock {
   gapFillSecondPaper           GapFillSecondPaper?
   mcqSection                   McqSection?
   questionAnswerExercise       QuestionAnswerExercise?
+  tableCompletionExercise      TableCompletionExercise?
+  columnMatchingExercise       ColumnMatchingExercise?
+  sentenceOrderingExercise     SentenceOrderingExercise?
   trueFalseExercise            TrueFalseExercise?
   informationTransfer          InformationTransfer?
   substitutionTable            SubstitutionTable?
@@ -462,7 +465,78 @@ model QuestionAnswerExercise {
   question       String   @default("")
   answer         String   @default("")
   details        String   @default("")
-  layoutKind     String   @default("question-answer")
+  documentJson   String   @default("{\"rows\":[]}")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+}
+
+model TableCompletionExercise {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  title          String   @default("")
+  instruction    String   @default("")
+  question       String   @default("")
+  answer         String   @default("")
+  details        String   @default("")
+  documentJson   String   @default("{\"rows\":[]}")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+}
+
+model ColumnMatchingExercise {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  title          String   @default("")
+  instruction    String   @default("")
+  question       String   @default("")
+  answer         String   @default("")
+  details        String   @default("")
+  documentJson   String   @default("{\"rows\":[]}")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+}
+
+model SentenceOrderingExercise {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  title          String   @default("")
+  instruction    String   @default("")
+  question       String   @default("")
+  answer         String   @default("")
+  details        String   @default("")
   documentJson   String   @default("{\"rows\":[]}")
   organizationId String
   createdBy      String
@@ -507,6 +581,7 @@ model InformationTransfer {
   question       String   @default("")
   answer         String   @default("")
   details        String   @default("")
+  documentJson   String   @default("{\"rows\":[]}")
   organizationId String
   createdBy      String
   updatedBy      String

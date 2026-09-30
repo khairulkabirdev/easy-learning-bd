@@ -121,7 +121,15 @@ export type GapFillExerciseRecord = {
   details: string;
 };
 
-export type GapFillFirstPaperRecord = GapFillExerciseRecord;
+export type FillBlankAnswerRecord = {
+  id: string;
+  sortOrder: number;
+  answer: string;
+};
+
+export type GapFillFirstPaperRecord = GapFillExerciseRecord & {
+  blanks: FillBlankAnswerRecord[];
+};
 export type GapFillSecondPaperRecord = GapFillExerciseRecord;
 
 export type McqQuestionOptionRecord = {
@@ -155,12 +163,6 @@ export type McqSectionRecord = {
   questions: McqQuestionRecord[];
 };
 
-export type QuestionAnswerExerciseLayoutKind =
-  | "question-answer"
-  | "table-completion"
-  | "column-matching"
-  | "sentence-ordering";
-
 export type QuestionAnswerRowRecord = {
   id: string;
   sortOrder: number;
@@ -182,7 +184,6 @@ export type QuestionAnswerExerciseRecord = {
   question: string;
   answer: string;
   details: string;
-  layoutKind: QuestionAnswerExerciseLayoutKind;
   documentJson: string;
   rows: QuestionAnswerRowRecord[];
 };
@@ -225,7 +226,18 @@ type ThreeFieldBlockRecord = {
   details: string;
 };
 
-export type InformationTransferRecord = ThreeFieldBlockRecord;
+export type InformationTransferRowRecord = {
+  id: string;
+  sortOrder: number;
+  term: string;
+  answer: string;
+};
+
+export type InformationTransferRecord = ThreeFieldBlockRecord & {
+  documentJson: string;
+  rows: InformationTransferRowRecord[];
+};
+
 export type SubstitutionTableRecord = ThreeFieldBlockRecord;
 export type RightFormOfVerbRecord = ThreeFieldBlockRecord;
 export type NarrationRecord = ThreeFieldBlockRecord;

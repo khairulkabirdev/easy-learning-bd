@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState, useTransition } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import type { Editor } from "@tiptap/react";
 import {
   ArrowDown,
   ArrowUp,
@@ -67,6 +68,10 @@ type McqQuestionDraftRecord = McqSectionDraft['questions'][number];
 type McqOptionDraftRecord = McqQuestionDraftRecord['options'][number];
 type QuestionAnswerExerciseDraft = NonNullable<BlockDraft['questionAnswerExercise']>;
 type QuestionAnswerRowRecord = QuestionAnswerExerciseDraft['rows'][number];
+type InformationTransferDraft = NonNullable<BlockDraft['informationTransfer']>;
+type InformationTransferRowRecord = InformationTransferDraft['rows'][number];
+type FillBlankFirstPaperDraft = NonNullable<BlockDraft['gapFillFirstPaper']>;
+type FillBlankAnswerRecord = FillBlankFirstPaperDraft['blanks'][number];
 type TrueFalseExerciseDraft = NonNullable<BlockDraft['trueFalseExercise']>;
 type TrueFalseRowRecord = TrueFalseExerciseDraft['rows'][number];
 
@@ -108,7 +113,299 @@ type QuestionAnswerRowDraft = {
   answer: string;
 };
 
+type SentenceOrderingRowDraft = {
+  sentence: string;
+};
+
+type InformationTransferRowDraft = {
+  term: string;
+  answer: string;
+};
+
+const FILL_BLANK_MARKER = "____";
+
+function fillBlankQuestionToText(value: string) {
+  return value
+    .replace(/<br\s*\/?\s*>/gi, "\n")
+    .replace(/<\/(p|div|li|h[1-6])>/gi, "\n")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function countFillBlankMarkers(value: string) {
+  return fillBlankQuestionToText(value).match(/_{2,}/g)?.length ?? 0;
+}
+
+function removeFillBlankMarkerAt(value: string, targetIndex: number) {
+  const removeFromPlainText = (text: string) => {
+    let currentIndex = -1;
+    return text.replace(/_{2,}/g, (marker) => {
+      currentIndex += 1;
+      return currentIndex === targetIndex ? "" : marker;
+    });
+  };
+
+  // Preserve Tiptap HTML/formatting while deleting only the selected blank marker.
+  // The fallback keeps this helper safe if it is ever called outside the browser.
+  if (typeof DOMParser === "undefined") {
+    return removeFromPlainText(value);
+  }
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(`<div data-fill-blank-root>${value}</div>`, "text/html");
+  const root = doc.querySelector<HTMLElement>("[data-fill-blank-root]");
+  if (!root) return value;
+
+  const walker = doc.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const textNodes: Array<{ node: Text; start: number; end: number; text: string }> = [];
+  let fullText = "";
+  let node = walker.nextNode();
+
+  while (node) {
+    const textNode = node as Text;
+    const text = textNode.data;
+    const start = fullText.length;
+    fullText += text;
+    textNodes.push({ node: textNode, start, end: start + text.length, text });
+    node = walker.nextNode();
+  }
+
+  const matches = Array.from(fullText.matchAll(/_{2,}/g));
+  const match = matches[targetIndex];
+  if (!match || match.index == null) return value;
+
+  const removeStart = match.index;
+  const removeEnd = removeStart + match[0].length;
+
+  for (const entry of textNodes) {
+    const overlapStart = Math.max(removeStart, entry.start);
+    const overlapEnd = Math.min(removeEnd, entry.end);
+    if (overlapStart >= overlapEnd) continue;
+
+    const localStart = overlapStart - entry.start;
+    const localEnd = overlapEnd - entry.start;
+    entry.node.data = entry.text.slice(0, localStart) + entry.text.slice(localEnd);
+  }
+
+  return root.innerHTML;
+}
+
+function resizeFillBlankAnswers(answers: FillBlankAnswerRecord[], count: number) {
+  return Array.from({ length: count }, (_, index) =>
+    answers[index] || {
+      id: crypto.randomUUID(),
+      sortOrder: index,
+      answer: "",
+    },
+  ).map((item, index) => ({ ...item, sortOrder: index }));
+}
+
+function serializeFillBlankAnswers(answers: FillBlankAnswerRecord[]) {
+  return JSON.stringify({
+    version: 1,
+    blanks: answers.map((item, index) => ({
+      id: item.id,
+      sortOrder: index,
+      answer: item.answer,
+    })),
+  });
+}
+
 const BLOCK_CONTENT_CLASS = "max-h-[70vh] overflow-y-auto pr-2";
+
+const FIELD_SAVE_DELAY_MS = 900;
+
+type BufferedInputProps = Omit<React.ComponentProps<typeof Input>, "value" | "onChange"> & {
+  value: string;
+  onCommit: (value: string) => void;
+};
+
+type BufferedTextareaProps = Omit<React.ComponentProps<typeof Textarea>, "value" | "onChange"> & {
+  value: string;
+  onCommit: (value: string) => void;
+};
+
+function useBufferedTextValue(value: string, onCommit: (value: string) => void) {
+  const [draft, setDraft] = useState(value);
+  const latestValueRef = useRef(value);
+  const committedValueRef = useRef(value);
+  const dirtyRef = useRef(false);
+  const onCommitRef = useRef(onCommit);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  onCommitRef.current = onCommit;
+
+  useEffect(() => {
+    if (dirtyRef.current) return;
+    latestValueRef.current = value;
+    committedValueRef.current = value;
+    setDraft(value);
+  }, [value]);
+
+  const clearTimer = useCallback(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  }, []);
+
+  const flush = useCallback(() => {
+    clearTimer();
+    const nextValue = latestValueRef.current;
+    if (nextValue === committedValueRef.current) {
+      dirtyRef.current = false;
+      return;
+    }
+
+    committedValueRef.current = nextValue;
+    dirtyRef.current = false;
+    onCommitRef.current(nextValue);
+  }, [clearTimer]);
+
+  const update = useCallback(
+    (nextValue: string) => {
+      latestValueRef.current = nextValue;
+      dirtyRef.current = true;
+      setDraft(nextValue);
+      clearTimer();
+      timerRef.current = setTimeout(flush, FIELD_SAVE_DELAY_MS);
+    },
+    [clearTimer, flush],
+  );
+
+  useEffect(() => clearTimer, [clearTimer]);
+
+  return { draft, update, flush };
+}
+
+function BufferedInput({ value, onCommit, onBlur, onKeyDown, ...props }: BufferedInputProps) {
+  const { draft, update, flush } = useBufferedTextValue(value, onCommit);
+
+  return (
+    <Input
+      {...props}
+      value={draft}
+      onChange={(event) => update(event.target.value)}
+      onBlur={(event) => {
+        flush();
+        onBlur?.(event);
+      }}
+      onKeyDown={(event) => {
+        if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") {
+          event.preventDefault();
+          flush();
+        }
+        onKeyDown?.(event);
+      }}
+    />
+  );
+}
+
+function BufferedTextarea({ value, onCommit, onBlur, onKeyDown, ...props }: BufferedTextareaProps) {
+  const { draft, update, flush } = useBufferedTextValue(value, onCommit);
+
+  return (
+    <Textarea
+      {...props}
+      value={draft}
+      onChange={(event) => update(event.target.value)}
+      onBlur={(event) => {
+        flush();
+        onBlur?.(event);
+      }}
+      onKeyDown={(event) => {
+        if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") {
+          event.preventDefault();
+          flush();
+        }
+        onKeyDown?.(event);
+      }}
+    />
+  );
+}
+
+function FillBlankQuestionEditor({
+  value,
+  onCommit,
+}: {
+  value: string;
+  onCommit: (value: string) => void;
+}) {
+  const editorRef = useRef<Editor | null>(null);
+  const [blankCount, setBlankCount] = useState(() => countFillBlankMarkers(value));
+
+  useEffect(() => {
+    setBlankCount(countFillBlankMarkers(value));
+  }, [value]);
+
+  const handleEditorReady = useCallback((editor: Editor | null) => {
+    editorRef.current = editor;
+  }, []);
+
+  const handleQuestionChange = useCallback(
+    (nextValue: string) => {
+      setBlankCount(countFillBlankMarkers(nextValue));
+      onCommit(nextValue);
+    },
+    [onCommit],
+  );
+
+  function insertBlank() {
+    const editor = editorRef.current;
+    if (!editor) return;
+
+    // Tiptap keeps the last text selection even when this toolbar button is used.
+    // Insert at that selection, then commit immediately so the matching answer
+    // input appears without waiting for the normal debounced rich-text save.
+    editor.chain().focus().insertContent(FILL_BLANK_MARKER).run();
+    const nextValue = editor.getHTML();
+    setBlankCount(countFillBlankMarkers(nextValue));
+    onCommit(nextValue);
+  }
+
+  return (
+    <div className="min-w-0 overflow-hidden rounded-2xl border bg-background shadow-sm">
+      <div className="flex flex-wrap items-start justify-between gap-3 border-b bg-muted/30 px-4 py-3">
+        <div className="space-y-1">
+          <div className="text-sm font-medium">Question</div>
+          <p className="text-xs text-muted-foreground">
+            Write and format the passage with Tiptap. Put the cursor where the answer should go, then click <strong>Add blank</strong>.
+          </p>
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge variant="outline">{blankCount} blank{blankCount === 1 ? "" : "s"}</Badge>
+          <Button
+            type="button"
+            variant="default"
+            size="sm"
+            onMouseDown={(event) => event.preventDefault()}
+            onClick={insertBlank}
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            Add blank
+          </Button>
+        </div>
+      </div>
+
+      <div className="min-w-0 p-3">
+        <TiptapRichTextEditor
+          value={value}
+          onChange={handleQuestionChange}
+          onEditorReady={handleEditorReady}
+          minHeight={260}
+          placeholder="Write the passage here. Example: Bangladesh is a ____ country. Its capital is ____."
+        />
+      </div>
+    </div>
+  );
+}
 
 function createEmptyMcqQuestionDraft(): McqQuestionDraft {
   return {
@@ -135,6 +432,19 @@ function createEmptyTrueFalseRowDraft(): TrueFalseRowDraft {
 function createEmptyQuestionAnswerRowDraft(): QuestionAnswerRowDraft {
   return {
     question: "",
+    answer: "",
+  };
+}
+
+function createEmptySentenceOrderingRowDraft(): SentenceOrderingRowDraft {
+  return {
+    sentence: "",
+  };
+}
+
+function createEmptyInformationTransferRowDraft(): InformationTransferRowDraft {
+  return {
+    term: "",
     answer: "",
   };
 }
@@ -239,8 +549,8 @@ const BLOCK_META: Array<{
   { kind: "question-answer", title: "Question Answer", description: "Add question, answer, and details.", icon: <Rows3 className="h-4 w-4" /> },
   { kind: "table-completion", title: "Table Completion", description: "Add question, answer, and details.", icon: <Rows3 className="h-4 w-4" /> },
   { kind: "column-matching", title: "Column Matching", description: "Add question, answer, and details.", icon: <FileSpreadsheet className="h-4 w-4" /> },
-  { kind: "sentence-ordering", title: "Rearrange Sentence", description: "Add rearrange sentence content.", icon: <ListOrdered className="h-4 w-4" /> },
-  { kind: "information-transfer", title: "Information Transfer", description: "Add question, answer, and details.", icon: <FileOutput className="h-4 w-4" /> },
+  { kind: "sentence-ordering", title: "Rearrange Sentence", description: "Add sentences one by one in the correct order for students to rearrange.", icon: <ListOrdered className="h-4 w-4" /> },
+  { kind: "information-transfer", title: "Information Transfer", description: "Add term/item and answer pairs one by one.", icon: <FileOutput className="h-4 w-4" /> },
   { kind: "substitution-table", title: "Substitution Table", description: "Add question, answer, and details.", icon: <FileText className="h-4 w-4" /> },
   { kind: "right-form-of-verb", title: "Right Form of Verb", description: "Add question, answer, and details.", icon: <FileText className="h-4 w-4" /> },
   { kind: "narration", title: "Narration", description: "Add question, answer, and details.", icon: <FileText className="h-4 w-4" /> },
@@ -334,18 +644,6 @@ const THREE_FIELD_BLOCK_META: Partial<
       gapFill: block.gapFill ? { ...block.gapFill, ...next } : null,
     }),
   },
-  "gap-fill-first-paper": {
-    title: "Fill in the Blanks",
-    questionPlaceholder: "Write the fill in the blanks question here...",
-    answerPlaceholder: "Write the answer here...",
-    detailsPlaceholder: "Add details here...",
-    getValue: (block) => block.gapFillFirstPaper,
-    updateAction: updateGapFillFirstPaper,
-    patchBlock: (block, next) => ({
-      ...block,
-      gapFillFirstPaper: block.gapFillFirstPaper ? { ...block.gapFillFirstPaper, ...next } : null,
-    }),
-  },
   "gap-fill-second-paper": {
     title: "Gap Filling",
     questionPlaceholder: "Write the gap filling question here...",
@@ -356,18 +654,6 @@ const THREE_FIELD_BLOCK_META: Partial<
     patchBlock: (block, next) => ({
       ...block,
       gapFillSecondPaper: block.gapFillSecondPaper ? { ...block.gapFillSecondPaper, ...next } : null,
-    }),
-  },
-  "information-transfer": {
-    title: "Information Transfer",
-    questionPlaceholder: "Write the full information transfer question here...",
-    answerPlaceholder: "Write the answer here...",
-    detailsPlaceholder: "Add details here...",
-    getValue: (block) => block.informationTransfer,
-    updateAction: updateInformationTransfer,
-    patchBlock: (block, next) => ({
-      ...block,
-      informationTransfer: block.informationTransfer ? { ...block.informationTransfer, ...next } : null,
     }),
   },
   "substitution-table": {
@@ -518,8 +804,19 @@ export function ContentBlocksEditorClient({
   const [newQuestionAnswerDraft, setNewQuestionAnswerDraft] = useState<QuestionAnswerRowDraft>(
     createEmptyQuestionAnswerRowDraft(),
   );
+  const [isSentenceOrderingModalOpen, setIsSentenceOrderingModalOpen] = useState(false);
+  const [activeSentenceOrderingBlockId, setActiveSentenceOrderingBlockId] = useState<string | null>(null);
+  const [newSentenceOrderingDraft, setNewSentenceOrderingDraft] = useState<SentenceOrderingRowDraft>(
+    createEmptySentenceOrderingRowDraft(),
+  );
+  const [isInformationTransferModalOpen, setIsInformationTransferModalOpen] = useState(false);
+  const [activeInformationTransferBlockId, setActiveInformationTransferBlockId] = useState<string | null>(null);
+  const [newInformationTransferDraft, setNewInformationTransferDraft] = useState<InformationTransferRowDraft>(
+    createEmptyInformationTransferRowDraft(),
+  );
   const [actionError, setActionError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+  const saveQueueRef = useRef(new Map<string, Promise<unknown>>());
 
   useEffect(() => {
     setBlocks(content.blocks);
@@ -545,6 +842,26 @@ export function ContentBlocksEditorClient({
 
   function patchBlock(blockId: string, updater: (block: BlockDraft) => BlockDraft) {
     setBlocks((current) => current.map((block) => (block.id === blockId ? updater(block) : block)));
+  }
+
+  function saveInBackground(
+    queueKey: string,
+    task: () => Promise<unknown>,
+    fallbackMessage = "Failed to save changes.",
+  ) {
+    const previous = saveQueueRef.current.get(queueKey) ?? Promise.resolve();
+    const queued = previous.catch(() => undefined).then(task);
+    saveQueueRef.current.set(queueKey, queued);
+
+    void queued
+      .catch((error) => {
+        setActionError(error instanceof Error ? error.message : fallbackMessage);
+      })
+      .finally(() => {
+        if (saveQueueRef.current.get(queueKey) === queued) {
+          saveQueueRef.current.delete(queueKey);
+        }
+      });
   }
 
   async function handleMoveBlock(blockId: string, direction: "up" | "down") {
@@ -601,6 +918,14 @@ export function ContentBlocksEditorClient({
     setNewQuestionAnswerDraft(createEmptyQuestionAnswerRowDraft());
   }
 
+  function resetSentenceOrderingModal() {
+    setNewSentenceOrderingDraft(createEmptySentenceOrderingRowDraft());
+  }
+
+  function resetInformationTransferModal() {
+    setNewInformationTransferDraft(createEmptyInformationTransferRowDraft());
+  }
+
   async function handleAddBlock(kind: ContentBlockKind) {
     setActionError(null);
     startTransition(async () => {
@@ -626,14 +951,14 @@ export function ContentBlocksEditorClient({
       paragraph: block.paragraph ? { ...block.paragraph, body } : null,
     }));
 
-    startTransition(async () => {
-      await updateParagraphBlock({
+    saveInBackground(`paragraph:${blockId}`, () =>
+      updateParagraphBlock({
         contentId: content.id,
         blockId,
         paragraphId,
         body,
-      });
-    });
+      }),
+    );
   }
 
   async function handleQuestionAnswerChange(
@@ -658,9 +983,9 @@ export function ContentBlocksEditorClient({
 
     const persisted = {
       ...next,
-      // Once Question Answer uses row mode, keep the old combined fields empty.
-      // Existing legacy content is first surfaced as row #1 by page.tsx, so it is
-      // preserved in documentJson when the admin edits/adds a row.
+      // Row-based exercises keep their items in documentJson. Once row mode is
+      // used, clear the legacy combined question/answer fields so there is only
+      // one source of truth for the exercise items.
       question: patch.rows !== undefined ? "" : next.question,
       answer: patch.rows !== undefined ? "" : next.answer,
       documentJson: patch.rows !== undefined ? JSON.stringify({ rows: next.rows }) : next.documentJson,
@@ -671,8 +996,8 @@ export function ContentBlocksEditorClient({
       questionAnswerExercise: block.questionAnswerExercise ? persisted : null,
     }));
 
-    startTransition(async () => {
-      await updateQuestionAnswerExercise({
+    saveInBackground(`structured-exercise:${blockId}`, () =>
+      updateQuestionAnswerExercise({
         contentId: content.id,
         blockId,
         questionAnswerExerciseId,
@@ -682,8 +1007,8 @@ export function ContentBlocksEditorClient({
         answer: persisted.answer,
         details: persisted.details,
         documentJson: persisted.documentJson,
-      });
-    });
+      }),
+    );
   }
 
   function openQuestionAnswerModal(blockId: string) {
@@ -750,6 +1075,77 @@ export function ContentBlocksEditorClient({
     }
   }
 
+  function openSentenceOrderingModal(blockId: string) {
+    setActiveSentenceOrderingBlockId(blockId);
+    resetSentenceOrderingModal();
+    setIsSentenceOrderingModalOpen(true);
+  }
+
+  async function handleCreateSentenceOrderingRow(keepOpen: boolean) {
+    if (!activeSentenceOrderingBlockId) return;
+    const currentBlock = blocks.find((block) => block.id === activeSentenceOrderingBlockId);
+    if (!currentBlock?.questionAnswerExercise) return;
+
+    const nextRow: QuestionAnswerRowRecord = {
+      id: crypto.randomUUID(),
+      sortOrder: currentBlock.questionAnswerExercise.rows.length,
+      question: newSentenceOrderingDraft.sentence,
+      answer: "",
+    };
+
+    await handleQuestionAnswerChange(activeSentenceOrderingBlockId, currentBlock.questionAnswerExercise.id, {
+      rows: [...currentBlock.questionAnswerExercise.rows, nextRow],
+    });
+
+    if (keepOpen) {
+      resetSentenceOrderingModal();
+      return;
+    }
+
+    resetSentenceOrderingModal();
+    setIsSentenceOrderingModalOpen(false);
+    setActiveSentenceOrderingBlockId(null);
+  }
+
+  async function handleMoveSentenceOrderingRow(
+    blockId: string,
+    rowId: string,
+    direction: "up" | "down",
+  ) {
+    const currentBlock = blocks.find((block) => block.id === blockId);
+    if (!currentBlock?.questionAnswerExercise) return;
+
+    const currentIndex = currentBlock.questionAnswerExercise.rows.findIndex((row) => row.id === rowId);
+    if (currentIndex === -1) return;
+
+    const nextIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
+    if (nextIndex < 0 || nextIndex >= currentBlock.questionAnswerExercise.rows.length) return;
+
+    const nextRows = [...currentBlock.questionAnswerExercise.rows];
+    const [moved] = nextRows.splice(currentIndex, 1);
+    nextRows.splice(nextIndex, 0, moved);
+
+    await handleQuestionAnswerChange(blockId, currentBlock.questionAnswerExercise.id, {
+      rows: nextRows.map((row, index) => ({ ...row, sortOrder: index })),
+    });
+  }
+
+  async function handleDeleteSentenceOrderingRow(blockId: string, rowId: string) {
+    const currentBlock = blocks.find((block) => block.id === blockId);
+    if (!currentBlock?.questionAnswerExercise) return;
+
+    setActionError(null);
+    try {
+      await handleQuestionAnswerChange(blockId, currentBlock.questionAnswerExercise.id, {
+        rows: currentBlock.questionAnswerExercise.rows
+          .filter((row) => row.id !== rowId)
+          .map((row, index) => ({ ...row, sortOrder: index })),
+      });
+    } catch (error) {
+      setActionError(error instanceof Error ? error.message : "Failed to delete sentence.");
+    }
+  }
+
   async function handleVocabularyEntryChange(
     blockId: string,
     vocabularyEntryId: string,
@@ -773,15 +1169,15 @@ export function ContentBlocksEditorClient({
         : null,
     }));
 
-    startTransition(async () => {
-      await updateVocabularyEntry({
+    saveInBackground(`vocabulary-entry:${vocabularyEntryId}`, () =>
+      updateVocabularyEntry({
         contentId: content.id,
         blockId,
         vocabularyEntryId,
         word: nextEntry.word,
         meaning: nextEntry.meaning,
-      });
-    });
+      }),
+    );
   }
 
   function openVocabularyModal(blockId: string) {
@@ -888,8 +1284,8 @@ export function ContentBlocksEditorClient({
         : null,
     }));
 
-    startTransition(async () => {
-      await updateSynonymsAntonymsEntry({
+    saveInBackground(`synonyms-entry:${entryId}`, () =>
+      updateSynonymsAntonymsEntry({
         contentId: content.id,
         blockId,
         synonymsAntonymsEntryId: entryId,
@@ -898,8 +1294,8 @@ export function ContentBlocksEditorClient({
         synonyms: nextEntry.synonyms,
         antonyms: nextEntry.antonyms,
         details: nextEntry.details,
-      });
-    });
+      }),
+    );
   }
 
   function openSynonymsModal(blockId: string) {
@@ -1007,16 +1403,16 @@ export function ContentBlocksEditorClient({
       mcqSection: block.mcqSection ? persisted : null,
     }));
 
-    startTransition(async () => {
-      await updateMcqSection({
+    saveInBackground(`mcq:${blockId}`, () =>
+      updateMcqSection({
         contentId: content.id,
         blockId,
         mcqSectionId: currentBlock.mcqSection!.id,
         title: persisted.title,
         description: persisted.description,
         documentJson: persisted.documentJson,
-      });
-    });
+      }),
+    );
   }
 
   function openMcqModal(blockId: string) {
@@ -1170,8 +1566,8 @@ export function ContentBlocksEditorClient({
       trueFalseExercise: block.trueFalseExercise ? persisted : null,
     }));
 
-    startTransition(async () => {
-      await updateTrueFalseExercise({
+    saveInBackground(`true-false:${blockId}`, () =>
+      updateTrueFalseExercise({
         contentId: content.id,
         blockId,
         trueFalseExerciseId: currentBlock.trueFalseExercise!.id,
@@ -1179,8 +1575,8 @@ export function ContentBlocksEditorClient({
         instruction: persisted.instruction,
         passage: persisted.passage,
         documentJson: persisted.documentJson,
-      });
-    });
+      }),
+    );
   }
 
   function openTrueFalseModal(blockId: string) {
@@ -1255,7 +1651,176 @@ export function ContentBlocksEditorClient({
     }
   }
 
-  async function handleInformationTransferChange(
+  async function handleInformationTransferExerciseChange(
+    blockId: string,
+    recordId: string,
+    patch: Partial<Pick<InformationTransferDraft, "question" | "answer" | "details" | "rows">>,
+  ) {
+    const currentBlock = blocks.find((block) => block.id === blockId);
+    if (!currentBlock?.informationTransfer) return;
+
+    const next = {
+      ...currentBlock.informationTransfer,
+      ...patch,
+      ...(patch.rows ? { question: "", answer: "" } : {}),
+    };
+
+    const persisted = {
+      ...next,
+      documentJson: JSON.stringify({
+        rows: next.rows.map((row, index) => ({
+          ...row,
+          sortOrder: index,
+        })),
+      }),
+    };
+
+    patchBlock(blockId, (block) => ({
+      ...block,
+      informationTransfer: block.informationTransfer ? persisted : null,
+    }));
+
+    saveInBackground(`information-transfer:${blockId}`, () =>
+      updateInformationTransfer({
+        contentId: content.id,
+        blockId,
+        recordId,
+        question: persisted.question,
+        answer: persisted.answer,
+        details: persisted.details,
+        documentJson: persisted.documentJson,
+      }),
+    );
+  }
+
+  function openInformationTransferModal(blockId: string) {
+    setActiveInformationTransferBlockId(blockId);
+    resetInformationTransferModal();
+    setIsInformationTransferModalOpen(true);
+  }
+
+  async function handleCreateInformationTransferRow(keepOpen: boolean) {
+    if (!activeInformationTransferBlockId) return;
+    const currentBlock = blocks.find((block) => block.id === activeInformationTransferBlockId);
+    if (!currentBlock?.informationTransfer) return;
+
+    const nextRow: InformationTransferRowRecord = {
+      id: crypto.randomUUID(),
+      sortOrder: currentBlock.informationTransfer.rows.length,
+      term: newInformationTransferDraft.term,
+      answer: newInformationTransferDraft.answer,
+    };
+
+    await handleInformationTransferExerciseChange(
+      activeInformationTransferBlockId,
+      currentBlock.informationTransfer.id,
+      {
+        rows: [...currentBlock.informationTransfer.rows, nextRow],
+      },
+    );
+
+    if (keepOpen) {
+      resetInformationTransferModal();
+      return;
+    }
+
+    resetInformationTransferModal();
+    setIsInformationTransferModalOpen(false);
+    setActiveInformationTransferBlockId(null);
+  }
+
+  async function handleInformationTransferRowPatch(
+    blockId: string,
+    rowId: string,
+    patch: Partial<Pick<InformationTransferRowRecord, "term" | "answer">>,
+  ) {
+    const currentBlock = blocks.find((block) => block.id === blockId);
+    if (!currentBlock?.informationTransfer) return;
+
+    await handleInformationTransferExerciseChange(blockId, currentBlock.informationTransfer.id, {
+      rows: currentBlock.informationTransfer.rows.map((row) =>
+        row.id === rowId ? { ...row, ...patch } : row,
+      ),
+    });
+  }
+
+  async function handleDeleteInformationTransferRow(blockId: string, rowId: string) {
+    const currentBlock = blocks.find((block) => block.id === blockId);
+    if (!currentBlock?.informationTransfer) return;
+
+    await handleInformationTransferExerciseChange(blockId, currentBlock.informationTransfer.id, {
+      rows: currentBlock.informationTransfer.rows
+        .filter((row) => row.id !== rowId)
+        .map((row, index) => ({ ...row, sortOrder: index })),
+    });
+  }
+
+  async function handleFillBlankFirstPaperChange(
+    blockId: string,
+    patch: { question?: string; details?: string; blanks?: FillBlankAnswerRecord[] },
+  ) {
+    const currentBlock = blocks.find((block) => block.id === blockId);
+    if (!currentBlock?.gapFillFirstPaper) return;
+
+    const question = patch.question !== undefined ? patch.question : currentBlock.gapFillFirstPaper.question;
+    const blankCount = countFillBlankMarkers(question);
+    const sourceBlanks = patch.blanks !== undefined ? patch.blanks : currentBlock.gapFillFirstPaper.blanks;
+    const blanks = resizeFillBlankAnswers(sourceBlanks, blankCount);
+    const answer = serializeFillBlankAnswers(blanks);
+    const details = patch.details !== undefined ? patch.details : currentBlock.gapFillFirstPaper.details;
+
+    const next = {
+      ...currentBlock.gapFillFirstPaper,
+      question,
+      answer,
+      details,
+      blanks,
+    };
+
+    patchBlock(blockId, (block) => ({
+      ...block,
+      gapFillFirstPaper: block.gapFillFirstPaper ? next : null,
+    }));
+
+    saveInBackground(`gap-fill-first-paper:${blockId}`, () =>
+      updateGapFillFirstPaper({
+        contentId: content.id,
+        blockId,
+        recordId: next.id,
+        question: next.question,
+        answer: next.answer,
+        details: next.details,
+      }),
+    );
+  }
+
+  async function handleFillBlankAnswerChange(blockId: string, answerId: string, answer: string) {
+    const currentBlock = blocks.find((block) => block.id === blockId);
+    if (!currentBlock?.gapFillFirstPaper) return;
+
+    await handleFillBlankFirstPaperChange(blockId, {
+      blanks: currentBlock.gapFillFirstPaper.blanks.map((item) =>
+        item.id === answerId ? { ...item, answer } : item,
+      ),
+    });
+  }
+
+  async function handleDeleteFillBlank(blockId: string, blankId: string) {
+    const currentBlock = blocks.find((block) => block.id === blockId);
+    if (!currentBlock?.gapFillFirstPaper) return;
+
+    const blankIndex = currentBlock.gapFillFirstPaper.blanks.findIndex((item) => item.id === blankId);
+    if (blankIndex < 0) return;
+
+    const question = removeFillBlankMarkerAt(currentBlock.gapFillFirstPaper.question, blankIndex);
+    const blanks = currentBlock.gapFillFirstPaper.blanks
+      .filter((item) => item.id !== blankId)
+      .map((item, index) => ({ ...item, sortOrder: index }));
+
+    await handleFillBlankFirstPaperChange(blockId, { question, blanks });
+  }
+
+  async function handleThreeFieldChange(
     kind: ContentBlockKind,
     blockId: string,
     recordId: string,
@@ -1273,16 +1838,16 @@ export function ContentBlocksEditorClient({
 
     patchBlock(blockId, (block) => config.patchBlock(block, next));
 
-    startTransition(async () => {
-      await config.updateAction({
+    saveInBackground(`${kind}:${blockId}`, () =>
+      config.updateAction({
         contentId: content.id,
         blockId,
         recordId,
         question: next.question,
         answer: next.answer,
         details: next.details,
-      });
-    });
+      }),
+    );
   }
 
   return (
@@ -1297,6 +1862,7 @@ export function ContentBlocksEditorClient({
         <CardHeader>
           <CardTitle>Manage Content Blocks</CardTitle>
           <CardDescription>{pathLabel}</CardDescription>
+          <CardDescription>Typing stays local for speed. Changes auto-save after a short pause, on blur, or with Ctrl/Cmd+S.</CardDescription>
         </CardHeader>
       </Card>
 
@@ -1411,11 +1977,9 @@ export function ContentBlocksEditorClient({
                             <Field>
                               <FieldContent>
                                 <FieldLabel>Word</FieldLabel>
-                                <Input
+                                <BufferedInput
                                   value={entry.word}
-                                  onChange={(event) =>
-                                    void handleVocabularyEntryChange(block.id, entry.id, { word: event.target.value })
-                                  }
+                                  onCommit={(value) => void handleVocabularyEntryChange(block.id, entry.id, { word: value })}
                                   placeholder="Write the vocabulary word..."
                                 />
                               </FieldContent>
@@ -1424,11 +1988,9 @@ export function ContentBlocksEditorClient({
                             <Field>
                               <FieldContent>
                                 <FieldLabel>Meaning</FieldLabel>
-                                <Input
+                                <BufferedInput
                                   value={entry.meaning}
-                                  onChange={(event) =>
-                                    void handleVocabularyEntryChange(block.id, entry.id, { meaning: event.target.value })
-                                  }
+                                  onCommit={(value) => void handleVocabularyEntryChange(block.id, entry.id, { meaning: value })}
                                   placeholder="Write the meaning..."
                                 />
                               </FieldContent>
@@ -1479,11 +2041,9 @@ export function ContentBlocksEditorClient({
                               <Field>
                                 <FieldContent>
                                   <FieldLabel>Word</FieldLabel>
-                                  <Input
+                                  <BufferedInput
                                     value={entry.word}
-                                    onChange={(event) =>
-                                      void handleSynonymsAntonymsEntryChange(block.id, entry.id, { word: event.target.value })
-                                    }
+                                    onCommit={(value) => void handleSynonymsAntonymsEntryChange(block.id, entry.id, { word: value })}
                                     placeholder="Target word"
                                   />
                                 </FieldContent>
@@ -1492,12 +2052,10 @@ export function ContentBlocksEditorClient({
                               <Field>
                                 <FieldContent>
                                   <FieldLabel>Meanings</FieldLabel>
-                                  <Textarea
+                                  <BufferedTextarea
                                     value={entry.meanings}
-                                    onChange={(event) =>
-                                      void handleSynonymsAntonymsEntryChange(block.id, entry.id, {
-                                        meanings: event.target.value,
-                                      })
+                                    onCommit={(value) =>
+                                      void handleSynonymsAntonymsEntryChange(block.id, entry.id, { meanings: value })
                                     }
                                     placeholder="Meaning or explanation"
                                     rows={3}
@@ -1557,9 +2115,9 @@ export function ContentBlocksEditorClient({
                     <Field>
                       <FieldContent>
                         <FieldLabel>Section title</FieldLabel>
-                        <Input
+                        <BufferedInput
                           value={block.mcqSection.title}
-                          onChange={(event) => void handleMcqSectionChange(block.id, { title: event.target.value })}
+                          onCommit={(value) => void handleMcqSectionChange(block.id, { title: value })}
                           placeholder="Multiple choice questions"
                         />
                       </FieldContent>
@@ -1568,9 +2126,9 @@ export function ContentBlocksEditorClient({
                     <Field>
                       <FieldContent>
                         <FieldLabel>Section description</FieldLabel>
-                        <Textarea
+                        <BufferedTextarea
                           value={block.mcqSection.description}
-                          onChange={(event) => void handleMcqSectionChange(block.id, { description: event.target.value })}
+                          onCommit={(value) => void handleMcqSectionChange(block.id, { description: value })}
                           placeholder="Add optional instructions for this MCQ section..."
                           rows={3}
                         />
@@ -1612,9 +2170,9 @@ export function ContentBlocksEditorClient({
                           <Field>
                             <FieldContent>
                               <FieldLabel>Question prompt</FieldLabel>
-                              <Textarea
+                              <BufferedTextarea
                                 value={question.prompt}
-                                onChange={(event) => void handleMcqQuestionPatch(block.id, question.id, { prompt: event.target.value })}
+                                onCommit={(value) => void handleMcqQuestionPatch(block.id, question.id, { prompt: value })}
                                 placeholder="Write the MCQ prompt..."
                                 rows={4}
                               />
@@ -1667,10 +2225,10 @@ export function ContentBlocksEditorClient({
                                     </Button>
                                   </div>
 
-                                  <Input
+                                  <BufferedInput
                                     value={option.text}
-                                    onChange={(event) =>
-                                      void handleMcqOptionPatch(block.id, question.id, option.id, { text: event.target.value })
+                                    onCommit={(value) =>
+                                      void handleMcqOptionPatch(block.id, question.id, option.id, { text: value })
                                     }
                                     placeholder={`Write option ${option.label}...`}
                                   />
@@ -1691,9 +2249,9 @@ export function ContentBlocksEditorClient({
                     <Field>
                       <FieldContent>
                         <FieldLabel>Title</FieldLabel>
-                        <Input
+                        <BufferedInput
                           value={block.trueFalseExercise.title}
-                          onChange={(event) => void handleTrueFalseExerciseChange(block.id, { title: event.target.value })}
+                          onCommit={(value) => void handleTrueFalseExerciseChange(block.id, { title: value })}
                           placeholder="True / False"
                         />
                       </FieldContent>
@@ -1702,9 +2260,9 @@ export function ContentBlocksEditorClient({
                     <Field>
                       <FieldContent>
                         <FieldLabel>Instruction</FieldLabel>
-                        <Textarea
+                        <BufferedTextarea
                           value={block.trueFalseExercise.instruction}
-                          onChange={(event) => void handleTrueFalseExerciseChange(block.id, { instruction: event.target.value })}
+                          onCommit={(value) => void handleTrueFalseExerciseChange(block.id, { instruction: value })}
                           placeholder="Write the instructions for this exercise..."
                           rows={3}
                         />
@@ -1714,9 +2272,9 @@ export function ContentBlocksEditorClient({
                     <Field>
                       <FieldContent>
                         <FieldLabel>Passage</FieldLabel>
-                        <Textarea
+                        <BufferedTextarea
                           value={block.trueFalseExercise.passage}
-                          onChange={(event) => void handleTrueFalseExerciseChange(block.id, { passage: event.target.value })}
+                          onCommit={(value) => void handleTrueFalseExerciseChange(block.id, { passage: value })}
                           placeholder="Write the passage here..."
                           rows={5}
                         />
@@ -1756,9 +2314,9 @@ export function ContentBlocksEditorClient({
                           <Field>
                             <FieldContent>
                               <FieldLabel>Statement</FieldLabel>
-                              <Textarea
+                              <BufferedTextarea
                                 value={row.statement}
-                                onChange={(event) => void handleTrueFalseRowPatch(block.id, row.id, { statement: event.target.value })}
+                                onCommit={(value) => void handleTrueFalseRowPatch(block.id, row.id, { statement: value })}
                                 placeholder="Type the true/false statement here..."
                                 rows={4}
                               />
@@ -1791,9 +2349,9 @@ export function ContentBlocksEditorClient({
                             <Field>
                               <FieldContent>
                                 <FieldLabel>Correction</FieldLabel>
-                                <Textarea
+                                <BufferedTextarea
                                   value={row.correction}
-                                  onChange={(event) => void handleTrueFalseRowPatch(block.id, row.id, { correction: event.target.value })}
+                                  onCommit={(value) => void handleTrueFalseRowPatch(block.id, row.id, { correction: value })}
                                   placeholder="Write the correct statement here..."
                                   rows={3}
                                 />
@@ -1813,12 +2371,10 @@ export function ContentBlocksEditorClient({
                     <Field>
                       <FieldContent>
                         <FieldLabel>Title</FieldLabel>
-                        <Input
+                        <BufferedInput
                           value={block.questionAnswerExercise.title}
-                          onChange={(event) =>
-                            void handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, {
-                              title: event.target.value,
-                            })
+                          onCommit={(value) =>
+                            void handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, { title: value })
                           }
                           placeholder="Question Answer"
                         />
@@ -1936,28 +2492,165 @@ export function ContentBlocksEditorClient({
                 </CardContent>
               ) : null}
 
-              {(block.kind === "table-completion" ||
-                block.kind === "column-matching" ||
-                block.kind === "sentence-ordering") &&
-              block.questionAnswerExercise ? (
+              {block.kind === "sentence-ordering" && block.questionAnswerExercise ? (
                 <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-5`}>
-                  {block.kind === "sentence-ordering" ? (
+                  <FieldGroup className="gap-5">
                     <Field>
                       <FieldContent>
                         <FieldLabel>Exercise Title</FieldLabel>
-                        <Input
+                        <BufferedInput
                           value={block.questionAnswerExercise.title}
-                          onChange={(event) =>
-                            void handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, {
-                              title: event.target.value,
-                            })
+                          onCommit={(value) =>
+                            void handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, { title: value })
                           }
-                          placeholder="Rearrange sentence"
+                          placeholder="Rearrange Sentence"
                         />
                       </FieldContent>
                     </Field>
-                  ) : null}
 
+                    <Field>
+                      <FieldContent>
+                        <FieldLabel>Instruction</FieldLabel>
+                        <BufferedTextarea
+                          value={block.questionAnswerExercise.instruction}
+                          onCommit={(value) =>
+                            void handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, {
+                              instruction: value,
+                            })
+                          }
+                          placeholder="Rearrange the following sentences in the correct order."
+                          rows={3}
+                        />
+                      </FieldContent>
+                    </Field>
+
+                    <Field>
+                      <FieldContent>
+                        <FieldLabel>Extra details</FieldLabel>
+                        <div className="rounded-xl border bg-background p-3">
+                          <TiptapRichTextEditor
+                            value={block.questionAnswerExercise.details}
+                            onChange={(value) =>
+                              void handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, {
+                                details: value,
+                              })
+                            }
+                            minHeight={110}
+                            placeholder="Optional passage, hint, or extra instructions..."
+                          />
+                        </div>
+                      </FieldContent>
+                    </Field>
+                  </FieldGroup>
+
+                  <div className="flex flex-wrap items-center justify-between gap-4 border-t pt-5">
+                    <div className="space-y-1">
+                      <h3 className="text-sm font-medium">Sentences in the correct order</h3>
+                      <p className="max-w-2xl text-sm text-muted-foreground">
+                        Add one full sentence at a time in the correct sequence. Students will see these items shuffled
+                        and will rearrange them back into this order.
+                      </p>
+                    </div>
+                    <Button type="button" onClick={() => openSentenceOrderingModal(block.id)}>
+                      <Plus className="mr-2 h-4 w-4" />
+                      Add Rearrange Item
+                    </Button>
+                  </div>
+
+                  {block.questionAnswerExercise.rows.length === 0 ? (
+                    <Empty className="border">
+                      <EmptyHeader>
+                        <EmptyTitle>No sentence items added yet</EmptyTitle>
+                        <EmptyDescription>
+                          Add the sentences in their correct final order. The student view will shuffle them automatically.
+                        </EmptyDescription>
+                      </EmptyHeader>
+                      <EmptyContent>
+                        <Button type="button" onClick={() => openSentenceOrderingModal(block.id)}>
+                          <Plus className="mr-2 h-4 w-4" />
+                          Add first sentence
+                        </Button>
+                      </EmptyContent>
+                    </Empty>
+                  ) : (
+                    <div className="space-y-4">
+                      {block.questionAnswerExercise.rows.map((row, index) => (
+                        <Card key={row.id} className="shadow-none">
+                          <CardContent className="space-y-4 pt-6">
+                            <div className="flex flex-wrap items-center justify-between gap-3">
+                              <div className="flex items-center gap-2">
+                                <Badge variant="secondary">Correct order #{index + 1}</Badge>
+                                <span className="text-xs text-muted-foreground">
+                                  Students will not see this correct-order number.
+                                </span>
+                              </div>
+
+                              <div className="flex items-center gap-2">
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="icon"
+                                  aria-label={`Move sentence ${index + 1} up`}
+                                  disabled={index === 0}
+                                  onClick={() => void handleMoveSentenceOrderingRow(block.id, row.id, "up")}
+                                >
+                                  <ArrowUp className="h-4 w-4" />
+                                </Button>
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="icon"
+                                  aria-label={`Move sentence ${index + 1} down`}
+                                  disabled={index === block.questionAnswerExercise!.rows.length - 1}
+                                  onClick={() => void handleMoveSentenceOrderingRow(block.id, row.id, "down")}
+                                >
+                                  <ArrowDown className="h-4 w-4" />
+                                </Button>
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => void handleDeleteSentenceOrderingRow(block.id, row.id)}
+                                >
+                                  <Trash2 className="mr-2 h-4 w-4" />
+                                  Delete
+                                </Button>
+                              </div>
+                            </div>
+
+                            <Field>
+                              <FieldContent>
+                                <FieldLabel>Sentence</FieldLabel>
+                                <div className="rounded-xl border bg-background p-3">
+                                  <TiptapRichTextEditor
+                                    value={row.question}
+                                    onChange={(value) =>
+                                      void handleQuestionAnswerRowPatch(block.id, row.id, { question: value })
+                                    }
+                                    minHeight={120}
+                                    placeholder={`Write the full sentence for correct position ${index + 1}...`}
+                                  />
+                                </div>
+                              </FieldContent>
+                            </Field>
+                          </CardContent>
+                        </Card>
+                      ))}
+
+                      <div className="flex justify-center border-t pt-5">
+                        <Button type="button" variant="outline" onClick={() => openSentenceOrderingModal(block.id)}>
+                          <Plus className="mr-2 h-4 w-4" />
+                          Add another Rearrange Item
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              ) : null}
+
+              {(block.kind === "table-completion" || block.kind === "column-matching") &&
+              block.questionAnswerExercise ? (
+                <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-5`}>
                   <FieldGroup className="gap-5">
                     <Field>
                       <FieldContent>
@@ -2011,6 +2704,205 @@ export function ContentBlocksEditorClient({
                 </CardContent>
               ) : null}
 
+              {block.kind === "information-transfer" && block.informationTransfer ? (
+                <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-5`}>
+                  <Field>
+                    <FieldContent>
+                      <FieldLabel>Instruction / Source details</FieldLabel>
+                      <FieldDescription>
+                        Optional context or instruction shown above the Information Transfer items.
+                      </FieldDescription>
+                      <div className="rounded-xl border bg-background p-3">
+                        <TiptapRichTextEditor
+                          value={block.informationTransfer.details}
+                          onChange={(value) =>
+                            void handleInformationTransferExerciseChange(
+                              block.id,
+                              block.informationTransfer!.id,
+                              { details: value },
+                            )
+                          }
+                          minHeight={130}
+                          placeholder="Add source details or instructions here..."
+                        />
+                      </div>
+                    </FieldContent>
+                  </Field>
+
+                  <div className="flex flex-wrap items-center justify-between gap-4 border-t pt-5">
+                    <div className="space-y-1">
+                      <h3 className="text-sm font-medium">Information Transfer Items</h3>
+                      <p className="max-w-2xl text-sm text-muted-foreground">
+                        Add each term or item separately with its own answer.
+                      </p>
+                    </div>
+                    <Button type="button" onClick={() => openInformationTransferModal(block.id)}>
+                      <Plus className="mr-2 h-4 w-4" />
+                      Add Information Transfer Item
+                    </Button>
+                  </div>
+
+                  {block.informationTransfer.rows.length === 0 ? (
+                    <Empty className="border">
+                      <EmptyHeader>
+                        <EmptyTitle>No Information Transfer items yet</EmptyTitle>
+                        <EmptyDescription>
+                          Add one term or item with its answer, then continue adding the remaining items.
+                        </EmptyDescription>
+                      </EmptyHeader>
+                      <EmptyContent>
+                        <Button type="button" onClick={() => openInformationTransferModal(block.id)}>
+                          <Plus className="mr-2 h-4 w-4" />
+                          Add first item
+                        </Button>
+                      </EmptyContent>
+                    </Empty>
+                  ) : (
+                    <div className="space-y-4">
+                      {block.informationTransfer.rows.map((row, index) => (
+                        <Card key={row.id} className="shadow-none">
+                          <CardContent className="space-y-4 pt-6">
+                            <div className="flex flex-wrap items-center justify-between gap-3">
+                              <Badge variant="secondary">Item #{index + 1}</Badge>
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={() => void handleDeleteInformationTransferRow(block.id, row.id)}
+                              >
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                Delete
+                              </Button>
+                            </div>
+
+                            <Field>
+                              <FieldContent>
+                                <FieldLabel>Term / Item</FieldLabel>
+                                <div className="rounded-xl border bg-background p-3">
+                                  <TiptapRichTextEditor
+                                    value={row.term}
+                                    onChange={(value) =>
+                                      void handleInformationTransferRowPatch(block.id, row.id, { term: value })
+                                    }
+                                    minHeight={120}
+                                    placeholder="Write the term, label, or information item..."
+                                  />
+                                </div>
+                              </FieldContent>
+                            </Field>
+
+                            <Field>
+                              <FieldContent>
+                                <FieldLabel>Answer</FieldLabel>
+                                <div className="rounded-xl border bg-background p-3">
+                                  <TiptapRichTextEditor
+                                    value={row.answer}
+                                    onChange={(value) =>
+                                      void handleInformationTransferRowPatch(block.id, row.id, { answer: value })
+                                    }
+                                    minHeight={120}
+                                    placeholder="Write the answer for this item..."
+                                  />
+                                </div>
+                              </FieldContent>
+                            </Field>
+                          </CardContent>
+                        </Card>
+                      ))}
+
+                      <div className="flex justify-center border-t pt-5">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => openInformationTransferModal(block.id)}
+                        >
+                          <Plus className="mr-2 h-4 w-4" />
+                          Add another Information Transfer Item
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              ) : null}
+
+              {block.kind === "gap-fill-first-paper" && block.gapFillFirstPaper ? (
+                <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-6`}>
+                  <FieldGroup className="gap-6">
+                    <FillBlankQuestionEditor
+                      value={block.gapFillFirstPaper.question}
+                      onCommit={(value) =>
+                        void handleFillBlankFirstPaperChange(block.id, { question: value })
+                      }
+                    />
+
+                    <div className="overflow-hidden rounded-2xl border bg-background shadow-sm">
+                      <div className="flex flex-wrap items-start justify-between gap-3 border-b bg-muted/30 px-4 py-3">
+                        <div className="space-y-1">
+                          <h3 className="text-sm font-medium">Answer</h3>
+                          <p className="text-sm text-muted-foreground">
+                            Each blank in the question automatically creates one answer field here.
+                          </p>
+                        </div>
+                        <Badge variant="secondary">{block.gapFillFirstPaper.blanks.length} answer{block.gapFillFirstPaper.blanks.length === 1 ? "" : "s"}</Badge>
+                      </div>
+
+                      <div className="p-4">
+                        {block.gapFillFirstPaper.blanks.length === 0 ? (
+                          <div className="rounded-xl border border-dashed p-4 text-sm text-muted-foreground">
+                            No blanks yet. In the <strong>Question</strong> box, place the cursor where needed and click <strong>Add blank</strong>.
+                          </div>
+                        ) : (
+                          <div className="rounded-2xl border bg-muted/10 p-4">
+                            <div className="flex flex-wrap gap-4">
+                              {block.gapFillFirstPaper.blanks.map((blank, index) => (
+                                <div key={blank.id} className="min-w-[220px] flex-1 space-y-2 rounded-xl border bg-background p-3 md:max-w-[260px]">
+                                  <div className="flex items-center justify-between gap-2">
+                                    <FieldLabel htmlFor={`fill-blank-${blank.id}`}>Blank #{index + 1}</FieldLabel>
+                                    <Button
+                                      type="button"
+                                      variant="ghost"
+                                      size="icon"
+                                      className="h-7 w-7 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                                      onClick={() => void handleDeleteFillBlank(block.id, blank.id)}
+                                      aria-label={`Delete blank ${index + 1}`}
+                                      title={`Delete blank ${index + 1} from question and answer`}
+                                    >
+                                      <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                  </div>
+                                  <BufferedInput
+                                    id={`fill-blank-${blank.id}`}
+                                    value={blank.answer}
+                                    onCommit={(value) => void handleFillBlankAnswerChange(block.id, blank.id, value)}
+                                    placeholder={`Answer for blank ${index + 1}`}
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <Field>
+                      <FieldContent>
+                        <FieldLabel>Details / Instruction</FieldLabel>
+                        <div className="rounded-xl border bg-background p-3">
+                          <TiptapRichTextEditor
+                            value={block.gapFillFirstPaper.details}
+                            onChange={(value) =>
+                              void handleFillBlankFirstPaperChange(block.id, { details: value })
+                            }
+                            minHeight={140}
+                            placeholder="Optional instructions or explanation for students..."
+                          />
+                        </div>
+                      </FieldContent>
+                    </Field>
+                  </FieldGroup>
+                </CardContent>
+              ) : null}
+
               {THREE_FIELD_BLOCK_META[block.kind] && THREE_FIELD_BLOCK_META[block.kind]!.getValue(block) ? (
                 <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-5`}>
                   <FieldGroup className="gap-5">
@@ -2021,7 +2913,7 @@ export function ContentBlocksEditorClient({
                           <TiptapRichTextEditor
                             value={THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.question}
                             onChange={(value) =>
-                              void handleInformationTransferChange(
+                              void handleThreeFieldChange(
                                 block.kind,
                                 block.id,
                                 THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.id,
@@ -2042,7 +2934,7 @@ export function ContentBlocksEditorClient({
                           <TiptapRichTextEditor
                             value={THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.answer}
                             onChange={(value) =>
-                              void handleInformationTransferChange(
+                              void handleThreeFieldChange(
                                 block.kind,
                                 block.id,
                                 THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.id,
@@ -2063,7 +2955,7 @@ export function ContentBlocksEditorClient({
                           <TiptapRichTextEditor
                             value={THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.details}
                             onChange={(value) =>
-                              void handleInformationTransferChange(
+                              void handleThreeFieldChange(
                                 block.kind,
                                 block.id,
                                 THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.id,
@@ -2190,6 +3082,156 @@ export function ContentBlocksEditorClient({
       </ResponsiveEntityEditor>
 
       <ResponsiveEntityEditor
+        open={isSentenceOrderingModalOpen}
+        onOpenChange={(open) => {
+          setIsSentenceOrderingModalOpen(open);
+          if (!open) {
+            setActiveSentenceOrderingBlockId(null);
+            resetSentenceOrderingModal();
+          }
+        }}
+        title="Add Rearrange Sentence Item"
+        description="Enter one full sentence. Add the sentences in their correct final order; students will receive them shuffled."
+        className="w-[calc(100vw-1.5rem)] sm:max-w-3xl lg:max-w-4xl"
+        footer={
+          <div className="flex w-full min-w-0 flex-col-reverse gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:gap-3">
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full sm:w-auto"
+              onClick={() => {
+                setIsSentenceOrderingModalOpen(false);
+                setActiveSentenceOrderingBlockId(null);
+                resetSentenceOrderingModal();
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full sm:w-auto"
+              onClick={() => void handleCreateSentenceOrderingRow(false)}
+            >
+              Save item
+            </Button>
+            <Button
+              type="button"
+              className="w-full sm:w-auto"
+              onClick={() => void handleCreateSentenceOrderingRow(true)}
+            >
+              Save and add another
+            </Button>
+          </div>
+        }
+      >
+        <div className="min-w-0">
+          <Field>
+            <FieldContent className="min-w-0">
+            <FieldLabel>Sentence</FieldLabel>
+            <FieldDescription>
+              Write the full sentence for the next correct position in the sequence.
+            </FieldDescription>
+            <div className="min-w-0 rounded-xl border bg-background p-2 sm:p-3">
+              <TiptapRichTextEditor
+                className="min-w-0 max-w-full"
+                value={newSentenceOrderingDraft.sentence}
+                onChange={(value) =>
+                  setNewSentenceOrderingDraft((current) => ({ ...current, sentence: value }))
+                }
+                minHeight={180}
+                placeholder="Write one full sentence here..."
+              />
+            </div>
+            </FieldContent>
+          </Field>
+        </div>
+      </ResponsiveEntityEditor>
+
+      <ResponsiveEntityEditor
+        open={isInformationTransferModalOpen}
+        onOpenChange={(open) => {
+          setIsInformationTransferModalOpen(open);
+          if (!open) {
+            setActiveInformationTransferBlockId(null);
+            resetInformationTransferModal();
+          }
+        }}
+        title="Add Information Transfer Item"
+        description="Add one term or item with its own answer. Save it, then continue with the next item."
+        className="w-[calc(100vw-1.5rem)] sm:max-w-3xl lg:max-w-4xl"
+        footer={
+          <div className="flex w-full min-w-0 flex-col-reverse gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:gap-3">
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full sm:w-auto"
+              onClick={() => {
+                setIsInformationTransferModalOpen(false);
+                setActiveInformationTransferBlockId(null);
+                resetInformationTransferModal();
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full sm:w-auto"
+              onClick={() => void handleCreateInformationTransferRow(false)}
+            >
+              Save item
+            </Button>
+            <Button
+              type="button"
+              className="w-full sm:w-auto"
+              onClick={() => void handleCreateInformationTransferRow(true)}
+            >
+              Save and add another
+            </Button>
+          </div>
+        }
+      >
+        <FieldGroup className="min-w-0 gap-5">
+          <Field>
+            <FieldContent className="min-w-0">
+              <FieldLabel>Term / Item</FieldLabel>
+              <FieldDescription>Enter one information-transfer term, label, or item.</FieldDescription>
+              <div className="min-w-0 rounded-xl border bg-background p-2 sm:p-3">
+                <TiptapRichTextEditor
+                  className="min-w-0 max-w-full"
+                  value={newInformationTransferDraft.term}
+                  onChange={(value) =>
+                    setNewInformationTransferDraft((current) => ({ ...current, term: value }))
+                  }
+                  minHeight={150}
+                  placeholder="Write the term or item here..."
+                />
+              </div>
+            </FieldContent>
+          </Field>
+
+          <Field>
+            <FieldContent className="min-w-0">
+              <FieldLabel>Answer</FieldLabel>
+              <FieldDescription>Enter the answer for this item only.</FieldDescription>
+              <div className="min-w-0 rounded-xl border bg-background p-2 sm:p-3">
+                <TiptapRichTextEditor
+                  className="min-w-0 max-w-full"
+                  value={newInformationTransferDraft.answer}
+                  onChange={(value) =>
+                    setNewInformationTransferDraft((current) => ({ ...current, answer: value }))
+                  }
+                  minHeight={150}
+                  placeholder="Write the answer for this item..."
+                />
+              </div>
+            </FieldContent>
+          </Field>
+        </FieldGroup>
+      </ResponsiveEntityEditor>
+
+      <ResponsiveEntityEditor
         open={isTrueFalseModalOpen}
         onOpenChange={(open) => {
           setIsTrueFalseModalOpen(open);
@@ -2226,9 +3268,9 @@ export function ContentBlocksEditorClient({
           <Field>
             <FieldContent>
               <FieldLabel>Statement</FieldLabel>
-              <Textarea
+              <BufferedTextarea
                 value={newTrueFalseDraft.statement}
-                onChange={(event) => setNewTrueFalseDraft((current) => ({ ...current, statement: event.target.value }))}
+                onCommit={(value) => setNewTrueFalseDraft((current) => ({ ...current, statement: value }))}
                 placeholder="Type the true/false statement here..."
                 rows={4}
               />
@@ -2261,9 +3303,9 @@ export function ContentBlocksEditorClient({
             <Field>
               <FieldContent>
                 <FieldLabel>Correction</FieldLabel>
-                <Textarea
+                <BufferedTextarea
                   value={newTrueFalseDraft.correction}
-                  onChange={(event) => setNewTrueFalseDraft((current) => ({ ...current, correction: event.target.value }))}
+                  onCommit={(value) => setNewTrueFalseDraft((current) => ({ ...current, correction: value }))}
                   placeholder="Write the correct statement here..."
                   rows={3}
                 />
@@ -2310,9 +3352,9 @@ export function ContentBlocksEditorClient({
           <Field>
             <FieldContent>
               <FieldLabel>Question prompt</FieldLabel>
-              <Textarea
+              <BufferedTextarea
                 value={newMcqDraft.prompt}
-                onChange={(event) => setNewMcqDraft((current) => ({ ...current, prompt: event.target.value }))}
+                onCommit={(value) => setNewMcqDraft((current) => ({ ...current, prompt: value }))}
                 placeholder="Write the MCQ prompt..."
                 rows={4}
               />
@@ -2365,9 +3407,9 @@ export function ContentBlocksEditorClient({
                       {option.isCorrect ? "Correct" : "Mark correct"}
                     </Button>
                   </div>
-                  <Input
+                  <BufferedInput
                     value={option.text}
-                    onChange={(event) => setMcqDraftOption(index, { text: event.target.value })}
+                    onCommit={(value) => setMcqDraftOption(index, { text: value })}
                     placeholder={`Write option ${option.label}...`}
                   />
                 </CardContent>
@@ -2414,9 +3456,9 @@ export function ContentBlocksEditorClient({
           <Field>
             <FieldContent>
               <FieldLabel>Word</FieldLabel>
-              <Input
+              <BufferedInput
                 value={newVocabularyWord}
-                onChange={(event) => setNewVocabularyWord(event.target.value)}
+                onCommit={setNewVocabularyWord}
                 placeholder="Write the vocabulary word..."
               />
             </FieldContent>
@@ -2425,9 +3467,9 @@ export function ContentBlocksEditorClient({
           <Field>
             <FieldContent>
               <FieldLabel>Meaning</FieldLabel>
-              <Input
+              <BufferedInput
                 value={newVocabularyMeaning}
-                onChange={(event) => setNewVocabularyMeaning(event.target.value)}
+                onCommit={setNewVocabularyMeaning}
                 placeholder="Write the meaning..."
               />
             </FieldContent>

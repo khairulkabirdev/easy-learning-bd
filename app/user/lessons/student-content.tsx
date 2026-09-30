@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2, CircleHelp, Eye, Flag, Heart, XCircle } from "lucide-react";
+import { ArrowDown, ArrowUp, CheckCircle2, CircleHelp, Eye, Flag, Heart, XCircle } from "lucide-react";
 
 import type {
   ContentBlockKind,
@@ -34,7 +34,7 @@ const threeFieldBlockLabels: Partial<Record<ContentBlockKind, string>> = {
   "question-answer": "Question Answer",
   "table-completion": "Table Completion",
   "column-matching": "Column Matching",
-  "sentence-ordering": "Sentence Ordering",
+  "sentence-ordering": "Rearrange Sentence",
   "information-transfer": "Information Transfer",
   "substitution-table": "Substitution Table",
   "right-form-of-verb": "Right Form of Verb",
@@ -167,6 +167,111 @@ function ThreeFieldExerciseBlock({
           <div className="space-y-2 rounded-xl border border-dashed p-4">
             <div className="text-sm font-medium">Answer review</div>
             <RichContent value={answer} />
+          </div>
+        ) : null}
+      </CardContent>
+    </Card>
+  );
+}
+
+function fillBlankQuestionToText(value: string) {
+  return value
+    .replace(/<br\s*\/?\s*>/gi, "\n")
+    .replace(/<\/(p|div|li|h[1-6])>/gi, "\n")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function FillInTheBlanksBlock({
+  question,
+  blanks,
+  details,
+}: {
+  question: string;
+  blanks: Array<{ id: string; sortOrder: number; answer: string }>;
+  details: string;
+}) {
+  const passage = fillBlankQuestionToText(question);
+  const segments = passage.split(/_{2,}/g);
+  const [studentAnswers, setStudentAnswers] = useState<Record<string, string>>({});
+  const [statusByBlank, setStatusByBlank] = useState<Record<string, CheckStatus>>({});
+  const [showAnswers, setShowAnswers] = useState(false);
+
+  function checkAnswers() {
+    const nextStatus: Record<string, CheckStatus> = {};
+    blanks.forEach((blank) => {
+      const expectedAnswer = normalizeAnswer(blank.answer);
+      nextStatus[blank.id] =
+        expectedAnswer && normalizeAnswer(studentAnswers[blank.id] || "") === expectedAnswer
+          ? "correct"
+          : "incorrect";
+    });
+    setStatusByBlank(nextStatus);
+  }
+
+  const allAnsweredCorrectly =
+    blanks.length > 0 && blanks.every((blank) => statusByBlank[blank.id] === "correct");
+  const hasChecked = Object.keys(statusByBlank).length > 0;
+
+  return (
+    <Card className="rounded-xl">
+      <CardHeader className="space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <CardTitle className="text-lg">Fill in the Blanks</CardTitle>
+          {hasChecked ? <ResultBadge status={allAnsweredCorrectly ? "correct" : "incorrect"} /> : null}
+        </div>
+        {stripHtml(details) ? <CardDescription>{stripHtml(details)}</CardDescription> : null}
+      </CardHeader>
+      <CardContent className="space-y-5">
+        <div className="rounded-xl border bg-muted/10 p-4 text-base leading-9 whitespace-pre-wrap">
+          {segments.map((segment, index) => {
+            const blank = blanks[index];
+            return (
+              <span key={`${index}-${blank?.id || "tail"}`}>
+                {segment}
+                {blank ? (
+                  <span className="mx-1 inline-flex align-middle">
+                    <Input
+                      value={studentAnswers[blank.id] || ""}
+                      onChange={(event) => {
+                        setStudentAnswers((current) => ({ ...current, [blank.id]: event.target.value }));
+                        setStatusByBlank((current) => ({ ...current, [blank.id]: "idle" }));
+                      }}
+                      aria-label={`Answer for blank ${index + 1}`}
+                      placeholder={`${index + 1}`}
+                      className={cn(
+                        "h-9 min-w-28 w-36 bg-background px-2 text-center sm:w-44",
+                        statusByBlank[blank.id] === "correct" && "border-emerald-500 bg-emerald-50",
+                        statusByBlank[blank.id] === "incorrect" && "border-red-500 bg-red-50",
+                      )}
+                    />
+                  </span>
+                ) : null}
+              </span>
+            );
+          })}
+        </div>
+
+        <ActionButtons onCheck={checkAnswers} onReveal={() => setShowAnswers(true)} />
+
+        {showAnswers ? (
+          <div className="space-y-3 rounded-xl border border-dashed p-4">
+            <div className="text-sm font-medium">Correct answers</div>
+            <div className="grid gap-2 sm:grid-cols-2">
+              {blanks.map((blank, index) => (
+                <div key={blank.id} className="flex items-center gap-3 rounded-lg bg-muted/30 px-3 py-2">
+                  <Badge variant="outline">Blank {index + 1}</Badge>
+                  <span className="font-medium">{blank.answer || "—"}</span>
+                </div>
+              ))}
+            </div>
           </div>
         ) : null}
       </CardContent>
@@ -477,6 +582,150 @@ function McqBlock({ title, description, questions }: { title: string; descriptio
   );
 }
 
+function sentenceShuffleScore(value: string) {
+  let hash = 2166136261;
+  for (let index = 0; index < value.length; index += 1) {
+    hash ^= value.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
+}
+
+function createInitialSentenceOrder(rows: Array<{ id: string }>) {
+  const correctOrder = rows.map((row) => row.id);
+  const shuffled = [...correctOrder].sort(
+    (left, right) => sentenceShuffleScore(`${left}:student-shuffle`) - sentenceShuffleScore(`${right}:student-shuffle`),
+  );
+
+  if (shuffled.length > 1 && shuffled.every((id, index) => id === correctOrder[index])) {
+    return [...shuffled.slice(1), shuffled[0]];
+  }
+
+  return shuffled;
+}
+
+function SentenceOrderingBlock({
+  title,
+  instruction,
+  details,
+  rows,
+}: {
+  title: string;
+  instruction: string;
+  details: string;
+  rows: Array<{ id: string; question: string; answer: string }>;
+}) {
+  const [orderedIds, setOrderedIds] = useState<string[]>(() => createInitialSentenceOrder(rows));
+  const [status, setStatus] = useState<CheckStatus>("idle");
+  const [showCorrectOrder, setShowCorrectOrder] = useState(false);
+  const rowById = new Map(rows.map((row) => [row.id, row]));
+  const orderedRows = orderedIds.map((id) => rowById.get(id)).filter(Boolean) as typeof rows;
+
+  function moveSentence(rowId: string, direction: "up" | "down") {
+    setOrderedIds((current) => {
+      const currentIndex = current.indexOf(rowId);
+      if (currentIndex === -1) return current;
+
+      const nextIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
+      if (nextIndex < 0 || nextIndex >= current.length) return current;
+
+      const next = [...current];
+      const [moved] = next.splice(currentIndex, 1);
+      next.splice(nextIndex, 0, moved);
+      return next;
+    });
+    setStatus("idle");
+    setShowCorrectOrder(false);
+  }
+
+  return (
+    <Card className="rounded-xl">
+      <CardHeader className="space-y-3">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="space-y-1">
+            <CardTitle className="text-lg">{title || "Rearrange Sentence"}</CardTitle>
+            {instruction ? <CardDescription>{instruction}</CardDescription> : null}
+          </div>
+          <ResultBadge status={status} />
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {stripHtml(details) ? (
+          <div className="rounded-xl border border-dashed p-4">
+            <RichContent value={details} />
+          </div>
+        ) : null}
+
+        <div className="rounded-xl border bg-muted/20 p-3 text-sm text-muted-foreground">
+          Move the sentences up or down until they are in the correct order.
+        </div>
+
+        <div className="space-y-3">
+          {orderedRows.map((row, index) => (
+            <div key={row.id} className="flex items-start gap-3 rounded-xl border bg-background p-3">
+              <Badge variant="outline" className="mt-1 shrink-0">
+                {index + 1}
+              </Badge>
+              <div className="min-w-0 flex-1">
+                <RichContent value={row.question} />
+              </div>
+              <div className="flex shrink-0 flex-col gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  aria-label={`Move item ${index + 1} up`}
+                  disabled={index === 0}
+                  onClick={() => moveSentence(row.id, "up")}
+                >
+                  <ArrowUp className="h-4 w-4" />
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  aria-label={`Move item ${index + 1} down`}
+                  disabled={index === orderedRows.length - 1}
+                  onClick={() => moveSentence(row.id, "down")}
+                >
+                  <ArrowDown className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {showCorrectOrder ? (
+          <div className="rounded-xl border border-dashed p-4">
+            <div className="mb-3 text-sm font-medium">Correct order</div>
+            <div className="space-y-3">
+              {rows.map((row, index) => (
+                <div key={row.id} className="flex items-start gap-3 rounded-lg bg-muted/30 p-3">
+                  <Badge variant="secondary" className="mt-1 shrink-0">
+                    {index + 1}
+                  </Badge>
+                  <div className="min-w-0 flex-1">
+                    <RichContent value={row.question} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
+
+        <ActionButtons
+          onCheck={() => {
+            const isCorrect =
+              orderedIds.length === rows.length && orderedIds.every((rowId, index) => rowId === rows[index]?.id);
+            setStatus(isCorrect ? "correct" : "incorrect");
+          }}
+          onReveal={() => setShowCorrectOrder(true)}
+        />
+      </CardContent>
+    </Card>
+  );
+}
+
 function QuestionAnswerRowsBlock({
   title,
   rows,
@@ -522,6 +771,74 @@ function QuestionAnswerRowsBlock({
             ) : null}
           </div>
         ))}
+        <ActionButtons
+          onCheck={() => {
+            const next: Record<string, CheckStatus> = {};
+            for (const row of rows) {
+              next[row.id] =
+                normalizeAnswer(answers[row.id] || "") === normalizeAnswer(row.answer) ? "correct" : "incorrect";
+            }
+            setStatusByRow(next);
+            setShowAnswers(true);
+          }}
+          onReveal={() => setShowAnswers(true)}
+        />
+      </CardContent>
+    </Card>
+  );
+}
+
+
+function InformationTransferRowsBlock({
+  rows,
+  details,
+}: {
+  rows: Array<{ id: string; term: string; answer: string }>;
+  details: string;
+}) {
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [statusByRow, setStatusByRow] = useState<Record<string, CheckStatus>>({});
+  const [showAnswers, setShowAnswers] = useState(false);
+
+  return (
+    <Card className="rounded-xl">
+      <CardHeader className="space-y-3">
+        <CardTitle className="text-lg">Information Transfer</CardTitle>
+        {stripHtml(details) ? <CardDescription>{stripHtml(details)}</CardDescription> : null}
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {rows.map((row, index) => (
+          <div key={row.id} className="rounded-xl border p-4">
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+              <Badge variant="outline">Item {index + 1}</Badge>
+              <ResultBadge status={statusByRow[row.id] || "idle"} />
+            </div>
+
+            <div className="mb-3 space-y-1">
+              <div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Term / Item</div>
+              <div className="rounded-xl border p-4">
+                <RichContent value={row.term} />
+              </div>
+            </div>
+
+            <Input
+              value={answers[row.id] || ""}
+              onChange={(event) => {
+                setAnswers((current) => ({ ...current, [row.id]: event.target.value }));
+                setStatusByRow((current) => ({ ...current, [row.id]: "idle" }));
+              }}
+              placeholder="Write the answer for this item..."
+            />
+
+            {showAnswers ? (
+              <div className="mt-3 rounded-xl border border-dashed p-3">
+                <div className="mb-2 text-sm font-medium">Answer review</div>
+                <RichContent value={row.answer} />
+              </div>
+            ) : null}
+          </div>
+        ))}
+
         <ActionButtons
           onCheck={() => {
             const next: Record<string, CheckStatus> = {};
@@ -636,7 +953,25 @@ function StudentBlockCard({ block }: { block: StudentContentRecord["blocks"][num
       />
     );
   }
-  if (block.questionAnswerExercise && ["question-answer", "table-completion", "column-matching", "sentence-ordering"].includes(block.kind)) {
+  if (block.kind === "sentence-ordering" && block.questionAnswerExercise) {
+    return block.questionAnswerExercise.rows.length > 0 ? (
+      <SentenceOrderingBlock
+        title={block.questionAnswerExercise.title || "Rearrange Sentence"}
+        instruction={block.questionAnswerExercise.instruction}
+        details={block.questionAnswerExercise.details}
+        rows={block.questionAnswerExercise.rows}
+      />
+    ) : (
+      <ThreeFieldExerciseBlock
+        title={block.questionAnswerExercise.title || "Rearrange Sentence"}
+        question={block.questionAnswerExercise.question}
+        answer={block.questionAnswerExercise.answer}
+        details={block.questionAnswerExercise.details || block.questionAnswerExercise.instruction}
+      />
+    );
+  }
+
+  if (block.questionAnswerExercise && ["question-answer", "table-completion", "column-matching"].includes(block.kind)) {
     return block.questionAnswerExercise.rows.length > 0 ? (
       <QuestionAnswerRowsBlock
         title={block.questionAnswerExercise.title || threeFieldBlockLabels[block.kind] || "Exercise"}
@@ -653,11 +988,35 @@ function StudentBlockCard({ block }: { block: StudentContentRecord["blocks"][num
     );
   }
 
+  if (block.kind === "information-transfer" && block.informationTransfer) {
+    return block.informationTransfer.rows.length > 0 ? (
+      <InformationTransferRowsBlock
+        rows={block.informationTransfer.rows}
+        details={block.informationTransfer.details}
+      />
+    ) : (
+      <ThreeFieldExerciseBlock
+        title="Information Transfer"
+        question={block.informationTransfer.question}
+        answer={block.informationTransfer.answer}
+        details={block.informationTransfer.details}
+      />
+    );
+  }
+
+  if (block.kind === "gap-fill-first-paper" && block.gapFillFirstPaper) {
+    return (
+      <FillInTheBlanksBlock
+        question={block.gapFillFirstPaper.question}
+        blanks={block.gapFillFirstPaper.blanks}
+        details={block.gapFillFirstPaper.details}
+      />
+    );
+  }
+
   const threeFieldMap = {
     "gap-fill": block.gapFill,
-    "gap-fill-first-paper": block.gapFillFirstPaper,
     "gap-fill-second-paper": block.gapFillSecondPaper,
-    "information-transfer": block.informationTransfer,
     "substitution-table": block.substitutionTable,
     "right-form-of-verb": block.rightFormOfVerb,
     narration: block.narration,

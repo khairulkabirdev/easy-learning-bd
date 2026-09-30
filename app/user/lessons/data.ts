@@ -1,4 +1,3 @@
-import type { QuestionAnswerExerciseLayoutKind } from "@/app/admin/content/content-types";
 import { prisma } from "@/lib/db";
 
 function safeParseJson<T>(value: string, fallback: T): T {
@@ -9,8 +8,69 @@ function safeParseJson<T>(value: string, fallback: T): T {
   }
 }
 
+function htmlToPlainText(value: string) {
+  return value
+    .replace(/<br\s*\/?\s*>/gi, "\n")
+    .replace(/<\/(p|div|li|h[1-6])>/gi, "\n")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function countFillBlankMarkers(question: string) {
+  return htmlToPlainText(question).match(/_{2,}/g)?.length ?? 0;
+}
+
+function parseFillBlankAnswers(answer: string, question: string, recordId: string) {
+  const parsed = safeParseJson<
+    { blanks?: Array<{ id?: string; sortOrder?: number; answer?: string }> } | null
+  >(answer, null);
+  const blankCount = countFillBlankMarkers(question);
+
+  let values = Array.isArray(parsed?.blanks)
+    ? parsed!.blanks!.map((blank, index) => ({
+        id: blank.id || `${recordId}-blank-${index + 1}`,
+        sortOrder: index,
+        answer: blank.answer || "",
+      }))
+    : [];
+
+  if (values.length === 0 && answer.trim() && !parsed) {
+    const listAnswers = Array.from(answer.matchAll(/<li[^>]*>([\s\S]*?)<\/li>/gi))
+      .map((match) => htmlToPlainText(match[1] || ""))
+      .filter(Boolean);
+    const legacyAnswers = listAnswers.length > 0 ? listAnswers : [htmlToPlainText(answer)].filter(Boolean);
+    values = legacyAnswers.map((legacyAnswer, index) => ({
+      id: `${recordId}-legacy-blank-${index + 1}`,
+      sortOrder: index,
+      answer: legacyAnswer,
+    }));
+  }
+
+  return Array.from({ length: blankCount }, (_, index) =>
+    values[index] || {
+      id: `${recordId}-blank-${index + 1}`,
+      sortOrder: index,
+      answer: "",
+    },
+  );
+}
+
 function parseQuestionAnswerDocument(documentJson: string) {
   return safeParseJson<{ rows?: Array<{ id: string; sortOrder: number; question?: string; answer?: string }> }>(
+    documentJson,
+    { rows: [] },
+  );
+}
+
+function parseInformationTransferDocument(documentJson: string) {
+  return safeParseJson<{ rows?: Array<{ id: string; sortOrder: number; term?: string; answer?: string }> }>(
     documentJson,
     { rows: [] },
   );
@@ -90,9 +150,12 @@ const contentSelect = {
       gapFillFirstPaper: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, question: true, answer: true, details: true } },
       gapFillSecondPaper: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, question: true, answer: true, details: true } },
       mcqSection: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, title: true, description: true, documentJson: true } },
-      questionAnswerExercise: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, title: true, instruction: true, question: true, answer: true, details: true, layoutKind: true, documentJson: true } },
+      questionAnswerExercise: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, title: true, instruction: true, question: true, answer: true, details: true, documentJson: true } },
+      tableCompletionExercise: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, title: true, instruction: true, question: true, answer: true, details: true, documentJson: true } },
+      columnMatchingExercise: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, title: true, instruction: true, question: true, answer: true, details: true, documentJson: true } },
+      sentenceOrderingExercise: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, title: true, instruction: true, question: true, answer: true, details: true, documentJson: true } },
       trueFalseExercise: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, title: true, instruction: true, passage: true, documentJson: true } },
-      informationTransfer: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, question: true, answer: true, details: true } },
+      informationTransfer: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, question: true, answer: true, details: true, documentJson: true } },
       substitutionTable: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, question: true, answer: true, details: true } },
       rightFormOfVerb: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, question: true, answer: true, details: true } },
       narration: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, question: true, answer: true, details: true } },
@@ -115,18 +178,30 @@ function serializeContents(contents: Array<any>) {
       mcqSection: block.mcqSection
         ? { ...block.mcqSection, questions: (parseMcqDocument(block.mcqSection.documentJson).questions || []).map((question) => ({ ...question, options: question.options || [] })) }
         : null,
-      questionAnswerExercise: block.questionAnswerExercise
-        ? {
-            ...block.questionAnswerExercise,
-            layoutKind: block.questionAnswerExercise.layoutKind as QuestionAnswerExerciseLayoutKind,
-            rows: (parseQuestionAnswerDocument(block.questionAnswerExercise.documentJson).rows || []).map((row) => ({
-              id: row.id,
-              sortOrder: row.sortOrder,
-              question: row.question || "",
-              answer: row.answer || "",
-            })),
-          }
-        : null,
+      questionAnswerExercise: (() => {
+        const exercise =
+          block.kind === "question-answer"
+            ? block.questionAnswerExercise
+            : block.kind === "table-completion"
+              ? block.tableCompletionExercise
+              : block.kind === "column-matching"
+                ? block.columnMatchingExercise
+                : block.kind === "sentence-ordering"
+                  ? block.sentenceOrderingExercise
+                  : null;
+
+        return exercise
+          ? {
+              ...exercise,
+              rows: (parseQuestionAnswerDocument(exercise.documentJson).rows || []).map((row) => ({
+                id: row.id,
+                sortOrder: row.sortOrder,
+                question: row.question || "",
+                answer: row.answer || "",
+              })),
+            }
+          : null;
+      })(),
       trueFalseExercise: block.trueFalseExercise
         ? {
             ...block.trueFalseExercise,
@@ -139,8 +214,43 @@ function serializeContents(contents: Array<any>) {
             })),
           }
         : null,
+      informationTransfer: block.informationTransfer
+        ? (() => {
+            const rows = (parseInformationTransferDocument(block.informationTransfer.documentJson).rows || []).map(
+              (row) => ({
+                id: row.id,
+                sortOrder: row.sortOrder,
+                term: row.term || "",
+                answer: row.answer || "",
+              }),
+            );
+
+            if (
+              rows.length === 0 &&
+              (block.informationTransfer.question.trim() || block.informationTransfer.answer.trim())
+            ) {
+              rows.push({
+                id: `legacy-${block.informationTransfer.id}`,
+                sortOrder: 0,
+                term: block.informationTransfer.question,
+                answer: block.informationTransfer.answer,
+              });
+            }
+
+            return { ...block.informationTransfer, rows };
+          })()
+        : null,
       gapFill: block.gapFillExercise ?? block.gapFill,
-      gapFillFirstPaper: block.gapFillFirstPaper,
+      gapFillFirstPaper: block.gapFillFirstPaper
+        ? {
+            ...block.gapFillFirstPaper,
+            blanks: parseFillBlankAnswers(
+              block.gapFillFirstPaper.answer,
+              block.gapFillFirstPaper.question,
+              block.gapFillFirstPaper.id,
+            ),
+          }
+        : null,
       gapFillSecondPaper: block.gapFillSecondPaper,
     })),
   }));

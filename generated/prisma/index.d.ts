@@ -124,6 +124,21 @@ export type McqSection = $Result.DefaultSelection<Prisma.$McqSectionPayload>
  */
 export type QuestionAnswerExercise = $Result.DefaultSelection<Prisma.$QuestionAnswerExercisePayload>
 /**
+ * Model TableCompletionExercise
+ * 
+ */
+export type TableCompletionExercise = $Result.DefaultSelection<Prisma.$TableCompletionExercisePayload>
+/**
+ * Model ColumnMatchingExercise
+ * 
+ */
+export type ColumnMatchingExercise = $Result.DefaultSelection<Prisma.$ColumnMatchingExercisePayload>
+/**
+ * Model SentenceOrderingExercise
+ * 
+ */
+export type SentenceOrderingExercise = $Result.DefaultSelection<Prisma.$SentenceOrderingExercisePayload>
+/**
  * Model TrueFalseExercise
  * 
  */
@@ -547,6 +562,36 @@ export class PrismaClient<
     * ```
     */
   get questionAnswerExercise(): Prisma.QuestionAnswerExerciseDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.tableCompletionExercise`: Exposes CRUD operations for the **TableCompletionExercise** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TableCompletionExercises
+    * const tableCompletionExercises = await prisma.tableCompletionExercise.findMany()
+    * ```
+    */
+  get tableCompletionExercise(): Prisma.TableCompletionExerciseDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.columnMatchingExercise`: Exposes CRUD operations for the **ColumnMatchingExercise** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ColumnMatchingExercises
+    * const columnMatchingExercises = await prisma.columnMatchingExercise.findMany()
+    * ```
+    */
+  get columnMatchingExercise(): Prisma.ColumnMatchingExerciseDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.sentenceOrderingExercise`: Exposes CRUD operations for the **SentenceOrderingExercise** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SentenceOrderingExercises
+    * const sentenceOrderingExercises = await prisma.sentenceOrderingExercise.findMany()
+    * ```
+    */
+  get sentenceOrderingExercise(): Prisma.SentenceOrderingExerciseDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.trueFalseExercise`: Exposes CRUD operations for the **TrueFalseExercise** model.
@@ -1120,6 +1165,9 @@ export namespace Prisma {
     GapFillSecondPaper: 'GapFillSecondPaper',
     McqSection: 'McqSection',
     QuestionAnswerExercise: 'QuestionAnswerExercise',
+    TableCompletionExercise: 'TableCompletionExercise',
+    ColumnMatchingExercise: 'ColumnMatchingExercise',
+    SentenceOrderingExercise: 'SentenceOrderingExercise',
     TrueFalseExercise: 'TrueFalseExercise',
     InformationTransfer: 'InformationTransfer',
     SubstitutionTable: 'SubstitutionTable',
@@ -1149,7 +1197,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "authSession" | "passwordResetToken" | "authEmailSetting" | "auditLog" | "class" | "subject" | "unit" | "lesson" | "topic" | "content" | "contentBlock" | "paragraph" | "vocabulary" | "vocabularyEntry" | "synonymsAntonyms" | "synonymsAntonymsEntry" | "gapFillExercise" | "gapFillFirstPaper" | "gapFillSecondPaper" | "mcqSection" | "questionAnswerExercise" | "trueFalseExercise" | "informationTransfer" | "substitutionTable" | "rightFormOfVerb" | "narration" | "changingSentence" | "punctuationAndCapitalization" | "preposition" | "suffixAndPrefix" | "tagQuestion" | "connector"
+      modelProps: "user" | "authSession" | "passwordResetToken" | "authEmailSetting" | "auditLog" | "class" | "subject" | "unit" | "lesson" | "topic" | "content" | "contentBlock" | "paragraph" | "vocabulary" | "vocabularyEntry" | "synonymsAntonyms" | "synonymsAntonymsEntry" | "gapFillExercise" | "gapFillFirstPaper" | "gapFillSecondPaper" | "mcqSection" | "questionAnswerExercise" | "tableCompletionExercise" | "columnMatchingExercise" | "sentenceOrderingExercise" | "trueFalseExercise" | "informationTransfer" | "substitutionTable" | "rightFormOfVerb" | "narration" | "changingSentence" | "punctuationAndCapitalization" | "preposition" | "suffixAndPrefix" | "tagQuestion" | "connector"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2781,6 +2829,228 @@ export namespace Prisma {
           }
         }
       }
+      TableCompletionExercise: {
+        payload: Prisma.$TableCompletionExercisePayload<ExtArgs>
+        fields: Prisma.TableCompletionExerciseFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TableCompletionExerciseFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TableCompletionExercisePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TableCompletionExerciseFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TableCompletionExercisePayload>
+          }
+          findFirst: {
+            args: Prisma.TableCompletionExerciseFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TableCompletionExercisePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TableCompletionExerciseFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TableCompletionExercisePayload>
+          }
+          findMany: {
+            args: Prisma.TableCompletionExerciseFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TableCompletionExercisePayload>[]
+          }
+          create: {
+            args: Prisma.TableCompletionExerciseCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TableCompletionExercisePayload>
+          }
+          createMany: {
+            args: Prisma.TableCompletionExerciseCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TableCompletionExerciseCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TableCompletionExercisePayload>[]
+          }
+          delete: {
+            args: Prisma.TableCompletionExerciseDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TableCompletionExercisePayload>
+          }
+          update: {
+            args: Prisma.TableCompletionExerciseUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TableCompletionExercisePayload>
+          }
+          deleteMany: {
+            args: Prisma.TableCompletionExerciseDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TableCompletionExerciseUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TableCompletionExerciseUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TableCompletionExercisePayload>[]
+          }
+          upsert: {
+            args: Prisma.TableCompletionExerciseUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TableCompletionExercisePayload>
+          }
+          aggregate: {
+            args: Prisma.TableCompletionExerciseAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTableCompletionExercise>
+          }
+          groupBy: {
+            args: Prisma.TableCompletionExerciseGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TableCompletionExerciseGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TableCompletionExerciseCountArgs<ExtArgs>
+            result: $Utils.Optional<TableCompletionExerciseCountAggregateOutputType> | number
+          }
+        }
+      }
+      ColumnMatchingExercise: {
+        payload: Prisma.$ColumnMatchingExercisePayload<ExtArgs>
+        fields: Prisma.ColumnMatchingExerciseFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ColumnMatchingExerciseFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ColumnMatchingExercisePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ColumnMatchingExerciseFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ColumnMatchingExercisePayload>
+          }
+          findFirst: {
+            args: Prisma.ColumnMatchingExerciseFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ColumnMatchingExercisePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ColumnMatchingExerciseFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ColumnMatchingExercisePayload>
+          }
+          findMany: {
+            args: Prisma.ColumnMatchingExerciseFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ColumnMatchingExercisePayload>[]
+          }
+          create: {
+            args: Prisma.ColumnMatchingExerciseCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ColumnMatchingExercisePayload>
+          }
+          createMany: {
+            args: Prisma.ColumnMatchingExerciseCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ColumnMatchingExerciseCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ColumnMatchingExercisePayload>[]
+          }
+          delete: {
+            args: Prisma.ColumnMatchingExerciseDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ColumnMatchingExercisePayload>
+          }
+          update: {
+            args: Prisma.ColumnMatchingExerciseUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ColumnMatchingExercisePayload>
+          }
+          deleteMany: {
+            args: Prisma.ColumnMatchingExerciseDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ColumnMatchingExerciseUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ColumnMatchingExerciseUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ColumnMatchingExercisePayload>[]
+          }
+          upsert: {
+            args: Prisma.ColumnMatchingExerciseUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ColumnMatchingExercisePayload>
+          }
+          aggregate: {
+            args: Prisma.ColumnMatchingExerciseAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateColumnMatchingExercise>
+          }
+          groupBy: {
+            args: Prisma.ColumnMatchingExerciseGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ColumnMatchingExerciseGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ColumnMatchingExerciseCountArgs<ExtArgs>
+            result: $Utils.Optional<ColumnMatchingExerciseCountAggregateOutputType> | number
+          }
+        }
+      }
+      SentenceOrderingExercise: {
+        payload: Prisma.$SentenceOrderingExercisePayload<ExtArgs>
+        fields: Prisma.SentenceOrderingExerciseFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SentenceOrderingExerciseFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SentenceOrderingExercisePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SentenceOrderingExerciseFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SentenceOrderingExercisePayload>
+          }
+          findFirst: {
+            args: Prisma.SentenceOrderingExerciseFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SentenceOrderingExercisePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SentenceOrderingExerciseFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SentenceOrderingExercisePayload>
+          }
+          findMany: {
+            args: Prisma.SentenceOrderingExerciseFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SentenceOrderingExercisePayload>[]
+          }
+          create: {
+            args: Prisma.SentenceOrderingExerciseCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SentenceOrderingExercisePayload>
+          }
+          createMany: {
+            args: Prisma.SentenceOrderingExerciseCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SentenceOrderingExerciseCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SentenceOrderingExercisePayload>[]
+          }
+          delete: {
+            args: Prisma.SentenceOrderingExerciseDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SentenceOrderingExercisePayload>
+          }
+          update: {
+            args: Prisma.SentenceOrderingExerciseUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SentenceOrderingExercisePayload>
+          }
+          deleteMany: {
+            args: Prisma.SentenceOrderingExerciseDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SentenceOrderingExerciseUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SentenceOrderingExerciseUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SentenceOrderingExercisePayload>[]
+          }
+          upsert: {
+            args: Prisma.SentenceOrderingExerciseUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SentenceOrderingExercisePayload>
+          }
+          aggregate: {
+            args: Prisma.SentenceOrderingExerciseAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSentenceOrderingExercise>
+          }
+          groupBy: {
+            args: Prisma.SentenceOrderingExerciseGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SentenceOrderingExerciseGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SentenceOrderingExerciseCountArgs<ExtArgs>
+            result: $Utils.Optional<SentenceOrderingExerciseCountAggregateOutputType> | number
+          }
+        }
+      }
       TrueFalseExercise: {
         payload: Prisma.$TrueFalseExercisePayload<ExtArgs>
         fields: Prisma.TrueFalseExerciseFieldRefs
@@ -3713,6 +3983,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperOmit
     mcqSection?: McqSectionOmit
     questionAnswerExercise?: QuestionAnswerExerciseOmit
+    tableCompletionExercise?: TableCompletionExerciseOmit
+    columnMatchingExercise?: ColumnMatchingExerciseOmit
+    sentenceOrderingExercise?: SentenceOrderingExerciseOmit
     trueFalseExercise?: TrueFalseExerciseOmit
     informationTransfer?: InformationTransferOmit
     substitutionTable?: SubstitutionTableOmit
@@ -17747,6 +18020,9 @@ export namespace Prisma {
     gapFillSecondPaper?: boolean | ContentBlock$gapFillSecondPaperArgs<ExtArgs>
     mcqSection?: boolean | ContentBlock$mcqSectionArgs<ExtArgs>
     questionAnswerExercise?: boolean | ContentBlock$questionAnswerExerciseArgs<ExtArgs>
+    tableCompletionExercise?: boolean | ContentBlock$tableCompletionExerciseArgs<ExtArgs>
+    columnMatchingExercise?: boolean | ContentBlock$columnMatchingExerciseArgs<ExtArgs>
+    sentenceOrderingExercise?: boolean | ContentBlock$sentenceOrderingExerciseArgs<ExtArgs>
     trueFalseExercise?: boolean | ContentBlock$trueFalseExerciseArgs<ExtArgs>
     informationTransfer?: boolean | ContentBlock$informationTransferArgs<ExtArgs>
     substitutionTable?: boolean | ContentBlock$substitutionTableArgs<ExtArgs>
@@ -17800,6 +18076,9 @@ export namespace Prisma {
     gapFillSecondPaper?: boolean | ContentBlock$gapFillSecondPaperArgs<ExtArgs>
     mcqSection?: boolean | ContentBlock$mcqSectionArgs<ExtArgs>
     questionAnswerExercise?: boolean | ContentBlock$questionAnswerExerciseArgs<ExtArgs>
+    tableCompletionExercise?: boolean | ContentBlock$tableCompletionExerciseArgs<ExtArgs>
+    columnMatchingExercise?: boolean | ContentBlock$columnMatchingExerciseArgs<ExtArgs>
+    sentenceOrderingExercise?: boolean | ContentBlock$sentenceOrderingExerciseArgs<ExtArgs>
     trueFalseExercise?: boolean | ContentBlock$trueFalseExerciseArgs<ExtArgs>
     informationTransfer?: boolean | ContentBlock$informationTransferArgs<ExtArgs>
     substitutionTable?: boolean | ContentBlock$substitutionTableArgs<ExtArgs>
@@ -17831,6 +18110,9 @@ export namespace Prisma {
       gapFillSecondPaper: Prisma.$GapFillSecondPaperPayload<ExtArgs> | null
       mcqSection: Prisma.$McqSectionPayload<ExtArgs> | null
       questionAnswerExercise: Prisma.$QuestionAnswerExercisePayload<ExtArgs> | null
+      tableCompletionExercise: Prisma.$TableCompletionExercisePayload<ExtArgs> | null
+      columnMatchingExercise: Prisma.$ColumnMatchingExercisePayload<ExtArgs> | null
+      sentenceOrderingExercise: Prisma.$SentenceOrderingExercisePayload<ExtArgs> | null
       trueFalseExercise: Prisma.$TrueFalseExercisePayload<ExtArgs> | null
       informationTransfer: Prisma.$InformationTransferPayload<ExtArgs> | null
       substitutionTable: Prisma.$SubstitutionTablePayload<ExtArgs> | null
@@ -18253,6 +18535,9 @@ export namespace Prisma {
     gapFillSecondPaper<T extends ContentBlock$gapFillSecondPaperArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$gapFillSecondPaperArgs<ExtArgs>>): Prisma__GapFillSecondPaperClient<$Result.GetResult<Prisma.$GapFillSecondPaperPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     mcqSection<T extends ContentBlock$mcqSectionArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$mcqSectionArgs<ExtArgs>>): Prisma__McqSectionClient<$Result.GetResult<Prisma.$McqSectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     questionAnswerExercise<T extends ContentBlock$questionAnswerExerciseArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$questionAnswerExerciseArgs<ExtArgs>>): Prisma__QuestionAnswerExerciseClient<$Result.GetResult<Prisma.$QuestionAnswerExercisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    tableCompletionExercise<T extends ContentBlock$tableCompletionExerciseArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$tableCompletionExerciseArgs<ExtArgs>>): Prisma__TableCompletionExerciseClient<$Result.GetResult<Prisma.$TableCompletionExercisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    columnMatchingExercise<T extends ContentBlock$columnMatchingExerciseArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$columnMatchingExerciseArgs<ExtArgs>>): Prisma__ColumnMatchingExerciseClient<$Result.GetResult<Prisma.$ColumnMatchingExercisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    sentenceOrderingExercise<T extends ContentBlock$sentenceOrderingExerciseArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$sentenceOrderingExerciseArgs<ExtArgs>>): Prisma__SentenceOrderingExerciseClient<$Result.GetResult<Prisma.$SentenceOrderingExercisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     trueFalseExercise<T extends ContentBlock$trueFalseExerciseArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$trueFalseExerciseArgs<ExtArgs>>): Prisma__TrueFalseExerciseClient<$Result.GetResult<Prisma.$TrueFalseExercisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     informationTransfer<T extends ContentBlock$informationTransferArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$informationTransferArgs<ExtArgs>>): Prisma__InformationTransferClient<$Result.GetResult<Prisma.$InformationTransferPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     substitutionTable<T extends ContentBlock$substitutionTableArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$substitutionTableArgs<ExtArgs>>): Prisma__SubstitutionTableClient<$Result.GetResult<Prisma.$SubstitutionTablePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -18842,6 +19127,63 @@ export namespace Prisma {
      */
     include?: QuestionAnswerExerciseInclude<ExtArgs> | null
     where?: QuestionAnswerExerciseWhereInput
+  }
+
+  /**
+   * ContentBlock.tableCompletionExercise
+   */
+  export type ContentBlock$tableCompletionExerciseArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableCompletionExercise
+     */
+    select?: TableCompletionExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableCompletionExercise
+     */
+    omit?: TableCompletionExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableCompletionExerciseInclude<ExtArgs> | null
+    where?: TableCompletionExerciseWhereInput
+  }
+
+  /**
+   * ContentBlock.columnMatchingExercise
+   */
+  export type ContentBlock$columnMatchingExerciseArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ColumnMatchingExercise
+     */
+    select?: ColumnMatchingExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ColumnMatchingExercise
+     */
+    omit?: ColumnMatchingExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnMatchingExerciseInclude<ExtArgs> | null
+    where?: ColumnMatchingExerciseWhereInput
+  }
+
+  /**
+   * ContentBlock.sentenceOrderingExercise
+   */
+  export type ContentBlock$sentenceOrderingExerciseArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SentenceOrderingExercise
+     */
+    select?: SentenceOrderingExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SentenceOrderingExercise
+     */
+    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SentenceOrderingExerciseInclude<ExtArgs> | null
+    where?: SentenceOrderingExerciseWhereInput
   }
 
   /**
@@ -29794,7 +30136,6 @@ export namespace Prisma {
     question: string | null
     answer: string | null
     details: string | null
-    layoutKind: string | null
     documentJson: string | null
     organizationId: string | null
     createdBy: string | null
@@ -29817,7 +30158,6 @@ export namespace Prisma {
     question: string | null
     answer: string | null
     details: string | null
-    layoutKind: string | null
     documentJson: string | null
     organizationId: string | null
     createdBy: string | null
@@ -29840,7 +30180,6 @@ export namespace Prisma {
     question: number
     answer: number
     details: number
-    layoutKind: number
     documentJson: number
     organizationId: number
     createdBy: number
@@ -29865,7 +30204,6 @@ export namespace Prisma {
     question?: true
     answer?: true
     details?: true
-    layoutKind?: true
     documentJson?: true
     organizationId?: true
     createdBy?: true
@@ -29888,7 +30226,6 @@ export namespace Prisma {
     question?: true
     answer?: true
     details?: true
-    layoutKind?: true
     documentJson?: true
     organizationId?: true
     createdBy?: true
@@ -29911,7 +30248,6 @@ export namespace Prisma {
     question?: true
     answer?: true
     details?: true
-    layoutKind?: true
     documentJson?: true
     organizationId?: true
     createdBy?: true
@@ -30007,7 +30343,6 @@ export namespace Prisma {
     question: string
     answer: string
     details: string
-    layoutKind: string
     documentJson: string
     organizationId: string
     createdBy: string
@@ -30047,7 +30382,6 @@ export namespace Prisma {
     question?: boolean
     answer?: boolean
     details?: boolean
-    layoutKind?: boolean
     documentJson?: boolean
     organizationId?: boolean
     createdBy?: boolean
@@ -30071,7 +30405,6 @@ export namespace Prisma {
     question?: boolean
     answer?: boolean
     details?: boolean
-    layoutKind?: boolean
     documentJson?: boolean
     organizationId?: boolean
     createdBy?: boolean
@@ -30095,7 +30428,6 @@ export namespace Prisma {
     question?: boolean
     answer?: boolean
     details?: boolean
-    layoutKind?: boolean
     documentJson?: boolean
     organizationId?: boolean
     createdBy?: boolean
@@ -30119,7 +30451,6 @@ export namespace Prisma {
     question?: boolean
     answer?: boolean
     details?: boolean
-    layoutKind?: boolean
     documentJson?: boolean
     organizationId?: boolean
     createdBy?: boolean
@@ -30128,7 +30459,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type QuestionAnswerExerciseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "title" | "instruction" | "question" | "answer" | "details" | "layoutKind" | "documentJson" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["questionAnswerExercise"]>
+  export type QuestionAnswerExerciseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "title" | "instruction" | "question" | "answer" | "details" | "documentJson" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["questionAnswerExercise"]>
   export type QuestionAnswerExerciseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
   }
@@ -30158,7 +30489,6 @@ export namespace Prisma {
       question: string
       answer: string
       details: string
-      layoutKind: string
       documentJson: string
       organizationId: string
       createdBy: string
@@ -30602,7 +30932,6 @@ export namespace Prisma {
     readonly question: FieldRef<"QuestionAnswerExercise", 'String'>
     readonly answer: FieldRef<"QuestionAnswerExercise", 'String'>
     readonly details: FieldRef<"QuestionAnswerExercise", 'String'>
-    readonly layoutKind: FieldRef<"QuestionAnswerExercise", 'String'>
     readonly documentJson: FieldRef<"QuestionAnswerExercise", 'String'>
     readonly organizationId: FieldRef<"QuestionAnswerExercise", 'String'>
     readonly createdBy: FieldRef<"QuestionAnswerExercise", 'String'>
@@ -31018,6 +31347,3720 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: QuestionAnswerExerciseInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TableCompletionExercise
+   */
+
+  export type AggregateTableCompletionExercise = {
+    _count: TableCompletionExerciseCountAggregateOutputType | null
+    _min: TableCompletionExerciseMinAggregateOutputType | null
+    _max: TableCompletionExerciseMaxAggregateOutputType | null
+  }
+
+  export type TableCompletionExerciseMinAggregateOutputType = {
+    id: string | null
+    contentBlockId: string | null
+    contentId: string | null
+    classId: string | null
+    subjectId: string | null
+    unitId: string | null
+    lessonId: string | null
+    topicId: string | null
+    title: string | null
+    instruction: string | null
+    question: string | null
+    answer: string | null
+    details: string | null
+    documentJson: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TableCompletionExerciseMaxAggregateOutputType = {
+    id: string | null
+    contentBlockId: string | null
+    contentId: string | null
+    classId: string | null
+    subjectId: string | null
+    unitId: string | null
+    lessonId: string | null
+    topicId: string | null
+    title: string | null
+    instruction: string | null
+    question: string | null
+    answer: string | null
+    details: string | null
+    documentJson: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TableCompletionExerciseCountAggregateOutputType = {
+    id: number
+    contentBlockId: number
+    contentId: number
+    classId: number
+    subjectId: number
+    unitId: number
+    lessonId: number
+    topicId: number
+    title: number
+    instruction: number
+    question: number
+    answer: number
+    details: number
+    documentJson: number
+    organizationId: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TableCompletionExerciseMinAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    title?: true
+    instruction?: true
+    question?: true
+    answer?: true
+    details?: true
+    documentJson?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TableCompletionExerciseMaxAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    title?: true
+    instruction?: true
+    question?: true
+    answer?: true
+    details?: true
+    documentJson?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TableCompletionExerciseCountAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    title?: true
+    instruction?: true
+    question?: true
+    answer?: true
+    details?: true
+    documentJson?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TableCompletionExerciseAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TableCompletionExercise to aggregate.
+     */
+    where?: TableCompletionExerciseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TableCompletionExercises to fetch.
+     */
+    orderBy?: TableCompletionExerciseOrderByWithRelationInput | TableCompletionExerciseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TableCompletionExerciseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TableCompletionExercises from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TableCompletionExercises.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TableCompletionExercises
+    **/
+    _count?: true | TableCompletionExerciseCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TableCompletionExerciseMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TableCompletionExerciseMaxAggregateInputType
+  }
+
+  export type GetTableCompletionExerciseAggregateType<T extends TableCompletionExerciseAggregateArgs> = {
+        [P in keyof T & keyof AggregateTableCompletionExercise]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTableCompletionExercise[P]>
+      : GetScalarType<T[P], AggregateTableCompletionExercise[P]>
+  }
+
+
+
+
+  export type TableCompletionExerciseGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TableCompletionExerciseWhereInput
+    orderBy?: TableCompletionExerciseOrderByWithAggregationInput | TableCompletionExerciseOrderByWithAggregationInput[]
+    by: TableCompletionExerciseScalarFieldEnum[] | TableCompletionExerciseScalarFieldEnum
+    having?: TableCompletionExerciseScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TableCompletionExerciseCountAggregateInputType | true
+    _min?: TableCompletionExerciseMinAggregateInputType
+    _max?: TableCompletionExerciseMaxAggregateInputType
+  }
+
+  export type TableCompletionExerciseGroupByOutputType = {
+    id: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId: string | null
+    title: string
+    instruction: string
+    question: string
+    answer: string
+    details: string
+    documentJson: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: TableCompletionExerciseCountAggregateOutputType | null
+    _min: TableCompletionExerciseMinAggregateOutputType | null
+    _max: TableCompletionExerciseMaxAggregateOutputType | null
+  }
+
+  type GetTableCompletionExerciseGroupByPayload<T extends TableCompletionExerciseGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TableCompletionExerciseGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TableCompletionExerciseGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TableCompletionExerciseGroupByOutputType[P]>
+            : GetScalarType<T[P], TableCompletionExerciseGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TableCompletionExerciseSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    title?: boolean
+    instruction?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    documentJson?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tableCompletionExercise"]>
+
+  export type TableCompletionExerciseSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    title?: boolean
+    instruction?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    documentJson?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tableCompletionExercise"]>
+
+  export type TableCompletionExerciseSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    title?: boolean
+    instruction?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    documentJson?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["tableCompletionExercise"]>
+
+  export type TableCompletionExerciseSelectScalar = {
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    title?: boolean
+    instruction?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    documentJson?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TableCompletionExerciseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "title" | "instruction" | "question" | "answer" | "details" | "documentJson" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["tableCompletionExercise"]>
+  export type TableCompletionExerciseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+  export type TableCompletionExerciseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+  export type TableCompletionExerciseIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+
+  export type $TableCompletionExercisePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TableCompletionExercise"
+    objects: {
+      contentBlock: Prisma.$ContentBlockPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      contentBlockId: string
+      contentId: string
+      classId: string
+      subjectId: string
+      unitId: string
+      lessonId: string
+      topicId: string | null
+      title: string
+      instruction: string
+      question: string
+      answer: string
+      details: string
+      documentJson: string
+      organizationId: string
+      createdBy: string
+      updatedBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["tableCompletionExercise"]>
+    composites: {}
+  }
+
+  type TableCompletionExerciseGetPayload<S extends boolean | null | undefined | TableCompletionExerciseDefaultArgs> = $Result.GetResult<Prisma.$TableCompletionExercisePayload, S>
+
+  type TableCompletionExerciseCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TableCompletionExerciseFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TableCompletionExerciseCountAggregateInputType | true
+    }
+
+  export interface TableCompletionExerciseDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TableCompletionExercise'], meta: { name: 'TableCompletionExercise' } }
+    /**
+     * Find zero or one TableCompletionExercise that matches the filter.
+     * @param {TableCompletionExerciseFindUniqueArgs} args - Arguments to find a TableCompletionExercise
+     * @example
+     * // Get one TableCompletionExercise
+     * const tableCompletionExercise = await prisma.tableCompletionExercise.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TableCompletionExerciseFindUniqueArgs>(args: SelectSubset<T, TableCompletionExerciseFindUniqueArgs<ExtArgs>>): Prisma__TableCompletionExerciseClient<$Result.GetResult<Prisma.$TableCompletionExercisePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TableCompletionExercise that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TableCompletionExerciseFindUniqueOrThrowArgs} args - Arguments to find a TableCompletionExercise
+     * @example
+     * // Get one TableCompletionExercise
+     * const tableCompletionExercise = await prisma.tableCompletionExercise.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TableCompletionExerciseFindUniqueOrThrowArgs>(args: SelectSubset<T, TableCompletionExerciseFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TableCompletionExerciseClient<$Result.GetResult<Prisma.$TableCompletionExercisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TableCompletionExercise that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TableCompletionExerciseFindFirstArgs} args - Arguments to find a TableCompletionExercise
+     * @example
+     * // Get one TableCompletionExercise
+     * const tableCompletionExercise = await prisma.tableCompletionExercise.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TableCompletionExerciseFindFirstArgs>(args?: SelectSubset<T, TableCompletionExerciseFindFirstArgs<ExtArgs>>): Prisma__TableCompletionExerciseClient<$Result.GetResult<Prisma.$TableCompletionExercisePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TableCompletionExercise that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TableCompletionExerciseFindFirstOrThrowArgs} args - Arguments to find a TableCompletionExercise
+     * @example
+     * // Get one TableCompletionExercise
+     * const tableCompletionExercise = await prisma.tableCompletionExercise.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TableCompletionExerciseFindFirstOrThrowArgs>(args?: SelectSubset<T, TableCompletionExerciseFindFirstOrThrowArgs<ExtArgs>>): Prisma__TableCompletionExerciseClient<$Result.GetResult<Prisma.$TableCompletionExercisePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TableCompletionExercises that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TableCompletionExerciseFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TableCompletionExercises
+     * const tableCompletionExercises = await prisma.tableCompletionExercise.findMany()
+     * 
+     * // Get first 10 TableCompletionExercises
+     * const tableCompletionExercises = await prisma.tableCompletionExercise.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const tableCompletionExerciseWithIdOnly = await prisma.tableCompletionExercise.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TableCompletionExerciseFindManyArgs>(args?: SelectSubset<T, TableCompletionExerciseFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TableCompletionExercisePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TableCompletionExercise.
+     * @param {TableCompletionExerciseCreateArgs} args - Arguments to create a TableCompletionExercise.
+     * @example
+     * // Create one TableCompletionExercise
+     * const TableCompletionExercise = await prisma.tableCompletionExercise.create({
+     *   data: {
+     *     // ... data to create a TableCompletionExercise
+     *   }
+     * })
+     * 
+     */
+    create<T extends TableCompletionExerciseCreateArgs>(args: SelectSubset<T, TableCompletionExerciseCreateArgs<ExtArgs>>): Prisma__TableCompletionExerciseClient<$Result.GetResult<Prisma.$TableCompletionExercisePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TableCompletionExercises.
+     * @param {TableCompletionExerciseCreateManyArgs} args - Arguments to create many TableCompletionExercises.
+     * @example
+     * // Create many TableCompletionExercises
+     * const tableCompletionExercise = await prisma.tableCompletionExercise.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TableCompletionExerciseCreateManyArgs>(args?: SelectSubset<T, TableCompletionExerciseCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TableCompletionExercises and returns the data saved in the database.
+     * @param {TableCompletionExerciseCreateManyAndReturnArgs} args - Arguments to create many TableCompletionExercises.
+     * @example
+     * // Create many TableCompletionExercises
+     * const tableCompletionExercise = await prisma.tableCompletionExercise.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TableCompletionExercises and only return the `id`
+     * const tableCompletionExerciseWithIdOnly = await prisma.tableCompletionExercise.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TableCompletionExerciseCreateManyAndReturnArgs>(args?: SelectSubset<T, TableCompletionExerciseCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TableCompletionExercisePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TableCompletionExercise.
+     * @param {TableCompletionExerciseDeleteArgs} args - Arguments to delete one TableCompletionExercise.
+     * @example
+     * // Delete one TableCompletionExercise
+     * const TableCompletionExercise = await prisma.tableCompletionExercise.delete({
+     *   where: {
+     *     // ... filter to delete one TableCompletionExercise
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TableCompletionExerciseDeleteArgs>(args: SelectSubset<T, TableCompletionExerciseDeleteArgs<ExtArgs>>): Prisma__TableCompletionExerciseClient<$Result.GetResult<Prisma.$TableCompletionExercisePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TableCompletionExercise.
+     * @param {TableCompletionExerciseUpdateArgs} args - Arguments to update one TableCompletionExercise.
+     * @example
+     * // Update one TableCompletionExercise
+     * const tableCompletionExercise = await prisma.tableCompletionExercise.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TableCompletionExerciseUpdateArgs>(args: SelectSubset<T, TableCompletionExerciseUpdateArgs<ExtArgs>>): Prisma__TableCompletionExerciseClient<$Result.GetResult<Prisma.$TableCompletionExercisePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TableCompletionExercises.
+     * @param {TableCompletionExerciseDeleteManyArgs} args - Arguments to filter TableCompletionExercises to delete.
+     * @example
+     * // Delete a few TableCompletionExercises
+     * const { count } = await prisma.tableCompletionExercise.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TableCompletionExerciseDeleteManyArgs>(args?: SelectSubset<T, TableCompletionExerciseDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TableCompletionExercises.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TableCompletionExerciseUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TableCompletionExercises
+     * const tableCompletionExercise = await prisma.tableCompletionExercise.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TableCompletionExerciseUpdateManyArgs>(args: SelectSubset<T, TableCompletionExerciseUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TableCompletionExercises and returns the data updated in the database.
+     * @param {TableCompletionExerciseUpdateManyAndReturnArgs} args - Arguments to update many TableCompletionExercises.
+     * @example
+     * // Update many TableCompletionExercises
+     * const tableCompletionExercise = await prisma.tableCompletionExercise.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TableCompletionExercises and only return the `id`
+     * const tableCompletionExerciseWithIdOnly = await prisma.tableCompletionExercise.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TableCompletionExerciseUpdateManyAndReturnArgs>(args: SelectSubset<T, TableCompletionExerciseUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TableCompletionExercisePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TableCompletionExercise.
+     * @param {TableCompletionExerciseUpsertArgs} args - Arguments to update or create a TableCompletionExercise.
+     * @example
+     * // Update or create a TableCompletionExercise
+     * const tableCompletionExercise = await prisma.tableCompletionExercise.upsert({
+     *   create: {
+     *     // ... data to create a TableCompletionExercise
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TableCompletionExercise we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TableCompletionExerciseUpsertArgs>(args: SelectSubset<T, TableCompletionExerciseUpsertArgs<ExtArgs>>): Prisma__TableCompletionExerciseClient<$Result.GetResult<Prisma.$TableCompletionExercisePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TableCompletionExercises.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TableCompletionExerciseCountArgs} args - Arguments to filter TableCompletionExercises to count.
+     * @example
+     * // Count the number of TableCompletionExercises
+     * const count = await prisma.tableCompletionExercise.count({
+     *   where: {
+     *     // ... the filter for the TableCompletionExercises we want to count
+     *   }
+     * })
+    **/
+    count<T extends TableCompletionExerciseCountArgs>(
+      args?: Subset<T, TableCompletionExerciseCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TableCompletionExerciseCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TableCompletionExercise.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TableCompletionExerciseAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TableCompletionExerciseAggregateArgs>(args: Subset<T, TableCompletionExerciseAggregateArgs>): Prisma.PrismaPromise<GetTableCompletionExerciseAggregateType<T>>
+
+    /**
+     * Group by TableCompletionExercise.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TableCompletionExerciseGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TableCompletionExerciseGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TableCompletionExerciseGroupByArgs['orderBy'] }
+        : { orderBy?: TableCompletionExerciseGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TableCompletionExerciseGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTableCompletionExerciseGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TableCompletionExercise model
+   */
+  readonly fields: TableCompletionExerciseFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TableCompletionExercise.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TableCompletionExerciseClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    contentBlock<T extends ContentBlockDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlockDefaultArgs<ExtArgs>>): Prisma__ContentBlockClient<$Result.GetResult<Prisma.$ContentBlockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TableCompletionExercise model
+   */
+  interface TableCompletionExerciseFieldRefs {
+    readonly id: FieldRef<"TableCompletionExercise", 'String'>
+    readonly contentBlockId: FieldRef<"TableCompletionExercise", 'String'>
+    readonly contentId: FieldRef<"TableCompletionExercise", 'String'>
+    readonly classId: FieldRef<"TableCompletionExercise", 'String'>
+    readonly subjectId: FieldRef<"TableCompletionExercise", 'String'>
+    readonly unitId: FieldRef<"TableCompletionExercise", 'String'>
+    readonly lessonId: FieldRef<"TableCompletionExercise", 'String'>
+    readonly topicId: FieldRef<"TableCompletionExercise", 'String'>
+    readonly title: FieldRef<"TableCompletionExercise", 'String'>
+    readonly instruction: FieldRef<"TableCompletionExercise", 'String'>
+    readonly question: FieldRef<"TableCompletionExercise", 'String'>
+    readonly answer: FieldRef<"TableCompletionExercise", 'String'>
+    readonly details: FieldRef<"TableCompletionExercise", 'String'>
+    readonly documentJson: FieldRef<"TableCompletionExercise", 'String'>
+    readonly organizationId: FieldRef<"TableCompletionExercise", 'String'>
+    readonly createdBy: FieldRef<"TableCompletionExercise", 'String'>
+    readonly updatedBy: FieldRef<"TableCompletionExercise", 'String'>
+    readonly createdAt: FieldRef<"TableCompletionExercise", 'DateTime'>
+    readonly updatedAt: FieldRef<"TableCompletionExercise", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TableCompletionExercise findUnique
+   */
+  export type TableCompletionExerciseFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableCompletionExercise
+     */
+    select?: TableCompletionExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableCompletionExercise
+     */
+    omit?: TableCompletionExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableCompletionExerciseInclude<ExtArgs> | null
+    /**
+     * Filter, which TableCompletionExercise to fetch.
+     */
+    where: TableCompletionExerciseWhereUniqueInput
+  }
+
+  /**
+   * TableCompletionExercise findUniqueOrThrow
+   */
+  export type TableCompletionExerciseFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableCompletionExercise
+     */
+    select?: TableCompletionExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableCompletionExercise
+     */
+    omit?: TableCompletionExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableCompletionExerciseInclude<ExtArgs> | null
+    /**
+     * Filter, which TableCompletionExercise to fetch.
+     */
+    where: TableCompletionExerciseWhereUniqueInput
+  }
+
+  /**
+   * TableCompletionExercise findFirst
+   */
+  export type TableCompletionExerciseFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableCompletionExercise
+     */
+    select?: TableCompletionExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableCompletionExercise
+     */
+    omit?: TableCompletionExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableCompletionExerciseInclude<ExtArgs> | null
+    /**
+     * Filter, which TableCompletionExercise to fetch.
+     */
+    where?: TableCompletionExerciseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TableCompletionExercises to fetch.
+     */
+    orderBy?: TableCompletionExerciseOrderByWithRelationInput | TableCompletionExerciseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TableCompletionExercises.
+     */
+    cursor?: TableCompletionExerciseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TableCompletionExercises from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TableCompletionExercises.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TableCompletionExercises.
+     */
+    distinct?: TableCompletionExerciseScalarFieldEnum | TableCompletionExerciseScalarFieldEnum[]
+  }
+
+  /**
+   * TableCompletionExercise findFirstOrThrow
+   */
+  export type TableCompletionExerciseFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableCompletionExercise
+     */
+    select?: TableCompletionExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableCompletionExercise
+     */
+    omit?: TableCompletionExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableCompletionExerciseInclude<ExtArgs> | null
+    /**
+     * Filter, which TableCompletionExercise to fetch.
+     */
+    where?: TableCompletionExerciseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TableCompletionExercises to fetch.
+     */
+    orderBy?: TableCompletionExerciseOrderByWithRelationInput | TableCompletionExerciseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TableCompletionExercises.
+     */
+    cursor?: TableCompletionExerciseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TableCompletionExercises from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TableCompletionExercises.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TableCompletionExercises.
+     */
+    distinct?: TableCompletionExerciseScalarFieldEnum | TableCompletionExerciseScalarFieldEnum[]
+  }
+
+  /**
+   * TableCompletionExercise findMany
+   */
+  export type TableCompletionExerciseFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableCompletionExercise
+     */
+    select?: TableCompletionExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableCompletionExercise
+     */
+    omit?: TableCompletionExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableCompletionExerciseInclude<ExtArgs> | null
+    /**
+     * Filter, which TableCompletionExercises to fetch.
+     */
+    where?: TableCompletionExerciseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TableCompletionExercises to fetch.
+     */
+    orderBy?: TableCompletionExerciseOrderByWithRelationInput | TableCompletionExerciseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TableCompletionExercises.
+     */
+    cursor?: TableCompletionExerciseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TableCompletionExercises from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TableCompletionExercises.
+     */
+    skip?: number
+    distinct?: TableCompletionExerciseScalarFieldEnum | TableCompletionExerciseScalarFieldEnum[]
+  }
+
+  /**
+   * TableCompletionExercise create
+   */
+  export type TableCompletionExerciseCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableCompletionExercise
+     */
+    select?: TableCompletionExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableCompletionExercise
+     */
+    omit?: TableCompletionExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableCompletionExerciseInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TableCompletionExercise.
+     */
+    data: XOR<TableCompletionExerciseCreateInput, TableCompletionExerciseUncheckedCreateInput>
+  }
+
+  /**
+   * TableCompletionExercise createMany
+   */
+  export type TableCompletionExerciseCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TableCompletionExercises.
+     */
+    data: TableCompletionExerciseCreateManyInput | TableCompletionExerciseCreateManyInput[]
+  }
+
+  /**
+   * TableCompletionExercise createManyAndReturn
+   */
+  export type TableCompletionExerciseCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableCompletionExercise
+     */
+    select?: TableCompletionExerciseSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableCompletionExercise
+     */
+    omit?: TableCompletionExerciseOmit<ExtArgs> | null
+    /**
+     * The data used to create many TableCompletionExercises.
+     */
+    data: TableCompletionExerciseCreateManyInput | TableCompletionExerciseCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableCompletionExerciseIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TableCompletionExercise update
+   */
+  export type TableCompletionExerciseUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableCompletionExercise
+     */
+    select?: TableCompletionExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableCompletionExercise
+     */
+    omit?: TableCompletionExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableCompletionExerciseInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TableCompletionExercise.
+     */
+    data: XOR<TableCompletionExerciseUpdateInput, TableCompletionExerciseUncheckedUpdateInput>
+    /**
+     * Choose, which TableCompletionExercise to update.
+     */
+    where: TableCompletionExerciseWhereUniqueInput
+  }
+
+  /**
+   * TableCompletionExercise updateMany
+   */
+  export type TableCompletionExerciseUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TableCompletionExercises.
+     */
+    data: XOR<TableCompletionExerciseUpdateManyMutationInput, TableCompletionExerciseUncheckedUpdateManyInput>
+    /**
+     * Filter which TableCompletionExercises to update
+     */
+    where?: TableCompletionExerciseWhereInput
+    /**
+     * Limit how many TableCompletionExercises to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TableCompletionExercise updateManyAndReturn
+   */
+  export type TableCompletionExerciseUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableCompletionExercise
+     */
+    select?: TableCompletionExerciseSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableCompletionExercise
+     */
+    omit?: TableCompletionExerciseOmit<ExtArgs> | null
+    /**
+     * The data used to update TableCompletionExercises.
+     */
+    data: XOR<TableCompletionExerciseUpdateManyMutationInput, TableCompletionExerciseUncheckedUpdateManyInput>
+    /**
+     * Filter which TableCompletionExercises to update
+     */
+    where?: TableCompletionExerciseWhereInput
+    /**
+     * Limit how many TableCompletionExercises to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableCompletionExerciseIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TableCompletionExercise upsert
+   */
+  export type TableCompletionExerciseUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableCompletionExercise
+     */
+    select?: TableCompletionExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableCompletionExercise
+     */
+    omit?: TableCompletionExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableCompletionExerciseInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TableCompletionExercise to update in case it exists.
+     */
+    where: TableCompletionExerciseWhereUniqueInput
+    /**
+     * In case the TableCompletionExercise found by the `where` argument doesn't exist, create a new TableCompletionExercise with this data.
+     */
+    create: XOR<TableCompletionExerciseCreateInput, TableCompletionExerciseUncheckedCreateInput>
+    /**
+     * In case the TableCompletionExercise was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TableCompletionExerciseUpdateInput, TableCompletionExerciseUncheckedUpdateInput>
+  }
+
+  /**
+   * TableCompletionExercise delete
+   */
+  export type TableCompletionExerciseDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableCompletionExercise
+     */
+    select?: TableCompletionExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableCompletionExercise
+     */
+    omit?: TableCompletionExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableCompletionExerciseInclude<ExtArgs> | null
+    /**
+     * Filter which TableCompletionExercise to delete.
+     */
+    where: TableCompletionExerciseWhereUniqueInput
+  }
+
+  /**
+   * TableCompletionExercise deleteMany
+   */
+  export type TableCompletionExerciseDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TableCompletionExercises to delete
+     */
+    where?: TableCompletionExerciseWhereInput
+    /**
+     * Limit how many TableCompletionExercises to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TableCompletionExercise without action
+   */
+  export type TableCompletionExerciseDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableCompletionExercise
+     */
+    select?: TableCompletionExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableCompletionExercise
+     */
+    omit?: TableCompletionExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableCompletionExerciseInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ColumnMatchingExercise
+   */
+
+  export type AggregateColumnMatchingExercise = {
+    _count: ColumnMatchingExerciseCountAggregateOutputType | null
+    _min: ColumnMatchingExerciseMinAggregateOutputType | null
+    _max: ColumnMatchingExerciseMaxAggregateOutputType | null
+  }
+
+  export type ColumnMatchingExerciseMinAggregateOutputType = {
+    id: string | null
+    contentBlockId: string | null
+    contentId: string | null
+    classId: string | null
+    subjectId: string | null
+    unitId: string | null
+    lessonId: string | null
+    topicId: string | null
+    title: string | null
+    instruction: string | null
+    question: string | null
+    answer: string | null
+    details: string | null
+    documentJson: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ColumnMatchingExerciseMaxAggregateOutputType = {
+    id: string | null
+    contentBlockId: string | null
+    contentId: string | null
+    classId: string | null
+    subjectId: string | null
+    unitId: string | null
+    lessonId: string | null
+    topicId: string | null
+    title: string | null
+    instruction: string | null
+    question: string | null
+    answer: string | null
+    details: string | null
+    documentJson: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ColumnMatchingExerciseCountAggregateOutputType = {
+    id: number
+    contentBlockId: number
+    contentId: number
+    classId: number
+    subjectId: number
+    unitId: number
+    lessonId: number
+    topicId: number
+    title: number
+    instruction: number
+    question: number
+    answer: number
+    details: number
+    documentJson: number
+    organizationId: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ColumnMatchingExerciseMinAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    title?: true
+    instruction?: true
+    question?: true
+    answer?: true
+    details?: true
+    documentJson?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ColumnMatchingExerciseMaxAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    title?: true
+    instruction?: true
+    question?: true
+    answer?: true
+    details?: true
+    documentJson?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ColumnMatchingExerciseCountAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    title?: true
+    instruction?: true
+    question?: true
+    answer?: true
+    details?: true
+    documentJson?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ColumnMatchingExerciseAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ColumnMatchingExercise to aggregate.
+     */
+    where?: ColumnMatchingExerciseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ColumnMatchingExercises to fetch.
+     */
+    orderBy?: ColumnMatchingExerciseOrderByWithRelationInput | ColumnMatchingExerciseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ColumnMatchingExerciseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ColumnMatchingExercises from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ColumnMatchingExercises.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ColumnMatchingExercises
+    **/
+    _count?: true | ColumnMatchingExerciseCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ColumnMatchingExerciseMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ColumnMatchingExerciseMaxAggregateInputType
+  }
+
+  export type GetColumnMatchingExerciseAggregateType<T extends ColumnMatchingExerciseAggregateArgs> = {
+        [P in keyof T & keyof AggregateColumnMatchingExercise]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateColumnMatchingExercise[P]>
+      : GetScalarType<T[P], AggregateColumnMatchingExercise[P]>
+  }
+
+
+
+
+  export type ColumnMatchingExerciseGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ColumnMatchingExerciseWhereInput
+    orderBy?: ColumnMatchingExerciseOrderByWithAggregationInput | ColumnMatchingExerciseOrderByWithAggregationInput[]
+    by: ColumnMatchingExerciseScalarFieldEnum[] | ColumnMatchingExerciseScalarFieldEnum
+    having?: ColumnMatchingExerciseScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ColumnMatchingExerciseCountAggregateInputType | true
+    _min?: ColumnMatchingExerciseMinAggregateInputType
+    _max?: ColumnMatchingExerciseMaxAggregateInputType
+  }
+
+  export type ColumnMatchingExerciseGroupByOutputType = {
+    id: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId: string | null
+    title: string
+    instruction: string
+    question: string
+    answer: string
+    details: string
+    documentJson: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: ColumnMatchingExerciseCountAggregateOutputType | null
+    _min: ColumnMatchingExerciseMinAggregateOutputType | null
+    _max: ColumnMatchingExerciseMaxAggregateOutputType | null
+  }
+
+  type GetColumnMatchingExerciseGroupByPayload<T extends ColumnMatchingExerciseGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ColumnMatchingExerciseGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ColumnMatchingExerciseGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ColumnMatchingExerciseGroupByOutputType[P]>
+            : GetScalarType<T[P], ColumnMatchingExerciseGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ColumnMatchingExerciseSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    title?: boolean
+    instruction?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    documentJson?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["columnMatchingExercise"]>
+
+  export type ColumnMatchingExerciseSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    title?: boolean
+    instruction?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    documentJson?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["columnMatchingExercise"]>
+
+  export type ColumnMatchingExerciseSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    title?: boolean
+    instruction?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    documentJson?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["columnMatchingExercise"]>
+
+  export type ColumnMatchingExerciseSelectScalar = {
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    title?: boolean
+    instruction?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    documentJson?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ColumnMatchingExerciseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "title" | "instruction" | "question" | "answer" | "details" | "documentJson" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["columnMatchingExercise"]>
+  export type ColumnMatchingExerciseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+  export type ColumnMatchingExerciseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+  export type ColumnMatchingExerciseIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+
+  export type $ColumnMatchingExercisePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ColumnMatchingExercise"
+    objects: {
+      contentBlock: Prisma.$ContentBlockPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      contentBlockId: string
+      contentId: string
+      classId: string
+      subjectId: string
+      unitId: string
+      lessonId: string
+      topicId: string | null
+      title: string
+      instruction: string
+      question: string
+      answer: string
+      details: string
+      documentJson: string
+      organizationId: string
+      createdBy: string
+      updatedBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["columnMatchingExercise"]>
+    composites: {}
+  }
+
+  type ColumnMatchingExerciseGetPayload<S extends boolean | null | undefined | ColumnMatchingExerciseDefaultArgs> = $Result.GetResult<Prisma.$ColumnMatchingExercisePayload, S>
+
+  type ColumnMatchingExerciseCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ColumnMatchingExerciseFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ColumnMatchingExerciseCountAggregateInputType | true
+    }
+
+  export interface ColumnMatchingExerciseDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ColumnMatchingExercise'], meta: { name: 'ColumnMatchingExercise' } }
+    /**
+     * Find zero or one ColumnMatchingExercise that matches the filter.
+     * @param {ColumnMatchingExerciseFindUniqueArgs} args - Arguments to find a ColumnMatchingExercise
+     * @example
+     * // Get one ColumnMatchingExercise
+     * const columnMatchingExercise = await prisma.columnMatchingExercise.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ColumnMatchingExerciseFindUniqueArgs>(args: SelectSubset<T, ColumnMatchingExerciseFindUniqueArgs<ExtArgs>>): Prisma__ColumnMatchingExerciseClient<$Result.GetResult<Prisma.$ColumnMatchingExercisePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ColumnMatchingExercise that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ColumnMatchingExerciseFindUniqueOrThrowArgs} args - Arguments to find a ColumnMatchingExercise
+     * @example
+     * // Get one ColumnMatchingExercise
+     * const columnMatchingExercise = await prisma.columnMatchingExercise.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ColumnMatchingExerciseFindUniqueOrThrowArgs>(args: SelectSubset<T, ColumnMatchingExerciseFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ColumnMatchingExerciseClient<$Result.GetResult<Prisma.$ColumnMatchingExercisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ColumnMatchingExercise that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ColumnMatchingExerciseFindFirstArgs} args - Arguments to find a ColumnMatchingExercise
+     * @example
+     * // Get one ColumnMatchingExercise
+     * const columnMatchingExercise = await prisma.columnMatchingExercise.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ColumnMatchingExerciseFindFirstArgs>(args?: SelectSubset<T, ColumnMatchingExerciseFindFirstArgs<ExtArgs>>): Prisma__ColumnMatchingExerciseClient<$Result.GetResult<Prisma.$ColumnMatchingExercisePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ColumnMatchingExercise that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ColumnMatchingExerciseFindFirstOrThrowArgs} args - Arguments to find a ColumnMatchingExercise
+     * @example
+     * // Get one ColumnMatchingExercise
+     * const columnMatchingExercise = await prisma.columnMatchingExercise.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ColumnMatchingExerciseFindFirstOrThrowArgs>(args?: SelectSubset<T, ColumnMatchingExerciseFindFirstOrThrowArgs<ExtArgs>>): Prisma__ColumnMatchingExerciseClient<$Result.GetResult<Prisma.$ColumnMatchingExercisePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ColumnMatchingExercises that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ColumnMatchingExerciseFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ColumnMatchingExercises
+     * const columnMatchingExercises = await prisma.columnMatchingExercise.findMany()
+     * 
+     * // Get first 10 ColumnMatchingExercises
+     * const columnMatchingExercises = await prisma.columnMatchingExercise.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const columnMatchingExerciseWithIdOnly = await prisma.columnMatchingExercise.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ColumnMatchingExerciseFindManyArgs>(args?: SelectSubset<T, ColumnMatchingExerciseFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ColumnMatchingExercisePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ColumnMatchingExercise.
+     * @param {ColumnMatchingExerciseCreateArgs} args - Arguments to create a ColumnMatchingExercise.
+     * @example
+     * // Create one ColumnMatchingExercise
+     * const ColumnMatchingExercise = await prisma.columnMatchingExercise.create({
+     *   data: {
+     *     // ... data to create a ColumnMatchingExercise
+     *   }
+     * })
+     * 
+     */
+    create<T extends ColumnMatchingExerciseCreateArgs>(args: SelectSubset<T, ColumnMatchingExerciseCreateArgs<ExtArgs>>): Prisma__ColumnMatchingExerciseClient<$Result.GetResult<Prisma.$ColumnMatchingExercisePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ColumnMatchingExercises.
+     * @param {ColumnMatchingExerciseCreateManyArgs} args - Arguments to create many ColumnMatchingExercises.
+     * @example
+     * // Create many ColumnMatchingExercises
+     * const columnMatchingExercise = await prisma.columnMatchingExercise.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ColumnMatchingExerciseCreateManyArgs>(args?: SelectSubset<T, ColumnMatchingExerciseCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ColumnMatchingExercises and returns the data saved in the database.
+     * @param {ColumnMatchingExerciseCreateManyAndReturnArgs} args - Arguments to create many ColumnMatchingExercises.
+     * @example
+     * // Create many ColumnMatchingExercises
+     * const columnMatchingExercise = await prisma.columnMatchingExercise.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ColumnMatchingExercises and only return the `id`
+     * const columnMatchingExerciseWithIdOnly = await prisma.columnMatchingExercise.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ColumnMatchingExerciseCreateManyAndReturnArgs>(args?: SelectSubset<T, ColumnMatchingExerciseCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ColumnMatchingExercisePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ColumnMatchingExercise.
+     * @param {ColumnMatchingExerciseDeleteArgs} args - Arguments to delete one ColumnMatchingExercise.
+     * @example
+     * // Delete one ColumnMatchingExercise
+     * const ColumnMatchingExercise = await prisma.columnMatchingExercise.delete({
+     *   where: {
+     *     // ... filter to delete one ColumnMatchingExercise
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ColumnMatchingExerciseDeleteArgs>(args: SelectSubset<T, ColumnMatchingExerciseDeleteArgs<ExtArgs>>): Prisma__ColumnMatchingExerciseClient<$Result.GetResult<Prisma.$ColumnMatchingExercisePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ColumnMatchingExercise.
+     * @param {ColumnMatchingExerciseUpdateArgs} args - Arguments to update one ColumnMatchingExercise.
+     * @example
+     * // Update one ColumnMatchingExercise
+     * const columnMatchingExercise = await prisma.columnMatchingExercise.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ColumnMatchingExerciseUpdateArgs>(args: SelectSubset<T, ColumnMatchingExerciseUpdateArgs<ExtArgs>>): Prisma__ColumnMatchingExerciseClient<$Result.GetResult<Prisma.$ColumnMatchingExercisePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ColumnMatchingExercises.
+     * @param {ColumnMatchingExerciseDeleteManyArgs} args - Arguments to filter ColumnMatchingExercises to delete.
+     * @example
+     * // Delete a few ColumnMatchingExercises
+     * const { count } = await prisma.columnMatchingExercise.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ColumnMatchingExerciseDeleteManyArgs>(args?: SelectSubset<T, ColumnMatchingExerciseDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ColumnMatchingExercises.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ColumnMatchingExerciseUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ColumnMatchingExercises
+     * const columnMatchingExercise = await prisma.columnMatchingExercise.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ColumnMatchingExerciseUpdateManyArgs>(args: SelectSubset<T, ColumnMatchingExerciseUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ColumnMatchingExercises and returns the data updated in the database.
+     * @param {ColumnMatchingExerciseUpdateManyAndReturnArgs} args - Arguments to update many ColumnMatchingExercises.
+     * @example
+     * // Update many ColumnMatchingExercises
+     * const columnMatchingExercise = await prisma.columnMatchingExercise.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ColumnMatchingExercises and only return the `id`
+     * const columnMatchingExerciseWithIdOnly = await prisma.columnMatchingExercise.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ColumnMatchingExerciseUpdateManyAndReturnArgs>(args: SelectSubset<T, ColumnMatchingExerciseUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ColumnMatchingExercisePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ColumnMatchingExercise.
+     * @param {ColumnMatchingExerciseUpsertArgs} args - Arguments to update or create a ColumnMatchingExercise.
+     * @example
+     * // Update or create a ColumnMatchingExercise
+     * const columnMatchingExercise = await prisma.columnMatchingExercise.upsert({
+     *   create: {
+     *     // ... data to create a ColumnMatchingExercise
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ColumnMatchingExercise we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ColumnMatchingExerciseUpsertArgs>(args: SelectSubset<T, ColumnMatchingExerciseUpsertArgs<ExtArgs>>): Prisma__ColumnMatchingExerciseClient<$Result.GetResult<Prisma.$ColumnMatchingExercisePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ColumnMatchingExercises.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ColumnMatchingExerciseCountArgs} args - Arguments to filter ColumnMatchingExercises to count.
+     * @example
+     * // Count the number of ColumnMatchingExercises
+     * const count = await prisma.columnMatchingExercise.count({
+     *   where: {
+     *     // ... the filter for the ColumnMatchingExercises we want to count
+     *   }
+     * })
+    **/
+    count<T extends ColumnMatchingExerciseCountArgs>(
+      args?: Subset<T, ColumnMatchingExerciseCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ColumnMatchingExerciseCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ColumnMatchingExercise.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ColumnMatchingExerciseAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ColumnMatchingExerciseAggregateArgs>(args: Subset<T, ColumnMatchingExerciseAggregateArgs>): Prisma.PrismaPromise<GetColumnMatchingExerciseAggregateType<T>>
+
+    /**
+     * Group by ColumnMatchingExercise.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ColumnMatchingExerciseGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ColumnMatchingExerciseGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ColumnMatchingExerciseGroupByArgs['orderBy'] }
+        : { orderBy?: ColumnMatchingExerciseGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ColumnMatchingExerciseGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetColumnMatchingExerciseGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ColumnMatchingExercise model
+   */
+  readonly fields: ColumnMatchingExerciseFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ColumnMatchingExercise.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ColumnMatchingExerciseClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    contentBlock<T extends ContentBlockDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlockDefaultArgs<ExtArgs>>): Prisma__ContentBlockClient<$Result.GetResult<Prisma.$ContentBlockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ColumnMatchingExercise model
+   */
+  interface ColumnMatchingExerciseFieldRefs {
+    readonly id: FieldRef<"ColumnMatchingExercise", 'String'>
+    readonly contentBlockId: FieldRef<"ColumnMatchingExercise", 'String'>
+    readonly contentId: FieldRef<"ColumnMatchingExercise", 'String'>
+    readonly classId: FieldRef<"ColumnMatchingExercise", 'String'>
+    readonly subjectId: FieldRef<"ColumnMatchingExercise", 'String'>
+    readonly unitId: FieldRef<"ColumnMatchingExercise", 'String'>
+    readonly lessonId: FieldRef<"ColumnMatchingExercise", 'String'>
+    readonly topicId: FieldRef<"ColumnMatchingExercise", 'String'>
+    readonly title: FieldRef<"ColumnMatchingExercise", 'String'>
+    readonly instruction: FieldRef<"ColumnMatchingExercise", 'String'>
+    readonly question: FieldRef<"ColumnMatchingExercise", 'String'>
+    readonly answer: FieldRef<"ColumnMatchingExercise", 'String'>
+    readonly details: FieldRef<"ColumnMatchingExercise", 'String'>
+    readonly documentJson: FieldRef<"ColumnMatchingExercise", 'String'>
+    readonly organizationId: FieldRef<"ColumnMatchingExercise", 'String'>
+    readonly createdBy: FieldRef<"ColumnMatchingExercise", 'String'>
+    readonly updatedBy: FieldRef<"ColumnMatchingExercise", 'String'>
+    readonly createdAt: FieldRef<"ColumnMatchingExercise", 'DateTime'>
+    readonly updatedAt: FieldRef<"ColumnMatchingExercise", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ColumnMatchingExercise findUnique
+   */
+  export type ColumnMatchingExerciseFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ColumnMatchingExercise
+     */
+    select?: ColumnMatchingExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ColumnMatchingExercise
+     */
+    omit?: ColumnMatchingExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnMatchingExerciseInclude<ExtArgs> | null
+    /**
+     * Filter, which ColumnMatchingExercise to fetch.
+     */
+    where: ColumnMatchingExerciseWhereUniqueInput
+  }
+
+  /**
+   * ColumnMatchingExercise findUniqueOrThrow
+   */
+  export type ColumnMatchingExerciseFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ColumnMatchingExercise
+     */
+    select?: ColumnMatchingExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ColumnMatchingExercise
+     */
+    omit?: ColumnMatchingExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnMatchingExerciseInclude<ExtArgs> | null
+    /**
+     * Filter, which ColumnMatchingExercise to fetch.
+     */
+    where: ColumnMatchingExerciseWhereUniqueInput
+  }
+
+  /**
+   * ColumnMatchingExercise findFirst
+   */
+  export type ColumnMatchingExerciseFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ColumnMatchingExercise
+     */
+    select?: ColumnMatchingExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ColumnMatchingExercise
+     */
+    omit?: ColumnMatchingExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnMatchingExerciseInclude<ExtArgs> | null
+    /**
+     * Filter, which ColumnMatchingExercise to fetch.
+     */
+    where?: ColumnMatchingExerciseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ColumnMatchingExercises to fetch.
+     */
+    orderBy?: ColumnMatchingExerciseOrderByWithRelationInput | ColumnMatchingExerciseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ColumnMatchingExercises.
+     */
+    cursor?: ColumnMatchingExerciseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ColumnMatchingExercises from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ColumnMatchingExercises.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ColumnMatchingExercises.
+     */
+    distinct?: ColumnMatchingExerciseScalarFieldEnum | ColumnMatchingExerciseScalarFieldEnum[]
+  }
+
+  /**
+   * ColumnMatchingExercise findFirstOrThrow
+   */
+  export type ColumnMatchingExerciseFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ColumnMatchingExercise
+     */
+    select?: ColumnMatchingExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ColumnMatchingExercise
+     */
+    omit?: ColumnMatchingExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnMatchingExerciseInclude<ExtArgs> | null
+    /**
+     * Filter, which ColumnMatchingExercise to fetch.
+     */
+    where?: ColumnMatchingExerciseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ColumnMatchingExercises to fetch.
+     */
+    orderBy?: ColumnMatchingExerciseOrderByWithRelationInput | ColumnMatchingExerciseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ColumnMatchingExercises.
+     */
+    cursor?: ColumnMatchingExerciseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ColumnMatchingExercises from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ColumnMatchingExercises.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ColumnMatchingExercises.
+     */
+    distinct?: ColumnMatchingExerciseScalarFieldEnum | ColumnMatchingExerciseScalarFieldEnum[]
+  }
+
+  /**
+   * ColumnMatchingExercise findMany
+   */
+  export type ColumnMatchingExerciseFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ColumnMatchingExercise
+     */
+    select?: ColumnMatchingExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ColumnMatchingExercise
+     */
+    omit?: ColumnMatchingExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnMatchingExerciseInclude<ExtArgs> | null
+    /**
+     * Filter, which ColumnMatchingExercises to fetch.
+     */
+    where?: ColumnMatchingExerciseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ColumnMatchingExercises to fetch.
+     */
+    orderBy?: ColumnMatchingExerciseOrderByWithRelationInput | ColumnMatchingExerciseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ColumnMatchingExercises.
+     */
+    cursor?: ColumnMatchingExerciseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ColumnMatchingExercises from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ColumnMatchingExercises.
+     */
+    skip?: number
+    distinct?: ColumnMatchingExerciseScalarFieldEnum | ColumnMatchingExerciseScalarFieldEnum[]
+  }
+
+  /**
+   * ColumnMatchingExercise create
+   */
+  export type ColumnMatchingExerciseCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ColumnMatchingExercise
+     */
+    select?: ColumnMatchingExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ColumnMatchingExercise
+     */
+    omit?: ColumnMatchingExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnMatchingExerciseInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ColumnMatchingExercise.
+     */
+    data: XOR<ColumnMatchingExerciseCreateInput, ColumnMatchingExerciseUncheckedCreateInput>
+  }
+
+  /**
+   * ColumnMatchingExercise createMany
+   */
+  export type ColumnMatchingExerciseCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ColumnMatchingExercises.
+     */
+    data: ColumnMatchingExerciseCreateManyInput | ColumnMatchingExerciseCreateManyInput[]
+  }
+
+  /**
+   * ColumnMatchingExercise createManyAndReturn
+   */
+  export type ColumnMatchingExerciseCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ColumnMatchingExercise
+     */
+    select?: ColumnMatchingExerciseSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ColumnMatchingExercise
+     */
+    omit?: ColumnMatchingExerciseOmit<ExtArgs> | null
+    /**
+     * The data used to create many ColumnMatchingExercises.
+     */
+    data: ColumnMatchingExerciseCreateManyInput | ColumnMatchingExerciseCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnMatchingExerciseIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ColumnMatchingExercise update
+   */
+  export type ColumnMatchingExerciseUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ColumnMatchingExercise
+     */
+    select?: ColumnMatchingExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ColumnMatchingExercise
+     */
+    omit?: ColumnMatchingExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnMatchingExerciseInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ColumnMatchingExercise.
+     */
+    data: XOR<ColumnMatchingExerciseUpdateInput, ColumnMatchingExerciseUncheckedUpdateInput>
+    /**
+     * Choose, which ColumnMatchingExercise to update.
+     */
+    where: ColumnMatchingExerciseWhereUniqueInput
+  }
+
+  /**
+   * ColumnMatchingExercise updateMany
+   */
+  export type ColumnMatchingExerciseUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ColumnMatchingExercises.
+     */
+    data: XOR<ColumnMatchingExerciseUpdateManyMutationInput, ColumnMatchingExerciseUncheckedUpdateManyInput>
+    /**
+     * Filter which ColumnMatchingExercises to update
+     */
+    where?: ColumnMatchingExerciseWhereInput
+    /**
+     * Limit how many ColumnMatchingExercises to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ColumnMatchingExercise updateManyAndReturn
+   */
+  export type ColumnMatchingExerciseUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ColumnMatchingExercise
+     */
+    select?: ColumnMatchingExerciseSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ColumnMatchingExercise
+     */
+    omit?: ColumnMatchingExerciseOmit<ExtArgs> | null
+    /**
+     * The data used to update ColumnMatchingExercises.
+     */
+    data: XOR<ColumnMatchingExerciseUpdateManyMutationInput, ColumnMatchingExerciseUncheckedUpdateManyInput>
+    /**
+     * Filter which ColumnMatchingExercises to update
+     */
+    where?: ColumnMatchingExerciseWhereInput
+    /**
+     * Limit how many ColumnMatchingExercises to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnMatchingExerciseIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ColumnMatchingExercise upsert
+   */
+  export type ColumnMatchingExerciseUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ColumnMatchingExercise
+     */
+    select?: ColumnMatchingExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ColumnMatchingExercise
+     */
+    omit?: ColumnMatchingExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnMatchingExerciseInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ColumnMatchingExercise to update in case it exists.
+     */
+    where: ColumnMatchingExerciseWhereUniqueInput
+    /**
+     * In case the ColumnMatchingExercise found by the `where` argument doesn't exist, create a new ColumnMatchingExercise with this data.
+     */
+    create: XOR<ColumnMatchingExerciseCreateInput, ColumnMatchingExerciseUncheckedCreateInput>
+    /**
+     * In case the ColumnMatchingExercise was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ColumnMatchingExerciseUpdateInput, ColumnMatchingExerciseUncheckedUpdateInput>
+  }
+
+  /**
+   * ColumnMatchingExercise delete
+   */
+  export type ColumnMatchingExerciseDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ColumnMatchingExercise
+     */
+    select?: ColumnMatchingExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ColumnMatchingExercise
+     */
+    omit?: ColumnMatchingExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnMatchingExerciseInclude<ExtArgs> | null
+    /**
+     * Filter which ColumnMatchingExercise to delete.
+     */
+    where: ColumnMatchingExerciseWhereUniqueInput
+  }
+
+  /**
+   * ColumnMatchingExercise deleteMany
+   */
+  export type ColumnMatchingExerciseDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ColumnMatchingExercises to delete
+     */
+    where?: ColumnMatchingExerciseWhereInput
+    /**
+     * Limit how many ColumnMatchingExercises to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ColumnMatchingExercise without action
+   */
+  export type ColumnMatchingExerciseDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ColumnMatchingExercise
+     */
+    select?: ColumnMatchingExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ColumnMatchingExercise
+     */
+    omit?: ColumnMatchingExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ColumnMatchingExerciseInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SentenceOrderingExercise
+   */
+
+  export type AggregateSentenceOrderingExercise = {
+    _count: SentenceOrderingExerciseCountAggregateOutputType | null
+    _min: SentenceOrderingExerciseMinAggregateOutputType | null
+    _max: SentenceOrderingExerciseMaxAggregateOutputType | null
+  }
+
+  export type SentenceOrderingExerciseMinAggregateOutputType = {
+    id: string | null
+    contentBlockId: string | null
+    contentId: string | null
+    classId: string | null
+    subjectId: string | null
+    unitId: string | null
+    lessonId: string | null
+    topicId: string | null
+    title: string | null
+    instruction: string | null
+    question: string | null
+    answer: string | null
+    details: string | null
+    documentJson: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SentenceOrderingExerciseMaxAggregateOutputType = {
+    id: string | null
+    contentBlockId: string | null
+    contentId: string | null
+    classId: string | null
+    subjectId: string | null
+    unitId: string | null
+    lessonId: string | null
+    topicId: string | null
+    title: string | null
+    instruction: string | null
+    question: string | null
+    answer: string | null
+    details: string | null
+    documentJson: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SentenceOrderingExerciseCountAggregateOutputType = {
+    id: number
+    contentBlockId: number
+    contentId: number
+    classId: number
+    subjectId: number
+    unitId: number
+    lessonId: number
+    topicId: number
+    title: number
+    instruction: number
+    question: number
+    answer: number
+    details: number
+    documentJson: number
+    organizationId: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SentenceOrderingExerciseMinAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    title?: true
+    instruction?: true
+    question?: true
+    answer?: true
+    details?: true
+    documentJson?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SentenceOrderingExerciseMaxAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    title?: true
+    instruction?: true
+    question?: true
+    answer?: true
+    details?: true
+    documentJson?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SentenceOrderingExerciseCountAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    title?: true
+    instruction?: true
+    question?: true
+    answer?: true
+    details?: true
+    documentJson?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SentenceOrderingExerciseAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SentenceOrderingExercise to aggregate.
+     */
+    where?: SentenceOrderingExerciseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SentenceOrderingExercises to fetch.
+     */
+    orderBy?: SentenceOrderingExerciseOrderByWithRelationInput | SentenceOrderingExerciseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SentenceOrderingExerciseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SentenceOrderingExercises from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SentenceOrderingExercises.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SentenceOrderingExercises
+    **/
+    _count?: true | SentenceOrderingExerciseCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SentenceOrderingExerciseMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SentenceOrderingExerciseMaxAggregateInputType
+  }
+
+  export type GetSentenceOrderingExerciseAggregateType<T extends SentenceOrderingExerciseAggregateArgs> = {
+        [P in keyof T & keyof AggregateSentenceOrderingExercise]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSentenceOrderingExercise[P]>
+      : GetScalarType<T[P], AggregateSentenceOrderingExercise[P]>
+  }
+
+
+
+
+  export type SentenceOrderingExerciseGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SentenceOrderingExerciseWhereInput
+    orderBy?: SentenceOrderingExerciseOrderByWithAggregationInput | SentenceOrderingExerciseOrderByWithAggregationInput[]
+    by: SentenceOrderingExerciseScalarFieldEnum[] | SentenceOrderingExerciseScalarFieldEnum
+    having?: SentenceOrderingExerciseScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SentenceOrderingExerciseCountAggregateInputType | true
+    _min?: SentenceOrderingExerciseMinAggregateInputType
+    _max?: SentenceOrderingExerciseMaxAggregateInputType
+  }
+
+  export type SentenceOrderingExerciseGroupByOutputType = {
+    id: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId: string | null
+    title: string
+    instruction: string
+    question: string
+    answer: string
+    details: string
+    documentJson: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: SentenceOrderingExerciseCountAggregateOutputType | null
+    _min: SentenceOrderingExerciseMinAggregateOutputType | null
+    _max: SentenceOrderingExerciseMaxAggregateOutputType | null
+  }
+
+  type GetSentenceOrderingExerciseGroupByPayload<T extends SentenceOrderingExerciseGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SentenceOrderingExerciseGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SentenceOrderingExerciseGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SentenceOrderingExerciseGroupByOutputType[P]>
+            : GetScalarType<T[P], SentenceOrderingExerciseGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SentenceOrderingExerciseSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    title?: boolean
+    instruction?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    documentJson?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["sentenceOrderingExercise"]>
+
+  export type SentenceOrderingExerciseSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    title?: boolean
+    instruction?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    documentJson?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["sentenceOrderingExercise"]>
+
+  export type SentenceOrderingExerciseSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    title?: boolean
+    instruction?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    documentJson?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["sentenceOrderingExercise"]>
+
+  export type SentenceOrderingExerciseSelectScalar = {
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    title?: boolean
+    instruction?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    documentJson?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SentenceOrderingExerciseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "title" | "instruction" | "question" | "answer" | "details" | "documentJson" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["sentenceOrderingExercise"]>
+  export type SentenceOrderingExerciseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+  export type SentenceOrderingExerciseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+  export type SentenceOrderingExerciseIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+
+  export type $SentenceOrderingExercisePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SentenceOrderingExercise"
+    objects: {
+      contentBlock: Prisma.$ContentBlockPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      contentBlockId: string
+      contentId: string
+      classId: string
+      subjectId: string
+      unitId: string
+      lessonId: string
+      topicId: string | null
+      title: string
+      instruction: string
+      question: string
+      answer: string
+      details: string
+      documentJson: string
+      organizationId: string
+      createdBy: string
+      updatedBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["sentenceOrderingExercise"]>
+    composites: {}
+  }
+
+  type SentenceOrderingExerciseGetPayload<S extends boolean | null | undefined | SentenceOrderingExerciseDefaultArgs> = $Result.GetResult<Prisma.$SentenceOrderingExercisePayload, S>
+
+  type SentenceOrderingExerciseCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SentenceOrderingExerciseFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SentenceOrderingExerciseCountAggregateInputType | true
+    }
+
+  export interface SentenceOrderingExerciseDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SentenceOrderingExercise'], meta: { name: 'SentenceOrderingExercise' } }
+    /**
+     * Find zero or one SentenceOrderingExercise that matches the filter.
+     * @param {SentenceOrderingExerciseFindUniqueArgs} args - Arguments to find a SentenceOrderingExercise
+     * @example
+     * // Get one SentenceOrderingExercise
+     * const sentenceOrderingExercise = await prisma.sentenceOrderingExercise.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SentenceOrderingExerciseFindUniqueArgs>(args: SelectSubset<T, SentenceOrderingExerciseFindUniqueArgs<ExtArgs>>): Prisma__SentenceOrderingExerciseClient<$Result.GetResult<Prisma.$SentenceOrderingExercisePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SentenceOrderingExercise that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SentenceOrderingExerciseFindUniqueOrThrowArgs} args - Arguments to find a SentenceOrderingExercise
+     * @example
+     * // Get one SentenceOrderingExercise
+     * const sentenceOrderingExercise = await prisma.sentenceOrderingExercise.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SentenceOrderingExerciseFindUniqueOrThrowArgs>(args: SelectSubset<T, SentenceOrderingExerciseFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SentenceOrderingExerciseClient<$Result.GetResult<Prisma.$SentenceOrderingExercisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SentenceOrderingExercise that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SentenceOrderingExerciseFindFirstArgs} args - Arguments to find a SentenceOrderingExercise
+     * @example
+     * // Get one SentenceOrderingExercise
+     * const sentenceOrderingExercise = await prisma.sentenceOrderingExercise.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SentenceOrderingExerciseFindFirstArgs>(args?: SelectSubset<T, SentenceOrderingExerciseFindFirstArgs<ExtArgs>>): Prisma__SentenceOrderingExerciseClient<$Result.GetResult<Prisma.$SentenceOrderingExercisePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SentenceOrderingExercise that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SentenceOrderingExerciseFindFirstOrThrowArgs} args - Arguments to find a SentenceOrderingExercise
+     * @example
+     * // Get one SentenceOrderingExercise
+     * const sentenceOrderingExercise = await prisma.sentenceOrderingExercise.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SentenceOrderingExerciseFindFirstOrThrowArgs>(args?: SelectSubset<T, SentenceOrderingExerciseFindFirstOrThrowArgs<ExtArgs>>): Prisma__SentenceOrderingExerciseClient<$Result.GetResult<Prisma.$SentenceOrderingExercisePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SentenceOrderingExercises that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SentenceOrderingExerciseFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SentenceOrderingExercises
+     * const sentenceOrderingExercises = await prisma.sentenceOrderingExercise.findMany()
+     * 
+     * // Get first 10 SentenceOrderingExercises
+     * const sentenceOrderingExercises = await prisma.sentenceOrderingExercise.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const sentenceOrderingExerciseWithIdOnly = await prisma.sentenceOrderingExercise.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SentenceOrderingExerciseFindManyArgs>(args?: SelectSubset<T, SentenceOrderingExerciseFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SentenceOrderingExercisePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SentenceOrderingExercise.
+     * @param {SentenceOrderingExerciseCreateArgs} args - Arguments to create a SentenceOrderingExercise.
+     * @example
+     * // Create one SentenceOrderingExercise
+     * const SentenceOrderingExercise = await prisma.sentenceOrderingExercise.create({
+     *   data: {
+     *     // ... data to create a SentenceOrderingExercise
+     *   }
+     * })
+     * 
+     */
+    create<T extends SentenceOrderingExerciseCreateArgs>(args: SelectSubset<T, SentenceOrderingExerciseCreateArgs<ExtArgs>>): Prisma__SentenceOrderingExerciseClient<$Result.GetResult<Prisma.$SentenceOrderingExercisePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SentenceOrderingExercises.
+     * @param {SentenceOrderingExerciseCreateManyArgs} args - Arguments to create many SentenceOrderingExercises.
+     * @example
+     * // Create many SentenceOrderingExercises
+     * const sentenceOrderingExercise = await prisma.sentenceOrderingExercise.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SentenceOrderingExerciseCreateManyArgs>(args?: SelectSubset<T, SentenceOrderingExerciseCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SentenceOrderingExercises and returns the data saved in the database.
+     * @param {SentenceOrderingExerciseCreateManyAndReturnArgs} args - Arguments to create many SentenceOrderingExercises.
+     * @example
+     * // Create many SentenceOrderingExercises
+     * const sentenceOrderingExercise = await prisma.sentenceOrderingExercise.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SentenceOrderingExercises and only return the `id`
+     * const sentenceOrderingExerciseWithIdOnly = await prisma.sentenceOrderingExercise.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SentenceOrderingExerciseCreateManyAndReturnArgs>(args?: SelectSubset<T, SentenceOrderingExerciseCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SentenceOrderingExercisePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SentenceOrderingExercise.
+     * @param {SentenceOrderingExerciseDeleteArgs} args - Arguments to delete one SentenceOrderingExercise.
+     * @example
+     * // Delete one SentenceOrderingExercise
+     * const SentenceOrderingExercise = await prisma.sentenceOrderingExercise.delete({
+     *   where: {
+     *     // ... filter to delete one SentenceOrderingExercise
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SentenceOrderingExerciseDeleteArgs>(args: SelectSubset<T, SentenceOrderingExerciseDeleteArgs<ExtArgs>>): Prisma__SentenceOrderingExerciseClient<$Result.GetResult<Prisma.$SentenceOrderingExercisePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SentenceOrderingExercise.
+     * @param {SentenceOrderingExerciseUpdateArgs} args - Arguments to update one SentenceOrderingExercise.
+     * @example
+     * // Update one SentenceOrderingExercise
+     * const sentenceOrderingExercise = await prisma.sentenceOrderingExercise.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SentenceOrderingExerciseUpdateArgs>(args: SelectSubset<T, SentenceOrderingExerciseUpdateArgs<ExtArgs>>): Prisma__SentenceOrderingExerciseClient<$Result.GetResult<Prisma.$SentenceOrderingExercisePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SentenceOrderingExercises.
+     * @param {SentenceOrderingExerciseDeleteManyArgs} args - Arguments to filter SentenceOrderingExercises to delete.
+     * @example
+     * // Delete a few SentenceOrderingExercises
+     * const { count } = await prisma.sentenceOrderingExercise.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SentenceOrderingExerciseDeleteManyArgs>(args?: SelectSubset<T, SentenceOrderingExerciseDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SentenceOrderingExercises.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SentenceOrderingExerciseUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SentenceOrderingExercises
+     * const sentenceOrderingExercise = await prisma.sentenceOrderingExercise.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SentenceOrderingExerciseUpdateManyArgs>(args: SelectSubset<T, SentenceOrderingExerciseUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SentenceOrderingExercises and returns the data updated in the database.
+     * @param {SentenceOrderingExerciseUpdateManyAndReturnArgs} args - Arguments to update many SentenceOrderingExercises.
+     * @example
+     * // Update many SentenceOrderingExercises
+     * const sentenceOrderingExercise = await prisma.sentenceOrderingExercise.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SentenceOrderingExercises and only return the `id`
+     * const sentenceOrderingExerciseWithIdOnly = await prisma.sentenceOrderingExercise.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SentenceOrderingExerciseUpdateManyAndReturnArgs>(args: SelectSubset<T, SentenceOrderingExerciseUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SentenceOrderingExercisePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SentenceOrderingExercise.
+     * @param {SentenceOrderingExerciseUpsertArgs} args - Arguments to update or create a SentenceOrderingExercise.
+     * @example
+     * // Update or create a SentenceOrderingExercise
+     * const sentenceOrderingExercise = await prisma.sentenceOrderingExercise.upsert({
+     *   create: {
+     *     // ... data to create a SentenceOrderingExercise
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SentenceOrderingExercise we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SentenceOrderingExerciseUpsertArgs>(args: SelectSubset<T, SentenceOrderingExerciseUpsertArgs<ExtArgs>>): Prisma__SentenceOrderingExerciseClient<$Result.GetResult<Prisma.$SentenceOrderingExercisePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SentenceOrderingExercises.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SentenceOrderingExerciseCountArgs} args - Arguments to filter SentenceOrderingExercises to count.
+     * @example
+     * // Count the number of SentenceOrderingExercises
+     * const count = await prisma.sentenceOrderingExercise.count({
+     *   where: {
+     *     // ... the filter for the SentenceOrderingExercises we want to count
+     *   }
+     * })
+    **/
+    count<T extends SentenceOrderingExerciseCountArgs>(
+      args?: Subset<T, SentenceOrderingExerciseCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SentenceOrderingExerciseCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SentenceOrderingExercise.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SentenceOrderingExerciseAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SentenceOrderingExerciseAggregateArgs>(args: Subset<T, SentenceOrderingExerciseAggregateArgs>): Prisma.PrismaPromise<GetSentenceOrderingExerciseAggregateType<T>>
+
+    /**
+     * Group by SentenceOrderingExercise.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SentenceOrderingExerciseGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SentenceOrderingExerciseGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SentenceOrderingExerciseGroupByArgs['orderBy'] }
+        : { orderBy?: SentenceOrderingExerciseGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SentenceOrderingExerciseGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSentenceOrderingExerciseGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SentenceOrderingExercise model
+   */
+  readonly fields: SentenceOrderingExerciseFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SentenceOrderingExercise.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SentenceOrderingExerciseClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    contentBlock<T extends ContentBlockDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlockDefaultArgs<ExtArgs>>): Prisma__ContentBlockClient<$Result.GetResult<Prisma.$ContentBlockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SentenceOrderingExercise model
+   */
+  interface SentenceOrderingExerciseFieldRefs {
+    readonly id: FieldRef<"SentenceOrderingExercise", 'String'>
+    readonly contentBlockId: FieldRef<"SentenceOrderingExercise", 'String'>
+    readonly contentId: FieldRef<"SentenceOrderingExercise", 'String'>
+    readonly classId: FieldRef<"SentenceOrderingExercise", 'String'>
+    readonly subjectId: FieldRef<"SentenceOrderingExercise", 'String'>
+    readonly unitId: FieldRef<"SentenceOrderingExercise", 'String'>
+    readonly lessonId: FieldRef<"SentenceOrderingExercise", 'String'>
+    readonly topicId: FieldRef<"SentenceOrderingExercise", 'String'>
+    readonly title: FieldRef<"SentenceOrderingExercise", 'String'>
+    readonly instruction: FieldRef<"SentenceOrderingExercise", 'String'>
+    readonly question: FieldRef<"SentenceOrderingExercise", 'String'>
+    readonly answer: FieldRef<"SentenceOrderingExercise", 'String'>
+    readonly details: FieldRef<"SentenceOrderingExercise", 'String'>
+    readonly documentJson: FieldRef<"SentenceOrderingExercise", 'String'>
+    readonly organizationId: FieldRef<"SentenceOrderingExercise", 'String'>
+    readonly createdBy: FieldRef<"SentenceOrderingExercise", 'String'>
+    readonly updatedBy: FieldRef<"SentenceOrderingExercise", 'String'>
+    readonly createdAt: FieldRef<"SentenceOrderingExercise", 'DateTime'>
+    readonly updatedAt: FieldRef<"SentenceOrderingExercise", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SentenceOrderingExercise findUnique
+   */
+  export type SentenceOrderingExerciseFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SentenceOrderingExercise
+     */
+    select?: SentenceOrderingExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SentenceOrderingExercise
+     */
+    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SentenceOrderingExerciseInclude<ExtArgs> | null
+    /**
+     * Filter, which SentenceOrderingExercise to fetch.
+     */
+    where: SentenceOrderingExerciseWhereUniqueInput
+  }
+
+  /**
+   * SentenceOrderingExercise findUniqueOrThrow
+   */
+  export type SentenceOrderingExerciseFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SentenceOrderingExercise
+     */
+    select?: SentenceOrderingExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SentenceOrderingExercise
+     */
+    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SentenceOrderingExerciseInclude<ExtArgs> | null
+    /**
+     * Filter, which SentenceOrderingExercise to fetch.
+     */
+    where: SentenceOrderingExerciseWhereUniqueInput
+  }
+
+  /**
+   * SentenceOrderingExercise findFirst
+   */
+  export type SentenceOrderingExerciseFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SentenceOrderingExercise
+     */
+    select?: SentenceOrderingExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SentenceOrderingExercise
+     */
+    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SentenceOrderingExerciseInclude<ExtArgs> | null
+    /**
+     * Filter, which SentenceOrderingExercise to fetch.
+     */
+    where?: SentenceOrderingExerciseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SentenceOrderingExercises to fetch.
+     */
+    orderBy?: SentenceOrderingExerciseOrderByWithRelationInput | SentenceOrderingExerciseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SentenceOrderingExercises.
+     */
+    cursor?: SentenceOrderingExerciseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SentenceOrderingExercises from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SentenceOrderingExercises.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SentenceOrderingExercises.
+     */
+    distinct?: SentenceOrderingExerciseScalarFieldEnum | SentenceOrderingExerciseScalarFieldEnum[]
+  }
+
+  /**
+   * SentenceOrderingExercise findFirstOrThrow
+   */
+  export type SentenceOrderingExerciseFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SentenceOrderingExercise
+     */
+    select?: SentenceOrderingExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SentenceOrderingExercise
+     */
+    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SentenceOrderingExerciseInclude<ExtArgs> | null
+    /**
+     * Filter, which SentenceOrderingExercise to fetch.
+     */
+    where?: SentenceOrderingExerciseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SentenceOrderingExercises to fetch.
+     */
+    orderBy?: SentenceOrderingExerciseOrderByWithRelationInput | SentenceOrderingExerciseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SentenceOrderingExercises.
+     */
+    cursor?: SentenceOrderingExerciseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SentenceOrderingExercises from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SentenceOrderingExercises.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SentenceOrderingExercises.
+     */
+    distinct?: SentenceOrderingExerciseScalarFieldEnum | SentenceOrderingExerciseScalarFieldEnum[]
+  }
+
+  /**
+   * SentenceOrderingExercise findMany
+   */
+  export type SentenceOrderingExerciseFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SentenceOrderingExercise
+     */
+    select?: SentenceOrderingExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SentenceOrderingExercise
+     */
+    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SentenceOrderingExerciseInclude<ExtArgs> | null
+    /**
+     * Filter, which SentenceOrderingExercises to fetch.
+     */
+    where?: SentenceOrderingExerciseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SentenceOrderingExercises to fetch.
+     */
+    orderBy?: SentenceOrderingExerciseOrderByWithRelationInput | SentenceOrderingExerciseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SentenceOrderingExercises.
+     */
+    cursor?: SentenceOrderingExerciseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SentenceOrderingExercises from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SentenceOrderingExercises.
+     */
+    skip?: number
+    distinct?: SentenceOrderingExerciseScalarFieldEnum | SentenceOrderingExerciseScalarFieldEnum[]
+  }
+
+  /**
+   * SentenceOrderingExercise create
+   */
+  export type SentenceOrderingExerciseCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SentenceOrderingExercise
+     */
+    select?: SentenceOrderingExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SentenceOrderingExercise
+     */
+    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SentenceOrderingExerciseInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SentenceOrderingExercise.
+     */
+    data: XOR<SentenceOrderingExerciseCreateInput, SentenceOrderingExerciseUncheckedCreateInput>
+  }
+
+  /**
+   * SentenceOrderingExercise createMany
+   */
+  export type SentenceOrderingExerciseCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SentenceOrderingExercises.
+     */
+    data: SentenceOrderingExerciseCreateManyInput | SentenceOrderingExerciseCreateManyInput[]
+  }
+
+  /**
+   * SentenceOrderingExercise createManyAndReturn
+   */
+  export type SentenceOrderingExerciseCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SentenceOrderingExercise
+     */
+    select?: SentenceOrderingExerciseSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SentenceOrderingExercise
+     */
+    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    /**
+     * The data used to create many SentenceOrderingExercises.
+     */
+    data: SentenceOrderingExerciseCreateManyInput | SentenceOrderingExerciseCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SentenceOrderingExerciseIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SentenceOrderingExercise update
+   */
+  export type SentenceOrderingExerciseUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SentenceOrderingExercise
+     */
+    select?: SentenceOrderingExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SentenceOrderingExercise
+     */
+    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SentenceOrderingExerciseInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SentenceOrderingExercise.
+     */
+    data: XOR<SentenceOrderingExerciseUpdateInput, SentenceOrderingExerciseUncheckedUpdateInput>
+    /**
+     * Choose, which SentenceOrderingExercise to update.
+     */
+    where: SentenceOrderingExerciseWhereUniqueInput
+  }
+
+  /**
+   * SentenceOrderingExercise updateMany
+   */
+  export type SentenceOrderingExerciseUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SentenceOrderingExercises.
+     */
+    data: XOR<SentenceOrderingExerciseUpdateManyMutationInput, SentenceOrderingExerciseUncheckedUpdateManyInput>
+    /**
+     * Filter which SentenceOrderingExercises to update
+     */
+    where?: SentenceOrderingExerciseWhereInput
+    /**
+     * Limit how many SentenceOrderingExercises to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SentenceOrderingExercise updateManyAndReturn
+   */
+  export type SentenceOrderingExerciseUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SentenceOrderingExercise
+     */
+    select?: SentenceOrderingExerciseSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SentenceOrderingExercise
+     */
+    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    /**
+     * The data used to update SentenceOrderingExercises.
+     */
+    data: XOR<SentenceOrderingExerciseUpdateManyMutationInput, SentenceOrderingExerciseUncheckedUpdateManyInput>
+    /**
+     * Filter which SentenceOrderingExercises to update
+     */
+    where?: SentenceOrderingExerciseWhereInput
+    /**
+     * Limit how many SentenceOrderingExercises to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SentenceOrderingExerciseIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SentenceOrderingExercise upsert
+   */
+  export type SentenceOrderingExerciseUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SentenceOrderingExercise
+     */
+    select?: SentenceOrderingExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SentenceOrderingExercise
+     */
+    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SentenceOrderingExerciseInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SentenceOrderingExercise to update in case it exists.
+     */
+    where: SentenceOrderingExerciseWhereUniqueInput
+    /**
+     * In case the SentenceOrderingExercise found by the `where` argument doesn't exist, create a new SentenceOrderingExercise with this data.
+     */
+    create: XOR<SentenceOrderingExerciseCreateInput, SentenceOrderingExerciseUncheckedCreateInput>
+    /**
+     * In case the SentenceOrderingExercise was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SentenceOrderingExerciseUpdateInput, SentenceOrderingExerciseUncheckedUpdateInput>
+  }
+
+  /**
+   * SentenceOrderingExercise delete
+   */
+  export type SentenceOrderingExerciseDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SentenceOrderingExercise
+     */
+    select?: SentenceOrderingExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SentenceOrderingExercise
+     */
+    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SentenceOrderingExerciseInclude<ExtArgs> | null
+    /**
+     * Filter which SentenceOrderingExercise to delete.
+     */
+    where: SentenceOrderingExerciseWhereUniqueInput
+  }
+
+  /**
+   * SentenceOrderingExercise deleteMany
+   */
+  export type SentenceOrderingExerciseDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SentenceOrderingExercises to delete
+     */
+    where?: SentenceOrderingExerciseWhereInput
+    /**
+     * Limit how many SentenceOrderingExercises to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SentenceOrderingExercise without action
+   */
+  export type SentenceOrderingExerciseDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SentenceOrderingExercise
+     */
+    select?: SentenceOrderingExerciseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SentenceOrderingExercise
+     */
+    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SentenceOrderingExerciseInclude<ExtArgs> | null
   }
 
 
@@ -32255,6 +36298,7 @@ export namespace Prisma {
     question: string | null
     answer: string | null
     details: string | null
+    documentJson: string | null
     organizationId: string | null
     createdBy: string | null
     updatedBy: string | null
@@ -32274,6 +36318,7 @@ export namespace Prisma {
     question: string | null
     answer: string | null
     details: string | null
+    documentJson: string | null
     organizationId: string | null
     createdBy: string | null
     updatedBy: string | null
@@ -32293,6 +36338,7 @@ export namespace Prisma {
     question: number
     answer: number
     details: number
+    documentJson: number
     organizationId: number
     createdBy: number
     updatedBy: number
@@ -32314,6 +36360,7 @@ export namespace Prisma {
     question?: true
     answer?: true
     details?: true
+    documentJson?: true
     organizationId?: true
     createdBy?: true
     updatedBy?: true
@@ -32333,6 +36380,7 @@ export namespace Prisma {
     question?: true
     answer?: true
     details?: true
+    documentJson?: true
     organizationId?: true
     createdBy?: true
     updatedBy?: true
@@ -32352,6 +36400,7 @@ export namespace Prisma {
     question?: true
     answer?: true
     details?: true
+    documentJson?: true
     organizationId?: true
     createdBy?: true
     updatedBy?: true
@@ -32444,6 +36493,7 @@ export namespace Prisma {
     question: string
     answer: string
     details: string
+    documentJson: string
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -32480,6 +36530,7 @@ export namespace Prisma {
     question?: boolean
     answer?: boolean
     details?: boolean
+    documentJson?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -32500,6 +36551,7 @@ export namespace Prisma {
     question?: boolean
     answer?: boolean
     details?: boolean
+    documentJson?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -32520,6 +36572,7 @@ export namespace Prisma {
     question?: boolean
     answer?: boolean
     details?: boolean
+    documentJson?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -32540,6 +36593,7 @@ export namespace Prisma {
     question?: boolean
     answer?: boolean
     details?: boolean
+    documentJson?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -32547,7 +36601,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type InformationTransferOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "question" | "answer" | "details" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["informationTransfer"]>
+  export type InformationTransferOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "question" | "answer" | "details" | "documentJson" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["informationTransfer"]>
   export type InformationTransferInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
   }
@@ -32575,6 +36629,7 @@ export namespace Prisma {
       question: string
       answer: string
       details: string
+      documentJson: string
       organizationId: string
       createdBy: string
       updatedBy: string
@@ -33015,6 +37070,7 @@ export namespace Prisma {
     readonly question: FieldRef<"InformationTransfer", 'String'>
     readonly answer: FieldRef<"InformationTransfer", 'String'>
     readonly details: FieldRef<"InformationTransfer", 'String'>
+    readonly documentJson: FieldRef<"InformationTransfer", 'String'>
     readonly organizationId: FieldRef<"InformationTransfer", 'String'>
     readonly createdBy: FieldRef<"InformationTransfer", 'String'>
     readonly updatedBy: FieldRef<"InformationTransfer", 'String'>
@@ -44659,7 +48715,6 @@ export namespace Prisma {
     question: 'question',
     answer: 'answer',
     details: 'details',
-    layoutKind: 'layoutKind',
     documentJson: 'documentJson',
     organizationId: 'organizationId',
     createdBy: 'createdBy',
@@ -44669,6 +48724,81 @@ export namespace Prisma {
   };
 
   export type QuestionAnswerExerciseScalarFieldEnum = (typeof QuestionAnswerExerciseScalarFieldEnum)[keyof typeof QuestionAnswerExerciseScalarFieldEnum]
+
+
+  export const TableCompletionExerciseScalarFieldEnum: {
+    id: 'id',
+    contentBlockId: 'contentBlockId',
+    contentId: 'contentId',
+    classId: 'classId',
+    subjectId: 'subjectId',
+    unitId: 'unitId',
+    lessonId: 'lessonId',
+    topicId: 'topicId',
+    title: 'title',
+    instruction: 'instruction',
+    question: 'question',
+    answer: 'answer',
+    details: 'details',
+    documentJson: 'documentJson',
+    organizationId: 'organizationId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TableCompletionExerciseScalarFieldEnum = (typeof TableCompletionExerciseScalarFieldEnum)[keyof typeof TableCompletionExerciseScalarFieldEnum]
+
+
+  export const ColumnMatchingExerciseScalarFieldEnum: {
+    id: 'id',
+    contentBlockId: 'contentBlockId',
+    contentId: 'contentId',
+    classId: 'classId',
+    subjectId: 'subjectId',
+    unitId: 'unitId',
+    lessonId: 'lessonId',
+    topicId: 'topicId',
+    title: 'title',
+    instruction: 'instruction',
+    question: 'question',
+    answer: 'answer',
+    details: 'details',
+    documentJson: 'documentJson',
+    organizationId: 'organizationId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ColumnMatchingExerciseScalarFieldEnum = (typeof ColumnMatchingExerciseScalarFieldEnum)[keyof typeof ColumnMatchingExerciseScalarFieldEnum]
+
+
+  export const SentenceOrderingExerciseScalarFieldEnum: {
+    id: 'id',
+    contentBlockId: 'contentBlockId',
+    contentId: 'contentId',
+    classId: 'classId',
+    subjectId: 'subjectId',
+    unitId: 'unitId',
+    lessonId: 'lessonId',
+    topicId: 'topicId',
+    title: 'title',
+    instruction: 'instruction',
+    question: 'question',
+    answer: 'answer',
+    details: 'details',
+    documentJson: 'documentJson',
+    organizationId: 'organizationId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SentenceOrderingExerciseScalarFieldEnum = (typeof SentenceOrderingExerciseScalarFieldEnum)[keyof typeof SentenceOrderingExerciseScalarFieldEnum]
 
 
   export const TrueFalseExerciseScalarFieldEnum: {
@@ -44706,6 +48836,7 @@ export namespace Prisma {
     question: 'question',
     answer: 'answer',
     details: 'details',
+    documentJson: 'documentJson',
     organizationId: 'organizationId',
     createdBy: 'createdBy',
     updatedBy: 'updatedBy',
@@ -46155,6 +50286,9 @@ export namespace Prisma {
     gapFillSecondPaper?: XOR<GapFillSecondPaperNullableScalarRelationFilter, GapFillSecondPaperWhereInput> | null
     mcqSection?: XOR<McqSectionNullableScalarRelationFilter, McqSectionWhereInput> | null
     questionAnswerExercise?: XOR<QuestionAnswerExerciseNullableScalarRelationFilter, QuestionAnswerExerciseWhereInput> | null
+    tableCompletionExercise?: XOR<TableCompletionExerciseNullableScalarRelationFilter, TableCompletionExerciseWhereInput> | null
+    columnMatchingExercise?: XOR<ColumnMatchingExerciseNullableScalarRelationFilter, ColumnMatchingExerciseWhereInput> | null
+    sentenceOrderingExercise?: XOR<SentenceOrderingExerciseNullableScalarRelationFilter, SentenceOrderingExerciseWhereInput> | null
     trueFalseExercise?: XOR<TrueFalseExerciseNullableScalarRelationFilter, TrueFalseExerciseWhereInput> | null
     informationTransfer?: XOR<InformationTransferNullableScalarRelationFilter, InformationTransferWhereInput> | null
     substitutionTable?: XOR<SubstitutionTableNullableScalarRelationFilter, SubstitutionTableWhereInput> | null
@@ -46184,6 +50318,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperOrderByWithRelationInput
     mcqSection?: McqSectionOrderByWithRelationInput
     questionAnswerExercise?: QuestionAnswerExerciseOrderByWithRelationInput
+    tableCompletionExercise?: TableCompletionExerciseOrderByWithRelationInput
+    columnMatchingExercise?: ColumnMatchingExerciseOrderByWithRelationInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseOrderByWithRelationInput
     trueFalseExercise?: TrueFalseExerciseOrderByWithRelationInput
     informationTransfer?: InformationTransferOrderByWithRelationInput
     substitutionTable?: SubstitutionTableOrderByWithRelationInput
@@ -46216,6 +50353,9 @@ export namespace Prisma {
     gapFillSecondPaper?: XOR<GapFillSecondPaperNullableScalarRelationFilter, GapFillSecondPaperWhereInput> | null
     mcqSection?: XOR<McqSectionNullableScalarRelationFilter, McqSectionWhereInput> | null
     questionAnswerExercise?: XOR<QuestionAnswerExerciseNullableScalarRelationFilter, QuestionAnswerExerciseWhereInput> | null
+    tableCompletionExercise?: XOR<TableCompletionExerciseNullableScalarRelationFilter, TableCompletionExerciseWhereInput> | null
+    columnMatchingExercise?: XOR<ColumnMatchingExerciseNullableScalarRelationFilter, ColumnMatchingExerciseWhereInput> | null
+    sentenceOrderingExercise?: XOR<SentenceOrderingExerciseNullableScalarRelationFilter, SentenceOrderingExerciseWhereInput> | null
     trueFalseExercise?: XOR<TrueFalseExerciseNullableScalarRelationFilter, TrueFalseExerciseWhereInput> | null
     informationTransfer?: XOR<InformationTransferNullableScalarRelationFilter, InformationTransferWhereInput> | null
     substitutionTable?: XOR<SubstitutionTableNullableScalarRelationFilter, SubstitutionTableWhereInput> | null
@@ -47187,7 +51327,6 @@ export namespace Prisma {
     question?: StringFilter<"QuestionAnswerExercise"> | string
     answer?: StringFilter<"QuestionAnswerExercise"> | string
     details?: StringFilter<"QuestionAnswerExercise"> | string
-    layoutKind?: StringFilter<"QuestionAnswerExercise"> | string
     documentJson?: StringFilter<"QuestionAnswerExercise"> | string
     organizationId?: StringFilter<"QuestionAnswerExercise"> | string
     createdBy?: StringFilter<"QuestionAnswerExercise"> | string
@@ -47211,7 +51350,6 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
-    layoutKind?: SortOrder
     documentJson?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
@@ -47238,7 +51376,6 @@ export namespace Prisma {
     question?: StringFilter<"QuestionAnswerExercise"> | string
     answer?: StringFilter<"QuestionAnswerExercise"> | string
     details?: StringFilter<"QuestionAnswerExercise"> | string
-    layoutKind?: StringFilter<"QuestionAnswerExercise"> | string
     documentJson?: StringFilter<"QuestionAnswerExercise"> | string
     organizationId?: StringFilter<"QuestionAnswerExercise"> | string
     createdBy?: StringFilter<"QuestionAnswerExercise"> | string
@@ -47262,7 +51399,6 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
-    layoutKind?: SortOrder
     documentJson?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
@@ -47291,13 +51427,387 @@ export namespace Prisma {
     question?: StringWithAggregatesFilter<"QuestionAnswerExercise"> | string
     answer?: StringWithAggregatesFilter<"QuestionAnswerExercise"> | string
     details?: StringWithAggregatesFilter<"QuestionAnswerExercise"> | string
-    layoutKind?: StringWithAggregatesFilter<"QuestionAnswerExercise"> | string
     documentJson?: StringWithAggregatesFilter<"QuestionAnswerExercise"> | string
     organizationId?: StringWithAggregatesFilter<"QuestionAnswerExercise"> | string
     createdBy?: StringWithAggregatesFilter<"QuestionAnswerExercise"> | string
     updatedBy?: StringWithAggregatesFilter<"QuestionAnswerExercise"> | string
     createdAt?: DateTimeWithAggregatesFilter<"QuestionAnswerExercise"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"QuestionAnswerExercise"> | Date | string
+  }
+
+  export type TableCompletionExerciseWhereInput = {
+    AND?: TableCompletionExerciseWhereInput | TableCompletionExerciseWhereInput[]
+    OR?: TableCompletionExerciseWhereInput[]
+    NOT?: TableCompletionExerciseWhereInput | TableCompletionExerciseWhereInput[]
+    id?: StringFilter<"TableCompletionExercise"> | string
+    contentBlockId?: StringFilter<"TableCompletionExercise"> | string
+    contentId?: StringFilter<"TableCompletionExercise"> | string
+    classId?: StringFilter<"TableCompletionExercise"> | string
+    subjectId?: StringFilter<"TableCompletionExercise"> | string
+    unitId?: StringFilter<"TableCompletionExercise"> | string
+    lessonId?: StringFilter<"TableCompletionExercise"> | string
+    topicId?: StringNullableFilter<"TableCompletionExercise"> | string | null
+    title?: StringFilter<"TableCompletionExercise"> | string
+    instruction?: StringFilter<"TableCompletionExercise"> | string
+    question?: StringFilter<"TableCompletionExercise"> | string
+    answer?: StringFilter<"TableCompletionExercise"> | string
+    details?: StringFilter<"TableCompletionExercise"> | string
+    documentJson?: StringFilter<"TableCompletionExercise"> | string
+    organizationId?: StringFilter<"TableCompletionExercise"> | string
+    createdBy?: StringFilter<"TableCompletionExercise"> | string
+    updatedBy?: StringFilter<"TableCompletionExercise"> | string
+    createdAt?: DateTimeFilter<"TableCompletionExercise"> | Date | string
+    updatedAt?: DateTimeFilter<"TableCompletionExercise"> | Date | string
+    contentBlock?: XOR<ContentBlockScalarRelationFilter, ContentBlockWhereInput>
+  }
+
+  export type TableCompletionExerciseOrderByWithRelationInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrderInput | SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    contentBlock?: ContentBlockOrderByWithRelationInput
+  }
+
+  export type TableCompletionExerciseWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    contentBlockId?: string
+    AND?: TableCompletionExerciseWhereInput | TableCompletionExerciseWhereInput[]
+    OR?: TableCompletionExerciseWhereInput[]
+    NOT?: TableCompletionExerciseWhereInput | TableCompletionExerciseWhereInput[]
+    contentId?: StringFilter<"TableCompletionExercise"> | string
+    classId?: StringFilter<"TableCompletionExercise"> | string
+    subjectId?: StringFilter<"TableCompletionExercise"> | string
+    unitId?: StringFilter<"TableCompletionExercise"> | string
+    lessonId?: StringFilter<"TableCompletionExercise"> | string
+    topicId?: StringNullableFilter<"TableCompletionExercise"> | string | null
+    title?: StringFilter<"TableCompletionExercise"> | string
+    instruction?: StringFilter<"TableCompletionExercise"> | string
+    question?: StringFilter<"TableCompletionExercise"> | string
+    answer?: StringFilter<"TableCompletionExercise"> | string
+    details?: StringFilter<"TableCompletionExercise"> | string
+    documentJson?: StringFilter<"TableCompletionExercise"> | string
+    organizationId?: StringFilter<"TableCompletionExercise"> | string
+    createdBy?: StringFilter<"TableCompletionExercise"> | string
+    updatedBy?: StringFilter<"TableCompletionExercise"> | string
+    createdAt?: DateTimeFilter<"TableCompletionExercise"> | Date | string
+    updatedAt?: DateTimeFilter<"TableCompletionExercise"> | Date | string
+    contentBlock?: XOR<ContentBlockScalarRelationFilter, ContentBlockWhereInput>
+  }, "id" | "contentBlockId">
+
+  export type TableCompletionExerciseOrderByWithAggregationInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrderInput | SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TableCompletionExerciseCountOrderByAggregateInput
+    _max?: TableCompletionExerciseMaxOrderByAggregateInput
+    _min?: TableCompletionExerciseMinOrderByAggregateInput
+  }
+
+  export type TableCompletionExerciseScalarWhereWithAggregatesInput = {
+    AND?: TableCompletionExerciseScalarWhereWithAggregatesInput | TableCompletionExerciseScalarWhereWithAggregatesInput[]
+    OR?: TableCompletionExerciseScalarWhereWithAggregatesInput[]
+    NOT?: TableCompletionExerciseScalarWhereWithAggregatesInput | TableCompletionExerciseScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TableCompletionExercise"> | string
+    contentBlockId?: StringWithAggregatesFilter<"TableCompletionExercise"> | string
+    contentId?: StringWithAggregatesFilter<"TableCompletionExercise"> | string
+    classId?: StringWithAggregatesFilter<"TableCompletionExercise"> | string
+    subjectId?: StringWithAggregatesFilter<"TableCompletionExercise"> | string
+    unitId?: StringWithAggregatesFilter<"TableCompletionExercise"> | string
+    lessonId?: StringWithAggregatesFilter<"TableCompletionExercise"> | string
+    topicId?: StringNullableWithAggregatesFilter<"TableCompletionExercise"> | string | null
+    title?: StringWithAggregatesFilter<"TableCompletionExercise"> | string
+    instruction?: StringWithAggregatesFilter<"TableCompletionExercise"> | string
+    question?: StringWithAggregatesFilter<"TableCompletionExercise"> | string
+    answer?: StringWithAggregatesFilter<"TableCompletionExercise"> | string
+    details?: StringWithAggregatesFilter<"TableCompletionExercise"> | string
+    documentJson?: StringWithAggregatesFilter<"TableCompletionExercise"> | string
+    organizationId?: StringWithAggregatesFilter<"TableCompletionExercise"> | string
+    createdBy?: StringWithAggregatesFilter<"TableCompletionExercise"> | string
+    updatedBy?: StringWithAggregatesFilter<"TableCompletionExercise"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"TableCompletionExercise"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"TableCompletionExercise"> | Date | string
+  }
+
+  export type ColumnMatchingExerciseWhereInput = {
+    AND?: ColumnMatchingExerciseWhereInput | ColumnMatchingExerciseWhereInput[]
+    OR?: ColumnMatchingExerciseWhereInput[]
+    NOT?: ColumnMatchingExerciseWhereInput | ColumnMatchingExerciseWhereInput[]
+    id?: StringFilter<"ColumnMatchingExercise"> | string
+    contentBlockId?: StringFilter<"ColumnMatchingExercise"> | string
+    contentId?: StringFilter<"ColumnMatchingExercise"> | string
+    classId?: StringFilter<"ColumnMatchingExercise"> | string
+    subjectId?: StringFilter<"ColumnMatchingExercise"> | string
+    unitId?: StringFilter<"ColumnMatchingExercise"> | string
+    lessonId?: StringFilter<"ColumnMatchingExercise"> | string
+    topicId?: StringNullableFilter<"ColumnMatchingExercise"> | string | null
+    title?: StringFilter<"ColumnMatchingExercise"> | string
+    instruction?: StringFilter<"ColumnMatchingExercise"> | string
+    question?: StringFilter<"ColumnMatchingExercise"> | string
+    answer?: StringFilter<"ColumnMatchingExercise"> | string
+    details?: StringFilter<"ColumnMatchingExercise"> | string
+    documentJson?: StringFilter<"ColumnMatchingExercise"> | string
+    organizationId?: StringFilter<"ColumnMatchingExercise"> | string
+    createdBy?: StringFilter<"ColumnMatchingExercise"> | string
+    updatedBy?: StringFilter<"ColumnMatchingExercise"> | string
+    createdAt?: DateTimeFilter<"ColumnMatchingExercise"> | Date | string
+    updatedAt?: DateTimeFilter<"ColumnMatchingExercise"> | Date | string
+    contentBlock?: XOR<ContentBlockScalarRelationFilter, ContentBlockWhereInput>
+  }
+
+  export type ColumnMatchingExerciseOrderByWithRelationInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrderInput | SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    contentBlock?: ContentBlockOrderByWithRelationInput
+  }
+
+  export type ColumnMatchingExerciseWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    contentBlockId?: string
+    AND?: ColumnMatchingExerciseWhereInput | ColumnMatchingExerciseWhereInput[]
+    OR?: ColumnMatchingExerciseWhereInput[]
+    NOT?: ColumnMatchingExerciseWhereInput | ColumnMatchingExerciseWhereInput[]
+    contentId?: StringFilter<"ColumnMatchingExercise"> | string
+    classId?: StringFilter<"ColumnMatchingExercise"> | string
+    subjectId?: StringFilter<"ColumnMatchingExercise"> | string
+    unitId?: StringFilter<"ColumnMatchingExercise"> | string
+    lessonId?: StringFilter<"ColumnMatchingExercise"> | string
+    topicId?: StringNullableFilter<"ColumnMatchingExercise"> | string | null
+    title?: StringFilter<"ColumnMatchingExercise"> | string
+    instruction?: StringFilter<"ColumnMatchingExercise"> | string
+    question?: StringFilter<"ColumnMatchingExercise"> | string
+    answer?: StringFilter<"ColumnMatchingExercise"> | string
+    details?: StringFilter<"ColumnMatchingExercise"> | string
+    documentJson?: StringFilter<"ColumnMatchingExercise"> | string
+    organizationId?: StringFilter<"ColumnMatchingExercise"> | string
+    createdBy?: StringFilter<"ColumnMatchingExercise"> | string
+    updatedBy?: StringFilter<"ColumnMatchingExercise"> | string
+    createdAt?: DateTimeFilter<"ColumnMatchingExercise"> | Date | string
+    updatedAt?: DateTimeFilter<"ColumnMatchingExercise"> | Date | string
+    contentBlock?: XOR<ContentBlockScalarRelationFilter, ContentBlockWhereInput>
+  }, "id" | "contentBlockId">
+
+  export type ColumnMatchingExerciseOrderByWithAggregationInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrderInput | SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ColumnMatchingExerciseCountOrderByAggregateInput
+    _max?: ColumnMatchingExerciseMaxOrderByAggregateInput
+    _min?: ColumnMatchingExerciseMinOrderByAggregateInput
+  }
+
+  export type ColumnMatchingExerciseScalarWhereWithAggregatesInput = {
+    AND?: ColumnMatchingExerciseScalarWhereWithAggregatesInput | ColumnMatchingExerciseScalarWhereWithAggregatesInput[]
+    OR?: ColumnMatchingExerciseScalarWhereWithAggregatesInput[]
+    NOT?: ColumnMatchingExerciseScalarWhereWithAggregatesInput | ColumnMatchingExerciseScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ColumnMatchingExercise"> | string
+    contentBlockId?: StringWithAggregatesFilter<"ColumnMatchingExercise"> | string
+    contentId?: StringWithAggregatesFilter<"ColumnMatchingExercise"> | string
+    classId?: StringWithAggregatesFilter<"ColumnMatchingExercise"> | string
+    subjectId?: StringWithAggregatesFilter<"ColumnMatchingExercise"> | string
+    unitId?: StringWithAggregatesFilter<"ColumnMatchingExercise"> | string
+    lessonId?: StringWithAggregatesFilter<"ColumnMatchingExercise"> | string
+    topicId?: StringNullableWithAggregatesFilter<"ColumnMatchingExercise"> | string | null
+    title?: StringWithAggregatesFilter<"ColumnMatchingExercise"> | string
+    instruction?: StringWithAggregatesFilter<"ColumnMatchingExercise"> | string
+    question?: StringWithAggregatesFilter<"ColumnMatchingExercise"> | string
+    answer?: StringWithAggregatesFilter<"ColumnMatchingExercise"> | string
+    details?: StringWithAggregatesFilter<"ColumnMatchingExercise"> | string
+    documentJson?: StringWithAggregatesFilter<"ColumnMatchingExercise"> | string
+    organizationId?: StringWithAggregatesFilter<"ColumnMatchingExercise"> | string
+    createdBy?: StringWithAggregatesFilter<"ColumnMatchingExercise"> | string
+    updatedBy?: StringWithAggregatesFilter<"ColumnMatchingExercise"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ColumnMatchingExercise"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ColumnMatchingExercise"> | Date | string
+  }
+
+  export type SentenceOrderingExerciseWhereInput = {
+    AND?: SentenceOrderingExerciseWhereInput | SentenceOrderingExerciseWhereInput[]
+    OR?: SentenceOrderingExerciseWhereInput[]
+    NOT?: SentenceOrderingExerciseWhereInput | SentenceOrderingExerciseWhereInput[]
+    id?: StringFilter<"SentenceOrderingExercise"> | string
+    contentBlockId?: StringFilter<"SentenceOrderingExercise"> | string
+    contentId?: StringFilter<"SentenceOrderingExercise"> | string
+    classId?: StringFilter<"SentenceOrderingExercise"> | string
+    subjectId?: StringFilter<"SentenceOrderingExercise"> | string
+    unitId?: StringFilter<"SentenceOrderingExercise"> | string
+    lessonId?: StringFilter<"SentenceOrderingExercise"> | string
+    topicId?: StringNullableFilter<"SentenceOrderingExercise"> | string | null
+    title?: StringFilter<"SentenceOrderingExercise"> | string
+    instruction?: StringFilter<"SentenceOrderingExercise"> | string
+    question?: StringFilter<"SentenceOrderingExercise"> | string
+    answer?: StringFilter<"SentenceOrderingExercise"> | string
+    details?: StringFilter<"SentenceOrderingExercise"> | string
+    documentJson?: StringFilter<"SentenceOrderingExercise"> | string
+    organizationId?: StringFilter<"SentenceOrderingExercise"> | string
+    createdBy?: StringFilter<"SentenceOrderingExercise"> | string
+    updatedBy?: StringFilter<"SentenceOrderingExercise"> | string
+    createdAt?: DateTimeFilter<"SentenceOrderingExercise"> | Date | string
+    updatedAt?: DateTimeFilter<"SentenceOrderingExercise"> | Date | string
+    contentBlock?: XOR<ContentBlockScalarRelationFilter, ContentBlockWhereInput>
+  }
+
+  export type SentenceOrderingExerciseOrderByWithRelationInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrderInput | SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    contentBlock?: ContentBlockOrderByWithRelationInput
+  }
+
+  export type SentenceOrderingExerciseWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    contentBlockId?: string
+    AND?: SentenceOrderingExerciseWhereInput | SentenceOrderingExerciseWhereInput[]
+    OR?: SentenceOrderingExerciseWhereInput[]
+    NOT?: SentenceOrderingExerciseWhereInput | SentenceOrderingExerciseWhereInput[]
+    contentId?: StringFilter<"SentenceOrderingExercise"> | string
+    classId?: StringFilter<"SentenceOrderingExercise"> | string
+    subjectId?: StringFilter<"SentenceOrderingExercise"> | string
+    unitId?: StringFilter<"SentenceOrderingExercise"> | string
+    lessonId?: StringFilter<"SentenceOrderingExercise"> | string
+    topicId?: StringNullableFilter<"SentenceOrderingExercise"> | string | null
+    title?: StringFilter<"SentenceOrderingExercise"> | string
+    instruction?: StringFilter<"SentenceOrderingExercise"> | string
+    question?: StringFilter<"SentenceOrderingExercise"> | string
+    answer?: StringFilter<"SentenceOrderingExercise"> | string
+    details?: StringFilter<"SentenceOrderingExercise"> | string
+    documentJson?: StringFilter<"SentenceOrderingExercise"> | string
+    organizationId?: StringFilter<"SentenceOrderingExercise"> | string
+    createdBy?: StringFilter<"SentenceOrderingExercise"> | string
+    updatedBy?: StringFilter<"SentenceOrderingExercise"> | string
+    createdAt?: DateTimeFilter<"SentenceOrderingExercise"> | Date | string
+    updatedAt?: DateTimeFilter<"SentenceOrderingExercise"> | Date | string
+    contentBlock?: XOR<ContentBlockScalarRelationFilter, ContentBlockWhereInput>
+  }, "id" | "contentBlockId">
+
+  export type SentenceOrderingExerciseOrderByWithAggregationInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrderInput | SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SentenceOrderingExerciseCountOrderByAggregateInput
+    _max?: SentenceOrderingExerciseMaxOrderByAggregateInput
+    _min?: SentenceOrderingExerciseMinOrderByAggregateInput
+  }
+
+  export type SentenceOrderingExerciseScalarWhereWithAggregatesInput = {
+    AND?: SentenceOrderingExerciseScalarWhereWithAggregatesInput | SentenceOrderingExerciseScalarWhereWithAggregatesInput[]
+    OR?: SentenceOrderingExerciseScalarWhereWithAggregatesInput[]
+    NOT?: SentenceOrderingExerciseScalarWhereWithAggregatesInput | SentenceOrderingExerciseScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
+    contentBlockId?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
+    contentId?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
+    classId?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
+    subjectId?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
+    unitId?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
+    lessonId?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
+    topicId?: StringNullableWithAggregatesFilter<"SentenceOrderingExercise"> | string | null
+    title?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
+    instruction?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
+    question?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
+    answer?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
+    details?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
+    documentJson?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
+    organizationId?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
+    createdBy?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
+    updatedBy?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"SentenceOrderingExercise"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SentenceOrderingExercise"> | Date | string
   }
 
   export type TrueFalseExerciseWhereInput = {
@@ -47430,6 +51940,7 @@ export namespace Prisma {
     question?: StringFilter<"InformationTransfer"> | string
     answer?: StringFilter<"InformationTransfer"> | string
     details?: StringFilter<"InformationTransfer"> | string
+    documentJson?: StringFilter<"InformationTransfer"> | string
     organizationId?: StringFilter<"InformationTransfer"> | string
     createdBy?: StringFilter<"InformationTransfer"> | string
     updatedBy?: StringFilter<"InformationTransfer"> | string
@@ -47450,6 +51961,7 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
+    documentJson?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -47473,6 +51985,7 @@ export namespace Prisma {
     question?: StringFilter<"InformationTransfer"> | string
     answer?: StringFilter<"InformationTransfer"> | string
     details?: StringFilter<"InformationTransfer"> | string
+    documentJson?: StringFilter<"InformationTransfer"> | string
     organizationId?: StringFilter<"InformationTransfer"> | string
     createdBy?: StringFilter<"InformationTransfer"> | string
     updatedBy?: StringFilter<"InformationTransfer"> | string
@@ -47493,6 +52006,7 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
+    documentJson?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -47518,6 +52032,7 @@ export namespace Prisma {
     question?: StringWithAggregatesFilter<"InformationTransfer"> | string
     answer?: StringWithAggregatesFilter<"InformationTransfer"> | string
     details?: StringWithAggregatesFilter<"InformationTransfer"> | string
+    documentJson?: StringWithAggregatesFilter<"InformationTransfer"> | string
     organizationId?: StringWithAggregatesFilter<"InformationTransfer"> | string
     createdBy?: StringWithAggregatesFilter<"InformationTransfer"> | string
     updatedBy?: StringWithAggregatesFilter<"InformationTransfer"> | string
@@ -49868,6 +54383,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -49896,6 +54414,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -49924,6 +54445,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -49952,6 +54476,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -51081,7 +55608,6 @@ export namespace Prisma {
     question?: string
     answer?: string
     details?: string
-    layoutKind?: string
     documentJson?: string
     organizationId: string
     createdBy: string
@@ -51105,7 +55631,6 @@ export namespace Prisma {
     question?: string
     answer?: string
     details?: string
-    layoutKind?: string
     documentJson?: string
     organizationId: string
     createdBy: string
@@ -51127,7 +55652,6 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
-    layoutKind?: StringFieldUpdateOperationsInput | string
     documentJson?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -51151,7 +55675,6 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
-    layoutKind?: StringFieldUpdateOperationsInput | string
     documentJson?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -51174,7 +55697,6 @@ export namespace Prisma {
     question?: string
     answer?: string
     details?: string
-    layoutKind?: string
     documentJson?: string
     organizationId: string
     createdBy: string
@@ -51196,7 +55718,6 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
-    layoutKind?: StringFieldUpdateOperationsInput | string
     documentJson?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -51219,7 +55740,465 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
-    layoutKind?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TableCompletionExerciseCreateInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contentBlock: ContentBlockCreateNestedOneWithoutTableCompletionExerciseInput
+  }
+
+  export type TableCompletionExerciseUncheckedCreateInput = {
+    id?: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TableCompletionExerciseUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contentBlock?: ContentBlockUpdateOneRequiredWithoutTableCompletionExerciseNestedInput
+  }
+
+  export type TableCompletionExerciseUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentBlockId?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TableCompletionExerciseCreateManyInput = {
+    id?: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TableCompletionExerciseUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TableCompletionExerciseUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentBlockId?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ColumnMatchingExerciseCreateInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contentBlock: ContentBlockCreateNestedOneWithoutColumnMatchingExerciseInput
+  }
+
+  export type ColumnMatchingExerciseUncheckedCreateInput = {
+    id?: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ColumnMatchingExerciseUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contentBlock?: ContentBlockUpdateOneRequiredWithoutColumnMatchingExerciseNestedInput
+  }
+
+  export type ColumnMatchingExerciseUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentBlockId?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ColumnMatchingExerciseCreateManyInput = {
+    id?: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ColumnMatchingExerciseUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ColumnMatchingExerciseUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentBlockId?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SentenceOrderingExerciseCreateInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contentBlock: ContentBlockCreateNestedOneWithoutSentenceOrderingExerciseInput
+  }
+
+  export type SentenceOrderingExerciseUncheckedCreateInput = {
+    id?: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SentenceOrderingExerciseUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contentBlock?: ContentBlockUpdateOneRequiredWithoutSentenceOrderingExerciseNestedInput
+  }
+
+  export type SentenceOrderingExerciseUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentBlockId?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SentenceOrderingExerciseCreateManyInput = {
+    id?: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SentenceOrderingExerciseUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SentenceOrderingExerciseUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentBlockId?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
     documentJson?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -51378,6 +56357,7 @@ export namespace Prisma {
     question?: string
     answer?: string
     details?: string
+    documentJson?: string
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -51398,6 +56378,7 @@ export namespace Prisma {
     question?: string
     answer?: string
     details?: string
+    documentJson?: string
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -51416,6 +56397,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -51436,6 +56418,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -51455,6 +56438,7 @@ export namespace Prisma {
     question?: string
     answer?: string
     details?: string
+    documentJson?: string
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -51473,6 +56457,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -51492,6 +56477,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -53652,6 +58638,21 @@ export namespace Prisma {
     isNot?: QuestionAnswerExerciseWhereInput | null
   }
 
+  export type TableCompletionExerciseNullableScalarRelationFilter = {
+    is?: TableCompletionExerciseWhereInput | null
+    isNot?: TableCompletionExerciseWhereInput | null
+  }
+
+  export type ColumnMatchingExerciseNullableScalarRelationFilter = {
+    is?: ColumnMatchingExerciseWhereInput | null
+    isNot?: ColumnMatchingExerciseWhereInput | null
+  }
+
+  export type SentenceOrderingExerciseNullableScalarRelationFilter = {
+    is?: SentenceOrderingExerciseWhereInput | null
+    isNot?: SentenceOrderingExerciseWhereInput | null
+  }
+
   export type TrueFalseExerciseNullableScalarRelationFilter = {
     is?: TrueFalseExerciseWhereInput | null
     isNot?: TrueFalseExerciseWhereInput | null
@@ -54269,7 +59270,6 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
-    layoutKind?: SortOrder
     documentJson?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
@@ -54292,7 +59292,6 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
-    layoutKind?: SortOrder
     documentJson?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
@@ -54315,7 +59314,204 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
-    layoutKind?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TableCompletionExerciseCountOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TableCompletionExerciseMaxOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TableCompletionExerciseMinOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ColumnMatchingExerciseCountOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ColumnMatchingExerciseMaxOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ColumnMatchingExerciseMinOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SentenceOrderingExerciseCountOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SentenceOrderingExerciseMaxOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SentenceOrderingExerciseMinOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
     documentJson?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
@@ -54396,6 +59592,7 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
+    documentJson?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -54415,6 +59612,7 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
+    documentJson?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -54434,6 +59632,7 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
+    documentJson?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -55818,6 +61017,24 @@ export namespace Prisma {
     connect?: QuestionAnswerExerciseWhereUniqueInput
   }
 
+  export type TableCompletionExerciseCreateNestedOneWithoutContentBlockInput = {
+    create?: XOR<TableCompletionExerciseCreateWithoutContentBlockInput, TableCompletionExerciseUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: TableCompletionExerciseCreateOrConnectWithoutContentBlockInput
+    connect?: TableCompletionExerciseWhereUniqueInput
+  }
+
+  export type ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput = {
+    create?: XOR<ColumnMatchingExerciseCreateWithoutContentBlockInput, ColumnMatchingExerciseUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: ColumnMatchingExerciseCreateOrConnectWithoutContentBlockInput
+    connect?: ColumnMatchingExerciseWhereUniqueInput
+  }
+
+  export type SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput = {
+    create?: XOR<SentenceOrderingExerciseCreateWithoutContentBlockInput, SentenceOrderingExerciseUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: SentenceOrderingExerciseCreateOrConnectWithoutContentBlockInput
+    connect?: SentenceOrderingExerciseWhereUniqueInput
+  }
+
   export type TrueFalseExerciseCreateNestedOneWithoutContentBlockInput = {
     create?: XOR<TrueFalseExerciseCreateWithoutContentBlockInput, TrueFalseExerciseUncheckedCreateWithoutContentBlockInput>
     connectOrCreate?: TrueFalseExerciseCreateOrConnectWithoutContentBlockInput
@@ -55930,6 +61147,24 @@ export namespace Prisma {
     create?: XOR<QuestionAnswerExerciseCreateWithoutContentBlockInput, QuestionAnswerExerciseUncheckedCreateWithoutContentBlockInput>
     connectOrCreate?: QuestionAnswerExerciseCreateOrConnectWithoutContentBlockInput
     connect?: QuestionAnswerExerciseWhereUniqueInput
+  }
+
+  export type TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput = {
+    create?: XOR<TableCompletionExerciseCreateWithoutContentBlockInput, TableCompletionExerciseUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: TableCompletionExerciseCreateOrConnectWithoutContentBlockInput
+    connect?: TableCompletionExerciseWhereUniqueInput
+  }
+
+  export type ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput = {
+    create?: XOR<ColumnMatchingExerciseCreateWithoutContentBlockInput, ColumnMatchingExerciseUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: ColumnMatchingExerciseCreateOrConnectWithoutContentBlockInput
+    connect?: ColumnMatchingExerciseWhereUniqueInput
+  }
+
+  export type SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput = {
+    create?: XOR<SentenceOrderingExerciseCreateWithoutContentBlockInput, SentenceOrderingExerciseUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: SentenceOrderingExerciseCreateOrConnectWithoutContentBlockInput
+    connect?: SentenceOrderingExerciseWhereUniqueInput
   }
 
   export type TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput = {
@@ -56084,6 +61319,36 @@ export namespace Prisma {
     delete?: QuestionAnswerExerciseWhereInput | boolean
     connect?: QuestionAnswerExerciseWhereUniqueInput
     update?: XOR<XOR<QuestionAnswerExerciseUpdateToOneWithWhereWithoutContentBlockInput, QuestionAnswerExerciseUpdateWithoutContentBlockInput>, QuestionAnswerExerciseUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput = {
+    create?: XOR<TableCompletionExerciseCreateWithoutContentBlockInput, TableCompletionExerciseUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: TableCompletionExerciseCreateOrConnectWithoutContentBlockInput
+    upsert?: TableCompletionExerciseUpsertWithoutContentBlockInput
+    disconnect?: TableCompletionExerciseWhereInput | boolean
+    delete?: TableCompletionExerciseWhereInput | boolean
+    connect?: TableCompletionExerciseWhereUniqueInput
+    update?: XOR<XOR<TableCompletionExerciseUpdateToOneWithWhereWithoutContentBlockInput, TableCompletionExerciseUpdateWithoutContentBlockInput>, TableCompletionExerciseUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput = {
+    create?: XOR<ColumnMatchingExerciseCreateWithoutContentBlockInput, ColumnMatchingExerciseUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: ColumnMatchingExerciseCreateOrConnectWithoutContentBlockInput
+    upsert?: ColumnMatchingExerciseUpsertWithoutContentBlockInput
+    disconnect?: ColumnMatchingExerciseWhereInput | boolean
+    delete?: ColumnMatchingExerciseWhereInput | boolean
+    connect?: ColumnMatchingExerciseWhereUniqueInput
+    update?: XOR<XOR<ColumnMatchingExerciseUpdateToOneWithWhereWithoutContentBlockInput, ColumnMatchingExerciseUpdateWithoutContentBlockInput>, ColumnMatchingExerciseUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput = {
+    create?: XOR<SentenceOrderingExerciseCreateWithoutContentBlockInput, SentenceOrderingExerciseUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: SentenceOrderingExerciseCreateOrConnectWithoutContentBlockInput
+    upsert?: SentenceOrderingExerciseUpsertWithoutContentBlockInput
+    disconnect?: SentenceOrderingExerciseWhereInput | boolean
+    delete?: SentenceOrderingExerciseWhereInput | boolean
+    connect?: SentenceOrderingExerciseWhereUniqueInput
+    update?: XOR<XOR<SentenceOrderingExerciseUpdateToOneWithWhereWithoutContentBlockInput, SentenceOrderingExerciseUpdateWithoutContentBlockInput>, SentenceOrderingExerciseUncheckedUpdateWithoutContentBlockInput>
   }
 
   export type TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput = {
@@ -56274,6 +61539,36 @@ export namespace Prisma {
     delete?: QuestionAnswerExerciseWhereInput | boolean
     connect?: QuestionAnswerExerciseWhereUniqueInput
     update?: XOR<XOR<QuestionAnswerExerciseUpdateToOneWithWhereWithoutContentBlockInput, QuestionAnswerExerciseUpdateWithoutContentBlockInput>, QuestionAnswerExerciseUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput = {
+    create?: XOR<TableCompletionExerciseCreateWithoutContentBlockInput, TableCompletionExerciseUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: TableCompletionExerciseCreateOrConnectWithoutContentBlockInput
+    upsert?: TableCompletionExerciseUpsertWithoutContentBlockInput
+    disconnect?: TableCompletionExerciseWhereInput | boolean
+    delete?: TableCompletionExerciseWhereInput | boolean
+    connect?: TableCompletionExerciseWhereUniqueInput
+    update?: XOR<XOR<TableCompletionExerciseUpdateToOneWithWhereWithoutContentBlockInput, TableCompletionExerciseUpdateWithoutContentBlockInput>, TableCompletionExerciseUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput = {
+    create?: XOR<ColumnMatchingExerciseCreateWithoutContentBlockInput, ColumnMatchingExerciseUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: ColumnMatchingExerciseCreateOrConnectWithoutContentBlockInput
+    upsert?: ColumnMatchingExerciseUpsertWithoutContentBlockInput
+    disconnect?: ColumnMatchingExerciseWhereInput | boolean
+    delete?: ColumnMatchingExerciseWhereInput | boolean
+    connect?: ColumnMatchingExerciseWhereUniqueInput
+    update?: XOR<XOR<ColumnMatchingExerciseUpdateToOneWithWhereWithoutContentBlockInput, ColumnMatchingExerciseUpdateWithoutContentBlockInput>, ColumnMatchingExerciseUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput = {
+    create?: XOR<SentenceOrderingExerciseCreateWithoutContentBlockInput, SentenceOrderingExerciseUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: SentenceOrderingExerciseCreateOrConnectWithoutContentBlockInput
+    upsert?: SentenceOrderingExerciseUpsertWithoutContentBlockInput
+    disconnect?: SentenceOrderingExerciseWhereInput | boolean
+    delete?: SentenceOrderingExerciseWhereInput | boolean
+    connect?: SentenceOrderingExerciseWhereUniqueInput
+    update?: XOR<XOR<SentenceOrderingExerciseUpdateToOneWithWhereWithoutContentBlockInput, SentenceOrderingExerciseUpdateWithoutContentBlockInput>, SentenceOrderingExerciseUncheckedUpdateWithoutContentBlockInput>
   }
 
   export type TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput = {
@@ -56608,6 +61903,48 @@ export namespace Prisma {
     upsert?: ContentBlockUpsertWithoutQuestionAnswerExerciseInput
     connect?: ContentBlockWhereUniqueInput
     update?: XOR<XOR<ContentBlockUpdateToOneWithWhereWithoutQuestionAnswerExerciseInput, ContentBlockUpdateWithoutQuestionAnswerExerciseInput>, ContentBlockUncheckedUpdateWithoutQuestionAnswerExerciseInput>
+  }
+
+  export type ContentBlockCreateNestedOneWithoutTableCompletionExerciseInput = {
+    create?: XOR<ContentBlockCreateWithoutTableCompletionExerciseInput, ContentBlockUncheckedCreateWithoutTableCompletionExerciseInput>
+    connectOrCreate?: ContentBlockCreateOrConnectWithoutTableCompletionExerciseInput
+    connect?: ContentBlockWhereUniqueInput
+  }
+
+  export type ContentBlockUpdateOneRequiredWithoutTableCompletionExerciseNestedInput = {
+    create?: XOR<ContentBlockCreateWithoutTableCompletionExerciseInput, ContentBlockUncheckedCreateWithoutTableCompletionExerciseInput>
+    connectOrCreate?: ContentBlockCreateOrConnectWithoutTableCompletionExerciseInput
+    upsert?: ContentBlockUpsertWithoutTableCompletionExerciseInput
+    connect?: ContentBlockWhereUniqueInput
+    update?: XOR<XOR<ContentBlockUpdateToOneWithWhereWithoutTableCompletionExerciseInput, ContentBlockUpdateWithoutTableCompletionExerciseInput>, ContentBlockUncheckedUpdateWithoutTableCompletionExerciseInput>
+  }
+
+  export type ContentBlockCreateNestedOneWithoutColumnMatchingExerciseInput = {
+    create?: XOR<ContentBlockCreateWithoutColumnMatchingExerciseInput, ContentBlockUncheckedCreateWithoutColumnMatchingExerciseInput>
+    connectOrCreate?: ContentBlockCreateOrConnectWithoutColumnMatchingExerciseInput
+    connect?: ContentBlockWhereUniqueInput
+  }
+
+  export type ContentBlockUpdateOneRequiredWithoutColumnMatchingExerciseNestedInput = {
+    create?: XOR<ContentBlockCreateWithoutColumnMatchingExerciseInput, ContentBlockUncheckedCreateWithoutColumnMatchingExerciseInput>
+    connectOrCreate?: ContentBlockCreateOrConnectWithoutColumnMatchingExerciseInput
+    upsert?: ContentBlockUpsertWithoutColumnMatchingExerciseInput
+    connect?: ContentBlockWhereUniqueInput
+    update?: XOR<XOR<ContentBlockUpdateToOneWithWhereWithoutColumnMatchingExerciseInput, ContentBlockUpdateWithoutColumnMatchingExerciseInput>, ContentBlockUncheckedUpdateWithoutColumnMatchingExerciseInput>
+  }
+
+  export type ContentBlockCreateNestedOneWithoutSentenceOrderingExerciseInput = {
+    create?: XOR<ContentBlockCreateWithoutSentenceOrderingExerciseInput, ContentBlockUncheckedCreateWithoutSentenceOrderingExerciseInput>
+    connectOrCreate?: ContentBlockCreateOrConnectWithoutSentenceOrderingExerciseInput
+    connect?: ContentBlockWhereUniqueInput
+  }
+
+  export type ContentBlockUpdateOneRequiredWithoutSentenceOrderingExerciseNestedInput = {
+    create?: XOR<ContentBlockCreateWithoutSentenceOrderingExerciseInput, ContentBlockUncheckedCreateWithoutSentenceOrderingExerciseInput>
+    connectOrCreate?: ContentBlockCreateOrConnectWithoutSentenceOrderingExerciseInput
+    upsert?: ContentBlockUpsertWithoutSentenceOrderingExerciseInput
+    connect?: ContentBlockWhereUniqueInput
+    update?: XOR<XOR<ContentBlockUpdateToOneWithWhereWithoutSentenceOrderingExerciseInput, ContentBlockUpdateWithoutSentenceOrderingExerciseInput>, ContentBlockUncheckedUpdateWithoutSentenceOrderingExerciseInput>
   }
 
   export type ContentBlockCreateNestedOneWithoutTrueFalseExerciseInput = {
@@ -59039,6 +64376,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -59066,6 +64406,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -59714,7 +65057,6 @@ export namespace Prisma {
     question?: string
     answer?: string
     details?: string
-    layoutKind?: string
     documentJson?: string
     organizationId: string
     createdBy: string
@@ -59736,7 +65078,6 @@ export namespace Prisma {
     question?: string
     answer?: string
     details?: string
-    layoutKind?: string
     documentJson?: string
     organizationId: string
     createdBy: string
@@ -59748,6 +65089,147 @@ export namespace Prisma {
   export type QuestionAnswerExerciseCreateOrConnectWithoutContentBlockInput = {
     where: QuestionAnswerExerciseWhereUniqueInput
     create: XOR<QuestionAnswerExerciseCreateWithoutContentBlockInput, QuestionAnswerExerciseUncheckedCreateWithoutContentBlockInput>
+  }
+
+  export type TableCompletionExerciseCreateWithoutContentBlockInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TableCompletionExerciseUncheckedCreateWithoutContentBlockInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TableCompletionExerciseCreateOrConnectWithoutContentBlockInput = {
+    where: TableCompletionExerciseWhereUniqueInput
+    create: XOR<TableCompletionExerciseCreateWithoutContentBlockInput, TableCompletionExerciseUncheckedCreateWithoutContentBlockInput>
+  }
+
+  export type ColumnMatchingExerciseCreateWithoutContentBlockInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ColumnMatchingExerciseUncheckedCreateWithoutContentBlockInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ColumnMatchingExerciseCreateOrConnectWithoutContentBlockInput = {
+    where: ColumnMatchingExerciseWhereUniqueInput
+    create: XOR<ColumnMatchingExerciseCreateWithoutContentBlockInput, ColumnMatchingExerciseUncheckedCreateWithoutContentBlockInput>
+  }
+
+  export type SentenceOrderingExerciseCreateWithoutContentBlockInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SentenceOrderingExerciseUncheckedCreateWithoutContentBlockInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SentenceOrderingExerciseCreateOrConnectWithoutContentBlockInput = {
+    where: SentenceOrderingExerciseWhereUniqueInput
+    create: XOR<SentenceOrderingExerciseCreateWithoutContentBlockInput, SentenceOrderingExerciseUncheckedCreateWithoutContentBlockInput>
   }
 
   export type TrueFalseExerciseCreateWithoutContentBlockInput = {
@@ -59804,6 +65286,7 @@ export namespace Prisma {
     question?: string
     answer?: string
     details?: string
+    documentJson?: string
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -59822,6 +65305,7 @@ export namespace Prisma {
     question?: string
     answer?: string
     details?: string
+    documentJson?: string
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -60583,7 +66067,6 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
-    layoutKind?: StringFieldUpdateOperationsInput | string
     documentJson?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -60605,7 +66088,165 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
-    layoutKind?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TableCompletionExerciseUpsertWithoutContentBlockInput = {
+    update: XOR<TableCompletionExerciseUpdateWithoutContentBlockInput, TableCompletionExerciseUncheckedUpdateWithoutContentBlockInput>
+    create: XOR<TableCompletionExerciseCreateWithoutContentBlockInput, TableCompletionExerciseUncheckedCreateWithoutContentBlockInput>
+    where?: TableCompletionExerciseWhereInput
+  }
+
+  export type TableCompletionExerciseUpdateToOneWithWhereWithoutContentBlockInput = {
+    where?: TableCompletionExerciseWhereInput
+    data: XOR<TableCompletionExerciseUpdateWithoutContentBlockInput, TableCompletionExerciseUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type TableCompletionExerciseUpdateWithoutContentBlockInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TableCompletionExerciseUncheckedUpdateWithoutContentBlockInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ColumnMatchingExerciseUpsertWithoutContentBlockInput = {
+    update: XOR<ColumnMatchingExerciseUpdateWithoutContentBlockInput, ColumnMatchingExerciseUncheckedUpdateWithoutContentBlockInput>
+    create: XOR<ColumnMatchingExerciseCreateWithoutContentBlockInput, ColumnMatchingExerciseUncheckedCreateWithoutContentBlockInput>
+    where?: ColumnMatchingExerciseWhereInput
+  }
+
+  export type ColumnMatchingExerciseUpdateToOneWithWhereWithoutContentBlockInput = {
+    where?: ColumnMatchingExerciseWhereInput
+    data: XOR<ColumnMatchingExerciseUpdateWithoutContentBlockInput, ColumnMatchingExerciseUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type ColumnMatchingExerciseUpdateWithoutContentBlockInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ColumnMatchingExerciseUncheckedUpdateWithoutContentBlockInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SentenceOrderingExerciseUpsertWithoutContentBlockInput = {
+    update: XOR<SentenceOrderingExerciseUpdateWithoutContentBlockInput, SentenceOrderingExerciseUncheckedUpdateWithoutContentBlockInput>
+    create: XOR<SentenceOrderingExerciseCreateWithoutContentBlockInput, SentenceOrderingExerciseUncheckedCreateWithoutContentBlockInput>
+    where?: SentenceOrderingExerciseWhereInput
+  }
+
+  export type SentenceOrderingExerciseUpdateToOneWithWhereWithoutContentBlockInput = {
+    where?: SentenceOrderingExerciseWhereInput
+    data: XOR<SentenceOrderingExerciseUpdateWithoutContentBlockInput, SentenceOrderingExerciseUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type SentenceOrderingExerciseUpdateWithoutContentBlockInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SentenceOrderingExerciseUncheckedUpdateWithoutContentBlockInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
     documentJson?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -60685,6 +66326,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -60703,6 +66345,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -61147,6 +66790,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -61174,6 +66820,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -61217,6 +66866,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -61244,6 +66896,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -61271,6 +66926,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -61298,6 +66956,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -61374,6 +67035,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -61401,6 +67065,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -61540,6 +67207,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -61567,6 +67237,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -61649,6 +67322,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -61676,6 +67352,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -61818,6 +67497,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -61845,6 +67527,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -61888,6 +67573,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -61915,6 +67603,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -61942,6 +67633,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -61969,6 +67663,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -62012,6 +67709,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -62039,6 +67739,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -62066,6 +67769,9 @@ export namespace Prisma {
     gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -62093,6 +67799,9 @@ export namespace Prisma {
     gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -62136,6 +67845,9 @@ export namespace Prisma {
     gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -62163,6 +67875,9 @@ export namespace Prisma {
     gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -62190,6 +67905,9 @@ export namespace Prisma {
     gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
     gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -62217,6 +67935,9 @@ export namespace Prisma {
     gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
     gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -62260,6 +67981,9 @@ export namespace Prisma {
     gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
     gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -62287,6 +68011,9 @@ export namespace Prisma {
     gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -62314,6 +68041,9 @@ export namespace Prisma {
     gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
     gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -62341,6 +68071,9 @@ export namespace Prisma {
     gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
     gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -62384,6 +68117,9 @@ export namespace Prisma {
     gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
     gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -62411,6 +68147,417 @@ export namespace Prisma {
     gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
+    substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
+    rightFormOfVerb?: RightFormOfVerbUncheckedUpdateOneWithoutContentBlockNestedInput
+    narration?: NarrationUncheckedUpdateOneWithoutContentBlockNestedInput
+    changingSentence?: ChangingSentenceUncheckedUpdateOneWithoutContentBlockNestedInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
+    preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
+    suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
+    connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+  }
+
+  export type ContentBlockCreateWithoutTableCompletionExerciseInput = {
+    id?: string
+    kind: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    content: ContentCreateNestedOneWithoutBlocksInput
+    paragraph?: ParagraphCreateNestedOneWithoutContentBlockInput
+    vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
+    synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
+    gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
+    mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
+    questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
+    informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
+    substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
+    rightFormOfVerb?: RightFormOfVerbCreateNestedOneWithoutContentBlockInput
+    narration?: NarrationCreateNestedOneWithoutContentBlockInput
+    changingSentence?: ChangingSentenceCreateNestedOneWithoutContentBlockInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
+    preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
+    suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
+    connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+  }
+
+  export type ContentBlockUncheckedCreateWithoutTableCompletionExerciseInput = {
+    id?: string
+    contentId: string
+    kind: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
+    vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
+    synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
+    questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
+    substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
+    rightFormOfVerb?: RightFormOfVerbUncheckedCreateNestedOneWithoutContentBlockInput
+    narration?: NarrationUncheckedCreateNestedOneWithoutContentBlockInput
+    changingSentence?: ChangingSentenceUncheckedCreateNestedOneWithoutContentBlockInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
+    preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
+    suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
+    connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+  }
+
+  export type ContentBlockCreateOrConnectWithoutTableCompletionExerciseInput = {
+    where: ContentBlockWhereUniqueInput
+    create: XOR<ContentBlockCreateWithoutTableCompletionExerciseInput, ContentBlockUncheckedCreateWithoutTableCompletionExerciseInput>
+  }
+
+  export type ContentBlockUpsertWithoutTableCompletionExerciseInput = {
+    update: XOR<ContentBlockUpdateWithoutTableCompletionExerciseInput, ContentBlockUncheckedUpdateWithoutTableCompletionExerciseInput>
+    create: XOR<ContentBlockCreateWithoutTableCompletionExerciseInput, ContentBlockUncheckedCreateWithoutTableCompletionExerciseInput>
+    where?: ContentBlockWhereInput
+  }
+
+  export type ContentBlockUpdateToOneWithWhereWithoutTableCompletionExerciseInput = {
+    where?: ContentBlockWhereInput
+    data: XOR<ContentBlockUpdateWithoutTableCompletionExerciseInput, ContentBlockUncheckedUpdateWithoutTableCompletionExerciseInput>
+  }
+
+  export type ContentBlockUpdateWithoutTableCompletionExerciseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
+    paragraph?: ParagraphUpdateOneWithoutContentBlockNestedInput
+    vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
+    synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
+    gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
+    mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
+    questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
+    informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
+    substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
+    rightFormOfVerb?: RightFormOfVerbUpdateOneWithoutContentBlockNestedInput
+    narration?: NarrationUpdateOneWithoutContentBlockNestedInput
+    changingSentence?: ChangingSentenceUpdateOneWithoutContentBlockNestedInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
+    preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
+    suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
+    connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+  }
+
+  export type ContentBlockUncheckedUpdateWithoutTableCompletionExerciseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
+    vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
+    synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
+    substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
+    rightFormOfVerb?: RightFormOfVerbUncheckedUpdateOneWithoutContentBlockNestedInput
+    narration?: NarrationUncheckedUpdateOneWithoutContentBlockNestedInput
+    changingSentence?: ChangingSentenceUncheckedUpdateOneWithoutContentBlockNestedInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
+    preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
+    suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
+    connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+  }
+
+  export type ContentBlockCreateWithoutColumnMatchingExerciseInput = {
+    id?: string
+    kind: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    content: ContentCreateNestedOneWithoutBlocksInput
+    paragraph?: ParagraphCreateNestedOneWithoutContentBlockInput
+    vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
+    synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
+    gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
+    mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
+    questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
+    informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
+    substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
+    rightFormOfVerb?: RightFormOfVerbCreateNestedOneWithoutContentBlockInput
+    narration?: NarrationCreateNestedOneWithoutContentBlockInput
+    changingSentence?: ChangingSentenceCreateNestedOneWithoutContentBlockInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
+    preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
+    suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
+    connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+  }
+
+  export type ContentBlockUncheckedCreateWithoutColumnMatchingExerciseInput = {
+    id?: string
+    contentId: string
+    kind: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
+    vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
+    synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
+    questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
+    substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
+    rightFormOfVerb?: RightFormOfVerbUncheckedCreateNestedOneWithoutContentBlockInput
+    narration?: NarrationUncheckedCreateNestedOneWithoutContentBlockInput
+    changingSentence?: ChangingSentenceUncheckedCreateNestedOneWithoutContentBlockInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
+    preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
+    suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
+    connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+  }
+
+  export type ContentBlockCreateOrConnectWithoutColumnMatchingExerciseInput = {
+    where: ContentBlockWhereUniqueInput
+    create: XOR<ContentBlockCreateWithoutColumnMatchingExerciseInput, ContentBlockUncheckedCreateWithoutColumnMatchingExerciseInput>
+  }
+
+  export type ContentBlockUpsertWithoutColumnMatchingExerciseInput = {
+    update: XOR<ContentBlockUpdateWithoutColumnMatchingExerciseInput, ContentBlockUncheckedUpdateWithoutColumnMatchingExerciseInput>
+    create: XOR<ContentBlockCreateWithoutColumnMatchingExerciseInput, ContentBlockUncheckedCreateWithoutColumnMatchingExerciseInput>
+    where?: ContentBlockWhereInput
+  }
+
+  export type ContentBlockUpdateToOneWithWhereWithoutColumnMatchingExerciseInput = {
+    where?: ContentBlockWhereInput
+    data: XOR<ContentBlockUpdateWithoutColumnMatchingExerciseInput, ContentBlockUncheckedUpdateWithoutColumnMatchingExerciseInput>
+  }
+
+  export type ContentBlockUpdateWithoutColumnMatchingExerciseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
+    paragraph?: ParagraphUpdateOneWithoutContentBlockNestedInput
+    vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
+    synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
+    gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
+    mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
+    questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
+    informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
+    substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
+    rightFormOfVerb?: RightFormOfVerbUpdateOneWithoutContentBlockNestedInput
+    narration?: NarrationUpdateOneWithoutContentBlockNestedInput
+    changingSentence?: ChangingSentenceUpdateOneWithoutContentBlockNestedInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
+    preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
+    suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
+    connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+  }
+
+  export type ContentBlockUncheckedUpdateWithoutColumnMatchingExerciseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
+    vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
+    synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
+    substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
+    rightFormOfVerb?: RightFormOfVerbUncheckedUpdateOneWithoutContentBlockNestedInput
+    narration?: NarrationUncheckedUpdateOneWithoutContentBlockNestedInput
+    changingSentence?: ChangingSentenceUncheckedUpdateOneWithoutContentBlockNestedInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
+    preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
+    suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
+    connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+  }
+
+  export type ContentBlockCreateWithoutSentenceOrderingExerciseInput = {
+    id?: string
+    kind: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    content: ContentCreateNestedOneWithoutBlocksInput
+    paragraph?: ParagraphCreateNestedOneWithoutContentBlockInput
+    vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
+    synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
+    gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
+    mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
+    questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
+    informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
+    substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
+    rightFormOfVerb?: RightFormOfVerbCreateNestedOneWithoutContentBlockInput
+    narration?: NarrationCreateNestedOneWithoutContentBlockInput
+    changingSentence?: ChangingSentenceCreateNestedOneWithoutContentBlockInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
+    preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
+    suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
+    connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+  }
+
+  export type ContentBlockUncheckedCreateWithoutSentenceOrderingExerciseInput = {
+    id?: string
+    contentId: string
+    kind: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
+    vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
+    synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
+    questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
+    substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
+    rightFormOfVerb?: RightFormOfVerbUncheckedCreateNestedOneWithoutContentBlockInput
+    narration?: NarrationUncheckedCreateNestedOneWithoutContentBlockInput
+    changingSentence?: ChangingSentenceUncheckedCreateNestedOneWithoutContentBlockInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
+    preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
+    suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
+    connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+  }
+
+  export type ContentBlockCreateOrConnectWithoutSentenceOrderingExerciseInput = {
+    where: ContentBlockWhereUniqueInput
+    create: XOR<ContentBlockCreateWithoutSentenceOrderingExerciseInput, ContentBlockUncheckedCreateWithoutSentenceOrderingExerciseInput>
+  }
+
+  export type ContentBlockUpsertWithoutSentenceOrderingExerciseInput = {
+    update: XOR<ContentBlockUpdateWithoutSentenceOrderingExerciseInput, ContentBlockUncheckedUpdateWithoutSentenceOrderingExerciseInput>
+    create: XOR<ContentBlockCreateWithoutSentenceOrderingExerciseInput, ContentBlockUncheckedCreateWithoutSentenceOrderingExerciseInput>
+    where?: ContentBlockWhereInput
+  }
+
+  export type ContentBlockUpdateToOneWithWhereWithoutSentenceOrderingExerciseInput = {
+    where?: ContentBlockWhereInput
+    data: XOR<ContentBlockUpdateWithoutSentenceOrderingExerciseInput, ContentBlockUncheckedUpdateWithoutSentenceOrderingExerciseInput>
+  }
+
+  export type ContentBlockUpdateWithoutSentenceOrderingExerciseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
+    paragraph?: ParagraphUpdateOneWithoutContentBlockNestedInput
+    vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
+    synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
+    gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
+    mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
+    questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
+    informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
+    substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
+    rightFormOfVerb?: RightFormOfVerbUpdateOneWithoutContentBlockNestedInput
+    narration?: NarrationUpdateOneWithoutContentBlockNestedInput
+    changingSentence?: ChangingSentenceUpdateOneWithoutContentBlockNestedInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
+    preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
+    suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
+    connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+  }
+
+  export type ContentBlockUncheckedUpdateWithoutSentenceOrderingExerciseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
+    vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
+    synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -62439,6 +68586,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
     rightFormOfVerb?: RightFormOfVerbCreateNestedOneWithoutContentBlockInput
@@ -62466,6 +68616,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
     rightFormOfVerb?: RightFormOfVerbUncheckedCreateNestedOneWithoutContentBlockInput
@@ -62509,6 +68662,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
     rightFormOfVerb?: RightFormOfVerbUpdateOneWithoutContentBlockNestedInput
@@ -62536,6 +68692,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
     rightFormOfVerb?: RightFormOfVerbUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -62563,6 +68722,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
     rightFormOfVerb?: RightFormOfVerbCreateNestedOneWithoutContentBlockInput
@@ -62590,6 +68752,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
     rightFormOfVerb?: RightFormOfVerbUncheckedCreateNestedOneWithoutContentBlockInput
@@ -62633,6 +68798,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
     rightFormOfVerb?: RightFormOfVerbUpdateOneWithoutContentBlockNestedInput
@@ -62660,6 +68828,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
     rightFormOfVerb?: RightFormOfVerbUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -62687,6 +68858,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     rightFormOfVerb?: RightFormOfVerbCreateNestedOneWithoutContentBlockInput
@@ -62714,6 +68888,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     rightFormOfVerb?: RightFormOfVerbUncheckedCreateNestedOneWithoutContentBlockInput
@@ -62757,6 +68934,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     rightFormOfVerb?: RightFormOfVerbUpdateOneWithoutContentBlockNestedInput
@@ -62784,6 +68964,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     rightFormOfVerb?: RightFormOfVerbUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -62811,6 +68994,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -62838,6 +69024,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -62881,6 +69070,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -62908,6 +69100,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -62935,6 +69130,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -62962,6 +69160,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -63005,6 +69206,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -63032,6 +69236,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -63059,6 +69266,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -63086,6 +69296,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -63129,6 +69342,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -63156,6 +69372,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -63183,6 +69402,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -63210,6 +69432,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -63253,6 +69478,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -63280,6 +69508,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -63307,6 +69538,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -63334,6 +69568,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -63377,6 +69614,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -63404,6 +69644,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -63431,6 +69674,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -63458,6 +69704,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -63501,6 +69750,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -63528,6 +69780,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -63555,6 +69810,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -63582,6 +69840,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -63625,6 +69886,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -63652,6 +69916,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -63679,6 +69946,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -63706,6 +69976,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -63749,6 +70022,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -63776,6 +70052,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -64666,6 +70945,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -64693,6 +70975,9 @@ export namespace Prisma {
     gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput

@@ -1,7 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState } from "react"
-import { EditorContent, EditorContext, useEditor } from "@tiptap/react"
+import { EditorContent, EditorContext, useEditor, type Editor } from "@tiptap/react"
 import { Plugin, PluginKey } from "@tiptap/pm/state"
 import { Decoration, DecorationSet } from "@tiptap/pm/view"
 
@@ -118,6 +118,7 @@ export type EmbeddedSimpleEditorProps = {
   minHeight?: number
   className?: string
   placeholder?: string
+  onEditorReady?: (editor: Editor | null) => void
 }
 
 const TABLE_PICKER_SIZE = 8
@@ -514,6 +515,7 @@ export function SimpleEditor({
   minHeight = 320,
   className,
   placeholder = "Write here...",
+  onEditorReady,
 }: EmbeddedSimpleEditorProps) {
   const isMobile = useIsBreakpoint()
   const { height } = useWindowSize()
@@ -721,6 +723,11 @@ export function SimpleEditor({
       editor.commands.setContent(value || "", { emitUpdate: false })
     }
   }, [editor, value])
+
+  useEffect(() => {
+    onEditorReady?.(editor ?? null)
+    return () => onEditorReady?.(null)
+  }, [editor, onEditorReady])
 
   const rect = useCursorVisibility({
     editor,

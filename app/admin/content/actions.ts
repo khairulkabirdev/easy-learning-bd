@@ -69,6 +69,10 @@ const updateThreeFieldBlockSchema = z.object({
   details: z.string(),
 });
 
+const updateInformationTransferSchema = updateThreeFieldBlockSchema.extend({
+  documentJson: z.string(),
+});
+
 const updateQuestionAnswerExerciseSchema = z.object({
   contentId: z.string(),
   blockId: z.string(),
@@ -488,18 +492,56 @@ export async function createContentBlock(input: unknown) {
         break;
 
       case "question-answer":
-      case "table-completion":
-      case "column-matching":
-      case "sentence-ordering":
         await tx.questionAnswerExercise.create({
           data: {
             ...baseData,
-            title: parsed.kind === "sentence-ordering" ? "Rearrange sentence" : "",
-            instruction: parsed.kind === "sentence-ordering" ? "Rearrange the following sentences in the correct order." : "",
+            title: "",
+            instruction: "",
             question: "",
             answer: "",
             details: "",
-            layoutKind: parsed.kind,
+            documentJson: JSON.stringify(createQuestionAnswerDocument()),
+          },
+        });
+        break;
+
+      case "table-completion":
+        await tx.tableCompletionExercise.create({
+          data: {
+            ...baseData,
+            title: "",
+            instruction: "",
+            question: "",
+            answer: "",
+            details: "",
+            documentJson: JSON.stringify(createQuestionAnswerDocument()),
+          },
+        });
+        break;
+
+      case "column-matching":
+        await tx.columnMatchingExercise.create({
+          data: {
+            ...baseData,
+            title: "",
+            instruction: "",
+            question: "",
+            answer: "",
+            details: "",
+            documentJson: JSON.stringify(createQuestionAnswerDocument()),
+          },
+        });
+        break;
+
+      case "sentence-ordering":
+        await tx.sentenceOrderingExercise.create({
+          data: {
+            ...baseData,
+            title: "Rearrange sentence",
+            instruction: "Rearrange the following sentences in the correct order.",
+            question: "",
+            answer: "",
+            details: "",
             documentJson: JSON.stringify(createQuestionAnswerDocument()),
           },
         });
@@ -512,6 +554,7 @@ export async function createContentBlock(input: unknown) {
             question: "",
             answer: "",
             details: "",
+            documentJson: JSON.stringify({ rows: [] }),
           },
         });
         break;
@@ -753,26 +796,88 @@ export async function updateQuestionAnswerExercise(input: unknown) {
   const user = await requireAdmin();
   const parsed = updateQuestionAnswerExerciseSchema.parse(input);
 
-  const updated = await prisma.questionAnswerExercise.update({
-    where: { id: parsed.questionAnswerExerciseId },
-    data: {
-      title: parsed.title,
-      instruction: parsed.instruction,
-      question: parsed.question,
-      answer: parsed.answer,
-      details: parsed.details,
-      documentJson: parsed.documentJson,
-      updatedBy: user.id,
+  const block = await prisma.contentBlock.findFirst({
+    where: {
+      id: parsed.blockId,
+      contentId: parsed.contentId,
+      content: { organizationId: user.organizationId },
     },
+    select: { kind: true },
   });
+
+  if (!block || !["question-answer", "table-completion", "column-matching", "sentence-ordering"].includes(block.kind)) {
+    throw new Error("Exercise block not found.");
+  }
+
+  const data = {
+    title: parsed.title,
+    instruction: parsed.instruction,
+    question: parsed.question,
+    answer: parsed.answer,
+    details: parsed.details,
+    documentJson: parsed.documentJson,
+    updatedBy: user.id,
+  };
+
+  let updated: { id: string };
+  let entityName: string;
+
+  switch (block.kind) {
+    case "question-answer":
+      updated = await prisma.questionAnswerExercise.update({
+        where: {
+          id: parsed.questionAnswerExerciseId,
+          contentBlockId: parsed.blockId,
+          organizationId: user.organizationId,
+        },
+        data,
+      });
+      entityName = "QuestionAnswerExercise";
+      break;
+    case "table-completion":
+      updated = await prisma.tableCompletionExercise.update({
+        where: {
+          id: parsed.questionAnswerExerciseId,
+          contentBlockId: parsed.blockId,
+          organizationId: user.organizationId,
+        },
+        data,
+      });
+      entityName = "TableCompletionExercise";
+      break;
+    case "column-matching":
+      updated = await prisma.columnMatchingExercise.update({
+        where: {
+          id: parsed.questionAnswerExerciseId,
+          contentBlockId: parsed.blockId,
+          organizationId: user.organizationId,
+        },
+        data,
+      });
+      entityName = "ColumnMatchingExercise";
+      break;
+    case "sentence-ordering":
+      updated = await prisma.sentenceOrderingExercise.update({
+        where: {
+          id: parsed.questionAnswerExerciseId,
+          contentBlockId: parsed.blockId,
+          organizationId: user.organizationId,
+        },
+        data,
+      });
+      entityName = "SentenceOrderingExercise";
+      break;
+    default:
+      throw new Error("Unsupported exercise block.");
+  }
 
   await logAudit({
     userId: user.id,
     userName: user.name,
     action: "UPDATE",
-    entityName: "QuestionAnswerExercise",
+    entityName,
     entityId: updated.id,
-    changes: updated,
+    changes: data,
     organizationId: user.organizationId,
   });
 }
@@ -833,14 +938,33 @@ export async function updateMcqSection(input: unknown) {
 export async function updateInformationTransfer(input: unknown) {
   await assertTrustedMutationOrigin();
   const user = await requireAdmin();
-  const parsed = updateThreeFieldBlockSchema.parse(input);
+  const parsed = updateInformationTransferSchema.parse(input);
+
+  const block = await prisma.contentBlock.findFirst({
+    where: {
+      id: parsed.blockId,
+      contentId: parsed.contentId,
+      kind: "information-transfer",
+      content: { organizationId: user.organizationId },
+    },
+    select: { id: true },
+  });
+
+  if (!block) {
+    throw new Error("Information Transfer block not found.");
+  }
 
   const updated = await prisma.informationTransfer.update({
-    where: { id: parsed.recordId },
+    where: {
+      id: parsed.recordId,
+      contentBlockId: parsed.blockId,
+      organizationId: user.organizationId,
+    },
     data: {
       question: parsed.question,
       answer: parsed.answer,
       details: parsed.details,
+      documentJson: parsed.documentJson,
       updatedBy: user.id,
     },
   });

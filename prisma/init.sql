@@ -325,7 +325,6 @@ CREATE TABLE "QuestionAnswerExercise" (
     "question" TEXT NOT NULL DEFAULT '',
     "answer" TEXT NOT NULL DEFAULT '',
     "details" TEXT NOT NULL DEFAULT '',
-    "layoutKind" TEXT NOT NULL DEFAULT 'question-answer',
     "documentJson" TEXT NOT NULL DEFAULT '{"rows":[]}',
     "organizationId" TEXT NOT NULL,
     "createdBy" TEXT NOT NULL,
@@ -333,6 +332,78 @@ CREATE TABLE "QuestionAnswerExercise" (
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
     CONSTRAINT "QuestionAnswerExercise_contentBlockId_fkey" FOREIGN KEY ("contentBlockId") REFERENCES "ContentBlock" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "TableCompletionExercise" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "contentBlockId" TEXT NOT NULL,
+    "contentId" TEXT NOT NULL,
+    "classId" TEXT NOT NULL,
+    "subjectId" TEXT NOT NULL,
+    "unitId" TEXT NOT NULL,
+    "lessonId" TEXT NOT NULL,
+    "topicId" TEXT,
+    "title" TEXT NOT NULL DEFAULT '',
+    "instruction" TEXT NOT NULL DEFAULT '',
+    "question" TEXT NOT NULL DEFAULT '',
+    "answer" TEXT NOT NULL DEFAULT '',
+    "details" TEXT NOT NULL DEFAULT '',
+    "documentJson" TEXT NOT NULL DEFAULT '{"rows":[]}',
+    "organizationId" TEXT NOT NULL,
+    "createdBy" TEXT NOT NULL,
+    "updatedBy" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "TableCompletionExercise_contentBlockId_fkey" FOREIGN KEY ("contentBlockId") REFERENCES "ContentBlock" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "ColumnMatchingExercise" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "contentBlockId" TEXT NOT NULL,
+    "contentId" TEXT NOT NULL,
+    "classId" TEXT NOT NULL,
+    "subjectId" TEXT NOT NULL,
+    "unitId" TEXT NOT NULL,
+    "lessonId" TEXT NOT NULL,
+    "topicId" TEXT,
+    "title" TEXT NOT NULL DEFAULT '',
+    "instruction" TEXT NOT NULL DEFAULT '',
+    "question" TEXT NOT NULL DEFAULT '',
+    "answer" TEXT NOT NULL DEFAULT '',
+    "details" TEXT NOT NULL DEFAULT '',
+    "documentJson" TEXT NOT NULL DEFAULT '{"rows":[]}',
+    "organizationId" TEXT NOT NULL,
+    "createdBy" TEXT NOT NULL,
+    "updatedBy" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "ColumnMatchingExercise_contentBlockId_fkey" FOREIGN KEY ("contentBlockId") REFERENCES "ContentBlock" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "SentenceOrderingExercise" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "contentBlockId" TEXT NOT NULL,
+    "contentId" TEXT NOT NULL,
+    "classId" TEXT NOT NULL,
+    "subjectId" TEXT NOT NULL,
+    "unitId" TEXT NOT NULL,
+    "lessonId" TEXT NOT NULL,
+    "topicId" TEXT,
+    "title" TEXT NOT NULL DEFAULT '',
+    "instruction" TEXT NOT NULL DEFAULT '',
+    "question" TEXT NOT NULL DEFAULT '',
+    "answer" TEXT NOT NULL DEFAULT '',
+    "details" TEXT NOT NULL DEFAULT '',
+    "documentJson" TEXT NOT NULL DEFAULT '{"rows":[]}',
+    "organizationId" TEXT NOT NULL,
+    "createdBy" TEXT NOT NULL,
+    "updatedBy" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "SentenceOrderingExercise_contentBlockId_fkey" FOREIGN KEY ("contentBlockId") REFERENCES "ContentBlock" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -370,6 +441,7 @@ CREATE TABLE "InformationTransfer" (
     "question" TEXT NOT NULL DEFAULT '',
     "answer" TEXT NOT NULL DEFAULT '',
     "details" TEXT NOT NULL DEFAULT '',
+    "documentJson" TEXT NOT NULL DEFAULT '{"rows":[]}',
     "organizationId" TEXT NOT NULL,
     "createdBy" TEXT NOT NULL,
     "updatedBy" TEXT NOT NULL,
@@ -608,6 +680,15 @@ CREATE UNIQUE INDEX "McqSection_contentBlockId_key" ON "McqSection"("contentBloc
 
 -- CreateIndex
 CREATE UNIQUE INDEX "QuestionAnswerExercise_contentBlockId_key" ON "QuestionAnswerExercise"("contentBlockId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "TableCompletionExercise_contentBlockId_key" ON "TableCompletionExercise"("contentBlockId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "ColumnMatchingExercise_contentBlockId_key" ON "ColumnMatchingExercise"("contentBlockId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "SentenceOrderingExercise_contentBlockId_key" ON "SentenceOrderingExercise"("contentBlockId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "TrueFalseExercise_contentBlockId_key" ON "TrueFalseExercise"("contentBlockId");
