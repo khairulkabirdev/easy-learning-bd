@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
@@ -92,7 +93,7 @@ function ResultBadge({ status }: { status: CheckStatus }) {
   ) : (
     <Badge variant="destructive" className="gap-1">
       <XCircle className="h-3.5 w-3.5" />
-      Review needed
+      Wrong
     </Badge>
   );
 }
@@ -280,36 +281,116 @@ function SynonymsAntonymsBlock({ entries }: { entries: SynonymsAntonymsEntryReco
 function McqBlock({ title, description, questions }: { title: string; description: string; questions: McqQuestionRecord[] }) {
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string[]>>({});
   const [statusByQuestion, setStatusByQuestion] = useState<Record<string, CheckStatus>>({});
+  const [liveCheckEnabled, setLiveCheckEnabled] = useState(false);
   const [showAnswers, setShowAnswers] = useState(false);
+  const [reviewOpen, setReviewOpen] = useState(false);
 
-  function toggleOption(question: McqQuestionRecord, optionId: string, checked: boolean) {
-    setSelectedAnswers((current) => {
-      const previous = current[question.id] || [];
-      if (question.answerMode === "single") {
-        return { ...current, [question.id]: checked ? [optionId] : [] };
-      }
-      const next = checked ? [...previous, optionId] : previous.filter((value) => value !== optionId);
-      return { ...current, [question.id]: Array.from(new Set(next)) };
-    });
-  }
-
-  function checkAnswers() {
+  function getAnswerStatuses() {
     const nextStatus: Record<string, CheckStatus> = {};
     for (const question of questions) {
       const selected = [...(selectedAnswers[question.id] || [])].sort();
       const correct = question.options.filter((option) => option.isCorrect).map((option) => option.id).sort();
       nextStatus[question.id] = JSON.stringify(selected) === JSON.stringify(correct) ? "correct" : "incorrect";
     }
+    return nextStatus;
+  }
+
+  function toggleOption(question: McqQuestionRecord, optionId: string, checked: boolean) {
+    const previous = selectedAnswers[question.id] || [];
+    let next: string[];
+    if (question.answerMode === "single") {
+      next = checked ? [optionId] : [];
+    } else {
+      next = checked ? [...previous, optionId] : previous.filter((value) => value !== optionId);
+      next = Array.from(new Set(next));
+    }
+
+    setSelectedAnswers((current) => ({ ...current, [question.id]: next }));
+
+    if (liveCheckEnabled) {
+      const correct = question.options.filter((option) => option.isCorrect).map((option) => option.id).sort();
+      setStatusByQuestion((statuses) => ({
+        ...statuses,
+        [question.id]: JSON.stringify([...next].sort()) === JSON.stringify(correct) ? "correct" : "incorrect",
+      }));
+    }
+  }
+
+  function checkAnswers() {
+    const nextStatus = getAnswerStatuses();
     setStatusByQuestion(nextStatus);
     setShowAnswers(true);
   }
+
+  function reviewAnswers() {
+    setStatusByQuestion(getAnswerStatuses());
+    setShowAnswers(true);
+    setReviewOpen(true);
+  }
+
+  const correctCount = Object.values(statusByQuestion).filter((status) => status === "correct").length;
+  const wrongCount = Object.values(statusByQuestion).filter((status) => status === "incorrect").length;
 
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-lg font-semibold">{title || "Practice MCQ"}</h2>
-        <ActionButtons onCheck={checkAnswers} onReveal={() => setShowAnswers(true)} />
+        <div className="flex flex-wrap items-center gap-2">
+          <label className="flex cursor-pointer items-center gap-2 text-sm text-muted-foreground">
+            <span>সঠিক/ভুল দেখান</span>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={liveCheckEnabled}
+              onClick={() => {
+                const nextLiveCheckEnabled = !liveCheckEnabled;
+                setLiveCheckEnabled(nextLiveCheckEnabled);
+
+                if (nextLiveCheckEnabled) {
+                  const nextStatuses: Record<string, CheckStatus> = {};
+                  for (const question of questions) {
+                    const selected = [...(selectedAnswers[question.id] || [])].sort();
+                    if (selected.length === 0) continue;
+                    const correct = question.options.filter((option) => option.isCorrect).map((option) => option.id).sort();
+                    nextStatuses[question.id] = JSON.stringify(selected) === JSON.stringify(correct) ? "correct" : "incorrect";
+                  }
+                  setStatusByQuestion(nextStatuses);
+                }
+              }}
+              className={cn(
+                "relative inline-flex h-5 w-10 items-center rounded-full transition-colors",
+                liveCheckEnabled ? "bg-primary" : "bg-muted-foreground/50",
+              )}
+            >
+              <span
+                className={cn(
+                  "h-4 w-4 rounded-full bg-white shadow transition-transform",
+                  liveCheckEnabled ? "translate-x-5" : "translate-x-0.5",
+                )}
+              />
+            </button>
+          </label>
+          <ActionButtons onCheck={checkAnswers} onReveal={reviewAnswers} />
+        </div>
       </div>
+      <Dialog open={reviewOpen} onOpenChange={setReviewOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Answer Review</DialogTitle>
+            <DialogDescription>এই ব্যাচের MCQ ফলাফল</DialogDescription>
+          </DialogHeader>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-center">
+              <div className="text-2xl font-bold text-emerald-700">{correctCount}</div>
+              <div className="text-sm text-emerald-700">সঠিক উত্তর</div>
+            </div>
+            <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-center">
+              <div className="text-2xl font-bold text-red-700">{wrongCount}</div>
+              <div className="text-sm text-red-700">ভুল উত্তর</div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
       {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
         <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
@@ -345,13 +426,20 @@ function McqBlock({ title, description, questions }: { title: string; descriptio
           </CardHeader>
           <CardContent className="space-y-2">
             {question.options.map((option) => {
-              const checked = (selectedAnswers[question.id] || []).includes(option.id);
+              const selectedOptions = selectedAnswers[question.id] || [];
+              const checked = selectedOptions.includes(option.id);
+              const hasAnswered = selectedOptions.length > 0;
+              const feedbackVisible = showAnswers || (liveCheckEnabled && hasAnswered);
+              const isCorrectOption = feedbackVisible && option.isCorrect;
+              const isWrongSelection = feedbackVisible && hasAnswered && checked && !option.isCorrect;
               return (
                 <label
                   key={option.id}
                   className={cn(
-                    "group flex cursor-pointer items-center gap-3 rounded-lg border bg-muted/20 px-3 py-2 transition-colors hover:border-sky-300 hover:bg-sky-50",
-                    checked && "border-primary/50 bg-primary/5",
+                    "group flex min-h-10 cursor-pointer items-center gap-3 rounded-lg border px-3 py-2 transition-colors",
+                    !isCorrectOption && !isWrongSelection && "border-border bg-muted/20 hover:border-sky-300 hover:bg-sky-50",
+                    isCorrectOption && "border-emerald-400 bg-emerald-50 text-emerald-800",
+                    isWrongSelection && "border-red-400 bg-red-50 text-red-800",
                   )}
                 >
                   <Checkbox
@@ -362,17 +450,26 @@ function McqBlock({ title, description, questions }: { title: string; descriptio
                       setStatusByQuestion((current) => ({ ...current, [question.id]: "idle" }));
                     }}
                   />
-                  <span className={cn("flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-xs font-semibold text-muted-foreground", checked && "border-primary bg-primary text-primary-foreground")}>
+                  <span
+                    className={cn(
+                      "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 text-[11px] font-bold text-muted-foreground",
+                      checked && !isCorrectOption && !isWrongSelection && "border-primary bg-primary text-primary-foreground",
+                      isCorrectOption && "border-emerald-500 bg-emerald-500 text-white",
+                      isWrongSelection && "border-red-500 bg-red-500 text-white",
+                    )}
+                  >
                     {option.label}
                   </span>
                   <span className="min-w-0 flex-1 text-sm">{option.text || "Empty option"}</span>
-                  {showAnswers && option.isCorrect ? <Badge variant="secondary">Correct</Badge> : null}
+                  {isWrongSelection ? <XCircle className="h-5 w-5 shrink-0 text-red-500" /> : null}
                 </label>
               );
             })}
-            <div className="flex justify-end pt-2">
-              <ResultBadge status={statusByQuestion[question.id] || "idle"} />
-            </div>
+            {showAnswers || (liveCheckEnabled && (selectedAnswers[question.id] || []).length > 0) ? (
+              <div className="flex justify-end pt-2">
+                <ResultBadge status={statusByQuestion[question.id] || "idle"} />
+              </div>
+            ) : null}
           </CardContent>
         </Card>
       ))}

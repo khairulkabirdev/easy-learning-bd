@@ -419,12 +419,31 @@ export default async function AdminContentBlocksPage({
         ? {
             ...block.questionAnswerExercise,
             layoutKind: block.questionAnswerExercise.layoutKind as QuestionAnswerExerciseLayoutKind,
-            rows: (parseQuestionAnswerDocument(block.questionAnswerExercise.documentJson).rows || []).map((row) => ({
-              id: row.id,
-              sortOrder: row.sortOrder,
-              question: row.question || "",
-              answer: row.answer || "",
-            })),
+            rows: (() => {
+              const rows = (parseQuestionAnswerDocument(block.questionAnswerExercise.documentJson).rows || []).map((row) => ({
+                id: row.id,
+                sortOrder: row.sortOrder,
+                question: row.question || "",
+                answer: row.answer || "",
+              }));
+
+              if (
+                rows.length === 0 &&
+                block.questionAnswerExercise.layoutKind === "question-answer" &&
+                (block.questionAnswerExercise.question.trim() || block.questionAnswerExercise.answer.trim())
+              ) {
+                return [
+                  {
+                    id: `legacy-${block.questionAnswerExercise.id}`,
+                    sortOrder: 0,
+                    question: block.questionAnswerExercise.question,
+                    answer: block.questionAnswerExercise.answer,
+                  },
+                ];
+              }
+
+              return rows;
+            })(),
           }
         : null,
       trueFalseExercise: block.trueFalseExercise

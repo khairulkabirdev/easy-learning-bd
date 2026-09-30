@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
@@ -65,6 +65,8 @@ type BlockDraft = ContentRecordWithBlocks["blocks"][number];
 type McqSectionDraft = NonNullable<BlockDraft['mcqSection']>;
 type McqQuestionDraftRecord = McqSectionDraft['questions'][number];
 type McqOptionDraftRecord = McqQuestionDraftRecord['options'][number];
+type QuestionAnswerExerciseDraft = NonNullable<BlockDraft['questionAnswerExercise']>;
+type QuestionAnswerRowRecord = QuestionAnswerExerciseDraft['rows'][number];
 type TrueFalseExerciseDraft = NonNullable<BlockDraft['trueFalseExercise']>;
 type TrueFalseRowRecord = TrueFalseExerciseDraft['rows'][number];
 
@@ -101,6 +103,11 @@ type TrueFalseRowDraft = {
   correction: string;
 };
 
+type QuestionAnswerRowDraft = {
+  question: string;
+  answer: string;
+};
+
 const BLOCK_CONTENT_CLASS = "max-h-[70vh] overflow-y-auto pr-2";
 
 function createEmptyMcqQuestionDraft(): McqQuestionDraft {
@@ -122,6 +129,13 @@ function createEmptyTrueFalseRowDraft(): TrueFalseRowDraft {
     statement: "",
     expectedAnswer: true,
     correction: "",
+  };
+}
+
+function createEmptyQuestionAnswerRowDraft(): QuestionAnswerRowDraft {
+  return {
+    question: "",
+    answer: "",
   };
 }
 
@@ -499,6 +513,11 @@ export function ContentBlocksEditorClient({
   const [isTrueFalseModalOpen, setIsTrueFalseModalOpen] = useState(false);
   const [activeTrueFalseBlockId, setActiveTrueFalseBlockId] = useState<string | null>(null);
   const [newTrueFalseDraft, setNewTrueFalseDraft] = useState<TrueFalseRowDraft>(createEmptyTrueFalseRowDraft());
+  const [isQuestionAnswerModalOpen, setIsQuestionAnswerModalOpen] = useState(false);
+  const [activeQuestionAnswerBlockId, setActiveQuestionAnswerBlockId] = useState<string | null>(null);
+  const [newQuestionAnswerDraft, setNewQuestionAnswerDraft] = useState<QuestionAnswerRowDraft>(
+    createEmptyQuestionAnswerRowDraft(),
+  );
   const [actionError, setActionError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -578,6 +597,10 @@ export function ContentBlocksEditorClient({
     setNewTrueFalseDraft(createEmptyTrueFalseRowDraft());
   }
 
+  function resetQuestionAnswerModal() {
+    setNewQuestionAnswerDraft(createEmptyQuestionAnswerRowDraft());
+  }
+
   async function handleAddBlock(kind: ContentBlockKind) {
     setActionError(null);
     startTransition(async () => {
@@ -622,6 +645,7 @@ export function ContentBlocksEditorClient({
       details?: string;
       title?: string;
       instruction?: string;
+      rows?: QuestionAnswerExerciseDraft["rows"];
     },
   ) {
     const currentBlock = blocks.find((block) => block.id === blockId);
@@ -632,9 +656,19 @@ export function ContentBlocksEditorClient({
       ...patch,
     };
 
+    const persisted = {
+      ...next,
+      // Once Question Answer uses row mode, keep the old combined fields empty.
+      // Existing legacy content is first surfaced as row #1 by page.tsx, so it is
+      // preserved in documentJson when the admin edits/adds a row.
+      question: patch.rows !== undefined ? "" : next.question,
+      answer: patch.rows !== undefined ? "" : next.answer,
+      documentJson: patch.rows !== undefined ? JSON.stringify({ rows: next.rows }) : next.documentJson,
+    };
+
     patchBlock(blockId, (block) => ({
       ...block,
-      questionAnswerExercise: block.questionAnswerExercise ? next : null,
+      questionAnswerExercise: block.questionAnswerExercise ? persisted : null,
     }));
 
     startTransition(async () => {
@@ -642,14 +676,78 @@ export function ContentBlocksEditorClient({
         contentId: content.id,
         blockId,
         questionAnswerExerciseId,
-        title: next.title,
-        instruction: next.instruction,
-        question: next.question,
-        answer: next.answer,
-        details: next.details,
-        documentJson: next.documentJson,
+        title: persisted.title,
+        instruction: persisted.instruction,
+        question: persisted.question,
+        answer: persisted.answer,
+        details: persisted.details,
+        documentJson: persisted.documentJson,
       });
     });
+  }
+
+  function openQuestionAnswerModal(blockId: string) {
+    setActiveQuestionAnswerBlockId(blockId);
+    resetQuestionAnswerModal();
+    setIsQuestionAnswerModalOpen(true);
+  }
+
+  async function handleCreateQuestionAnswerRow(keepOpen: boolean) {
+    if (!activeQuestionAnswerBlockId) return;
+    const currentBlock = blocks.find((block) => block.id === activeQuestionAnswerBlockId);
+    if (!currentBlock?.questionAnswerExercise) return;
+
+    const nextRow: QuestionAnswerRowRecord = {
+      id: crypto.randomUUID(),
+      sortOrder: currentBlock.questionAnswerExercise.rows.length,
+      question: newQuestionAnswerDraft.question,
+      answer: newQuestionAnswerDraft.answer,
+    };
+
+    await handleQuestionAnswerChange(activeQuestionAnswerBlockId, currentBlock.questionAnswerExercise.id, {
+      rows: [...currentBlock.questionAnswerExercise.rows, nextRow],
+    });
+
+    if (keepOpen) {
+      resetQuestionAnswerModal();
+      return;
+    }
+
+    resetQuestionAnswerModal();
+    setIsQuestionAnswerModalOpen(false);
+    setActiveQuestionAnswerBlockId(null);
+  }
+
+  async function handleQuestionAnswerRowPatch(
+    blockId: string,
+    rowId: string,
+    patch: Partial<Pick<QuestionAnswerRowRecord, "question" | "answer">>,
+  ) {
+    const currentBlock = blocks.find((block) => block.id === blockId);
+    if (!currentBlock?.questionAnswerExercise) return;
+
+    await handleQuestionAnswerChange(blockId, currentBlock.questionAnswerExercise.id, {
+      rows: currentBlock.questionAnswerExercise.rows.map((row) =>
+        row.id === rowId ? { ...row, ...patch } : row,
+      ),
+    });
+  }
+
+  async function handleDeleteQuestionAnswerRow(blockId: string, rowId: string) {
+    const currentBlock = blocks.find((block) => block.id === blockId);
+    if (!currentBlock?.questionAnswerExercise) return;
+
+    setActionError(null);
+    try {
+      await handleQuestionAnswerChange(blockId, currentBlock.questionAnswerExercise.id, {
+        rows: currentBlock.questionAnswerExercise.rows
+          .filter((row) => row.id !== rowId)
+          .map((row, index) => ({ ...row, sortOrder: index })),
+      });
+      router.refresh();
+    } catch (error) {
+      setActionError(error instanceof Error ? error.message : "Failed to delete question.");
+    }
   }
 
   async function handleVocabularyEntryChange(
@@ -1709,8 +1807,136 @@ export function ContentBlocksEditorClient({
                 </CardContent>
               ) : null}
 
-              {(block.kind === "question-answer" ||
-                block.kind === "table-completion" ||
+              {block.kind === "question-answer" && block.questionAnswerExercise ? (
+                <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-5`}>
+                  <FieldGroup className="gap-5">
+                    <Field>
+                      <FieldContent>
+                        <FieldLabel>Title</FieldLabel>
+                        <Input
+                          value={block.questionAnswerExercise.title}
+                          onChange={(event) =>
+                            void handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, {
+                              title: event.target.value,
+                            })
+                          }
+                          placeholder="Question Answer"
+                        />
+                      </FieldContent>
+                    </Field>
+
+                    <Field>
+                      <FieldContent>
+                        <FieldLabel>Instruction / Details</FieldLabel>
+                        <div className="rounded-xl border bg-background p-3">
+                          <TiptapRichTextEditor
+                            value={block.questionAnswerExercise.details}
+                            onChange={(value) =>
+                              void handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, { details: value })
+                            }
+                            minHeight={120}
+                            placeholder="Add instructions or details for this Question Answer section..."
+                          />
+                        </div>
+                      </FieldContent>
+                    </Field>
+                  </FieldGroup>
+
+                  <div className="flex items-center justify-between gap-4 border-t pt-5">
+                    <div className="space-y-1">
+                      <h3 className="text-sm font-medium">Questions &amp; Answers</h3>
+                      <p className="text-sm text-muted-foreground">
+                        Add every question with its own answer instead of entering all questions and answers together.
+                      </p>
+                    </div>
+                    <Button type="button" onClick={() => openQuestionAnswerModal(block.id)}>
+                      <Plus className="mr-2 h-4 w-4" />
+                      Add Question Answer Item
+                    </Button>
+                  </div>
+
+                  {block.questionAnswerExercise.rows.length === 0 ? (
+                    <Empty className="border">
+                      <EmptyHeader>
+                        <EmptyTitle>No questions added yet</EmptyTitle>
+                        <EmptyDescription>
+                          Add the first question. Each question will have its own answer field.
+                        </EmptyDescription>
+                      </EmptyHeader>
+                      <EmptyContent>
+                        <Button type="button" onClick={() => openQuestionAnswerModal(block.id)}>
+                          <Plus className="mr-2 h-4 w-4" />
+                          Add first item
+                        </Button>
+                      </EmptyContent>
+                    </Empty>
+                  ) : (
+                    <div className="space-y-4">
+                      {block.questionAnswerExercise.rows.map((row, index) => (
+                        <Card key={row.id} className="shadow-none">
+                          <CardContent className="space-y-5 pt-6">
+                            <div className="flex items-center justify-between gap-4">
+                              <Badge variant="secondary">Question #{index + 1}</Badge>
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={() => void handleDeleteQuestionAnswerRow(block.id, row.id)}
+                              >
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                Delete
+                              </Button>
+                            </div>
+
+                            <Field>
+                              <FieldContent>
+                                <FieldLabel>Question</FieldLabel>
+                                <div className="rounded-xl border bg-background p-3">
+                                  <TiptapRichTextEditor
+                                    value={row.question}
+                                    onChange={(value) =>
+                                      void handleQuestionAnswerRowPatch(block.id, row.id, { question: value })
+                                    }
+                                    minHeight={150}
+                                    placeholder={`Write question ${index + 1} here...`}
+                                  />
+                                </div>
+                              </FieldContent>
+                            </Field>
+
+                            <div className="border-t pt-5">
+                              <Field>
+                                <FieldContent>
+                                  <FieldLabel>Answer</FieldLabel>
+                                  <div className="rounded-xl border bg-background p-3">
+                                    <TiptapRichTextEditor
+                                      value={row.answer}
+                                      onChange={(value) =>
+                                        void handleQuestionAnswerRowPatch(block.id, row.id, { answer: value })
+                                      }
+                                      minHeight={150}
+                                      placeholder={`Write the answer for question ${index + 1} here...`}
+                                    />
+                                  </div>
+                                </FieldContent>
+                              </Field>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+
+                      <div className="flex justify-center border-t pt-5">
+                        <Button type="button" variant="outline" onClick={() => openQuestionAnswerModal(block.id)}>
+                          <Plus className="mr-2 h-4 w-4" />
+                          Add another Question Answer item
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              ) : null}
+
+              {(block.kind === "table-completion" ||
                 block.kind === "column-matching" ||
                 block.kind === "sentence-ordering") &&
               block.questionAnswerExercise ? (
@@ -1892,6 +2118,75 @@ export function ContentBlocksEditorClient({
             ))}
           </div>
         </ScrollArea>
+      </ResponsiveEntityEditor>
+
+      <ResponsiveEntityEditor
+        open={isQuestionAnswerModalOpen}
+        onOpenChange={(open) => {
+          setIsQuestionAnswerModalOpen(open);
+          if (!open) {
+            setActiveQuestionAnswerBlockId(null);
+            resetQuestionAnswerModal();
+          }
+        }}
+        title="Add Question Answer Item"
+        description="Enter one question with its answer, then save it into the Question Answer section."
+        className="sm:max-w-4xl"
+        footer={
+          <div className="flex w-full flex-wrap items-center justify-end gap-3">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => {
+                setIsQuestionAnswerModalOpen(false);
+                setActiveQuestionAnswerBlockId(null);
+                resetQuestionAnswerModal();
+              }}
+            >
+              Cancel
+            </Button>
+            <Button type="button" variant="outline" onClick={() => void handleCreateQuestionAnswerRow(false)}>
+              Save item
+            </Button>
+            <Button type="button" onClick={() => void handleCreateQuestionAnswerRow(true)}>
+              Save and add another
+            </Button>
+          </div>
+        }
+      >
+        <FieldGroup className="gap-5">
+          <Field>
+            <FieldContent>
+              <FieldLabel>Question</FieldLabel>
+              <div className="rounded-xl border bg-background p-3">
+                <TiptapRichTextEditor
+                  value={newQuestionAnswerDraft.question}
+                  onChange={(value) =>
+                    setNewQuestionAnswerDraft((current) => ({ ...current, question: value }))
+                  }
+                  minHeight={180}
+                  placeholder="Write the question here..."
+                />
+              </div>
+            </FieldContent>
+          </Field>
+
+          <Field>
+            <FieldContent>
+              <FieldLabel>Answer</FieldLabel>
+              <div className="rounded-xl border bg-background p-3">
+                <TiptapRichTextEditor
+                  value={newQuestionAnswerDraft.answer}
+                  onChange={(value) =>
+                    setNewQuestionAnswerDraft((current) => ({ ...current, answer: value }))
+                  }
+                  minHeight={180}
+                  placeholder="Write the answer for this question here..."
+                />
+              </div>
+            </FieldContent>
+          </Field>
+        </FieldGroup>
       </ResponsiveEntityEditor>
 
       <ResponsiveEntityEditor
