@@ -67,18 +67,354 @@ function parseFillBlankAnswers(answer: string, question: string, recordId: strin
   );
 }
 
+function extractSuffixPrefixWords(question: string) {
+  return Array.from(question.matchAll(/<u(?:\s[^>]*)?>([\s\S]*?)<\/u>/gi))
+    .map((match) => htmlToPlainText(match[1] || ""))
+    .filter(Boolean);
+}
+
+function parseSuffixPrefixItems(answer: string, question: string, recordId: string) {
+  const parsed = safeParseJson<{
+    version?: number;
+    items?: Array<{ id?: string; sortOrder?: number; word?: string; answer?: string }>;
+  } | null>(answer, null);
+  const words = extractSuffixPrefixWords(question);
+  const structuredItems = Array.isArray(parsed?.items) ? parsed!.items! : [];
+  const legacyAnswer = answer.trim() && !parsed ? htmlToPlainText(answer) : "";
+
+  return words.map((word, index) => ({
+    id: structuredItems[index]?.id || `${recordId}-suffix-prefix-${index + 1}`,
+    sortOrder: index,
+    word,
+    answer: structuredItems[index]?.answer || (index === 0 ? legacyAnswer : ""),
+  }));
+}
+
 function parseQuestionAnswerDocument(documentJson: string) {
-  return safeParseJson<{ rows?: Array<{ id: string; sortOrder: number; question?: string; answer?: string }> }>(
-    documentJson,
-    { rows: [] },
+  return safeParseJson<{
+    version?: number;
+    passageSource?: "manual" | "paragraph";
+    paragraphBlockId?: string | null;
+    rows?: Array<{ id: string; sortOrder: number; question?: string; answer?: string }>;
+  }>(documentJson, {
+    version: 2,
+    passageSource: "manual",
+    paragraphBlockId: null,
+    rows: [],
+  });
+}
+
+function parseChangingSentenceRows(answer: string, question: string, recordId: string) {
+  const parsed = safeParseJson<{
+    version?: number;
+    rows?: Array<{ id?: string; sortOrder?: number; question?: string; answer?: string }>;
+  } | null>(answer, null);
+
+  const rows = Array.isArray(parsed?.rows)
+    ? parsed!.rows!.map((row, index) => ({
+        id: row.id || `${recordId}-row-${index + 1}`,
+        sortOrder: index,
+        question: row.question || "",
+        answer: row.answer || "",
+      }))
+    : [];
+
+  if (rows.length > 0) return rows;
+
+  // Backward compatibility for the old combined Question + Answer fields.
+  if (question.trim() || (answer.trim() && !parsed)) {
+    return [{
+      id: `${recordId}-legacy-row-1`,
+      sortOrder: 0,
+      question,
+      answer: parsed ? "" : answer,
+    }];
+  }
+
+  return [];
+}
+
+function parseTagQuestionData(answer: string, question: string, recordId: string) {
+  const parsed = safeParseJson<{
+    version?: number;
+    mode?: "items" | "paragraph";
+    rows?: Array<{ id?: string; sortOrder?: number; question?: string; answer?: string }>;
+    blanks?: Array<{ id?: string; sortOrder?: number; answer?: string }>;
+  } | null>(answer, null);
+
+  const isStructured = Boolean(
+    parsed &&
+      (parsed.mode === "items" ||
+        parsed.mode === "paragraph" ||
+        Array.isArray(parsed.rows) ||
+        Array.isArray(parsed.blanks)),
   );
+
+  let rows = Array.isArray(parsed?.rows)
+    ? parsed!.rows!.map((row, index) => ({
+        id: row.id || `${recordId}-row-${index + 1}`,
+        sortOrder: index,
+        question: row.question || "",
+        answer: row.answer || "",
+      }))
+    : [];
+
+  // Backward compatibility: old Tag Question records used one combined
+  // question + answer pair. Treat it as the first per-item row.
+  if (rows.length === 0 && !isStructured && (question.trim() || answer.trim())) {
+    rows = [{
+      id: `${recordId}-legacy-row-1`,
+      sortOrder: 0,
+      question,
+      answer,
+    }];
+  }
+
+  return {
+    mode: parsed?.mode === "paragraph" ? "paragraph" as const : "items" as const,
+    rows,
+    blanks: parseFillBlankAnswers(answer, question, recordId),
+  };
+}
+
+function parseTableCompletionDocument(documentJson: string, recordId: string) {
+  const parsed = safeParseJson<{
+    version?: number;
+    columns?: Array<{ id?: string; label?: string; sortOrder?: number }>;
+    rows?: Array<{
+      id?: string;
+      sortOrder?: number;
+      cells?: Array<{
+        id?: string;
+        columnId?: string;
+        mode?: "text" | "answer";
+        text?: string;
+        answer?: string;
+      }>;
+    }>;
+    answers?: Array<{
+      id?: string;
+      sortOrder?: number;
+      selections?: Array<{ columnId?: string; cellId?: string }>;
+    }>;
+  }>(documentJson, {});
+
+  const sourceColumns = Array.isArray(parsed.columns) ? parsed.columns : [];
+  const columns = (sourceColumns.length >= 2 ? sourceColumns : [
+    { id: `${recordId}-column-1`, label: "Column 1", sortOrder: 0 },
+    { id: `${recordId}-column-2`, label: "Column 2", sortOrder: 1 },
+  ]).map((column, index) => ({
+    id: column.id || `${recordId}-column-${index + 1}`,
+    label: column.label || `Column ${index + 1}`,
+    sortOrder: index,
+  }));
+
+  const rows = (Array.isArray(parsed.rows) ? parsed.rows : [])
+    .filter((row) => Array.isArray(row.cells))
+    .map((row, rowIndex) => ({
+      id: row.id || `${recordId}-row-${rowIndex + 1}`,
+      sortOrder: rowIndex,
+      cells: columns.map((column, columnIndex) => {
+        const source = row.cells?.find((cell) => cell.columnId === column.id) || row.cells?.[columnIndex];
+        return {
+          id: source?.id || `${recordId}-row-${rowIndex + 1}-cell-${columnIndex + 1}`,
+          columnId: column.id,
+          mode: source?.mode === "answer" ? "answer" as const : "text" as const,
+          text: source?.text || "",
+          answer: source?.answer || "",
+        };
+      }),
+    }));
+
+  const sourceAnswers = Array.isArray(parsed.answers) ? parsed.answers : [];
+  const answers = sourceAnswers.map((answer, answerIndex) => ({
+    id: answer.id || `${recordId}-answer-${answerIndex + 1}`,
+    sortOrder: answerIndex,
+    selections: columns.map((column) => {
+      const selection = answer.selections?.find((item) => item.columnId === column.id);
+      const selectedCellExists = rows.some((row) =>
+        row.cells.some((cell) => cell.id === selection?.cellId && cell.columnId === column.id),
+      );
+      return {
+        columnId: column.id,
+        cellId: selectedCellExists ? selection?.cellId || "" : "",
+      };
+    }),
+  }));
+
+  const adminAnswers = rows.map((_, answerIndex) =>
+    answers[answerIndex] || {
+      id: `${recordId}-answer-${answerIndex + 1}`,
+      sortOrder: answerIndex,
+      selections: columns.map((column) => ({ columnId: column.id, cellId: "" })),
+    },
+  );
+
+  return {
+    version: 2 as const,
+    columns,
+    rows,
+    answers: adminAnswers,
+  };
+}
+
+function substitutionColumnLabel(index: number) {
+  return index < 26 ? `Column ${String.fromCharCode(65 + index)}` : `Column ${index + 1}`;
+}
+
+function parseSubstitutionTableDocument(answer: string, recordId: string) {
+  const parsed = safeParseJson<{
+    version?: number;
+    columns?: Array<{ id?: string; label?: string; sortOrder?: number }>;
+    rows?: Array<{
+      id?: string;
+      sortOrder?: number;
+      cells?: Array<{ id?: string; columnId?: string; text?: string }>;
+    }>;
+    answers?: Array<{
+      id?: string;
+      sortOrder?: number;
+      selections?: Array<{ columnId?: string; cellId?: string }>;
+      sentence?: string;
+    }>;
+  } | null>(answer, null);
+
+  const sourceColumns = Array.isArray(parsed?.columns) ? parsed!.columns! : [];
+  const columns = (sourceColumns.length >= 2
+    ? sourceColumns
+    : Array.from({ length: 3 }, (_, index) => ({
+        id: `${recordId}-column-${index + 1}`,
+        label: substitutionColumnLabel(index),
+        sortOrder: index,
+      }))).map((column, index) => ({
+    id: column.id || `${recordId}-column-${index + 1}`,
+    label: column.label || substitutionColumnLabel(index),
+    sortOrder: index,
+  }));
+
+  const rows = (Array.isArray(parsed?.rows) ? parsed!.rows! : []).map((row, rowIndex) => ({
+    id: row.id || `${recordId}-row-${rowIndex + 1}`,
+    sortOrder: rowIndex,
+    cells: columns.map((column, columnIndex) => {
+      const source = row.cells?.find((cell) => cell.columnId === column.id) || row.cells?.[columnIndex];
+      return {
+        id: source?.id || `${recordId}-row-${rowIndex + 1}-cell-${columnIndex + 1}`,
+        columnId: column.id,
+        text: source?.text || "",
+      };
+    }),
+  }));
+
+  const answers = (Array.isArray(parsed?.answers) ? parsed!.answers! : []).map((answerItem, answerIndex) => ({
+    id: answerItem.id || `${recordId}-answer-${answerIndex + 1}`,
+    sortOrder: answerIndex,
+    selections: columns.map((column) => {
+      const selection = answerItem.selections?.find((item) => item.columnId === column.id);
+      const selectedCellExists = rows.some((row) =>
+        row.cells.some((cell) => cell.id === selection?.cellId && cell.columnId === column.id && cell.text.trim()),
+      );
+      return {
+        columnId: column.id,
+        cellId: selectedCellExists ? selection?.cellId || "" : "",
+      };
+    }),
+    sentence: answerItem.sentence || "",
+  }));
+
+  return {
+    version: 1 as const,
+    columns,
+    rows,
+    answers,
+  };
 }
 
 function parseInformationTransferDocument(documentJson: string) {
-  return safeParseJson<{ rows?: Array<{ id: string; sortOrder: number; term?: string; answer?: string }> }>(
-    documentJson,
-    { rows: [] },
-  );
+  return safeParseJson<{
+    version?: number;
+    blanks?: Array<{ id?: string; sortOrder?: number; answer?: string }>;
+    rows?: Array<{ id: string; sortOrder: number; term?: string; answer?: string }>;
+  }>(documentJson, { blanks: [], rows: [] });
+}
+
+function buildInformationTransferLegacyQuestion(
+  rows: Array<{ term?: string }>,
+) {
+  return rows
+    .map((row, index) => {
+      const term = row.term?.trim() || `Item ${index + 1}`;
+      return `<div>${term} ${"____"}</div>`;
+    })
+    .join("");
+}
+
+function normalizeInformationTransferRecord(record: {
+  id: string;
+  question: string;
+  answer: string;
+  documentJson: string;
+}) {
+  const parsed = parseInformationTransferDocument(record.documentJson);
+  const legacyRows = Array.isArray(parsed.rows) ? parsed.rows : [];
+  let question = record.question || "";
+
+  let sourceBlanks = Array.isArray(parsed.blanks)
+    ? parsed.blanks.map((blank, index) => ({
+        id: blank.id || `${record.id}-blank-${index + 1}`,
+        sortOrder: index,
+        answer: blank.answer || "",
+      }))
+    : [];
+
+  // Backward compatibility for the earlier item-based Information Transfer editor.
+  // The old term/answer pairs become one visual blank per term without deleting data.
+  if (sourceBlanks.length === 0 && legacyRows.length > 0) {
+    if (countFillBlankMarkers(question) === 0) {
+      question = buildInformationTransferLegacyQuestion(legacyRows);
+    }
+    sourceBlanks = legacyRows.map((row, index) => ({
+      id: row.id || `${record.id}-legacy-blank-${index + 1}`,
+      sortOrder: index,
+      answer: htmlToPlainText(row.answer || ""),
+    }));
+  }
+
+  // Older three-field data is also preserved as the first blank.
+  if (sourceBlanks.length === 0 && (question.trim() || record.answer.trim())) {
+    if (countFillBlankMarkers(question) === 0) {
+      question = `${question}<p>____</p>`;
+    }
+    sourceBlanks = [{
+      id: `${record.id}-legacy-blank-1`,
+      sortOrder: 0,
+      answer: htmlToPlainText(record.answer),
+    }];
+  }
+
+  let blankCount = countFillBlankMarkers(question);
+  if (blankCount === 0 && sourceBlanks.length > 0) {
+    question = `${question}${sourceBlanks.map(() => "<p>____</p>").join("")}`;
+    blankCount = sourceBlanks.length;
+  }
+
+  const blanks = Array.from({ length: blankCount }, (_, index) =>
+    sourceBlanks[index] || {
+      id: `${record.id}-blank-${index + 1}`,
+      sortOrder: index,
+      answer: "",
+    },
+  ).map((blank, index) => ({ ...blank, sortOrder: index }));
+
+  return {
+    question,
+    blanks,
+    rows: legacyRows.map((row, index) => ({
+      id: row.id,
+      sortOrder: index,
+      term: row.term || "",
+      answer: row.answer || "",
+    })),
+  };
 }
 
 function parseTrueFalseDocument(documentJson: string) {
@@ -544,12 +880,15 @@ export default async function AdminContentBlocksPage({
 
         if (!exercise) return null;
 
-        const rows = (parseQuestionAnswerDocument(exercise.documentJson).rows || []).map((row) => ({
-          id: row.id,
-          sortOrder: row.sortOrder,
-          question: row.question || "",
-          answer: row.answer || "",
-        }));
+        const questionAnswerDocument = parseQuestionAnswerDocument(exercise.documentJson);
+        const rows = block.kind === "table-completion"
+          ? []
+          : (questionAnswerDocument.rows || []).map((row) => ({
+              id: row.id,
+              sortOrder: row.sortOrder,
+              question: row.question || "",
+              answer: row.answer || "",
+            }));
 
         if (
           rows.length === 0 &&
@@ -566,7 +905,18 @@ export default async function AdminContentBlocksPage({
 
         return {
           ...exercise,
+          passageSource:
+            block.kind === "question-answer" && questionAnswerDocument.passageSource === "paragraph"
+              ? "paragraph" as const
+              : "manual" as const,
+          paragraphBlockId:
+            block.kind === "question-answer" && typeof questionAnswerDocument.paragraphBlockId === "string"
+              ? questionAnswerDocument.paragraphBlockId
+              : null,
           rows,
+          table: block.kind === "table-completion"
+            ? parseTableCompletionDocument(exercise.documentJson, exercise.id)
+            : undefined,
         };
       })(),
       trueFalseExercise: block.trueFalseExercise
@@ -583,32 +933,20 @@ export default async function AdminContentBlocksPage({
         : null,
       informationTransfer: block.informationTransfer
         ? (() => {
-            const rows = (parseInformationTransferDocument(block.informationTransfer.documentJson).rows || []).map(
-              (row) => ({
-                id: row.id,
-                sortOrder: row.sortOrder,
-                term: row.term || "",
-                answer: row.answer || "",
-              }),
-            );
-
-            if (
-              rows.length === 0 &&
-              (block.informationTransfer.question.trim() || block.informationTransfer.answer.trim())
-            ) {
-              rows.push({
-                id: `legacy-${block.informationTransfer.id}`,
-                sortOrder: 0,
-                term: block.informationTransfer.question,
-                answer: block.informationTransfer.answer,
-              });
-            }
-
+            const normalized = normalizeInformationTransferRecord(block.informationTransfer);
             return {
               ...block.informationTransfer,
-              rows,
+              question: normalized.question,
+              rows: normalized.rows,
+              blanks: normalized.blanks,
             };
           })()
+        : null,
+      substitutionTable: block.substitutionTable
+        ? {
+            ...block.substitutionTable,
+            table: parseSubstitutionTableDocument(block.substitutionTable.answer, block.substitutionTable.id),
+          }
         : null,
       gapFill: block.gapFillExercise,
       gapFillFirstPaper: block.gapFillFirstPaper
@@ -621,7 +959,81 @@ export default async function AdminContentBlocksPage({
             ),
           }
         : null,
-      gapFillSecondPaper: block.gapFillSecondPaper,
+      gapFillSecondPaper: block.gapFillSecondPaper
+        ? {
+            ...block.gapFillSecondPaper,
+            blanks: parseFillBlankAnswers(
+              block.gapFillSecondPaper.answer,
+              block.gapFillSecondPaper.question,
+              block.gapFillSecondPaper.id,
+            ),
+          }
+        : null,
+      rightFormOfVerb: block.rightFormOfVerb
+        ? {
+            ...block.rightFormOfVerb,
+            blanks: parseFillBlankAnswers(
+              block.rightFormOfVerb.answer,
+              block.rightFormOfVerb.question,
+              block.rightFormOfVerb.id,
+            ),
+          }
+        : null,
+      changingSentence: block.changingSentence
+        ? {
+            ...block.changingSentence,
+            rows: parseChangingSentenceRows(
+              block.changingSentence.answer,
+              block.changingSentence.question,
+              block.changingSentence.id,
+            ),
+          }
+        : null,
+      preposition: block.preposition
+        ? {
+            ...block.preposition,
+            blanks: parseFillBlankAnswers(
+              block.preposition.answer,
+              block.preposition.question,
+              block.preposition.id,
+            ),
+          }
+        : null,
+      suffixAndPrefix: block.suffixAndPrefix
+        ? {
+            ...block.suffixAndPrefix,
+            items: parseSuffixPrefixItems(
+              block.suffixAndPrefix.answer,
+              block.suffixAndPrefix.question,
+              block.suffixAndPrefix.id,
+            ),
+          }
+        : null,
+      tagQuestion: block.tagQuestion
+        ? (() => {
+            const parsed = parseTagQuestionData(
+              block.tagQuestion.answer,
+              block.tagQuestion.question,
+              block.tagQuestion.id,
+            );
+            return {
+              ...block.tagQuestion,
+              mode: parsed.mode,
+              rows: parsed.rows,
+              blanks: parsed.blanks,
+            };
+          })()
+        : null,
+      connector: block.connector
+        ? {
+            ...block.connector,
+            blanks: parseFillBlankAnswers(
+              block.connector.answer,
+              block.connector.question,
+              block.connector.id,
+            ),
+          }
+        : null,
     })),
   };
 

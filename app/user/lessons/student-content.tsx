@@ -7,10 +7,13 @@ import type {
   ContentBlockKind,
   ContentRecordWithBlocks,
   McqQuestionRecord,
+  TableCompletionDocumentRecord,
   SynonymsAntonymsEntryRecord,
   TrueFalseRowRecord,
   VocabularyEntryRecord,
 } from "@/app/admin/content/content-types";
+import { TableCompletionChoiceCombobox } from "@/components/app/TableCompletionChoiceCombobox";
+import { SubstitutionTableExercise } from "@/components/app/SubstitutionTableExercise";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -193,10 +196,12 @@ function FillInTheBlanksBlock({
   question,
   blanks,
   details,
+  title = "Fill in the Blanks",
 }: {
   question: string;
   blanks: Array<{ id: string; sortOrder: number; answer: string }>;
   details: string;
+  title?: string;
 }) {
   const passage = fillBlankQuestionToText(question);
   const segments = passage.split(/_{2,}/g);
@@ -224,7 +229,7 @@ function FillInTheBlanksBlock({
     <Card className="rounded-xl">
       <CardHeader className="space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <CardTitle className="text-lg">Fill in the Blanks</CardTitle>
+          <CardTitle className="text-lg">{title}</CardTitle>
           {hasChecked ? <ResultBadge status={allAnsweredCorrectly ? "correct" : "incorrect"} /> : null}
         </div>
         {stripHtml(details) ? <CardDescription>{stripHtml(details)}</CardDescription> : null}
@@ -269,6 +274,104 @@ function FillInTheBlanksBlock({
                 <div key={blank.id} className="flex items-center gap-3 rounded-lg bg-muted/30 px-3 py-2">
                   <Badge variant="outline">Blank {index + 1}</Badge>
                   <span className="font-medium">{blank.answer || "—"}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
+      </CardContent>
+    </Card>
+  );
+}
+
+
+function SuffixPrefixExerciseBlock({
+  question,
+  items,
+  details,
+}: {
+  question: string;
+  items: Array<{ id: string; sortOrder: number; word: string; answer: string }>;
+  details: string;
+}) {
+  let targetIndex = 0;
+  const tokenized = question.replace(/<u(?:\s[^>]*)?>[\s\S]*?<\/u>/gi, () => {
+    const token = `[[SUFFIX_PREFIX_${targetIndex}]]`;
+    targetIndex += 1;
+    return token;
+  });
+  const passage = fillBlankQuestionToText(tokenized);
+  const parts = passage.split(/(\[\[SUFFIX_PREFIX_\d+\]\])/g);
+  const [studentAnswers, setStudentAnswers] = useState<Record<string, string>>({});
+  const [statusByItem, setStatusByItem] = useState<Record<string, CheckStatus>>({});
+  const [showAnswers, setShowAnswers] = useState(false);
+
+  function checkAnswers() {
+    const nextStatus: Record<string, CheckStatus> = {};
+    items.forEach((item) => {
+      const expected = normalizeAnswer(item.answer);
+      nextStatus[item.id] =
+        expected && normalizeAnswer(studentAnswers[item.id] || "") === expected
+          ? "correct"
+          : "incorrect";
+    });
+    setStatusByItem(nextStatus);
+  }
+
+  const allCorrect = items.length > 0 && items.every((item) => statusByItem[item.id] === "correct");
+  const hasChecked = Object.keys(statusByItem).length > 0;
+
+  return (
+    <Card className="rounded-xl">
+      <CardHeader className="space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <CardTitle className="text-lg">Suffix and Prefix</CardTitle>
+          {hasChecked ? <ResultBadge status={allCorrect ? "correct" : "incorrect"} /> : null}
+        </div>
+        {stripHtml(details) ? <CardDescription>{stripHtml(details)}</CardDescription> : null}
+      </CardHeader>
+      <CardContent className="space-y-5">
+        <div className="rounded-xl border bg-muted/10 p-4 text-base leading-10 whitespace-pre-wrap">
+          {parts.map((part, index) => {
+            const match = part.match(/^\[\[SUFFIX_PREFIX_(\d+)\]\]$/);
+            if (!match) return <span key={`text-${index}`}>{part}</span>;
+            const item = items[Number(match[1])];
+            if (!item) return null;
+
+            return (
+              <span key={item.id} className="mx-1 inline-flex flex-wrap items-center gap-2 align-middle">
+                <span className="font-medium underline decoration-2 underline-offset-4">{item.word}</span>
+                <Input
+                  value={studentAnswers[item.id] || ""}
+                  onChange={(event) => {
+                    setStudentAnswers((current) => ({ ...current, [item.id]: event.target.value }));
+                    setStatusByItem((current) => ({ ...current, [item.id]: "idle" }));
+                  }}
+                  aria-label={`Completed word for ${item.word}`}
+                  placeholder="answer"
+                  className={cn(
+                    "h-9 min-w-28 w-36 bg-background px-2 text-center sm:w-44",
+                    statusByItem[item.id] === "correct" && "border-emerald-500 bg-emerald-50",
+                    statusByItem[item.id] === "incorrect" && "border-red-500 bg-red-50",
+                  )}
+                />
+              </span>
+            );
+          })}
+        </div>
+
+        <ActionButtons onCheck={checkAnswers} onReveal={() => setShowAnswers(true)} />
+
+        {showAnswers ? (
+          <div className="space-y-3 rounded-xl border border-dashed p-4">
+            <div className="text-sm font-medium">Correct answers</div>
+            <div className="grid gap-2 sm:grid-cols-2">
+              {items.map((item, index) => (
+                <div key={item.id} className="flex items-center gap-3 rounded-lg bg-muted/30 px-3 py-2">
+                  <Badge variant="outline">#{index + 1}</Badge>
+                  <span className="underline underline-offset-4">{item.word}</span>
+                  <span className="text-muted-foreground">→</span>
+                  <span className="font-medium">{item.answer || "—"}</span>
                 </div>
               ))}
             </div>
@@ -726,6 +829,343 @@ function SentenceOrderingBlock({
   );
 }
 
+function TableCompletionBlock({
+  title,
+  instruction,
+  details,
+  table,
+}: {
+  title: string;
+  instruction: string;
+  details: string;
+  table: TableCompletionDocumentRecord;
+}) {
+  const [selections, setSelections] = useState<Record<string, Record<string, string>>>({});
+  const [statusByAnswer, setStatusByAnswer] = useState<Record<string, CheckStatus>>({});
+  const [showAnswers, setShowAnswers] = useState(false);
+
+  // Keep old per-cell Table Completion records working until they are edited
+  // in the new Admin connection builder.
+  if (table.answers.length === 0) {
+    return <LegacyTableCompletionBlock title={title} instruction={instruction} details={details} table={table} />;
+  }
+
+  function getCell(columnId: string, cellId: string) {
+    return table.rows
+      .flatMap((row) => row.cells)
+      .find((cell) => cell.columnId === columnId && cell.id === cellId);
+  }
+
+  function getCellText(columnId: string, cellId: string) {
+    const cell = getCell(columnId, cellId);
+    return cell ? (cell.mode === "answer" ? cell.answer || cell.text : cell.text) : "";
+  }
+
+  function buildPreview(answerId: string, useCorrectAnswer = false) {
+    const answer = table.answers.find((item) => item.id === answerId);
+    if (!answer) return "";
+    return table.columns
+      .map((column) => {
+        const cellId = useCorrectAnswer
+          ? answer.selections.find((selection) => selection.columnId === column.id)?.cellId || ""
+          : selections[answerId]?.[column.id] || "";
+        return getCellText(column.id, cellId).trim();
+      })
+      .filter(Boolean)
+      .join(" ");
+  }
+
+  const statuses = table.answers.map((answer) => statusByAnswer[answer.id] || "idle");
+  const overallStatus: CheckStatus =
+    statuses.every((status) => status === "idle")
+      ? "idle"
+      : statuses.every((status) => status === "correct")
+        ? "correct"
+        : "incorrect";
+
+  return (
+    <Card className="rounded-xl">
+      <CardHeader className="space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <CardTitle className="text-lg">{title || "Table Completion"}</CardTitle>
+          <ResultBadge status={overallStatus} />
+        </div>
+        {stripHtml(instruction) ? <CardDescription>{stripHtml(instruction)}</CardDescription> : null}
+      </CardHeader>
+      <CardContent className="space-y-5">
+        {stripHtml(details) ? (
+          <div className="rounded-xl border border-dashed p-4">
+            <RichContent value={details} />
+          </div>
+        ) : null}
+
+        <div className="overflow-x-auto rounded-xl border">
+          <table className="w-full min-w-[640px] border-collapse">
+            <thead>
+              <tr className="bg-muted/50">
+                <th className="w-14 border-b border-r px-3 py-3 text-center text-xs font-medium text-muted-foreground">#</th>
+                {table.columns.map((column) => (
+                  <th key={column.id} className="border-b border-r px-4 py-3 text-left text-sm font-semibold last:border-r-0">
+                    {column.label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {table.rows.map((row, rowIndex) => (
+                <tr key={row.id}>
+                  <td className="border-b border-r bg-muted/20 px-3 py-3 text-center text-sm font-medium">{rowIndex + 1}</td>
+                  {table.columns.map((column, columnIndex) => {
+                    const cell = row.cells.find((item) => item.columnId === column.id) || row.cells[columnIndex];
+                    return (
+                      <td key={cell?.id || `${row.id}-${column.id}`} className="border-b border-r px-4 py-3 text-sm last:border-r-0">
+                        {cell ? (cell.mode === "answer" ? cell.answer || cell.text : cell.text) : ""}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="space-y-4">
+          <div>
+            <h3 className="text-sm font-semibold">Make the correct sentences</h3>
+            <p className="text-sm text-muted-foreground">
+              For each sentence, select one item from every column. The selected parts are joined from left to right.
+            </p>
+          </div>
+
+          {table.answers.map((answer, answerIndex) => {
+            const status = statusByAnswer[answer.id] || "idle";
+            const preview = buildPreview(answer.id);
+            return (
+              <div key={answer.id} className="rounded-xl border p-4">
+                <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+                  <Badge variant="outline">Sentence #{answerIndex + 1}</Badge>
+                  <ResultBadge status={status} />
+                </div>
+
+                <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+                  {table.columns.map((column, columnIndex) => {
+                    const selected = selections[answer.id]?.[column.id] || "";
+                    const usedByOtherSentences = new Set(
+                      Object.entries(selections)
+                        .filter(([answerId]) => answerId !== answer.id)
+                        .map(([, byColumn]) => byColumn[column.id] || "")
+                        .filter(Boolean),
+                    );
+                    const options = table.rows.flatMap((row, rowIndex) => {
+                      const cell = row.cells.find((item) => item.columnId === column.id) || row.cells[columnIndex];
+                      if (!cell) return [];
+                      const text = cell.mode === "answer" ? cell.answer || cell.text : cell.text;
+                      return [
+                        {
+                          id: cell.id,
+                          label: `Row ${rowIndex + 1}${text ? ` — ${text}` : ""}`,
+                          disabled: usedByOtherSentences.has(cell.id),
+                        },
+                      ];
+                    });
+
+                    return (
+                      <div key={column.id} className="space-y-1.5">
+                        <div className="text-xs font-medium text-muted-foreground">{column.label}</div>
+                        <TableCompletionChoiceCombobox
+                          value={selected}
+                          options={options}
+                          placeholder={`Choose from ${column.label || `Column ${columnIndex + 1}`}`}
+                          onChange={(cellId) => {
+                            setSelections((current) => {
+                              if (
+                                cellId &&
+                                Object.entries(current).some(
+                                  ([otherAnswerId, byColumn]) =>
+                                    otherAnswerId !== answer.id && byColumn[column.id] === cellId,
+                                )
+                              ) {
+                                return current;
+                              }
+
+                              return {
+                                ...current,
+                                [answer.id]: {
+                                  ...(current[answer.id] || {}),
+                                  [column.id]: cellId,
+                                },
+                              };
+                            });
+                            setStatusByAnswer((current) => ({ ...current, [answer.id]: "idle" }));
+                          }}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="mt-4 rounded-xl bg-muted/30 p-3">
+                  <div className="mb-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">Your sentence</div>
+                  <div className="text-sm font-medium">{preview || "Choose one part from each column."}</div>
+                </div>
+
+                {showAnswers ? (
+                  <div className="mt-3 rounded-xl border border-dashed p-3">
+                    <div className="mb-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">Correct sentence</div>
+                    <div className="text-sm font-medium">{buildPreview(answer.id, true) || "Answer not configured yet."}</div>
+                  </div>
+                ) : null}
+              </div>
+            );
+          })}
+        </div>
+
+        <ActionButtons
+          onCheck={() => {
+            const next: Record<string, CheckStatus> = {};
+            for (const answer of table.answers) {
+              const isCorrect = table.columns.every((column) => {
+                const expected = answer.selections.find((selection) => selection.columnId === column.id)?.cellId || "";
+                const actual = selections[answer.id]?.[column.id] || "";
+                return Boolean(expected) && actual === expected;
+              });
+              next[answer.id] = isCorrect ? "correct" : "incorrect";
+            }
+            setStatusByAnswer(next);
+          }}
+          onReveal={() => setShowAnswers(true)}
+        />
+      </CardContent>
+    </Card>
+  );
+}
+
+function LegacyTableCompletionBlock({
+  title,
+  instruction,
+  details,
+  table,
+}: {
+  title: string;
+  instruction: string;
+  details: string;
+  table: TableCompletionDocumentRecord;
+}) {
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [statusByCell, setStatusByCell] = useState<Record<string, CheckStatus>>({});
+  const [showAnswers, setShowAnswers] = useState(false);
+
+  const answerCells = table.rows.flatMap((row) => row.cells.filter((cell) => cell.mode === "answer"));
+  const checkedStatuses = answerCells.map((cell) => statusByCell[cell.id] || "idle");
+  const overallStatus: CheckStatus =
+    checkedStatuses.length === 0 || checkedStatuses.every((status) => status === "idle")
+      ? "idle"
+      : checkedStatuses.every((status) => status === "correct")
+        ? "correct"
+        : "incorrect";
+
+  function isCorrectAnswer(value: string, expected: string) {
+    const normalizedValue = normalizeAnswer(value);
+    const accepted = expected
+      .split("|")
+      .map((item) => normalizeAnswer(item))
+      .filter(Boolean);
+    return accepted.length > 0 && accepted.includes(normalizedValue);
+  }
+
+  return (
+    <Card className="rounded-xl">
+      <CardHeader className="space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <CardTitle className="text-lg">{title || "Table Completion"}</CardTitle>
+          <ResultBadge status={overallStatus} />
+        </div>
+        {stripHtml(instruction) ? <CardDescription>{stripHtml(instruction)}</CardDescription> : null}
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {stripHtml(details) ? (
+          <div className="rounded-xl border border-dashed p-4">
+            <RichContent value={details} />
+          </div>
+        ) : null}
+
+        <div className="overflow-x-auto rounded-xl border">
+          <table className="w-full min-w-[640px] border-collapse">
+            <thead>
+              <tr className="bg-muted/50">
+                {table.columns.map((column) => (
+                  <th key={column.id} className="border-b border-r px-4 py-3 text-left text-sm font-semibold last:border-r-0">
+                    {column.label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {table.rows.map((row) => (
+                <tr key={row.id}>
+                  {table.columns.map((column, columnIndex) => {
+                    const cell = row.cells.find((item) => item.columnId === column.id) || row.cells[columnIndex];
+                    if (!cell) return <td key={`${row.id}-${column.id}`} className="border-b border-r p-3 last:border-r-0" />;
+
+                    if (cell.mode === "text") {
+                      return (
+                        <td key={cell.id} className="border-b border-r px-4 py-3 text-sm last:border-r-0">
+                          {cell.text}
+                        </td>
+                      );
+                    }
+
+                    const status = statusByCell[cell.id] || "idle";
+                    return (
+                      <td key={cell.id} className="border-b border-r p-3 last:border-r-0">
+                        <div className="space-y-2">
+                          <Input
+                            value={answers[cell.id] || ""}
+                            onChange={(event) => {
+                              setAnswers((current) => ({ ...current, [cell.id]: event.target.value }));
+                              setStatusByCell((current) => ({ ...current, [cell.id]: "idle" }));
+                            }}
+                            placeholder="Write the missing part..."
+                            className={cn(
+                              status === "correct" && "border-primary",
+                              status === "incorrect" && "border-destructive",
+                            )}
+                          />
+                          {status !== "idle" ? <ResultBadge status={status} /> : null}
+                          {showAnswers ? (
+                            <div className="text-xs text-muted-foreground">
+                              Correct answer: <span className="font-medium text-foreground">{cell.answer}</span>
+                            </div>
+                          ) : null}
+                        </div>
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="rounded-xl bg-muted/30 p-3 text-sm text-muted-foreground">
+          Read each row from left to right and complete the blank cells to make the correct sentence.
+        </div>
+
+        <ActionButtons
+          onCheck={() => {
+            const next: Record<string, CheckStatus> = {};
+            for (const cell of answerCells) {
+              next[cell.id] = isCorrectAnswer(answers[cell.id] || "", cell.answer) ? "correct" : "incorrect";
+            }
+            setStatusByCell(next);
+          }}
+          onReveal={() => setShowAnswers(true)}
+        />
+      </CardContent>
+    </Card>
+  );
+}
+
 function QuestionAnswerRowsBlock({
   title,
   rows,
@@ -788,6 +1228,93 @@ function QuestionAnswerRowsBlock({
   );
 }
 
+
+
+function TagQuestionItemsBlock({
+  rows,
+  details,
+}: {
+  rows: Array<{ id: string; question: string; answer: string }>;
+  details: string;
+}) {
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [statusByRow, setStatusByRow] = useState<Record<string, CheckStatus>>({});
+  const [showAnswers, setShowAnswers] = useState(false);
+
+  function questionParts(value: string) {
+    const text = fillBlankQuestionToText(value);
+    const match = /_{2,}/.exec(text);
+    if (!match || match.index == null) {
+      return { before: text, after: "" };
+    }
+    return {
+      before: text.slice(0, match.index),
+      after: text.slice(match.index + match[0].length),
+    };
+  }
+
+  return (
+    <Card className="rounded-xl">
+      <CardHeader className="space-y-3">
+        <CardTitle className="text-lg">Tag Question</CardTitle>
+        {stripHtml(details) ? <CardDescription>{stripHtml(details)}</CardDescription> : null}
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {rows.map((row, index) => {
+          const parts = questionParts(row.question);
+          return (
+            <div key={row.id} className="rounded-xl border p-4">
+              <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+                <Badge variant="outline">Item {index + 1}</Badge>
+                <ResultBadge status={statusByRow[row.id] || "idle"} />
+              </div>
+
+              <div className="rounded-xl border bg-muted/10 p-4 text-base leading-9 whitespace-pre-wrap">
+                <span>{parts.before}</span>
+                <span className="mx-1 inline-flex align-middle">
+                  <Input
+                    value={answers[row.id] || ""}
+                    onChange={(event) => {
+                      setAnswers((current) => ({ ...current, [row.id]: event.target.value }));
+                      setStatusByRow((current) => ({ ...current, [row.id]: "idle" }));
+                    }}
+                    placeholder={`${index + 1}`}
+                    aria-label={`Tag Question answer ${index + 1}`}
+                    className={cn(
+                      "h-9 min-w-32 w-40 bg-background px-2 text-center sm:w-52",
+                      statusByRow[row.id] === "correct" && "border-emerald-500 bg-emerald-50",
+                      statusByRow[row.id] === "incorrect" && "border-red-500 bg-red-50",
+                    )}
+                  />
+                </span>
+                <span>{parts.after}</span>
+              </div>
+
+              {showAnswers ? (
+                <div className="mt-3 rounded-xl border border-dashed p-3">
+                  <div className="mb-1 text-xs font-medium text-muted-foreground">Correct answer</div>
+                  <div className="font-medium">{stripHtml(row.answer) || "—"}</div>
+                </div>
+              ) : null}
+            </div>
+          );
+        })}
+
+        <ActionButtons
+          onCheck={() => {
+            const next: Record<string, CheckStatus> = {};
+            for (const row of rows) {
+              const expected = normalizeAnswer(row.answer);
+              next[row.id] = expected && normalizeAnswer(answers[row.id] || "") === expected ? "correct" : "incorrect";
+            }
+            setStatusByRow(next);
+          }}
+          onReveal={() => setShowAnswers(true)}
+        />
+      </CardContent>
+    </Card>
+  );
+}
 
 function InformationTransferRowsBlock({
   rows,
@@ -971,7 +1498,35 @@ function StudentBlockCard({ block }: { block: StudentContentRecord["blocks"][num
     );
   }
 
-  if (block.questionAnswerExercise && ["question-answer", "table-completion", "column-matching"].includes(block.kind)) {
+  if (block.kind === "table-completion" && block.questionAnswerExercise) {
+    if (block.questionAnswerExercise.table && block.questionAnswerExercise.table.rows.length > 0) {
+      return (
+        <TableCompletionBlock
+          title={block.questionAnswerExercise.title || "Table Completion"}
+          instruction={block.questionAnswerExercise.instruction}
+          details={block.questionAnswerExercise.details}
+          table={block.questionAnswerExercise.table}
+        />
+      );
+    }
+
+    return block.questionAnswerExercise.rows.length > 0 ? (
+      <QuestionAnswerRowsBlock
+        title={block.questionAnswerExercise.title || "Table Completion"}
+        rows={block.questionAnswerExercise.rows}
+        details={block.questionAnswerExercise.details || block.questionAnswerExercise.instruction}
+      />
+    ) : (
+      <ThreeFieldExerciseBlock
+        title={block.questionAnswerExercise.title || "Table Completion"}
+        question={block.questionAnswerExercise.question}
+        answer={block.questionAnswerExercise.answer}
+        details={block.questionAnswerExercise.details || block.questionAnswerExercise.instruction}
+      />
+    );
+  }
+
+  if (block.questionAnswerExercise && ["question-answer", "column-matching"].includes(block.kind)) {
     return block.questionAnswerExercise.rows.length > 0 ? (
       <QuestionAnswerRowsBlock
         title={block.questionAnswerExercise.title || threeFieldBlockLabels[block.kind] || "Exercise"}
@@ -989,16 +1544,11 @@ function StudentBlockCard({ block }: { block: StudentContentRecord["blocks"][num
   }
 
   if (block.kind === "information-transfer" && block.informationTransfer) {
-    return block.informationTransfer.rows.length > 0 ? (
-      <InformationTransferRowsBlock
-        rows={block.informationTransfer.rows}
-        details={block.informationTransfer.details}
-      />
-    ) : (
-      <ThreeFieldExerciseBlock
+    return (
+      <FillInTheBlanksBlock
         title="Information Transfer"
         question={block.informationTransfer.question}
-        answer={block.informationTransfer.answer}
+        blanks={block.informationTransfer.blanks}
         details={block.informationTransfer.details}
       />
     );
@@ -1014,18 +1564,113 @@ function StudentBlockCard({ block }: { block: StudentContentRecord["blocks"][num
     );
   }
 
+  if (block.kind === "gap-fill-second-paper" && block.gapFillSecondPaper) {
+    return (
+      <FillInTheBlanksBlock
+        title="Gap Filling"
+        question={block.gapFillSecondPaper.question}
+        blanks={block.gapFillSecondPaper.blanks}
+        details={block.gapFillSecondPaper.details}
+      />
+    );
+  }
+
+  if (block.kind === "right-form-of-verb" && block.rightFormOfVerb) {
+    return (
+      <FillInTheBlanksBlock
+        title="Right Form of Verb"
+        question={block.rightFormOfVerb.question}
+        blanks={block.rightFormOfVerb.blanks}
+        details={block.rightFormOfVerb.details}
+      />
+    );
+  }
+
+  if (block.kind === "preposition" && block.preposition) {
+    return (
+      <FillInTheBlanksBlock
+        title="Preposition"
+        question={block.preposition.question}
+        blanks={block.preposition.blanks}
+        details={block.preposition.details}
+      />
+    );
+  }
+
+  if (block.kind === "connector" && block.connector) {
+    return (
+      <FillInTheBlanksBlock
+        title="Connector"
+        question={block.connector.question}
+        blanks={block.connector.blanks}
+        details={block.connector.details}
+      />
+    );
+  }
+
+  if (block.kind === "substitution-table" && block.substitutionTable) {
+    return block.substitutionTable.table.rows.length > 0 || block.substitutionTable.answer.trim().startsWith("{") ? (
+      <SubstitutionTableExercise
+        table={block.substitutionTable.table}
+        details={block.substitutionTable.details}
+      />
+    ) : (
+      <ThreeFieldExerciseBlock
+        title="Substitution Table"
+        question={block.substitutionTable.question}
+        answer={block.substitutionTable.answer}
+        details={block.substitutionTable.details}
+      />
+    );
+  }
+
+  if (block.kind === "changing-sentence" && block.changingSentence) {
+    return (
+      <QuestionAnswerRowsBlock
+        title="Changing Sentence"
+        rows={block.changingSentence.rows}
+        details={block.changingSentence.details}
+      />
+    );
+  }
+
+  if (block.kind === "tag-question" && block.tagQuestion) {
+    return block.tagQuestion.mode === "paragraph" ? (
+      <FillInTheBlanksBlock
+        title="Tag Question"
+        question={block.tagQuestion.question}
+        blanks={block.tagQuestion.blanks}
+        details={block.tagQuestion.details}
+      />
+    ) : (
+      <TagQuestionItemsBlock
+        rows={block.tagQuestion.rows}
+        details={block.tagQuestion.details}
+      />
+    );
+  }
+
+  if (block.kind === "suffix-and-prefix" && block.suffixAndPrefix) {
+    return block.suffixAndPrefix.items.length > 0 ? (
+      <SuffixPrefixExerciseBlock
+        question={block.suffixAndPrefix.question}
+        items={block.suffixAndPrefix.items}
+        details={block.suffixAndPrefix.details}
+      />
+    ) : (
+      <ThreeFieldExerciseBlock
+        title="Suffix and Prefix"
+        question={block.suffixAndPrefix.question}
+        answer={block.suffixAndPrefix.answer}
+        details={block.suffixAndPrefix.details}
+      />
+    );
+  }
+
   const threeFieldMap = {
     "gap-fill": block.gapFill,
-    "gap-fill-second-paper": block.gapFillSecondPaper,
-    "substitution-table": block.substitutionTable,
-    "right-form-of-verb": block.rightFormOfVerb,
     narration: block.narration,
-    "changing-sentence": block.changingSentence,
     "punctuation-and-capitalization": block.punctuationAndCapitalization,
-    preposition: block.preposition,
-    "suffix-and-prefix": block.suffixAndPrefix,
-    "tag-question": block.tagQuestion,
-    connector: block.connector,
   } as const;
 
   const threeFieldBlock = threeFieldMap[block.kind as keyof typeof threeFieldMap];

@@ -130,7 +130,9 @@ export type FillBlankAnswerRecord = {
 export type GapFillFirstPaperRecord = GapFillExerciseRecord & {
   blanks: FillBlankAnswerRecord[];
 };
-export type GapFillSecondPaperRecord = GapFillExerciseRecord;
+export type GapFillSecondPaperRecord = GapFillExerciseRecord & {
+  blanks: FillBlankAnswerRecord[];
+};
 
 export type McqQuestionOptionRecord = {
   id: string;
@@ -170,6 +172,46 @@ export type QuestionAnswerRowRecord = {
   answer: string;
 };
 
+export type TableCompletionColumnRecord = {
+  id: string;
+  label: string;
+  sortOrder: number;
+};
+
+export type TableCompletionCellRecord = {
+  id: string;
+  columnId: string;
+  mode: "text" | "answer";
+  text: string;
+  answer: string;
+};
+
+export type TableCompletionRowRecord = {
+  id: string;
+  sortOrder: number;
+  cells: TableCompletionCellRecord[];
+};
+
+export type TableCompletionAnswerSelectionRecord = {
+  columnId: string;
+  cellId: string;
+};
+
+export type TableCompletionAnswerRecord = {
+  id: string;
+  sortOrder: number;
+  selections: TableCompletionAnswerSelectionRecord[];
+};
+
+export type TableCompletionDocumentRecord = {
+  version: 1 | 2;
+  columns: TableCompletionColumnRecord[];
+  rows: TableCompletionRowRecord[];
+  answers: TableCompletionAnswerRecord[];
+};
+
+export type QuestionAnswerPassageSource = "manual" | "paragraph";
+
 export type QuestionAnswerExerciseRecord = {
   id: string;
   contentBlockId: string;
@@ -185,7 +227,10 @@ export type QuestionAnswerExerciseRecord = {
   answer: string;
   details: string;
   documentJson: string;
+  passageSource?: QuestionAnswerPassageSource;
+  paragraphBlockId?: string | null;
   rows: QuestionAnswerRowRecord[];
+  table?: TableCompletionDocumentRecord;
 };
 
 export type TrueFalseRowRecord = {
@@ -236,17 +281,79 @@ export type InformationTransferRowRecord = {
 export type InformationTransferRecord = ThreeFieldBlockRecord & {
   documentJson: string;
   rows: InformationTransferRowRecord[];
+  blanks: FillBlankAnswerRecord[];
 };
 
-export type SubstitutionTableRecord = ThreeFieldBlockRecord;
-export type RightFormOfVerbRecord = ThreeFieldBlockRecord;
+export type SubstitutionTableColumnRecord = {
+  id: string;
+  label: string;
+  sortOrder: number;
+};
+
+export type SubstitutionTableCellRecord = {
+  id: string;
+  columnId: string;
+  text: string;
+};
+
+export type SubstitutionTableRowRecord = {
+  id: string;
+  sortOrder: number;
+  cells: SubstitutionTableCellRecord[];
+};
+
+export type SubstitutionTableAnswerSelectionRecord = {
+  columnId: string;
+  cellId: string;
+};
+
+export type SubstitutionTableAnswerRecord = {
+  id: string;
+  sortOrder: number;
+  selections: SubstitutionTableAnswerSelectionRecord[];
+  sentence: string;
+};
+
+export type SubstitutionTableDocumentRecord = {
+  version: 1;
+  columns: SubstitutionTableColumnRecord[];
+  rows: SubstitutionTableRowRecord[];
+  answers: SubstitutionTableAnswerRecord[];
+};
+
+export type SubstitutionTableRecord = ThreeFieldBlockRecord & {
+  table: SubstitutionTableDocumentRecord;
+};
+export type RightFormOfVerbRecord = ThreeFieldBlockRecord & {
+  blanks: FillBlankAnswerRecord[];
+};
 export type NarrationRecord = ThreeFieldBlockRecord;
-export type ChangingSentenceRecord = ThreeFieldBlockRecord;
+export type ChangingSentenceRecord = ThreeFieldBlockRecord & {
+  rows: QuestionAnswerRowRecord[];
+};
 export type PunctuationAndCapitalizationRecord = ThreeFieldBlockRecord;
-export type PrepositionRecord = ThreeFieldBlockRecord;
-export type SuffixAndPrefixRecord = ThreeFieldBlockRecord;
-export type TagQuestionRecord = ThreeFieldBlockRecord;
-export type ConnectorRecord = ThreeFieldBlockRecord;
+export type PrepositionRecord = ThreeFieldBlockRecord & {
+  blanks: FillBlankAnswerRecord[];
+};
+export type SuffixPrefixItemRecord = {
+  id: string;
+  sortOrder: number;
+  word: string;
+  answer: string;
+};
+
+export type SuffixAndPrefixRecord = ThreeFieldBlockRecord & {
+  items: SuffixPrefixItemRecord[];
+};
+export type TagQuestionMode = "items" | "paragraph";
+export type TagQuestionRecord = ThreeFieldBlockRecord & {
+  mode: TagQuestionMode;
+  rows: QuestionAnswerRowRecord[];
+  blanks: FillBlankAnswerRecord[];
+};
+export type ConnectorRecord = ThreeFieldBlockRecord & {
+  blanks: FillBlankAnswerRecord[];
+};
 
 export type ContentBlockRecord = {
   id: string;

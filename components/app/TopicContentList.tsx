@@ -53,7 +53,12 @@ export function TopicContentList({
       content,
       block,
       label: getContentTypeLabel(block.kind),
-      href: block.kind === "mcq" ? `/user/mcq/chapter/${content.id}` : undefined,
+      href:
+        block.kind === "mcq"
+          ? `/user/mcq/chapter/${content.id}`
+          : block.kind === "question-answer"
+            ? `/user/question-answer/chapter/${content.id}`
+            : undefined,
     })),
   );
   const selectedItem = contentItems.find((item) => item.id === selectedContentId) ?? null;

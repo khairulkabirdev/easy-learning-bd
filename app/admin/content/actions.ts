@@ -554,7 +554,7 @@ export async function createContentBlock(input: unknown) {
             question: "",
             answer: "",
             details: "",
-            documentJson: JSON.stringify({ rows: [] }),
+            documentJson: JSON.stringify({ version: 1, blanks: [] }),
           },
         });
         break;
