@@ -1,4 +1,4 @@
-﻿"use server";
+"use server";
 
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -85,13 +85,33 @@ const updateQuestionAnswerExerciseSchema = z.object({
   documentJson: z.string(),
 });
 
+const passageLinkSchema = z.object({
+  passage: z.string(),
+  passageSource: z.enum(["manual", "paragraph"]),
+  paragraphBlockId: z.string().nullable(),
+});
+
+const updatePassageThreeFieldBlockSchema = updateThreeFieldBlockSchema.extend(passageLinkSchema.shape);
+
 const updateMcqSectionSchema = z.object({
   contentId: z.string(),
   blockId: z.string(),
   mcqSectionId: z.string(),
   title: z.string(),
   description: z.string(),
+  passage: z.string(),
+  passageSource: z.enum(["manual", "paragraph"]),
+  paragraphBlockId: z.string().nullable(),
   documentJson: z.string(),
+});
+
+const updateSynonymsAntonymsPassageSchema = z.object({
+  contentId: z.string(),
+  blockId: z.string(),
+  synonymsAntonymsId: z.string(),
+  passage: z.string(),
+  passageSource: z.enum(["manual", "paragraph"]),
+  paragraphBlockId: z.string().nullable(),
 });
 
 const updateTrueFalseExerciseSchema = z.object({
@@ -118,6 +138,15 @@ const updateVocabularyEntrySchema = z.object({
   vocabularyEntryId: z.string(),
   word: z.string(),
   meaning: z.string(),
+});
+
+const updateVocabularyPassageSchema = z.object({
+  contentId: z.string(),
+  blockId: z.string(),
+  vocabularyId: z.string(),
+  passage: z.string(),
+  passageSource: z.enum(["manual", "paragraph"]),
+  paragraphBlockId: z.string().nullable(),
 });
 
 const createSynonymsAntonymsEntrySchema = z.object({
@@ -919,6 +948,9 @@ export async function updateMcqSection(input: unknown) {
     data: {
       title: parsed.title,
       description: parsed.description,
+      passage: parsed.passage,
+      passageSource: parsed.passageSource,
+      paragraphBlockId: parsed.passageSource === "paragraph" ? parsed.paragraphBlockId : null,
       documentJson: parsed.documentJson,
       updatedBy: user.id,
     },
@@ -978,6 +1010,39 @@ export async function updateInformationTransfer(input: unknown) {
     changes: updated,
     organizationId: user.organizationId,
   });
+}
+
+export async function updateVocabularyPassage(input: unknown) {
+  await assertTrustedMutationOrigin();
+  const user = await requireAdmin();
+  const parsed = updateVocabularyPassageSchema.parse(input);
+
+  const ownedBlock = await getOwnedContentBlock(parsed.blockId, user.organizationId);
+  if (ownedBlock.contentId !== parsed.contentId) {
+    throw new Error("Vocabulary block does not belong to content.");
+  }
+
+  const updated = await prisma.vocabulary.update({
+    where: { id: parsed.vocabularyId },
+    data: {
+      passage: parsed.passage,
+      passageSource: parsed.passageSource,
+      paragraphBlockId: parsed.passageSource === "paragraph" ? parsed.paragraphBlockId : null,
+      updatedBy: user.id,
+    },
+  });
+
+  await logAudit({
+    userId: user.id,
+    userName: user.name,
+    action: "UPDATE",
+    entityName: "Vocabulary",
+    entityId: updated.id,
+    changes: updated,
+    organizationId: user.organizationId,
+  });
+
+  revalidatePath(`/admin/content/${parsed.contentId}`);
 }
 
 export async function createVocabularyEntry(input: unknown) {
@@ -1108,6 +1173,37 @@ export async function deleteVocabularyEntry(input: { contentId: string; blockId:
   });
 
   revalidatePath(`/admin/content/${input.contentId}`);
+}
+
+export async function updateSynonymsAntonymsPassage(input: unknown) {
+  await assertTrustedMutationOrigin();
+  const user = await requireAdmin();
+  const parsed = updateSynonymsAntonymsPassageSchema.parse(input);
+
+  const ownedBlock = await getOwnedContentBlock(parsed.blockId, user.organizationId);
+  if (ownedBlock.contentId !== parsed.contentId) {
+    throw new Error("Synonyms / Antonyms block does not belong to content.");
+  }
+
+  const updated = await prisma.synonymsAntonyms.update({
+    where: { id: parsed.synonymsAntonymsId },
+    data: {
+      passage: parsed.passage,
+      passageSource: parsed.passageSource,
+      paragraphBlockId: parsed.passageSource === "paragraph" ? parsed.paragraphBlockId : null,
+      updatedBy: user.id,
+    },
+  });
+
+  await logAudit({
+    userId: user.id,
+    userName: user.name,
+    action: "UPDATE",
+    entityName: "SynonymsAntonyms",
+    entityId: updated.id,
+    changes: updated,
+    organizationId: user.organizationId,
+  });
 }
 
 export async function createSynonymsAntonymsEntry(input: unknown) {
@@ -1274,8 +1370,31 @@ async function updateThreeFieldRecord(
   });
 }
 
+async function updatePassageThreeFieldRecord(
+  input: unknown,
+  options: {
+    entityName: string;
+    update: (parsed: z.infer<typeof updatePassageThreeFieldBlockSchema>, userId: string) => Promise<unknown>;
+  },
+) {
+  await assertTrustedMutationOrigin();
+  const user = await requireAdmin();
+  const parsed = updatePassageThreeFieldBlockSchema.parse(input);
+  const updated = await options.update(parsed, user.id);
+
+  await logAudit({
+    userId: user.id,
+    userName: user.name,
+    action: "UPDATE",
+    entityName: options.entityName,
+    entityId: parsed.recordId,
+    changes: updated,
+    organizationId: user.organizationId,
+  });
+}
+
 export async function updateGapFillExercise(input: unknown) {
-  return updateThreeFieldRecord(input, {
+  return updatePassageThreeFieldRecord(input, {
     entityName: "GapFillExercise",
     update: (parsed, userId) =>
       prisma.gapFillExercise.update({
@@ -1284,6 +1403,9 @@ export async function updateGapFillExercise(input: unknown) {
           question: parsed.question,
           answer: parsed.answer,
           details: parsed.details,
+          passage: parsed.passage,
+          passageSource: parsed.passageSource,
+          paragraphBlockId: parsed.passageSource === "paragraph" ? parsed.paragraphBlockId : null,
           updatedBy: userId,
         },
       }),
@@ -1291,7 +1413,7 @@ export async function updateGapFillExercise(input: unknown) {
 }
 
 export async function updateGapFillFirstPaper(input: unknown) {
-  return updateThreeFieldRecord(input, {
+  return updatePassageThreeFieldRecord(input, {
     entityName: "GapFillFirstPaper",
     update: (parsed, userId) =>
       prisma.gapFillFirstPaper.update({
@@ -1300,6 +1422,9 @@ export async function updateGapFillFirstPaper(input: unknown) {
           question: parsed.question,
           answer: parsed.answer,
           details: parsed.details,
+          passage: parsed.passage,
+          passageSource: parsed.passageSource,
+          paragraphBlockId: parsed.passageSource === "paragraph" ? parsed.paragraphBlockId : null,
           updatedBy: userId,
         },
       }),

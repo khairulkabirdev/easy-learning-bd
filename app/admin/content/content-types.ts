@@ -81,6 +81,10 @@ export type VocabularyRecord = {
   unitId: string;
   lessonId: string;
   topicId: string | null;
+  passage: string;
+  passageSource: PassageSource;
+  paragraphBlockId: string | null;
+  resolvedPassage?: string;
   entries: VocabularyEntryRecord[];
 };
 
@@ -95,6 +99,8 @@ export type SynonymsAntonymsEntryRecord = {
   sortOrder: number;
 };
 
+export type PassageSource = "manual" | "paragraph";
+
 export type SynonymsAntonymsRecord = {
   id: string;
   contentBlockId: string;
@@ -104,6 +110,10 @@ export type SynonymsAntonymsRecord = {
   unitId: string;
   lessonId: string;
   topicId: string | null;
+  passage: string;
+  passageSource: PassageSource;
+  paragraphBlockId: string | null;
+  resolvedPassage?: string;
   entries: SynonymsAntonymsEntryRecord[];
 };
 
@@ -119,6 +129,10 @@ export type GapFillExerciseRecord = {
   question: string;
   answer: string;
   details: string;
+  passage?: string;
+  passageSource?: PassageSource;
+  paragraphBlockId?: string | null;
+  resolvedPassage?: string;
 };
 
 export type FillBlankAnswerRecord = {
@@ -161,6 +175,10 @@ export type McqSectionRecord = {
   topicId: string | null;
   title: string;
   description: string;
+  passage: string;
+  passageSource: PassageSource;
+  paragraphBlockId: string | null;
+  resolvedPassage?: string;
   documentJson: string;
   questions: McqQuestionRecord[];
 };

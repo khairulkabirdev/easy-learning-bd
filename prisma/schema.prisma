@@ -117,6 +117,7 @@ model Class {
   subjects       Subject[]
   units          Unit[]
   contents       Content[]
+  unseenCompositions UnseenComposition[]
   students       User[]        @relation("StudentClass")
 }
 
@@ -143,6 +144,7 @@ model Subject {
   class          Class         @relation(fields: [classId], references: [id], onDelete: Cascade)
   units          Unit[]
   contents       Content[]
+  unseenCompositions UnseenComposition[]
 }
 
 model Unit {
@@ -244,6 +246,25 @@ model Content {
   @@unique([classId, subjectId, unitId, lessonId, topicId, organizationId])
 }
 
+
+model UnseenComposition {
+  id             String   @id @default(cuid())
+  classId        String
+  subjectId      String
+  title          String
+  documentJson   String   @default("{\"version\":1,\"blocks\":[]}")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  class          Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
+  subject        Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, classId, subjectId])
+}
+
 model ContentBlock {
   id                           String   @id @default(cuid())
   contentId                    String
@@ -305,6 +326,9 @@ model Vocabulary {
   unitId         String
   lessonId       String
   topicId        String?
+  passage        String   @default("")
+  passageSource  String   @default("manual")
+  paragraphBlockId String?
   organizationId String
   createdBy      String
   updatedBy      String
@@ -331,14 +355,17 @@ model VocabularyEntry {
 }
 
 model SynonymsAntonyms {
-  id             String   @id @default(cuid())
-  contentBlockId String   @unique
-  contentId      String
-  classId        String
-  subjectId      String
-  unitId         String
-  lessonId       String
-  topicId        String?
+  id               String   @id @default(cuid())
+  contentBlockId   String   @unique
+  contentId        String
+  classId          String
+  subjectId        String
+  unitId           String
+  lessonId         String
+  topicId          String?
+  passage          String   @default("")
+  passageSource    String   @default("manual")
+  paragraphBlockId String?
   organizationId String
   createdBy      String
   updatedBy      String
@@ -368,17 +395,20 @@ model SynonymsAntonymsEntry {
 }
 
 model GapFillExercise {
-  id             String   @id @default(cuid())
-  contentBlockId String   @unique
-  contentId      String
-  classId        String
-  subjectId      String
-  unitId         String
-  lessonId       String
-  topicId        String?
-  question       String   @default("")
-  answer         String   @default("")
-  details        String   @default("")
+  id               String   @id @default(cuid())
+  contentBlockId   String   @unique
+  contentId        String
+  classId          String
+  subjectId        String
+  unitId           String
+  lessonId         String
+  topicId          String?
+  question         String   @default("")
+  answer           String   @default("")
+  details          String   @default("")
+  passage          String   @default("")
+  passageSource    String   @default("manual")
+  paragraphBlockId String?
   organizationId String
   createdBy      String
   updatedBy      String
@@ -389,17 +419,20 @@ model GapFillExercise {
 }
 
 model GapFillFirstPaper {
-  id             String   @id @default(cuid())
-  contentBlockId String   @unique
-  contentId      String
-  classId        String
-  subjectId      String
-  unitId         String
-  lessonId       String
-  topicId        String?
-  question       String   @default("")
-  answer         String   @default("")
-  details        String   @default("")
+  id               String   @id @default(cuid())
+  contentBlockId   String   @unique
+  contentId        String
+  classId          String
+  subjectId        String
+  unitId           String
+  lessonId         String
+  topicId          String?
+  question         String   @default("")
+  answer           String   @default("")
+  details          String   @default("")
+  passage          String   @default("")
+  passageSource    String   @default("manual")
+  paragraphBlockId String?
   organizationId String
   createdBy      String
   updatedBy      String
@@ -431,17 +464,20 @@ model GapFillSecondPaper {
 }
 
 model McqSection {
-  id             String   @id @default(cuid())
-  contentBlockId String   @unique
-  contentId      String
-  classId        String
-  subjectId      String
-  unitId         String
-  lessonId       String
-  topicId        String?
-  title          String   @default("")
-  description    String   @default("")
-  documentJson   String   @default("{\"questions\":[]}")
+  id               String   @id @default(cuid())
+  contentBlockId   String   @unique
+  contentId        String
+  classId          String
+  subjectId        String
+  unitId           String
+  lessonId         String
+  topicId          String?
+  title            String   @default("")
+  description      String   @default("")
+  passage          String   @default("")
+  passageSource    String   @default("manual")
+  paragraphBlockId String?
+  documentJson     String   @default("{\"questions\":[]}")
   organizationId String
   createdBy      String
   updatedBy      String

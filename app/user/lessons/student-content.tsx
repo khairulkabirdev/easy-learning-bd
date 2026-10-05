@@ -121,11 +121,13 @@ function ThreeFieldExerciseBlock({
   question,
   answer,
   details,
+  passage = "",
 }: {
   title: string;
   question: string;
   answer: string;
   details: string;
+  passage?: string;
 }) {
   const [studentAnswer, setStudentAnswer] = useState("");
   const [showAnswer, setShowAnswer] = useState(false);
@@ -141,6 +143,14 @@ function ThreeFieldExerciseBlock({
         {stripHtml(details) ? <CardDescription>{stripHtml(details)}</CardDescription> : null}
       </CardHeader>
       <CardContent className="space-y-4">
+        {stripHtml(passage) ? (
+          <div className="space-y-2">
+            <div className="text-sm font-medium">Passage</div>
+            <div className="rounded-xl border bg-muted/10 p-4">
+              <RichContent value={passage} />
+            </div>
+          </div>
+        ) : null}
         <div className="space-y-2">
           <div className="text-sm font-medium">Question</div>
           <div className="rounded-xl border p-4">
@@ -196,11 +206,13 @@ function FillInTheBlanksBlock({
   question,
   blanks,
   details,
+  passage: sourcePassage = "",
   title = "Fill in the Blanks",
 }: {
   question: string;
   blanks: Array<{ id: string; sortOrder: number; answer: string }>;
   details: string;
+  passage?: string;
   title?: string;
 }) {
   const passage = fillBlankQuestionToText(question);
@@ -235,6 +247,11 @@ function FillInTheBlanksBlock({
         {stripHtml(details) ? <CardDescription>{stripHtml(details)}</CardDescription> : null}
       </CardHeader>
       <CardContent className="space-y-5">
+        {stripHtml(sourcePassage) ? (
+          <div className="rounded-xl border bg-muted/10 p-4">
+            <RichContent value={sourcePassage} />
+          </div>
+        ) : null}
         <div className="rounded-xl border bg-muted/10 p-4 text-base leading-9 whitespace-pre-wrap">
           {segments.map((segment, index) => {
             const blank = blanks[index];
@@ -395,7 +412,7 @@ function ParagraphBlock({ body }: { body: string }) {
   );
 }
 
-function VocabularyBlock({ entries }: { entries: VocabularyEntryRecord[] }) {
+function VocabularyBlock({ entries, passage = "" }: { entries: VocabularyEntryRecord[]; passage?: string }) {
   return (
     <Card className="rounded-xl">
       <CardHeader>
@@ -403,6 +420,11 @@ function VocabularyBlock({ entries }: { entries: VocabularyEntryRecord[] }) {
         <CardDescription>Study the word list and meanings for this lesson.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
+        {stripHtml(passage) ? (
+          <div className="mb-4 rounded-xl border bg-muted/20 p-4">
+            <RichContent value={passage} />
+          </div>
+        ) : null}
         {entries.map((entry, index) => (
           <div key={entry.id} className="rounded-xl border p-4">
             <div className="mb-2 flex items-center gap-2">
@@ -417,7 +439,13 @@ function VocabularyBlock({ entries }: { entries: VocabularyEntryRecord[] }) {
   );
 }
 
-function SynonymsAntonymsBlock({ entries }: { entries: SynonymsAntonymsEntryRecord[] }) {
+function SynonymsAntonymsBlock({
+  entries,
+  passage = "",
+}: {
+  entries: SynonymsAntonymsEntryRecord[];
+  passage?: string;
+}) {
   const splitTags = (value: string) =>
     value
       .split(",")
@@ -431,6 +459,11 @@ function SynonymsAntonymsBlock({ entries }: { entries: SynonymsAntonymsEntryReco
         <CardDescription>Review each word with meanings, synonyms, antonyms, and notes.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
+        {stripHtml(passage) ? (
+          <div className="rounded-xl border bg-muted/10 p-4">
+            <RichContent value={passage} />
+          </div>
+        ) : null}
         {entries.map((entry, index) => (
           <div key={entry.id} className="rounded-xl border p-4">
             <div className="mb-3 flex items-center gap-2">
@@ -486,7 +519,17 @@ function SynonymsAntonymsBlock({ entries }: { entries: SynonymsAntonymsEntryReco
   );
 }
 
-function McqBlock({ title, description, questions }: { title: string; description: string; questions: McqQuestionRecord[] }) {
+function McqBlock({
+  title,
+  description,
+  passage = "",
+  questions,
+}: {
+  title: string;
+  description: string;
+  passage?: string;
+  questions: McqQuestionRecord[];
+}) {
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string[]>>({});
   const [statusByQuestion, setStatusByQuestion] = useState<Record<string, CheckStatus>>({});
   const [liveCheckEnabled, setLiveCheckEnabled] = useState(false);
@@ -600,6 +643,11 @@ function McqBlock({ title, description, questions }: { title: string; descriptio
         </DialogContent>
       </Dialog>
       {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
+      {stripHtml(passage) ? (
+        <div className="rounded-xl border bg-muted/10 p-4">
+          <RichContent value={passage} />
+        </div>
+      ) : null}
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
         <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
         <span>অনুশীলন করা হয়েছে</span>
@@ -1461,14 +1509,51 @@ function TrueFalseBlock({
   );
 }
 
-function StudentBlockCard({ block }: { block: StudentContentRecord["blocks"][number] }) {
+function StudentBlockCard({
+  block,
+  content,
+}: {
+  block: StudentContentRecord["blocks"][number];
+  content: StudentContentRecord;
+}) {
+  function resolvePassage(record: {
+    passage?: string;
+    passageSource?: string;
+    paragraphBlockId?: string | null;
+    resolvedPassage?: string;
+  } | null | undefined) {
+    if (!record) return "";
+    if (record.resolvedPassage) return record.resolvedPassage;
+    if (record.passageSource === "paragraph" && record.paragraphBlockId) {
+      const linkedParagraph = content.blocks.find(
+        (item) => item.id === record.paragraphBlockId && item.kind === "paragraph" && item.paragraph,
+      );
+      return linkedParagraph?.paragraph?.body || "";
+    }
+    return record.passage || "";
+  }
+
   if (block.kind === "paragraph" && block.paragraph) return <ParagraphBlock body={block.paragraph.body} />;
-  if (block.kind === "vocabulary" && block.vocabulary) return <VocabularyBlock entries={block.vocabulary.entries} />;
+  if (block.kind === "vocabulary" && block.vocabulary) {
+    return <VocabularyBlock entries={block.vocabulary.entries} passage={resolvePassage(block.vocabulary)} />;
+  }
   if (block.kind === "synonyms-antonyms" && block.synonymsAntonyms) {
-    return <SynonymsAntonymsBlock entries={block.synonymsAntonyms.entries} />;
+    return (
+      <SynonymsAntonymsBlock
+        entries={block.synonymsAntonyms.entries}
+        passage={resolvePassage(block.synonymsAntonyms)}
+      />
+    );
   }
   if (block.kind === "mcq" && block.mcqSection) {
-    return <McqBlock title={block.mcqSection.title} description={block.mcqSection.description} questions={block.mcqSection.questions} />;
+    return (
+      <McqBlock
+        title={block.mcqSection.title}
+        description={block.mcqSection.description}
+        passage={resolvePassage(block.mcqSection)}
+        questions={block.mcqSection.questions}
+      />
+    );
   }
   if (block.kind === "true-false" && block.trueFalseExercise) {
     return (
@@ -1560,6 +1645,7 @@ function StudentBlockCard({ block }: { block: StudentContentRecord["blocks"][num
         question={block.gapFillFirstPaper.question}
         blanks={block.gapFillFirstPaper.blanks}
         details={block.gapFillFirstPaper.details}
+        passage={resolvePassage(block.gapFillFirstPaper)}
       />
     );
   }
@@ -1682,6 +1768,7 @@ function StudentBlockCard({ block }: { block: StudentContentRecord["blocks"][num
         question={threeFieldBlock.question}
         answer={threeFieldBlock.answer}
         details={threeFieldBlock.details}
+        passage={block.kind === "gap-fill" ? resolvePassage(threeFieldBlock) : ""}
       />
     );
   }
@@ -1726,7 +1813,7 @@ export function StudentContentViewer({
       {content.blocks.length > 0 ? (
         <div className="space-y-4">
           {content.blocks.map((block) => (
-            <StudentBlockCard key={block.id} block={block} />
+            <StudentBlockCard key={block.id} block={block} content={content} />
           ))}
         </div>
       ) : (

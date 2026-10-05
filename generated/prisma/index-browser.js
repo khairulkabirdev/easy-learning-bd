@@ -303,6 +303,19 @@ exports.Prisma.ContentScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.UnseenCompositionScalarFieldEnum = {
+  id: 'id',
+  classId: 'classId',
+  subjectId: 'subjectId',
+  title: 'title',
+  documentJson: 'documentJson',
+  organizationId: 'organizationId',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ContentBlockScalarFieldEnum = {
   id: 'id',
   contentId: 'contentId',
@@ -338,6 +351,9 @@ exports.Prisma.VocabularyScalarFieldEnum = {
   unitId: 'unitId',
   lessonId: 'lessonId',
   topicId: 'topicId',
+  passage: 'passage',
+  passageSource: 'passageSource',
+  paragraphBlockId: 'paragraphBlockId',
   organizationId: 'organizationId',
   createdBy: 'createdBy',
   updatedBy: 'updatedBy',
@@ -367,6 +383,9 @@ exports.Prisma.SynonymsAntonymsScalarFieldEnum = {
   unitId: 'unitId',
   lessonId: 'lessonId',
   topicId: 'topicId',
+  passage: 'passage',
+  passageSource: 'passageSource',
+  paragraphBlockId: 'paragraphBlockId',
   organizationId: 'organizationId',
   createdBy: 'createdBy',
   updatedBy: 'updatedBy',
@@ -402,6 +421,9 @@ exports.Prisma.GapFillExerciseScalarFieldEnum = {
   question: 'question',
   answer: 'answer',
   details: 'details',
+  passage: 'passage',
+  passageSource: 'passageSource',
+  paragraphBlockId: 'paragraphBlockId',
   organizationId: 'organizationId',
   createdBy: 'createdBy',
   updatedBy: 'updatedBy',
@@ -421,6 +443,9 @@ exports.Prisma.GapFillFirstPaperScalarFieldEnum = {
   question: 'question',
   answer: 'answer',
   details: 'details',
+  passage: 'passage',
+  passageSource: 'passageSource',
+  paragraphBlockId: 'paragraphBlockId',
   organizationId: 'organizationId',
   createdBy: 'createdBy',
   updatedBy: 'updatedBy',
@@ -458,6 +483,9 @@ exports.Prisma.McqSectionScalarFieldEnum = {
   topicId: 'topicId',
   title: 'title',
   description: 'description',
+  passage: 'passage',
+  passageSource: 'passageSource',
+  paragraphBlockId: 'paragraphBlockId',
   documentJson: 'documentJson',
   organizationId: 'organizationId',
   createdBy: 'createdBy',
@@ -798,6 +826,7 @@ exports.Prisma.ModelName = {
   Lesson: 'Lesson',
   Topic: 'Topic',
   Content: 'Content',
+  UnseenComposition: 'UnseenComposition',
   ContentBlock: 'ContentBlock',
   Paragraph: 'Paragraph',
   Vocabulary: 'Vocabulary',

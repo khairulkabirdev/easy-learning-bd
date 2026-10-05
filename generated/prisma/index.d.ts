@@ -69,6 +69,11 @@ export type Topic = $Result.DefaultSelection<Prisma.$TopicPayload>
  */
 export type Content = $Result.DefaultSelection<Prisma.$ContentPayload>
 /**
+ * Model UnseenComposition
+ * 
+ */
+export type UnseenComposition = $Result.DefaultSelection<Prisma.$UnseenCompositionPayload>
+/**
  * Model ContentBlock
  * 
  */
@@ -452,6 +457,16 @@ export class PrismaClient<
     * ```
     */
   get content(): Prisma.ContentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.unseenComposition`: Exposes CRUD operations for the **UnseenComposition** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UnseenCompositions
+    * const unseenCompositions = await prisma.unseenComposition.findMany()
+    * ```
+    */
+  get unseenComposition(): Prisma.UnseenCompositionDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.contentBlock`: Exposes CRUD operations for the **ContentBlock** model.
@@ -1154,6 +1169,7 @@ export namespace Prisma {
     Lesson: 'Lesson',
     Topic: 'Topic',
     Content: 'Content',
+    UnseenComposition: 'UnseenComposition',
     ContentBlock: 'ContentBlock',
     Paragraph: 'Paragraph',
     Vocabulary: 'Vocabulary',
@@ -1197,7 +1213,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "authSession" | "passwordResetToken" | "authEmailSetting" | "auditLog" | "class" | "subject" | "unit" | "lesson" | "topic" | "content" | "contentBlock" | "paragraph" | "vocabulary" | "vocabularyEntry" | "synonymsAntonyms" | "synonymsAntonymsEntry" | "gapFillExercise" | "gapFillFirstPaper" | "gapFillSecondPaper" | "mcqSection" | "questionAnswerExercise" | "tableCompletionExercise" | "columnMatchingExercise" | "sentenceOrderingExercise" | "trueFalseExercise" | "informationTransfer" | "substitutionTable" | "rightFormOfVerb" | "narration" | "changingSentence" | "punctuationAndCapitalization" | "preposition" | "suffixAndPrefix" | "tagQuestion" | "connector"
+      modelProps: "user" | "authSession" | "passwordResetToken" | "authEmailSetting" | "auditLog" | "class" | "subject" | "unit" | "lesson" | "topic" | "content" | "unseenComposition" | "contentBlock" | "paragraph" | "vocabulary" | "vocabularyEntry" | "synonymsAntonyms" | "synonymsAntonymsEntry" | "gapFillExercise" | "gapFillFirstPaper" | "gapFillSecondPaper" | "mcqSection" | "questionAnswerExercise" | "tableCompletionExercise" | "columnMatchingExercise" | "sentenceOrderingExercise" | "trueFalseExercise" | "informationTransfer" | "substitutionTable" | "rightFormOfVerb" | "narration" | "changingSentence" | "punctuationAndCapitalization" | "preposition" | "suffixAndPrefix" | "tagQuestion" | "connector"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2012,6 +2028,80 @@ export namespace Prisma {
           count: {
             args: Prisma.ContentCountArgs<ExtArgs>
             result: $Utils.Optional<ContentCountAggregateOutputType> | number
+          }
+        }
+      }
+      UnseenComposition: {
+        payload: Prisma.$UnseenCompositionPayload<ExtArgs>
+        fields: Prisma.UnseenCompositionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UnseenCompositionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnseenCompositionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UnseenCompositionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnseenCompositionPayload>
+          }
+          findFirst: {
+            args: Prisma.UnseenCompositionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnseenCompositionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UnseenCompositionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnseenCompositionPayload>
+          }
+          findMany: {
+            args: Prisma.UnseenCompositionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnseenCompositionPayload>[]
+          }
+          create: {
+            args: Prisma.UnseenCompositionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnseenCompositionPayload>
+          }
+          createMany: {
+            args: Prisma.UnseenCompositionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UnseenCompositionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnseenCompositionPayload>[]
+          }
+          delete: {
+            args: Prisma.UnseenCompositionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnseenCompositionPayload>
+          }
+          update: {
+            args: Prisma.UnseenCompositionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnseenCompositionPayload>
+          }
+          deleteMany: {
+            args: Prisma.UnseenCompositionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UnseenCompositionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UnseenCompositionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnseenCompositionPayload>[]
+          }
+          upsert: {
+            args: Prisma.UnseenCompositionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UnseenCompositionPayload>
+          }
+          aggregate: {
+            args: Prisma.UnseenCompositionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUnseenComposition>
+          }
+          groupBy: {
+            args: Prisma.UnseenCompositionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UnseenCompositionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UnseenCompositionCountArgs<ExtArgs>
+            result: $Utils.Optional<UnseenCompositionCountAggregateOutputType> | number
           }
         }
       }
@@ -3972,6 +4062,7 @@ export namespace Prisma {
     lesson?: LessonOmit
     topic?: TopicOmit
     content?: ContentOmit
+    unseenComposition?: UnseenCompositionOmit
     contentBlock?: ContentBlockOmit
     paragraph?: ParagraphOmit
     vocabulary?: VocabularyOmit
@@ -4120,6 +4211,7 @@ export namespace Prisma {
     subjects: number
     units: number
     contents: number
+    unseenCompositions: number
     students: number
   }
 
@@ -4127,6 +4219,7 @@ export namespace Prisma {
     subjects?: boolean | ClassCountOutputTypeCountSubjectsArgs
     units?: boolean | ClassCountOutputTypeCountUnitsArgs
     contents?: boolean | ClassCountOutputTypeCountContentsArgs
+    unseenCompositions?: boolean | ClassCountOutputTypeCountUnseenCompositionsArgs
     students?: boolean | ClassCountOutputTypeCountStudentsArgs
   }
 
@@ -4165,6 +4258,13 @@ export namespace Prisma {
   /**
    * ClassCountOutputType without action
    */
+  export type ClassCountOutputTypeCountUnseenCompositionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UnseenCompositionWhereInput
+  }
+
+  /**
+   * ClassCountOutputType without action
+   */
   export type ClassCountOutputTypeCountStudentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserWhereInput
   }
@@ -4177,11 +4277,13 @@ export namespace Prisma {
   export type SubjectCountOutputType = {
     units: number
     contents: number
+    unseenCompositions: number
   }
 
   export type SubjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     units?: boolean | SubjectCountOutputTypeCountUnitsArgs
     contents?: boolean | SubjectCountOutputTypeCountContentsArgs
+    unseenCompositions?: boolean | SubjectCountOutputTypeCountUnseenCompositionsArgs
   }
 
   // Custom InputTypes
@@ -4207,6 +4309,13 @@ export namespace Prisma {
    */
   export type SubjectCountOutputTypeCountContentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ContentWhereInput
+  }
+
+  /**
+   * SubjectCountOutputType without action
+   */
+  export type SubjectCountOutputTypeCountUnseenCompositionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UnseenCompositionWhereInput
   }
 
 
@@ -10284,6 +10393,7 @@ export namespace Prisma {
     subjects?: boolean | Class$subjectsArgs<ExtArgs>
     units?: boolean | Class$unitsArgs<ExtArgs>
     contents?: boolean | Class$contentsArgs<ExtArgs>
+    unseenCompositions?: boolean | Class$unseenCompositionsArgs<ExtArgs>
     students?: boolean | Class$studentsArgs<ExtArgs>
     _count?: boolean | ClassCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["class"]>
@@ -10353,6 +10463,7 @@ export namespace Prisma {
     subjects?: boolean | Class$subjectsArgs<ExtArgs>
     units?: boolean | Class$unitsArgs<ExtArgs>
     contents?: boolean | Class$contentsArgs<ExtArgs>
+    unseenCompositions?: boolean | Class$unseenCompositionsArgs<ExtArgs>
     students?: boolean | Class$studentsArgs<ExtArgs>
     _count?: boolean | ClassCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -10365,6 +10476,7 @@ export namespace Prisma {
       subjects: Prisma.$SubjectPayload<ExtArgs>[]
       units: Prisma.$UnitPayload<ExtArgs>[]
       contents: Prisma.$ContentPayload<ExtArgs>[]
+      unseenCompositions: Prisma.$UnseenCompositionPayload<ExtArgs>[]
       students: Prisma.$UserPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -10782,6 +10894,7 @@ export namespace Prisma {
     subjects<T extends Class$subjectsArgs<ExtArgs> = {}>(args?: Subset<T, Class$subjectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     units<T extends Class$unitsArgs<ExtArgs> = {}>(args?: Subset<T, Class$unitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     contents<T extends Class$contentsArgs<ExtArgs> = {}>(args?: Subset<T, Class$contentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    unseenCompositions<T extends Class$unseenCompositionsArgs<ExtArgs> = {}>(args?: Subset<T, Class$unseenCompositionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnseenCompositionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     students<T extends Class$studentsArgs<ExtArgs> = {}>(args?: Subset<T, Class$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -11287,6 +11400,30 @@ export namespace Prisma {
   }
 
   /**
+   * Class.unseenCompositions
+   */
+  export type Class$unseenCompositionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnseenComposition
+     */
+    select?: UnseenCompositionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UnseenComposition
+     */
+    omit?: UnseenCompositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnseenCompositionInclude<ExtArgs> | null
+    where?: UnseenCompositionWhereInput
+    orderBy?: UnseenCompositionOrderByWithRelationInput | UnseenCompositionOrderByWithRelationInput[]
+    cursor?: UnseenCompositionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UnseenCompositionScalarFieldEnum | UnseenCompositionScalarFieldEnum[]
+  }
+
+  /**
    * Class.students
    */
   export type Class$studentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11634,6 +11771,7 @@ export namespace Prisma {
     class?: boolean | ClassDefaultArgs<ExtArgs>
     units?: boolean | Subject$unitsArgs<ExtArgs>
     contents?: boolean | Subject$contentsArgs<ExtArgs>
+    unseenCompositions?: boolean | Subject$unseenCompositionsArgs<ExtArgs>
     _count?: boolean | SubjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["subject"]>
 
@@ -11707,6 +11845,7 @@ export namespace Prisma {
     class?: boolean | ClassDefaultArgs<ExtArgs>
     units?: boolean | Subject$unitsArgs<ExtArgs>
     contents?: boolean | Subject$contentsArgs<ExtArgs>
+    unseenCompositions?: boolean | Subject$unseenCompositionsArgs<ExtArgs>
     _count?: boolean | SubjectCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SubjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11722,6 +11861,7 @@ export namespace Prisma {
       class: Prisma.$ClassPayload<ExtArgs>
       units: Prisma.$UnitPayload<ExtArgs>[]
       contents: Prisma.$ContentPayload<ExtArgs>[]
+      unseenCompositions: Prisma.$UnseenCompositionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -12139,6 +12279,7 @@ export namespace Prisma {
     class<T extends ClassDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClassDefaultArgs<ExtArgs>>): Prisma__ClassClient<$Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     units<T extends Subject$unitsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$unitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     contents<T extends Subject$contentsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$contentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    unseenCompositions<T extends Subject$unseenCompositionsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$unseenCompositionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnseenCompositionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12625,6 +12766,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ContentScalarFieldEnum | ContentScalarFieldEnum[]
+  }
+
+  /**
+   * Subject.unseenCompositions
+   */
+  export type Subject$unseenCompositionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnseenComposition
+     */
+    select?: UnseenCompositionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UnseenComposition
+     */
+    omit?: UnseenCompositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnseenCompositionInclude<ExtArgs> | null
+    where?: UnseenCompositionWhereInput
+    orderBy?: UnseenCompositionOrderByWithRelationInput | UnseenCompositionOrderByWithRelationInput[]
+    cursor?: UnseenCompositionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UnseenCompositionScalarFieldEnum | UnseenCompositionScalarFieldEnum[]
   }
 
   /**
@@ -17806,6 +17971,1135 @@ export namespace Prisma {
 
 
   /**
+   * Model UnseenComposition
+   */
+
+  export type AggregateUnseenComposition = {
+    _count: UnseenCompositionCountAggregateOutputType | null
+    _min: UnseenCompositionMinAggregateOutputType | null
+    _max: UnseenCompositionMaxAggregateOutputType | null
+  }
+
+  export type UnseenCompositionMinAggregateOutputType = {
+    id: string | null
+    classId: string | null
+    subjectId: string | null
+    title: string | null
+    documentJson: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UnseenCompositionMaxAggregateOutputType = {
+    id: string | null
+    classId: string | null
+    subjectId: string | null
+    title: string | null
+    documentJson: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UnseenCompositionCountAggregateOutputType = {
+    id: number
+    classId: number
+    subjectId: number
+    title: number
+    documentJson: number
+    organizationId: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type UnseenCompositionMinAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    title?: true
+    documentJson?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UnseenCompositionMaxAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    title?: true
+    documentJson?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UnseenCompositionCountAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    title?: true
+    documentJson?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type UnseenCompositionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UnseenComposition to aggregate.
+     */
+    where?: UnseenCompositionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UnseenCompositions to fetch.
+     */
+    orderBy?: UnseenCompositionOrderByWithRelationInput | UnseenCompositionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UnseenCompositionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UnseenCompositions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UnseenCompositions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UnseenCompositions
+    **/
+    _count?: true | UnseenCompositionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UnseenCompositionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UnseenCompositionMaxAggregateInputType
+  }
+
+  export type GetUnseenCompositionAggregateType<T extends UnseenCompositionAggregateArgs> = {
+        [P in keyof T & keyof AggregateUnseenComposition]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUnseenComposition[P]>
+      : GetScalarType<T[P], AggregateUnseenComposition[P]>
+  }
+
+
+
+
+  export type UnseenCompositionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UnseenCompositionWhereInput
+    orderBy?: UnseenCompositionOrderByWithAggregationInput | UnseenCompositionOrderByWithAggregationInput[]
+    by: UnseenCompositionScalarFieldEnum[] | UnseenCompositionScalarFieldEnum
+    having?: UnseenCompositionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UnseenCompositionCountAggregateInputType | true
+    _min?: UnseenCompositionMinAggregateInputType
+    _max?: UnseenCompositionMaxAggregateInputType
+  }
+
+  export type UnseenCompositionGroupByOutputType = {
+    id: string
+    classId: string
+    subjectId: string
+    title: string
+    documentJson: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: UnseenCompositionCountAggregateOutputType | null
+    _min: UnseenCompositionMinAggregateOutputType | null
+    _max: UnseenCompositionMaxAggregateOutputType | null
+  }
+
+  type GetUnseenCompositionGroupByPayload<T extends UnseenCompositionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UnseenCompositionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UnseenCompositionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UnseenCompositionGroupByOutputType[P]>
+            : GetScalarType<T[P], UnseenCompositionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UnseenCompositionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    title?: boolean
+    documentJson?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["unseenComposition"]>
+
+  export type UnseenCompositionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    title?: boolean
+    documentJson?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["unseenComposition"]>
+
+  export type UnseenCompositionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    title?: boolean
+    documentJson?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["unseenComposition"]>
+
+  export type UnseenCompositionSelectScalar = {
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    title?: boolean
+    documentJson?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type UnseenCompositionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "subjectId" | "title" | "documentJson" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["unseenComposition"]>
+  export type UnseenCompositionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+  }
+  export type UnseenCompositionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+  }
+  export type UnseenCompositionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+  }
+
+  export type $UnseenCompositionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UnseenComposition"
+    objects: {
+      class: Prisma.$ClassPayload<ExtArgs>
+      subject: Prisma.$SubjectPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      classId: string
+      subjectId: string
+      title: string
+      documentJson: string
+      organizationId: string
+      createdBy: string
+      updatedBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["unseenComposition"]>
+    composites: {}
+  }
+
+  type UnseenCompositionGetPayload<S extends boolean | null | undefined | UnseenCompositionDefaultArgs> = $Result.GetResult<Prisma.$UnseenCompositionPayload, S>
+
+  type UnseenCompositionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UnseenCompositionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UnseenCompositionCountAggregateInputType | true
+    }
+
+  export interface UnseenCompositionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UnseenComposition'], meta: { name: 'UnseenComposition' } }
+    /**
+     * Find zero or one UnseenComposition that matches the filter.
+     * @param {UnseenCompositionFindUniqueArgs} args - Arguments to find a UnseenComposition
+     * @example
+     * // Get one UnseenComposition
+     * const unseenComposition = await prisma.unseenComposition.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UnseenCompositionFindUniqueArgs>(args: SelectSubset<T, UnseenCompositionFindUniqueArgs<ExtArgs>>): Prisma__UnseenCompositionClient<$Result.GetResult<Prisma.$UnseenCompositionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UnseenComposition that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UnseenCompositionFindUniqueOrThrowArgs} args - Arguments to find a UnseenComposition
+     * @example
+     * // Get one UnseenComposition
+     * const unseenComposition = await prisma.unseenComposition.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UnseenCompositionFindUniqueOrThrowArgs>(args: SelectSubset<T, UnseenCompositionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UnseenCompositionClient<$Result.GetResult<Prisma.$UnseenCompositionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UnseenComposition that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnseenCompositionFindFirstArgs} args - Arguments to find a UnseenComposition
+     * @example
+     * // Get one UnseenComposition
+     * const unseenComposition = await prisma.unseenComposition.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UnseenCompositionFindFirstArgs>(args?: SelectSubset<T, UnseenCompositionFindFirstArgs<ExtArgs>>): Prisma__UnseenCompositionClient<$Result.GetResult<Prisma.$UnseenCompositionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UnseenComposition that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnseenCompositionFindFirstOrThrowArgs} args - Arguments to find a UnseenComposition
+     * @example
+     * // Get one UnseenComposition
+     * const unseenComposition = await prisma.unseenComposition.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UnseenCompositionFindFirstOrThrowArgs>(args?: SelectSubset<T, UnseenCompositionFindFirstOrThrowArgs<ExtArgs>>): Prisma__UnseenCompositionClient<$Result.GetResult<Prisma.$UnseenCompositionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UnseenCompositions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnseenCompositionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UnseenCompositions
+     * const unseenCompositions = await prisma.unseenComposition.findMany()
+     * 
+     * // Get first 10 UnseenCompositions
+     * const unseenCompositions = await prisma.unseenComposition.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const unseenCompositionWithIdOnly = await prisma.unseenComposition.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UnseenCompositionFindManyArgs>(args?: SelectSubset<T, UnseenCompositionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnseenCompositionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UnseenComposition.
+     * @param {UnseenCompositionCreateArgs} args - Arguments to create a UnseenComposition.
+     * @example
+     * // Create one UnseenComposition
+     * const UnseenComposition = await prisma.unseenComposition.create({
+     *   data: {
+     *     // ... data to create a UnseenComposition
+     *   }
+     * })
+     * 
+     */
+    create<T extends UnseenCompositionCreateArgs>(args: SelectSubset<T, UnseenCompositionCreateArgs<ExtArgs>>): Prisma__UnseenCompositionClient<$Result.GetResult<Prisma.$UnseenCompositionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UnseenCompositions.
+     * @param {UnseenCompositionCreateManyArgs} args - Arguments to create many UnseenCompositions.
+     * @example
+     * // Create many UnseenCompositions
+     * const unseenComposition = await prisma.unseenComposition.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UnseenCompositionCreateManyArgs>(args?: SelectSubset<T, UnseenCompositionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UnseenCompositions and returns the data saved in the database.
+     * @param {UnseenCompositionCreateManyAndReturnArgs} args - Arguments to create many UnseenCompositions.
+     * @example
+     * // Create many UnseenCompositions
+     * const unseenComposition = await prisma.unseenComposition.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UnseenCompositions and only return the `id`
+     * const unseenCompositionWithIdOnly = await prisma.unseenComposition.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UnseenCompositionCreateManyAndReturnArgs>(args?: SelectSubset<T, UnseenCompositionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnseenCompositionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UnseenComposition.
+     * @param {UnseenCompositionDeleteArgs} args - Arguments to delete one UnseenComposition.
+     * @example
+     * // Delete one UnseenComposition
+     * const UnseenComposition = await prisma.unseenComposition.delete({
+     *   where: {
+     *     // ... filter to delete one UnseenComposition
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UnseenCompositionDeleteArgs>(args: SelectSubset<T, UnseenCompositionDeleteArgs<ExtArgs>>): Prisma__UnseenCompositionClient<$Result.GetResult<Prisma.$UnseenCompositionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UnseenComposition.
+     * @param {UnseenCompositionUpdateArgs} args - Arguments to update one UnseenComposition.
+     * @example
+     * // Update one UnseenComposition
+     * const unseenComposition = await prisma.unseenComposition.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UnseenCompositionUpdateArgs>(args: SelectSubset<T, UnseenCompositionUpdateArgs<ExtArgs>>): Prisma__UnseenCompositionClient<$Result.GetResult<Prisma.$UnseenCompositionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UnseenCompositions.
+     * @param {UnseenCompositionDeleteManyArgs} args - Arguments to filter UnseenCompositions to delete.
+     * @example
+     * // Delete a few UnseenCompositions
+     * const { count } = await prisma.unseenComposition.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UnseenCompositionDeleteManyArgs>(args?: SelectSubset<T, UnseenCompositionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UnseenCompositions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnseenCompositionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UnseenCompositions
+     * const unseenComposition = await prisma.unseenComposition.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UnseenCompositionUpdateManyArgs>(args: SelectSubset<T, UnseenCompositionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UnseenCompositions and returns the data updated in the database.
+     * @param {UnseenCompositionUpdateManyAndReturnArgs} args - Arguments to update many UnseenCompositions.
+     * @example
+     * // Update many UnseenCompositions
+     * const unseenComposition = await prisma.unseenComposition.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UnseenCompositions and only return the `id`
+     * const unseenCompositionWithIdOnly = await prisma.unseenComposition.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UnseenCompositionUpdateManyAndReturnArgs>(args: SelectSubset<T, UnseenCompositionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnseenCompositionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UnseenComposition.
+     * @param {UnseenCompositionUpsertArgs} args - Arguments to update or create a UnseenComposition.
+     * @example
+     * // Update or create a UnseenComposition
+     * const unseenComposition = await prisma.unseenComposition.upsert({
+     *   create: {
+     *     // ... data to create a UnseenComposition
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UnseenComposition we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UnseenCompositionUpsertArgs>(args: SelectSubset<T, UnseenCompositionUpsertArgs<ExtArgs>>): Prisma__UnseenCompositionClient<$Result.GetResult<Prisma.$UnseenCompositionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UnseenCompositions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnseenCompositionCountArgs} args - Arguments to filter UnseenCompositions to count.
+     * @example
+     * // Count the number of UnseenCompositions
+     * const count = await prisma.unseenComposition.count({
+     *   where: {
+     *     // ... the filter for the UnseenCompositions we want to count
+     *   }
+     * })
+    **/
+    count<T extends UnseenCompositionCountArgs>(
+      args?: Subset<T, UnseenCompositionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UnseenCompositionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UnseenComposition.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnseenCompositionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UnseenCompositionAggregateArgs>(args: Subset<T, UnseenCompositionAggregateArgs>): Prisma.PrismaPromise<GetUnseenCompositionAggregateType<T>>
+
+    /**
+     * Group by UnseenComposition.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UnseenCompositionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UnseenCompositionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UnseenCompositionGroupByArgs['orderBy'] }
+        : { orderBy?: UnseenCompositionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UnseenCompositionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUnseenCompositionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UnseenComposition model
+   */
+  readonly fields: UnseenCompositionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UnseenComposition.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UnseenCompositionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    class<T extends ClassDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClassDefaultArgs<ExtArgs>>): Prisma__ClassClient<$Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    subject<T extends SubjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SubjectDefaultArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UnseenComposition model
+   */
+  interface UnseenCompositionFieldRefs {
+    readonly id: FieldRef<"UnseenComposition", 'String'>
+    readonly classId: FieldRef<"UnseenComposition", 'String'>
+    readonly subjectId: FieldRef<"UnseenComposition", 'String'>
+    readonly title: FieldRef<"UnseenComposition", 'String'>
+    readonly documentJson: FieldRef<"UnseenComposition", 'String'>
+    readonly organizationId: FieldRef<"UnseenComposition", 'String'>
+    readonly createdBy: FieldRef<"UnseenComposition", 'String'>
+    readonly updatedBy: FieldRef<"UnseenComposition", 'String'>
+    readonly createdAt: FieldRef<"UnseenComposition", 'DateTime'>
+    readonly updatedAt: FieldRef<"UnseenComposition", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UnseenComposition findUnique
+   */
+  export type UnseenCompositionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnseenComposition
+     */
+    select?: UnseenCompositionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UnseenComposition
+     */
+    omit?: UnseenCompositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnseenCompositionInclude<ExtArgs> | null
+    /**
+     * Filter, which UnseenComposition to fetch.
+     */
+    where: UnseenCompositionWhereUniqueInput
+  }
+
+  /**
+   * UnseenComposition findUniqueOrThrow
+   */
+  export type UnseenCompositionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnseenComposition
+     */
+    select?: UnseenCompositionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UnseenComposition
+     */
+    omit?: UnseenCompositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnseenCompositionInclude<ExtArgs> | null
+    /**
+     * Filter, which UnseenComposition to fetch.
+     */
+    where: UnseenCompositionWhereUniqueInput
+  }
+
+  /**
+   * UnseenComposition findFirst
+   */
+  export type UnseenCompositionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnseenComposition
+     */
+    select?: UnseenCompositionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UnseenComposition
+     */
+    omit?: UnseenCompositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnseenCompositionInclude<ExtArgs> | null
+    /**
+     * Filter, which UnseenComposition to fetch.
+     */
+    where?: UnseenCompositionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UnseenCompositions to fetch.
+     */
+    orderBy?: UnseenCompositionOrderByWithRelationInput | UnseenCompositionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UnseenCompositions.
+     */
+    cursor?: UnseenCompositionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UnseenCompositions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UnseenCompositions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UnseenCompositions.
+     */
+    distinct?: UnseenCompositionScalarFieldEnum | UnseenCompositionScalarFieldEnum[]
+  }
+
+  /**
+   * UnseenComposition findFirstOrThrow
+   */
+  export type UnseenCompositionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnseenComposition
+     */
+    select?: UnseenCompositionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UnseenComposition
+     */
+    omit?: UnseenCompositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnseenCompositionInclude<ExtArgs> | null
+    /**
+     * Filter, which UnseenComposition to fetch.
+     */
+    where?: UnseenCompositionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UnseenCompositions to fetch.
+     */
+    orderBy?: UnseenCompositionOrderByWithRelationInput | UnseenCompositionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UnseenCompositions.
+     */
+    cursor?: UnseenCompositionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UnseenCompositions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UnseenCompositions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UnseenCompositions.
+     */
+    distinct?: UnseenCompositionScalarFieldEnum | UnseenCompositionScalarFieldEnum[]
+  }
+
+  /**
+   * UnseenComposition findMany
+   */
+  export type UnseenCompositionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnseenComposition
+     */
+    select?: UnseenCompositionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UnseenComposition
+     */
+    omit?: UnseenCompositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnseenCompositionInclude<ExtArgs> | null
+    /**
+     * Filter, which UnseenCompositions to fetch.
+     */
+    where?: UnseenCompositionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UnseenCompositions to fetch.
+     */
+    orderBy?: UnseenCompositionOrderByWithRelationInput | UnseenCompositionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UnseenCompositions.
+     */
+    cursor?: UnseenCompositionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UnseenCompositions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UnseenCompositions.
+     */
+    skip?: number
+    distinct?: UnseenCompositionScalarFieldEnum | UnseenCompositionScalarFieldEnum[]
+  }
+
+  /**
+   * UnseenComposition create
+   */
+  export type UnseenCompositionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnseenComposition
+     */
+    select?: UnseenCompositionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UnseenComposition
+     */
+    omit?: UnseenCompositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnseenCompositionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UnseenComposition.
+     */
+    data: XOR<UnseenCompositionCreateInput, UnseenCompositionUncheckedCreateInput>
+  }
+
+  /**
+   * UnseenComposition createMany
+   */
+  export type UnseenCompositionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UnseenCompositions.
+     */
+    data: UnseenCompositionCreateManyInput | UnseenCompositionCreateManyInput[]
+  }
+
+  /**
+   * UnseenComposition createManyAndReturn
+   */
+  export type UnseenCompositionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnseenComposition
+     */
+    select?: UnseenCompositionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UnseenComposition
+     */
+    omit?: UnseenCompositionOmit<ExtArgs> | null
+    /**
+     * The data used to create many UnseenCompositions.
+     */
+    data: UnseenCompositionCreateManyInput | UnseenCompositionCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnseenCompositionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UnseenComposition update
+   */
+  export type UnseenCompositionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnseenComposition
+     */
+    select?: UnseenCompositionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UnseenComposition
+     */
+    omit?: UnseenCompositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnseenCompositionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UnseenComposition.
+     */
+    data: XOR<UnseenCompositionUpdateInput, UnseenCompositionUncheckedUpdateInput>
+    /**
+     * Choose, which UnseenComposition to update.
+     */
+    where: UnseenCompositionWhereUniqueInput
+  }
+
+  /**
+   * UnseenComposition updateMany
+   */
+  export type UnseenCompositionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UnseenCompositions.
+     */
+    data: XOR<UnseenCompositionUpdateManyMutationInput, UnseenCompositionUncheckedUpdateManyInput>
+    /**
+     * Filter which UnseenCompositions to update
+     */
+    where?: UnseenCompositionWhereInput
+    /**
+     * Limit how many UnseenCompositions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UnseenComposition updateManyAndReturn
+   */
+  export type UnseenCompositionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnseenComposition
+     */
+    select?: UnseenCompositionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UnseenComposition
+     */
+    omit?: UnseenCompositionOmit<ExtArgs> | null
+    /**
+     * The data used to update UnseenCompositions.
+     */
+    data: XOR<UnseenCompositionUpdateManyMutationInput, UnseenCompositionUncheckedUpdateManyInput>
+    /**
+     * Filter which UnseenCompositions to update
+     */
+    where?: UnseenCompositionWhereInput
+    /**
+     * Limit how many UnseenCompositions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnseenCompositionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UnseenComposition upsert
+   */
+  export type UnseenCompositionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnseenComposition
+     */
+    select?: UnseenCompositionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UnseenComposition
+     */
+    omit?: UnseenCompositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnseenCompositionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UnseenComposition to update in case it exists.
+     */
+    where: UnseenCompositionWhereUniqueInput
+    /**
+     * In case the UnseenComposition found by the `where` argument doesn't exist, create a new UnseenComposition with this data.
+     */
+    create: XOR<UnseenCompositionCreateInput, UnseenCompositionUncheckedCreateInput>
+    /**
+     * In case the UnseenComposition was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UnseenCompositionUpdateInput, UnseenCompositionUncheckedUpdateInput>
+  }
+
+  /**
+   * UnseenComposition delete
+   */
+  export type UnseenCompositionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnseenComposition
+     */
+    select?: UnseenCompositionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UnseenComposition
+     */
+    omit?: UnseenCompositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnseenCompositionInclude<ExtArgs> | null
+    /**
+     * Filter which UnseenComposition to delete.
+     */
+    where: UnseenCompositionWhereUniqueInput
+  }
+
+  /**
+   * UnseenComposition deleteMany
+   */
+  export type UnseenCompositionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UnseenCompositions to delete
+     */
+    where?: UnseenCompositionWhereInput
+    /**
+     * Limit how many UnseenCompositions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UnseenComposition without action
+   */
+  export type UnseenCompositionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UnseenComposition
+     */
+    select?: UnseenCompositionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UnseenComposition
+     */
+    omit?: UnseenCompositionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UnseenCompositionInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model ContentBlock
    */
 
@@ -20606,6 +21900,9 @@ export namespace Prisma {
     unitId: string | null
     lessonId: string | null
     topicId: string | null
+    passage: string | null
+    passageSource: string | null
+    paragraphBlockId: string | null
     organizationId: string | null
     createdBy: string | null
     updatedBy: string | null
@@ -20622,6 +21919,9 @@ export namespace Prisma {
     unitId: string | null
     lessonId: string | null
     topicId: string | null
+    passage: string | null
+    passageSource: string | null
+    paragraphBlockId: string | null
     organizationId: string | null
     createdBy: string | null
     updatedBy: string | null
@@ -20638,6 +21938,9 @@ export namespace Prisma {
     unitId: number
     lessonId: number
     topicId: number
+    passage: number
+    passageSource: number
+    paragraphBlockId: number
     organizationId: number
     createdBy: number
     updatedBy: number
@@ -20656,6 +21959,9 @@ export namespace Prisma {
     unitId?: true
     lessonId?: true
     topicId?: true
+    passage?: true
+    passageSource?: true
+    paragraphBlockId?: true
     organizationId?: true
     createdBy?: true
     updatedBy?: true
@@ -20672,6 +21978,9 @@ export namespace Prisma {
     unitId?: true
     lessonId?: true
     topicId?: true
+    passage?: true
+    passageSource?: true
+    paragraphBlockId?: true
     organizationId?: true
     createdBy?: true
     updatedBy?: true
@@ -20688,6 +21997,9 @@ export namespace Prisma {
     unitId?: true
     lessonId?: true
     topicId?: true
+    passage?: true
+    passageSource?: true
+    paragraphBlockId?: true
     organizationId?: true
     createdBy?: true
     updatedBy?: true
@@ -20777,6 +22089,9 @@ export namespace Prisma {
     unitId: string
     lessonId: string
     topicId: string | null
+    passage: string
+    passageSource: string
+    paragraphBlockId: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -20810,6 +22125,9 @@ export namespace Prisma {
     unitId?: boolean
     lessonId?: boolean
     topicId?: boolean
+    passage?: boolean
+    passageSource?: boolean
+    paragraphBlockId?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -20829,6 +22147,9 @@ export namespace Prisma {
     unitId?: boolean
     lessonId?: boolean
     topicId?: boolean
+    passage?: boolean
+    passageSource?: boolean
+    paragraphBlockId?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -20846,6 +22167,9 @@ export namespace Prisma {
     unitId?: boolean
     lessonId?: boolean
     topicId?: boolean
+    passage?: boolean
+    passageSource?: boolean
+    paragraphBlockId?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -20863,6 +22187,9 @@ export namespace Prisma {
     unitId?: boolean
     lessonId?: boolean
     topicId?: boolean
+    passage?: boolean
+    passageSource?: boolean
+    paragraphBlockId?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -20870,7 +22197,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type VocabularyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["vocabulary"]>
+  export type VocabularyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "passage" | "passageSource" | "paragraphBlockId" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["vocabulary"]>
   export type VocabularyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
     entries?: boolean | Vocabulary$entriesArgs<ExtArgs>
@@ -20898,6 +22225,9 @@ export namespace Prisma {
       unitId: string
       lessonId: string
       topicId: string | null
+      passage: string
+      passageSource: string
+      paragraphBlockId: string | null
       organizationId: string
       createdBy: string
       updatedBy: string
@@ -21336,6 +22666,9 @@ export namespace Prisma {
     readonly unitId: FieldRef<"Vocabulary", 'String'>
     readonly lessonId: FieldRef<"Vocabulary", 'String'>
     readonly topicId: FieldRef<"Vocabulary", 'String'>
+    readonly passage: FieldRef<"Vocabulary", 'String'>
+    readonly passageSource: FieldRef<"Vocabulary", 'String'>
+    readonly paragraphBlockId: FieldRef<"Vocabulary", 'String'>
     readonly organizationId: FieldRef<"Vocabulary", 'String'>
     readonly createdBy: FieldRef<"Vocabulary", 'String'>
     readonly updatedBy: FieldRef<"Vocabulary", 'String'>
@@ -22951,6 +24284,9 @@ export namespace Prisma {
     unitId: string | null
     lessonId: string | null
     topicId: string | null
+    passage: string | null
+    passageSource: string | null
+    paragraphBlockId: string | null
     organizationId: string | null
     createdBy: string | null
     updatedBy: string | null
@@ -22967,6 +24303,9 @@ export namespace Prisma {
     unitId: string | null
     lessonId: string | null
     topicId: string | null
+    passage: string | null
+    passageSource: string | null
+    paragraphBlockId: string | null
     organizationId: string | null
     createdBy: string | null
     updatedBy: string | null
@@ -22983,6 +24322,9 @@ export namespace Prisma {
     unitId: number
     lessonId: number
     topicId: number
+    passage: number
+    passageSource: number
+    paragraphBlockId: number
     organizationId: number
     createdBy: number
     updatedBy: number
@@ -23001,6 +24343,9 @@ export namespace Prisma {
     unitId?: true
     lessonId?: true
     topicId?: true
+    passage?: true
+    passageSource?: true
+    paragraphBlockId?: true
     organizationId?: true
     createdBy?: true
     updatedBy?: true
@@ -23017,6 +24362,9 @@ export namespace Prisma {
     unitId?: true
     lessonId?: true
     topicId?: true
+    passage?: true
+    passageSource?: true
+    paragraphBlockId?: true
     organizationId?: true
     createdBy?: true
     updatedBy?: true
@@ -23033,6 +24381,9 @@ export namespace Prisma {
     unitId?: true
     lessonId?: true
     topicId?: true
+    passage?: true
+    passageSource?: true
+    paragraphBlockId?: true
     organizationId?: true
     createdBy?: true
     updatedBy?: true
@@ -23122,6 +24473,9 @@ export namespace Prisma {
     unitId: string
     lessonId: string
     topicId: string | null
+    passage: string
+    passageSource: string
+    paragraphBlockId: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -23155,6 +24509,9 @@ export namespace Prisma {
     unitId?: boolean
     lessonId?: boolean
     topicId?: boolean
+    passage?: boolean
+    passageSource?: boolean
+    paragraphBlockId?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -23174,6 +24531,9 @@ export namespace Prisma {
     unitId?: boolean
     lessonId?: boolean
     topicId?: boolean
+    passage?: boolean
+    passageSource?: boolean
+    paragraphBlockId?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -23191,6 +24551,9 @@ export namespace Prisma {
     unitId?: boolean
     lessonId?: boolean
     topicId?: boolean
+    passage?: boolean
+    passageSource?: boolean
+    paragraphBlockId?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -23208,6 +24571,9 @@ export namespace Prisma {
     unitId?: boolean
     lessonId?: boolean
     topicId?: boolean
+    passage?: boolean
+    passageSource?: boolean
+    paragraphBlockId?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -23215,7 +24581,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type SynonymsAntonymsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["synonymsAntonyms"]>
+  export type SynonymsAntonymsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "passage" | "passageSource" | "paragraphBlockId" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["synonymsAntonyms"]>
   export type SynonymsAntonymsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
     entries?: boolean | SynonymsAntonyms$entriesArgs<ExtArgs>
@@ -23243,6 +24609,9 @@ export namespace Prisma {
       unitId: string
       lessonId: string
       topicId: string | null
+      passage: string
+      passageSource: string
+      paragraphBlockId: string | null
       organizationId: string
       createdBy: string
       updatedBy: string
@@ -23681,6 +25050,9 @@ export namespace Prisma {
     readonly unitId: FieldRef<"SynonymsAntonyms", 'String'>
     readonly lessonId: FieldRef<"SynonymsAntonyms", 'String'>
     readonly topicId: FieldRef<"SynonymsAntonyms", 'String'>
+    readonly passage: FieldRef<"SynonymsAntonyms", 'String'>
+    readonly passageSource: FieldRef<"SynonymsAntonyms", 'String'>
+    readonly paragraphBlockId: FieldRef<"SynonymsAntonyms", 'String'>
     readonly organizationId: FieldRef<"SynonymsAntonyms", 'String'>
     readonly createdBy: FieldRef<"SynonymsAntonyms", 'String'>
     readonly updatedBy: FieldRef<"SynonymsAntonyms", 'String'>
@@ -25338,6 +26710,9 @@ export namespace Prisma {
     question: string | null
     answer: string | null
     details: string | null
+    passage: string | null
+    passageSource: string | null
+    paragraphBlockId: string | null
     organizationId: string | null
     createdBy: string | null
     updatedBy: string | null
@@ -25357,6 +26732,9 @@ export namespace Prisma {
     question: string | null
     answer: string | null
     details: string | null
+    passage: string | null
+    passageSource: string | null
+    paragraphBlockId: string | null
     organizationId: string | null
     createdBy: string | null
     updatedBy: string | null
@@ -25376,6 +26754,9 @@ export namespace Prisma {
     question: number
     answer: number
     details: number
+    passage: number
+    passageSource: number
+    paragraphBlockId: number
     organizationId: number
     createdBy: number
     updatedBy: number
@@ -25397,6 +26778,9 @@ export namespace Prisma {
     question?: true
     answer?: true
     details?: true
+    passage?: true
+    passageSource?: true
+    paragraphBlockId?: true
     organizationId?: true
     createdBy?: true
     updatedBy?: true
@@ -25416,6 +26800,9 @@ export namespace Prisma {
     question?: true
     answer?: true
     details?: true
+    passage?: true
+    passageSource?: true
+    paragraphBlockId?: true
     organizationId?: true
     createdBy?: true
     updatedBy?: true
@@ -25435,6 +26822,9 @@ export namespace Prisma {
     question?: true
     answer?: true
     details?: true
+    passage?: true
+    passageSource?: true
+    paragraphBlockId?: true
     organizationId?: true
     createdBy?: true
     updatedBy?: true
@@ -25527,6 +26917,9 @@ export namespace Prisma {
     question: string
     answer: string
     details: string
+    passage: string
+    passageSource: string
+    paragraphBlockId: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -25563,6 +26956,9 @@ export namespace Prisma {
     question?: boolean
     answer?: boolean
     details?: boolean
+    passage?: boolean
+    passageSource?: boolean
+    paragraphBlockId?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -25583,6 +26979,9 @@ export namespace Prisma {
     question?: boolean
     answer?: boolean
     details?: boolean
+    passage?: boolean
+    passageSource?: boolean
+    paragraphBlockId?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -25603,6 +27002,9 @@ export namespace Prisma {
     question?: boolean
     answer?: boolean
     details?: boolean
+    passage?: boolean
+    passageSource?: boolean
+    paragraphBlockId?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -25623,6 +27025,9 @@ export namespace Prisma {
     question?: boolean
     answer?: boolean
     details?: boolean
+    passage?: boolean
+    passageSource?: boolean
+    paragraphBlockId?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -25630,7 +27035,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type GapFillExerciseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "question" | "answer" | "details" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["gapFillExercise"]>
+  export type GapFillExerciseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "question" | "answer" | "details" | "passage" | "passageSource" | "paragraphBlockId" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["gapFillExercise"]>
   export type GapFillExerciseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
   }
@@ -25658,6 +27063,9 @@ export namespace Prisma {
       question: string
       answer: string
       details: string
+      passage: string
+      passageSource: string
+      paragraphBlockId: string | null
       organizationId: string
       createdBy: string
       updatedBy: string
@@ -26098,6 +27506,9 @@ export namespace Prisma {
     readonly question: FieldRef<"GapFillExercise", 'String'>
     readonly answer: FieldRef<"GapFillExercise", 'String'>
     readonly details: FieldRef<"GapFillExercise", 'String'>
+    readonly passage: FieldRef<"GapFillExercise", 'String'>
+    readonly passageSource: FieldRef<"GapFillExercise", 'String'>
+    readonly paragraphBlockId: FieldRef<"GapFillExercise", 'String'>
     readonly organizationId: FieldRef<"GapFillExercise", 'String'>
     readonly createdBy: FieldRef<"GapFillExercise", 'String'>
     readonly updatedBy: FieldRef<"GapFillExercise", 'String'>
@@ -26537,6 +27948,9 @@ export namespace Prisma {
     question: string | null
     answer: string | null
     details: string | null
+    passage: string | null
+    passageSource: string | null
+    paragraphBlockId: string | null
     organizationId: string | null
     createdBy: string | null
     updatedBy: string | null
@@ -26556,6 +27970,9 @@ export namespace Prisma {
     question: string | null
     answer: string | null
     details: string | null
+    passage: string | null
+    passageSource: string | null
+    paragraphBlockId: string | null
     organizationId: string | null
     createdBy: string | null
     updatedBy: string | null
@@ -26575,6 +27992,9 @@ export namespace Prisma {
     question: number
     answer: number
     details: number
+    passage: number
+    passageSource: number
+    paragraphBlockId: number
     organizationId: number
     createdBy: number
     updatedBy: number
@@ -26596,6 +28016,9 @@ export namespace Prisma {
     question?: true
     answer?: true
     details?: true
+    passage?: true
+    passageSource?: true
+    paragraphBlockId?: true
     organizationId?: true
     createdBy?: true
     updatedBy?: true
@@ -26615,6 +28038,9 @@ export namespace Prisma {
     question?: true
     answer?: true
     details?: true
+    passage?: true
+    passageSource?: true
+    paragraphBlockId?: true
     organizationId?: true
     createdBy?: true
     updatedBy?: true
@@ -26634,6 +28060,9 @@ export namespace Prisma {
     question?: true
     answer?: true
     details?: true
+    passage?: true
+    passageSource?: true
+    paragraphBlockId?: true
     organizationId?: true
     createdBy?: true
     updatedBy?: true
@@ -26726,6 +28155,9 @@ export namespace Prisma {
     question: string
     answer: string
     details: string
+    passage: string
+    passageSource: string
+    paragraphBlockId: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -26762,6 +28194,9 @@ export namespace Prisma {
     question?: boolean
     answer?: boolean
     details?: boolean
+    passage?: boolean
+    passageSource?: boolean
+    paragraphBlockId?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -26782,6 +28217,9 @@ export namespace Prisma {
     question?: boolean
     answer?: boolean
     details?: boolean
+    passage?: boolean
+    passageSource?: boolean
+    paragraphBlockId?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -26802,6 +28240,9 @@ export namespace Prisma {
     question?: boolean
     answer?: boolean
     details?: boolean
+    passage?: boolean
+    passageSource?: boolean
+    paragraphBlockId?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -26822,6 +28263,9 @@ export namespace Prisma {
     question?: boolean
     answer?: boolean
     details?: boolean
+    passage?: boolean
+    passageSource?: boolean
+    paragraphBlockId?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -26829,7 +28273,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type GapFillFirstPaperOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "question" | "answer" | "details" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["gapFillFirstPaper"]>
+  export type GapFillFirstPaperOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "question" | "answer" | "details" | "passage" | "passageSource" | "paragraphBlockId" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["gapFillFirstPaper"]>
   export type GapFillFirstPaperInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
   }
@@ -26857,6 +28301,9 @@ export namespace Prisma {
       question: string
       answer: string
       details: string
+      passage: string
+      passageSource: string
+      paragraphBlockId: string | null
       organizationId: string
       createdBy: string
       updatedBy: string
@@ -27297,6 +28744,9 @@ export namespace Prisma {
     readonly question: FieldRef<"GapFillFirstPaper", 'String'>
     readonly answer: FieldRef<"GapFillFirstPaper", 'String'>
     readonly details: FieldRef<"GapFillFirstPaper", 'String'>
+    readonly passage: FieldRef<"GapFillFirstPaper", 'String'>
+    readonly passageSource: FieldRef<"GapFillFirstPaper", 'String'>
+    readonly paragraphBlockId: FieldRef<"GapFillFirstPaper", 'String'>
     readonly organizationId: FieldRef<"GapFillFirstPaper", 'String'>
     readonly createdBy: FieldRef<"GapFillFirstPaper", 'String'>
     readonly updatedBy: FieldRef<"GapFillFirstPaper", 'String'>
@@ -28934,6 +30384,9 @@ export namespace Prisma {
     topicId: string | null
     title: string | null
     description: string | null
+    passage: string | null
+    passageSource: string | null
+    paragraphBlockId: string | null
     documentJson: string | null
     organizationId: string | null
     createdBy: string | null
@@ -28953,6 +30406,9 @@ export namespace Prisma {
     topicId: string | null
     title: string | null
     description: string | null
+    passage: string | null
+    passageSource: string | null
+    paragraphBlockId: string | null
     documentJson: string | null
     organizationId: string | null
     createdBy: string | null
@@ -28972,6 +30428,9 @@ export namespace Prisma {
     topicId: number
     title: number
     description: number
+    passage: number
+    passageSource: number
+    paragraphBlockId: number
     documentJson: number
     organizationId: number
     createdBy: number
@@ -28993,6 +30452,9 @@ export namespace Prisma {
     topicId?: true
     title?: true
     description?: true
+    passage?: true
+    passageSource?: true
+    paragraphBlockId?: true
     documentJson?: true
     organizationId?: true
     createdBy?: true
@@ -29012,6 +30474,9 @@ export namespace Prisma {
     topicId?: true
     title?: true
     description?: true
+    passage?: true
+    passageSource?: true
+    paragraphBlockId?: true
     documentJson?: true
     organizationId?: true
     createdBy?: true
@@ -29031,6 +30496,9 @@ export namespace Prisma {
     topicId?: true
     title?: true
     description?: true
+    passage?: true
+    passageSource?: true
+    paragraphBlockId?: true
     documentJson?: true
     organizationId?: true
     createdBy?: true
@@ -29123,6 +30591,9 @@ export namespace Prisma {
     topicId: string | null
     title: string
     description: string
+    passage: string
+    passageSource: string
+    paragraphBlockId: string | null
     documentJson: string
     organizationId: string
     createdBy: string
@@ -29159,6 +30630,9 @@ export namespace Prisma {
     topicId?: boolean
     title?: boolean
     description?: boolean
+    passage?: boolean
+    passageSource?: boolean
+    paragraphBlockId?: boolean
     documentJson?: boolean
     organizationId?: boolean
     createdBy?: boolean
@@ -29179,6 +30653,9 @@ export namespace Prisma {
     topicId?: boolean
     title?: boolean
     description?: boolean
+    passage?: boolean
+    passageSource?: boolean
+    paragraphBlockId?: boolean
     documentJson?: boolean
     organizationId?: boolean
     createdBy?: boolean
@@ -29199,6 +30676,9 @@ export namespace Prisma {
     topicId?: boolean
     title?: boolean
     description?: boolean
+    passage?: boolean
+    passageSource?: boolean
+    paragraphBlockId?: boolean
     documentJson?: boolean
     organizationId?: boolean
     createdBy?: boolean
@@ -29219,6 +30699,9 @@ export namespace Prisma {
     topicId?: boolean
     title?: boolean
     description?: boolean
+    passage?: boolean
+    passageSource?: boolean
+    paragraphBlockId?: boolean
     documentJson?: boolean
     organizationId?: boolean
     createdBy?: boolean
@@ -29227,7 +30710,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type McqSectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "title" | "description" | "documentJson" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["mcqSection"]>
+  export type McqSectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "title" | "description" | "passage" | "passageSource" | "paragraphBlockId" | "documentJson" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["mcqSection"]>
   export type McqSectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
   }
@@ -29254,6 +30737,9 @@ export namespace Prisma {
       topicId: string | null
       title: string
       description: string
+      passage: string
+      passageSource: string
+      paragraphBlockId: string | null
       documentJson: string
       organizationId: string
       createdBy: string
@@ -29694,6 +31180,9 @@ export namespace Prisma {
     readonly topicId: FieldRef<"McqSection", 'String'>
     readonly title: FieldRef<"McqSection", 'String'>
     readonly description: FieldRef<"McqSection", 'String'>
+    readonly passage: FieldRef<"McqSection", 'String'>
+    readonly passageSource: FieldRef<"McqSection", 'String'>
+    readonly paragraphBlockId: FieldRef<"McqSection", 'String'>
     readonly documentJson: FieldRef<"McqSection", 'String'>
     readonly organizationId: FieldRef<"McqSection", 'String'>
     readonly createdBy: FieldRef<"McqSection", 'String'>
@@ -48508,6 +49997,22 @@ export namespace Prisma {
   export type ContentScalarFieldEnum = (typeof ContentScalarFieldEnum)[keyof typeof ContentScalarFieldEnum]
 
 
+  export const UnseenCompositionScalarFieldEnum: {
+    id: 'id',
+    classId: 'classId',
+    subjectId: 'subjectId',
+    title: 'title',
+    documentJson: 'documentJson',
+    organizationId: 'organizationId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type UnseenCompositionScalarFieldEnum = (typeof UnseenCompositionScalarFieldEnum)[keyof typeof UnseenCompositionScalarFieldEnum]
+
+
   export const ContentBlockScalarFieldEnum: {
     id: 'id',
     contentId: 'contentId',
@@ -48549,6 +50054,9 @@ export namespace Prisma {
     unitId: 'unitId',
     lessonId: 'lessonId',
     topicId: 'topicId',
+    passage: 'passage',
+    passageSource: 'passageSource',
+    paragraphBlockId: 'paragraphBlockId',
     organizationId: 'organizationId',
     createdBy: 'createdBy',
     updatedBy: 'updatedBy',
@@ -48584,6 +50092,9 @@ export namespace Prisma {
     unitId: 'unitId',
     lessonId: 'lessonId',
     topicId: 'topicId',
+    passage: 'passage',
+    passageSource: 'passageSource',
+    paragraphBlockId: 'paragraphBlockId',
     organizationId: 'organizationId',
     createdBy: 'createdBy',
     updatedBy: 'updatedBy',
@@ -48625,6 +50136,9 @@ export namespace Prisma {
     question: 'question',
     answer: 'answer',
     details: 'details',
+    passage: 'passage',
+    passageSource: 'passageSource',
+    paragraphBlockId: 'paragraphBlockId',
     organizationId: 'organizationId',
     createdBy: 'createdBy',
     updatedBy: 'updatedBy',
@@ -48647,6 +50161,9 @@ export namespace Prisma {
     question: 'question',
     answer: 'answer',
     details: 'details',
+    passage: 'passage',
+    passageSource: 'passageSource',
+    paragraphBlockId: 'paragraphBlockId',
     organizationId: 'organizationId',
     createdBy: 'createdBy',
     updatedBy: 'updatedBy',
@@ -48690,6 +50207,9 @@ export namespace Prisma {
     topicId: 'topicId',
     title: 'title',
     description: 'description',
+    passage: 'passage',
+    passageSource: 'passageSource',
+    paragraphBlockId: 'paragraphBlockId',
     documentJson: 'documentJson',
     organizationId: 'organizationId',
     createdBy: 'createdBy',
@@ -49547,6 +51067,7 @@ export namespace Prisma {
     subjects?: SubjectListRelationFilter
     units?: UnitListRelationFilter
     contents?: ContentListRelationFilter
+    unseenCompositions?: UnseenCompositionListRelationFilter
     students?: UserListRelationFilter
   }
 
@@ -49571,6 +51092,7 @@ export namespace Prisma {
     subjects?: SubjectOrderByRelationAggregateInput
     units?: UnitOrderByRelationAggregateInput
     contents?: ContentOrderByRelationAggregateInput
+    unseenCompositions?: UnseenCompositionOrderByRelationAggregateInput
     students?: UserOrderByRelationAggregateInput
   }
 
@@ -49598,6 +51120,7 @@ export namespace Prisma {
     subjects?: SubjectListRelationFilter
     units?: UnitListRelationFilter
     contents?: ContentListRelationFilter
+    unseenCompositions?: UnseenCompositionListRelationFilter
     students?: UserListRelationFilter
   }, "id" | "slug">
 
@@ -49674,6 +51197,7 @@ export namespace Prisma {
     class?: XOR<ClassScalarRelationFilter, ClassWhereInput>
     units?: UnitListRelationFilter
     contents?: ContentListRelationFilter
+    unseenCompositions?: UnseenCompositionListRelationFilter
   }
 
   export type SubjectOrderByWithRelationInput = {
@@ -49698,6 +51222,7 @@ export namespace Prisma {
     class?: ClassOrderByWithRelationInput
     units?: UnitOrderByRelationAggregateInput
     contents?: ContentOrderByRelationAggregateInput
+    unseenCompositions?: UnseenCompositionOrderByRelationAggregateInput
   }
 
   export type SubjectWhereUniqueInput = Prisma.AtLeast<{
@@ -49725,6 +51250,7 @@ export namespace Prisma {
     class?: XOR<ClassScalarRelationFilter, ClassWhereInput>
     units?: UnitListRelationFilter
     contents?: ContentListRelationFilter
+    unseenCompositions?: UnseenCompositionListRelationFilter
   }, "id" | "slug">
 
   export type SubjectOrderByWithAggregationInput = {
@@ -50267,6 +51793,89 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Content"> | Date | string
   }
 
+  export type UnseenCompositionWhereInput = {
+    AND?: UnseenCompositionWhereInput | UnseenCompositionWhereInput[]
+    OR?: UnseenCompositionWhereInput[]
+    NOT?: UnseenCompositionWhereInput | UnseenCompositionWhereInput[]
+    id?: StringFilter<"UnseenComposition"> | string
+    classId?: StringFilter<"UnseenComposition"> | string
+    subjectId?: StringFilter<"UnseenComposition"> | string
+    title?: StringFilter<"UnseenComposition"> | string
+    documentJson?: StringFilter<"UnseenComposition"> | string
+    organizationId?: StringFilter<"UnseenComposition"> | string
+    createdBy?: StringFilter<"UnseenComposition"> | string
+    updatedBy?: StringFilter<"UnseenComposition"> | string
+    createdAt?: DateTimeFilter<"UnseenComposition"> | Date | string
+    updatedAt?: DateTimeFilter<"UnseenComposition"> | Date | string
+    class?: XOR<ClassScalarRelationFilter, ClassWhereInput>
+    subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
+  }
+
+  export type UnseenCompositionOrderByWithRelationInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    class?: ClassOrderByWithRelationInput
+    subject?: SubjectOrderByWithRelationInput
+  }
+
+  export type UnseenCompositionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: UnseenCompositionWhereInput | UnseenCompositionWhereInput[]
+    OR?: UnseenCompositionWhereInput[]
+    NOT?: UnseenCompositionWhereInput | UnseenCompositionWhereInput[]
+    classId?: StringFilter<"UnseenComposition"> | string
+    subjectId?: StringFilter<"UnseenComposition"> | string
+    title?: StringFilter<"UnseenComposition"> | string
+    documentJson?: StringFilter<"UnseenComposition"> | string
+    organizationId?: StringFilter<"UnseenComposition"> | string
+    createdBy?: StringFilter<"UnseenComposition"> | string
+    updatedBy?: StringFilter<"UnseenComposition"> | string
+    createdAt?: DateTimeFilter<"UnseenComposition"> | Date | string
+    updatedAt?: DateTimeFilter<"UnseenComposition"> | Date | string
+    class?: XOR<ClassScalarRelationFilter, ClassWhereInput>
+    subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
+  }, "id">
+
+  export type UnseenCompositionOrderByWithAggregationInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: UnseenCompositionCountOrderByAggregateInput
+    _max?: UnseenCompositionMaxOrderByAggregateInput
+    _min?: UnseenCompositionMinOrderByAggregateInput
+  }
+
+  export type UnseenCompositionScalarWhereWithAggregatesInput = {
+    AND?: UnseenCompositionScalarWhereWithAggregatesInput | UnseenCompositionScalarWhereWithAggregatesInput[]
+    OR?: UnseenCompositionScalarWhereWithAggregatesInput[]
+    NOT?: UnseenCompositionScalarWhereWithAggregatesInput | UnseenCompositionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UnseenComposition"> | string
+    classId?: StringWithAggregatesFilter<"UnseenComposition"> | string
+    subjectId?: StringWithAggregatesFilter<"UnseenComposition"> | string
+    title?: StringWithAggregatesFilter<"UnseenComposition"> | string
+    documentJson?: StringWithAggregatesFilter<"UnseenComposition"> | string
+    organizationId?: StringWithAggregatesFilter<"UnseenComposition"> | string
+    createdBy?: StringWithAggregatesFilter<"UnseenComposition"> | string
+    updatedBy?: StringWithAggregatesFilter<"UnseenComposition"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"UnseenComposition"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"UnseenComposition"> | Date | string
+  }
+
   export type ContentBlockWhereInput = {
     AND?: ContentBlockWhereInput | ContentBlockWhereInput[]
     OR?: ContentBlockWhereInput[]
@@ -50507,6 +52116,9 @@ export namespace Prisma {
     unitId?: StringFilter<"Vocabulary"> | string
     lessonId?: StringFilter<"Vocabulary"> | string
     topicId?: StringNullableFilter<"Vocabulary"> | string | null
+    passage?: StringFilter<"Vocabulary"> | string
+    passageSource?: StringFilter<"Vocabulary"> | string
+    paragraphBlockId?: StringNullableFilter<"Vocabulary"> | string | null
     organizationId?: StringFilter<"Vocabulary"> | string
     createdBy?: StringFilter<"Vocabulary"> | string
     updatedBy?: StringFilter<"Vocabulary"> | string
@@ -50525,6 +52137,9 @@ export namespace Prisma {
     unitId?: SortOrder
     lessonId?: SortOrder
     topicId?: SortOrderInput | SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrderInput | SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -50546,6 +52161,9 @@ export namespace Prisma {
     unitId?: StringFilter<"Vocabulary"> | string
     lessonId?: StringFilter<"Vocabulary"> | string
     topicId?: StringNullableFilter<"Vocabulary"> | string | null
+    passage?: StringFilter<"Vocabulary"> | string
+    passageSource?: StringFilter<"Vocabulary"> | string
+    paragraphBlockId?: StringNullableFilter<"Vocabulary"> | string | null
     organizationId?: StringFilter<"Vocabulary"> | string
     createdBy?: StringFilter<"Vocabulary"> | string
     updatedBy?: StringFilter<"Vocabulary"> | string
@@ -50564,6 +52182,9 @@ export namespace Prisma {
     unitId?: SortOrder
     lessonId?: SortOrder
     topicId?: SortOrderInput | SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrderInput | SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -50586,6 +52207,9 @@ export namespace Prisma {
     unitId?: StringWithAggregatesFilter<"Vocabulary"> | string
     lessonId?: StringWithAggregatesFilter<"Vocabulary"> | string
     topicId?: StringNullableWithAggregatesFilter<"Vocabulary"> | string | null
+    passage?: StringWithAggregatesFilter<"Vocabulary"> | string
+    passageSource?: StringWithAggregatesFilter<"Vocabulary"> | string
+    paragraphBlockId?: StringNullableWithAggregatesFilter<"Vocabulary"> | string | null
     organizationId?: StringWithAggregatesFilter<"Vocabulary"> | string
     createdBy?: StringWithAggregatesFilter<"Vocabulary"> | string
     updatedBy?: StringWithAggregatesFilter<"Vocabulary"> | string
@@ -50687,6 +52311,9 @@ export namespace Prisma {
     unitId?: StringFilter<"SynonymsAntonyms"> | string
     lessonId?: StringFilter<"SynonymsAntonyms"> | string
     topicId?: StringNullableFilter<"SynonymsAntonyms"> | string | null
+    passage?: StringFilter<"SynonymsAntonyms"> | string
+    passageSource?: StringFilter<"SynonymsAntonyms"> | string
+    paragraphBlockId?: StringNullableFilter<"SynonymsAntonyms"> | string | null
     organizationId?: StringFilter<"SynonymsAntonyms"> | string
     createdBy?: StringFilter<"SynonymsAntonyms"> | string
     updatedBy?: StringFilter<"SynonymsAntonyms"> | string
@@ -50705,6 +52332,9 @@ export namespace Prisma {
     unitId?: SortOrder
     lessonId?: SortOrder
     topicId?: SortOrderInput | SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrderInput | SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -50726,6 +52356,9 @@ export namespace Prisma {
     unitId?: StringFilter<"SynonymsAntonyms"> | string
     lessonId?: StringFilter<"SynonymsAntonyms"> | string
     topicId?: StringNullableFilter<"SynonymsAntonyms"> | string | null
+    passage?: StringFilter<"SynonymsAntonyms"> | string
+    passageSource?: StringFilter<"SynonymsAntonyms"> | string
+    paragraphBlockId?: StringNullableFilter<"SynonymsAntonyms"> | string | null
     organizationId?: StringFilter<"SynonymsAntonyms"> | string
     createdBy?: StringFilter<"SynonymsAntonyms"> | string
     updatedBy?: StringFilter<"SynonymsAntonyms"> | string
@@ -50744,6 +52377,9 @@ export namespace Prisma {
     unitId?: SortOrder
     lessonId?: SortOrder
     topicId?: SortOrderInput | SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrderInput | SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -50766,6 +52402,9 @@ export namespace Prisma {
     unitId?: StringWithAggregatesFilter<"SynonymsAntonyms"> | string
     lessonId?: StringWithAggregatesFilter<"SynonymsAntonyms"> | string
     topicId?: StringNullableWithAggregatesFilter<"SynonymsAntonyms"> | string | null
+    passage?: StringWithAggregatesFilter<"SynonymsAntonyms"> | string
+    passageSource?: StringWithAggregatesFilter<"SynonymsAntonyms"> | string
+    paragraphBlockId?: StringNullableWithAggregatesFilter<"SynonymsAntonyms"> | string | null
     organizationId?: StringWithAggregatesFilter<"SynonymsAntonyms"> | string
     createdBy?: StringWithAggregatesFilter<"SynonymsAntonyms"> | string
     updatedBy?: StringWithAggregatesFilter<"SynonymsAntonyms"> | string
@@ -50885,6 +52524,9 @@ export namespace Prisma {
     question?: StringFilter<"GapFillExercise"> | string
     answer?: StringFilter<"GapFillExercise"> | string
     details?: StringFilter<"GapFillExercise"> | string
+    passage?: StringFilter<"GapFillExercise"> | string
+    passageSource?: StringFilter<"GapFillExercise"> | string
+    paragraphBlockId?: StringNullableFilter<"GapFillExercise"> | string | null
     organizationId?: StringFilter<"GapFillExercise"> | string
     createdBy?: StringFilter<"GapFillExercise"> | string
     updatedBy?: StringFilter<"GapFillExercise"> | string
@@ -50905,6 +52547,9 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrderInput | SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -50928,6 +52573,9 @@ export namespace Prisma {
     question?: StringFilter<"GapFillExercise"> | string
     answer?: StringFilter<"GapFillExercise"> | string
     details?: StringFilter<"GapFillExercise"> | string
+    passage?: StringFilter<"GapFillExercise"> | string
+    passageSource?: StringFilter<"GapFillExercise"> | string
+    paragraphBlockId?: StringNullableFilter<"GapFillExercise"> | string | null
     organizationId?: StringFilter<"GapFillExercise"> | string
     createdBy?: StringFilter<"GapFillExercise"> | string
     updatedBy?: StringFilter<"GapFillExercise"> | string
@@ -50948,6 +52596,9 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrderInput | SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -50973,6 +52624,9 @@ export namespace Prisma {
     question?: StringWithAggregatesFilter<"GapFillExercise"> | string
     answer?: StringWithAggregatesFilter<"GapFillExercise"> | string
     details?: StringWithAggregatesFilter<"GapFillExercise"> | string
+    passage?: StringWithAggregatesFilter<"GapFillExercise"> | string
+    passageSource?: StringWithAggregatesFilter<"GapFillExercise"> | string
+    paragraphBlockId?: StringNullableWithAggregatesFilter<"GapFillExercise"> | string | null
     organizationId?: StringWithAggregatesFilter<"GapFillExercise"> | string
     createdBy?: StringWithAggregatesFilter<"GapFillExercise"> | string
     updatedBy?: StringWithAggregatesFilter<"GapFillExercise"> | string
@@ -50995,6 +52649,9 @@ export namespace Prisma {
     question?: StringFilter<"GapFillFirstPaper"> | string
     answer?: StringFilter<"GapFillFirstPaper"> | string
     details?: StringFilter<"GapFillFirstPaper"> | string
+    passage?: StringFilter<"GapFillFirstPaper"> | string
+    passageSource?: StringFilter<"GapFillFirstPaper"> | string
+    paragraphBlockId?: StringNullableFilter<"GapFillFirstPaper"> | string | null
     organizationId?: StringFilter<"GapFillFirstPaper"> | string
     createdBy?: StringFilter<"GapFillFirstPaper"> | string
     updatedBy?: StringFilter<"GapFillFirstPaper"> | string
@@ -51015,6 +52672,9 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrderInput | SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -51038,6 +52698,9 @@ export namespace Prisma {
     question?: StringFilter<"GapFillFirstPaper"> | string
     answer?: StringFilter<"GapFillFirstPaper"> | string
     details?: StringFilter<"GapFillFirstPaper"> | string
+    passage?: StringFilter<"GapFillFirstPaper"> | string
+    passageSource?: StringFilter<"GapFillFirstPaper"> | string
+    paragraphBlockId?: StringNullableFilter<"GapFillFirstPaper"> | string | null
     organizationId?: StringFilter<"GapFillFirstPaper"> | string
     createdBy?: StringFilter<"GapFillFirstPaper"> | string
     updatedBy?: StringFilter<"GapFillFirstPaper"> | string
@@ -51058,6 +52721,9 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrderInput | SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -51083,6 +52749,9 @@ export namespace Prisma {
     question?: StringWithAggregatesFilter<"GapFillFirstPaper"> | string
     answer?: StringWithAggregatesFilter<"GapFillFirstPaper"> | string
     details?: StringWithAggregatesFilter<"GapFillFirstPaper"> | string
+    passage?: StringWithAggregatesFilter<"GapFillFirstPaper"> | string
+    passageSource?: StringWithAggregatesFilter<"GapFillFirstPaper"> | string
+    paragraphBlockId?: StringNullableWithAggregatesFilter<"GapFillFirstPaper"> | string | null
     organizationId?: StringWithAggregatesFilter<"GapFillFirstPaper"> | string
     createdBy?: StringWithAggregatesFilter<"GapFillFirstPaper"> | string
     updatedBy?: StringWithAggregatesFilter<"GapFillFirstPaper"> | string
@@ -51214,6 +52883,9 @@ export namespace Prisma {
     topicId?: StringNullableFilter<"McqSection"> | string | null
     title?: StringFilter<"McqSection"> | string
     description?: StringFilter<"McqSection"> | string
+    passage?: StringFilter<"McqSection"> | string
+    passageSource?: StringFilter<"McqSection"> | string
+    paragraphBlockId?: StringNullableFilter<"McqSection"> | string | null
     documentJson?: StringFilter<"McqSection"> | string
     organizationId?: StringFilter<"McqSection"> | string
     createdBy?: StringFilter<"McqSection"> | string
@@ -51234,6 +52906,9 @@ export namespace Prisma {
     topicId?: SortOrderInput | SortOrder
     title?: SortOrder
     description?: SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrderInput | SortOrder
     documentJson?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
@@ -51257,6 +52932,9 @@ export namespace Prisma {
     topicId?: StringNullableFilter<"McqSection"> | string | null
     title?: StringFilter<"McqSection"> | string
     description?: StringFilter<"McqSection"> | string
+    passage?: StringFilter<"McqSection"> | string
+    passageSource?: StringFilter<"McqSection"> | string
+    paragraphBlockId?: StringNullableFilter<"McqSection"> | string | null
     documentJson?: StringFilter<"McqSection"> | string
     organizationId?: StringFilter<"McqSection"> | string
     createdBy?: StringFilter<"McqSection"> | string
@@ -51277,6 +52955,9 @@ export namespace Prisma {
     topicId?: SortOrderInput | SortOrder
     title?: SortOrder
     description?: SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrderInput | SortOrder
     documentJson?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
@@ -51302,6 +52983,9 @@ export namespace Prisma {
     topicId?: StringNullableWithAggregatesFilter<"McqSection"> | string | null
     title?: StringWithAggregatesFilter<"McqSection"> | string
     description?: StringWithAggregatesFilter<"McqSection"> | string
+    passage?: StringWithAggregatesFilter<"McqSection"> | string
+    passageSource?: StringWithAggregatesFilter<"McqSection"> | string
+    paragraphBlockId?: StringNullableWithAggregatesFilter<"McqSection"> | string | null
     documentJson?: StringWithAggregatesFilter<"McqSection"> | string
     organizationId?: StringWithAggregatesFilter<"McqSection"> | string
     createdBy?: StringWithAggregatesFilter<"McqSection"> | string
@@ -53518,6 +55202,7 @@ export namespace Prisma {
     subjects?: SubjectCreateNestedManyWithoutClassInput
     units?: UnitCreateNestedManyWithoutClassInput
     contents?: ContentCreateNestedManyWithoutClassInput
+    unseenCompositions?: UnseenCompositionCreateNestedManyWithoutClassInput
     students?: UserCreateNestedManyWithoutClassInput
   }
 
@@ -53542,6 +55227,7 @@ export namespace Prisma {
     subjects?: SubjectUncheckedCreateNestedManyWithoutClassInput
     units?: UnitUncheckedCreateNestedManyWithoutClassInput
     contents?: ContentUncheckedCreateNestedManyWithoutClassInput
+    unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutClassInput
     students?: UserUncheckedCreateNestedManyWithoutClassInput
   }
 
@@ -53566,6 +55252,7 @@ export namespace Prisma {
     subjects?: SubjectUpdateManyWithoutClassNestedInput
     units?: UnitUpdateManyWithoutClassNestedInput
     contents?: ContentUpdateManyWithoutClassNestedInput
+    unseenCompositions?: UnseenCompositionUpdateManyWithoutClassNestedInput
     students?: UserUpdateManyWithoutClassNestedInput
   }
 
@@ -53590,6 +55277,7 @@ export namespace Prisma {
     subjects?: SubjectUncheckedUpdateManyWithoutClassNestedInput
     units?: UnitUncheckedUpdateManyWithoutClassNestedInput
     contents?: ContentUncheckedUpdateManyWithoutClassNestedInput
+    unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutClassNestedInput
     students?: UserUncheckedUpdateManyWithoutClassNestedInput
   }
 
@@ -53674,6 +55362,7 @@ export namespace Prisma {
     class: ClassCreateNestedOneWithoutSubjectsInput
     units?: UnitCreateNestedManyWithoutSubjectInput
     contents?: ContentCreateNestedManyWithoutSubjectInput
+    unseenCompositions?: UnseenCompositionCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateInput = {
@@ -53697,6 +55386,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     units?: UnitUncheckedCreateNestedManyWithoutSubjectInput
     contents?: ContentUncheckedCreateNestedManyWithoutSubjectInput
+    unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUpdateInput = {
@@ -53720,6 +55410,7 @@ export namespace Prisma {
     class?: ClassUpdateOneRequiredWithoutSubjectsNestedInput
     units?: UnitUpdateManyWithoutSubjectNestedInput
     contents?: ContentUpdateManyWithoutSubjectNestedInput
+    unseenCompositions?: UnseenCompositionUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateInput = {
@@ -53743,6 +55434,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     units?: UnitUncheckedUpdateManyWithoutSubjectNestedInput
     contents?: ContentUncheckedUpdateManyWithoutSubjectNestedInput
+    unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectCreateManyInput = {
@@ -54368,6 +56060,95 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UnseenCompositionCreateInput = {
+    id?: string
+    title: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    class: ClassCreateNestedOneWithoutUnseenCompositionsInput
+    subject: SubjectCreateNestedOneWithoutUnseenCompositionsInput
+  }
+
+  export type UnseenCompositionUncheckedCreateInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    title: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UnseenCompositionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    class?: ClassUpdateOneRequiredWithoutUnseenCompositionsNestedInput
+    subject?: SubjectUpdateOneRequiredWithoutUnseenCompositionsNestedInput
+  }
+
+  export type UnseenCompositionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UnseenCompositionCreateManyInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    title: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UnseenCompositionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UnseenCompositionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ContentBlockCreateInput = {
     id?: string
     kind: string
@@ -54644,6 +56425,9 @@ export namespace Prisma {
     unitId: string
     lessonId: string
     topicId?: string | null
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -54662,6 +56446,9 @@ export namespace Prisma {
     unitId: string
     lessonId: string
     topicId?: string | null
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -54678,6 +56465,9 @@ export namespace Prisma {
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -54696,6 +56486,9 @@ export namespace Prisma {
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -54713,6 +56506,9 @@ export namespace Prisma {
     unitId: string
     lessonId: string
     topicId?: string | null
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -54728,6 +56524,9 @@ export namespace Prisma {
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -54744,6 +56543,9 @@ export namespace Prisma {
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -54849,6 +56651,9 @@ export namespace Prisma {
     unitId: string
     lessonId: string
     topicId?: string | null
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -54867,6 +56672,9 @@ export namespace Prisma {
     unitId: string
     lessonId: string
     topicId?: string | null
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -54883,6 +56691,9 @@ export namespace Prisma {
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -54901,6 +56712,9 @@ export namespace Prisma {
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -54918,6 +56732,9 @@ export namespace Prisma {
     unitId: string
     lessonId: string
     topicId?: string | null
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -54933,6 +56750,9 @@ export namespace Prisma {
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -54949,6 +56769,9 @@ export namespace Prisma {
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -55078,6 +56901,9 @@ export namespace Prisma {
     question?: string
     answer?: string
     details?: string
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -55098,6 +56924,9 @@ export namespace Prisma {
     question?: string
     answer?: string
     details?: string
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -55116,6 +56945,9 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -55136,6 +56968,9 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -55155,6 +56990,9 @@ export namespace Prisma {
     question?: string
     answer?: string
     details?: string
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -55173,6 +57011,9 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -55192,6 +57033,9 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -55210,6 +57054,9 @@ export namespace Prisma {
     question?: string
     answer?: string
     details?: string
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -55230,6 +57077,9 @@ export namespace Prisma {
     question?: string
     answer?: string
     details?: string
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -55248,6 +57098,9 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -55268,6 +57121,9 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -55287,6 +57143,9 @@ export namespace Prisma {
     question?: string
     answer?: string
     details?: string
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -55305,6 +57164,9 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -55324,6 +57186,9 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -55473,6 +57338,9 @@ export namespace Prisma {
     topicId?: string | null
     title?: string
     description?: string
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     documentJson?: string
     organizationId: string
     createdBy: string
@@ -55493,6 +57361,9 @@ export namespace Prisma {
     topicId?: string | null
     title?: string
     description?: string
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     documentJson?: string
     organizationId: string
     createdBy: string
@@ -55511,6 +57382,9 @@ export namespace Prisma {
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     documentJson?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -55531,6 +57405,9 @@ export namespace Prisma {
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     documentJson?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -55550,6 +57427,9 @@ export namespace Prisma {
     topicId?: string | null
     title?: string
     description?: string
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     documentJson?: string
     organizationId: string
     createdBy: string
@@ -55568,6 +57448,9 @@ export namespace Prisma {
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     documentJson?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -55587,6 +57470,9 @@ export namespace Prisma {
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     documentJson?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -58084,6 +59970,12 @@ export namespace Prisma {
     none?: ContentWhereInput
   }
 
+  export type UnseenCompositionListRelationFilter = {
+    every?: UnseenCompositionWhereInput
+    some?: UnseenCompositionWhereInput
+    none?: UnseenCompositionWhereInput
+  }
+
   export type UserListRelationFilter = {
     every?: UserWhereInput
     some?: UserWhereInput
@@ -58099,6 +59991,10 @@ export namespace Prisma {
   }
 
   export type ContentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UnseenCompositionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -58593,6 +60489,45 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type UnseenCompositionCountOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UnseenCompositionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UnseenCompositionMinOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type ContentScalarRelationFilter = {
     is?: ContentWhereInput
     isNot?: ContentWhereInput
@@ -58818,6 +60753,9 @@ export namespace Prisma {
     unitId?: SortOrder
     lessonId?: SortOrder
     topicId?: SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -58834,6 +60772,9 @@ export namespace Prisma {
     unitId?: SortOrder
     lessonId?: SortOrder
     topicId?: SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -58850,6 +60791,9 @@ export namespace Prisma {
     unitId?: SortOrder
     lessonId?: SortOrder
     topicId?: SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -58928,6 +60872,9 @@ export namespace Prisma {
     unitId?: SortOrder
     lessonId?: SortOrder
     topicId?: SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -58944,6 +60891,9 @@ export namespace Prisma {
     unitId?: SortOrder
     lessonId?: SortOrder
     topicId?: SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -58960,6 +60910,9 @@ export namespace Prisma {
     unitId?: SortOrder
     lessonId?: SortOrder
     topicId?: SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -59040,6 +60993,9 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -59059,6 +61015,9 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -59078,6 +61037,9 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -59097,6 +61059,9 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -59116,6 +61081,9 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -59135,6 +61103,9 @@ export namespace Prisma {
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -59210,6 +61181,9 @@ export namespace Prisma {
     topicId?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrder
     documentJson?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
@@ -59229,6 +61203,9 @@ export namespace Prisma {
     topicId?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrder
     documentJson?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
@@ -59248,6 +61225,9 @@ export namespace Prisma {
     topicId?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrder
     documentJson?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
@@ -60326,6 +62306,13 @@ export namespace Prisma {
     connect?: ContentWhereUniqueInput | ContentWhereUniqueInput[]
   }
 
+  export type UnseenCompositionCreateNestedManyWithoutClassInput = {
+    create?: XOR<UnseenCompositionCreateWithoutClassInput, UnseenCompositionUncheckedCreateWithoutClassInput> | UnseenCompositionCreateWithoutClassInput[] | UnseenCompositionUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: UnseenCompositionCreateOrConnectWithoutClassInput | UnseenCompositionCreateOrConnectWithoutClassInput[]
+    createMany?: UnseenCompositionCreateManyClassInputEnvelope
+    connect?: UnseenCompositionWhereUniqueInput | UnseenCompositionWhereUniqueInput[]
+  }
+
   export type UserCreateNestedManyWithoutClassInput = {
     create?: XOR<UserCreateWithoutClassInput, UserUncheckedCreateWithoutClassInput> | UserCreateWithoutClassInput[] | UserUncheckedCreateWithoutClassInput[]
     connectOrCreate?: UserCreateOrConnectWithoutClassInput | UserCreateOrConnectWithoutClassInput[]
@@ -60352,6 +62339,13 @@ export namespace Prisma {
     connectOrCreate?: ContentCreateOrConnectWithoutClassInput | ContentCreateOrConnectWithoutClassInput[]
     createMany?: ContentCreateManyClassInputEnvelope
     connect?: ContentWhereUniqueInput | ContentWhereUniqueInput[]
+  }
+
+  export type UnseenCompositionUncheckedCreateNestedManyWithoutClassInput = {
+    create?: XOR<UnseenCompositionCreateWithoutClassInput, UnseenCompositionUncheckedCreateWithoutClassInput> | UnseenCompositionCreateWithoutClassInput[] | UnseenCompositionUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: UnseenCompositionCreateOrConnectWithoutClassInput | UnseenCompositionCreateOrConnectWithoutClassInput[]
+    createMany?: UnseenCompositionCreateManyClassInputEnvelope
+    connect?: UnseenCompositionWhereUniqueInput | UnseenCompositionWhereUniqueInput[]
   }
 
   export type UserUncheckedCreateNestedManyWithoutClassInput = {
@@ -60415,6 +62409,20 @@ export namespace Prisma {
     deleteMany?: ContentScalarWhereInput | ContentScalarWhereInput[]
   }
 
+  export type UnseenCompositionUpdateManyWithoutClassNestedInput = {
+    create?: XOR<UnseenCompositionCreateWithoutClassInput, UnseenCompositionUncheckedCreateWithoutClassInput> | UnseenCompositionCreateWithoutClassInput[] | UnseenCompositionUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: UnseenCompositionCreateOrConnectWithoutClassInput | UnseenCompositionCreateOrConnectWithoutClassInput[]
+    upsert?: UnseenCompositionUpsertWithWhereUniqueWithoutClassInput | UnseenCompositionUpsertWithWhereUniqueWithoutClassInput[]
+    createMany?: UnseenCompositionCreateManyClassInputEnvelope
+    set?: UnseenCompositionWhereUniqueInput | UnseenCompositionWhereUniqueInput[]
+    disconnect?: UnseenCompositionWhereUniqueInput | UnseenCompositionWhereUniqueInput[]
+    delete?: UnseenCompositionWhereUniqueInput | UnseenCompositionWhereUniqueInput[]
+    connect?: UnseenCompositionWhereUniqueInput | UnseenCompositionWhereUniqueInput[]
+    update?: UnseenCompositionUpdateWithWhereUniqueWithoutClassInput | UnseenCompositionUpdateWithWhereUniqueWithoutClassInput[]
+    updateMany?: UnseenCompositionUpdateManyWithWhereWithoutClassInput | UnseenCompositionUpdateManyWithWhereWithoutClassInput[]
+    deleteMany?: UnseenCompositionScalarWhereInput | UnseenCompositionScalarWhereInput[]
+  }
+
   export type UserUpdateManyWithoutClassNestedInput = {
     create?: XOR<UserCreateWithoutClassInput, UserUncheckedCreateWithoutClassInput> | UserCreateWithoutClassInput[] | UserUncheckedCreateWithoutClassInput[]
     connectOrCreate?: UserCreateOrConnectWithoutClassInput | UserCreateOrConnectWithoutClassInput[]
@@ -60471,6 +62479,20 @@ export namespace Prisma {
     deleteMany?: ContentScalarWhereInput | ContentScalarWhereInput[]
   }
 
+  export type UnseenCompositionUncheckedUpdateManyWithoutClassNestedInput = {
+    create?: XOR<UnseenCompositionCreateWithoutClassInput, UnseenCompositionUncheckedCreateWithoutClassInput> | UnseenCompositionCreateWithoutClassInput[] | UnseenCompositionUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: UnseenCompositionCreateOrConnectWithoutClassInput | UnseenCompositionCreateOrConnectWithoutClassInput[]
+    upsert?: UnseenCompositionUpsertWithWhereUniqueWithoutClassInput | UnseenCompositionUpsertWithWhereUniqueWithoutClassInput[]
+    createMany?: UnseenCompositionCreateManyClassInputEnvelope
+    set?: UnseenCompositionWhereUniqueInput | UnseenCompositionWhereUniqueInput[]
+    disconnect?: UnseenCompositionWhereUniqueInput | UnseenCompositionWhereUniqueInput[]
+    delete?: UnseenCompositionWhereUniqueInput | UnseenCompositionWhereUniqueInput[]
+    connect?: UnseenCompositionWhereUniqueInput | UnseenCompositionWhereUniqueInput[]
+    update?: UnseenCompositionUpdateWithWhereUniqueWithoutClassInput | UnseenCompositionUpdateWithWhereUniqueWithoutClassInput[]
+    updateMany?: UnseenCompositionUpdateManyWithWhereWithoutClassInput | UnseenCompositionUpdateManyWithWhereWithoutClassInput[]
+    deleteMany?: UnseenCompositionScalarWhereInput | UnseenCompositionScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutClassNestedInput = {
     create?: XOR<UserCreateWithoutClassInput, UserUncheckedCreateWithoutClassInput> | UserCreateWithoutClassInput[] | UserUncheckedCreateWithoutClassInput[]
     connectOrCreate?: UserCreateOrConnectWithoutClassInput | UserCreateOrConnectWithoutClassInput[]
@@ -60505,6 +62527,13 @@ export namespace Prisma {
     connect?: ContentWhereUniqueInput | ContentWhereUniqueInput[]
   }
 
+  export type UnseenCompositionCreateNestedManyWithoutSubjectInput = {
+    create?: XOR<UnseenCompositionCreateWithoutSubjectInput, UnseenCompositionUncheckedCreateWithoutSubjectInput> | UnseenCompositionCreateWithoutSubjectInput[] | UnseenCompositionUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: UnseenCompositionCreateOrConnectWithoutSubjectInput | UnseenCompositionCreateOrConnectWithoutSubjectInput[]
+    createMany?: UnseenCompositionCreateManySubjectInputEnvelope
+    connect?: UnseenCompositionWhereUniqueInput | UnseenCompositionWhereUniqueInput[]
+  }
+
   export type UnitUncheckedCreateNestedManyWithoutSubjectInput = {
     create?: XOR<UnitCreateWithoutSubjectInput, UnitUncheckedCreateWithoutSubjectInput> | UnitCreateWithoutSubjectInput[] | UnitUncheckedCreateWithoutSubjectInput[]
     connectOrCreate?: UnitCreateOrConnectWithoutSubjectInput | UnitCreateOrConnectWithoutSubjectInput[]
@@ -60517,6 +62546,13 @@ export namespace Prisma {
     connectOrCreate?: ContentCreateOrConnectWithoutSubjectInput | ContentCreateOrConnectWithoutSubjectInput[]
     createMany?: ContentCreateManySubjectInputEnvelope
     connect?: ContentWhereUniqueInput | ContentWhereUniqueInput[]
+  }
+
+  export type UnseenCompositionUncheckedCreateNestedManyWithoutSubjectInput = {
+    create?: XOR<UnseenCompositionCreateWithoutSubjectInput, UnseenCompositionUncheckedCreateWithoutSubjectInput> | UnseenCompositionCreateWithoutSubjectInput[] | UnseenCompositionUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: UnseenCompositionCreateOrConnectWithoutSubjectInput | UnseenCompositionCreateOrConnectWithoutSubjectInput[]
+    createMany?: UnseenCompositionCreateManySubjectInputEnvelope
+    connect?: UnseenCompositionWhereUniqueInput | UnseenCompositionWhereUniqueInput[]
   }
 
   export type ClassUpdateOneRequiredWithoutSubjectsNestedInput = {
@@ -60555,6 +62591,20 @@ export namespace Prisma {
     deleteMany?: ContentScalarWhereInput | ContentScalarWhereInput[]
   }
 
+  export type UnseenCompositionUpdateManyWithoutSubjectNestedInput = {
+    create?: XOR<UnseenCompositionCreateWithoutSubjectInput, UnseenCompositionUncheckedCreateWithoutSubjectInput> | UnseenCompositionCreateWithoutSubjectInput[] | UnseenCompositionUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: UnseenCompositionCreateOrConnectWithoutSubjectInput | UnseenCompositionCreateOrConnectWithoutSubjectInput[]
+    upsert?: UnseenCompositionUpsertWithWhereUniqueWithoutSubjectInput | UnseenCompositionUpsertWithWhereUniqueWithoutSubjectInput[]
+    createMany?: UnseenCompositionCreateManySubjectInputEnvelope
+    set?: UnseenCompositionWhereUniqueInput | UnseenCompositionWhereUniqueInput[]
+    disconnect?: UnseenCompositionWhereUniqueInput | UnseenCompositionWhereUniqueInput[]
+    delete?: UnseenCompositionWhereUniqueInput | UnseenCompositionWhereUniqueInput[]
+    connect?: UnseenCompositionWhereUniqueInput | UnseenCompositionWhereUniqueInput[]
+    update?: UnseenCompositionUpdateWithWhereUniqueWithoutSubjectInput | UnseenCompositionUpdateWithWhereUniqueWithoutSubjectInput[]
+    updateMany?: UnseenCompositionUpdateManyWithWhereWithoutSubjectInput | UnseenCompositionUpdateManyWithWhereWithoutSubjectInput[]
+    deleteMany?: UnseenCompositionScalarWhereInput | UnseenCompositionScalarWhereInput[]
+  }
+
   export type UnitUncheckedUpdateManyWithoutSubjectNestedInput = {
     create?: XOR<UnitCreateWithoutSubjectInput, UnitUncheckedCreateWithoutSubjectInput> | UnitCreateWithoutSubjectInput[] | UnitUncheckedCreateWithoutSubjectInput[]
     connectOrCreate?: UnitCreateOrConnectWithoutSubjectInput | UnitCreateOrConnectWithoutSubjectInput[]
@@ -60581,6 +62631,20 @@ export namespace Prisma {
     update?: ContentUpdateWithWhereUniqueWithoutSubjectInput | ContentUpdateWithWhereUniqueWithoutSubjectInput[]
     updateMany?: ContentUpdateManyWithWhereWithoutSubjectInput | ContentUpdateManyWithWhereWithoutSubjectInput[]
     deleteMany?: ContentScalarWhereInput | ContentScalarWhereInput[]
+  }
+
+  export type UnseenCompositionUncheckedUpdateManyWithoutSubjectNestedInput = {
+    create?: XOR<UnseenCompositionCreateWithoutSubjectInput, UnseenCompositionUncheckedCreateWithoutSubjectInput> | UnseenCompositionCreateWithoutSubjectInput[] | UnseenCompositionUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: UnseenCompositionCreateOrConnectWithoutSubjectInput | UnseenCompositionCreateOrConnectWithoutSubjectInput[]
+    upsert?: UnseenCompositionUpsertWithWhereUniqueWithoutSubjectInput | UnseenCompositionUpsertWithWhereUniqueWithoutSubjectInput[]
+    createMany?: UnseenCompositionCreateManySubjectInputEnvelope
+    set?: UnseenCompositionWhereUniqueInput | UnseenCompositionWhereUniqueInput[]
+    disconnect?: UnseenCompositionWhereUniqueInput | UnseenCompositionWhereUniqueInput[]
+    delete?: UnseenCompositionWhereUniqueInput | UnseenCompositionWhereUniqueInput[]
+    connect?: UnseenCompositionWhereUniqueInput | UnseenCompositionWhereUniqueInput[]
+    update?: UnseenCompositionUpdateWithWhereUniqueWithoutSubjectInput | UnseenCompositionUpdateWithWhereUniqueWithoutSubjectInput[]
+    updateMany?: UnseenCompositionUpdateManyWithWhereWithoutSubjectInput | UnseenCompositionUpdateManyWithWhereWithoutSubjectInput[]
+    deleteMany?: UnseenCompositionScalarWhereInput | UnseenCompositionScalarWhereInput[]
   }
 
   export type ClassCreateNestedOneWithoutUnitsInput = {
@@ -60961,6 +63025,34 @@ export namespace Prisma {
     update?: ContentBlockUpdateWithWhereUniqueWithoutContentInput | ContentBlockUpdateWithWhereUniqueWithoutContentInput[]
     updateMany?: ContentBlockUpdateManyWithWhereWithoutContentInput | ContentBlockUpdateManyWithWhereWithoutContentInput[]
     deleteMany?: ContentBlockScalarWhereInput | ContentBlockScalarWhereInput[]
+  }
+
+  export type ClassCreateNestedOneWithoutUnseenCompositionsInput = {
+    create?: XOR<ClassCreateWithoutUnseenCompositionsInput, ClassUncheckedCreateWithoutUnseenCompositionsInput>
+    connectOrCreate?: ClassCreateOrConnectWithoutUnseenCompositionsInput
+    connect?: ClassWhereUniqueInput
+  }
+
+  export type SubjectCreateNestedOneWithoutUnseenCompositionsInput = {
+    create?: XOR<SubjectCreateWithoutUnseenCompositionsInput, SubjectUncheckedCreateWithoutUnseenCompositionsInput>
+    connectOrCreate?: SubjectCreateOrConnectWithoutUnseenCompositionsInput
+    connect?: SubjectWhereUniqueInput
+  }
+
+  export type ClassUpdateOneRequiredWithoutUnseenCompositionsNestedInput = {
+    create?: XOR<ClassCreateWithoutUnseenCompositionsInput, ClassUncheckedCreateWithoutUnseenCompositionsInput>
+    connectOrCreate?: ClassCreateOrConnectWithoutUnseenCompositionsInput
+    upsert?: ClassUpsertWithoutUnseenCompositionsInput
+    connect?: ClassWhereUniqueInput
+    update?: XOR<XOR<ClassUpdateToOneWithWhereWithoutUnseenCompositionsInput, ClassUpdateWithoutUnseenCompositionsInput>, ClassUncheckedUpdateWithoutUnseenCompositionsInput>
+  }
+
+  export type SubjectUpdateOneRequiredWithoutUnseenCompositionsNestedInput = {
+    create?: XOR<SubjectCreateWithoutUnseenCompositionsInput, SubjectUncheckedCreateWithoutUnseenCompositionsInput>
+    connectOrCreate?: SubjectCreateOrConnectWithoutUnseenCompositionsInput
+    upsert?: SubjectUpsertWithoutUnseenCompositionsInput
+    connect?: SubjectWhereUniqueInput
+    update?: XOR<XOR<SubjectUpdateToOneWithWhereWithoutUnseenCompositionsInput, SubjectUpdateWithoutUnseenCompositionsInput>, SubjectUncheckedUpdateWithoutUnseenCompositionsInput>
   }
 
   export type ContentCreateNestedOneWithoutBlocksInput = {
@@ -62330,6 +64422,7 @@ export namespace Prisma {
     subjects?: SubjectCreateNestedManyWithoutClassInput
     units?: UnitCreateNestedManyWithoutClassInput
     contents?: ContentCreateNestedManyWithoutClassInput
+    unseenCompositions?: UnseenCompositionCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutStudentsInput = {
@@ -62353,6 +64446,7 @@ export namespace Prisma {
     subjects?: SubjectUncheckedCreateNestedManyWithoutClassInput
     units?: UnitUncheckedCreateNestedManyWithoutClassInput
     contents?: ContentUncheckedCreateNestedManyWithoutClassInput
+    unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutStudentsInput = {
@@ -62442,6 +64536,7 @@ export namespace Prisma {
     subjects?: SubjectUpdateManyWithoutClassNestedInput
     units?: UnitUpdateManyWithoutClassNestedInput
     contents?: ContentUpdateManyWithoutClassNestedInput
+    unseenCompositions?: UnseenCompositionUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutStudentsInput = {
@@ -62465,6 +64560,7 @@ export namespace Prisma {
     subjects?: SubjectUncheckedUpdateManyWithoutClassNestedInput
     units?: UnitUncheckedUpdateManyWithoutClassNestedInput
     contents?: ContentUncheckedUpdateManyWithoutClassNestedInput
+    unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type AuthSessionUpsertWithWhereUniqueWithoutUserInput = {
@@ -62775,6 +64871,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     units?: UnitCreateNestedManyWithoutSubjectInput
     contents?: ContentCreateNestedManyWithoutSubjectInput
+    unseenCompositions?: UnseenCompositionCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateWithoutClassInput = {
@@ -62797,6 +64894,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     units?: UnitUncheckedCreateNestedManyWithoutSubjectInput
     contents?: ContentUncheckedCreateNestedManyWithoutSubjectInput
+    unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectCreateOrConnectWithoutClassInput = {
@@ -62898,6 +64996,39 @@ export namespace Prisma {
 
   export type ContentCreateManyClassInputEnvelope = {
     data: ContentCreateManyClassInput | ContentCreateManyClassInput[]
+  }
+
+  export type UnseenCompositionCreateWithoutClassInput = {
+    id?: string
+    title: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    subject: SubjectCreateNestedOneWithoutUnseenCompositionsInput
+  }
+
+  export type UnseenCompositionUncheckedCreateWithoutClassInput = {
+    id?: string
+    subjectId: string
+    title: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UnseenCompositionCreateOrConnectWithoutClassInput = {
+    where: UnseenCompositionWhereUniqueInput
+    create: XOR<UnseenCompositionCreateWithoutClassInput, UnseenCompositionUncheckedCreateWithoutClassInput>
+  }
+
+  export type UnseenCompositionCreateManyClassInputEnvelope = {
+    data: UnseenCompositionCreateManyClassInput | UnseenCompositionCreateManyClassInput[]
   }
 
   export type UserCreateWithoutClassInput = {
@@ -63073,6 +65204,38 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Content"> | Date | string
   }
 
+  export type UnseenCompositionUpsertWithWhereUniqueWithoutClassInput = {
+    where: UnseenCompositionWhereUniqueInput
+    update: XOR<UnseenCompositionUpdateWithoutClassInput, UnseenCompositionUncheckedUpdateWithoutClassInput>
+    create: XOR<UnseenCompositionCreateWithoutClassInput, UnseenCompositionUncheckedCreateWithoutClassInput>
+  }
+
+  export type UnseenCompositionUpdateWithWhereUniqueWithoutClassInput = {
+    where: UnseenCompositionWhereUniqueInput
+    data: XOR<UnseenCompositionUpdateWithoutClassInput, UnseenCompositionUncheckedUpdateWithoutClassInput>
+  }
+
+  export type UnseenCompositionUpdateManyWithWhereWithoutClassInput = {
+    where: UnseenCompositionScalarWhereInput
+    data: XOR<UnseenCompositionUpdateManyMutationInput, UnseenCompositionUncheckedUpdateManyWithoutClassInput>
+  }
+
+  export type UnseenCompositionScalarWhereInput = {
+    AND?: UnseenCompositionScalarWhereInput | UnseenCompositionScalarWhereInput[]
+    OR?: UnseenCompositionScalarWhereInput[]
+    NOT?: UnseenCompositionScalarWhereInput | UnseenCompositionScalarWhereInput[]
+    id?: StringFilter<"UnseenComposition"> | string
+    classId?: StringFilter<"UnseenComposition"> | string
+    subjectId?: StringFilter<"UnseenComposition"> | string
+    title?: StringFilter<"UnseenComposition"> | string
+    documentJson?: StringFilter<"UnseenComposition"> | string
+    organizationId?: StringFilter<"UnseenComposition"> | string
+    createdBy?: StringFilter<"UnseenComposition"> | string
+    updatedBy?: StringFilter<"UnseenComposition"> | string
+    createdAt?: DateTimeFilter<"UnseenComposition"> | Date | string
+    updatedAt?: DateTimeFilter<"UnseenComposition"> | Date | string
+  }
+
   export type UserUpsertWithWhereUniqueWithoutClassInput = {
     where: UserWhereUniqueInput
     update: XOR<UserUpdateWithoutClassInput, UserUncheckedUpdateWithoutClassInput>
@@ -63136,6 +65299,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     units?: UnitCreateNestedManyWithoutClassInput
     contents?: ContentCreateNestedManyWithoutClassInput
+    unseenCompositions?: UnseenCompositionCreateNestedManyWithoutClassInput
     students?: UserCreateNestedManyWithoutClassInput
   }
 
@@ -63159,6 +65323,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     units?: UnitUncheckedCreateNestedManyWithoutClassInput
     contents?: ContentUncheckedCreateNestedManyWithoutClassInput
+    unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutClassInput
     students?: UserUncheckedCreateNestedManyWithoutClassInput
   }
 
@@ -63259,6 +65424,39 @@ export namespace Prisma {
     data: ContentCreateManySubjectInput | ContentCreateManySubjectInput[]
   }
 
+  export type UnseenCompositionCreateWithoutSubjectInput = {
+    id?: string
+    title: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    class: ClassCreateNestedOneWithoutUnseenCompositionsInput
+  }
+
+  export type UnseenCompositionUncheckedCreateWithoutSubjectInput = {
+    id?: string
+    classId: string
+    title: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UnseenCompositionCreateOrConnectWithoutSubjectInput = {
+    where: UnseenCompositionWhereUniqueInput
+    create: XOR<UnseenCompositionCreateWithoutSubjectInput, UnseenCompositionUncheckedCreateWithoutSubjectInput>
+  }
+
+  export type UnseenCompositionCreateManySubjectInputEnvelope = {
+    data: UnseenCompositionCreateManySubjectInput | UnseenCompositionCreateManySubjectInput[]
+  }
+
   export type ClassUpsertWithoutSubjectsInput = {
     update: XOR<ClassUpdateWithoutSubjectsInput, ClassUncheckedUpdateWithoutSubjectsInput>
     create: XOR<ClassCreateWithoutSubjectsInput, ClassUncheckedCreateWithoutSubjectsInput>
@@ -63290,6 +65488,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     units?: UnitUpdateManyWithoutClassNestedInput
     contents?: ContentUpdateManyWithoutClassNestedInput
+    unseenCompositions?: UnseenCompositionUpdateManyWithoutClassNestedInput
     students?: UserUpdateManyWithoutClassNestedInput
   }
 
@@ -63313,6 +65512,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     units?: UnitUncheckedUpdateManyWithoutClassNestedInput
     contents?: ContentUncheckedUpdateManyWithoutClassNestedInput
+    unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutClassNestedInput
     students?: UserUncheckedUpdateManyWithoutClassNestedInput
   }
 
@@ -63348,6 +65548,22 @@ export namespace Prisma {
     data: XOR<ContentUpdateManyMutationInput, ContentUncheckedUpdateManyWithoutSubjectInput>
   }
 
+  export type UnseenCompositionUpsertWithWhereUniqueWithoutSubjectInput = {
+    where: UnseenCompositionWhereUniqueInput
+    update: XOR<UnseenCompositionUpdateWithoutSubjectInput, UnseenCompositionUncheckedUpdateWithoutSubjectInput>
+    create: XOR<UnseenCompositionCreateWithoutSubjectInput, UnseenCompositionUncheckedCreateWithoutSubjectInput>
+  }
+
+  export type UnseenCompositionUpdateWithWhereUniqueWithoutSubjectInput = {
+    where: UnseenCompositionWhereUniqueInput
+    data: XOR<UnseenCompositionUpdateWithoutSubjectInput, UnseenCompositionUncheckedUpdateWithoutSubjectInput>
+  }
+
+  export type UnseenCompositionUpdateManyWithWhereWithoutSubjectInput = {
+    where: UnseenCompositionScalarWhereInput
+    data: XOR<UnseenCompositionUpdateManyMutationInput, UnseenCompositionUncheckedUpdateManyWithoutSubjectInput>
+  }
+
   export type ClassCreateWithoutUnitsInput = {
     id?: string
     name: string
@@ -63368,6 +65584,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     subjects?: SubjectCreateNestedManyWithoutClassInput
     contents?: ContentCreateNestedManyWithoutClassInput
+    unseenCompositions?: UnseenCompositionCreateNestedManyWithoutClassInput
     students?: UserCreateNestedManyWithoutClassInput
   }
 
@@ -63391,6 +65608,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     subjects?: SubjectUncheckedCreateNestedManyWithoutClassInput
     contents?: ContentUncheckedCreateNestedManyWithoutClassInput
+    unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutClassInput
     students?: UserUncheckedCreateNestedManyWithoutClassInput
   }
 
@@ -63419,6 +65637,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     class: ClassCreateNestedOneWithoutSubjectsInput
     contents?: ContentCreateNestedManyWithoutSubjectInput
+    unseenCompositions?: UnseenCompositionCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateWithoutUnitsInput = {
@@ -63441,6 +65660,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     contents?: ContentUncheckedCreateNestedManyWithoutSubjectInput
+    unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectCreateOrConnectWithoutUnitsInput = {
@@ -63569,6 +65789,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUpdateManyWithoutClassNestedInput
     contents?: ContentUpdateManyWithoutClassNestedInput
+    unseenCompositions?: UnseenCompositionUpdateManyWithoutClassNestedInput
     students?: UserUpdateManyWithoutClassNestedInput
   }
 
@@ -63592,6 +65813,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUncheckedUpdateManyWithoutClassNestedInput
     contents?: ContentUncheckedUpdateManyWithoutClassNestedInput
+    unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutClassNestedInput
     students?: UserUncheckedUpdateManyWithoutClassNestedInput
   }
 
@@ -63626,6 +65848,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     class?: ClassUpdateOneRequiredWithoutSubjectsNestedInput
     contents?: ContentUpdateManyWithoutSubjectNestedInput
+    unseenCompositions?: UnseenCompositionUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutUnitsInput = {
@@ -63648,6 +65871,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     contents?: ContentUncheckedUpdateManyWithoutSubjectNestedInput
+    unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type LessonUpsertWithWhereUniqueWithoutUnitInput = {
@@ -64135,6 +66359,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     subjects?: SubjectCreateNestedManyWithoutClassInput
     units?: UnitCreateNestedManyWithoutClassInput
+    unseenCompositions?: UnseenCompositionCreateNestedManyWithoutClassInput
     students?: UserCreateNestedManyWithoutClassInput
   }
 
@@ -64158,6 +66383,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     subjects?: SubjectUncheckedCreateNestedManyWithoutClassInput
     units?: UnitUncheckedCreateNestedManyWithoutClassInput
+    unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutClassInput
     students?: UserUncheckedCreateNestedManyWithoutClassInput
   }
 
@@ -64186,6 +66412,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     class: ClassCreateNestedOneWithoutSubjectsInput
     units?: UnitCreateNestedManyWithoutSubjectInput
+    unseenCompositions?: UnseenCompositionCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateWithoutContentsInput = {
@@ -64208,6 +66435,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     units?: UnitUncheckedCreateNestedManyWithoutSubjectInput
+    unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectCreateOrConnectWithoutContentsInput = {
@@ -64462,6 +66690,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUpdateManyWithoutClassNestedInput
     units?: UnitUpdateManyWithoutClassNestedInput
+    unseenCompositions?: UnseenCompositionUpdateManyWithoutClassNestedInput
     students?: UserUpdateManyWithoutClassNestedInput
   }
 
@@ -64485,6 +66714,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUncheckedUpdateManyWithoutClassNestedInput
     units?: UnitUncheckedUpdateManyWithoutClassNestedInput
+    unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutClassNestedInput
     students?: UserUncheckedUpdateManyWithoutClassNestedInput
   }
 
@@ -64519,6 +66749,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     class?: ClassUpdateOneRequiredWithoutSubjectsNestedInput
     units?: UnitUpdateManyWithoutSubjectNestedInput
+    unseenCompositions?: UnseenCompositionUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutContentsInput = {
@@ -64541,6 +66772,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     units?: UnitUncheckedUpdateManyWithoutSubjectNestedInput
+    unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type UnitUpsertWithoutContentsInput = {
@@ -64736,6 +66968,226 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"ContentBlock"> | Date | string
   }
 
+  export type ClassCreateWithoutUnseenCompositionsInput = {
+    id?: string
+    name: string
+    slug: string
+    code?: string
+    description?: string
+    status?: $Enums.PublishStatus
+    sortOrder?: number
+    iconType?: string
+    iconLibrary?: string
+    iconName?: string
+    iconColor?: string
+    imagePath?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    subjects?: SubjectCreateNestedManyWithoutClassInput
+    units?: UnitCreateNestedManyWithoutClassInput
+    contents?: ContentCreateNestedManyWithoutClassInput
+    students?: UserCreateNestedManyWithoutClassInput
+  }
+
+  export type ClassUncheckedCreateWithoutUnseenCompositionsInput = {
+    id?: string
+    name: string
+    slug: string
+    code?: string
+    description?: string
+    status?: $Enums.PublishStatus
+    sortOrder?: number
+    iconType?: string
+    iconLibrary?: string
+    iconName?: string
+    iconColor?: string
+    imagePath?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    subjects?: SubjectUncheckedCreateNestedManyWithoutClassInput
+    units?: UnitUncheckedCreateNestedManyWithoutClassInput
+    contents?: ContentUncheckedCreateNestedManyWithoutClassInput
+    students?: UserUncheckedCreateNestedManyWithoutClassInput
+  }
+
+  export type ClassCreateOrConnectWithoutUnseenCompositionsInput = {
+    where: ClassWhereUniqueInput
+    create: XOR<ClassCreateWithoutUnseenCompositionsInput, ClassUncheckedCreateWithoutUnseenCompositionsInput>
+  }
+
+  export type SubjectCreateWithoutUnseenCompositionsInput = {
+    id?: string
+    name: string
+    slug: string
+    code?: string
+    description?: string
+    status?: $Enums.PublishStatus
+    sortOrder?: number
+    iconType?: string
+    iconLibrary?: string
+    iconName?: string
+    iconColor?: string
+    imagePath?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    class: ClassCreateNestedOneWithoutSubjectsInput
+    units?: UnitCreateNestedManyWithoutSubjectInput
+    contents?: ContentCreateNestedManyWithoutSubjectInput
+  }
+
+  export type SubjectUncheckedCreateWithoutUnseenCompositionsInput = {
+    id?: string
+    classId: string
+    name: string
+    slug: string
+    code?: string
+    description?: string
+    status?: $Enums.PublishStatus
+    sortOrder?: number
+    iconType?: string
+    iconLibrary?: string
+    iconName?: string
+    iconColor?: string
+    imagePath?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    units?: UnitUncheckedCreateNestedManyWithoutSubjectInput
+    contents?: ContentUncheckedCreateNestedManyWithoutSubjectInput
+  }
+
+  export type SubjectCreateOrConnectWithoutUnseenCompositionsInput = {
+    where: SubjectWhereUniqueInput
+    create: XOR<SubjectCreateWithoutUnseenCompositionsInput, SubjectUncheckedCreateWithoutUnseenCompositionsInput>
+  }
+
+  export type ClassUpsertWithoutUnseenCompositionsInput = {
+    update: XOR<ClassUpdateWithoutUnseenCompositionsInput, ClassUncheckedUpdateWithoutUnseenCompositionsInput>
+    create: XOR<ClassCreateWithoutUnseenCompositionsInput, ClassUncheckedCreateWithoutUnseenCompositionsInput>
+    where?: ClassWhereInput
+  }
+
+  export type ClassUpdateToOneWithWhereWithoutUnseenCompositionsInput = {
+    where?: ClassWhereInput
+    data: XOR<ClassUpdateWithoutUnseenCompositionsInput, ClassUncheckedUpdateWithoutUnseenCompositionsInput>
+  }
+
+  export type ClassUpdateWithoutUnseenCompositionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    iconType?: StringFieldUpdateOperationsInput | string
+    iconLibrary?: StringFieldUpdateOperationsInput | string
+    iconName?: StringFieldUpdateOperationsInput | string
+    iconColor?: StringFieldUpdateOperationsInput | string
+    imagePath?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subjects?: SubjectUpdateManyWithoutClassNestedInput
+    units?: UnitUpdateManyWithoutClassNestedInput
+    contents?: ContentUpdateManyWithoutClassNestedInput
+    students?: UserUpdateManyWithoutClassNestedInput
+  }
+
+  export type ClassUncheckedUpdateWithoutUnseenCompositionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    iconType?: StringFieldUpdateOperationsInput | string
+    iconLibrary?: StringFieldUpdateOperationsInput | string
+    iconName?: StringFieldUpdateOperationsInput | string
+    iconColor?: StringFieldUpdateOperationsInput | string
+    imagePath?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subjects?: SubjectUncheckedUpdateManyWithoutClassNestedInput
+    units?: UnitUncheckedUpdateManyWithoutClassNestedInput
+    contents?: ContentUncheckedUpdateManyWithoutClassNestedInput
+    students?: UserUncheckedUpdateManyWithoutClassNestedInput
+  }
+
+  export type SubjectUpsertWithoutUnseenCompositionsInput = {
+    update: XOR<SubjectUpdateWithoutUnseenCompositionsInput, SubjectUncheckedUpdateWithoutUnseenCompositionsInput>
+    create: XOR<SubjectCreateWithoutUnseenCompositionsInput, SubjectUncheckedCreateWithoutUnseenCompositionsInput>
+    where?: SubjectWhereInput
+  }
+
+  export type SubjectUpdateToOneWithWhereWithoutUnseenCompositionsInput = {
+    where?: SubjectWhereInput
+    data: XOR<SubjectUpdateWithoutUnseenCompositionsInput, SubjectUncheckedUpdateWithoutUnseenCompositionsInput>
+  }
+
+  export type SubjectUpdateWithoutUnseenCompositionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    iconType?: StringFieldUpdateOperationsInput | string
+    iconLibrary?: StringFieldUpdateOperationsInput | string
+    iconName?: StringFieldUpdateOperationsInput | string
+    iconColor?: StringFieldUpdateOperationsInput | string
+    imagePath?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    class?: ClassUpdateOneRequiredWithoutSubjectsNestedInput
+    units?: UnitUpdateManyWithoutSubjectNestedInput
+    contents?: ContentUpdateManyWithoutSubjectNestedInput
+  }
+
+  export type SubjectUncheckedUpdateWithoutUnseenCompositionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    iconType?: StringFieldUpdateOperationsInput | string
+    iconLibrary?: StringFieldUpdateOperationsInput | string
+    iconName?: StringFieldUpdateOperationsInput | string
+    iconColor?: StringFieldUpdateOperationsInput | string
+    imagePath?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    units?: UnitUncheckedUpdateManyWithoutSubjectNestedInput
+    contents?: ContentUncheckedUpdateManyWithoutSubjectNestedInput
+  }
+
   export type ContentCreateWithoutBlocksInput = {
     id?: string
     organizationId: string
@@ -64814,6 +67266,9 @@ export namespace Prisma {
     unitId: string
     lessonId: string
     topicId?: string | null
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -64830,6 +67285,9 @@ export namespace Prisma {
     unitId: string
     lessonId: string
     topicId?: string | null
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -64851,6 +67309,9 @@ export namespace Prisma {
     unitId: string
     lessonId: string
     topicId?: string | null
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -64867,6 +67328,9 @@ export namespace Prisma {
     unitId: string
     lessonId: string
     topicId?: string | null
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -64891,6 +67355,9 @@ export namespace Prisma {
     question?: string
     answer?: string
     details?: string
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -64909,6 +67376,9 @@ export namespace Prisma {
     question?: string
     answer?: string
     details?: string
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -64932,6 +67402,9 @@ export namespace Prisma {
     question?: string
     answer?: string
     details?: string
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -64950,6 +67423,9 @@ export namespace Prisma {
     question?: string
     answer?: string
     details?: string
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -65013,6 +67489,9 @@ export namespace Prisma {
     topicId?: string | null
     title?: string
     description?: string
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     documentJson?: string
     organizationId: string
     createdBy: string
@@ -65031,6 +67510,9 @@ export namespace Prisma {
     topicId?: string | null
     title?: string
     description?: string
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     documentJson?: string
     organizationId: string
     createdBy: string
@@ -65788,6 +68270,9 @@ export namespace Prisma {
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -65804,6 +68289,9 @@ export namespace Prisma {
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -65831,6 +68319,9 @@ export namespace Prisma {
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -65847,6 +68338,9 @@ export namespace Prisma {
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -65877,6 +68371,9 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -65895,6 +68392,9 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -65924,6 +68424,9 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -65942,6 +68445,9 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -66017,6 +68523,9 @@ export namespace Prisma {
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     documentJson?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -66035,6 +68544,9 @@ export namespace Prisma {
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     documentJson?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -67121,6 +69633,9 @@ export namespace Prisma {
     unitId: string
     lessonId: string
     topicId?: string | null
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -67138,6 +69653,9 @@ export namespace Prisma {
     unitId: string
     lessonId: string
     topicId?: string | null
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -67169,6 +69687,9 @@ export namespace Prisma {
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -67186,6 +69707,9 @@ export namespace Prisma {
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -67411,6 +69935,9 @@ export namespace Prisma {
     unitId: string
     lessonId: string
     topicId?: string | null
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -67428,6 +69955,9 @@ export namespace Prisma {
     unitId: string
     lessonId: string
     topicId?: string | null
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -67459,6 +69989,9 @@ export namespace Prisma {
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -67476,6 +70009,9 @@ export namespace Prisma {
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -70185,6 +72721,18 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type UnseenCompositionCreateManyClassInput = {
+    id?: string
+    subjectId: string
+    title: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type UserCreateManyClassInput = {
     id?: string
     name: string
@@ -70228,6 +72776,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     units?: UnitUpdateManyWithoutSubjectNestedInput
     contents?: ContentUpdateManyWithoutSubjectNestedInput
+    unseenCompositions?: UnseenCompositionUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutClassInput = {
@@ -70250,6 +72799,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     units?: UnitUncheckedUpdateManyWithoutSubjectNestedInput
     contents?: ContentUncheckedUpdateManyWithoutSubjectNestedInput
+    unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateManyWithoutClassInput = {
@@ -70380,6 +72930,42 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UnseenCompositionUpdateWithoutClassInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: SubjectUpdateOneRequiredWithoutUnseenCompositionsNestedInput
+  }
+
+  export type UnseenCompositionUncheckedUpdateWithoutClassInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UnseenCompositionUncheckedUpdateManyWithoutClassInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserUpdateWithoutClassInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -70480,6 +73066,18 @@ export namespace Prisma {
     unitId: string
     lessonId: string
     topicId?: string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UnseenCompositionCreateManySubjectInput = {
+    id?: string
+    classId: string
+    title: string
+    documentJson?: string
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -70588,6 +73186,42 @@ export namespace Prisma {
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UnseenCompositionUpdateWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    class?: ClassUpdateOneRequiredWithoutUnseenCompositionsNestedInput
+  }
+
+  export type UnseenCompositionUncheckedUpdateWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UnseenCompositionUncheckedUpdateManyWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string

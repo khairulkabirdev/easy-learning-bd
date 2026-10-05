@@ -448,22 +448,24 @@ const contentSelect = {
       vocabulary: {
         select: {
           id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true,
+          passage: true, passageSource: true, paragraphBlockId: true,
           entries: { orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }], select: { id: true, vocabularyId: true, word: true, meaning: true, sortOrder: true } },
         },
       },
       synonymsAntonyms: {
         select: {
           id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true,
+          passage: true, passageSource: true, paragraphBlockId: true,
           entries: {
             orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
             select: { id: true, synonymsAntonymsId: true, word: true, meanings: true, synonyms: true, antonyms: true, details: true, sortOrder: true },
           },
         },
       },
-      gapFillExercise: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, question: true, answer: true, details: true } },
-      gapFillFirstPaper: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, question: true, answer: true, details: true } },
+      gapFillExercise: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, question: true, answer: true, details: true, passage: true, passageSource: true, paragraphBlockId: true } },
+      gapFillFirstPaper: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, question: true, answer: true, details: true, passage: true, passageSource: true, paragraphBlockId: true } },
       gapFillSecondPaper: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, question: true, answer: true, details: true } },
-      mcqSection: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, title: true, description: true, documentJson: true } },
+      mcqSection: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, title: true, description: true, passage: true, passageSource: true, paragraphBlockId: true, documentJson: true } },
       questionAnswerExercise: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, title: true, instruction: true, question: true, answer: true, details: true, documentJson: true } },
       tableCompletionExercise: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, title: true, instruction: true, question: true, answer: true, details: true, documentJson: true } },
       columnMatchingExercise: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, title: true, instruction: true, question: true, answer: true, details: true, documentJson: true } },
@@ -483,14 +485,31 @@ const contentSelect = {
   },
 };
 
+function resolveLinkedPassage(content: any, record: any) {
+  if (!record) return "";
+  if (record.passageSource === "paragraph" && record.paragraphBlockId) {
+    const paragraphBlock = content.blocks.find(
+      (item: any) => item.id === record.paragraphBlockId && item.paragraph,
+    );
+    return paragraphBlock?.paragraph?.body || "";
+  }
+  return record.passage || "";
+}
+
 function serializeContents(contents: Array<any>) {
   return contents.map((content) => ({
     ...content,
     createdAt: content.createdAt.toISOString(),
     blocks: content.blocks.map((block: any) => ({
       ...block,
+      vocabulary: block.vocabulary
+        ? { ...block.vocabulary, resolvedPassage: resolveLinkedPassage(content, block.vocabulary) }
+        : null,
+      synonymsAntonyms: block.synonymsAntonyms
+        ? { ...block.synonymsAntonyms, resolvedPassage: resolveLinkedPassage(content, block.synonymsAntonyms) }
+        : null,
       mcqSection: block.mcqSection
-        ? { ...block.mcqSection, questions: (parseMcqDocument(block.mcqSection.documentJson).questions || []).map((question) => ({ ...question, options: question.options || [] })) }
+        ? { ...block.mcqSection, resolvedPassage: resolveLinkedPassage(content, block.mcqSection), questions: (parseMcqDocument(block.mcqSection.documentJson).questions || []).map((question) => ({ ...question, options: question.options || [] })) }
         : null,
       questionAnswerExercise: (() => {
         const exercise =
@@ -571,10 +590,13 @@ function serializeContents(contents: Array<any>) {
             table: parseSubstitutionTableDocument(block.substitutionTable.answer, block.substitutionTable.id),
           }
         : null,
-      gapFill: block.gapFillExercise ?? block.gapFill,
+      gapFill: block.gapFillExercise
+        ? { ...block.gapFillExercise, resolvedPassage: resolveLinkedPassage(content, block.gapFillExercise) }
+        : block.gapFill,
       gapFillFirstPaper: block.gapFillFirstPaper
         ? {
             ...block.gapFillFirstPaper,
+            resolvedPassage: resolveLinkedPassage(content, block.gapFillFirstPaper),
             blanks: parseFillBlankAnswers(
               block.gapFillFirstPaper.answer,
               block.gapFillFirstPaper.question,
@@ -813,12 +835,51 @@ export async function getPublishedSubjectDetail(organizationId: string, classId:
   return { subject, units, lessons, topics, contents: serializeContents(filteredContents) };
 }
 
-export async function getPublishedContentById(organizationId: string, contentId: string) {
+
+export async function getPublishedContentByBlockKind(
+  organizationId: string,
+  classId: string,
+  contentId: string,
+  kind: string,
+) {
   const content = await prisma.content.findFirst({
     where: {
       id: contentId,
       organizationId,
-      blocks: { some: { kind: "mcq" } },
+      classId,
+      subject: { status: "published" },
+      unit: { status: "published" },
+      lesson: { status: "published" },
+      AND: [
+        { OR: [{ topicId: null }, { topic: { status: "published" } }] },
+        { blocks: { some: { kind } } },
+      ],
+    },
+    select: contentSelect as any,
+  });
+
+  if (!content) return null;
+
+  return serializeContents([content])[0] ?? null;
+}
+
+export async function getPublishedContentById(
+  organizationId: string,
+  classId: string,
+  contentId: string,
+) {
+  const content = await prisma.content.findFirst({
+    where: {
+      id: contentId,
+      organizationId,
+      classId,
+      subject: { status: "published" },
+      unit: { status: "published" },
+      lesson: { status: "published" },
+      AND: [
+        { OR: [{ topicId: null }, { topic: { status: "published" } }] },
+        { blocks: { some: { kind: "mcq" } } },
+      ],
     },
     select: contentSelect as any,
   });

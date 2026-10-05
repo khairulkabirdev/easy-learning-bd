@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { ContentBlocksEditorClient } from "@/app/admin/content/[contentId]/ContentBlocksEditorClient";
-import type { ContentRecordWithBlocks } from "@/app/admin/content/content-types";
+import type { ContentBlockKind, ContentRecordWithBlocks } from "@/app/admin/content/content-types";
 import { requireAdmin } from "@/lib/app-auth";
 import { prisma } from "@/lib/db";
 
@@ -453,11 +453,14 @@ function parseMcqDocument(documentJson: string) {
 
 export default async function AdminContentBlocksPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ contentId: string }>;
+  searchParams: Promise<{ editorMode?: string }>;
 }) {
   const user = await requireAdmin();
   const { contentId } = await params;
+  const { editorMode } = await searchParams;
 
   const content = await prisma.content.findFirst({
     where: {
@@ -507,6 +510,9 @@ export default async function AdminContentBlocksPage({
               unitId: true,
               lessonId: true,
               topicId: true,
+              passage: true,
+              passageSource: true,
+              paragraphBlockId: true,
               entries: {
                 orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
                 select: {
@@ -529,6 +535,9 @@ export default async function AdminContentBlocksPage({
               unitId: true,
               lessonId: true,
               topicId: true,
+              passage: true,
+              passageSource: true,
+              paragraphBlockId: true,
               entries: {
                 orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
                 select: {
@@ -554,6 +563,9 @@ export default async function AdminContentBlocksPage({
               unitId: true,
               lessonId: true,
               topicId: true,
+              passage: true,
+              passageSource: true,
+              paragraphBlockId: true,
               question: true,
               answer: true,
               details: true,
@@ -569,6 +581,9 @@ export default async function AdminContentBlocksPage({
               unitId: true,
               lessonId: true,
               topicId: true,
+              passage: true,
+              passageSource: true,
+              paragraphBlockId: true,
               question: true,
               answer: true,
               details: true,
@@ -599,6 +614,9 @@ export default async function AdminContentBlocksPage({
               unitId: true,
               lessonId: true,
               topicId: true,
+              passage: true,
+              passageSource: true,
+              paragraphBlockId: true,
               title: true,
               description: true,
               documentJson: true,
@@ -857,9 +875,25 @@ export default async function AdminContentBlocksPage({
     blocks: content.blocks.map((block) => ({
       ...block,
       kind: block.kind as ContentRecordWithBlocks["blocks"][number]["kind"],
+      vocabulary: block.vocabulary
+        ? {
+            ...block.vocabulary,
+            passageSource: block.vocabulary.passageSource === "paragraph" ? "paragraph" as const : "manual" as const,
+            paragraphBlockId: block.vocabulary.paragraphBlockId || null,
+          }
+        : null,
+      synonymsAntonyms: block.synonymsAntonyms
+        ? {
+            ...block.synonymsAntonyms,
+            passageSource: block.synonymsAntonyms.passageSource === "paragraph" ? "paragraph" as const : "manual" as const,
+            paragraphBlockId: block.synonymsAntonyms.paragraphBlockId || null,
+          }
+        : null,
       mcqSection: block.mcqSection
         ? {
             ...block.mcqSection,
+            passageSource: block.mcqSection.passageSource === "paragraph" ? "paragraph" as const : "manual" as const,
+            paragraphBlockId: block.mcqSection.paragraphBlockId || null,
             questions: (parseMcqDocument(block.mcqSection.documentJson).questions || []).map((question) => ({
               ...question,
               options: question.options || [],
@@ -948,10 +982,18 @@ export default async function AdminContentBlocksPage({
             table: parseSubstitutionTableDocument(block.substitutionTable.answer, block.substitutionTable.id),
           }
         : null,
-      gapFill: block.gapFillExercise,
+      gapFill: block.gapFillExercise
+        ? {
+            ...block.gapFillExercise,
+            passageSource: block.gapFillExercise.passageSource === "paragraph" ? "paragraph" as const : "manual" as const,
+            paragraphBlockId: block.gapFillExercise.paragraphBlockId || null,
+          }
+        : null,
       gapFillFirstPaper: block.gapFillFirstPaper
         ? {
             ...block.gapFillFirstPaper,
+            passageSource: block.gapFillFirstPaper.passageSource === "paragraph" ? "paragraph" as const : "manual" as const,
+            paragraphBlockId: block.gapFillFirstPaper.paragraphBlockId || null,
             blanks: parseFillBlankAnswers(
               block.gapFillFirstPaper.answer,
               block.gapFillFirstPaper.question,
@@ -1037,5 +1079,23 @@ export default async function AdminContentBlocksPage({
     })),
   };
 
-  return <ContentBlocksEditorClient content={typedContent} />;
+  const allowedBlockKinds: ContentBlockKind[] | undefined =
+    editorMode === "seen-composition"
+      ? [
+          "paragraph",
+          "mcq",
+          "question-answer",
+          "gap-fill-first-paper",
+          "vocabulary",
+          "synonyms-antonyms",
+        ]
+      : undefined;
+
+  return (
+    <ContentBlocksEditorClient
+      content={typedContent}
+      allowedBlockKindsOverride={allowedBlockKinds}
+      blockTitleOverrides={editorMode === "seen-composition" ? { paragraph: "Passage" } : undefined}
+    />
+  );
 }

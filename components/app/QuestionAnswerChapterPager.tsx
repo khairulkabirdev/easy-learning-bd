@@ -66,10 +66,12 @@ export function QuestionAnswerChapterPager({
   title,
   passage,
   rows,
+  compact = false,
 }: {
   title: string;
   passage: string;
   rows: QuestionAnswerRowRecord[];
+  compact?: boolean;
 }) {
   const [page, setPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -115,7 +117,12 @@ export function QuestionAnswerChapterPager({
   }
 
   return (
-    <div className="mx-auto mt-5 min-h-screen max-w-3xl px-2 pb-6">
+    <div
+      className={cn(
+        "mx-auto mt-5 max-w-3xl px-2 pb-6",
+        compact ? "min-h-0" : "min-h-screen",
+      )}
+    >
       <div
         aria-label={title || "Question Answer"}
         className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900"
@@ -175,7 +182,7 @@ export function QuestionAnswerChapterPager({
               <RichContent
                 value={passage}
                 className={cn(
-                  "noto text-sm  leading-relaxed text-gray-800 dark:text-gray-200 sm:text-base",
+                  "noto text-sm font-medium leading-relaxed text-gray-800 dark:text-gray-200 sm:text-base",
                   "[&_p]:text-justify",
                   "[&_img]:rounded [&_img]:bg-white [&_img]:p-1",
                   "[&_*]:!text-inherit",
@@ -251,10 +258,10 @@ export function QuestionAnswerChapterPager({
                   </button>
 
                   {isOpen ? (
-                    <div className="mx-3 mb-3 rounded-lg border border-emerald-200 bg-white px-3 py-3 dark:border-emerald-900/70 dark:bg-gray-900">
+                    <div className="mx-3 mb-3 rounded-lg border border-emerald-200 bg-white px-3 py-3 dark:border-emerald-900/70 dark:bg-gray-900 sm:ml-10">
                       <div className="mb-2 flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
                         <CheckCircle2 className="h-4 w-4 fill-emerald-100 dark:fill-emerald-950" />
-                        <span className="noto">Ans</span>
+                        <span className="noto">উত্তর</span>
                       </div>
 
                       <RichContent

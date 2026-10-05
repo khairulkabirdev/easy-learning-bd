@@ -15,12 +15,14 @@ export function McqChapterPager({
   title,
   description,
   questions,
+  compact = false,
 }: {
   content: StudentContentRecord;
   blockId: string;
   title: string;
   description: string;
   questions: McqQuestionRecord[];
+  compact?: boolean;
 }) {
   const [page, setPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -61,7 +63,9 @@ export function McqChapterPager({
   }
 
   return (
-    <div className="max-w-3xl mx-auto pb-6 min-h-screen px-2 mt-5">
+    <div
+      className={`max-w-3xl mx-auto pb-6 px-2 mt-5 ${compact ? "min-h-0" : "min-h-screen"}`}
+    >
 
       <StudentContentViewer content={pagedContent} title={title || "MCQ"} description={description} showHeader={false} />
 

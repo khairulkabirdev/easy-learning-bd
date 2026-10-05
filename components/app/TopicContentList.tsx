@@ -37,6 +37,24 @@ function getContentTypeLabel(kind: string) {
   return contentTypeLabels[kind as ContentBlockKind] || "Content";
 }
 
+const firstPaperChapterSlugs: Partial<Record<ContentBlockKind, string>> = {
+  paragraph: "paragraph",
+  vocabulary: "vocabulary",
+  mcq: "mcq",
+  "gap-fill-first-paper": "fill-in-the-blanks",
+  "table-completion": "table-completion",
+  "question-answer": "question-answer",
+  "sentence-ordering": "rearrange-sentence",
+  "synonyms-antonyms": "synonyms-antonyms",
+  "information-transfer": "information-transfer",
+  "true-false": "true-false",
+};
+
+function getChapterHref(kind: string, contentId: string) {
+  const slug = firstPaperChapterSlugs[kind as ContentBlockKind];
+  return slug ? `/user/${slug}/chapter/${contentId}` : undefined;
+}
+
 export function TopicContentList({
   contents,
   viewerTitle = "کন্টেন্ট দেখুন",
@@ -47,22 +65,47 @@ export function TopicContentList({
   viewerDescription?: string;
 }) {
   const [selectedContentId, setSelectedContentId] = useState<string | null>(null);
-  const contentItems = contents.flatMap((content) =>
-    content.blocks.map((block) => ({
-      id: `${content.id}-${block.id}`,
-      content,
-      block,
-      label: getContentTypeLabel(block.kind),
-      href:
-        block.kind === "mcq"
-          ? `/user/mcq/chapter/${content.id}`
-          : block.kind === "question-answer"
-            ? `/user/question-answer/chapter/${content.id}`
-            : undefined,
-    })),
-  );
+
+  // Show only one card for each block kind inside a Content record.
+  // Example: three Vocabulary blocks in the same content produce one
+  // Vocabulary card; opening it renders all three Vocabulary blocks.
+  const contentItems = contents.flatMap((content) => {
+    const groupedByKind = new Map<
+      string,
+      {
+        id: string;
+        content: StudentContentRecord;
+        blocks: StudentContentRecord["blocks"];
+        label: string;
+        href?: string;
+      }
+    >();
+
+    for (const block of content.blocks) {
+      const groupId = `${content.id}-${block.kind}`;
+      const existing = groupedByKind.get(block.kind);
+
+      if (existing) {
+        existing.blocks.push(block);
+        continue;
+      }
+
+      groupedByKind.set(block.kind, {
+        id: groupId,
+        content,
+        blocks: [block],
+        label: getContentTypeLabel(block.kind),
+        href: getChapterHref(block.kind, content.id),
+      });
+    }
+
+    return Array.from(groupedByKind.values());
+  });
+
   const selectedItem = contentItems.find((item) => item.id === selectedContentId) ?? null;
-  const selectedContent = selectedItem ? { ...selectedItem.content, blocks: [selectedItem.block] } : null;
+  const selectedContent = selectedItem
+    ? { ...selectedItem.content, blocks: selectedItem.blocks }
+    : null;
 
   if (selectedContent) {
     return (

@@ -1,0 +1,5 @@
+import { redirect } from "next/navigation";
+export default async function Page({ params }: { params: Promise<{ classId: string }> }) {
+  const { classId } = await params;
+  redirect(`/admin/content/class/${classId}/seen-composition`);
+}

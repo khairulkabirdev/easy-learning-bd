@@ -47,7 +47,9 @@ import {
   updateTagQuestion,
   updateTrueFalseExercise,
   updateVocabularyEntry,
+  updateVocabularyPassage,
   updateSynonymsAntonymsEntry,
+  updateSynonymsAntonymsPassage,
 } from "@/app/admin/content/actions";
 import type {
   ContentBlockKind,
@@ -111,6 +113,9 @@ type ThreeFieldBlockValue = {
   question: string;
   answer: string;
   details: string;
+  passage?: string;
+  passageSource?: "manual" | "paragraph";
+  paragraphBlockId?: string | null;
 };
 
 type SynonymsAntonymsDraft = {
@@ -887,6 +892,9 @@ const THREE_FIELD_BLOCK_META: Partial<
         question: string;
         answer: string;
         details: string;
+        passage?: string;
+        passageSource?: "manual" | "paragraph";
+        paragraphBlockId?: string | null;
       }) => Promise<void>;
       patchBlock: (block: BlockDraft, next: ThreeFieldBlockValue) => BlockDraft;
     }
@@ -1075,8 +1083,12 @@ function getBlockIcon(kind: ContentBlockKind) {
 
 export function ContentBlocksEditorClient({
   content,
+  allowedBlockKindsOverride,
+  blockTitleOverrides,
 }: {
   content: ContentRecordWithBlocks;
+  allowedBlockKindsOverride?: ContentBlockKind[];
+  blockTitleOverrides?: Partial<Record<ContentBlockKind, string>>;
 }) {
   const router = useRouter();
   const [blocks, setBlocks] = useState<BlockDraft[]>(content.blocks);
@@ -1133,7 +1145,17 @@ export function ContentBlocksEditorClient({
     setBlocks(content.blocks);
   }, [content.blocks]);
 
-  const allowedBlockKinds = useMemo(() => getAllowedBlockKinds(content.subject.name), [content.subject.name]);
+  const subjectAllowedBlockKinds = useMemo(
+    () => getAllowedBlockKinds(content.subject.name),
+    [content.subject.name],
+  );
+  const allowedBlockKinds = useMemo(
+    () =>
+      allowedBlockKindsOverride
+        ? new Set<ContentBlockKind>(allowedBlockKindsOverride)
+        : subjectAllowedBlockKinds,
+    [allowedBlockKindsOverride, subjectAllowedBlockKinds],
+  );
   const visibleBlocks = useMemo(
     () => (allowedBlockKinds ? blocks.filter((block) => allowedBlockKinds.has(block.kind)) : blocks),
     [allowedBlockKinds, blocks],
@@ -1142,15 +1164,31 @@ export function ContentBlocksEditorClient({
     () => (allowedBlockKinds ? BLOCK_META.filter((item) => allowedBlockKinds.has(item.kind)) : BLOCK_META),
     [allowedBlockKinds],
   );
+  const isSeenCompositionMode = blockTitleOverrides?.paragraph === "Passage";
+  const paragraphBlocks = useMemo(
+    () => blocks.filter((block) => block.kind === "paragraph" && block.paragraph),
+    [blocks],
+  );
+  const passageLabelForIndex = (index: number) => (index === 0 ? "Passage" : `Passage ${index + 1}`);
+  const paragraphLabelForBlock = (blockId: string) => {
+    const index = paragraphBlocks.findIndex((block) => block.id === blockId);
+    if (!isSeenCompositionMode) return index >= 0 ? `Paragraph ${index + 1}` : "Paragraph";
+    return index >= 0 ? passageLabelForIndex(index) : "Passage";
+  };
+  const displayBlockTitleForBlock = (block: BlockDraft) =>
+    block.kind === "paragraph" && isSeenCompositionMode
+      ? paragraphLabelForBlock(block.id)
+      : blockTitleOverrides?.[block.kind] ?? getBlockTitle(block.kind);
+  const nextParagraphChooserLabel = isSeenCompositionMode
+    ? passageLabelForIndex(paragraphBlocks.length)
+    : blockTitleOverrides?.paragraph ?? "Paragraph";
   const paragraphPassageOptions = useMemo(
     () =>
-      blocks
-        .filter((block) => block.kind === "paragraph" && block.paragraph)
-        .map((block, index) => ({
-          id: block.id,
-          label: `Paragraph ${index + 1} — ${paragraphPreview(block.paragraph!.body)}`,
-        })),
-    [blocks],
+      paragraphBlocks.map((block, index) => ({
+        id: block.id,
+        label: `${isSeenCompositionMode ? passageLabelForIndex(index) : `Paragraph ${index + 1}`} — ${paragraphPreview(block.paragraph!.body)}`,
+      })),
+    [paragraphBlocks, isSeenCompositionMode],
   );
 
   const pathLabel = useMemo(() => {
@@ -2402,6 +2440,35 @@ export function ContentBlocksEditorClient({
     }
   }
 
+  async function handleVocabularyPassageChange(
+    blockId: string,
+    patch: { passage?: string; passageSource?: "manual" | "paragraph"; paragraphBlockId?: string | null },
+  ) {
+    const currentBlock = blocks.find((block) => block.id === blockId);
+    if (!currentBlock?.vocabulary) return;
+
+    const next = { ...currentBlock.vocabulary, ...patch };
+    if (next.passageSource !== "paragraph") {
+      next.paragraphBlockId = null;
+    }
+
+    patchBlock(blockId, (block) => ({
+      ...block,
+      vocabulary: block.vocabulary ? { ...block.vocabulary, ...next } : null,
+    }));
+
+    await saveInBackground(`vocabulary-passage:${blockId}`, () =>
+      updateVocabularyPassage({
+        contentId: content.id,
+        blockId,
+        vocabularyId: next.id,
+        passage: next.passage || "",
+        passageSource: next.passageSource || "manual",
+        paragraphBlockId: next.passageSource === "paragraph" ? next.paragraphBlockId || null : null,
+      }),
+    );
+  }
+
   async function handleVocabularyEntryChange(
     blockId: string,
     vocabularyEntryId: string,
@@ -2509,6 +2576,39 @@ export function ContentBlocksEditorClient({
     } catch (error) {
       setActionError(error instanceof Error ? error.message : "Failed to delete vocabulary row.");
     }
+  }
+
+  async function handleSynonymsAntonymsPassageChange(
+    blockId: string,
+    patch: Partial<{
+      passage: string;
+      passageSource: "manual" | "paragraph";
+      paragraphBlockId: string | null;
+    }>,
+  ) {
+    const currentBlock = blocks.find((block) => block.id === blockId);
+    if (!currentBlock?.synonymsAntonyms) return;
+
+    const next = { ...currentBlock.synonymsAntonyms, ...patch };
+    if (patch.passageSource === "manual") {
+      next.paragraphBlockId = null;
+    }
+
+    patchBlock(blockId, (block) => ({
+      ...block,
+      synonymsAntonyms: block.synonymsAntonyms ? next : null,
+    }));
+
+    saveInBackground(`synonyms-passage:${blockId}`, () =>
+      updateSynonymsAntonymsPassage({
+        contentId: content.id,
+        blockId,
+        synonymsAntonymsId: next.id,
+        passage: next.passage,
+        passageSource: next.passageSource,
+        paragraphBlockId: next.passageSource === "paragraph" ? next.paragraphBlockId : null,
+      }),
+    );
   }
 
   async function handleSynonymsAntonymsEntryChange(
@@ -2640,6 +2740,9 @@ export function ContentBlocksEditorClient({
     patch: Partial<{
       title: string;
       description: string;
+      passage: string;
+      passageSource: "manual" | "paragraph";
+      paragraphBlockId: string | null;
       questions: McqSectionDraft["questions"];
     }>,
   ) {
@@ -2666,6 +2769,9 @@ export function ContentBlocksEditorClient({
         mcqSectionId: currentBlock.mcqSection!.id,
         title: persisted.title,
         description: persisted.description,
+        passage: persisted.passage,
+        passageSource: persisted.passageSource,
+        paragraphBlockId: persisted.passageSource === "paragraph" ? persisted.paragraphBlockId : null,
         documentJson: persisted.documentJson,
       }),
     );
@@ -3093,7 +3199,14 @@ export function ContentBlocksEditorClient({
 
   async function handleFillBlankFirstPaperChange(
     blockId: string,
-    patch: { question?: string; details?: string; blanks?: FillBlankAnswerRecord[] },
+    patch: {
+      question?: string;
+      details?: string;
+      blanks?: FillBlankAnswerRecord[];
+      passage?: string;
+      passageSource?: "manual" | "paragraph";
+      paragraphBlockId?: string | null;
+    },
   ) {
     const currentBlock = blocks.find((block) => block.id === blockId);
     if (!currentBlock?.gapFillFirstPaper) return;
@@ -3104,12 +3217,22 @@ export function ContentBlocksEditorClient({
     const blanks = resizeFillBlankAnswers(sourceBlanks, blankCount);
     const answer = serializeFillBlankAnswers(blanks);
     const details = patch.details !== undefined ? patch.details : currentBlock.gapFillFirstPaper.details;
+    const passage = patch.passage !== undefined ? patch.passage : currentBlock.gapFillFirstPaper.passage || "";
+    const passageSource = patch.passageSource !== undefined
+      ? patch.passageSource
+      : currentBlock.gapFillFirstPaper.passageSource || "manual";
+    const paragraphBlockId = passageSource === "paragraph"
+      ? (patch.paragraphBlockId !== undefined ? patch.paragraphBlockId : currentBlock.gapFillFirstPaper.paragraphBlockId || null)
+      : null;
 
     const next = {
       ...currentBlock.gapFillFirstPaper,
       question,
       answer,
       details,
+      passage,
+      passageSource,
+      paragraphBlockId,
       blanks,
     };
 
@@ -3126,6 +3249,9 @@ export function ContentBlocksEditorClient({
         question: next.question,
         answer: next.answer,
         details: next.details,
+        passage: next.passage,
+        passageSource: next.passageSource,
+        paragraphBlockId: next.paragraphBlockId,
       }),
     );
   }
@@ -3305,7 +3431,14 @@ export function ContentBlocksEditorClient({
     kind: ContentBlockKind,
     blockId: string,
     recordId: string,
-    patch: { question?: string; answer?: string; details?: string },
+    patch: {
+      question?: string;
+      answer?: string;
+      details?: string;
+      passage?: string;
+      passageSource?: "manual" | "paragraph";
+      paragraphBlockId?: string | null;
+    },
   ) {
     const config = THREE_FIELD_BLOCK_META[kind];
     const currentBlock = blocks.find((block) => block.id === blockId);
@@ -3317,6 +3450,10 @@ export function ContentBlocksEditorClient({
       ...patch,
     };
 
+    if (kind === "gap-fill" && next.passageSource !== "paragraph") {
+      next.paragraphBlockId = null;
+    }
+
     patchBlock(blockId, (block) => config.patchBlock(block, next));
 
     saveInBackground(`${kind}:${blockId}`, () =>
@@ -3327,6 +3464,9 @@ export function ContentBlocksEditorClient({
         question: next.question,
         answer: next.answer,
         details: next.details,
+        passage: next.passage,
+        passageSource: next.passageSource,
+        paragraphBlockId: next.paragraphBlockId,
       }),
     );
   }
@@ -3374,7 +3514,7 @@ export function ContentBlocksEditorClient({
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
                     <div className="rounded-md border p-2">{getBlockIcon(block.kind)}</div>
-                    <CardTitle className="text-base">{getBlockTitle(block.kind)}</CardTitle>
+                    <CardTitle className="text-base">{displayBlockTitleForBlock(block)}</CardTitle>
                     <Badge variant="secondary">#{block.sortOrder + 1}</Badge>
                   </div>
                   <CardDescription>Block type: {block.kind}</CardDescription>
@@ -3411,12 +3551,12 @@ export function ContentBlocksEditorClient({
                 <CardContent className={BLOCK_CONTENT_CLASS}>
                   <Field>
                     <FieldContent>
-                      <FieldLabel>Paragraph</FieldLabel>
+                      <FieldLabel>{isSeenCompositionMode ? paragraphLabelForBlock(block.id) : blockTitleOverrides?.paragraph ?? "Paragraph"}</FieldLabel>
                       <TiptapRichTextEditor
                         value={block.paragraph.body}
                         onChange={(value) => void handleParagraphChange(block.id, block.paragraph!.id, value)}
                         minHeight={240}
-                        placeholder="Write the paragraph here..."
+                        placeholder={isSeenCompositionMode ? `Write ${paragraphLabelForBlock(block.id).toLowerCase()} here...` : "Write the paragraph here..."}
                       />
                     </FieldContent>
                   </Field>
@@ -3425,6 +3565,53 @@ export function ContentBlocksEditorClient({
 
               {block.kind === "vocabulary" && block.vocabulary ? (
                 <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-5`}>
+                  <FieldGroup>
+                    <Field>
+                      <FieldContent>
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                          <div>
+                            <FieldLabel>Passage</FieldLabel>
+                            <FieldDescription>Write a custom passage or link Passage / Passage 2 from this content.</FieldDescription>
+                          </div>
+                          <label className="flex items-center gap-2 text-sm">
+                            <span>Use Passage block</span>
+                            <Switch
+                              checked={block.vocabulary.passageSource === "paragraph"}
+                              onCheckedChange={(checked) =>
+                                void handleVocabularyPassageChange(block.id, { passageSource: checked ? "paragraph" : "manual" })
+                              }
+                            />
+                          </label>
+                        </div>
+
+                        {block.vocabulary.passageSource === "paragraph" ? (
+                          <div className="mt-3 space-y-2">
+                            <FieldLabel>Passage block</FieldLabel>
+                            <QuestionAnswerPassageCombobox
+                              value={block.vocabulary.paragraphBlockId || ""}
+                              options={paragraphPassageOptions}
+                              onChange={(paragraphBlockId) =>
+                                void handleVocabularyPassageChange(block.id, { paragraphBlockId: paragraphBlockId || null })
+                              }
+                            />
+                            {paragraphPassageOptions.length === 0 ? (
+                              <p className="text-sm text-muted-foreground">Add Passage first, then it will appear here.</p>
+                            ) : null}
+                          </div>
+                        ) : (
+                          <div className="mt-3 rounded-xl border bg-background p-3">
+                            <TiptapRichTextEditor
+                              value={block.vocabulary.passage || ""}
+                              onChange={(value) => void handleVocabularyPassageChange(block.id, { passage: value })}
+                              minHeight={180}
+                              placeholder="Write the passage for this Vocabulary block..."
+                            />
+                          </div>
+                        )}
+                      </FieldContent>
+                    </Field>
+                  </FieldGroup>
+
                   <div className="flex items-center justify-between gap-4">
                     <div className="space-y-1">
                       <h3 className="text-sm font-medium">Vocabulary rows</h3>
@@ -3486,6 +3673,51 @@ export function ContentBlocksEditorClient({
 
               {block.kind === "synonyms-antonyms" && block.synonymsAntonyms ? (
                 <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-5`}>
+                  <Field>
+                    <FieldContent>
+                      <div className="flex flex-wrap items-center justify-between gap-3">
+                        <div className="space-y-1">
+                          <FieldLabel>Passage</FieldLabel>
+                          <FieldDescription>Write a custom passage or link an existing Paragraph block from this content.</FieldDescription>
+                        </div>
+                        <label className="flex cursor-pointer items-center gap-2 text-sm font-medium">
+                          <span>Use Paragraph block</span>
+                          <Switch
+                            checked={block.synonymsAntonyms.passageSource === "paragraph"}
+                            onCheckedChange={(checked) =>
+                              void handleSynonymsAntonymsPassageChange(block.id, { passageSource: checked ? "paragraph" : "manual" })
+                            }
+                          />
+                        </label>
+                      </div>
+
+                      {block.synonymsAntonyms.passageSource === "paragraph" ? (
+                        <div className="mt-3 space-y-2 rounded-xl border bg-muted/20 p-4">
+                          <FieldLabel>Paragraph</FieldLabel>
+                          <QuestionAnswerPassageCombobox
+                            value={block.synonymsAntonyms.paragraphBlockId || ""}
+                            options={paragraphPassageOptions}
+                            onChange={(paragraphBlockId) =>
+                              void handleSynonymsAntonymsPassageChange(block.id, { paragraphBlockId: paragraphBlockId || null })
+                            }
+                          />
+                          {paragraphPassageOptions.length === 0 ? (
+                            <p className="text-sm text-muted-foreground">Add a Paragraph block to this content first, then it will appear here.</p>
+                          ) : null}
+                        </div>
+                      ) : (
+                        <div className="mt-3 rounded-xl border bg-background p-3">
+                          <TiptapRichTextEditor
+                            value={block.synonymsAntonyms.passage}
+                            onChange={(value) => void handleSynonymsAntonymsPassageChange(block.id, { passage: value })}
+                            minHeight={160}
+                            placeholder="Write the passage for this Synonyms / Antonyms block..."
+                          />
+                        </div>
+                      )}
+                    </FieldContent>
+                  </Field>
+
                   <div className="flex items-center justify-between gap-4">
                     <div className="space-y-1">
                       <h3 className="text-sm font-medium">Synonyms and antonyms rows</h3>
@@ -3613,6 +3845,48 @@ export function ContentBlocksEditorClient({
                           placeholder="Add optional instructions for this MCQ section..."
                           rows={3}
                         />
+                      </FieldContent>
+                    </Field>
+
+                    <Field>
+                      <FieldContent>
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                          <div className="space-y-1">
+                            <FieldLabel>Passage</FieldLabel>
+                            <FieldDescription>Write a custom passage or link an existing Paragraph block from this content.</FieldDescription>
+                          </div>
+                          <label className="flex cursor-pointer items-center gap-2 text-sm font-medium">
+                            <span>Use Paragraph block</span>
+                            <Switch
+                              checked={block.mcqSection.passageSource === "paragraph"}
+                              onCheckedChange={(checked) =>
+                                void handleMcqSectionChange(block.id, { passageSource: checked ? "paragraph" : "manual" })
+                              }
+                            />
+                          </label>
+                        </div>
+                        {block.mcqSection.passageSource === "paragraph" ? (
+                          <div className="mt-3 space-y-2 rounded-xl border bg-muted/20 p-4">
+                            <FieldLabel>Paragraph</FieldLabel>
+                            <QuestionAnswerPassageCombobox
+                              value={block.mcqSection.paragraphBlockId || ""}
+                              options={paragraphPassageOptions}
+                              onChange={(paragraphBlockId) => void handleMcqSectionChange(block.id, { paragraphBlockId: paragraphBlockId || null })}
+                            />
+                            {paragraphPassageOptions.length === 0 ? (
+                              <p className="text-sm text-muted-foreground">Add a Paragraph block to this content first, then it will appear here.</p>
+                            ) : null}
+                          </div>
+                        ) : (
+                          <div className="mt-3 rounded-xl border bg-background p-3">
+                            <TiptapRichTextEditor
+                              value={block.mcqSection.passage}
+                              onChange={(value) => void handleMcqSectionChange(block.id, { passage: value })}
+                              minHeight={160}
+                              placeholder="Write the passage for these MCQ questions..."
+                            />
+                          </div>
+                        )}
                       </FieldContent>
                     </Field>
                   </FieldGroup>
@@ -4944,6 +5218,46 @@ export function ContentBlocksEditorClient({
                       }
                     />
 
+                    <Field>
+                      <FieldContent>
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                          <div className="space-y-1">
+                            <FieldLabel>Passage</FieldLabel>
+                            <FieldDescription>Write a custom passage or link an existing Paragraph block from this content.</FieldDescription>
+                          </div>
+                          <label className="flex cursor-pointer items-center gap-2 text-sm font-medium">
+                            <span>Use Paragraph block</span>
+                            <Switch
+                              checked={block.gapFillFirstPaper.passageSource === "paragraph"}
+                              onCheckedChange={(checked) => void handleFillBlankFirstPaperChange(block.id, { passageSource: checked ? "paragraph" : "manual" })}
+                            />
+                          </label>
+                        </div>
+                        {block.gapFillFirstPaper.passageSource === "paragraph" ? (
+                          <div className="mt-3 space-y-2 rounded-xl border bg-muted/20 p-4">
+                            <FieldLabel>Paragraph</FieldLabel>
+                            <QuestionAnswerPassageCombobox
+                              value={block.gapFillFirstPaper.paragraphBlockId || ""}
+                              options={paragraphPassageOptions}
+                              onChange={(paragraphBlockId) => void handleFillBlankFirstPaperChange(block.id, { paragraphBlockId: paragraphBlockId || null })}
+                            />
+                            {paragraphPassageOptions.length === 0 ? (
+                              <p className="text-sm text-muted-foreground">Add a Paragraph block to this content first, then it will appear here.</p>
+                            ) : null}
+                          </div>
+                        ) : (
+                          <div className="mt-3 rounded-xl border bg-background p-3">
+                            <TiptapRichTextEditor
+                              value={block.gapFillFirstPaper.passage || ""}
+                              onChange={(value) => void handleFillBlankFirstPaperChange(block.id, { passage: value })}
+                              minHeight={160}
+                              placeholder="Write the passage for this Fill in the Blanks block..."
+                            />
+                          </div>
+                        )}
+                      </FieldContent>
+                    </Field>
+
                     <div className="overflow-hidden rounded-2xl border bg-background shadow-sm">
                       <div className="flex flex-wrap items-start justify-between gap-3 border-b bg-muted/30 px-4 py-3">
                         <div className="space-y-1">
@@ -5529,6 +5843,46 @@ export function ContentBlocksEditorClient({
               {block.kind !== "substitution-table" && block.kind !== "changing-sentence" && block.kind !== "tag-question" && block.kind !== "suffix-and-prefix" && !isBlankExerciseKind(block.kind) && THREE_FIELD_BLOCK_META[block.kind] && THREE_FIELD_BLOCK_META[block.kind]!.getValue(block) ? (
                 <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-5`}>
                   <FieldGroup className="gap-5">
+                    {block.kind === "gap-fill" ? (
+                      <Field>
+                        <FieldContent>
+                          <div className="flex flex-wrap items-center justify-between gap-3">
+                            <div className="space-y-1">
+                              <FieldLabel>Passage</FieldLabel>
+                              <FieldDescription>Write a custom passage or link an existing Paragraph block from this content.</FieldDescription>
+                            </div>
+                            <label className="flex cursor-pointer items-center gap-2 text-sm font-medium">
+                              <span>Use Paragraph block</span>
+                              <Switch
+                                checked={THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.passageSource === "paragraph"}
+                                onCheckedChange={(checked) => void handleThreeFieldChange(block.kind, block.id, THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.id, { passageSource: checked ? "paragraph" : "manual" })}
+                              />
+                            </label>
+                          </div>
+                          {THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.passageSource === "paragraph" ? (
+                            <div className="mt-3 space-y-2 rounded-xl border bg-muted/20 p-4">
+                              <FieldLabel>Paragraph</FieldLabel>
+                              <QuestionAnswerPassageCombobox
+                                value={THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.paragraphBlockId || ""}
+                                options={paragraphPassageOptions}
+                                onChange={(paragraphBlockId) => void handleThreeFieldChange(block.kind, block.id, THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.id, { paragraphBlockId: paragraphBlockId || null })}
+                              />
+                              {paragraphPassageOptions.length === 0 ? <p className="text-sm text-muted-foreground">Add a Paragraph block to this content first, then it will appear here.</p> : null}
+                            </div>
+                          ) : (
+                            <div className="mt-3 rounded-xl border bg-background p-3">
+                              <TiptapRichTextEditor
+                                value={THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.passage || ""}
+                                onChange={(value) => void handleThreeFieldChange(block.kind, block.id, THREE_FIELD_BLOCK_META[block.kind]!.getValue(block)!.id, { passage: value })}
+                                minHeight={160}
+                                placeholder="Write the passage for this Fill in the Gap block..."
+                              />
+                            </div>
+                          )}
+                        </FieldContent>
+                      </Field>
+                    ) : null}
+
                     <Field>
                       <FieldContent>
                         <FieldLabel>Question</FieldLabel>
@@ -5614,8 +5968,8 @@ export function ContentBlocksEditorClient({
                   <div className="flex h-12 w-12 items-center justify-center rounded-xl border bg-muted">
                     {getBlockIcon(item.kind)}
                   </div>
-                  <CardTitle>{item.title}</CardTitle>
-                  <CardDescription>{item.description}</CardDescription>
+                  <CardTitle>{item.kind === "paragraph" && isSeenCompositionMode ? nextParagraphChooserLabel : blockTitleOverrides?.[item.kind] ?? item.title}</CardTitle>
+                  <CardDescription>{item.kind === "paragraph" && isSeenCompositionMode ? `Add ${nextParagraphChooserLabel.toLowerCase()} block.` : item.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <Button
@@ -5626,7 +5980,7 @@ export function ContentBlocksEditorClient({
                       setIsChooserOpen(false);
                     }}
                   >
-                    Use {item.title}
+                    Use {item.kind === "paragraph" && isSeenCompositionMode ? nextParagraphChooserLabel : blockTitleOverrides?.[item.kind] ?? item.title}
                   </Button>
                 </CardContent>
               </Card>
