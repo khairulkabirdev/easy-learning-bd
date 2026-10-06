@@ -53,3 +53,4 @@ prisma/*.bk
 !.env.example
 /README
 `n*.zip
+*.zip
