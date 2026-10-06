@@ -6,7 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "postinstall": "prisma generate",
+    "prisma:generate": "prisma generate",
+    "db:repair:sqlite": "node scripts/repair-sqlite-schema.cjs",
+    "check": "npm run lint && npm run build",
+    "prepare:sqlite": "prisma generate && node scripts/repair-sqlite-schema.cjs",
+    "predev": "npm run prepare:sqlite",
+    "prebuild": "npm run prepare:sqlite",
+    "prestart": "npm run prepare:sqlite"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

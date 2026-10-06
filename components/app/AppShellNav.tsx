@@ -5,7 +5,6 @@ import { BookOpen, ChevronDown, FolderOpen, LayoutDashboard, LogOut, Settings, S
 
 import { SidebarNavLinks } from "@/components/app/SidebarNavLinks";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -157,19 +156,25 @@ export function AppDashboardShell({
       </aside>
 
       <SidebarInset>
-        <header className="sticky top-0 z-20 flex h-16 items-center gap-3 border-b bg-background/75 px-4 backdrop-blur-md">
-          <SidebarTrigger className="md:hidden" />
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-2">
-              <h1 className="truncate text-lg font-semibold">{title}</h1>
-              <Badge variant="outline">{roleLabel}</Badge>
+        <header className="sticky top-0 z-20 border-b bg-background/75 px-4 backdrop-blur-md">
+          <div className="mx-auto flex h-16 w-full max-w-screen-2xl items-center">
+            <div className="mx-auto flex w-full max-w-7xl items-center gap-3">
+              <SidebarTrigger className="md:hidden" />
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2">
+                  <h1 className="truncate text-lg font-semibold">{title}</h1>
+                  <Badge variant="outline">{roleLabel}</Badge>
+                </div>
+                <p className="truncate text-sm text-muted-foreground">{subtitle}</p>
+              </div>
+              {action}
             </div>
-            <p className="truncate text-sm text-muted-foreground">{subtitle}</p>
           </div>
-          {action}
         </header>
         <main className="flex-1 bg-muted/20 p-4 md:p-6">
-          <div className="mx-auto max-w-screen-2xl">{children}</div>
+          <div className="mx-auto w-full max-w-screen-2xl">
+            <div className="mx-auto w-full max-w-7xl">{children}</div>
+          </div>
         </main>
       </SidebarInset>
     </SidebarProvider>

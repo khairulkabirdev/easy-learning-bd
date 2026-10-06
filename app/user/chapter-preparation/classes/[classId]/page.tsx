@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { notFound } from "next/navigation";
 
 import { getPublishedClassSubjects } from "@/app/user/lessons/data";
@@ -42,10 +42,6 @@ export default async function UserClassSubjectsPage({
                 <CardDescription>Select a subject for this class.</CardDescription>
               </div>
             </div>
-            <Link href="/user/chapter-preparation" className={cn(buttonVariants({ variant: "outline" }), "self-start")}>
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              All classes
-            </Link>
           </div>
           <div className="flex flex-wrap gap-2">
             <Badge variant="secondary">{detail.classItem.name}</Badge>

@@ -15,6 +15,7 @@ import type { QuestionAnswerRowRecord } from "@/app/admin/content/content-types"
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { sanitizeRichHtml } from "@/lib/sanitize-rich-html";
 
 const QUESTIONS_PER_PAGE = 10;
 
@@ -52,7 +53,7 @@ function RichContent({
         "[&_ul]:list-disc [&_ul]:space-y-1",
         className,
       )}
-      dangerouslySetInnerHTML={{ __html: value }}
+      dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(value) }}
     />
   );
 }

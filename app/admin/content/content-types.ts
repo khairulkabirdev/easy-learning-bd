@@ -30,6 +30,8 @@ export type TopicOption = {
 
 export type ContentBlockKind =
   | "paragraph"
+  | "seen-passage-one"
+  | "seen-passage-two"
   | "vocabulary"
   | "synonyms-antonyms"
   | "gap-fill"
@@ -40,7 +42,9 @@ export type ContentBlockKind =
   | "question-answer"
   | "table-completion"
   | "column-matching"
-  | "sentence-ordering"
+  | "rearrange-sentence"
+  | "question-from-poems"
+  | "question-from-story"
   | "information-transfer"
   | "substitution-table"
   | "right-form-of-verb"
@@ -51,6 +55,18 @@ export type ContentBlockKind =
   | "suffix-and-prefix"
   | "tag-question"
   | "connector";
+
+export type SeenCompositionPassageRecord = {
+  id: string;
+  contentBlockId: string;
+  contentId: string;
+  classId: string;
+  subjectId: string;
+  unitId: string;
+  lessonId: string;
+  topicId: string | null;
+  body: string;
+};
 
 export type ParagraphRecord = {
   id: string;
@@ -297,6 +313,10 @@ export type InformationTransferRowRecord = {
 };
 
 export type InformationTransferRecord = ThreeFieldBlockRecord & {
+  passage: string;
+  passageSource: PassageSource;
+  paragraphBlockId: string | null;
+  resolvedPassage?: string;
   documentJson: string;
   rows: InformationTransferRowRecord[];
   blanks: FillBlankAnswerRecord[];
@@ -379,6 +399,8 @@ export type ContentBlockRecord = {
   kind: ContentBlockKind;
   sortOrder: number;
   paragraph: ParagraphRecord | null;
+  seenPassageOne: SeenCompositionPassageRecord | null;
+  seenPassageTwo: SeenCompositionPassageRecord | null;
   vocabulary: VocabularyRecord | null;
   synonymsAntonyms: SynonymsAntonymsRecord | null;
   gapFill: GapFillExerciseRecord | null;

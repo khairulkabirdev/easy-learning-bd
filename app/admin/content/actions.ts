@@ -1,14 +1,18 @@
 "use server";
 
+import crypto from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { requireAdmin, assertTrustedMutationOrigin } from "@/lib/app-auth";
 import { logAudit } from "@/lib/auditLogger";
 import { prisma } from "@/lib/db";
+import { SEEN_PASSAGE_ONE_REF, SEEN_PASSAGE_TWO_REF, isSeenPassageRef } from "@/lib/seen-composition-passages";
 
 const contentBlockKindSchema = z.enum([
   "paragraph",
+  "seen-passage-one",
+  "seen-passage-two",
   "vocabulary",
   "synonyms-antonyms",
   "gap-fill",
@@ -19,7 +23,9 @@ const contentBlockKindSchema = z.enum([
   "question-answer",
   "table-completion",
   "column-matching",
-  "sentence-ordering",
+  "rearrange-sentence",
+  "question-from-poems",
+  "question-from-story",
   "information-transfer",
   "substitution-table",
   "right-form-of-verb",
@@ -46,17 +52,40 @@ const createBlockSchema = z.object({
   kind: contentBlockKindSchema,
 });
 
-const reorderBlocksSchema = z.array(
-  z.object({
-    id: z.string(),
-    sortOrder: z.number().int(),
-  }),
-);
+const reorderBlocksSchema = z
+  .array(
+    z.object({
+      id: z.string().min(1),
+      sortOrder: z.number().int().min(0).max(10000),
+    }),
+  )
+  .max(1000)
+  .superRefine((items, ctx) => {
+    const ids = new Set<string>();
+    for (const [index, item] of items.entries()) {
+      if (ids.has(item.id)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Duplicate content block id.",
+          path: [index, "id"],
+        });
+      }
+      ids.add(item.id);
+    }
+  });
 
 const updateParagraphSchema = z.object({
   contentId: z.string(),
   blockId: z.string(),
   paragraphId: z.string(),
+  body: z.string(),
+});
+
+const updateSeenCompositionPassageSchema = z.object({
+  contentId: z.string(),
+  blockId: z.string(),
+  recordId: z.string(),
+  kind: z.enum(["seen-passage-one", "seen-passage-two"]),
   body: z.string(),
 });
 
@@ -69,8 +98,20 @@ const updateThreeFieldBlockSchema = z.object({
   details: z.string(),
 });
 
-const updateInformationTransferSchema = updateThreeFieldBlockSchema.extend({
-  documentJson: z.string(),
+const jsonDocumentSchema = z
+  .string()
+  .max(1_000_000, "Exercise data is too large.")
+  .refine((value) => {
+    try {
+      JSON.parse(value);
+      return true;
+    } catch {
+      return false;
+    }
+  }, "Exercise data is invalid.");
+
+const updateInformationTransferBaseSchema = updateThreeFieldBlockSchema.extend({
+  documentJson: jsonDocumentSchema,
 });
 
 const updateQuestionAnswerExerciseSchema = z.object({
@@ -82,7 +123,7 @@ const updateQuestionAnswerExerciseSchema = z.object({
   question: z.string(),
   answer: z.string(),
   details: z.string(),
-  documentJson: z.string(),
+  documentJson: jsonDocumentSchema,
 });
 
 const passageLinkSchema = z.object({
@@ -90,6 +131,8 @@ const passageLinkSchema = z.object({
   passageSource: z.enum(["manual", "paragraph"]),
   paragraphBlockId: z.string().nullable(),
 });
+
+const updateInformationTransferSchema = updateInformationTransferBaseSchema.extend(passageLinkSchema.shape);
 
 const updatePassageThreeFieldBlockSchema = updateThreeFieldBlockSchema.extend(passageLinkSchema.shape);
 
@@ -102,7 +145,7 @@ const updateMcqSectionSchema = z.object({
   passage: z.string(),
   passageSource: z.enum(["manual", "paragraph"]),
   paragraphBlockId: z.string().nullable(),
-  documentJson: z.string(),
+  documentJson: jsonDocumentSchema,
 });
 
 const updateSynonymsAntonymsPassageSchema = z.object({
@@ -121,7 +164,7 @@ const updateTrueFalseExerciseSchema = z.object({
   title: z.string(),
   instruction: z.string(),
   passage: z.string(),
-  documentJson: z.string(),
+  documentJson: jsonDocumentSchema,
 });
 
 const createVocabularyEntrySchema = z.object({
@@ -205,6 +248,7 @@ async function getOwnedContentBlock(blockId: string, organizationId: string) {
     select: {
       id: true,
       contentId: true,
+      kind: true,
     },
   });
 
@@ -215,11 +259,24 @@ async function getOwnedContentBlock(blockId: string, organizationId: string) {
   return block;
 }
 
-async function assertHierarchyPath(input: z.infer<typeof contentSchema>) {
+async function assertHierarchyPath(
+  input: z.infer<typeof contentSchema>,
+  organizationId: string,
+) {
+  const classItem = await prisma.class.findFirst({
+    where: { id: input.classId, organizationId },
+    select: { id: true },
+  });
+
+  if (!classItem) {
+    throw new Error("Class is not available for this organization.");
+  }
+
   const subject = await prisma.subject.findFirst({
     where: {
       id: input.subjectId,
       classId: input.classId,
+      organizationId,
     },
     select: { id: true },
   });
@@ -233,6 +290,7 @@ async function assertHierarchyPath(input: z.infer<typeof contentSchema>) {
       id: input.unitId,
       classId: input.classId,
       subjectId: input.subjectId,
+      organizationId,
     },
     select: { id: true },
   });
@@ -245,6 +303,7 @@ async function assertHierarchyPath(input: z.infer<typeof contentSchema>) {
     where: {
       id: input.lessonId,
       unitId: input.unitId,
+      organizationId,
     },
     select: { id: true },
   });
@@ -258,6 +317,7 @@ async function assertHierarchyPath(input: z.infer<typeof contentSchema>) {
       where: {
         id: input.topicId,
         lessonId: input.lessonId,
+        organizationId,
       },
       select: { id: true },
     });
@@ -265,6 +325,43 @@ async function assertHierarchyPath(input: z.infer<typeof contentSchema>) {
     if (!topic) {
       throw new Error("Topic does not belong to lesson.");
     }
+  }
+}
+
+async function assertParagraphLink(params: {
+  contentId: string;
+  paragraphBlockId: string | null;
+  passageSource: "manual" | "paragraph";
+  organizationId: string;
+}) {
+  if (params.passageSource !== "paragraph") return;
+  if (!params.paragraphBlockId) {
+    throw new Error("A Passage block must be selected.");
+  }
+
+  if (isSeenPassageRef(params.paragraphBlockId)) {
+    const content = await prisma.content.findFirst({
+      where: { id: params.contentId, organizationId: params.organizationId },
+      select: { id: true },
+    });
+    if (!content) {
+      throw new Error("Selected Passage does not belong to this content.");
+    }
+    return;
+  }
+
+  const paragraphBlock = await prisma.contentBlock.findFirst({
+    where: {
+      id: params.paragraphBlockId,
+      contentId: params.contentId,
+      kind: { in: ["paragraph", "seen-passage-one", "seen-passage-two"] },
+      content: { organizationId: params.organizationId },
+    },
+    select: { id: true },
+  });
+
+  if (!paragraphBlock) {
+    throw new Error("Selected Passage does not belong to this content.");
   }
 }
 
@@ -291,6 +388,18 @@ function createQuestionAnswerDocument() {
   return { rows: [] };
 }
 
+function createColumnMatchingDocument() {
+  return {
+    version: 2,
+    columns: [
+      { id: crypto.randomUUID(), label: "Column A", sortOrder: 0 },
+      { id: crypto.randomUUID(), label: "Column B", sortOrder: 1 },
+    ],
+    rows: [],
+    answers: [],
+  };
+}
+
 function createTrueFalseDocument() {
   return {
     rows: [
@@ -310,20 +419,57 @@ export async function saveContent(input: unknown) {
   const user = await requireAdmin();
   const parsed = contentSchema.parse(input);
 
-  await assertHierarchyPath(parsed);
+  await assertHierarchyPath(parsed, user.organizationId);
   await assertUniqueContentPath({ ...parsed, organizationId: user.organizationId });
 
   if (parsed.id) {
-    const updated = await prisma.content.update({
-      where: { id: parsed.id },
-      data: {
+    await getOwnedContent(parsed.id, user.organizationId);
+
+    const updated = await prisma.$transaction(async (tx) => {
+      const hierarchyData = {
         classId: parsed.classId,
         subjectId: parsed.subjectId,
         unitId: parsed.unitId,
         lessonId: parsed.lessonId,
         topicId: parsed.topicId || null,
         updatedBy: user.id,
-      },
+      };
+
+      const content = await tx.content.update({
+        where: { id: parsed.id, organizationId: user.organizationId },
+        data: hierarchyData,
+      });
+
+      await Promise.all([
+        tx.paragraph.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.seenPassageOne.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.seenPassageTwo.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.vocabulary.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.synonymsAntonyms.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.gapFillExercise.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.gapFillFirstPaper.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.gapFillSecondPaper.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.mcqSection.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.questionAnswerExercise.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.tableCompletionExercise.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.columnMatchingExercise.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.rearrangeSentenceExercise.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.questionFromPoems.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.questionFromStory.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.trueFalseExercise.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.informationTransfer.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.substitutionTable.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.rightFormOfVerb.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.narration.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.changingSentence.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.punctuationAndCapitalization.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.preposition.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.suffixAndPrefix.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.tagQuestion.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.connector.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+      ]);
+
+      return content;
     });
 
     await logAudit({
@@ -369,7 +515,7 @@ export async function deleteContent(id: string) {
   await getOwnedContent(id, user.organizationId);
 
   const deleted = await prisma.content.delete({
-    where: { id },
+    where: { id, organizationId: user.organizationId },
   });
 
   await logAudit({
@@ -391,16 +537,18 @@ export async function createContentBlock(input: unknown) {
   const parsed = createBlockSchema.parse(input);
 
   const content = await getOwnedContent(parsed.contentId, user.organizationId);
-  const blockCount = await prisma.contentBlock.count({
-    where: { contentId: parsed.contentId },
-  });
 
   const block = await prisma.$transaction(async (tx) => {
+    const latestBlock = await tx.contentBlock.aggregate({
+      where: { contentId: parsed.contentId },
+      _max: { sortOrder: true },
+    });
+
     const createdBlock = await tx.contentBlock.create({
       data: {
         contentId: parsed.contentId,
         kind: parsed.kind,
-        sortOrder: blockCount,
+        sortOrder: (latestBlock._max.sortOrder ?? -1) + 1,
       },
     });
 
@@ -420,6 +568,24 @@ export async function createContentBlock(input: unknown) {
     switch (parsed.kind) {
       case "paragraph":
         await tx.paragraph.create({
+          data: {
+            ...baseData,
+            body: "",
+          },
+        });
+        break;
+
+      case "seen-passage-one":
+        await tx.seenPassageOne.create({
+          data: {
+            ...baseData,
+            body: "",
+          },
+        });
+        break;
+
+      case "seen-passage-two":
+        await tx.seenPassageTwo.create({
           data: {
             ...baseData,
             body: "",
@@ -552,18 +718,18 @@ export async function createContentBlock(input: unknown) {
         await tx.columnMatchingExercise.create({
           data: {
             ...baseData,
-            title: "",
+            title: "Matching Sentences",
             instruction: "",
             question: "",
             answer: "",
             details: "",
-            documentJson: JSON.stringify(createQuestionAnswerDocument()),
+            documentJson: JSON.stringify(createColumnMatchingDocument()),
           },
         });
         break;
 
-      case "sentence-ordering":
-        await tx.sentenceOrderingExercise.create({
+      case "rearrange-sentence":
+        await tx.rearrangeSentenceExercise.create({
           data: {
             ...baseData,
             title: "Rearrange sentence",
@@ -572,6 +738,34 @@ export async function createContentBlock(input: unknown) {
             answer: "",
             details: "",
             documentJson: JSON.stringify(createQuestionAnswerDocument()),
+          },
+        });
+        break;
+
+      case "question-from-poems":
+        await tx.questionFromPoems.create({
+          data: {
+            ...baseData,
+            title: "",
+            instruction: "",
+            question: "",
+            answer: "",
+            details: "",
+            documentJson: JSON.stringify({ version: 2, rows: [] }),
+          },
+        });
+        break;
+
+      case "question-from-story":
+        await tx.questionFromStory.create({
+          data: {
+            ...baseData,
+            title: "",
+            instruction: "",
+            question: "",
+            answer: "",
+            details: "",
+            documentJson: JSON.stringify({ version: 2, rows: [] }),
           },
         });
         break;
@@ -755,8 +949,87 @@ export async function deleteContentBlock(blockId: string) {
   const user = await requireAdmin();
   const ownedBlock = await getOwnedContentBlock(blockId, user.organizationId);
 
-  const deleted = await prisma.contentBlock.delete({
-    where: { id: blockId },
+  const deleted = await prisma.$transaction(async (tx) => {
+    const isPassageBlock = ["paragraph", "seen-passage-one", "seen-passage-two"].includes(ownedBlock.kind);
+
+    if (isPassageBlock) {
+      let preservedPassage = "";
+      let legacyReference: string | null = null;
+
+      if (ownedBlock.kind === "paragraph") {
+        const paragraph = await tx.paragraph.findUnique({
+          where: { contentBlockId: blockId },
+          select: { body: true },
+        });
+        preservedPassage = paragraph?.body || "";
+      } else if (ownedBlock.kind === "seen-passage-one") {
+        const passage = await tx.seenPassageOne.findUnique({
+          where: { contentBlockId: blockId },
+          select: { body: true },
+        });
+        preservedPassage = passage?.body || "";
+        legacyReference = SEEN_PASSAGE_ONE_REF;
+      } else {
+        const passage = await tx.seenPassageTwo.findUnique({
+          where: { contentBlockId: blockId },
+          select: { body: true },
+        });
+        preservedPassage = passage?.body || "";
+        legacyReference = SEEN_PASSAGE_TWO_REF;
+      }
+
+      const linkedIds = legacyReference ? [blockId, legacyReference] : [blockId];
+      const linkWhere = {
+        contentId: ownedBlock.contentId,
+        paragraphBlockId: { in: linkedIds },
+        organizationId: user.organizationId,
+      };
+      const linkData = {
+        passage: preservedPassage,
+        passageSource: "manual",
+        paragraphBlockId: null,
+        updatedBy: user.id,
+      };
+
+      await Promise.all([
+        tx.vocabulary.updateMany({ where: linkWhere, data: linkData }),
+        tx.synonymsAntonyms.updateMany({ where: linkWhere, data: linkData }),
+        tx.gapFillExercise.updateMany({ where: linkWhere, data: linkData }),
+        tx.gapFillFirstPaper.updateMany({ where: linkWhere, data: linkData }),
+        tx.mcqSection.updateMany({ where: linkWhere, data: linkData }),
+        tx.informationTransfer.updateMany({ where: linkWhere, data: linkData }),
+      ]);
+
+      const questionAnswers = await tx.questionAnswerExercise.findMany({
+        where: { contentId: ownedBlock.contentId, organizationId: user.organizationId },
+        select: { id: true, documentJson: true },
+      });
+      for (const exercise of questionAnswers) {
+        try {
+          const document = JSON.parse(exercise.documentJson || "{}") as Record<string, unknown>;
+          if (typeof document.paragraphBlockId !== "string" || !linkedIds.includes(document.paragraphBlockId)) continue;
+          await tx.questionAnswerExercise.update({
+            where: { id: exercise.id },
+            data: {
+              documentJson: JSON.stringify({ ...document, passageSource: "manual", paragraphBlockId: null }),
+              updatedBy: user.id,
+            },
+          });
+        } catch {
+          // Keep malformed legacy documents untouched; the existing compatibility parser will handle them.
+        }
+      }
+
+      if (ownedBlock.kind === "seen-passage-one") {
+        await tx.seenPassageOne.deleteMany({ where: { contentBlockId: blockId } });
+      } else if (ownedBlock.kind === "seen-passage-two") {
+        await tx.seenPassageTwo.deleteMany({ where: { contentBlockId: blockId } });
+      }
+    }
+
+    return tx.contentBlock.delete({
+      where: { id: blockId, contentId: ownedBlock.contentId },
+    });
   });
 
   await logAudit({
@@ -779,8 +1052,8 @@ export async function updateParagraphBlock(input: unknown) {
   const parsed = updateParagraphSchema.parse(input);
   const ownedBlock = await getOwnedContentBlock(parsed.blockId, user.organizationId);
 
-  if (ownedBlock.contentId !== parsed.contentId) {
-    throw new Error("Content block does not belong to content.");
+  if (ownedBlock.contentId !== parsed.contentId || ownedBlock.kind !== "paragraph") {
+    throw new Error("Paragraph block does not belong to content.");
   }
 
   const content = await getOwnedContent(parsed.contentId, user.organizationId);
@@ -820,6 +1093,57 @@ export async function updateParagraphBlock(input: unknown) {
   revalidatePath(`/admin/content/${parsed.contentId}`);
 }
 
+export async function updateSeenCompositionPassage(input: unknown) {
+  await assertTrustedMutationOrigin();
+  const user = await requireAdmin();
+  const parsed = updateSeenCompositionPassageSchema.parse(input);
+  const ownedBlock = await getOwnedContentBlock(parsed.blockId, user.organizationId);
+
+  if (ownedBlock.contentId !== parsed.contentId || ownedBlock.kind !== parsed.kind) {
+    throw new Error("Passage block does not belong to this content.");
+  }
+
+  const content = await getOwnedContent(parsed.contentId, user.organizationId);
+  const baseData = {
+    contentBlockId: parsed.blockId,
+    contentId: parsed.contentId,
+    classId: content.classId,
+    subjectId: content.subjectId,
+    unitId: content.unitId,
+    lessonId: content.lessonId,
+    topicId: content.topicId,
+    body: parsed.body,
+    organizationId: user.organizationId,
+    createdBy: user.id,
+    updatedBy: user.id,
+  };
+
+  const updated = parsed.kind === "seen-passage-one"
+    ? await prisma.seenPassageOne.upsert({
+        where: { contentBlockId: parsed.blockId },
+        update: { body: parsed.body, updatedBy: user.id },
+        create: baseData,
+      })
+    : await prisma.seenPassageTwo.upsert({
+        where: { contentBlockId: parsed.blockId },
+        update: { body: parsed.body, updatedBy: user.id },
+        create: baseData,
+      });
+
+  await logAudit({
+    userId: user.id,
+    userName: user.name,
+    action: "UPDATE",
+    entityName: parsed.kind === "seen-passage-one" ? "SeenPassageOne" : "SeenPassageTwo",
+    entityId: updated.id,
+    changes: updated,
+    organizationId: user.organizationId,
+  });
+
+  revalidatePath("/admin/content");
+  revalidatePath(`/admin/content/${parsed.contentId}`);
+}
+
 export async function updateQuestionAnswerExercise(input: unknown) {
   await assertTrustedMutationOrigin();
   const user = await requireAdmin();
@@ -834,7 +1158,7 @@ export async function updateQuestionAnswerExercise(input: unknown) {
     select: { kind: true },
   });
 
-  if (!block || !["question-answer", "table-completion", "column-matching", "sentence-ordering"].includes(block.kind)) {
+  if (!block || !["question-answer", "table-completion", "column-matching", "rearrange-sentence", "question-from-poems", "question-from-story"].includes(block.kind)) {
     throw new Error("Exercise block not found.");
   }
 
@@ -885,8 +1209,8 @@ export async function updateQuestionAnswerExercise(input: unknown) {
       });
       entityName = "ColumnMatchingExercise";
       break;
-    case "sentence-ordering":
-      updated = await prisma.sentenceOrderingExercise.update({
+    case "rearrange-sentence":
+      updated = await prisma.rearrangeSentenceExercise.update({
         where: {
           id: parsed.questionAnswerExerciseId,
           contentBlockId: parsed.blockId,
@@ -894,7 +1218,29 @@ export async function updateQuestionAnswerExercise(input: unknown) {
         },
         data,
       });
-      entityName = "SentenceOrderingExercise";
+      entityName = "RearrangeSentenceExercise";
+      break;
+    case "question-from-poems":
+      updated = await prisma.questionFromPoems.update({
+        where: {
+          id: parsed.questionAnswerExerciseId,
+          contentBlockId: parsed.blockId,
+          organizationId: user.organizationId,
+        },
+        data,
+      });
+      entityName = "QuestionFromPoems";
+      break;
+    case "question-from-story":
+      updated = await prisma.questionFromStory.update({
+        where: {
+          id: parsed.questionAnswerExerciseId,
+          contentBlockId: parsed.blockId,
+          organizationId: user.organizationId,
+        },
+        data,
+      });
+      entityName = "QuestionFromStory";
       break;
     default:
       throw new Error("Unsupported exercise block.");
@@ -916,8 +1262,17 @@ export async function updateTrueFalseExercise(input: unknown) {
   const user = await requireAdmin();
   const parsed = updateTrueFalseExerciseSchema.parse(input);
 
+  const ownedBlock = await getOwnedContentBlock(parsed.blockId, user.organizationId);
+  if (ownedBlock.contentId !== parsed.contentId || ownedBlock.kind !== "true-false") {
+    throw new Error("True / False block does not belong to content.");
+  }
+
   const updated = await prisma.trueFalseExercise.update({
-    where: { id: parsed.trueFalseExerciseId },
+    where: {
+      id: parsed.trueFalseExerciseId,
+      contentBlockId: parsed.blockId,
+      organizationId: user.organizationId,
+    },
     data: {
       title: parsed.title,
       instruction: parsed.instruction,
@@ -943,8 +1298,23 @@ export async function updateMcqSection(input: unknown) {
   const user = await requireAdmin();
   const parsed = updateMcqSectionSchema.parse(input);
 
+  const ownedBlock = await getOwnedContentBlock(parsed.blockId, user.organizationId);
+  if (ownedBlock.contentId !== parsed.contentId || ownedBlock.kind !== "mcq") {
+    throw new Error("MCQ block does not belong to content.");
+  }
+  await assertParagraphLink({
+    contentId: parsed.contentId,
+    paragraphBlockId: parsed.paragraphBlockId,
+    passageSource: parsed.passageSource,
+    organizationId: user.organizationId,
+  });
+
   const updated = await prisma.mcqSection.update({
-    where: { id: parsed.mcqSectionId },
+    where: {
+      id: parsed.mcqSectionId,
+      contentBlockId: parsed.blockId,
+      organizationId: user.organizationId,
+    },
     data: {
       title: parsed.title,
       description: parsed.description,
@@ -986,6 +1356,13 @@ export async function updateInformationTransfer(input: unknown) {
     throw new Error("Information Transfer block not found.");
   }
 
+  await assertParagraphLink({
+    contentId: parsed.contentId,
+    paragraphBlockId: parsed.paragraphBlockId,
+    passageSource: parsed.passageSource,
+    organizationId: user.organizationId,
+  });
+
   const updated = await prisma.informationTransfer.update({
     where: {
       id: parsed.recordId,
@@ -993,6 +1370,9 @@ export async function updateInformationTransfer(input: unknown) {
       organizationId: user.organizationId,
     },
     data: {
+      passage: parsed.passage,
+      passageSource: parsed.passageSource,
+      paragraphBlockId: parsed.passageSource === "paragraph" ? parsed.paragraphBlockId : null,
       question: parsed.question,
       answer: parsed.answer,
       details: parsed.details,
@@ -1018,12 +1398,24 @@ export async function updateVocabularyPassage(input: unknown) {
   const parsed = updateVocabularyPassageSchema.parse(input);
 
   const ownedBlock = await getOwnedContentBlock(parsed.blockId, user.organizationId);
-  if (ownedBlock.contentId !== parsed.contentId) {
+  if (ownedBlock.contentId !== parsed.contentId || ownedBlock.kind !== "vocabulary") {
     throw new Error("Vocabulary block does not belong to content.");
   }
 
+  await assertParagraphLink({
+    contentId: parsed.contentId,
+    paragraphBlockId: parsed.paragraphBlockId,
+    passageSource: parsed.passageSource,
+    organizationId: user.organizationId,
+  });
+
   const updated = await prisma.vocabulary.update({
-    where: { id: parsed.vocabularyId },
+    where: {
+      id: parsed.vocabularyId,
+      contentBlockId: parsed.blockId,
+      contentId: parsed.contentId,
+      organizationId: user.organizationId,
+    },
     data: {
       passage: parsed.passage,
       passageSource: parsed.passageSource,
@@ -1051,7 +1443,7 @@ export async function createVocabularyEntry(input: unknown) {
   const parsed = createVocabularyEntrySchema.parse(input);
 
   const ownedBlock = await getOwnedContentBlock(parsed.blockId, user.organizationId);
-  if (ownedBlock.contentId !== parsed.contentId) {
+  if (ownedBlock.contentId !== parsed.contentId || ownedBlock.kind !== "vocabulary") {
     throw new Error("Vocabulary block does not belong to content.");
   }
 
@@ -1059,6 +1451,7 @@ export async function createVocabularyEntry(input: unknown) {
     where: {
       id: parsed.vocabularyId,
       contentBlockId: parsed.blockId,
+      contentId: parsed.contentId,
       organizationId: user.organizationId,
     },
     select: { id: true },
@@ -1069,7 +1462,7 @@ export async function createVocabularyEntry(input: unknown) {
   }
 
   const sortOrder = await prisma.vocabularyEntry.count({
-    where: { vocabularyId: parsed.vocabularyId },
+    where: { vocabularyId: parsed.vocabularyId, organizationId: user.organizationId },
   });
 
   const created = await prisma.vocabularyEntry.create({
@@ -1105,12 +1498,22 @@ export async function updateVocabularyEntry(input: unknown) {
   const parsed = updateVocabularyEntrySchema.parse(input);
 
   const ownedBlock = await getOwnedContentBlock(parsed.blockId, user.organizationId);
-  if (ownedBlock.contentId !== parsed.contentId) {
+  if (ownedBlock.contentId !== parsed.contentId || ownedBlock.kind !== "vocabulary") {
     throw new Error("Vocabulary block does not belong to content.");
   }
 
+  const vocabulary = await prisma.vocabulary.findFirst({
+    where: { contentBlockId: parsed.blockId, organizationId: user.organizationId },
+    select: { id: true },
+  });
+  if (!vocabulary) throw new Error("Vocabulary block not found.");
+
   const updated = await prisma.vocabularyEntry.update({
-    where: { id: parsed.vocabularyEntryId },
+    where: {
+      id: parsed.vocabularyEntryId,
+      vocabularyId: vocabulary.id,
+      organizationId: user.organizationId,
+    },
     data: {
       word: parsed.word,
       meaning: parsed.meaning,
@@ -1134,30 +1537,48 @@ export async function deleteVocabularyEntry(input: { contentId: string; blockId:
   const user = await requireAdmin();
 
   const ownedBlock = await getOwnedContentBlock(input.blockId, user.organizationId);
-  if (ownedBlock.contentId !== input.contentId) {
+  if (ownedBlock.contentId !== input.contentId || ownedBlock.kind !== "vocabulary") {
     throw new Error("Vocabulary block does not belong to content.");
   }
 
+  const vocabulary = await prisma.vocabulary.findFirst({
+    where: {
+      id: input.vocabularyId,
+      contentBlockId: input.blockId,
+      contentId: input.contentId,
+      organizationId: user.organizationId,
+    },
+    select: { id: true },
+  });
+  if (!vocabulary) throw new Error("Vocabulary block not found.");
+
   const entries = await prisma.vocabularyEntry.findMany({
-    where: { vocabularyId: input.vocabularyId },
+    where: { vocabularyId: vocabulary.id, organizationId: user.organizationId },
     select: { id: true, sortOrder: true },
     orderBy: { sortOrder: "asc" },
   });
 
+  if (!entries.some((entry) => entry.id === input.vocabularyEntryId)) {
+    throw new Error("Vocabulary row not found.");
+  }
   if (entries.length <= 1) {
     throw new Error("Vocabulary must keep at least one row.");
   }
 
   const deleted = await prisma.vocabularyEntry.delete({
-    where: { id: input.vocabularyEntryId },
+    where: {
+      id: input.vocabularyEntryId,
+      vocabularyId: vocabulary.id,
+      organizationId: user.organizationId,
+    },
   });
 
   const remaining = entries.filter((entry) => entry.id !== input.vocabularyEntryId);
   await prisma.$transaction(
     remaining.map((entry, index) =>
       prisma.vocabularyEntry.update({
-        where: { id: entry.id },
-        data: { sortOrder: index },
+        where: { id: entry.id, vocabularyId: vocabulary.id, organizationId: user.organizationId },
+        data: { sortOrder: index, updatedBy: user.id },
       }),
     ),
   );
@@ -1181,12 +1602,23 @@ export async function updateSynonymsAntonymsPassage(input: unknown) {
   const parsed = updateSynonymsAntonymsPassageSchema.parse(input);
 
   const ownedBlock = await getOwnedContentBlock(parsed.blockId, user.organizationId);
-  if (ownedBlock.contentId !== parsed.contentId) {
+  if (ownedBlock.contentId !== parsed.contentId || ownedBlock.kind !== "synonyms-antonyms") {
     throw new Error("Synonyms / Antonyms block does not belong to content.");
   }
 
+  await assertParagraphLink({
+    contentId: parsed.contentId,
+    paragraphBlockId: parsed.paragraphBlockId,
+    passageSource: parsed.passageSource,
+    organizationId: user.organizationId,
+  });
+
   const updated = await prisma.synonymsAntonyms.update({
-    where: { id: parsed.synonymsAntonymsId },
+    where: {
+      id: parsed.synonymsAntonymsId,
+      contentBlockId: parsed.blockId,
+      organizationId: user.organizationId,
+    },
     data: {
       passage: parsed.passage,
       passageSource: parsed.passageSource,
@@ -1212,13 +1644,15 @@ export async function createSynonymsAntonymsEntry(input: unknown) {
   const parsed = createSynonymsAntonymsEntrySchema.parse(input);
 
   const ownedBlock = await getOwnedContentBlock(parsed.blockId, user.organizationId);
-  if (ownedBlock.contentId !== parsed.contentId) {
+  if (ownedBlock.contentId !== parsed.contentId || ownedBlock.kind !== "synonyms-antonyms") {
     throw new Error("Synonyms / Antonyms block does not belong to content.");
   }
 
   const synonymsAntonyms = await prisma.synonymsAntonyms.findFirst({
     where: {
       id: parsed.synonymsAntonymsId,
+      contentBlockId: parsed.blockId,
+      contentId: parsed.contentId,
       organizationId: user.organizationId,
     },
     select: { id: true },
@@ -1229,7 +1663,7 @@ export async function createSynonymsAntonymsEntry(input: unknown) {
   }
 
   const sortOrder = await prisma.synonymsAntonymsEntry.count({
-    where: { synonymsAntonymsId: parsed.synonymsAntonymsId },
+    where: { synonymsAntonymsId: parsed.synonymsAntonymsId, organizationId: user.organizationId },
   });
 
   const created = await prisma.synonymsAntonymsEntry.create({
@@ -1268,12 +1702,22 @@ export async function updateSynonymsAntonymsEntry(input: unknown) {
   const parsed = updateSynonymsAntonymsEntrySchema.parse(input);
 
   const ownedBlock = await getOwnedContentBlock(parsed.blockId, user.organizationId);
-  if (ownedBlock.contentId !== parsed.contentId) {
+  if (ownedBlock.contentId !== parsed.contentId || ownedBlock.kind !== "synonyms-antonyms") {
     throw new Error("Synonyms / Antonyms block does not belong to content.");
   }
 
+  const synonymsAntonyms = await prisma.synonymsAntonyms.findFirst({
+    where: { contentBlockId: parsed.blockId, organizationId: user.organizationId },
+    select: { id: true },
+  });
+  if (!synonymsAntonyms) throw new Error("Synonyms / Antonyms block not found.");
+
   const updated = await prisma.synonymsAntonymsEntry.update({
-    where: { id: parsed.synonymsAntonymsEntryId },
+    where: {
+      id: parsed.synonymsAntonymsEntryId,
+      synonymsAntonymsId: synonymsAntonyms.id,
+      organizationId: user.organizationId,
+    },
     data: {
       word: parsed.word,
       meanings: parsed.meanings,
@@ -1305,30 +1749,48 @@ export async function deleteSynonymsAntonymsEntry(input: {
   const user = await requireAdmin();
 
   const ownedBlock = await getOwnedContentBlock(input.blockId, user.organizationId);
-  if (ownedBlock.contentId !== input.contentId) {
+  if (ownedBlock.contentId !== input.contentId || ownedBlock.kind !== "synonyms-antonyms") {
     throw new Error("Synonyms / Antonyms block does not belong to content.");
   }
 
+  const synonymsAntonyms = await prisma.synonymsAntonyms.findFirst({
+    where: {
+      id: input.synonymsAntonymsId,
+      contentBlockId: input.blockId,
+      contentId: input.contentId,
+      organizationId: user.organizationId,
+    },
+    select: { id: true },
+  });
+  if (!synonymsAntonyms) throw new Error("Synonyms / Antonyms block not found.");
+
   const entries = await prisma.synonymsAntonymsEntry.findMany({
-    where: { synonymsAntonymsId: input.synonymsAntonymsId },
+    where: { synonymsAntonymsId: synonymsAntonyms.id, organizationId: user.organizationId },
     select: { id: true, sortOrder: true },
     orderBy: { sortOrder: "asc" },
   });
 
+  if (!entries.some((entry) => entry.id === input.synonymsAntonymsEntryId)) {
+    throw new Error("Synonyms / Antonyms row not found.");
+  }
   if (entries.length <= 1) {
     throw new Error("Synonyms / Antonyms must keep at least one row.");
   }
 
   const deleted = await prisma.synonymsAntonymsEntry.delete({
-    where: { id: input.synonymsAntonymsEntryId },
+    where: {
+      id: input.synonymsAntonymsEntryId,
+      synonymsAntonymsId: synonymsAntonyms.id,
+      organizationId: user.organizationId,
+    },
   });
 
   const remaining = entries.filter((entry) => entry.id !== input.synonymsAntonymsEntryId);
   await prisma.$transaction(
     remaining.map((entry, index) =>
       prisma.synonymsAntonymsEntry.update({
-        where: { id: entry.id },
-        data: { sortOrder: index },
+        where: { id: entry.id, synonymsAntonymsId: synonymsAntonyms.id, organizationId: user.organizationId },
+        data: { sortOrder: index, updatedBy: user.id },
       }),
     ),
   );
@@ -1350,14 +1812,23 @@ async function updateThreeFieldRecord(
   input: unknown,
   options: {
     entityName: string;
-    update: (parsed: z.infer<typeof updateThreeFieldBlockSchema>, userId: string) => Promise<unknown>;
+    expectedKind: z.infer<typeof contentBlockKindSchema>;
+    update: (
+      parsed: z.infer<typeof updateThreeFieldBlockSchema>,
+      userId: string,
+      organizationId: string,
+    ) => Promise<unknown>;
   },
 ) {
   await assertTrustedMutationOrigin();
   const user = await requireAdmin();
   const parsed = updateThreeFieldBlockSchema.parse(input);
+  const ownedBlock = await getOwnedContentBlock(parsed.blockId, user.organizationId);
+  if (ownedBlock.contentId !== parsed.contentId || ownedBlock.kind !== options.expectedKind) {
+    throw new Error(`${options.entityName} block does not belong to content.`);
+  }
 
-  const updated = await options.update(parsed, user.id);
+  const updated = await options.update(parsed, user.id, user.organizationId);
 
   await logAudit({
     userId: user.id,
@@ -1374,13 +1845,29 @@ async function updatePassageThreeFieldRecord(
   input: unknown,
   options: {
     entityName: string;
-    update: (parsed: z.infer<typeof updatePassageThreeFieldBlockSchema>, userId: string) => Promise<unknown>;
+    expectedKind: z.infer<typeof contentBlockKindSchema>;
+    update: (
+      parsed: z.infer<typeof updatePassageThreeFieldBlockSchema>,
+      userId: string,
+      organizationId: string,
+    ) => Promise<unknown>;
   },
 ) {
   await assertTrustedMutationOrigin();
   const user = await requireAdmin();
   const parsed = updatePassageThreeFieldBlockSchema.parse(input);
-  const updated = await options.update(parsed, user.id);
+  const ownedBlock = await getOwnedContentBlock(parsed.blockId, user.organizationId);
+  if (ownedBlock.contentId !== parsed.contentId || ownedBlock.kind !== options.expectedKind) {
+    throw new Error(`${options.entityName} block does not belong to content.`);
+  }
+  await assertParagraphLink({
+    contentId: parsed.contentId,
+    paragraphBlockId: parsed.paragraphBlockId,
+    passageSource: parsed.passageSource,
+    organizationId: user.organizationId,
+  });
+
+  const updated = await options.update(parsed, user.id, user.organizationId);
 
   await logAudit({
     userId: user.id,
@@ -1396,9 +1883,10 @@ async function updatePassageThreeFieldRecord(
 export async function updateGapFillExercise(input: unknown) {
   return updatePassageThreeFieldRecord(input, {
     entityName: "GapFillExercise",
-    update: (parsed, userId) =>
+    expectedKind: "gap-fill",
+    update: (parsed, userId, organizationId) =>
       prisma.gapFillExercise.update({
-        where: { id: parsed.recordId },
+        where: { id: parsed.recordId, contentBlockId: parsed.blockId, organizationId },
         data: {
           question: parsed.question,
           answer: parsed.answer,
@@ -1415,9 +1903,10 @@ export async function updateGapFillExercise(input: unknown) {
 export async function updateGapFillFirstPaper(input: unknown) {
   return updatePassageThreeFieldRecord(input, {
     entityName: "GapFillFirstPaper",
-    update: (parsed, userId) =>
+    expectedKind: "gap-fill-first-paper",
+    update: (parsed, userId, organizationId) =>
       prisma.gapFillFirstPaper.update({
-        where: { id: parsed.recordId },
+        where: { id: parsed.recordId, contentBlockId: parsed.blockId, organizationId },
         data: {
           question: parsed.question,
           answer: parsed.answer,
@@ -1434,9 +1923,10 @@ export async function updateGapFillFirstPaper(input: unknown) {
 export async function updateGapFillSecondPaper(input: unknown) {
   return updateThreeFieldRecord(input, {
     entityName: "GapFillSecondPaper",
-    update: (parsed, userId) =>
+    expectedKind: "gap-fill-second-paper",
+    update: (parsed, userId, organizationId) =>
       prisma.gapFillSecondPaper.update({
-        where: { id: parsed.recordId },
+        where: { id: parsed.recordId, contentBlockId: parsed.blockId, organizationId },
         data: {
           question: parsed.question,
           answer: parsed.answer,
@@ -1450,9 +1940,10 @@ export async function updateGapFillSecondPaper(input: unknown) {
 export async function updateSubstitutionTable(input: unknown) {
   return updateThreeFieldRecord(input, {
     entityName: "SubstitutionTable",
-    update: (parsed, userId) =>
+    expectedKind: "substitution-table",
+    update: (parsed, userId, organizationId) =>
       prisma.substitutionTable.update({
-        where: { id: parsed.recordId },
+        where: { id: parsed.recordId, contentBlockId: parsed.blockId, organizationId },
         data: {
           question: parsed.question,
           answer: parsed.answer,
@@ -1466,9 +1957,10 @@ export async function updateSubstitutionTable(input: unknown) {
 export async function updateRightFormOfVerb(input: unknown) {
   return updateThreeFieldRecord(input, {
     entityName: "RightFormOfVerb",
-    update: (parsed, userId) =>
+    expectedKind: "right-form-of-verb",
+    update: (parsed, userId, organizationId) =>
       prisma.rightFormOfVerb.update({
-        where: { id: parsed.recordId },
+        where: { id: parsed.recordId, contentBlockId: parsed.blockId, organizationId },
         data: {
           question: parsed.question,
           answer: parsed.answer,
@@ -1482,9 +1974,10 @@ export async function updateRightFormOfVerb(input: unknown) {
 export async function updateNarration(input: unknown) {
   return updateThreeFieldRecord(input, {
     entityName: "Narration",
-    update: (parsed, userId) =>
+    expectedKind: "narration",
+    update: (parsed, userId, organizationId) =>
       prisma.narration.update({
-        where: { id: parsed.recordId },
+        where: { id: parsed.recordId, contentBlockId: parsed.blockId, organizationId },
         data: {
           question: parsed.question,
           answer: parsed.answer,
@@ -1498,9 +1991,10 @@ export async function updateNarration(input: unknown) {
 export async function updateChangingSentence(input: unknown) {
   return updateThreeFieldRecord(input, {
     entityName: "ChangingSentence",
-    update: (parsed, userId) =>
+    expectedKind: "changing-sentence",
+    update: (parsed, userId, organizationId) =>
       prisma.changingSentence.update({
-        where: { id: parsed.recordId },
+        where: { id: parsed.recordId, contentBlockId: parsed.blockId, organizationId },
         data: {
           question: parsed.question,
           answer: parsed.answer,
@@ -1514,9 +2008,10 @@ export async function updateChangingSentence(input: unknown) {
 export async function updatePunctuationAndCapitalization(input: unknown) {
   return updateThreeFieldRecord(input, {
     entityName: "PunctuationAndCapitalization",
-    update: (parsed, userId) =>
+    expectedKind: "punctuation-and-capitalization",
+    update: (parsed, userId, organizationId) =>
       prisma.punctuationAndCapitalization.update({
-        where: { id: parsed.recordId },
+        where: { id: parsed.recordId, contentBlockId: parsed.blockId, organizationId },
         data: {
           question: parsed.question,
           answer: parsed.answer,
@@ -1530,9 +2025,10 @@ export async function updatePunctuationAndCapitalization(input: unknown) {
 export async function updatePreposition(input: unknown) {
   return updateThreeFieldRecord(input, {
     entityName: "Preposition",
-    update: (parsed, userId) =>
+    expectedKind: "preposition",
+    update: (parsed, userId, organizationId) =>
       prisma.preposition.update({
-        where: { id: parsed.recordId },
+        where: { id: parsed.recordId, contentBlockId: parsed.blockId, organizationId },
         data: {
           question: parsed.question,
           answer: parsed.answer,
@@ -1546,9 +2042,10 @@ export async function updatePreposition(input: unknown) {
 export async function updateSuffixAndPrefix(input: unknown) {
   return updateThreeFieldRecord(input, {
     entityName: "SuffixAndPrefix",
-    update: (parsed, userId) =>
+    expectedKind: "suffix-and-prefix",
+    update: (parsed, userId, organizationId) =>
       prisma.suffixAndPrefix.update({
-        where: { id: parsed.recordId },
+        where: { id: parsed.recordId, contentBlockId: parsed.blockId, organizationId },
         data: {
           question: parsed.question,
           answer: parsed.answer,
@@ -1562,9 +2059,10 @@ export async function updateSuffixAndPrefix(input: unknown) {
 export async function updateTagQuestion(input: unknown) {
   return updateThreeFieldRecord(input, {
     entityName: "TagQuestion",
-    update: (parsed, userId) =>
+    expectedKind: "tag-question",
+    update: (parsed, userId, organizationId) =>
       prisma.tagQuestion.update({
-        where: { id: parsed.recordId },
+        where: { id: parsed.recordId, contentBlockId: parsed.blockId, organizationId },
         data: {
           question: parsed.question,
           answer: parsed.answer,
@@ -1578,9 +2076,10 @@ export async function updateTagQuestion(input: unknown) {
 export async function updateConnector(input: unknown) {
   return updateThreeFieldRecord(input, {
     entityName: "Connector",
-    update: (parsed, userId) =>
+    expectedKind: "connector",
+    update: (parsed, userId, organizationId) =>
       prisma.connector.update({
-        where: { id: parsed.recordId },
+        where: { id: parsed.recordId, contentBlockId: parsed.blockId, organizationId },
         data: {
           question: parsed.question,
           answer: parsed.answer,

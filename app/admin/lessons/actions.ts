@@ -121,14 +121,38 @@ export async function saveLesson(input: unknown) {
     id: parsed.id,
   });
 
+  const existing = parsed.id
+    ? await prisma.lesson.findFirst({
+        where: { id: parsed.id, organizationId: user.organizationId },
+        select: {
+          id: true,
+          unitId: true,
+          imagePath: true,
+          _count: { select: { topics: true, contents: true } },
+        },
+      })
+    : null;
+
+  if (parsed.id && !existing) {
+    throw new Error("Lesson not found.");
+  }
+
+  if (existing && existing.unitId !== parsed.unitId) {
+    const dependentCount = existing._count.topics + existing._count.contents;
+    if (dependentCount > 0) {
+      throw new Error("This lesson already has topics or content. Move those records first before changing its unit.");
+    }
+  }
+
   const media = await resolveEntityMedia({
     input: parsed,
     domain: "lessons",
+    previousImagePath: existing?.imagePath || "",
   });
 
   if (parsed.id) {
     const updated = await prisma.lesson.update({
-      where: { id: parsed.id },
+      where: { id: parsed.id, organizationId: user.organizationId },
       data: {
         unitId: parsed.unitId,
         title: parsed.title,
@@ -197,7 +221,7 @@ export async function deleteLesson(id: string) {
   }
 
   const deleted = await prisma.lesson.delete({
-    where: { id },
+    where: { id, organizationId: user.organizationId },
   });
 
   await logAudit({

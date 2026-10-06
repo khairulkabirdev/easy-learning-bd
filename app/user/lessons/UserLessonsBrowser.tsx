@@ -37,6 +37,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import { sanitizeRichHtml } from "@/lib/sanitize-rich-html";
 
 type ClassRecord = {
   id: string;
@@ -118,8 +119,10 @@ const threeFieldBlockLabels: Partial<Record<ContentBlockKind, string>> = {
   "gap-fill-second-paper": "Gap Fill Second Paper",
   "question-answer": "Question Answer",
   "table-completion": "Table Completion",
-  "column-matching": "Column Matching",
-  "sentence-ordering": "Rearrange Sentence",
+  "column-matching": "Matching Sentences",
+  "rearrange-sentence": "Rearrange Sentence",
+  "question-from-poems": "Question from Poems",
+  "question-from-story": "Question from Story",
   "information-transfer": "Information Transfer",
   "substitution-table": "Substitution Table",
   "right-form-of-verb": "Right Form of Verb",
@@ -176,7 +179,7 @@ function RichContent({ value }: { value: string }) {
         "[&_table]:w-full [&_table]:border-collapse [&_td]:border [&_td]:border-border [&_td]:p-2",
         "[&_th]:border [&_th]:border-border [&_th]:bg-muted/60 [&_th]:p-2 [&_ul]:list-disc [&_ul]:space-y-1",
       )}
-      dangerouslySetInnerHTML={{ __html: value }}
+      dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(value) }}
     />
   );
 }
@@ -1529,7 +1532,7 @@ function StudentBlockCard({
     );
   }
 
-  if (block.kind === "sentence-ordering" && block.questionAnswerExercise) {
+  if (block.kind === "rearrange-sentence" && block.questionAnswerExercise) {
     return block.questionAnswerExercise.rows.length > 0 ? (
       <SentenceOrderingBlock
         title={block.questionAnswerExercise.title || "Rearrange Sentence"}
@@ -1576,6 +1579,27 @@ function StudentBlockCard({
   }
 
   if (block.kind === "column-matching" && block.questionAnswerExercise) {
+    if (block.questionAnswerExercise.table && block.questionAnswerExercise.table.rows.length > 0) {
+      return (
+        <TableCompletionBlock
+          title={block.questionAnswerExercise.title || "Matching Sentences"}
+          instruction={block.questionAnswerExercise.instruction}
+          details={block.questionAnswerExercise.details}
+          table={block.questionAnswerExercise.table}
+        />
+      );
+    }
+    return (
+      <ThreeFieldExerciseBlock
+        title={block.questionAnswerExercise.title || "Matching Sentences"}
+        question={block.questionAnswerExercise.question}
+        answer={block.questionAnswerExercise.answer}
+        details={block.questionAnswerExercise.details || block.questionAnswerExercise.instruction}
+      />
+    );
+  }
+
+  if ((block.kind === "question-from-poems" || block.kind === "question-from-story") && block.questionAnswerExercise) {
     return block.questionAnswerExercise.rows.length > 0 ? (
       <QuestionAnswerRowsBlock
         title={block.questionAnswerExercise.title || threeFieldBlockLabels[block.kind] || "Exercise"}

@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 
 import { isEnglishFirstPaperSubject } from "@/app/admin/content/navigation-helpers";
@@ -43,14 +41,7 @@ export default async function UnseenCompositionPage({
   });
 
   return (
-    <div className="space-y-6">
-      <Link
-        href={`/admin/content/class/${classId}/subject/${subjectId}`}
-        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
-      >
-        <ArrowLeft className="h-4 w-4" /> Back to {subject.name}
-      </Link>
-
+    <div className="mx-auto w-full max-w-7xl space-y-6">
       <UnseenCompositionListClient
         classItem={subject.class}
         subject={{ id: subject.id, name: subject.name }}

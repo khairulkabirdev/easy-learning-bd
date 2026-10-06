@@ -4,7 +4,12 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { isEnglishFirstPaperSubject } from "@/app/admin/content/navigation-helpers";
-import { createDefaultUnseenCompositionDocument } from "@/app/admin/content/unseen-composition/types";
+import {
+  createDefaultUnseenCompositionDocument,
+  UNSEEN_COMPOSITION_BLOCK_KINDS,
+  type UnseenCompositionBlock,
+  type UnseenCompositionDocument,
+} from "@/app/admin/content/unseen-composition/types";
 import { requireAdmin, assertTrustedMutationOrigin } from "@/lib/app-auth";
 import { logAudit } from "@/lib/auditLogger";
 import { prisma } from "@/lib/db";
@@ -81,20 +86,40 @@ export async function saveUnseenComposition(input: unknown) {
   const parsed = saveSchema.parse(input);
   const owned = await getOwnedRecord(parsed.id, user.organizationId);
 
+  let normalizedDocument: UnseenCompositionDocument;
   try {
     const document = JSON.parse(parsed.documentJson) as { version?: unknown; blocks?: unknown };
     if (document.version !== 1 || !Array.isArray(document.blocks)) {
       throw new Error();
     }
+
+    const blocks = document.blocks as Array<Partial<UnseenCompositionBlock>>;
+    const hasUnsupportedBlock = blocks.some(
+      (block) =>
+        !block ||
+        typeof block !== "object" ||
+        typeof block.id !== "string" ||
+        typeof block.kind !== "string" ||
+        !UNSEEN_COMPOSITION_BLOCK_KINDS.includes(block.kind as UnseenCompositionBlock["kind"]),
+    );
+    if (hasUnsupportedBlock) throw new Error();
+
+    normalizedDocument = {
+      version: 1,
+      blocks: (blocks as UnseenCompositionBlock[]).map((block, index) => ({
+        ...block,
+        sortOrder: index,
+      })),
+    };
   } catch {
     throw new Error("Invalid Unseen Composition document.");
   }
 
   const updated = await prisma.unseenComposition.update({
-    where: { id: parsed.id },
+    where: { id: parsed.id, organizationId: user.organizationId },
     data: {
       title: parsed.title,
-      documentJson: parsed.documentJson,
+      documentJson: JSON.stringify(normalizedDocument),
       updatedBy: user.id,
     },
   });
@@ -120,7 +145,9 @@ export async function deleteUnseenComposition(id: string) {
   const user = await requireAdmin();
   const owned = await getOwnedRecord(id, user.organizationId);
 
-  const deleted = await prisma.unseenComposition.delete({ where: { id } });
+  const deleted = await prisma.unseenComposition.delete({
+    where: { id, organizationId: user.organizationId },
+  });
 
   await logAudit({
     userId: user.id,

@@ -7,9 +7,9 @@ import { assertTrustedMutationOrigin, resetPasswordWithToken } from "@/lib/app-a
 
 const resetPasswordSchema = z
   .object({
-    token: z.string().min(1, "Reset token is missing."),
-    password: z.string().min(8, "Password must be at least 8 characters."),
-    confirmPassword: z.string().min(1, "Confirm your password."),
+    token: z.string().min(1, "Reset token is missing.").max(256, "Reset token is invalid."),
+    password: z.string().min(8, "Password must be at least 8 characters.").max(128, "Password is too long."),
+    confirmPassword: z.string().min(1, "Confirm your password.").max(128, "Password is too long."),
   })
   .refine((value) => value.password === value.confirmPassword, {
     message: "Passwords do not match.",

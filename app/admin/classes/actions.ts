@@ -63,14 +63,26 @@ export async function saveClass(input: unknown) {
     id: parsed.id,
   });
 
+  const existing = parsed.id
+    ? await prisma.class.findFirst({
+        where: { id: parsed.id, organizationId: user.organizationId },
+        select: { id: true, imagePath: true },
+      })
+    : null;
+
+  if (parsed.id && !existing) {
+    throw new Error("Class not found.");
+  }
+
   const media = await resolveEntityMedia({
     input: parsed,
     domain: "classes",
+    previousImagePath: existing?.imagePath || "",
   });
 
   if (parsed.id) {
     const updated = await prisma.class.update({
-      where: { id: parsed.id },
+      where: { id: parsed.id, organizationId: user.organizationId },
       data: {
         name: parsed.name,
         slug,
@@ -137,7 +149,7 @@ export async function deleteClass(id: string) {
   }
 
   const deleted = await prisma.class.delete({
-    where: { id },
+    where: { id, organizationId: user.organizationId },
   });
 
   await logAudit({

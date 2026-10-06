@@ -16,6 +16,7 @@ export type EntityMediaInput = z.infer<typeof entityMediaSchema>;
 export async function resolveEntityMedia(params: {
   input: EntityMediaInput;
   domain: "classes" | "subjects" | "units" | "lessons" | "topics";
+  previousImagePath?: string | null;
 }) {
   const normalizedIconType = params.input.iconType === "image" || params.input.iconType === "library"
     ? params.input.iconType
@@ -24,7 +25,7 @@ export async function resolveEntityMedia(params: {
   if (normalizedIconType === "image") {
     const finalImagePath = await replaceDomainImage({
       domain: params.domain,
-      previousImagePath: params.input.persistedImagePath || "",
+      previousImagePath: params.previousImagePath || "",
       nextExternalUrl: /^https?:\/\//i.test(params.input.imagePath) ? params.input.imagePath : "",
       nextTempPublicPath: params.input.imagePath.startsWith("/uploads/temp/") ? params.input.imagePath : "",
     });
@@ -38,8 +39,8 @@ export async function resolveEntityMedia(params: {
     };
   }
 
-  if (params.input.persistedImagePath) {
-    await deleteLocalImage(params.input.persistedImagePath);
+  if (params.previousImagePath) {
+    await deleteLocalImage(params.previousImagePath);
   }
 
   if (normalizedIconType === "library" && params.input.iconName.trim()) {

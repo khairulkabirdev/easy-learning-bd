@@ -87,6 +87,9 @@ function ProfileImageUpload({ name, value, onChange }: { name: string; value: st
 
     const formData = new FormData();
     formData.append("file", file);
+    if (value.startsWith("/uploads/temp/")) {
+      formData.append("previousTempPath", value);
+    }
     setIsUploading(true);
 
     try {
@@ -141,11 +144,11 @@ function ProfileImageUpload({ name, value, onChange }: { name: string; value: st
           <input
             ref={inputRef}
             type="file"
-            accept="image/*"
+            accept="image/png,image/jpeg,image/webp,image/gif"
             className="hidden"
             onChange={(event) => void handleSelectedFile(event.target.files?.[0] ?? null)}
           />
-          <p className="text-xs text-muted-foreground">Accepted: image/* · Max: 4.8MB</p>
+          <p className="text-xs text-muted-foreground">PNG, JPG, WEBP or GIF · Max: 4.8MB</p>
         </div>
       </div>
       <input type="hidden" name={name} value={value} />
@@ -330,6 +333,9 @@ function InstituteDetailsForm({ user }: { user: ProfileFormProps["user"] }) {
 }
 
 function TeacherProfessionalForm({ user }: { user: ProfileFormProps["user"] }) {
+  const instituteOptions = ["School", "College", "Madrasa", "University"];
+  const [instituteType, setInstituteType] = useState(user.instituteType ?? "School");
+
   return (
     <div className="space-y-5">
       <h2 className="text-lg font-semibold">Professional Information</h2>
@@ -338,6 +344,30 @@ function TeacherProfessionalForm({ user }: { user: ProfileFormProps["user"] }) {
         <FieldContent>
           <FieldLabel>Institute Name</FieldLabel>
           <Input name="institutionName" defaultValue={user.institutionName ?? ""} placeholder="ABC School" />
+        </FieldContent>
+      </Field>
+
+      <Field>
+        <FieldContent>
+          <FieldLabel>Institute Type</FieldLabel>
+          <Combobox
+            items={instituteOptions}
+            value={instituteType}
+            onValueChange={(nextValue) => setInstituteType(nextValue ?? "")}
+          >
+            <ComboboxInput placeholder="Select institute type" showClear={Boolean(instituteType)} className="w-full" />
+            <ComboboxContent>
+              <ComboboxEmpty>No institute type found.</ComboboxEmpty>
+              <ComboboxList>
+                {(item) => (
+                  <ComboboxItem key={item} value={item}>
+                    {item}
+                  </ComboboxItem>
+                )}
+              </ComboboxList>
+            </ComboboxContent>
+          </Combobox>
+          <input type="hidden" name="instituteType" value={instituteType} />
         </FieldContent>
       </Field>
 
@@ -424,13 +454,13 @@ export function ProfileForm({ role, user, classes = [] }: ProfileFormProps) {
                     </section>
                   ) : null}
 
-                  <section className="space-y-5 rounded-xl border bg-background p-4 shadow-sm sm:p-5">
-                    <InstituteDetailsForm user={user} />
-                  </section>
-
                   {role === "teacher" ? (
                     <section className="space-y-5 rounded-xl border bg-background p-4 shadow-sm sm:p-5">
                       <TeacherProfessionalForm user={user} />
+                    </section>
+                  ) : role === "student" ? (
+                    <section className="space-y-5 rounded-xl border bg-background p-4 shadow-sm sm:p-5">
+                      <InstituteDetailsForm user={user} />
                     </section>
                   ) : null}
 

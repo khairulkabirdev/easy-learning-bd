@@ -1,37 +1,10 @@
-import { notFound } from "next/navigation";
-
-import { isEnglishFirstPaperSubject } from "@/app/admin/content/navigation-helpers";
-import { EnglishFirstPaperSectionShell } from "@/components/admin/EnglishFirstPaperSectionShell";
-import { requireAdmin } from "@/lib/app-auth";
-import { prisma } from "@/lib/db";
+import { SubjectSectionPage } from "@/app/admin/content/subject-section-blocks/SubjectSectionPage";
 
 export default async function Page({
   params,
 }: {
   params: Promise<{ classId: string; subjectId: string }>;
 }) {
-  const user = await requireAdmin();
   const { classId, subjectId } = await params;
-
-  const subject = await prisma.subject.findFirst({
-    where: { id: subjectId, classId, organizationId: user.organizationId },
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      code: true,
-      class: { select: { id: true, name: true } },
-    },
-  });
-
-  if (!subject || !isEnglishFirstPaperSubject(subject)) notFound();
-
-  return (
-    <EnglishFirstPaperSectionShell
-      classItem={subject.class}
-      subject={{ id: subject.id, name: subject.name }}
-      title="Question from Poems"
-      description="Poem-based question content will use this section."
-    />
-  );
+  return <SubjectSectionPage kind="question-from-poems" classId={classId} subjectId={subjectId} />;
 }

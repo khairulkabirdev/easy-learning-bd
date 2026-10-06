@@ -303,6 +303,40 @@ exports.Prisma.ContentScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.SeenPassageOneScalarFieldEnum = {
+  id: 'id',
+  contentBlockId: 'contentBlockId',
+  contentId: 'contentId',
+  classId: 'classId',
+  subjectId: 'subjectId',
+  unitId: 'unitId',
+  lessonId: 'lessonId',
+  topicId: 'topicId',
+  body: 'body',
+  organizationId: 'organizationId',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SeenPassageTwoScalarFieldEnum = {
+  id: 'id',
+  contentBlockId: 'contentBlockId',
+  contentId: 'contentId',
+  classId: 'classId',
+  subjectId: 'subjectId',
+  unitId: 'unitId',
+  lessonId: 'lessonId',
+  topicId: 'topicId',
+  body: 'body',
+  organizationId: 'organizationId',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.UnseenCompositionScalarFieldEnum = {
   id: 'id',
   classId: 'classId',
@@ -560,7 +594,51 @@ exports.Prisma.ColumnMatchingExerciseScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.SentenceOrderingExerciseScalarFieldEnum = {
+exports.Prisma.RearrangeSentenceExerciseScalarFieldEnum = {
+  id: 'id',
+  contentBlockId: 'contentBlockId',
+  contentId: 'contentId',
+  classId: 'classId',
+  subjectId: 'subjectId',
+  unitId: 'unitId',
+  lessonId: 'lessonId',
+  topicId: 'topicId',
+  title: 'title',
+  instruction: 'instruction',
+  question: 'question',
+  answer: 'answer',
+  details: 'details',
+  documentJson: 'documentJson',
+  organizationId: 'organizationId',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.QuestionFromPoemsScalarFieldEnum = {
+  id: 'id',
+  contentBlockId: 'contentBlockId',
+  contentId: 'contentId',
+  classId: 'classId',
+  subjectId: 'subjectId',
+  unitId: 'unitId',
+  lessonId: 'lessonId',
+  topicId: 'topicId',
+  title: 'title',
+  instruction: 'instruction',
+  question: 'question',
+  answer: 'answer',
+  details: 'details',
+  documentJson: 'documentJson',
+  organizationId: 'organizationId',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.QuestionFromStoryScalarFieldEnum = {
   id: 'id',
   contentBlockId: 'contentBlockId',
   contentId: 'contentId',
@@ -611,6 +689,9 @@ exports.Prisma.InformationTransferScalarFieldEnum = {
   unitId: 'unitId',
   lessonId: 'lessonId',
   topicId: 'topicId',
+  passage: 'passage',
+  passageSource: 'passageSource',
+  paragraphBlockId: 'paragraphBlockId',
   question: 'question',
   answer: 'answer',
   details: 'details',
@@ -793,6 +874,70 @@ exports.Prisma.ConnectorScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.SubjectMatchingSentencesBlockScalarFieldEnum = {
+  id: 'id',
+  classId: 'classId',
+  subjectId: 'subjectId',
+  title: 'title',
+  instruction: 'instruction',
+  details: 'details',
+  documentJson: 'documentJson',
+  sortOrder: 'sortOrder',
+  organizationId: 'organizationId',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SubjectRearrangeSentenceBlockScalarFieldEnum = {
+  id: 'id',
+  classId: 'classId',
+  subjectId: 'subjectId',
+  title: 'title',
+  instruction: 'instruction',
+  details: 'details',
+  documentJson: 'documentJson',
+  sortOrder: 'sortOrder',
+  organizationId: 'organizationId',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SubjectQuestionFromPoemsBlockScalarFieldEnum = {
+  id: 'id',
+  classId: 'classId',
+  subjectId: 'subjectId',
+  title: 'title',
+  instruction: 'instruction',
+  details: 'details',
+  documentJson: 'documentJson',
+  sortOrder: 'sortOrder',
+  organizationId: 'organizationId',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SubjectQuestionFromStoryBlockScalarFieldEnum = {
+  id: 'id',
+  classId: 'classId',
+  subjectId: 'subjectId',
+  title: 'title',
+  instruction: 'instruction',
+  details: 'details',
+  documentJson: 'documentJson',
+  sortOrder: 'sortOrder',
+  organizationId: 'organizationId',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -826,6 +971,8 @@ exports.Prisma.ModelName = {
   Lesson: 'Lesson',
   Topic: 'Topic',
   Content: 'Content',
+  SeenPassageOne: 'SeenPassageOne',
+  SeenPassageTwo: 'SeenPassageTwo',
   UnseenComposition: 'UnseenComposition',
   ContentBlock: 'ContentBlock',
   Paragraph: 'Paragraph',
@@ -840,7 +987,9 @@ exports.Prisma.ModelName = {
   QuestionAnswerExercise: 'QuestionAnswerExercise',
   TableCompletionExercise: 'TableCompletionExercise',
   ColumnMatchingExercise: 'ColumnMatchingExercise',
-  SentenceOrderingExercise: 'SentenceOrderingExercise',
+  RearrangeSentenceExercise: 'RearrangeSentenceExercise',
+  QuestionFromPoems: 'QuestionFromPoems',
+  QuestionFromStory: 'QuestionFromStory',
   TrueFalseExercise: 'TrueFalseExercise',
   InformationTransfer: 'InformationTransfer',
   SubstitutionTable: 'SubstitutionTable',
@@ -851,7 +1000,11 @@ exports.Prisma.ModelName = {
   Preposition: 'Preposition',
   SuffixAndPrefix: 'SuffixAndPrefix',
   TagQuestion: 'TagQuestion',
-  Connector: 'Connector'
+  Connector: 'Connector',
+  SubjectMatchingSentencesBlock: 'SubjectMatchingSentencesBlock',
+  SubjectRearrangeSentenceBlock: 'SubjectRearrangeSentenceBlock',
+  SubjectQuestionFromPoemsBlock: 'SubjectQuestionFromPoemsBlock',
+  SubjectQuestionFromStoryBlock: 'SubjectQuestionFromStoryBlock'
 };
 
 /**

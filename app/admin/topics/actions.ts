@@ -140,14 +140,35 @@ export async function saveTopic(input: unknown) {
     id: parsed.id,
   });
 
+  const existing = parsed.id
+    ? await prisma.topic.findFirst({
+        where: { id: parsed.id, organizationId: user.organizationId },
+        select: {
+          id: true,
+          lessonId: true,
+          imagePath: true,
+          _count: { select: { contents: true } },
+        },
+      })
+    : null;
+
+  if (parsed.id && !existing) {
+    throw new Error("Topic not found.");
+  }
+
+  if (existing && existing.lessonId !== parsed.lessonId && existing._count.contents > 0) {
+    throw new Error("This topic already has content. Move that content first before changing its lesson.");
+  }
+
   const media = await resolveEntityMedia({
     input: parsed,
     domain: "topics",
+    previousImagePath: existing?.imagePath || "",
   });
 
   if (parsed.id) {
     const updated = await prisma.topic.update({
-      where: { id: parsed.id },
+      where: { id: parsed.id, organizationId: user.organizationId },
       data: {
         lessonId: parsed.lessonId,
         title: parsed.title,
@@ -216,7 +237,7 @@ export async function deleteTopic(id: string) {
   }
 
   const deleted = await prisma.topic.delete({
-    where: { id },
+    where: { id, organizationId: user.organizationId },
   });
 
   await logAudit({

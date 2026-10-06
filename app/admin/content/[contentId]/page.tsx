@@ -4,6 +4,7 @@ import { ContentBlocksEditorClient } from "@/app/admin/content/[contentId]/Conte
 import type { ContentBlockKind, ContentRecordWithBlocks } from "@/app/admin/content/content-types";
 import { requireAdmin } from "@/lib/app-auth";
 import { prisma } from "@/lib/db";
+import { SEEN_PASSAGE_ONE_REF, SEEN_PASSAGE_TWO_REF } from "@/lib/seen-composition-passages";
 
 function safeParseJson<T>(value: string, fallback: T): T {
   try {
@@ -177,7 +178,7 @@ function parseTagQuestionData(answer: string, question: string, recordId: string
   };
 }
 
-function parseTableCompletionDocument(documentJson: string, recordId: string) {
+function parseTableCompletionDocument(documentJson: string, recordId: string, alphabeticColumns = false) {
   const parsed = safeParseJson<{
     version?: number;
     columns?: Array<{ id?: string; label?: string; sortOrder?: number }>;
@@ -200,12 +201,14 @@ function parseTableCompletionDocument(documentJson: string, recordId: string) {
   }>(documentJson, {});
 
   const sourceColumns = Array.isArray(parsed.columns) ? parsed.columns : [];
+  const defaultColumnLabel = (index: number) =>
+    alphabeticColumns && index < 26 ? `Column ${String.fromCharCode(65 + index)}` : `Column ${index + 1}`;
   const columns = (sourceColumns.length >= 2 ? sourceColumns : [
-    { id: `${recordId}-column-1`, label: "Column 1", sortOrder: 0 },
-    { id: `${recordId}-column-2`, label: "Column 2", sortOrder: 1 },
+    { id: `${recordId}-column-1`, label: defaultColumnLabel(0), sortOrder: 0 },
+    { id: `${recordId}-column-2`, label: defaultColumnLabel(1), sortOrder: 1 },
   ]).map((column, index) => ({
     id: column.id || `${recordId}-column-${index + 1}`,
-    label: column.label || `Column ${index + 1}`,
+    label: column.label || defaultColumnLabel(index),
     sortOrder: index,
   }));
 
@@ -500,6 +503,32 @@ export default async function AdminContentBlocksPage({
               body: true,
             },
           },
+          seenPassageOne: {
+            select: {
+              id: true,
+              contentBlockId: true,
+              contentId: true,
+              classId: true,
+              subjectId: true,
+              unitId: true,
+              lessonId: true,
+              topicId: true,
+              body: true,
+            },
+          },
+          seenPassageTwo: {
+            select: {
+              id: true,
+              contentBlockId: true,
+              contentId: true,
+              classId: true,
+              subjectId: true,
+              unitId: true,
+              lessonId: true,
+              topicId: true,
+              body: true,
+            },
+          },
           vocabulary: {
             select: {
               id: true,
@@ -676,7 +705,43 @@ export default async function AdminContentBlocksPage({
               documentJson: true,
             },
           },
-          sentenceOrderingExercise: {
+          rearrangeSentenceExercise: {
+            select: {
+              id: true,
+              contentBlockId: true,
+              contentId: true,
+              classId: true,
+              subjectId: true,
+              unitId: true,
+              lessonId: true,
+              topicId: true,
+              title: true,
+              instruction: true,
+              question: true,
+              answer: true,
+              details: true,
+              documentJson: true,
+            },
+          },
+          questionFromPoems: {
+            select: {
+              id: true,
+              contentBlockId: true,
+              contentId: true,
+              classId: true,
+              subjectId: true,
+              unitId: true,
+              lessonId: true,
+              topicId: true,
+              title: true,
+              instruction: true,
+              question: true,
+              answer: true,
+              details: true,
+              documentJson: true,
+            },
+          },
+          questionFromStory: {
             select: {
               id: true,
               contentBlockId: true,
@@ -720,6 +785,9 @@ export default async function AdminContentBlocksPage({
               unitId: true,
               lessonId: true,
               topicId: true,
+              passage: true,
+              passageSource: true,
+              paragraphBlockId: true,
               question: true,
               answer: true,
               details: true,
@@ -870,6 +938,30 @@ export default async function AdminContentBlocksPage({
     notFound();
   }
 
+  const legacyParagraphBlocks = content.blocks.filter((block) => block.kind === "paragraph" && block.paragraph);
+  const seenPassageOneBlocks = content.blocks.filter((block) => block.kind === "seen-passage-one" && block.seenPassageOne);
+  const seenPassageTwoBlocks = content.blocks.filter((block) => block.kind === "seen-passage-two" && block.seenPassageTwo);
+
+  const normalizeSeenPassageLink = (paragraphBlockId: string | null) => {
+    if (editorMode !== "seen-composition" || !paragraphBlockId) return paragraphBlockId;
+
+    if (paragraphBlockId === SEEN_PASSAGE_ONE_REF) {
+      return seenPassageOneBlocks[0]?.id || paragraphBlockId;
+    }
+    if (paragraphBlockId === SEEN_PASSAGE_TWO_REF) {
+      return seenPassageTwoBlocks[0]?.id || paragraphBlockId;
+    }
+
+    if (paragraphBlockId === legacyParagraphBlocks[0]?.id && seenPassageOneBlocks[0]?.id) {
+      return seenPassageOneBlocks[0].id;
+    }
+    if (paragraphBlockId === legacyParagraphBlocks[1]?.id && seenPassageTwoBlocks[0]?.id) {
+      return seenPassageTwoBlocks[0].id;
+    }
+
+    return paragraphBlockId;
+  };
+
   const typedContent: ContentRecordWithBlocks = {
     ...content,
     blocks: content.blocks.map((block) => ({
@@ -879,21 +971,21 @@ export default async function AdminContentBlocksPage({
         ? {
             ...block.vocabulary,
             passageSource: block.vocabulary.passageSource === "paragraph" ? "paragraph" as const : "manual" as const,
-            paragraphBlockId: block.vocabulary.paragraphBlockId || null,
+            paragraphBlockId: normalizeSeenPassageLink(block.vocabulary.paragraphBlockId || null),
           }
         : null,
       synonymsAntonyms: block.synonymsAntonyms
         ? {
             ...block.synonymsAntonyms,
             passageSource: block.synonymsAntonyms.passageSource === "paragraph" ? "paragraph" as const : "manual" as const,
-            paragraphBlockId: block.synonymsAntonyms.paragraphBlockId || null,
+            paragraphBlockId: normalizeSeenPassageLink(block.synonymsAntonyms.paragraphBlockId || null),
           }
         : null,
       mcqSection: block.mcqSection
         ? {
             ...block.mcqSection,
             passageSource: block.mcqSection.passageSource === "paragraph" ? "paragraph" as const : "manual" as const,
-            paragraphBlockId: block.mcqSection.paragraphBlockId || null,
+            paragraphBlockId: normalizeSeenPassageLink(block.mcqSection.paragraphBlockId || null),
             questions: (parseMcqDocument(block.mcqSection.documentJson).questions || []).map((question) => ({
               ...question,
               options: question.options || [],
@@ -908,14 +1000,18 @@ export default async function AdminContentBlocksPage({
               ? block.tableCompletionExercise
               : block.kind === "column-matching"
                 ? block.columnMatchingExercise
-                : block.kind === "sentence-ordering"
-                  ? block.sentenceOrderingExercise
-                  : null;
+                : block.kind === "rearrange-sentence"
+                  ? block.rearrangeSentenceExercise
+                  : block.kind === "question-from-poems"
+                    ? block.questionFromPoems
+                    : block.kind === "question-from-story"
+                      ? block.questionFromStory
+                      : null;
 
         if (!exercise) return null;
 
         const questionAnswerDocument = parseQuestionAnswerDocument(exercise.documentJson);
-        const rows = block.kind === "table-completion"
+        const rows = block.kind === "table-completion" || block.kind === "column-matching"
           ? []
           : (questionAnswerDocument.rows || []).map((row) => ({
               id: row.id,
@@ -926,7 +1022,7 @@ export default async function AdminContentBlocksPage({
 
         if (
           rows.length === 0 &&
-          (block.kind === "question-answer" || block.kind === "sentence-ordering") &&
+          (block.kind === "question-answer" || block.kind === "rearrange-sentence" || block.kind === "question-from-poems" || block.kind === "question-from-story") &&
           (exercise.question.trim() || exercise.answer.trim())
         ) {
           rows.push({
@@ -945,11 +1041,11 @@ export default async function AdminContentBlocksPage({
               : "manual" as const,
           paragraphBlockId:
             block.kind === "question-answer" && typeof questionAnswerDocument.paragraphBlockId === "string"
-              ? questionAnswerDocument.paragraphBlockId
+              ? normalizeSeenPassageLink(questionAnswerDocument.paragraphBlockId)
               : null,
           rows,
-          table: block.kind === "table-completion"
-            ? parseTableCompletionDocument(exercise.documentJson, exercise.id)
+          table: block.kind === "table-completion" || block.kind === "column-matching"
+            ? parseTableCompletionDocument(exercise.documentJson, exercise.id, block.kind === "column-matching")
             : undefined,
         };
       })(),
@@ -970,6 +1066,8 @@ export default async function AdminContentBlocksPage({
             const normalized = normalizeInformationTransferRecord(block.informationTransfer);
             return {
               ...block.informationTransfer,
+              passageSource: block.informationTransfer.passageSource === "paragraph" ? "paragraph" as const : "manual" as const,
+              paragraphBlockId: normalizeSeenPassageLink(block.informationTransfer.paragraphBlockId || null),
               question: normalized.question,
               rows: normalized.rows,
               blanks: normalized.blanks,
@@ -986,14 +1084,14 @@ export default async function AdminContentBlocksPage({
         ? {
             ...block.gapFillExercise,
             passageSource: block.gapFillExercise.passageSource === "paragraph" ? "paragraph" as const : "manual" as const,
-            paragraphBlockId: block.gapFillExercise.paragraphBlockId || null,
+            paragraphBlockId: normalizeSeenPassageLink(block.gapFillExercise.paragraphBlockId || null),
           }
         : null,
       gapFillFirstPaper: block.gapFillFirstPaper
         ? {
             ...block.gapFillFirstPaper,
             passageSource: block.gapFillFirstPaper.passageSource === "paragraph" ? "paragraph" as const : "manual" as const,
-            paragraphBlockId: block.gapFillFirstPaper.paragraphBlockId || null,
+            paragraphBlockId: normalizeSeenPassageLink(block.gapFillFirstPaper.paragraphBlockId || null),
             blanks: parseFillBlankAnswers(
               block.gapFillFirstPaper.answer,
               block.gapFillFirstPaper.question,
@@ -1079,23 +1177,39 @@ export default async function AdminContentBlocksPage({
     })),
   };
 
-  const allowedBlockKinds: ContentBlockKind[] | undefined =
+  const modeConfig =
     editorMode === "seen-composition"
-      ? [
-          "paragraph",
-          "mcq",
-          "question-answer",
-          "gap-fill-first-paper",
-          "vocabulary",
-          "synonyms-antonyms",
-        ]
-      : undefined;
+      ? {
+          label: "Seen Composition",
+          slug: "seen-composition",
+          kinds: [
+            "seen-passage-one",
+            "seen-passage-two",
+            "mcq",
+            "question-answer",
+            "gap-fill-first-paper",
+            "vocabulary",
+            "synonyms-antonyms",
+          ] as ContentBlockKind[],
+        }
+      : editorMode === "matching-sentences"
+        ? { label: "Matching Sentences", slug: "matching-sentences", kinds: ["column-matching"] as ContentBlockKind[] }
+        : editorMode === "rearrange-sentence"
+          ? { label: "Rearrange Sentence", slug: "rearrange-sentence", kinds: ["rearrange-sentence"] as ContentBlockKind[] }
+          : editorMode === "question-from-poems"
+            ? { label: "Question from Poems", slug: "question-from-poems", kinds: ["question-from-poems"] as ContentBlockKind[] }
+            : editorMode === "question-from-story"
+              ? { label: "Question from Story", slug: "question-from-story", kinds: ["question-from-story"] as ContentBlockKind[] }
+              : null;
+
+  const allowedBlockKinds = modeConfig?.kinds;
 
   return (
-    <ContentBlocksEditorClient
-      content={typedContent}
-      allowedBlockKindsOverride={allowedBlockKinds}
-      blockTitleOverrides={editorMode === "seen-composition" ? { paragraph: "Passage" } : undefined}
-    />
+    <div className="space-y-4">
+      <ContentBlocksEditorClient
+        content={typedContent}
+        allowedBlockKindsOverride={allowedBlockKinds}
+      />
+    </div>
   );
 }

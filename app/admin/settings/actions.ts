@@ -7,9 +7,12 @@ import { assertTrustedMutationOrigin, requireAdmin } from "@/lib/app-auth";
 import { prisma } from "@/lib/db";
 
 const settingsSchema = z.object({
-  senderName: z.string().trim().default(""),
+  senderName: z.string().trim().max(120, "Sender name is too long.").default(""),
   senderEmail: z.union([z.literal(""), z.email("Valid sender email is required.")]).default(""),
-  appBaseUrl: z.union([z.literal(""), z.url("Valid app base URL is required.")]).default(""),
+  appBaseUrl: z
+    .union([z.literal(""), z.url("Valid app base URL is required.")])
+    .refine((value) => !value || /^https?:\/\//i.test(value), "App base URL must use http or https.")
+    .default(""),
   resetEmailEnabled: z.boolean().default(false),
 });
 

@@ -74,7 +74,7 @@ CREATE TABLE "ColumnMatchingExercise" (
     CONSTRAINT "ColumnMatchingExercise_contentBlockId_fkey" FOREIGN KEY ("contentBlockId") REFERENCES "ContentBlock" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE "SentenceOrderingExercise" (
+CREATE TABLE "RearrangeSentenceExercise" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "contentBlockId" TEXT NOT NULL,
     "contentId" TEXT NOT NULL,
@@ -94,7 +94,7 @@ CREATE TABLE "SentenceOrderingExercise" (
     "updatedBy" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
-    CONSTRAINT "SentenceOrderingExercise_contentBlockId_fkey" FOREIGN KEY ("contentBlockId") REFERENCES "ContentBlock" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT "RearrangeSentenceExercise_contentBlockId_fkey" FOREIGN KEY ("contentBlockId") REFERENCES "ContentBlock" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 INSERT INTO "QuestionAnswerExercise" (
@@ -133,7 +133,7 @@ SELECT
 FROM "_QuestionAnswerExercise_legacy"
 WHERE "layoutKind" = 'column-matching';
 
-INSERT INTO "SentenceOrderingExercise" (
+INSERT INTO "RearrangeSentenceExercise" (
   "id","contentBlockId","contentId","classId","subjectId","unitId","lessonId","topicId",
   "title","instruction","question","answer","details","documentJson","organizationId",
   "createdBy","updatedBy","createdAt","updatedAt"
@@ -148,7 +148,9 @@ WHERE "layoutKind" = 'sentence-ordering';
 CREATE UNIQUE INDEX "QuestionAnswerExercise_contentBlockId_key" ON "QuestionAnswerExercise"("contentBlockId");
 CREATE UNIQUE INDEX "TableCompletionExercise_contentBlockId_key" ON "TableCompletionExercise"("contentBlockId");
 CREATE UNIQUE INDEX "ColumnMatchingExercise_contentBlockId_key" ON "ColumnMatchingExercise"("contentBlockId");
-CREATE UNIQUE INDEX "SentenceOrderingExercise_contentBlockId_key" ON "SentenceOrderingExercise"("contentBlockId");
+CREATE UNIQUE INDEX "RearrangeSentenceExercise_contentBlockId_key" ON "RearrangeSentenceExercise"("contentBlockId");
+
+UPDATE "ContentBlock" SET "kind" = 'rearrange-sentence' WHERE "kind" = 'sentence-ordering';
 
 DROP TABLE "_QuestionAnswerExercise_legacy";
 

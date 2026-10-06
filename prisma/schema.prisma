@@ -46,6 +46,9 @@ model User {
   class               Class?                @relation("StudentClass", fields: [classId], references: [id], onDelete: SetNull)
   sessions            AuthSession[]         @relation("UserSessions")
   passwordResetTokens PasswordResetToken[]  @relation("UserPasswordResetTokens")
+
+  @@index([organizationId, role])
+  @@index([classId])
 }
 
 
@@ -58,6 +61,8 @@ model AuthSession {
   createdAt  DateTime @default(now())
 
   user       User     @relation("UserSessions", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, expiresAt])
 }
 
 model PasswordResetToken {
@@ -69,6 +74,8 @@ model PasswordResetToken {
   createdAt DateTime  @default(now())
 
   user      User      @relation("UserPasswordResetTokens", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, expiresAt, usedAt])
 }
 
 model AuthEmailSetting {
@@ -93,6 +100,9 @@ model AuditLog {
   changes        String
   organizationId String
   createdAt      DateTime @default(now())
+
+  @@index([organizationId, createdAt])
+  @@index([organizationId, entityName, entityId])
 }
 
 model Class {
@@ -119,6 +129,8 @@ model Class {
   contents       Content[]
   unseenCompositions UnseenComposition[]
   students       User[]        @relation("StudentClass")
+
+  @@index([organizationId, status, sortOrder])
 }
 
 model Subject {
@@ -145,6 +157,8 @@ model Subject {
   units          Unit[]
   contents       Content[]
   unseenCompositions UnseenComposition[]
+
+  @@index([organizationId, classId, status, sortOrder])
 }
 
 model Unit {
@@ -172,6 +186,8 @@ model Unit {
   subject        Subject       @relation(fields: [subjectId], references: [id], onDelete: Cascade)
   lessons        Lesson[]
   contents       Content[]
+
+  @@index([organizationId, classId, subjectId, status, sortOrder])
 }
 
 model Lesson {
@@ -197,6 +213,8 @@ model Lesson {
   unit             Unit          @relation(fields: [unitId], references: [id], onDelete: Cascade)
   topics           Topic[]
   contents         Content[]
+
+  @@index([organizationId, unitId, status, sortOrder])
 }
 
 model Topic {
@@ -221,6 +239,8 @@ model Topic {
 
   lesson           Lesson        @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   contents         Content[]
+
+  @@index([organizationId, lessonId, status, sortOrder])
 }
 
 model Content {
@@ -244,8 +264,53 @@ model Content {
   blocks         ContentBlock[]
 
   @@unique([classId, subjectId, unitId, lessonId, topicId, organizationId])
+
+  @@index([organizationId, classId, subjectId, unitId, lessonId])
+  @@index([topicId])
 }
 
+
+model SeenPassageOne {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  body           String   @default("")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
+}
+
+model SeenPassageTwo {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  body           String   @default("")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
+}
 
 model UnseenComposition {
   id             String   @id @default(cuid())
@@ -284,7 +349,9 @@ model ContentBlock {
   questionAnswerExercise       QuestionAnswerExercise?
   tableCompletionExercise      TableCompletionExercise?
   columnMatchingExercise       ColumnMatchingExercise?
-  sentenceOrderingExercise     SentenceOrderingExercise?
+  rearrangeSentenceExercise     RearrangeSentenceExercise?
+  questionFromPoems            QuestionFromPoems?
+  questionFromStory            QuestionFromStory?
   trueFalseExercise            TrueFalseExercise?
   informationTransfer          InformationTransfer?
   substitutionTable            SubstitutionTable?
@@ -296,6 +363,10 @@ model ContentBlock {
   suffixAndPrefix              SuffixAndPrefix?
   tagQuestion                  TagQuestion?
   connector                    Connector?
+  seenPassageOne               SeenPassageOne?
+  seenPassageTwo               SeenPassageTwo?
+
+  @@index([contentId, sortOrder])
 }
 
 model Paragraph {
@@ -315,6 +386,8 @@ model Paragraph {
   updatedAt      DateTime @updatedAt
 
   contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
 }
 
 model Vocabulary {
@@ -337,6 +410,8 @@ model Vocabulary {
 
   contentBlock   ContentBlock     @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
   entries        VocabularyEntry[]
+
+  @@index([organizationId, contentId])
 }
 
 model VocabularyEntry {
@@ -352,6 +427,9 @@ model VocabularyEntry {
   updatedAt      DateTime @updatedAt
 
   vocabulary     Vocabulary @relation(fields: [vocabularyId], references: [id], onDelete: Cascade)
+
+  @@index([vocabularyId, sortOrder])
+  @@index([organizationId])
 }
 
 model SynonymsAntonyms {
@@ -374,6 +452,8 @@ model SynonymsAntonyms {
 
   contentBlock   ContentBlock             @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
   entries        SynonymsAntonymsEntry[]
+
+  @@index([organizationId, contentId])
 }
 
 model SynonymsAntonymsEntry {
@@ -392,6 +472,9 @@ model SynonymsAntonymsEntry {
   updatedAt          DateTime @updatedAt
 
   synonymsAntonyms   SynonymsAntonyms @relation(fields: [synonymsAntonymsId], references: [id], onDelete: Cascade)
+
+  @@index([synonymsAntonymsId, sortOrder])
+  @@index([organizationId])
 }
 
 model GapFillExercise {
@@ -416,6 +499,8 @@ model GapFillExercise {
   updatedAt      DateTime @updatedAt
 
   contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
 }
 
 model GapFillFirstPaper {
@@ -440,6 +525,8 @@ model GapFillFirstPaper {
   updatedAt      DateTime @updatedAt
 
   contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
 }
 
 model GapFillSecondPaper {
@@ -461,6 +548,8 @@ model GapFillSecondPaper {
   updatedAt      DateTime @updatedAt
 
   contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
 }
 
 model McqSection {
@@ -485,6 +574,8 @@ model McqSection {
   updatedAt      DateTime @updatedAt
 
   contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
 }
 
 model QuestionAnswerExercise {
@@ -509,6 +600,8 @@ model QuestionAnswerExercise {
   updatedAt      DateTime @updatedAt
 
   contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
 }
 
 model TableCompletionExercise {
@@ -533,6 +626,8 @@ model TableCompletionExercise {
   updatedAt      DateTime @updatedAt
 
   contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
 }
 
 model ColumnMatchingExercise {
@@ -557,9 +652,11 @@ model ColumnMatchingExercise {
   updatedAt      DateTime @updatedAt
 
   contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
 }
 
-model SentenceOrderingExercise {
+model RearrangeSentenceExercise {
   id             String   @id @default(cuid())
   contentBlockId String   @unique
   contentId      String
@@ -581,6 +678,60 @@ model SentenceOrderingExercise {
   updatedAt      DateTime @updatedAt
 
   contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
+}
+
+model QuestionFromPoems {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  title          String   @default("")
+  instruction    String   @default("")
+  question       String   @default("")
+  answer         String   @default("")
+  details        String   @default("")
+  documentJson   String   @default("{\"rows\":[]}")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
+}
+
+model QuestionFromStory {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  title          String   @default("")
+  instruction    String   @default("")
+  question       String   @default("")
+  answer         String   @default("")
+  details        String   @default("")
+  documentJson   String   @default("{\"rows\":[]}")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
 }
 
 model TrueFalseExercise {
@@ -603,18 +754,23 @@ model TrueFalseExercise {
   updatedAt      DateTime @updatedAt
 
   contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
 }
 
 model InformationTransfer {
-  id             String   @id @default(cuid())
-  contentBlockId String   @unique
-  contentId      String
-  classId        String
-  subjectId      String
-  unitId         String
-  lessonId       String
-  topicId        String?
-  question       String   @default("")
+  id               String   @id @default(cuid())
+  contentBlockId   String   @unique
+  contentId        String
+  classId          String
+  subjectId        String
+  unitId           String
+  lessonId         String
+  topicId          String?
+  passage          String   @default("")
+  passageSource    String   @default("manual")
+  paragraphBlockId String?
+  question         String   @default("")
   answer         String   @default("")
   details        String   @default("")
   documentJson   String   @default("{\"rows\":[]}")
@@ -625,6 +781,8 @@ model InformationTransfer {
   updatedAt      DateTime @updatedAt
 
   contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
 }
 
 model SubstitutionTable {
@@ -646,6 +804,8 @@ model SubstitutionTable {
   updatedAt      DateTime @updatedAt
 
   contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
 }
 
 model RightFormOfVerb {
@@ -667,6 +827,8 @@ model RightFormOfVerb {
   updatedAt      DateTime @updatedAt
 
   contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
 }
 
 model Narration {
@@ -688,6 +850,8 @@ model Narration {
   updatedAt      DateTime @updatedAt
 
   contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
 }
 
 model ChangingSentence {
@@ -709,6 +873,8 @@ model ChangingSentence {
   updatedAt      DateTime @updatedAt
 
   contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
 }
 
 model PunctuationAndCapitalization {
@@ -730,6 +896,8 @@ model PunctuationAndCapitalization {
   updatedAt      DateTime @updatedAt
 
   contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
 }
 
 model Preposition {
@@ -751,6 +919,8 @@ model Preposition {
   updatedAt      DateTime @updatedAt
 
   contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
 }
 
 model SuffixAndPrefix {
@@ -772,6 +942,8 @@ model SuffixAndPrefix {
   updatedAt      DateTime @updatedAt
 
   contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
 }
 
 model TagQuestion {
@@ -793,6 +965,8 @@ model TagQuestion {
   updatedAt      DateTime @updatedAt
 
   contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
 }
 
 model Connector {
@@ -814,4 +988,81 @@ model Connector {
   updatedAt      DateTime @updatedAt
 
   contentBlock   ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
+}
+
+// Subject-level English First Paper section records. These intentionally do not
+// require Unit / Lesson / Topic assignments; they are managed directly from the
+// subject section pages.
+model SubjectMatchingSentencesBlock {
+  id             String   @id @default(cuid())
+  classId        String
+  subjectId      String
+  title          String   @default("")
+  instruction    String   @default("")
+  details        String   @default("")
+  documentJson   String   @default("{\"version\":2,\"columns\":[],\"rows\":[],\"answers\":[]}")
+  sortOrder      Int      @default(0)
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([organizationId, classId, subjectId, sortOrder])
+}
+
+model SubjectRearrangeSentenceBlock {
+  id             String   @id @default(cuid())
+  classId        String
+  subjectId      String
+  title          String   @default("")
+  instruction    String   @default("")
+  details        String   @default("")
+  documentJson   String   @default("{\"version\":1,\"rows\":[]}")
+  sortOrder      Int      @default(0)
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([organizationId, classId, subjectId, sortOrder])
+}
+
+model SubjectQuestionFromPoemsBlock {
+  id             String   @id @default(cuid())
+  classId        String
+  subjectId      String
+  title          String   @default("")
+  instruction    String   @default("")
+  details        String   @default("")
+  documentJson   String   @default("{\"version\":1,\"rows\":[]}")
+  sortOrder      Int      @default(0)
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([organizationId, classId, subjectId, sortOrder])
+}
+
+model SubjectQuestionFromStoryBlock {
+  id             String   @id @default(cuid())
+  classId        String
+  subjectId      String
+  title          String   @default("")
+  instruction    String   @default("")
+  details        String   @default("")
+  documentJson   String   @default("{\"version\":1,\"rows\":[]}")
+  sortOrder      Int      @default(0)
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([organizationId, classId, subjectId, sortOrder])
 }

@@ -10,7 +10,7 @@ export default async function UserRearrangeSentenceChapterPage({
   return (
     <FirstPaperBlockChapterPage
       contentId={contentId}
-      kind="sentence-ordering"
+      kind="rearrange-sentence"
       title="Rearrange Sentence"
     />
   );

@@ -1,4 +1,5 @@
 import { AppDashboardShell, adminNavGroups } from "@/components/app/AppShellNav";
+import { PageNavigation } from "@/components/app/PageNavigation";
 import { ShellActions } from "@/components/app/ShellActions";
 import { requireAdmin } from "@/lib/app-auth";
 
@@ -22,7 +23,10 @@ export default async function AdminLayout({
       groups={adminNavGroups}
       action={<ShellActions />}
     >
-      {children}
+      <div className="space-y-6">
+        <PageNavigation />
+        <div>{children}</div>
+      </div>
     </AppDashboardShell>
   );
 }

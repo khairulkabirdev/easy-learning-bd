@@ -38,6 +38,7 @@ import {
   updateMcqSection,
   updateNarration,
   updateParagraphBlock,
+  updateSeenCompositionPassage,
   updatePreposition,
   updatePunctuationAndCapitalization,
   updateQuestionAnswerExercise,
@@ -804,6 +805,8 @@ const BLOCK_META: Array<{
   icon: React.ReactNode;
 }> = [
   { kind: "paragraph", title: "Paragraph", description: "Add a paragraph block.", icon: <BookText className="h-4 w-4" /> },
+  { kind: "seen-passage-one", title: "Passage", description: "Add a repeatable Seen Composition Passage block.", icon: <BookText className="h-4 w-4" /> },
+  { kind: "seen-passage-two", title: "Passage 2", description: "Add a repeatable Seen Composition Passage 2 block.", icon: <BookText className="h-4 w-4" /> },
   { kind: "vocabulary", title: "Vocabulary", description: "Add vocabulary words and meanings.", icon: <SpellCheck2 className="h-4 w-4" /> },
   { kind: "synonyms-antonyms", title: "Synonyms / Antonyms", description: "Add synonyms and antonyms rows.", icon: <Languages className="h-4 w-4" /> },
   { kind: "gap-fill", title: "Gap Fill (Legacy)", description: "Legacy gap fill block.", icon: <FileQuestion className="h-4 w-4" /> },
@@ -813,8 +816,10 @@ const BLOCK_META: Array<{
   { kind: "true-false", title: "True / False", description: "Add a true/false exercise.", icon: <CheckSquare className="h-4 w-4" /> },
   { kind: "question-answer", title: "Question Answer", description: "Add a passage and question-answer items.", icon: <Rows3 className="h-4 w-4" /> },
   { kind: "table-completion", title: "Table Completion", description: "Add question, answer, and details.", icon: <Rows3 className="h-4 w-4" /> },
-  { kind: "column-matching", title: "Column Matching", description: "Add question, answer, and details.", icon: <FileSpreadsheet className="h-4 w-4" /> },
-  { kind: "sentence-ordering", title: "Rearrange Sentence", description: "Add sentences one by one in the correct order for students to rearrange.", icon: <ListOrdered className="h-4 w-4" /> },
+  { kind: "column-matching", title: "Matching Sentences", description: "Build Column A / Column B and add Column C when needed.", icon: <FileSpreadsheet className="h-4 w-4" /> },
+  { kind: "rearrange-sentence", title: "Rearrange Sentence", description: "Add sentences one by one in the correct order for students to rearrange.", icon: <ListOrdered className="h-4 w-4" /> },
+  { kind: "question-from-poems", title: "Question from Poems", description: "Add a title and repeatable question-answer items without a passage field.", icon: <FileQuestion className="h-4 w-4" /> },
+  { kind: "question-from-story", title: "Question from Story", description: "Add a title and repeatable question-answer items without a passage field.", icon: <FileQuestion className="h-4 w-4" /> },
   { kind: "information-transfer", title: "Information Transfer", description: "Create a Tiptap passage with inline transfer blanks and matching answers.", icon: <FileOutput className="h-4 w-4" /> },
   { kind: "substitution-table", title: "Substitution Table", description: "Build columns of sentence parts and define meaningful sentence combinations.", icon: <FileText className="h-4 w-4" /> },
   { kind: "right-form-of-verb", title: "Right Form of Verb", description: "Create a Tiptap question with inline verb blanks and matching answers.", icon: <FileText className="h-4 w-4" /> },
@@ -839,7 +844,10 @@ const ENGLISH_FIRST_PAPER_KINDS: ContentBlockKind[] = [
   "gap-fill-first-paper",
   "table-completion",
   "question-answer",
-  "sentence-ordering",
+  "column-matching",
+  "rearrange-sentence",
+  "question-from-poems",
+  "question-from-story",
   "synonyms-antonyms",
   "information-transfer",
   "true-false",
@@ -1164,31 +1172,41 @@ export function ContentBlocksEditorClient({
     () => (allowedBlockKinds ? BLOCK_META.filter((item) => allowedBlockKinds.has(item.kind)) : BLOCK_META),
     [allowedBlockKinds],
   );
-  const isSeenCompositionMode = blockTitleOverrides?.paragraph === "Passage";
+  const isSeenCompositionMode = allowedBlockKindsOverride?.includes("seen-passage-one") === true;
   const paragraphBlocks = useMemo(
     () => blocks.filter((block) => block.kind === "paragraph" && block.paragraph),
     [blocks],
   );
-  const passageLabelForIndex = (index: number) => (index === 0 ? "Passage" : `Passage ${index + 1}`);
-  const paragraphLabelForBlock = (blockId: string) => {
-    const index = paragraphBlocks.findIndex((block) => block.id === blockId);
-    if (!isSeenCompositionMode) return index >= 0 ? `Paragraph ${index + 1}` : "Paragraph";
-    return index >= 0 ? passageLabelForIndex(index) : "Passage";
+  const seenPassageBlocks = useMemo(
+    () =>
+      blocks.filter(
+        (block) =>
+          (block.kind === "seen-passage-one" && block.seenPassageOne) ||
+          (block.kind === "seen-passage-two" && block.seenPassageTwo),
+      ),
+    [blocks],
+  );
+  const displayBlockTitleForBlock = (block: BlockDraft) => {
+    if (block.kind === "seen-passage-one") return "Passage";
+    if (block.kind === "seen-passage-two") return "Passage 2";
+    return blockTitleOverrides?.[block.kind] ?? getBlockTitle(block.kind);
   };
-  const displayBlockTitleForBlock = (block: BlockDraft) =>
-    block.kind === "paragraph" && isSeenCompositionMode
-      ? paragraphLabelForBlock(block.id)
-      : blockTitleOverrides?.[block.kind] ?? getBlockTitle(block.kind);
-  const nextParagraphChooserLabel = isSeenCompositionMode
-    ? passageLabelForIndex(paragraphBlocks.length)
-    : blockTitleOverrides?.paragraph ?? "Paragraph";
   const paragraphPassageOptions = useMemo(
     () =>
-      paragraphBlocks.map((block, index) => ({
-        id: block.id,
-        label: `${isSeenCompositionMode ? passageLabelForIndex(index) : `Paragraph ${index + 1}`} — ${paragraphPreview(block.paragraph!.body)}`,
-      })),
-    [paragraphBlocks, isSeenCompositionMode],
+      isSeenCompositionMode
+        ? seenPassageBlocks.map((block) => {
+            const isPassageOne = block.kind === "seen-passage-one";
+            const body = isPassageOne ? block.seenPassageOne?.body || "" : block.seenPassageTwo?.body || "";
+            return {
+              id: block.id,
+              label: `${isPassageOne ? "Passage" : "Passage 2"} — ${paragraphPreview(body)}`,
+            };
+          })
+        : paragraphBlocks.map((block, index) => ({
+            id: block.id,
+            label: `Paragraph ${index + 1} — ${paragraphPreview(block.paragraph!.body)}`,
+          })),
+    [paragraphBlocks, seenPassageBlocks, isSeenCompositionMode],
   );
 
   const pathLabel = useMemo(() => {
@@ -1198,6 +1216,23 @@ export function ContentBlocksEditorClient({
     }
     return items.join(" / ");
   }, [content]);
+
+  function handleSeenCompositionPassageChange(
+    blockId: string,
+    recordId: string,
+    kind: "seen-passage-one" | "seen-passage-two",
+    body: string,
+  ) {
+    patchBlock(blockId, (block) =>
+      kind === "seen-passage-one"
+        ? { ...block, seenPassageOne: block.seenPassageOne ? { ...block.seenPassageOne, body } : null }
+        : { ...block, seenPassageTwo: block.seenPassageTwo ? { ...block.seenPassageTwo, body } : null },
+    );
+
+    saveInBackground(`seen-passage:${blockId}`, () =>
+      updateSeenCompositionPassage({ contentId: content.id, blockId, recordId, kind, body }),
+    );
+  }
 
   function patchBlock(blockId: string, updater: (block: BlockDraft) => BlockDraft) {
     setBlocks((current) => current.map((block) => (block.id === blockId ? updater(block) : block)));
@@ -1221,18 +1256,25 @@ export function ContentBlocksEditorClient({
           saveQueueRef.current.delete(queueKey);
         }
       });
+
+    return queued;
   }
 
   async function handleMoveBlock(blockId: string, direction: "up" | "down") {
-    const currentIndex = blocks.findIndex((block) => block.id === blockId);
-    if (currentIndex === -1) return;
+    const previousBlocks = blocks;
+    const currentVisibleIndex = visibleBlocks.findIndex((block) => block.id === blockId);
+    if (currentVisibleIndex === -1) return;
 
-    const nextIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
-    if (nextIndex < 0 || nextIndex >= blocks.length) return;
+    const nextVisibleIndex = direction === "up" ? currentVisibleIndex - 1 : currentVisibleIndex + 1;
+    if (nextVisibleIndex < 0 || nextVisibleIndex >= visibleBlocks.length) return;
+
+    const targetBlockId = visibleBlocks[nextVisibleIndex].id;
+    const currentIndex = blocks.findIndex((block) => block.id === blockId);
+    const targetIndex = blocks.findIndex((block) => block.id === targetBlockId);
+    if (currentIndex === -1 || targetIndex === -1) return;
 
     const nextBlocks = [...blocks];
-    const [moved] = nextBlocks.splice(currentIndex, 1);
-    nextBlocks.splice(nextIndex, 0, moved);
+    [nextBlocks[currentIndex], nextBlocks[targetIndex]] = [nextBlocks[targetIndex], nextBlocks[currentIndex]];
 
     const normalized = nextBlocks.map((block, index) => ({
       ...block,
@@ -1243,9 +1285,8 @@ export function ContentBlocksEditorClient({
 
     try {
       await reorderContentBlocks(normalized.map((block) => ({ id: block.id, sortOrder: block.sortOrder })));
-      router.refresh();
     } catch (error) {
-      setBlocks(content.blocks);
+      setBlocks(previousBlocks);
       setActionError(error instanceof Error ? error.message : "Failed to reorder blocks.");
     }
   }
@@ -1296,8 +1337,12 @@ export function ContentBlocksEditorClient({
   async function handleAddBlock(kind: ContentBlockKind) {
     setActionError(null);
     startTransition(async () => {
-      await createContentBlock({ contentId: content.id, kind });
-      router.refresh();
+      try {
+        await createContentBlock({ contentId: content.id, kind });
+        router.refresh();
+      } catch (error) {
+        setActionError(error instanceof Error ? error.message : "Failed to add block.");
+      }
     });
   }
 
@@ -1306,7 +1351,6 @@ export function ContentBlocksEditorClient({
     try {
       await deleteContentBlock(blockId);
       setBlocks((current) => current.filter((block) => block.id !== blockId));
-      router.refresh();
     } catch (error) {
       setActionError(error instanceof Error ? error.message : "Failed to delete block.");
     }
@@ -1377,7 +1421,7 @@ export function ContentBlocksEditorClient({
       questionAnswerExercise: block.questionAnswerExercise ? persisted : null,
     }));
 
-    saveInBackground(`structured-exercise:${blockId}`, () =>
+    await saveInBackground(`structured-exercise:${blockId}`, () =>
       updateQuestionAnswerExercise({
         contentId: content.id,
         blockId,
@@ -1501,14 +1545,18 @@ export function ContentBlocksEditorClient({
     if (!exercise?.table) return;
 
     const columnId = crypto.randomUUID();
+    const nextColumnIndex = exercise.table.columns.length;
+    const nextColumnLabel = currentBlock?.kind === "column-matching"
+      ? `Column ${String.fromCharCode(65 + nextColumnIndex)}`
+      : `Column ${nextColumnIndex + 1}`;
     const nextTable: TableCompletionDocumentRecord = {
       ...exercise.table,
       columns: [
         ...exercise.table.columns,
         {
           id: columnId,
-          label: `Column ${exercise.table.columns.length + 1}`,
-          sortOrder: exercise.table.columns.length,
+          label: nextColumnLabel,
+          sortOrder: nextColumnIndex,
         },
       ],
       rows: exercise.table.rows.map((row) => ({
@@ -2129,7 +2177,6 @@ export function ContentBlocksEditorClient({
           .filter((row) => row.id !== rowId)
           .map((row, index) => ({ ...row, sortOrder: index })),
       });
-      router.refresh();
     } catch (error) {
       setActionError(error instanceof Error ? error.message : "Failed to delete question.");
     }
@@ -3016,7 +3063,7 @@ export function ContentBlocksEditorClient({
   async function handleInformationTransferExerciseChange(
     blockId: string,
     recordId: string,
-    patch: Partial<Pick<InformationTransferDraft, "question" | "answer" | "details" | "rows">>,
+    patch: Partial<Pick<InformationTransferDraft, "question" | "answer" | "details" | "rows" | "passage" | "passageSource" | "paragraphBlockId">>,
   ) {
     const currentBlock = blocks.find((block) => block.id === blockId);
     if (!currentBlock?.informationTransfer) return;
@@ -3047,10 +3094,44 @@ export function ContentBlocksEditorClient({
         contentId: content.id,
         blockId,
         recordId,
+        passage: persisted.passage || "",
+        passageSource: persisted.passageSource || "manual",
+        paragraphBlockId: persisted.passageSource === "paragraph" ? persisted.paragraphBlockId || null : null,
         question: persisted.question,
         answer: persisted.answer,
         details: persisted.details,
         documentJson: persisted.documentJson,
+      }),
+    );
+  }
+
+  async function handleInformationTransferPassageChange(
+    blockId: string,
+    patch: Partial<Pick<InformationTransferDraft, "passage" | "passageSource" | "paragraphBlockId">>,
+  ) {
+    const currentBlock = blocks.find((block) => block.id === blockId);
+    if (!currentBlock?.informationTransfer) return;
+
+    const next = { ...currentBlock.informationTransfer, ...patch };
+    if (next.passageSource !== "paragraph") next.paragraphBlockId = null;
+
+    patchBlock(blockId, (block) => ({
+      ...block,
+      informationTransfer: block.informationTransfer ? next : null,
+    }));
+
+    saveInBackground(`information-transfer-passage:${blockId}`, () =>
+      updateInformationTransfer({
+        contentId: content.id,
+        blockId,
+        recordId: next.id,
+        passage: next.passage || "",
+        passageSource: next.passageSource || "manual",
+        paragraphBlockId: next.passageSource === "paragraph" ? next.paragraphBlockId || null : null,
+        question: next.question,
+        answer: next.answer,
+        details: next.details,
+        documentJson: next.documentJson,
       }),
     );
   }
@@ -3154,6 +3235,9 @@ export function ContentBlocksEditorClient({
         contentId: content.id,
         blockId,
         recordId: next.id,
+        passage: next.passage || "",
+        passageSource: next.passageSource || "manual",
+        paragraphBlockId: next.passageSource === "paragraph" ? next.paragraphBlockId || null : null,
         question: next.question,
         answer: next.answer,
         details: next.details,
@@ -3487,6 +3571,8 @@ export function ContentBlocksEditorClient({
         </CardHeader>
       </Card>
 
+
+
       <div className="flex justify-end">
         <Button type="button" onClick={() => setIsChooserOpen(true)} disabled={isPending}>
           <Plus className="mr-2 h-4 w-4" />
@@ -3528,7 +3614,7 @@ export function ContentBlocksEditorClient({
                     variant="outline"
                     size="icon"
                     onClick={() => void handleMoveBlock(block.id, "up")}
-                    disabled={isPending || block.sortOrder === 0}
+                    disabled={isPending || visibleBlocks[0]?.id === block.id}
                   >
                     <ArrowUp className="h-4 w-4" />
                   </Button>
@@ -3537,7 +3623,7 @@ export function ContentBlocksEditorClient({
                     variant="outline"
                     size="icon"
                     onClick={() => void handleMoveBlock(block.id, "down")}
-                    disabled={isPending || block.sortOrder === blocks.length - 1}
+                    disabled={isPending || visibleBlocks[visibleBlocks.length - 1]?.id === block.id}
                   >
                     <ArrowDown className="h-4 w-4" />
                   </Button>
@@ -3551,12 +3637,58 @@ export function ContentBlocksEditorClient({
                 <CardContent className={BLOCK_CONTENT_CLASS}>
                   <Field>
                     <FieldContent>
-                      <FieldLabel>{isSeenCompositionMode ? paragraphLabelForBlock(block.id) : blockTitleOverrides?.paragraph ?? "Paragraph"}</FieldLabel>
+                      <FieldLabel>{blockTitleOverrides?.paragraph ?? "Paragraph"}</FieldLabel>
                       <TiptapRichTextEditor
                         value={block.paragraph.body}
                         onChange={(value) => void handleParagraphChange(block.id, block.paragraph!.id, value)}
                         minHeight={240}
-                        placeholder={isSeenCompositionMode ? `Write ${paragraphLabelForBlock(block.id).toLowerCase()} here...` : "Write the paragraph here..."}
+                        placeholder="Write the paragraph here..."
+                      />
+                    </FieldContent>
+                  </Field>
+                </CardContent>
+              ) : null}
+
+              {block.kind === "seen-passage-one" && block.seenPassageOne ? (
+                <CardContent className={BLOCK_CONTENT_CLASS}>
+                  <Field>
+                    <FieldContent>
+                      <FieldLabel>Passage</FieldLabel>
+                      <TiptapRichTextEditor
+                        value={block.seenPassageOne.body}
+                        onChange={(value) =>
+                          handleSeenCompositionPassageChange(
+                            block.id,
+                            block.seenPassageOne!.id,
+                            "seen-passage-one",
+                            value,
+                          )
+                        }
+                        minHeight={240}
+                        placeholder="Write Passage here..."
+                      />
+                    </FieldContent>
+                  </Field>
+                </CardContent>
+              ) : null}
+
+              {block.kind === "seen-passage-two" && block.seenPassageTwo ? (
+                <CardContent className={BLOCK_CONTENT_CLASS}>
+                  <Field>
+                    <FieldContent>
+                      <FieldLabel>Passage 2</FieldLabel>
+                      <TiptapRichTextEditor
+                        value={block.seenPassageTwo.body}
+                        onChange={(value) =>
+                          handleSeenCompositionPassageChange(
+                            block.id,
+                            block.seenPassageTwo!.id,
+                            "seen-passage-two",
+                            value,
+                          )
+                        }
+                        minHeight={240}
+                        placeholder="Write Passage 2 here..."
                       />
                     </FieldContent>
                   </Field>
@@ -3678,10 +3810,10 @@ export function ContentBlocksEditorClient({
                       <div className="flex flex-wrap items-center justify-between gap-3">
                         <div className="space-y-1">
                           <FieldLabel>Passage</FieldLabel>
-                          <FieldDescription>Write a custom passage or link an existing Paragraph block from this content.</FieldDescription>
+                          <FieldDescription>{isSeenCompositionMode ? "Write a custom passage or link Passage / Passage 2." : "Write a custom passage or link an existing Paragraph block from this content."}</FieldDescription>
                         </div>
                         <label className="flex cursor-pointer items-center gap-2 text-sm font-medium">
-                          <span>Use Paragraph block</span>
+                          <span>{isSeenCompositionMode ? "Use Passage" : "Use Paragraph block"}</span>
                           <Switch
                             checked={block.synonymsAntonyms.passageSource === "paragraph"}
                             onCheckedChange={(checked) =>
@@ -3693,7 +3825,7 @@ export function ContentBlocksEditorClient({
 
                       {block.synonymsAntonyms.passageSource === "paragraph" ? (
                         <div className="mt-3 space-y-2 rounded-xl border bg-muted/20 p-4">
-                          <FieldLabel>Paragraph</FieldLabel>
+                          <FieldLabel>{isSeenCompositionMode ? "Passage" : "Paragraph"}</FieldLabel>
                           <QuestionAnswerPassageCombobox
                             value={block.synonymsAntonyms.paragraphBlockId || ""}
                             options={paragraphPassageOptions}
@@ -4286,7 +4418,114 @@ export function ContentBlocksEditorClient({
                 </CardContent>
               ) : null}
 
-              {block.kind === "sentence-ordering" && block.questionAnswerExercise ? (
+              {(block.kind === "question-from-poems" || block.kind === "question-from-story") && block.questionAnswerExercise ? (
+                <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-5`}>
+                  <FieldGroup className="gap-5">
+                    <Field>
+                      <FieldContent>
+                        <FieldLabel>Title</FieldLabel>
+                        <BufferedInput
+                          value={block.questionAnswerExercise.title}
+                          onCommit={(value) =>
+                            void handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, { title: value })
+                          }
+                          placeholder={block.kind === "question-from-poems" ? "Question from Poems" : "Question from Story"}
+                        />
+                      </FieldContent>
+                    </Field>
+                  </FieldGroup>
+
+                  <div className="flex items-center justify-between gap-4 border-t pt-5">
+                    <div className="space-y-1">
+                      <h3 className="text-sm font-medium">Questions &amp; Answers</h3>
+                      <p className="text-sm text-muted-foreground">
+                        Add every question as its own item with its own answer. No passage field is used in this block.
+                      </p>
+                    </div>
+                    <Button type="button" onClick={() => openQuestionAnswerModal(block.id)}>
+                      <Plus className="mr-2 h-4 w-4" />
+                      Add Question Answer Item
+                    </Button>
+                  </div>
+
+                  {block.questionAnswerExercise.rows.length === 0 ? (
+                    <Empty className="border">
+                      <EmptyHeader>
+                        <EmptyTitle>No questions added yet</EmptyTitle>
+                        <EmptyDescription>Add the first question and its answer.</EmptyDescription>
+                      </EmptyHeader>
+                      <EmptyContent>
+                        <Button type="button" onClick={() => openQuestionAnswerModal(block.id)}>
+                          <Plus className="mr-2 h-4 w-4" />
+                          Add first item
+                        </Button>
+                      </EmptyContent>
+                    </Empty>
+                  ) : (
+                    <div className="space-y-4">
+                      {block.questionAnswerExercise.rows.map((row, index) => (
+                        <Card key={row.id} className="shadow-none">
+                          <CardContent className="space-y-5 pt-6">
+                            <div className="flex items-center justify-between gap-4">
+                              <Badge variant="secondary">Question #{index + 1}</Badge>
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={() => void handleDeleteQuestionAnswerRow(block.id, row.id)}
+                              >
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                Delete
+                              </Button>
+                            </div>
+
+                            <Field>
+                              <FieldContent>
+                                <FieldLabel>Question</FieldLabel>
+                                <div className="rounded-xl border bg-background p-3">
+                                  <TiptapRichTextEditor
+                                    value={row.question}
+                                    onChange={(value) =>
+                                      void handleQuestionAnswerRowPatch(block.id, row.id, { question: value })
+                                    }
+                                    minHeight={140}
+                                    placeholder={`Write question ${index + 1} here...`}
+                                  />
+                                </div>
+                              </FieldContent>
+                            </Field>
+
+                            <Field>
+                              <FieldContent>
+                                <FieldLabel>Answer</FieldLabel>
+                                <div className="rounded-xl border bg-background p-3">
+                                  <TiptapRichTextEditor
+                                    value={row.answer}
+                                    onChange={(value) =>
+                                      void handleQuestionAnswerRowPatch(block.id, row.id, { answer: value })
+                                    }
+                                    minHeight={140}
+                                    placeholder={`Write the answer for question ${index + 1} here...`}
+                                  />
+                                </div>
+                              </FieldContent>
+                            </Field>
+                          </CardContent>
+                        </Card>
+                      ))}
+
+                      <div className="flex justify-center border-t pt-5">
+                        <Button type="button" variant="outline" onClick={() => openQuestionAnswerModal(block.id)}>
+                          <Plus className="mr-2 h-4 w-4" />
+                          Add another Question Answer item
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              ) : null}
+
+              {block.kind === "rearrange-sentence" && block.questionAnswerExercise ? (
                 <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-5`}>
                   <FieldGroup className="gap-5">
                     <Field>
@@ -4752,53 +4991,308 @@ export function ContentBlocksEditorClient({
                 </CardContent>
               ) : null}
 
-              {block.kind === "column-matching" && block.questionAnswerExercise ? (
-                <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-5`}>
-                  <FieldGroup className="gap-5">
-                    <Field>
-                      <FieldContent>
-                        <FieldLabel>Question</FieldLabel>
-                        <FieldDescription>Write the full question here.</FieldDescription>
-                        <div className="rounded-xl border bg-background p-3">
-                          <TiptapRichTextEditor
-                            value={block.questionAnswerExercise.question}
-                            onChange={(value) =>
-                              void handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, { question: value })
+              {block.kind === "column-matching" && block.questionAnswerExercise?.table ? (
+                <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-6`}>
+                  <FieldGroup className="gap-6">
+                    <div className="grid gap-4 lg:grid-cols-2">
+                      <Field>
+                        <FieldContent>
+                          <FieldLabel>Title</FieldLabel>
+                          <BufferedInput
+                            value={block.questionAnswerExercise.title}
+                            onCommit={(value) =>
+                              handleTableCompletionChange(block.id, block.questionAnswerExercise!.id, { title: value })
                             }
-                            minHeight={240}
-                            placeholder="Write the full question here..."
+                            placeholder="Matching Sentences"
                           />
+                        </FieldContent>
+                      </Field>
+                      <Field>
+                        <FieldContent>
+                          <FieldLabel>Instruction</FieldLabel>
+                          <BufferedInput
+                            value={block.questionAnswerExercise.instruction}
+                            onCommit={(value) =>
+                              handleTableCompletionChange(block.id, block.questionAnswerExercise!.id, { instruction: value })
+                            }
+                            placeholder="Complete the table to make meaningful sentences."
+                          />
+                        </FieldContent>
+                      </Field>
+                    </div>
+
+                    <div className="overflow-hidden rounded-2xl border bg-background shadow-sm">
+                      <div className="flex flex-wrap items-start justify-between gap-3 border-b bg-muted/30 px-4 py-3">
+                        <div className="space-y-1">
+                          <h3 className="text-sm font-semibold">Matching Columns Builder</h3>
+                          <p className="text-sm text-muted-foreground">
+                            Start with Column A and Column B. Add Column C (or more) when needed. A correct answer connects one item from every column.
+                          </p>
                         </div>
-                      </FieldContent>
-                    </Field>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <Badge variant="secondary">
+                            {block.questionAnswerExercise.table.columns.length} columns × {block.questionAnswerExercise.table.rows.length} rows
+                          </Badge>
+                          <Button type="button" variant="outline" size="sm" onClick={() => handleAddTableCompletionColumn(block.id)}>
+                            <Plus className="mr-2 h-4 w-4" />
+                            Add column
+                          </Button>
+                          <Button type="button" size="sm" onClick={() => handleAddTableCompletionRow(block.id)}>
+                            <Plus className="mr-2 h-4 w-4" />
+                            Add row
+                          </Button>
+                        </div>
+                      </div>
+
+                      <div className="overflow-x-auto p-4">
+                        <table className="w-full min-w-[760px] border-separate border-spacing-0 overflow-hidden rounded-xl border">
+                          <thead>
+                            <tr className="bg-muted/40">
+                              <th className="w-14 border-b border-r p-2 text-center text-xs font-medium text-muted-foreground">#</th>
+                              {block.questionAnswerExercise.table.columns.map((column, columnIndex) => (
+                                <th key={column.id} className="min-w-[210px] border-b border-r p-2 align-top last:border-r-0">
+                                  <div className="flex items-center gap-2">
+                                    <BufferedInput
+                                      value={column.label}
+                                      onCommit={(value) => handleTableCompletionColumnLabel(block.id, column.id, value)}
+                                      placeholder={`Column ${String.fromCharCode(65 + columnIndex)}`}
+                                      className="h-9 font-medium"
+                                    />
+                                    {block.questionAnswerExercise!.table!.columns.length > 2 ? (
+                                      <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-9 w-9 shrink-0 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                                        onClick={() => handleDeleteTableCompletionColumn(block.id, column.id)}
+                                        aria-label={`Delete column ${columnIndex + 1}`}
+                                      >
+                                        <Trash2 className="h-4 w-4" />
+                                      </Button>
+                                    ) : null}
+                                  </div>
+                                </th>
+                              ))}
+                              <th className="w-32 border-b p-2 text-center text-xs font-medium text-muted-foreground">Row actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {block.questionAnswerExercise.table.rows.length === 0 ? (
+                              <tr>
+                                <td colSpan={block.questionAnswerExercise.table.columns.length + 2} className="p-8 text-center text-sm text-muted-foreground">
+                                  No rows yet. Click <strong>Add row</strong> to add sentence parts.
+                                </td>
+                              </tr>
+                            ) : (
+                              block.questionAnswerExercise.table.rows.map((row, rowIndex) => (
+                                <tr key={row.id} className="align-top">
+                                  <td className="border-b border-r bg-muted/20 p-3 text-center text-sm font-semibold last:border-b-0">
+                                    {rowIndex + 1}
+                                  </td>
+                                  {block.questionAnswerExercise!.table!.columns.map((column, columnIndex) => {
+                                    const cell = row.cells.find((item) => item.columnId === column.id) || row.cells[columnIndex];
+                                    if (!cell) return <td key={`${row.id}-${column.id}`} className="border-b border-r p-3" />;
+                                    return (
+                                      <td key={cell.id} className="border-b border-r p-3 last:border-r-0">
+                                        <BufferedInput
+                                          value={cell.mode === "answer" ? cell.answer || cell.text : cell.text}
+                                          onCommit={(value) =>
+                                            handleTableCompletionCellPatch(block.id, row.id, cell.id, {
+                                              mode: "text",
+                                              text: value,
+                                              answer: "",
+                                            })
+                                          }
+                                          placeholder={`${column.label || `Column ${String.fromCharCode(65 + columnIndex)}`} - row ${rowIndex + 1}`}
+                                        />
+                                      </td>
+                                    );
+                                  })}
+                                  <td className="border-b p-2">
+                                    <div className="flex items-center justify-center gap-1">
+                                      <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-8 w-8"
+                                        disabled={rowIndex === 0}
+                                        onClick={() => handleMoveTableCompletionRow(block.id, row.id, "up")}
+                                        aria-label={`Move row ${rowIndex + 1} up`}
+                                      >
+                                        <ArrowUp className="h-4 w-4" />
+                                      </Button>
+                                      <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-8 w-8"
+                                        disabled={rowIndex === block.questionAnswerExercise!.table!.rows.length - 1}
+                                        onClick={() => handleMoveTableCompletionRow(block.id, row.id, "down")}
+                                        aria-label={`Move row ${rowIndex + 1} down`}
+                                      >
+                                        <ArrowDown className="h-4 w-4" />
+                                      </Button>
+                                      <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                                        onClick={() => handleDeleteTableCompletionRow(block.id, row.id)}
+                                        aria-label={`Delete row ${rowIndex + 1}`}
+                                      >
+                                        <Trash2 className="h-4 w-4" />
+                                      </Button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div className="border-t bg-muted/20 px-4 py-3 text-xs text-muted-foreground">
+                        <strong>Example:</strong> with 3 columns, Answer #1 can be Column A row 1 + Column B row 3 + Column C row 2.
+                      </div>
+                    </div>
+
+                    {block.questionAnswerExercise.table.rows.length > 0 ? (
+                      <div className="overflow-hidden rounded-2xl border bg-background shadow-sm">
+                        <div className="border-b bg-muted/30 px-4 py-3">
+                          <h3 className="text-sm font-semibold">Correct sentence connections</h3>
+                          <p className="mt-1 text-sm text-muted-foreground">
+                            There is one answer slot for each table row. For every answer, select one cell from every column. The preview shows the complete sentence.
+                          </p>
+                        </div>
+
+                        <div className="space-y-4 p-4">
+                          {block.questionAnswerExercise.table.answers.map((answer, answerIndex) => {
+                            const preview = getTableCompletionAnswerPreview(block.questionAnswerExercise!.table!, answer.id);
+                            return (
+                              <div key={answer.id} className="rounded-xl border p-4">
+                                <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+                                  <div className="font-semibold">Answer #{answerIndex + 1}</div>
+                                  <Badge variant={preview ? "secondary" : "outline"}>
+                                    {answer.selections.filter((selection) => selection.cellId).length}/{block.questionAnswerExercise!.table!.columns.length} columns connected
+                                  </Badge>
+                                </div>
+
+                                <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+                                  {block.questionAnswerExercise!.table!.columns.map((column, columnIndex) => {
+                                    const selected = answer.selections.find((selection) => selection.columnId === column.id)?.cellId || "";
+                                    const usedByOtherAnswers = new Set(
+                                      block.questionAnswerExercise!.table!.answers
+                                        .filter((item) => item.id !== answer.id)
+                                        .map(
+                                          (item) =>
+                                            item.selections.find((selection) => selection.columnId === column.id)?.cellId || "",
+                                        )
+                                        .filter(Boolean),
+                                    );
+                                    const options = block.questionAnswerExercise!.table!.rows.flatMap((row, rowIndex) => {
+                                      const cell = row.cells.find((item) => item.columnId === column.id) || row.cells[columnIndex];
+                                      if (!cell) return [];
+                                      const text = cell.mode === "answer" ? cell.answer || cell.text : cell.text;
+                                      return [
+                                        {
+                                          id: cell.id,
+                                          label: `Row ${rowIndex + 1}${text ? ` — ${text}` : ""}`,
+                                          disabled: usedByOtherAnswers.has(cell.id),
+                                        },
+                                      ];
+                                    });
+
+                                    return (
+                                      <div key={column.id} className="space-y-1.5">
+                                        <div className="text-xs font-medium text-muted-foreground">
+                                          {column.label || `Column ${String.fromCharCode(65 + columnIndex)}`}
+                                        </div>
+                                        <TableCompletionChoiceCombobox
+                                          value={selected}
+                                          options={options}
+                                          placeholder={`Choose from ${column.label || `Column ${String.fromCharCode(65 + columnIndex)}`}`}
+                                          onChange={(cellId) =>
+                                            handleTableCompletionAnswerSelection(
+                                              block.id,
+                                              answer.id,
+                                              column.id,
+                                              cellId,
+                                            )
+                                          }
+                                        />
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+
+                                <div className="mt-4 rounded-xl border border-dashed bg-muted/20 p-3">
+                                  <div className="mb-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">Sentence preview</div>
+                                  <div className="text-sm font-medium">
+                                    {preview || "Select one item from every column to build this answer."}
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ) : null}
+
+                    {block.questionAnswerExercise.table.rows.length === 0 &&
+                    (fillBlankQuestionToText(block.questionAnswerExercise.question) || fillBlankQuestionToText(block.questionAnswerExercise.answer)) ? (
+                      <div className="space-y-4 rounded-2xl border border-dashed p-4">
+                        <div>
+                          <h3 className="text-sm font-semibold">Legacy Matching Sentences content</h3>
+                          <p className="text-sm text-muted-foreground">
+                            Your previous Question/Answer data is preserved below. Add rows in the Matching Columns Builder when you are ready to use column matching.
+                          </p>
+                        </div>
+                        <div className="grid gap-4 lg:grid-cols-2">
+                          <Field>
+                            <FieldContent>
+                              <FieldLabel>Legacy Question</FieldLabel>
+                              <div className="rounded-xl border bg-background p-3">
+                                <TiptapRichTextEditor
+                                  value={block.questionAnswerExercise.question}
+                                  onChange={(value) =>
+                                    void handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, { question: value })
+                                  }
+                                  minHeight={140}
+                                  placeholder="Existing table/question..."
+                                />
+                              </div>
+                            </FieldContent>
+                          </Field>
+                          <Field>
+                            <FieldContent>
+                              <FieldLabel>Legacy Answer</FieldLabel>
+                              <div className="rounded-xl border bg-background p-3">
+                                <TiptapRichTextEditor
+                                  value={block.questionAnswerExercise.answer}
+                                  onChange={(value) =>
+                                    void handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, { answer: value })
+                                  }
+                                  minHeight={140}
+                                  placeholder="Existing answer..."
+                                />
+                              </div>
+                            </FieldContent>
+                          </Field>
+                        </div>
+                      </div>
+                    ) : null}
 
                     <Field>
                       <FieldContent>
-                        <FieldLabel>Answer</FieldLabel>
-                        <div className="rounded-xl border bg-background p-3">
-                          <TiptapRichTextEditor
-                            value={block.questionAnswerExercise.answer}
-                            onChange={(value) =>
-                              void handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, { answer: value })
-                            }
-                            minHeight={220}
-                            placeholder="Write the answer here..."
-                          />
-                        </div>
-                      </FieldContent>
-                    </Field>
-
-                    <Field>
-                      <FieldContent>
-                        <FieldLabel>Details</FieldLabel>
+                        <FieldLabel>Details / Explanation</FieldLabel>
                         <div className="rounded-xl border bg-background p-3">
                           <TiptapRichTextEditor
                             value={block.questionAnswerExercise.details}
                             onChange={(value) =>
-                              void handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, { details: value })
+                              handleTableCompletionChange(block.id, block.questionAnswerExercise!.id, { details: value })
                             }
-                            minHeight={180}
-                            placeholder="Add extra details here..."
+                            minHeight={140}
+                            placeholder="Optional explanation or note for students..."
                           />
                         </div>
                       </FieldContent>
@@ -4810,6 +5304,48 @@ export function ContentBlocksEditorClient({
               {block.kind === "information-transfer" && block.informationTransfer ? (
                 <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-6`}>
                   <FieldGroup className="gap-6">
+                    <Field>
+                      <FieldContent>
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                          <div className="space-y-1">
+                            <FieldLabel>Passage</FieldLabel>
+                            <FieldDescription>Write a custom passage or link Passage / Passage 2.</FieldDescription>
+                          </div>
+                          <label className="flex cursor-pointer items-center gap-2 text-sm font-medium">
+                            <span>Use Passage</span>
+                            <Switch
+                              checked={block.informationTransfer.passageSource === "paragraph"}
+                              onCheckedChange={(checked) =>
+                                void handleInformationTransferPassageChange(block.id, { passageSource: checked ? "paragraph" : "manual" })
+                              }
+                            />
+                          </label>
+                        </div>
+
+                        {block.informationTransfer.passageSource === "paragraph" ? (
+                          <div className="mt-3 space-y-2 rounded-xl border bg-muted/20 p-4">
+                            <FieldLabel>Passage</FieldLabel>
+                            <QuestionAnswerPassageCombobox
+                              value={block.informationTransfer.paragraphBlockId || ""}
+                              options={paragraphPassageOptions}
+                              onChange={(paragraphBlockId) =>
+                                void handleInformationTransferPassageChange(block.id, { paragraphBlockId: paragraphBlockId || null })
+                              }
+                            />
+                          </div>
+                        ) : (
+                          <div className="mt-3 rounded-xl border bg-background p-3">
+                            <TiptapRichTextEditor
+                              value={block.informationTransfer.passage || ""}
+                              onChange={(value) => void handleInformationTransferPassageChange(block.id, { passage: value })}
+                              minHeight={160}
+                              placeholder="Write a custom passage for this Information Transfer block..."
+                            />
+                          </div>
+                        )}
+                      </FieldContent>
+                    </Field>
+
                     <FillBlankQuestionEditor
                       value={block.informationTransfer.question}
                       onCommit={(value) =>
@@ -5968,8 +6504,8 @@ export function ContentBlocksEditorClient({
                   <div className="flex h-12 w-12 items-center justify-center rounded-xl border bg-muted">
                     {getBlockIcon(item.kind)}
                   </div>
-                  <CardTitle>{item.kind === "paragraph" && isSeenCompositionMode ? nextParagraphChooserLabel : blockTitleOverrides?.[item.kind] ?? item.title}</CardTitle>
-                  <CardDescription>{item.kind === "paragraph" && isSeenCompositionMode ? `Add ${nextParagraphChooserLabel.toLowerCase()} block.` : item.description}</CardDescription>
+                  <CardTitle>{blockTitleOverrides?.[item.kind] ?? item.title}</CardTitle>
+                  <CardDescription>{item.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <Button
@@ -5980,7 +6516,7 @@ export function ContentBlocksEditorClient({
                       setIsChooserOpen(false);
                     }}
                   >
-                    Use {item.kind === "paragraph" && isSeenCompositionMode ? nextParagraphChooserLabel : blockTitleOverrides?.[item.kind] ?? item.title}
+                    Use {blockTitleOverrides?.[item.kind] ?? item.title}
                   </Button>
                 </CardContent>
               </Card>

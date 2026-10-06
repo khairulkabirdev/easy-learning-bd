@@ -1,12 +1,8 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
-import { ArrowLeft, ChevronRight, Home } from "lucide-react";
 
 import { getPublishedSubjectDetail } from "@/app/user/lessons/data";
 import { UnitTileGrid } from "@/components/app/UnitsTileGrid";
-import { buttonVariants } from "@/components/ui/button";
 import { requireStudent } from "@/lib/app-auth";
-import { cn } from "@/lib/utils";
 
 export default async function UserChapterPreparationSubjectPage({
   params,
@@ -28,22 +24,6 @@ export default async function UserChapterPreparationSubjectPage({
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Home className="h-4 w-4" />
-          <ChevronRight className="h-4 w-4" />
-          <Link href="/user/chapter-preparation" className="font-medium text-foreground hover:text-primary">
-            অধ্যায়ভিত্তিক প্রস্তুতি
-          </Link>
-          <ChevronRight className="h-4 w-4" />
-          <span className="font-medium text-foreground">{detail.subject.name}</span>
-        </div>
-        <Link href="/user/chapter-preparation" className={cn(buttonVariants({ variant: "outline" }))}>
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          বিষয় তালিকায় ফিরুন
-        </Link>
-      </div>
-
       <div className="space-y-1 pt-8">
         <h1 className="pb-3 text-xl font-semibold tracking-tight">অধ্যায় নির্বাচন করুন</h1>
         <hr className="border-t" />

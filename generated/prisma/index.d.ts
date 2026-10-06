@@ -69,6 +69,16 @@ export type Topic = $Result.DefaultSelection<Prisma.$TopicPayload>
  */
 export type Content = $Result.DefaultSelection<Prisma.$ContentPayload>
 /**
+ * Model SeenPassageOne
+ * 
+ */
+export type SeenPassageOne = $Result.DefaultSelection<Prisma.$SeenPassageOnePayload>
+/**
+ * Model SeenPassageTwo
+ * 
+ */
+export type SeenPassageTwo = $Result.DefaultSelection<Prisma.$SeenPassageTwoPayload>
+/**
  * Model UnseenComposition
  * 
  */
@@ -139,10 +149,20 @@ export type TableCompletionExercise = $Result.DefaultSelection<Prisma.$TableComp
  */
 export type ColumnMatchingExercise = $Result.DefaultSelection<Prisma.$ColumnMatchingExercisePayload>
 /**
- * Model SentenceOrderingExercise
+ * Model RearrangeSentenceExercise
  * 
  */
-export type SentenceOrderingExercise = $Result.DefaultSelection<Prisma.$SentenceOrderingExercisePayload>
+export type RearrangeSentenceExercise = $Result.DefaultSelection<Prisma.$RearrangeSentenceExercisePayload>
+/**
+ * Model QuestionFromPoems
+ * 
+ */
+export type QuestionFromPoems = $Result.DefaultSelection<Prisma.$QuestionFromPoemsPayload>
+/**
+ * Model QuestionFromStory
+ * 
+ */
+export type QuestionFromStory = $Result.DefaultSelection<Prisma.$QuestionFromStoryPayload>
 /**
  * Model TrueFalseExercise
  * 
@@ -198,6 +218,26 @@ export type TagQuestion = $Result.DefaultSelection<Prisma.$TagQuestionPayload>
  * 
  */
 export type Connector = $Result.DefaultSelection<Prisma.$ConnectorPayload>
+/**
+ * Model SubjectMatchingSentencesBlock
+ * 
+ */
+export type SubjectMatchingSentencesBlock = $Result.DefaultSelection<Prisma.$SubjectMatchingSentencesBlockPayload>
+/**
+ * Model SubjectRearrangeSentenceBlock
+ * 
+ */
+export type SubjectRearrangeSentenceBlock = $Result.DefaultSelection<Prisma.$SubjectRearrangeSentenceBlockPayload>
+/**
+ * Model SubjectQuestionFromPoemsBlock
+ * 
+ */
+export type SubjectQuestionFromPoemsBlock = $Result.DefaultSelection<Prisma.$SubjectQuestionFromPoemsBlockPayload>
+/**
+ * Model SubjectQuestionFromStoryBlock
+ * 
+ */
+export type SubjectQuestionFromStoryBlock = $Result.DefaultSelection<Prisma.$SubjectQuestionFromStoryBlockPayload>
 
 /**
  * Enums
@@ -459,6 +499,26 @@ export class PrismaClient<
   get content(): Prisma.ContentDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.seenPassageOne`: Exposes CRUD operations for the **SeenPassageOne** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SeenPassageOnes
+    * const seenPassageOnes = await prisma.seenPassageOne.findMany()
+    * ```
+    */
+  get seenPassageOne(): Prisma.SeenPassageOneDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.seenPassageTwo`: Exposes CRUD operations for the **SeenPassageTwo** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SeenPassageTwos
+    * const seenPassageTwos = await prisma.seenPassageTwo.findMany()
+    * ```
+    */
+  get seenPassageTwo(): Prisma.SeenPassageTwoDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.unseenComposition`: Exposes CRUD operations for the **UnseenComposition** model.
     * Example usage:
     * ```ts
@@ -599,14 +659,34 @@ export class PrismaClient<
   get columnMatchingExercise(): Prisma.ColumnMatchingExerciseDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.sentenceOrderingExercise`: Exposes CRUD operations for the **SentenceOrderingExercise** model.
+   * `prisma.rearrangeSentenceExercise`: Exposes CRUD operations for the **RearrangeSentenceExercise** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more SentenceOrderingExercises
-    * const sentenceOrderingExercises = await prisma.sentenceOrderingExercise.findMany()
+    * // Fetch zero or more RearrangeSentenceExercises
+    * const rearrangeSentenceExercises = await prisma.rearrangeSentenceExercise.findMany()
     * ```
     */
-  get sentenceOrderingExercise(): Prisma.SentenceOrderingExerciseDelegate<ExtArgs, ClientOptions>;
+  get rearrangeSentenceExercise(): Prisma.RearrangeSentenceExerciseDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.questionFromPoems`: Exposes CRUD operations for the **QuestionFromPoems** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more QuestionFromPoems
+    * const questionFromPoems = await prisma.questionFromPoems.findMany()
+    * ```
+    */
+  get questionFromPoems(): Prisma.QuestionFromPoemsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.questionFromStory`: Exposes CRUD operations for the **QuestionFromStory** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more QuestionFromStories
+    * const questionFromStories = await prisma.questionFromStory.findMany()
+    * ```
+    */
+  get questionFromStory(): Prisma.QuestionFromStoryDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.trueFalseExercise`: Exposes CRUD operations for the **TrueFalseExercise** model.
@@ -717,6 +797,46 @@ export class PrismaClient<
     * ```
     */
   get connector(): Prisma.ConnectorDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.subjectMatchingSentencesBlock`: Exposes CRUD operations for the **SubjectMatchingSentencesBlock** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SubjectMatchingSentencesBlocks
+    * const subjectMatchingSentencesBlocks = await prisma.subjectMatchingSentencesBlock.findMany()
+    * ```
+    */
+  get subjectMatchingSentencesBlock(): Prisma.SubjectMatchingSentencesBlockDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.subjectRearrangeSentenceBlock`: Exposes CRUD operations for the **SubjectRearrangeSentenceBlock** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SubjectRearrangeSentenceBlocks
+    * const subjectRearrangeSentenceBlocks = await prisma.subjectRearrangeSentenceBlock.findMany()
+    * ```
+    */
+  get subjectRearrangeSentenceBlock(): Prisma.SubjectRearrangeSentenceBlockDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.subjectQuestionFromPoemsBlock`: Exposes CRUD operations for the **SubjectQuestionFromPoemsBlock** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SubjectQuestionFromPoemsBlocks
+    * const subjectQuestionFromPoemsBlocks = await prisma.subjectQuestionFromPoemsBlock.findMany()
+    * ```
+    */
+  get subjectQuestionFromPoemsBlock(): Prisma.SubjectQuestionFromPoemsBlockDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.subjectQuestionFromStoryBlock`: Exposes CRUD operations for the **SubjectQuestionFromStoryBlock** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SubjectQuestionFromStoryBlocks
+    * const subjectQuestionFromStoryBlocks = await prisma.subjectQuestionFromStoryBlock.findMany()
+    * ```
+    */
+  get subjectQuestionFromStoryBlock(): Prisma.SubjectQuestionFromStoryBlockDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1169,6 +1289,8 @@ export namespace Prisma {
     Lesson: 'Lesson',
     Topic: 'Topic',
     Content: 'Content',
+    SeenPassageOne: 'SeenPassageOne',
+    SeenPassageTwo: 'SeenPassageTwo',
     UnseenComposition: 'UnseenComposition',
     ContentBlock: 'ContentBlock',
     Paragraph: 'Paragraph',
@@ -1183,7 +1305,9 @@ export namespace Prisma {
     QuestionAnswerExercise: 'QuestionAnswerExercise',
     TableCompletionExercise: 'TableCompletionExercise',
     ColumnMatchingExercise: 'ColumnMatchingExercise',
-    SentenceOrderingExercise: 'SentenceOrderingExercise',
+    RearrangeSentenceExercise: 'RearrangeSentenceExercise',
+    QuestionFromPoems: 'QuestionFromPoems',
+    QuestionFromStory: 'QuestionFromStory',
     TrueFalseExercise: 'TrueFalseExercise',
     InformationTransfer: 'InformationTransfer',
     SubstitutionTable: 'SubstitutionTable',
@@ -1194,7 +1318,11 @@ export namespace Prisma {
     Preposition: 'Preposition',
     SuffixAndPrefix: 'SuffixAndPrefix',
     TagQuestion: 'TagQuestion',
-    Connector: 'Connector'
+    Connector: 'Connector',
+    SubjectMatchingSentencesBlock: 'SubjectMatchingSentencesBlock',
+    SubjectRearrangeSentenceBlock: 'SubjectRearrangeSentenceBlock',
+    SubjectQuestionFromPoemsBlock: 'SubjectQuestionFromPoemsBlock',
+    SubjectQuestionFromStoryBlock: 'SubjectQuestionFromStoryBlock'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1213,7 +1341,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "authSession" | "passwordResetToken" | "authEmailSetting" | "auditLog" | "class" | "subject" | "unit" | "lesson" | "topic" | "content" | "unseenComposition" | "contentBlock" | "paragraph" | "vocabulary" | "vocabularyEntry" | "synonymsAntonyms" | "synonymsAntonymsEntry" | "gapFillExercise" | "gapFillFirstPaper" | "gapFillSecondPaper" | "mcqSection" | "questionAnswerExercise" | "tableCompletionExercise" | "columnMatchingExercise" | "sentenceOrderingExercise" | "trueFalseExercise" | "informationTransfer" | "substitutionTable" | "rightFormOfVerb" | "narration" | "changingSentence" | "punctuationAndCapitalization" | "preposition" | "suffixAndPrefix" | "tagQuestion" | "connector"
+      modelProps: "user" | "authSession" | "passwordResetToken" | "authEmailSetting" | "auditLog" | "class" | "subject" | "unit" | "lesson" | "topic" | "content" | "seenPassageOne" | "seenPassageTwo" | "unseenComposition" | "contentBlock" | "paragraph" | "vocabulary" | "vocabularyEntry" | "synonymsAntonyms" | "synonymsAntonymsEntry" | "gapFillExercise" | "gapFillFirstPaper" | "gapFillSecondPaper" | "mcqSection" | "questionAnswerExercise" | "tableCompletionExercise" | "columnMatchingExercise" | "rearrangeSentenceExercise" | "questionFromPoems" | "questionFromStory" | "trueFalseExercise" | "informationTransfer" | "substitutionTable" | "rightFormOfVerb" | "narration" | "changingSentence" | "punctuationAndCapitalization" | "preposition" | "suffixAndPrefix" | "tagQuestion" | "connector" | "subjectMatchingSentencesBlock" | "subjectRearrangeSentenceBlock" | "subjectQuestionFromPoemsBlock" | "subjectQuestionFromStoryBlock"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2028,6 +2156,154 @@ export namespace Prisma {
           count: {
             args: Prisma.ContentCountArgs<ExtArgs>
             result: $Utils.Optional<ContentCountAggregateOutputType> | number
+          }
+        }
+      }
+      SeenPassageOne: {
+        payload: Prisma.$SeenPassageOnePayload<ExtArgs>
+        fields: Prisma.SeenPassageOneFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SeenPassageOneFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeenPassageOnePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SeenPassageOneFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeenPassageOnePayload>
+          }
+          findFirst: {
+            args: Prisma.SeenPassageOneFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeenPassageOnePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SeenPassageOneFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeenPassageOnePayload>
+          }
+          findMany: {
+            args: Prisma.SeenPassageOneFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeenPassageOnePayload>[]
+          }
+          create: {
+            args: Prisma.SeenPassageOneCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeenPassageOnePayload>
+          }
+          createMany: {
+            args: Prisma.SeenPassageOneCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SeenPassageOneCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeenPassageOnePayload>[]
+          }
+          delete: {
+            args: Prisma.SeenPassageOneDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeenPassageOnePayload>
+          }
+          update: {
+            args: Prisma.SeenPassageOneUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeenPassageOnePayload>
+          }
+          deleteMany: {
+            args: Prisma.SeenPassageOneDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SeenPassageOneUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SeenPassageOneUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeenPassageOnePayload>[]
+          }
+          upsert: {
+            args: Prisma.SeenPassageOneUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeenPassageOnePayload>
+          }
+          aggregate: {
+            args: Prisma.SeenPassageOneAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSeenPassageOne>
+          }
+          groupBy: {
+            args: Prisma.SeenPassageOneGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SeenPassageOneGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SeenPassageOneCountArgs<ExtArgs>
+            result: $Utils.Optional<SeenPassageOneCountAggregateOutputType> | number
+          }
+        }
+      }
+      SeenPassageTwo: {
+        payload: Prisma.$SeenPassageTwoPayload<ExtArgs>
+        fields: Prisma.SeenPassageTwoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SeenPassageTwoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeenPassageTwoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SeenPassageTwoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeenPassageTwoPayload>
+          }
+          findFirst: {
+            args: Prisma.SeenPassageTwoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeenPassageTwoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SeenPassageTwoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeenPassageTwoPayload>
+          }
+          findMany: {
+            args: Prisma.SeenPassageTwoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeenPassageTwoPayload>[]
+          }
+          create: {
+            args: Prisma.SeenPassageTwoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeenPassageTwoPayload>
+          }
+          createMany: {
+            args: Prisma.SeenPassageTwoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SeenPassageTwoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeenPassageTwoPayload>[]
+          }
+          delete: {
+            args: Prisma.SeenPassageTwoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeenPassageTwoPayload>
+          }
+          update: {
+            args: Prisma.SeenPassageTwoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeenPassageTwoPayload>
+          }
+          deleteMany: {
+            args: Prisma.SeenPassageTwoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SeenPassageTwoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SeenPassageTwoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeenPassageTwoPayload>[]
+          }
+          upsert: {
+            args: Prisma.SeenPassageTwoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeenPassageTwoPayload>
+          }
+          aggregate: {
+            args: Prisma.SeenPassageTwoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSeenPassageTwo>
+          }
+          groupBy: {
+            args: Prisma.SeenPassageTwoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SeenPassageTwoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SeenPassageTwoCountArgs<ExtArgs>
+            result: $Utils.Optional<SeenPassageTwoCountAggregateOutputType> | number
           }
         }
       }
@@ -3067,77 +3343,225 @@ export namespace Prisma {
           }
         }
       }
-      SentenceOrderingExercise: {
-        payload: Prisma.$SentenceOrderingExercisePayload<ExtArgs>
-        fields: Prisma.SentenceOrderingExerciseFieldRefs
+      RearrangeSentenceExercise: {
+        payload: Prisma.$RearrangeSentenceExercisePayload<ExtArgs>
+        fields: Prisma.RearrangeSentenceExerciseFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.SentenceOrderingExerciseFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SentenceOrderingExercisePayload> | null
+            args: Prisma.RearrangeSentenceExerciseFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RearrangeSentenceExercisePayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.SentenceOrderingExerciseFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SentenceOrderingExercisePayload>
+            args: Prisma.RearrangeSentenceExerciseFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RearrangeSentenceExercisePayload>
           }
           findFirst: {
-            args: Prisma.SentenceOrderingExerciseFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SentenceOrderingExercisePayload> | null
+            args: Prisma.RearrangeSentenceExerciseFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RearrangeSentenceExercisePayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.SentenceOrderingExerciseFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SentenceOrderingExercisePayload>
+            args: Prisma.RearrangeSentenceExerciseFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RearrangeSentenceExercisePayload>
           }
           findMany: {
-            args: Prisma.SentenceOrderingExerciseFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SentenceOrderingExercisePayload>[]
+            args: Prisma.RearrangeSentenceExerciseFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RearrangeSentenceExercisePayload>[]
           }
           create: {
-            args: Prisma.SentenceOrderingExerciseCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SentenceOrderingExercisePayload>
+            args: Prisma.RearrangeSentenceExerciseCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RearrangeSentenceExercisePayload>
           }
           createMany: {
-            args: Prisma.SentenceOrderingExerciseCreateManyArgs<ExtArgs>
+            args: Prisma.RearrangeSentenceExerciseCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.SentenceOrderingExerciseCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SentenceOrderingExercisePayload>[]
+            args: Prisma.RearrangeSentenceExerciseCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RearrangeSentenceExercisePayload>[]
           }
           delete: {
-            args: Prisma.SentenceOrderingExerciseDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SentenceOrderingExercisePayload>
+            args: Prisma.RearrangeSentenceExerciseDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RearrangeSentenceExercisePayload>
           }
           update: {
-            args: Prisma.SentenceOrderingExerciseUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SentenceOrderingExercisePayload>
+            args: Prisma.RearrangeSentenceExerciseUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RearrangeSentenceExercisePayload>
           }
           deleteMany: {
-            args: Prisma.SentenceOrderingExerciseDeleteManyArgs<ExtArgs>
+            args: Prisma.RearrangeSentenceExerciseDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.SentenceOrderingExerciseUpdateManyArgs<ExtArgs>
+            args: Prisma.RearrangeSentenceExerciseUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.SentenceOrderingExerciseUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SentenceOrderingExercisePayload>[]
+            args: Prisma.RearrangeSentenceExerciseUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RearrangeSentenceExercisePayload>[]
           }
           upsert: {
-            args: Prisma.SentenceOrderingExerciseUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SentenceOrderingExercisePayload>
+            args: Prisma.RearrangeSentenceExerciseUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RearrangeSentenceExercisePayload>
           }
           aggregate: {
-            args: Prisma.SentenceOrderingExerciseAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateSentenceOrderingExercise>
+            args: Prisma.RearrangeSentenceExerciseAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRearrangeSentenceExercise>
           }
           groupBy: {
-            args: Prisma.SentenceOrderingExerciseGroupByArgs<ExtArgs>
-            result: $Utils.Optional<SentenceOrderingExerciseGroupByOutputType>[]
+            args: Prisma.RearrangeSentenceExerciseGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RearrangeSentenceExerciseGroupByOutputType>[]
           }
           count: {
-            args: Prisma.SentenceOrderingExerciseCountArgs<ExtArgs>
-            result: $Utils.Optional<SentenceOrderingExerciseCountAggregateOutputType> | number
+            args: Prisma.RearrangeSentenceExerciseCountArgs<ExtArgs>
+            result: $Utils.Optional<RearrangeSentenceExerciseCountAggregateOutputType> | number
+          }
+        }
+      }
+      QuestionFromPoems: {
+        payload: Prisma.$QuestionFromPoemsPayload<ExtArgs>
+        fields: Prisma.QuestionFromPoemsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.QuestionFromPoemsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuestionFromPoemsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.QuestionFromPoemsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuestionFromPoemsPayload>
+          }
+          findFirst: {
+            args: Prisma.QuestionFromPoemsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuestionFromPoemsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.QuestionFromPoemsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuestionFromPoemsPayload>
+          }
+          findMany: {
+            args: Prisma.QuestionFromPoemsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuestionFromPoemsPayload>[]
+          }
+          create: {
+            args: Prisma.QuestionFromPoemsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuestionFromPoemsPayload>
+          }
+          createMany: {
+            args: Prisma.QuestionFromPoemsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.QuestionFromPoemsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuestionFromPoemsPayload>[]
+          }
+          delete: {
+            args: Prisma.QuestionFromPoemsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuestionFromPoemsPayload>
+          }
+          update: {
+            args: Prisma.QuestionFromPoemsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuestionFromPoemsPayload>
+          }
+          deleteMany: {
+            args: Prisma.QuestionFromPoemsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.QuestionFromPoemsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.QuestionFromPoemsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuestionFromPoemsPayload>[]
+          }
+          upsert: {
+            args: Prisma.QuestionFromPoemsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuestionFromPoemsPayload>
+          }
+          aggregate: {
+            args: Prisma.QuestionFromPoemsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateQuestionFromPoems>
+          }
+          groupBy: {
+            args: Prisma.QuestionFromPoemsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<QuestionFromPoemsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.QuestionFromPoemsCountArgs<ExtArgs>
+            result: $Utils.Optional<QuestionFromPoemsCountAggregateOutputType> | number
+          }
+        }
+      }
+      QuestionFromStory: {
+        payload: Prisma.$QuestionFromStoryPayload<ExtArgs>
+        fields: Prisma.QuestionFromStoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.QuestionFromStoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuestionFromStoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.QuestionFromStoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuestionFromStoryPayload>
+          }
+          findFirst: {
+            args: Prisma.QuestionFromStoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuestionFromStoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.QuestionFromStoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuestionFromStoryPayload>
+          }
+          findMany: {
+            args: Prisma.QuestionFromStoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuestionFromStoryPayload>[]
+          }
+          create: {
+            args: Prisma.QuestionFromStoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuestionFromStoryPayload>
+          }
+          createMany: {
+            args: Prisma.QuestionFromStoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.QuestionFromStoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuestionFromStoryPayload>[]
+          }
+          delete: {
+            args: Prisma.QuestionFromStoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuestionFromStoryPayload>
+          }
+          update: {
+            args: Prisma.QuestionFromStoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuestionFromStoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.QuestionFromStoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.QuestionFromStoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.QuestionFromStoryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuestionFromStoryPayload>[]
+          }
+          upsert: {
+            args: Prisma.QuestionFromStoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuestionFromStoryPayload>
+          }
+          aggregate: {
+            args: Prisma.QuestionFromStoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateQuestionFromStory>
+          }
+          groupBy: {
+            args: Prisma.QuestionFromStoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<QuestionFromStoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.QuestionFromStoryCountArgs<ExtArgs>
+            result: $Utils.Optional<QuestionFromStoryCountAggregateOutputType> | number
           }
         }
       }
@@ -3955,6 +4379,302 @@ export namespace Prisma {
           }
         }
       }
+      SubjectMatchingSentencesBlock: {
+        payload: Prisma.$SubjectMatchingSentencesBlockPayload<ExtArgs>
+        fields: Prisma.SubjectMatchingSentencesBlockFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SubjectMatchingSentencesBlockFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectMatchingSentencesBlockPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SubjectMatchingSentencesBlockFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectMatchingSentencesBlockPayload>
+          }
+          findFirst: {
+            args: Prisma.SubjectMatchingSentencesBlockFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectMatchingSentencesBlockPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SubjectMatchingSentencesBlockFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectMatchingSentencesBlockPayload>
+          }
+          findMany: {
+            args: Prisma.SubjectMatchingSentencesBlockFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectMatchingSentencesBlockPayload>[]
+          }
+          create: {
+            args: Prisma.SubjectMatchingSentencesBlockCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectMatchingSentencesBlockPayload>
+          }
+          createMany: {
+            args: Prisma.SubjectMatchingSentencesBlockCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SubjectMatchingSentencesBlockCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectMatchingSentencesBlockPayload>[]
+          }
+          delete: {
+            args: Prisma.SubjectMatchingSentencesBlockDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectMatchingSentencesBlockPayload>
+          }
+          update: {
+            args: Prisma.SubjectMatchingSentencesBlockUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectMatchingSentencesBlockPayload>
+          }
+          deleteMany: {
+            args: Prisma.SubjectMatchingSentencesBlockDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SubjectMatchingSentencesBlockUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SubjectMatchingSentencesBlockUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectMatchingSentencesBlockPayload>[]
+          }
+          upsert: {
+            args: Prisma.SubjectMatchingSentencesBlockUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectMatchingSentencesBlockPayload>
+          }
+          aggregate: {
+            args: Prisma.SubjectMatchingSentencesBlockAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSubjectMatchingSentencesBlock>
+          }
+          groupBy: {
+            args: Prisma.SubjectMatchingSentencesBlockGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SubjectMatchingSentencesBlockGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SubjectMatchingSentencesBlockCountArgs<ExtArgs>
+            result: $Utils.Optional<SubjectMatchingSentencesBlockCountAggregateOutputType> | number
+          }
+        }
+      }
+      SubjectRearrangeSentenceBlock: {
+        payload: Prisma.$SubjectRearrangeSentenceBlockPayload<ExtArgs>
+        fields: Prisma.SubjectRearrangeSentenceBlockFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SubjectRearrangeSentenceBlockFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectRearrangeSentenceBlockPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SubjectRearrangeSentenceBlockFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectRearrangeSentenceBlockPayload>
+          }
+          findFirst: {
+            args: Prisma.SubjectRearrangeSentenceBlockFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectRearrangeSentenceBlockPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SubjectRearrangeSentenceBlockFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectRearrangeSentenceBlockPayload>
+          }
+          findMany: {
+            args: Prisma.SubjectRearrangeSentenceBlockFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectRearrangeSentenceBlockPayload>[]
+          }
+          create: {
+            args: Prisma.SubjectRearrangeSentenceBlockCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectRearrangeSentenceBlockPayload>
+          }
+          createMany: {
+            args: Prisma.SubjectRearrangeSentenceBlockCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SubjectRearrangeSentenceBlockCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectRearrangeSentenceBlockPayload>[]
+          }
+          delete: {
+            args: Prisma.SubjectRearrangeSentenceBlockDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectRearrangeSentenceBlockPayload>
+          }
+          update: {
+            args: Prisma.SubjectRearrangeSentenceBlockUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectRearrangeSentenceBlockPayload>
+          }
+          deleteMany: {
+            args: Prisma.SubjectRearrangeSentenceBlockDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SubjectRearrangeSentenceBlockUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SubjectRearrangeSentenceBlockUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectRearrangeSentenceBlockPayload>[]
+          }
+          upsert: {
+            args: Prisma.SubjectRearrangeSentenceBlockUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectRearrangeSentenceBlockPayload>
+          }
+          aggregate: {
+            args: Prisma.SubjectRearrangeSentenceBlockAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSubjectRearrangeSentenceBlock>
+          }
+          groupBy: {
+            args: Prisma.SubjectRearrangeSentenceBlockGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SubjectRearrangeSentenceBlockGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SubjectRearrangeSentenceBlockCountArgs<ExtArgs>
+            result: $Utils.Optional<SubjectRearrangeSentenceBlockCountAggregateOutputType> | number
+          }
+        }
+      }
+      SubjectQuestionFromPoemsBlock: {
+        payload: Prisma.$SubjectQuestionFromPoemsBlockPayload<ExtArgs>
+        fields: Prisma.SubjectQuestionFromPoemsBlockFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SubjectQuestionFromPoemsBlockFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectQuestionFromPoemsBlockPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SubjectQuestionFromPoemsBlockFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectQuestionFromPoemsBlockPayload>
+          }
+          findFirst: {
+            args: Prisma.SubjectQuestionFromPoemsBlockFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectQuestionFromPoemsBlockPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SubjectQuestionFromPoemsBlockFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectQuestionFromPoemsBlockPayload>
+          }
+          findMany: {
+            args: Prisma.SubjectQuestionFromPoemsBlockFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectQuestionFromPoemsBlockPayload>[]
+          }
+          create: {
+            args: Prisma.SubjectQuestionFromPoemsBlockCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectQuestionFromPoemsBlockPayload>
+          }
+          createMany: {
+            args: Prisma.SubjectQuestionFromPoemsBlockCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SubjectQuestionFromPoemsBlockCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectQuestionFromPoemsBlockPayload>[]
+          }
+          delete: {
+            args: Prisma.SubjectQuestionFromPoemsBlockDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectQuestionFromPoemsBlockPayload>
+          }
+          update: {
+            args: Prisma.SubjectQuestionFromPoemsBlockUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectQuestionFromPoemsBlockPayload>
+          }
+          deleteMany: {
+            args: Prisma.SubjectQuestionFromPoemsBlockDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SubjectQuestionFromPoemsBlockUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SubjectQuestionFromPoemsBlockUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectQuestionFromPoemsBlockPayload>[]
+          }
+          upsert: {
+            args: Prisma.SubjectQuestionFromPoemsBlockUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectQuestionFromPoemsBlockPayload>
+          }
+          aggregate: {
+            args: Prisma.SubjectQuestionFromPoemsBlockAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSubjectQuestionFromPoemsBlock>
+          }
+          groupBy: {
+            args: Prisma.SubjectQuestionFromPoemsBlockGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SubjectQuestionFromPoemsBlockGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SubjectQuestionFromPoemsBlockCountArgs<ExtArgs>
+            result: $Utils.Optional<SubjectQuestionFromPoemsBlockCountAggregateOutputType> | number
+          }
+        }
+      }
+      SubjectQuestionFromStoryBlock: {
+        payload: Prisma.$SubjectQuestionFromStoryBlockPayload<ExtArgs>
+        fields: Prisma.SubjectQuestionFromStoryBlockFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SubjectQuestionFromStoryBlockFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectQuestionFromStoryBlockPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SubjectQuestionFromStoryBlockFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectQuestionFromStoryBlockPayload>
+          }
+          findFirst: {
+            args: Prisma.SubjectQuestionFromStoryBlockFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectQuestionFromStoryBlockPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SubjectQuestionFromStoryBlockFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectQuestionFromStoryBlockPayload>
+          }
+          findMany: {
+            args: Prisma.SubjectQuestionFromStoryBlockFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectQuestionFromStoryBlockPayload>[]
+          }
+          create: {
+            args: Prisma.SubjectQuestionFromStoryBlockCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectQuestionFromStoryBlockPayload>
+          }
+          createMany: {
+            args: Prisma.SubjectQuestionFromStoryBlockCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SubjectQuestionFromStoryBlockCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectQuestionFromStoryBlockPayload>[]
+          }
+          delete: {
+            args: Prisma.SubjectQuestionFromStoryBlockDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectQuestionFromStoryBlockPayload>
+          }
+          update: {
+            args: Prisma.SubjectQuestionFromStoryBlockUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectQuestionFromStoryBlockPayload>
+          }
+          deleteMany: {
+            args: Prisma.SubjectQuestionFromStoryBlockDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SubjectQuestionFromStoryBlockUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SubjectQuestionFromStoryBlockUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectQuestionFromStoryBlockPayload>[]
+          }
+          upsert: {
+            args: Prisma.SubjectQuestionFromStoryBlockUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectQuestionFromStoryBlockPayload>
+          }
+          aggregate: {
+            args: Prisma.SubjectQuestionFromStoryBlockAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSubjectQuestionFromStoryBlock>
+          }
+          groupBy: {
+            args: Prisma.SubjectQuestionFromStoryBlockGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SubjectQuestionFromStoryBlockGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SubjectQuestionFromStoryBlockCountArgs<ExtArgs>
+            result: $Utils.Optional<SubjectQuestionFromStoryBlockCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -4062,6 +4782,8 @@ export namespace Prisma {
     lesson?: LessonOmit
     topic?: TopicOmit
     content?: ContentOmit
+    seenPassageOne?: SeenPassageOneOmit
+    seenPassageTwo?: SeenPassageTwoOmit
     unseenComposition?: UnseenCompositionOmit
     contentBlock?: ContentBlockOmit
     paragraph?: ParagraphOmit
@@ -4076,7 +4798,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseOmit
     tableCompletionExercise?: TableCompletionExerciseOmit
     columnMatchingExercise?: ColumnMatchingExerciseOmit
-    sentenceOrderingExercise?: SentenceOrderingExerciseOmit
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseOmit
+    questionFromPoems?: QuestionFromPoemsOmit
+    questionFromStory?: QuestionFromStoryOmit
     trueFalseExercise?: TrueFalseExerciseOmit
     informationTransfer?: InformationTransferOmit
     substitutionTable?: SubstitutionTableOmit
@@ -4088,6 +4812,10 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixOmit
     tagQuestion?: TagQuestionOmit
     connector?: ConnectorOmit
+    subjectMatchingSentencesBlock?: SubjectMatchingSentencesBlockOmit
+    subjectRearrangeSentenceBlock?: SubjectRearrangeSentenceBlockOmit
+    subjectQuestionFromPoemsBlock?: SubjectQuestionFromPoemsBlockOmit
+    subjectQuestionFromStoryBlock?: SubjectQuestionFromStoryBlockOmit
   }
 
   /* Types for Logging */
@@ -17971,6 +18699,2352 @@ export namespace Prisma {
 
 
   /**
+   * Model SeenPassageOne
+   */
+
+  export type AggregateSeenPassageOne = {
+    _count: SeenPassageOneCountAggregateOutputType | null
+    _min: SeenPassageOneMinAggregateOutputType | null
+    _max: SeenPassageOneMaxAggregateOutputType | null
+  }
+
+  export type SeenPassageOneMinAggregateOutputType = {
+    id: string | null
+    contentBlockId: string | null
+    contentId: string | null
+    classId: string | null
+    subjectId: string | null
+    unitId: string | null
+    lessonId: string | null
+    topicId: string | null
+    body: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SeenPassageOneMaxAggregateOutputType = {
+    id: string | null
+    contentBlockId: string | null
+    contentId: string | null
+    classId: string | null
+    subjectId: string | null
+    unitId: string | null
+    lessonId: string | null
+    topicId: string | null
+    body: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SeenPassageOneCountAggregateOutputType = {
+    id: number
+    contentBlockId: number
+    contentId: number
+    classId: number
+    subjectId: number
+    unitId: number
+    lessonId: number
+    topicId: number
+    body: number
+    organizationId: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SeenPassageOneMinAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    body?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SeenPassageOneMaxAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    body?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SeenPassageOneCountAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    body?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SeenPassageOneAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SeenPassageOne to aggregate.
+     */
+    where?: SeenPassageOneWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SeenPassageOnes to fetch.
+     */
+    orderBy?: SeenPassageOneOrderByWithRelationInput | SeenPassageOneOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SeenPassageOneWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SeenPassageOnes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SeenPassageOnes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SeenPassageOnes
+    **/
+    _count?: true | SeenPassageOneCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SeenPassageOneMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SeenPassageOneMaxAggregateInputType
+  }
+
+  export type GetSeenPassageOneAggregateType<T extends SeenPassageOneAggregateArgs> = {
+        [P in keyof T & keyof AggregateSeenPassageOne]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSeenPassageOne[P]>
+      : GetScalarType<T[P], AggregateSeenPassageOne[P]>
+  }
+
+
+
+
+  export type SeenPassageOneGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SeenPassageOneWhereInput
+    orderBy?: SeenPassageOneOrderByWithAggregationInput | SeenPassageOneOrderByWithAggregationInput[]
+    by: SeenPassageOneScalarFieldEnum[] | SeenPassageOneScalarFieldEnum
+    having?: SeenPassageOneScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SeenPassageOneCountAggregateInputType | true
+    _min?: SeenPassageOneMinAggregateInputType
+    _max?: SeenPassageOneMaxAggregateInputType
+  }
+
+  export type SeenPassageOneGroupByOutputType = {
+    id: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId: string | null
+    body: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: SeenPassageOneCountAggregateOutputType | null
+    _min: SeenPassageOneMinAggregateOutputType | null
+    _max: SeenPassageOneMaxAggregateOutputType | null
+  }
+
+  type GetSeenPassageOneGroupByPayload<T extends SeenPassageOneGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SeenPassageOneGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SeenPassageOneGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SeenPassageOneGroupByOutputType[P]>
+            : GetScalarType<T[P], SeenPassageOneGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SeenPassageOneSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    body?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["seenPassageOne"]>
+
+  export type SeenPassageOneSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    body?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["seenPassageOne"]>
+
+  export type SeenPassageOneSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    body?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["seenPassageOne"]>
+
+  export type SeenPassageOneSelectScalar = {
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    body?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SeenPassageOneOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "body" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["seenPassageOne"]>
+  export type SeenPassageOneInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+  export type SeenPassageOneIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+  export type SeenPassageOneIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+
+  export type $SeenPassageOnePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SeenPassageOne"
+    objects: {
+      contentBlock: Prisma.$ContentBlockPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      contentBlockId: string
+      contentId: string
+      classId: string
+      subjectId: string
+      unitId: string
+      lessonId: string
+      topicId: string | null
+      body: string
+      organizationId: string
+      createdBy: string
+      updatedBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["seenPassageOne"]>
+    composites: {}
+  }
+
+  type SeenPassageOneGetPayload<S extends boolean | null | undefined | SeenPassageOneDefaultArgs> = $Result.GetResult<Prisma.$SeenPassageOnePayload, S>
+
+  type SeenPassageOneCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SeenPassageOneFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SeenPassageOneCountAggregateInputType | true
+    }
+
+  export interface SeenPassageOneDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SeenPassageOne'], meta: { name: 'SeenPassageOne' } }
+    /**
+     * Find zero or one SeenPassageOne that matches the filter.
+     * @param {SeenPassageOneFindUniqueArgs} args - Arguments to find a SeenPassageOne
+     * @example
+     * // Get one SeenPassageOne
+     * const seenPassageOne = await prisma.seenPassageOne.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SeenPassageOneFindUniqueArgs>(args: SelectSubset<T, SeenPassageOneFindUniqueArgs<ExtArgs>>): Prisma__SeenPassageOneClient<$Result.GetResult<Prisma.$SeenPassageOnePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SeenPassageOne that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SeenPassageOneFindUniqueOrThrowArgs} args - Arguments to find a SeenPassageOne
+     * @example
+     * // Get one SeenPassageOne
+     * const seenPassageOne = await prisma.seenPassageOne.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SeenPassageOneFindUniqueOrThrowArgs>(args: SelectSubset<T, SeenPassageOneFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SeenPassageOneClient<$Result.GetResult<Prisma.$SeenPassageOnePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SeenPassageOne that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeenPassageOneFindFirstArgs} args - Arguments to find a SeenPassageOne
+     * @example
+     * // Get one SeenPassageOne
+     * const seenPassageOne = await prisma.seenPassageOne.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SeenPassageOneFindFirstArgs>(args?: SelectSubset<T, SeenPassageOneFindFirstArgs<ExtArgs>>): Prisma__SeenPassageOneClient<$Result.GetResult<Prisma.$SeenPassageOnePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SeenPassageOne that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeenPassageOneFindFirstOrThrowArgs} args - Arguments to find a SeenPassageOne
+     * @example
+     * // Get one SeenPassageOne
+     * const seenPassageOne = await prisma.seenPassageOne.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SeenPassageOneFindFirstOrThrowArgs>(args?: SelectSubset<T, SeenPassageOneFindFirstOrThrowArgs<ExtArgs>>): Prisma__SeenPassageOneClient<$Result.GetResult<Prisma.$SeenPassageOnePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SeenPassageOnes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeenPassageOneFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SeenPassageOnes
+     * const seenPassageOnes = await prisma.seenPassageOne.findMany()
+     * 
+     * // Get first 10 SeenPassageOnes
+     * const seenPassageOnes = await prisma.seenPassageOne.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const seenPassageOneWithIdOnly = await prisma.seenPassageOne.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SeenPassageOneFindManyArgs>(args?: SelectSubset<T, SeenPassageOneFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeenPassageOnePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SeenPassageOne.
+     * @param {SeenPassageOneCreateArgs} args - Arguments to create a SeenPassageOne.
+     * @example
+     * // Create one SeenPassageOne
+     * const SeenPassageOne = await prisma.seenPassageOne.create({
+     *   data: {
+     *     // ... data to create a SeenPassageOne
+     *   }
+     * })
+     * 
+     */
+    create<T extends SeenPassageOneCreateArgs>(args: SelectSubset<T, SeenPassageOneCreateArgs<ExtArgs>>): Prisma__SeenPassageOneClient<$Result.GetResult<Prisma.$SeenPassageOnePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SeenPassageOnes.
+     * @param {SeenPassageOneCreateManyArgs} args - Arguments to create many SeenPassageOnes.
+     * @example
+     * // Create many SeenPassageOnes
+     * const seenPassageOne = await prisma.seenPassageOne.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SeenPassageOneCreateManyArgs>(args?: SelectSubset<T, SeenPassageOneCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SeenPassageOnes and returns the data saved in the database.
+     * @param {SeenPassageOneCreateManyAndReturnArgs} args - Arguments to create many SeenPassageOnes.
+     * @example
+     * // Create many SeenPassageOnes
+     * const seenPassageOne = await prisma.seenPassageOne.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SeenPassageOnes and only return the `id`
+     * const seenPassageOneWithIdOnly = await prisma.seenPassageOne.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SeenPassageOneCreateManyAndReturnArgs>(args?: SelectSubset<T, SeenPassageOneCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeenPassageOnePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SeenPassageOne.
+     * @param {SeenPassageOneDeleteArgs} args - Arguments to delete one SeenPassageOne.
+     * @example
+     * // Delete one SeenPassageOne
+     * const SeenPassageOne = await prisma.seenPassageOne.delete({
+     *   where: {
+     *     // ... filter to delete one SeenPassageOne
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SeenPassageOneDeleteArgs>(args: SelectSubset<T, SeenPassageOneDeleteArgs<ExtArgs>>): Prisma__SeenPassageOneClient<$Result.GetResult<Prisma.$SeenPassageOnePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SeenPassageOne.
+     * @param {SeenPassageOneUpdateArgs} args - Arguments to update one SeenPassageOne.
+     * @example
+     * // Update one SeenPassageOne
+     * const seenPassageOne = await prisma.seenPassageOne.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SeenPassageOneUpdateArgs>(args: SelectSubset<T, SeenPassageOneUpdateArgs<ExtArgs>>): Prisma__SeenPassageOneClient<$Result.GetResult<Prisma.$SeenPassageOnePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SeenPassageOnes.
+     * @param {SeenPassageOneDeleteManyArgs} args - Arguments to filter SeenPassageOnes to delete.
+     * @example
+     * // Delete a few SeenPassageOnes
+     * const { count } = await prisma.seenPassageOne.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SeenPassageOneDeleteManyArgs>(args?: SelectSubset<T, SeenPassageOneDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SeenPassageOnes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeenPassageOneUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SeenPassageOnes
+     * const seenPassageOne = await prisma.seenPassageOne.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SeenPassageOneUpdateManyArgs>(args: SelectSubset<T, SeenPassageOneUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SeenPassageOnes and returns the data updated in the database.
+     * @param {SeenPassageOneUpdateManyAndReturnArgs} args - Arguments to update many SeenPassageOnes.
+     * @example
+     * // Update many SeenPassageOnes
+     * const seenPassageOne = await prisma.seenPassageOne.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SeenPassageOnes and only return the `id`
+     * const seenPassageOneWithIdOnly = await prisma.seenPassageOne.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SeenPassageOneUpdateManyAndReturnArgs>(args: SelectSubset<T, SeenPassageOneUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeenPassageOnePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SeenPassageOne.
+     * @param {SeenPassageOneUpsertArgs} args - Arguments to update or create a SeenPassageOne.
+     * @example
+     * // Update or create a SeenPassageOne
+     * const seenPassageOne = await prisma.seenPassageOne.upsert({
+     *   create: {
+     *     // ... data to create a SeenPassageOne
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SeenPassageOne we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SeenPassageOneUpsertArgs>(args: SelectSubset<T, SeenPassageOneUpsertArgs<ExtArgs>>): Prisma__SeenPassageOneClient<$Result.GetResult<Prisma.$SeenPassageOnePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SeenPassageOnes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeenPassageOneCountArgs} args - Arguments to filter SeenPassageOnes to count.
+     * @example
+     * // Count the number of SeenPassageOnes
+     * const count = await prisma.seenPassageOne.count({
+     *   where: {
+     *     // ... the filter for the SeenPassageOnes we want to count
+     *   }
+     * })
+    **/
+    count<T extends SeenPassageOneCountArgs>(
+      args?: Subset<T, SeenPassageOneCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SeenPassageOneCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SeenPassageOne.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeenPassageOneAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SeenPassageOneAggregateArgs>(args: Subset<T, SeenPassageOneAggregateArgs>): Prisma.PrismaPromise<GetSeenPassageOneAggregateType<T>>
+
+    /**
+     * Group by SeenPassageOne.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeenPassageOneGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SeenPassageOneGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SeenPassageOneGroupByArgs['orderBy'] }
+        : { orderBy?: SeenPassageOneGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SeenPassageOneGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSeenPassageOneGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SeenPassageOne model
+   */
+  readonly fields: SeenPassageOneFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SeenPassageOne.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SeenPassageOneClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    contentBlock<T extends ContentBlockDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlockDefaultArgs<ExtArgs>>): Prisma__ContentBlockClient<$Result.GetResult<Prisma.$ContentBlockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SeenPassageOne model
+   */
+  interface SeenPassageOneFieldRefs {
+    readonly id: FieldRef<"SeenPassageOne", 'String'>
+    readonly contentBlockId: FieldRef<"SeenPassageOne", 'String'>
+    readonly contentId: FieldRef<"SeenPassageOne", 'String'>
+    readonly classId: FieldRef<"SeenPassageOne", 'String'>
+    readonly subjectId: FieldRef<"SeenPassageOne", 'String'>
+    readonly unitId: FieldRef<"SeenPassageOne", 'String'>
+    readonly lessonId: FieldRef<"SeenPassageOne", 'String'>
+    readonly topicId: FieldRef<"SeenPassageOne", 'String'>
+    readonly body: FieldRef<"SeenPassageOne", 'String'>
+    readonly organizationId: FieldRef<"SeenPassageOne", 'String'>
+    readonly createdBy: FieldRef<"SeenPassageOne", 'String'>
+    readonly updatedBy: FieldRef<"SeenPassageOne", 'String'>
+    readonly createdAt: FieldRef<"SeenPassageOne", 'DateTime'>
+    readonly updatedAt: FieldRef<"SeenPassageOne", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SeenPassageOne findUnique
+   */
+  export type SeenPassageOneFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageOne
+     */
+    select?: SeenPassageOneSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageOne
+     */
+    omit?: SeenPassageOneOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageOneInclude<ExtArgs> | null
+    /**
+     * Filter, which SeenPassageOne to fetch.
+     */
+    where: SeenPassageOneWhereUniqueInput
+  }
+
+  /**
+   * SeenPassageOne findUniqueOrThrow
+   */
+  export type SeenPassageOneFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageOne
+     */
+    select?: SeenPassageOneSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageOne
+     */
+    omit?: SeenPassageOneOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageOneInclude<ExtArgs> | null
+    /**
+     * Filter, which SeenPassageOne to fetch.
+     */
+    where: SeenPassageOneWhereUniqueInput
+  }
+
+  /**
+   * SeenPassageOne findFirst
+   */
+  export type SeenPassageOneFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageOne
+     */
+    select?: SeenPassageOneSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageOne
+     */
+    omit?: SeenPassageOneOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageOneInclude<ExtArgs> | null
+    /**
+     * Filter, which SeenPassageOne to fetch.
+     */
+    where?: SeenPassageOneWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SeenPassageOnes to fetch.
+     */
+    orderBy?: SeenPassageOneOrderByWithRelationInput | SeenPassageOneOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SeenPassageOnes.
+     */
+    cursor?: SeenPassageOneWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SeenPassageOnes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SeenPassageOnes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SeenPassageOnes.
+     */
+    distinct?: SeenPassageOneScalarFieldEnum | SeenPassageOneScalarFieldEnum[]
+  }
+
+  /**
+   * SeenPassageOne findFirstOrThrow
+   */
+  export type SeenPassageOneFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageOne
+     */
+    select?: SeenPassageOneSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageOne
+     */
+    omit?: SeenPassageOneOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageOneInclude<ExtArgs> | null
+    /**
+     * Filter, which SeenPassageOne to fetch.
+     */
+    where?: SeenPassageOneWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SeenPassageOnes to fetch.
+     */
+    orderBy?: SeenPassageOneOrderByWithRelationInput | SeenPassageOneOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SeenPassageOnes.
+     */
+    cursor?: SeenPassageOneWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SeenPassageOnes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SeenPassageOnes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SeenPassageOnes.
+     */
+    distinct?: SeenPassageOneScalarFieldEnum | SeenPassageOneScalarFieldEnum[]
+  }
+
+  /**
+   * SeenPassageOne findMany
+   */
+  export type SeenPassageOneFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageOne
+     */
+    select?: SeenPassageOneSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageOne
+     */
+    omit?: SeenPassageOneOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageOneInclude<ExtArgs> | null
+    /**
+     * Filter, which SeenPassageOnes to fetch.
+     */
+    where?: SeenPassageOneWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SeenPassageOnes to fetch.
+     */
+    orderBy?: SeenPassageOneOrderByWithRelationInput | SeenPassageOneOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SeenPassageOnes.
+     */
+    cursor?: SeenPassageOneWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SeenPassageOnes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SeenPassageOnes.
+     */
+    skip?: number
+    distinct?: SeenPassageOneScalarFieldEnum | SeenPassageOneScalarFieldEnum[]
+  }
+
+  /**
+   * SeenPassageOne create
+   */
+  export type SeenPassageOneCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageOne
+     */
+    select?: SeenPassageOneSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageOne
+     */
+    omit?: SeenPassageOneOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageOneInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SeenPassageOne.
+     */
+    data: XOR<SeenPassageOneCreateInput, SeenPassageOneUncheckedCreateInput>
+  }
+
+  /**
+   * SeenPassageOne createMany
+   */
+  export type SeenPassageOneCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SeenPassageOnes.
+     */
+    data: SeenPassageOneCreateManyInput | SeenPassageOneCreateManyInput[]
+  }
+
+  /**
+   * SeenPassageOne createManyAndReturn
+   */
+  export type SeenPassageOneCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageOne
+     */
+    select?: SeenPassageOneSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageOne
+     */
+    omit?: SeenPassageOneOmit<ExtArgs> | null
+    /**
+     * The data used to create many SeenPassageOnes.
+     */
+    data: SeenPassageOneCreateManyInput | SeenPassageOneCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageOneIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SeenPassageOne update
+   */
+  export type SeenPassageOneUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageOne
+     */
+    select?: SeenPassageOneSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageOne
+     */
+    omit?: SeenPassageOneOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageOneInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SeenPassageOne.
+     */
+    data: XOR<SeenPassageOneUpdateInput, SeenPassageOneUncheckedUpdateInput>
+    /**
+     * Choose, which SeenPassageOne to update.
+     */
+    where: SeenPassageOneWhereUniqueInput
+  }
+
+  /**
+   * SeenPassageOne updateMany
+   */
+  export type SeenPassageOneUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SeenPassageOnes.
+     */
+    data: XOR<SeenPassageOneUpdateManyMutationInput, SeenPassageOneUncheckedUpdateManyInput>
+    /**
+     * Filter which SeenPassageOnes to update
+     */
+    where?: SeenPassageOneWhereInput
+    /**
+     * Limit how many SeenPassageOnes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SeenPassageOne updateManyAndReturn
+   */
+  export type SeenPassageOneUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageOne
+     */
+    select?: SeenPassageOneSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageOne
+     */
+    omit?: SeenPassageOneOmit<ExtArgs> | null
+    /**
+     * The data used to update SeenPassageOnes.
+     */
+    data: XOR<SeenPassageOneUpdateManyMutationInput, SeenPassageOneUncheckedUpdateManyInput>
+    /**
+     * Filter which SeenPassageOnes to update
+     */
+    where?: SeenPassageOneWhereInput
+    /**
+     * Limit how many SeenPassageOnes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageOneIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SeenPassageOne upsert
+   */
+  export type SeenPassageOneUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageOne
+     */
+    select?: SeenPassageOneSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageOne
+     */
+    omit?: SeenPassageOneOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageOneInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SeenPassageOne to update in case it exists.
+     */
+    where: SeenPassageOneWhereUniqueInput
+    /**
+     * In case the SeenPassageOne found by the `where` argument doesn't exist, create a new SeenPassageOne with this data.
+     */
+    create: XOR<SeenPassageOneCreateInput, SeenPassageOneUncheckedCreateInput>
+    /**
+     * In case the SeenPassageOne was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SeenPassageOneUpdateInput, SeenPassageOneUncheckedUpdateInput>
+  }
+
+  /**
+   * SeenPassageOne delete
+   */
+  export type SeenPassageOneDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageOne
+     */
+    select?: SeenPassageOneSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageOne
+     */
+    omit?: SeenPassageOneOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageOneInclude<ExtArgs> | null
+    /**
+     * Filter which SeenPassageOne to delete.
+     */
+    where: SeenPassageOneWhereUniqueInput
+  }
+
+  /**
+   * SeenPassageOne deleteMany
+   */
+  export type SeenPassageOneDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SeenPassageOnes to delete
+     */
+    where?: SeenPassageOneWhereInput
+    /**
+     * Limit how many SeenPassageOnes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SeenPassageOne without action
+   */
+  export type SeenPassageOneDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageOne
+     */
+    select?: SeenPassageOneSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageOne
+     */
+    omit?: SeenPassageOneOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageOneInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SeenPassageTwo
+   */
+
+  export type AggregateSeenPassageTwo = {
+    _count: SeenPassageTwoCountAggregateOutputType | null
+    _min: SeenPassageTwoMinAggregateOutputType | null
+    _max: SeenPassageTwoMaxAggregateOutputType | null
+  }
+
+  export type SeenPassageTwoMinAggregateOutputType = {
+    id: string | null
+    contentBlockId: string | null
+    contentId: string | null
+    classId: string | null
+    subjectId: string | null
+    unitId: string | null
+    lessonId: string | null
+    topicId: string | null
+    body: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SeenPassageTwoMaxAggregateOutputType = {
+    id: string | null
+    contentBlockId: string | null
+    contentId: string | null
+    classId: string | null
+    subjectId: string | null
+    unitId: string | null
+    lessonId: string | null
+    topicId: string | null
+    body: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SeenPassageTwoCountAggregateOutputType = {
+    id: number
+    contentBlockId: number
+    contentId: number
+    classId: number
+    subjectId: number
+    unitId: number
+    lessonId: number
+    topicId: number
+    body: number
+    organizationId: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SeenPassageTwoMinAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    body?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SeenPassageTwoMaxAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    body?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SeenPassageTwoCountAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    body?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SeenPassageTwoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SeenPassageTwo to aggregate.
+     */
+    where?: SeenPassageTwoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SeenPassageTwos to fetch.
+     */
+    orderBy?: SeenPassageTwoOrderByWithRelationInput | SeenPassageTwoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SeenPassageTwoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SeenPassageTwos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SeenPassageTwos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SeenPassageTwos
+    **/
+    _count?: true | SeenPassageTwoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SeenPassageTwoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SeenPassageTwoMaxAggregateInputType
+  }
+
+  export type GetSeenPassageTwoAggregateType<T extends SeenPassageTwoAggregateArgs> = {
+        [P in keyof T & keyof AggregateSeenPassageTwo]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSeenPassageTwo[P]>
+      : GetScalarType<T[P], AggregateSeenPassageTwo[P]>
+  }
+
+
+
+
+  export type SeenPassageTwoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SeenPassageTwoWhereInput
+    orderBy?: SeenPassageTwoOrderByWithAggregationInput | SeenPassageTwoOrderByWithAggregationInput[]
+    by: SeenPassageTwoScalarFieldEnum[] | SeenPassageTwoScalarFieldEnum
+    having?: SeenPassageTwoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SeenPassageTwoCountAggregateInputType | true
+    _min?: SeenPassageTwoMinAggregateInputType
+    _max?: SeenPassageTwoMaxAggregateInputType
+  }
+
+  export type SeenPassageTwoGroupByOutputType = {
+    id: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId: string | null
+    body: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: SeenPassageTwoCountAggregateOutputType | null
+    _min: SeenPassageTwoMinAggregateOutputType | null
+    _max: SeenPassageTwoMaxAggregateOutputType | null
+  }
+
+  type GetSeenPassageTwoGroupByPayload<T extends SeenPassageTwoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SeenPassageTwoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SeenPassageTwoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SeenPassageTwoGroupByOutputType[P]>
+            : GetScalarType<T[P], SeenPassageTwoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SeenPassageTwoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    body?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["seenPassageTwo"]>
+
+  export type SeenPassageTwoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    body?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["seenPassageTwo"]>
+
+  export type SeenPassageTwoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    body?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["seenPassageTwo"]>
+
+  export type SeenPassageTwoSelectScalar = {
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    body?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SeenPassageTwoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "body" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["seenPassageTwo"]>
+  export type SeenPassageTwoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+  export type SeenPassageTwoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+  export type SeenPassageTwoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+
+  export type $SeenPassageTwoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SeenPassageTwo"
+    objects: {
+      contentBlock: Prisma.$ContentBlockPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      contentBlockId: string
+      contentId: string
+      classId: string
+      subjectId: string
+      unitId: string
+      lessonId: string
+      topicId: string | null
+      body: string
+      organizationId: string
+      createdBy: string
+      updatedBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["seenPassageTwo"]>
+    composites: {}
+  }
+
+  type SeenPassageTwoGetPayload<S extends boolean | null | undefined | SeenPassageTwoDefaultArgs> = $Result.GetResult<Prisma.$SeenPassageTwoPayload, S>
+
+  type SeenPassageTwoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SeenPassageTwoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SeenPassageTwoCountAggregateInputType | true
+    }
+
+  export interface SeenPassageTwoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SeenPassageTwo'], meta: { name: 'SeenPassageTwo' } }
+    /**
+     * Find zero or one SeenPassageTwo that matches the filter.
+     * @param {SeenPassageTwoFindUniqueArgs} args - Arguments to find a SeenPassageTwo
+     * @example
+     * // Get one SeenPassageTwo
+     * const seenPassageTwo = await prisma.seenPassageTwo.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SeenPassageTwoFindUniqueArgs>(args: SelectSubset<T, SeenPassageTwoFindUniqueArgs<ExtArgs>>): Prisma__SeenPassageTwoClient<$Result.GetResult<Prisma.$SeenPassageTwoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SeenPassageTwo that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SeenPassageTwoFindUniqueOrThrowArgs} args - Arguments to find a SeenPassageTwo
+     * @example
+     * // Get one SeenPassageTwo
+     * const seenPassageTwo = await prisma.seenPassageTwo.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SeenPassageTwoFindUniqueOrThrowArgs>(args: SelectSubset<T, SeenPassageTwoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SeenPassageTwoClient<$Result.GetResult<Prisma.$SeenPassageTwoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SeenPassageTwo that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeenPassageTwoFindFirstArgs} args - Arguments to find a SeenPassageTwo
+     * @example
+     * // Get one SeenPassageTwo
+     * const seenPassageTwo = await prisma.seenPassageTwo.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SeenPassageTwoFindFirstArgs>(args?: SelectSubset<T, SeenPassageTwoFindFirstArgs<ExtArgs>>): Prisma__SeenPassageTwoClient<$Result.GetResult<Prisma.$SeenPassageTwoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SeenPassageTwo that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeenPassageTwoFindFirstOrThrowArgs} args - Arguments to find a SeenPassageTwo
+     * @example
+     * // Get one SeenPassageTwo
+     * const seenPassageTwo = await prisma.seenPassageTwo.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SeenPassageTwoFindFirstOrThrowArgs>(args?: SelectSubset<T, SeenPassageTwoFindFirstOrThrowArgs<ExtArgs>>): Prisma__SeenPassageTwoClient<$Result.GetResult<Prisma.$SeenPassageTwoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SeenPassageTwos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeenPassageTwoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SeenPassageTwos
+     * const seenPassageTwos = await prisma.seenPassageTwo.findMany()
+     * 
+     * // Get first 10 SeenPassageTwos
+     * const seenPassageTwos = await prisma.seenPassageTwo.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const seenPassageTwoWithIdOnly = await prisma.seenPassageTwo.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SeenPassageTwoFindManyArgs>(args?: SelectSubset<T, SeenPassageTwoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeenPassageTwoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SeenPassageTwo.
+     * @param {SeenPassageTwoCreateArgs} args - Arguments to create a SeenPassageTwo.
+     * @example
+     * // Create one SeenPassageTwo
+     * const SeenPassageTwo = await prisma.seenPassageTwo.create({
+     *   data: {
+     *     // ... data to create a SeenPassageTwo
+     *   }
+     * })
+     * 
+     */
+    create<T extends SeenPassageTwoCreateArgs>(args: SelectSubset<T, SeenPassageTwoCreateArgs<ExtArgs>>): Prisma__SeenPassageTwoClient<$Result.GetResult<Prisma.$SeenPassageTwoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SeenPassageTwos.
+     * @param {SeenPassageTwoCreateManyArgs} args - Arguments to create many SeenPassageTwos.
+     * @example
+     * // Create many SeenPassageTwos
+     * const seenPassageTwo = await prisma.seenPassageTwo.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SeenPassageTwoCreateManyArgs>(args?: SelectSubset<T, SeenPassageTwoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SeenPassageTwos and returns the data saved in the database.
+     * @param {SeenPassageTwoCreateManyAndReturnArgs} args - Arguments to create many SeenPassageTwos.
+     * @example
+     * // Create many SeenPassageTwos
+     * const seenPassageTwo = await prisma.seenPassageTwo.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SeenPassageTwos and only return the `id`
+     * const seenPassageTwoWithIdOnly = await prisma.seenPassageTwo.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SeenPassageTwoCreateManyAndReturnArgs>(args?: SelectSubset<T, SeenPassageTwoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeenPassageTwoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SeenPassageTwo.
+     * @param {SeenPassageTwoDeleteArgs} args - Arguments to delete one SeenPassageTwo.
+     * @example
+     * // Delete one SeenPassageTwo
+     * const SeenPassageTwo = await prisma.seenPassageTwo.delete({
+     *   where: {
+     *     // ... filter to delete one SeenPassageTwo
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SeenPassageTwoDeleteArgs>(args: SelectSubset<T, SeenPassageTwoDeleteArgs<ExtArgs>>): Prisma__SeenPassageTwoClient<$Result.GetResult<Prisma.$SeenPassageTwoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SeenPassageTwo.
+     * @param {SeenPassageTwoUpdateArgs} args - Arguments to update one SeenPassageTwo.
+     * @example
+     * // Update one SeenPassageTwo
+     * const seenPassageTwo = await prisma.seenPassageTwo.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SeenPassageTwoUpdateArgs>(args: SelectSubset<T, SeenPassageTwoUpdateArgs<ExtArgs>>): Prisma__SeenPassageTwoClient<$Result.GetResult<Prisma.$SeenPassageTwoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SeenPassageTwos.
+     * @param {SeenPassageTwoDeleteManyArgs} args - Arguments to filter SeenPassageTwos to delete.
+     * @example
+     * // Delete a few SeenPassageTwos
+     * const { count } = await prisma.seenPassageTwo.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SeenPassageTwoDeleteManyArgs>(args?: SelectSubset<T, SeenPassageTwoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SeenPassageTwos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeenPassageTwoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SeenPassageTwos
+     * const seenPassageTwo = await prisma.seenPassageTwo.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SeenPassageTwoUpdateManyArgs>(args: SelectSubset<T, SeenPassageTwoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SeenPassageTwos and returns the data updated in the database.
+     * @param {SeenPassageTwoUpdateManyAndReturnArgs} args - Arguments to update many SeenPassageTwos.
+     * @example
+     * // Update many SeenPassageTwos
+     * const seenPassageTwo = await prisma.seenPassageTwo.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SeenPassageTwos and only return the `id`
+     * const seenPassageTwoWithIdOnly = await prisma.seenPassageTwo.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SeenPassageTwoUpdateManyAndReturnArgs>(args: SelectSubset<T, SeenPassageTwoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeenPassageTwoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SeenPassageTwo.
+     * @param {SeenPassageTwoUpsertArgs} args - Arguments to update or create a SeenPassageTwo.
+     * @example
+     * // Update or create a SeenPassageTwo
+     * const seenPassageTwo = await prisma.seenPassageTwo.upsert({
+     *   create: {
+     *     // ... data to create a SeenPassageTwo
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SeenPassageTwo we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SeenPassageTwoUpsertArgs>(args: SelectSubset<T, SeenPassageTwoUpsertArgs<ExtArgs>>): Prisma__SeenPassageTwoClient<$Result.GetResult<Prisma.$SeenPassageTwoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SeenPassageTwos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeenPassageTwoCountArgs} args - Arguments to filter SeenPassageTwos to count.
+     * @example
+     * // Count the number of SeenPassageTwos
+     * const count = await prisma.seenPassageTwo.count({
+     *   where: {
+     *     // ... the filter for the SeenPassageTwos we want to count
+     *   }
+     * })
+    **/
+    count<T extends SeenPassageTwoCountArgs>(
+      args?: Subset<T, SeenPassageTwoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SeenPassageTwoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SeenPassageTwo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeenPassageTwoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SeenPassageTwoAggregateArgs>(args: Subset<T, SeenPassageTwoAggregateArgs>): Prisma.PrismaPromise<GetSeenPassageTwoAggregateType<T>>
+
+    /**
+     * Group by SeenPassageTwo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeenPassageTwoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SeenPassageTwoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SeenPassageTwoGroupByArgs['orderBy'] }
+        : { orderBy?: SeenPassageTwoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SeenPassageTwoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSeenPassageTwoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SeenPassageTwo model
+   */
+  readonly fields: SeenPassageTwoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SeenPassageTwo.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SeenPassageTwoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    contentBlock<T extends ContentBlockDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlockDefaultArgs<ExtArgs>>): Prisma__ContentBlockClient<$Result.GetResult<Prisma.$ContentBlockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SeenPassageTwo model
+   */
+  interface SeenPassageTwoFieldRefs {
+    readonly id: FieldRef<"SeenPassageTwo", 'String'>
+    readonly contentBlockId: FieldRef<"SeenPassageTwo", 'String'>
+    readonly contentId: FieldRef<"SeenPassageTwo", 'String'>
+    readonly classId: FieldRef<"SeenPassageTwo", 'String'>
+    readonly subjectId: FieldRef<"SeenPassageTwo", 'String'>
+    readonly unitId: FieldRef<"SeenPassageTwo", 'String'>
+    readonly lessonId: FieldRef<"SeenPassageTwo", 'String'>
+    readonly topicId: FieldRef<"SeenPassageTwo", 'String'>
+    readonly body: FieldRef<"SeenPassageTwo", 'String'>
+    readonly organizationId: FieldRef<"SeenPassageTwo", 'String'>
+    readonly createdBy: FieldRef<"SeenPassageTwo", 'String'>
+    readonly updatedBy: FieldRef<"SeenPassageTwo", 'String'>
+    readonly createdAt: FieldRef<"SeenPassageTwo", 'DateTime'>
+    readonly updatedAt: FieldRef<"SeenPassageTwo", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SeenPassageTwo findUnique
+   */
+  export type SeenPassageTwoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageTwo
+     */
+    select?: SeenPassageTwoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageTwo
+     */
+    omit?: SeenPassageTwoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageTwoInclude<ExtArgs> | null
+    /**
+     * Filter, which SeenPassageTwo to fetch.
+     */
+    where: SeenPassageTwoWhereUniqueInput
+  }
+
+  /**
+   * SeenPassageTwo findUniqueOrThrow
+   */
+  export type SeenPassageTwoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageTwo
+     */
+    select?: SeenPassageTwoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageTwo
+     */
+    omit?: SeenPassageTwoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageTwoInclude<ExtArgs> | null
+    /**
+     * Filter, which SeenPassageTwo to fetch.
+     */
+    where: SeenPassageTwoWhereUniqueInput
+  }
+
+  /**
+   * SeenPassageTwo findFirst
+   */
+  export type SeenPassageTwoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageTwo
+     */
+    select?: SeenPassageTwoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageTwo
+     */
+    omit?: SeenPassageTwoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageTwoInclude<ExtArgs> | null
+    /**
+     * Filter, which SeenPassageTwo to fetch.
+     */
+    where?: SeenPassageTwoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SeenPassageTwos to fetch.
+     */
+    orderBy?: SeenPassageTwoOrderByWithRelationInput | SeenPassageTwoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SeenPassageTwos.
+     */
+    cursor?: SeenPassageTwoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SeenPassageTwos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SeenPassageTwos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SeenPassageTwos.
+     */
+    distinct?: SeenPassageTwoScalarFieldEnum | SeenPassageTwoScalarFieldEnum[]
+  }
+
+  /**
+   * SeenPassageTwo findFirstOrThrow
+   */
+  export type SeenPassageTwoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageTwo
+     */
+    select?: SeenPassageTwoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageTwo
+     */
+    omit?: SeenPassageTwoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageTwoInclude<ExtArgs> | null
+    /**
+     * Filter, which SeenPassageTwo to fetch.
+     */
+    where?: SeenPassageTwoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SeenPassageTwos to fetch.
+     */
+    orderBy?: SeenPassageTwoOrderByWithRelationInput | SeenPassageTwoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SeenPassageTwos.
+     */
+    cursor?: SeenPassageTwoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SeenPassageTwos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SeenPassageTwos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SeenPassageTwos.
+     */
+    distinct?: SeenPassageTwoScalarFieldEnum | SeenPassageTwoScalarFieldEnum[]
+  }
+
+  /**
+   * SeenPassageTwo findMany
+   */
+  export type SeenPassageTwoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageTwo
+     */
+    select?: SeenPassageTwoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageTwo
+     */
+    omit?: SeenPassageTwoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageTwoInclude<ExtArgs> | null
+    /**
+     * Filter, which SeenPassageTwos to fetch.
+     */
+    where?: SeenPassageTwoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SeenPassageTwos to fetch.
+     */
+    orderBy?: SeenPassageTwoOrderByWithRelationInput | SeenPassageTwoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SeenPassageTwos.
+     */
+    cursor?: SeenPassageTwoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SeenPassageTwos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SeenPassageTwos.
+     */
+    skip?: number
+    distinct?: SeenPassageTwoScalarFieldEnum | SeenPassageTwoScalarFieldEnum[]
+  }
+
+  /**
+   * SeenPassageTwo create
+   */
+  export type SeenPassageTwoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageTwo
+     */
+    select?: SeenPassageTwoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageTwo
+     */
+    omit?: SeenPassageTwoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageTwoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SeenPassageTwo.
+     */
+    data: XOR<SeenPassageTwoCreateInput, SeenPassageTwoUncheckedCreateInput>
+  }
+
+  /**
+   * SeenPassageTwo createMany
+   */
+  export type SeenPassageTwoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SeenPassageTwos.
+     */
+    data: SeenPassageTwoCreateManyInput | SeenPassageTwoCreateManyInput[]
+  }
+
+  /**
+   * SeenPassageTwo createManyAndReturn
+   */
+  export type SeenPassageTwoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageTwo
+     */
+    select?: SeenPassageTwoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageTwo
+     */
+    omit?: SeenPassageTwoOmit<ExtArgs> | null
+    /**
+     * The data used to create many SeenPassageTwos.
+     */
+    data: SeenPassageTwoCreateManyInput | SeenPassageTwoCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageTwoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SeenPassageTwo update
+   */
+  export type SeenPassageTwoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageTwo
+     */
+    select?: SeenPassageTwoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageTwo
+     */
+    omit?: SeenPassageTwoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageTwoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SeenPassageTwo.
+     */
+    data: XOR<SeenPassageTwoUpdateInput, SeenPassageTwoUncheckedUpdateInput>
+    /**
+     * Choose, which SeenPassageTwo to update.
+     */
+    where: SeenPassageTwoWhereUniqueInput
+  }
+
+  /**
+   * SeenPassageTwo updateMany
+   */
+  export type SeenPassageTwoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SeenPassageTwos.
+     */
+    data: XOR<SeenPassageTwoUpdateManyMutationInput, SeenPassageTwoUncheckedUpdateManyInput>
+    /**
+     * Filter which SeenPassageTwos to update
+     */
+    where?: SeenPassageTwoWhereInput
+    /**
+     * Limit how many SeenPassageTwos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SeenPassageTwo updateManyAndReturn
+   */
+  export type SeenPassageTwoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageTwo
+     */
+    select?: SeenPassageTwoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageTwo
+     */
+    omit?: SeenPassageTwoOmit<ExtArgs> | null
+    /**
+     * The data used to update SeenPassageTwos.
+     */
+    data: XOR<SeenPassageTwoUpdateManyMutationInput, SeenPassageTwoUncheckedUpdateManyInput>
+    /**
+     * Filter which SeenPassageTwos to update
+     */
+    where?: SeenPassageTwoWhereInput
+    /**
+     * Limit how many SeenPassageTwos to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageTwoIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SeenPassageTwo upsert
+   */
+  export type SeenPassageTwoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageTwo
+     */
+    select?: SeenPassageTwoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageTwo
+     */
+    omit?: SeenPassageTwoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageTwoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SeenPassageTwo to update in case it exists.
+     */
+    where: SeenPassageTwoWhereUniqueInput
+    /**
+     * In case the SeenPassageTwo found by the `where` argument doesn't exist, create a new SeenPassageTwo with this data.
+     */
+    create: XOR<SeenPassageTwoCreateInput, SeenPassageTwoUncheckedCreateInput>
+    /**
+     * In case the SeenPassageTwo was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SeenPassageTwoUpdateInput, SeenPassageTwoUncheckedUpdateInput>
+  }
+
+  /**
+   * SeenPassageTwo delete
+   */
+  export type SeenPassageTwoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageTwo
+     */
+    select?: SeenPassageTwoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageTwo
+     */
+    omit?: SeenPassageTwoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageTwoInclude<ExtArgs> | null
+    /**
+     * Filter which SeenPassageTwo to delete.
+     */
+    where: SeenPassageTwoWhereUniqueInput
+  }
+
+  /**
+   * SeenPassageTwo deleteMany
+   */
+  export type SeenPassageTwoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SeenPassageTwos to delete
+     */
+    where?: SeenPassageTwoWhereInput
+    /**
+     * Limit how many SeenPassageTwos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SeenPassageTwo without action
+   */
+  export type SeenPassageTwoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageTwo
+     */
+    select?: SeenPassageTwoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageTwo
+     */
+    omit?: SeenPassageTwoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageTwoInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model UnseenComposition
    */
 
@@ -19316,7 +22390,9 @@ export namespace Prisma {
     questionAnswerExercise?: boolean | ContentBlock$questionAnswerExerciseArgs<ExtArgs>
     tableCompletionExercise?: boolean | ContentBlock$tableCompletionExerciseArgs<ExtArgs>
     columnMatchingExercise?: boolean | ContentBlock$columnMatchingExerciseArgs<ExtArgs>
-    sentenceOrderingExercise?: boolean | ContentBlock$sentenceOrderingExerciseArgs<ExtArgs>
+    rearrangeSentenceExercise?: boolean | ContentBlock$rearrangeSentenceExerciseArgs<ExtArgs>
+    questionFromPoems?: boolean | ContentBlock$questionFromPoemsArgs<ExtArgs>
+    questionFromStory?: boolean | ContentBlock$questionFromStoryArgs<ExtArgs>
     trueFalseExercise?: boolean | ContentBlock$trueFalseExerciseArgs<ExtArgs>
     informationTransfer?: boolean | ContentBlock$informationTransferArgs<ExtArgs>
     substitutionTable?: boolean | ContentBlock$substitutionTableArgs<ExtArgs>
@@ -19328,6 +22404,8 @@ export namespace Prisma {
     suffixAndPrefix?: boolean | ContentBlock$suffixAndPrefixArgs<ExtArgs>
     tagQuestion?: boolean | ContentBlock$tagQuestionArgs<ExtArgs>
     connector?: boolean | ContentBlock$connectorArgs<ExtArgs>
+    seenPassageOne?: boolean | ContentBlock$seenPassageOneArgs<ExtArgs>
+    seenPassageTwo?: boolean | ContentBlock$seenPassageTwoArgs<ExtArgs>
   }, ExtArgs["result"]["contentBlock"]>
 
   export type ContentBlockSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -19372,7 +22450,9 @@ export namespace Prisma {
     questionAnswerExercise?: boolean | ContentBlock$questionAnswerExerciseArgs<ExtArgs>
     tableCompletionExercise?: boolean | ContentBlock$tableCompletionExerciseArgs<ExtArgs>
     columnMatchingExercise?: boolean | ContentBlock$columnMatchingExerciseArgs<ExtArgs>
-    sentenceOrderingExercise?: boolean | ContentBlock$sentenceOrderingExerciseArgs<ExtArgs>
+    rearrangeSentenceExercise?: boolean | ContentBlock$rearrangeSentenceExerciseArgs<ExtArgs>
+    questionFromPoems?: boolean | ContentBlock$questionFromPoemsArgs<ExtArgs>
+    questionFromStory?: boolean | ContentBlock$questionFromStoryArgs<ExtArgs>
     trueFalseExercise?: boolean | ContentBlock$trueFalseExerciseArgs<ExtArgs>
     informationTransfer?: boolean | ContentBlock$informationTransferArgs<ExtArgs>
     substitutionTable?: boolean | ContentBlock$substitutionTableArgs<ExtArgs>
@@ -19384,6 +22464,8 @@ export namespace Prisma {
     suffixAndPrefix?: boolean | ContentBlock$suffixAndPrefixArgs<ExtArgs>
     tagQuestion?: boolean | ContentBlock$tagQuestionArgs<ExtArgs>
     connector?: boolean | ContentBlock$connectorArgs<ExtArgs>
+    seenPassageOne?: boolean | ContentBlock$seenPassageOneArgs<ExtArgs>
+    seenPassageTwo?: boolean | ContentBlock$seenPassageTwoArgs<ExtArgs>
   }
   export type ContentBlockIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     content?: boolean | ContentDefaultArgs<ExtArgs>
@@ -19406,7 +22488,9 @@ export namespace Prisma {
       questionAnswerExercise: Prisma.$QuestionAnswerExercisePayload<ExtArgs> | null
       tableCompletionExercise: Prisma.$TableCompletionExercisePayload<ExtArgs> | null
       columnMatchingExercise: Prisma.$ColumnMatchingExercisePayload<ExtArgs> | null
-      sentenceOrderingExercise: Prisma.$SentenceOrderingExercisePayload<ExtArgs> | null
+      rearrangeSentenceExercise: Prisma.$RearrangeSentenceExercisePayload<ExtArgs> | null
+      questionFromPoems: Prisma.$QuestionFromPoemsPayload<ExtArgs> | null
+      questionFromStory: Prisma.$QuestionFromStoryPayload<ExtArgs> | null
       trueFalseExercise: Prisma.$TrueFalseExercisePayload<ExtArgs> | null
       informationTransfer: Prisma.$InformationTransferPayload<ExtArgs> | null
       substitutionTable: Prisma.$SubstitutionTablePayload<ExtArgs> | null
@@ -19418,6 +22502,8 @@ export namespace Prisma {
       suffixAndPrefix: Prisma.$SuffixAndPrefixPayload<ExtArgs> | null
       tagQuestion: Prisma.$TagQuestionPayload<ExtArgs> | null
       connector: Prisma.$ConnectorPayload<ExtArgs> | null
+      seenPassageOne: Prisma.$SeenPassageOnePayload<ExtArgs> | null
+      seenPassageTwo: Prisma.$SeenPassageTwoPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -19831,7 +22917,9 @@ export namespace Prisma {
     questionAnswerExercise<T extends ContentBlock$questionAnswerExerciseArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$questionAnswerExerciseArgs<ExtArgs>>): Prisma__QuestionAnswerExerciseClient<$Result.GetResult<Prisma.$QuestionAnswerExercisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     tableCompletionExercise<T extends ContentBlock$tableCompletionExerciseArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$tableCompletionExerciseArgs<ExtArgs>>): Prisma__TableCompletionExerciseClient<$Result.GetResult<Prisma.$TableCompletionExercisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     columnMatchingExercise<T extends ContentBlock$columnMatchingExerciseArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$columnMatchingExerciseArgs<ExtArgs>>): Prisma__ColumnMatchingExerciseClient<$Result.GetResult<Prisma.$ColumnMatchingExercisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    sentenceOrderingExercise<T extends ContentBlock$sentenceOrderingExerciseArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$sentenceOrderingExerciseArgs<ExtArgs>>): Prisma__SentenceOrderingExerciseClient<$Result.GetResult<Prisma.$SentenceOrderingExercisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    rearrangeSentenceExercise<T extends ContentBlock$rearrangeSentenceExerciseArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$rearrangeSentenceExerciseArgs<ExtArgs>>): Prisma__RearrangeSentenceExerciseClient<$Result.GetResult<Prisma.$RearrangeSentenceExercisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    questionFromPoems<T extends ContentBlock$questionFromPoemsArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$questionFromPoemsArgs<ExtArgs>>): Prisma__QuestionFromPoemsClient<$Result.GetResult<Prisma.$QuestionFromPoemsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    questionFromStory<T extends ContentBlock$questionFromStoryArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$questionFromStoryArgs<ExtArgs>>): Prisma__QuestionFromStoryClient<$Result.GetResult<Prisma.$QuestionFromStoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     trueFalseExercise<T extends ContentBlock$trueFalseExerciseArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$trueFalseExerciseArgs<ExtArgs>>): Prisma__TrueFalseExerciseClient<$Result.GetResult<Prisma.$TrueFalseExercisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     informationTransfer<T extends ContentBlock$informationTransferArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$informationTransferArgs<ExtArgs>>): Prisma__InformationTransferClient<$Result.GetResult<Prisma.$InformationTransferPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     substitutionTable<T extends ContentBlock$substitutionTableArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$substitutionTableArgs<ExtArgs>>): Prisma__SubstitutionTableClient<$Result.GetResult<Prisma.$SubstitutionTablePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -19843,6 +22931,8 @@ export namespace Prisma {
     suffixAndPrefix<T extends ContentBlock$suffixAndPrefixArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$suffixAndPrefixArgs<ExtArgs>>): Prisma__SuffixAndPrefixClient<$Result.GetResult<Prisma.$SuffixAndPrefixPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     tagQuestion<T extends ContentBlock$tagQuestionArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$tagQuestionArgs<ExtArgs>>): Prisma__TagQuestionClient<$Result.GetResult<Prisma.$TagQuestionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     connector<T extends ContentBlock$connectorArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$connectorArgs<ExtArgs>>): Prisma__ConnectorClient<$Result.GetResult<Prisma.$ConnectorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    seenPassageOne<T extends ContentBlock$seenPassageOneArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$seenPassageOneArgs<ExtArgs>>): Prisma__SeenPassageOneClient<$Result.GetResult<Prisma.$SeenPassageOnePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    seenPassageTwo<T extends ContentBlock$seenPassageTwoArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$seenPassageTwoArgs<ExtArgs>>): Prisma__SeenPassageTwoClient<$Result.GetResult<Prisma.$SeenPassageTwoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -20462,22 +23552,60 @@ export namespace Prisma {
   }
 
   /**
-   * ContentBlock.sentenceOrderingExercise
+   * ContentBlock.rearrangeSentenceExercise
    */
-  export type ContentBlock$sentenceOrderingExerciseArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ContentBlock$rearrangeSentenceExerciseArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SentenceOrderingExercise
+     * Select specific fields to fetch from the RearrangeSentenceExercise
      */
-    select?: SentenceOrderingExerciseSelect<ExtArgs> | null
+    select?: RearrangeSentenceExerciseSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SentenceOrderingExercise
+     * Omit specific fields from the RearrangeSentenceExercise
      */
-    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    omit?: RearrangeSentenceExerciseOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SentenceOrderingExerciseInclude<ExtArgs> | null
-    where?: SentenceOrderingExerciseWhereInput
+    include?: RearrangeSentenceExerciseInclude<ExtArgs> | null
+    where?: RearrangeSentenceExerciseWhereInput
+  }
+
+  /**
+   * ContentBlock.questionFromPoems
+   */
+  export type ContentBlock$questionFromPoemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromPoems
+     */
+    select?: QuestionFromPoemsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromPoems
+     */
+    omit?: QuestionFromPoemsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromPoemsInclude<ExtArgs> | null
+    where?: QuestionFromPoemsWhereInput
+  }
+
+  /**
+   * ContentBlock.questionFromStory
+   */
+  export type ContentBlock$questionFromStoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromStory
+     */
+    select?: QuestionFromStorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromStory
+     */
+    omit?: QuestionFromStoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromStoryInclude<ExtArgs> | null
+    where?: QuestionFromStoryWhereInput
   }
 
   /**
@@ -20687,6 +23815,44 @@ export namespace Prisma {
      */
     include?: ConnectorInclude<ExtArgs> | null
     where?: ConnectorWhereInput
+  }
+
+  /**
+   * ContentBlock.seenPassageOne
+   */
+  export type ContentBlock$seenPassageOneArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageOne
+     */
+    select?: SeenPassageOneSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageOne
+     */
+    omit?: SeenPassageOneOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageOneInclude<ExtArgs> | null
+    where?: SeenPassageOneWhereInput
+  }
+
+  /**
+   * ContentBlock.seenPassageTwo
+   */
+  export type ContentBlock$seenPassageTwoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeenPassageTwo
+     */
+    select?: SeenPassageTwoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SeenPassageTwo
+     */
+    omit?: SeenPassageTwoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeenPassageTwoInclude<ExtArgs> | null
+    where?: SeenPassageTwoWhereInput
   }
 
   /**
@@ -35316,16 +38482,16 @@ export namespace Prisma {
 
 
   /**
-   * Model SentenceOrderingExercise
+   * Model RearrangeSentenceExercise
    */
 
-  export type AggregateSentenceOrderingExercise = {
-    _count: SentenceOrderingExerciseCountAggregateOutputType | null
-    _min: SentenceOrderingExerciseMinAggregateOutputType | null
-    _max: SentenceOrderingExerciseMaxAggregateOutputType | null
+  export type AggregateRearrangeSentenceExercise = {
+    _count: RearrangeSentenceExerciseCountAggregateOutputType | null
+    _min: RearrangeSentenceExerciseMinAggregateOutputType | null
+    _max: RearrangeSentenceExerciseMaxAggregateOutputType | null
   }
 
-  export type SentenceOrderingExerciseMinAggregateOutputType = {
+  export type RearrangeSentenceExerciseMinAggregateOutputType = {
     id: string | null
     contentBlockId: string | null
     contentId: string | null
@@ -35347,7 +38513,7 @@ export namespace Prisma {
     updatedAt: Date | null
   }
 
-  export type SentenceOrderingExerciseMaxAggregateOutputType = {
+  export type RearrangeSentenceExerciseMaxAggregateOutputType = {
     id: string | null
     contentBlockId: string | null
     contentId: string | null
@@ -35369,7 +38535,7 @@ export namespace Prisma {
     updatedAt: Date | null
   }
 
-  export type SentenceOrderingExerciseCountAggregateOutputType = {
+  export type RearrangeSentenceExerciseCountAggregateOutputType = {
     id: number
     contentBlockId: number
     contentId: number
@@ -35393,7 +38559,7 @@ export namespace Prisma {
   }
 
 
-  export type SentenceOrderingExerciseMinAggregateInputType = {
+  export type RearrangeSentenceExerciseMinAggregateInputType = {
     id?: true
     contentBlockId?: true
     contentId?: true
@@ -35415,7 +38581,7 @@ export namespace Prisma {
     updatedAt?: true
   }
 
-  export type SentenceOrderingExerciseMaxAggregateInputType = {
+  export type RearrangeSentenceExerciseMaxAggregateInputType = {
     id?: true
     contentBlockId?: true
     contentId?: true
@@ -35437,7 +38603,7 @@ export namespace Prisma {
     updatedAt?: true
   }
 
-  export type SentenceOrderingExerciseCountAggregateInputType = {
+  export type RearrangeSentenceExerciseCountAggregateInputType = {
     id?: true
     contentBlockId?: true
     contentId?: true
@@ -35460,79 +38626,79 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type SentenceOrderingExerciseAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RearrangeSentenceExerciseAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which SentenceOrderingExercise to aggregate.
+     * Filter which RearrangeSentenceExercise to aggregate.
      */
-    where?: SentenceOrderingExerciseWhereInput
+    where?: RearrangeSentenceExerciseWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of SentenceOrderingExercises to fetch.
+     * Determine the order of RearrangeSentenceExercises to fetch.
      */
-    orderBy?: SentenceOrderingExerciseOrderByWithRelationInput | SentenceOrderingExerciseOrderByWithRelationInput[]
+    orderBy?: RearrangeSentenceExerciseOrderByWithRelationInput | RearrangeSentenceExerciseOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: SentenceOrderingExerciseWhereUniqueInput
+    cursor?: RearrangeSentenceExerciseWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` SentenceOrderingExercises from the position of the cursor.
+     * Take `±n` RearrangeSentenceExercises from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` SentenceOrderingExercises.
+     * Skip the first `n` RearrangeSentenceExercises.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned SentenceOrderingExercises
+     * Count returned RearrangeSentenceExercises
     **/
-    _count?: true | SentenceOrderingExerciseCountAggregateInputType
+    _count?: true | RearrangeSentenceExerciseCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: SentenceOrderingExerciseMinAggregateInputType
+    _min?: RearrangeSentenceExerciseMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: SentenceOrderingExerciseMaxAggregateInputType
+    _max?: RearrangeSentenceExerciseMaxAggregateInputType
   }
 
-  export type GetSentenceOrderingExerciseAggregateType<T extends SentenceOrderingExerciseAggregateArgs> = {
-        [P in keyof T & keyof AggregateSentenceOrderingExercise]: P extends '_count' | 'count'
+  export type GetRearrangeSentenceExerciseAggregateType<T extends RearrangeSentenceExerciseAggregateArgs> = {
+        [P in keyof T & keyof AggregateRearrangeSentenceExercise]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateSentenceOrderingExercise[P]>
-      : GetScalarType<T[P], AggregateSentenceOrderingExercise[P]>
+        : GetScalarType<T[P], AggregateRearrangeSentenceExercise[P]>
+      : GetScalarType<T[P], AggregateRearrangeSentenceExercise[P]>
   }
 
 
 
 
-  export type SentenceOrderingExerciseGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SentenceOrderingExerciseWhereInput
-    orderBy?: SentenceOrderingExerciseOrderByWithAggregationInput | SentenceOrderingExerciseOrderByWithAggregationInput[]
-    by: SentenceOrderingExerciseScalarFieldEnum[] | SentenceOrderingExerciseScalarFieldEnum
-    having?: SentenceOrderingExerciseScalarWhereWithAggregatesInput
+  export type RearrangeSentenceExerciseGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RearrangeSentenceExerciseWhereInput
+    orderBy?: RearrangeSentenceExerciseOrderByWithAggregationInput | RearrangeSentenceExerciseOrderByWithAggregationInput[]
+    by: RearrangeSentenceExerciseScalarFieldEnum[] | RearrangeSentenceExerciseScalarFieldEnum
+    having?: RearrangeSentenceExerciseScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: SentenceOrderingExerciseCountAggregateInputType | true
-    _min?: SentenceOrderingExerciseMinAggregateInputType
-    _max?: SentenceOrderingExerciseMaxAggregateInputType
+    _count?: RearrangeSentenceExerciseCountAggregateInputType | true
+    _min?: RearrangeSentenceExerciseMinAggregateInputType
+    _max?: RearrangeSentenceExerciseMaxAggregateInputType
   }
 
-  export type SentenceOrderingExerciseGroupByOutputType = {
+  export type RearrangeSentenceExerciseGroupByOutputType = {
     id: string
     contentBlockId: string
     contentId: string
@@ -35552,26 +38718,26 @@ export namespace Prisma {
     updatedBy: string
     createdAt: Date
     updatedAt: Date
-    _count: SentenceOrderingExerciseCountAggregateOutputType | null
-    _min: SentenceOrderingExerciseMinAggregateOutputType | null
-    _max: SentenceOrderingExerciseMaxAggregateOutputType | null
+    _count: RearrangeSentenceExerciseCountAggregateOutputType | null
+    _min: RearrangeSentenceExerciseMinAggregateOutputType | null
+    _max: RearrangeSentenceExerciseMaxAggregateOutputType | null
   }
 
-  type GetSentenceOrderingExerciseGroupByPayload<T extends SentenceOrderingExerciseGroupByArgs> = Prisma.PrismaPromise<
+  type GetRearrangeSentenceExerciseGroupByPayload<T extends RearrangeSentenceExerciseGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<SentenceOrderingExerciseGroupByOutputType, T['by']> &
+      PickEnumerable<RearrangeSentenceExerciseGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof SentenceOrderingExerciseGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof RearrangeSentenceExerciseGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], SentenceOrderingExerciseGroupByOutputType[P]>
-            : GetScalarType<T[P], SentenceOrderingExerciseGroupByOutputType[P]>
+              : GetScalarType<T[P], RearrangeSentenceExerciseGroupByOutputType[P]>
+            : GetScalarType<T[P], RearrangeSentenceExerciseGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type SentenceOrderingExerciseSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type RearrangeSentenceExerciseSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     contentBlockId?: boolean
     contentId?: boolean
@@ -35592,9 +38758,9 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["sentenceOrderingExercise"]>
+  }, ExtArgs["result"]["rearrangeSentenceExercise"]>
 
-  export type SentenceOrderingExerciseSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type RearrangeSentenceExerciseSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     contentBlockId?: boolean
     contentId?: boolean
@@ -35615,9 +38781,9 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["sentenceOrderingExercise"]>
+  }, ExtArgs["result"]["rearrangeSentenceExercise"]>
 
-  export type SentenceOrderingExerciseSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type RearrangeSentenceExerciseSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     contentBlockId?: boolean
     contentId?: boolean
@@ -35638,9 +38804,9 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["sentenceOrderingExercise"]>
+  }, ExtArgs["result"]["rearrangeSentenceExercise"]>
 
-  export type SentenceOrderingExerciseSelectScalar = {
+  export type RearrangeSentenceExerciseSelectScalar = {
     id?: boolean
     contentBlockId?: boolean
     contentId?: boolean
@@ -35662,19 +38828,19 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type SentenceOrderingExerciseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "title" | "instruction" | "question" | "answer" | "details" | "documentJson" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["sentenceOrderingExercise"]>
-  export type SentenceOrderingExerciseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RearrangeSentenceExerciseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "title" | "instruction" | "question" | "answer" | "details" | "documentJson" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["rearrangeSentenceExercise"]>
+  export type RearrangeSentenceExerciseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
   }
-  export type SentenceOrderingExerciseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RearrangeSentenceExerciseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
   }
-  export type SentenceOrderingExerciseIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RearrangeSentenceExerciseIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
   }
 
-  export type $SentenceOrderingExercisePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "SentenceOrderingExercise"
+  export type $RearrangeSentenceExercisePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RearrangeSentenceExercise"
     objects: {
       contentBlock: Prisma.$ContentBlockPayload<ExtArgs>
     }
@@ -35698,136 +38864,136 @@ export namespace Prisma {
       updatedBy: string
       createdAt: Date
       updatedAt: Date
-    }, ExtArgs["result"]["sentenceOrderingExercise"]>
+    }, ExtArgs["result"]["rearrangeSentenceExercise"]>
     composites: {}
   }
 
-  type SentenceOrderingExerciseGetPayload<S extends boolean | null | undefined | SentenceOrderingExerciseDefaultArgs> = $Result.GetResult<Prisma.$SentenceOrderingExercisePayload, S>
+  type RearrangeSentenceExerciseGetPayload<S extends boolean | null | undefined | RearrangeSentenceExerciseDefaultArgs> = $Result.GetResult<Prisma.$RearrangeSentenceExercisePayload, S>
 
-  type SentenceOrderingExerciseCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<SentenceOrderingExerciseFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: SentenceOrderingExerciseCountAggregateInputType | true
+  type RearrangeSentenceExerciseCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RearrangeSentenceExerciseFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RearrangeSentenceExerciseCountAggregateInputType | true
     }
 
-  export interface SentenceOrderingExerciseDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SentenceOrderingExercise'], meta: { name: 'SentenceOrderingExercise' } }
+  export interface RearrangeSentenceExerciseDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RearrangeSentenceExercise'], meta: { name: 'RearrangeSentenceExercise' } }
     /**
-     * Find zero or one SentenceOrderingExercise that matches the filter.
-     * @param {SentenceOrderingExerciseFindUniqueArgs} args - Arguments to find a SentenceOrderingExercise
+     * Find zero or one RearrangeSentenceExercise that matches the filter.
+     * @param {RearrangeSentenceExerciseFindUniqueArgs} args - Arguments to find a RearrangeSentenceExercise
      * @example
-     * // Get one SentenceOrderingExercise
-     * const sentenceOrderingExercise = await prisma.sentenceOrderingExercise.findUnique({
+     * // Get one RearrangeSentenceExercise
+     * const rearrangeSentenceExercise = await prisma.rearrangeSentenceExercise.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends SentenceOrderingExerciseFindUniqueArgs>(args: SelectSubset<T, SentenceOrderingExerciseFindUniqueArgs<ExtArgs>>): Prisma__SentenceOrderingExerciseClient<$Result.GetResult<Prisma.$SentenceOrderingExercisePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends RearrangeSentenceExerciseFindUniqueArgs>(args: SelectSubset<T, RearrangeSentenceExerciseFindUniqueArgs<ExtArgs>>): Prisma__RearrangeSentenceExerciseClient<$Result.GetResult<Prisma.$RearrangeSentenceExercisePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one SentenceOrderingExercise that matches the filter or throw an error with `error.code='P2025'`
+     * Find one RearrangeSentenceExercise that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {SentenceOrderingExerciseFindUniqueOrThrowArgs} args - Arguments to find a SentenceOrderingExercise
+     * @param {RearrangeSentenceExerciseFindUniqueOrThrowArgs} args - Arguments to find a RearrangeSentenceExercise
      * @example
-     * // Get one SentenceOrderingExercise
-     * const sentenceOrderingExercise = await prisma.sentenceOrderingExercise.findUniqueOrThrow({
+     * // Get one RearrangeSentenceExercise
+     * const rearrangeSentenceExercise = await prisma.rearrangeSentenceExercise.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends SentenceOrderingExerciseFindUniqueOrThrowArgs>(args: SelectSubset<T, SentenceOrderingExerciseFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SentenceOrderingExerciseClient<$Result.GetResult<Prisma.$SentenceOrderingExercisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends RearrangeSentenceExerciseFindUniqueOrThrowArgs>(args: SelectSubset<T, RearrangeSentenceExerciseFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RearrangeSentenceExerciseClient<$Result.GetResult<Prisma.$RearrangeSentenceExercisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first SentenceOrderingExercise that matches the filter.
+     * Find the first RearrangeSentenceExercise that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SentenceOrderingExerciseFindFirstArgs} args - Arguments to find a SentenceOrderingExercise
+     * @param {RearrangeSentenceExerciseFindFirstArgs} args - Arguments to find a RearrangeSentenceExercise
      * @example
-     * // Get one SentenceOrderingExercise
-     * const sentenceOrderingExercise = await prisma.sentenceOrderingExercise.findFirst({
+     * // Get one RearrangeSentenceExercise
+     * const rearrangeSentenceExercise = await prisma.rearrangeSentenceExercise.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends SentenceOrderingExerciseFindFirstArgs>(args?: SelectSubset<T, SentenceOrderingExerciseFindFirstArgs<ExtArgs>>): Prisma__SentenceOrderingExerciseClient<$Result.GetResult<Prisma.$SentenceOrderingExercisePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends RearrangeSentenceExerciseFindFirstArgs>(args?: SelectSubset<T, RearrangeSentenceExerciseFindFirstArgs<ExtArgs>>): Prisma__RearrangeSentenceExerciseClient<$Result.GetResult<Prisma.$RearrangeSentenceExercisePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first SentenceOrderingExercise that matches the filter or
+     * Find the first RearrangeSentenceExercise that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SentenceOrderingExerciseFindFirstOrThrowArgs} args - Arguments to find a SentenceOrderingExercise
+     * @param {RearrangeSentenceExerciseFindFirstOrThrowArgs} args - Arguments to find a RearrangeSentenceExercise
      * @example
-     * // Get one SentenceOrderingExercise
-     * const sentenceOrderingExercise = await prisma.sentenceOrderingExercise.findFirstOrThrow({
+     * // Get one RearrangeSentenceExercise
+     * const rearrangeSentenceExercise = await prisma.rearrangeSentenceExercise.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends SentenceOrderingExerciseFindFirstOrThrowArgs>(args?: SelectSubset<T, SentenceOrderingExerciseFindFirstOrThrowArgs<ExtArgs>>): Prisma__SentenceOrderingExerciseClient<$Result.GetResult<Prisma.$SentenceOrderingExercisePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends RearrangeSentenceExerciseFindFirstOrThrowArgs>(args?: SelectSubset<T, RearrangeSentenceExerciseFindFirstOrThrowArgs<ExtArgs>>): Prisma__RearrangeSentenceExerciseClient<$Result.GetResult<Prisma.$RearrangeSentenceExercisePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more SentenceOrderingExercises that matches the filter.
+     * Find zero or more RearrangeSentenceExercises that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SentenceOrderingExerciseFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {RearrangeSentenceExerciseFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all SentenceOrderingExercises
-     * const sentenceOrderingExercises = await prisma.sentenceOrderingExercise.findMany()
+     * // Get all RearrangeSentenceExercises
+     * const rearrangeSentenceExercises = await prisma.rearrangeSentenceExercise.findMany()
      * 
-     * // Get first 10 SentenceOrderingExercises
-     * const sentenceOrderingExercises = await prisma.sentenceOrderingExercise.findMany({ take: 10 })
+     * // Get first 10 RearrangeSentenceExercises
+     * const rearrangeSentenceExercises = await prisma.rearrangeSentenceExercise.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const sentenceOrderingExerciseWithIdOnly = await prisma.sentenceOrderingExercise.findMany({ select: { id: true } })
+     * const rearrangeSentenceExerciseWithIdOnly = await prisma.rearrangeSentenceExercise.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends SentenceOrderingExerciseFindManyArgs>(args?: SelectSubset<T, SentenceOrderingExerciseFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SentenceOrderingExercisePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends RearrangeSentenceExerciseFindManyArgs>(args?: SelectSubset<T, RearrangeSentenceExerciseFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RearrangeSentenceExercisePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a SentenceOrderingExercise.
-     * @param {SentenceOrderingExerciseCreateArgs} args - Arguments to create a SentenceOrderingExercise.
+     * Create a RearrangeSentenceExercise.
+     * @param {RearrangeSentenceExerciseCreateArgs} args - Arguments to create a RearrangeSentenceExercise.
      * @example
-     * // Create one SentenceOrderingExercise
-     * const SentenceOrderingExercise = await prisma.sentenceOrderingExercise.create({
+     * // Create one RearrangeSentenceExercise
+     * const RearrangeSentenceExercise = await prisma.rearrangeSentenceExercise.create({
      *   data: {
-     *     // ... data to create a SentenceOrderingExercise
+     *     // ... data to create a RearrangeSentenceExercise
      *   }
      * })
      * 
      */
-    create<T extends SentenceOrderingExerciseCreateArgs>(args: SelectSubset<T, SentenceOrderingExerciseCreateArgs<ExtArgs>>): Prisma__SentenceOrderingExerciseClient<$Result.GetResult<Prisma.$SentenceOrderingExercisePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends RearrangeSentenceExerciseCreateArgs>(args: SelectSubset<T, RearrangeSentenceExerciseCreateArgs<ExtArgs>>): Prisma__RearrangeSentenceExerciseClient<$Result.GetResult<Prisma.$RearrangeSentenceExercisePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many SentenceOrderingExercises.
-     * @param {SentenceOrderingExerciseCreateManyArgs} args - Arguments to create many SentenceOrderingExercises.
+     * Create many RearrangeSentenceExercises.
+     * @param {RearrangeSentenceExerciseCreateManyArgs} args - Arguments to create many RearrangeSentenceExercises.
      * @example
-     * // Create many SentenceOrderingExercises
-     * const sentenceOrderingExercise = await prisma.sentenceOrderingExercise.createMany({
+     * // Create many RearrangeSentenceExercises
+     * const rearrangeSentenceExercise = await prisma.rearrangeSentenceExercise.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends SentenceOrderingExerciseCreateManyArgs>(args?: SelectSubset<T, SentenceOrderingExerciseCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends RearrangeSentenceExerciseCreateManyArgs>(args?: SelectSubset<T, RearrangeSentenceExerciseCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many SentenceOrderingExercises and returns the data saved in the database.
-     * @param {SentenceOrderingExerciseCreateManyAndReturnArgs} args - Arguments to create many SentenceOrderingExercises.
+     * Create many RearrangeSentenceExercises and returns the data saved in the database.
+     * @param {RearrangeSentenceExerciseCreateManyAndReturnArgs} args - Arguments to create many RearrangeSentenceExercises.
      * @example
-     * // Create many SentenceOrderingExercises
-     * const sentenceOrderingExercise = await prisma.sentenceOrderingExercise.createManyAndReturn({
+     * // Create many RearrangeSentenceExercises
+     * const rearrangeSentenceExercise = await prisma.rearrangeSentenceExercise.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many SentenceOrderingExercises and only return the `id`
-     * const sentenceOrderingExerciseWithIdOnly = await prisma.sentenceOrderingExercise.createManyAndReturn({
+     * // Create many RearrangeSentenceExercises and only return the `id`
+     * const rearrangeSentenceExerciseWithIdOnly = await prisma.rearrangeSentenceExercise.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -35837,28 +39003,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends SentenceOrderingExerciseCreateManyAndReturnArgs>(args?: SelectSubset<T, SentenceOrderingExerciseCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SentenceOrderingExercisePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends RearrangeSentenceExerciseCreateManyAndReturnArgs>(args?: SelectSubset<T, RearrangeSentenceExerciseCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RearrangeSentenceExercisePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a SentenceOrderingExercise.
-     * @param {SentenceOrderingExerciseDeleteArgs} args - Arguments to delete one SentenceOrderingExercise.
+     * Delete a RearrangeSentenceExercise.
+     * @param {RearrangeSentenceExerciseDeleteArgs} args - Arguments to delete one RearrangeSentenceExercise.
      * @example
-     * // Delete one SentenceOrderingExercise
-     * const SentenceOrderingExercise = await prisma.sentenceOrderingExercise.delete({
+     * // Delete one RearrangeSentenceExercise
+     * const RearrangeSentenceExercise = await prisma.rearrangeSentenceExercise.delete({
      *   where: {
-     *     // ... filter to delete one SentenceOrderingExercise
+     *     // ... filter to delete one RearrangeSentenceExercise
      *   }
      * })
      * 
      */
-    delete<T extends SentenceOrderingExerciseDeleteArgs>(args: SelectSubset<T, SentenceOrderingExerciseDeleteArgs<ExtArgs>>): Prisma__SentenceOrderingExerciseClient<$Result.GetResult<Prisma.$SentenceOrderingExercisePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends RearrangeSentenceExerciseDeleteArgs>(args: SelectSubset<T, RearrangeSentenceExerciseDeleteArgs<ExtArgs>>): Prisma__RearrangeSentenceExerciseClient<$Result.GetResult<Prisma.$RearrangeSentenceExercisePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one SentenceOrderingExercise.
-     * @param {SentenceOrderingExerciseUpdateArgs} args - Arguments to update one SentenceOrderingExercise.
+     * Update one RearrangeSentenceExercise.
+     * @param {RearrangeSentenceExerciseUpdateArgs} args - Arguments to update one RearrangeSentenceExercise.
      * @example
-     * // Update one SentenceOrderingExercise
-     * const sentenceOrderingExercise = await prisma.sentenceOrderingExercise.update({
+     * // Update one RearrangeSentenceExercise
+     * const rearrangeSentenceExercise = await prisma.rearrangeSentenceExercise.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -35868,30 +39034,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends SentenceOrderingExerciseUpdateArgs>(args: SelectSubset<T, SentenceOrderingExerciseUpdateArgs<ExtArgs>>): Prisma__SentenceOrderingExerciseClient<$Result.GetResult<Prisma.$SentenceOrderingExercisePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends RearrangeSentenceExerciseUpdateArgs>(args: SelectSubset<T, RearrangeSentenceExerciseUpdateArgs<ExtArgs>>): Prisma__RearrangeSentenceExerciseClient<$Result.GetResult<Prisma.$RearrangeSentenceExercisePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more SentenceOrderingExercises.
-     * @param {SentenceOrderingExerciseDeleteManyArgs} args - Arguments to filter SentenceOrderingExercises to delete.
+     * Delete zero or more RearrangeSentenceExercises.
+     * @param {RearrangeSentenceExerciseDeleteManyArgs} args - Arguments to filter RearrangeSentenceExercises to delete.
      * @example
-     * // Delete a few SentenceOrderingExercises
-     * const { count } = await prisma.sentenceOrderingExercise.deleteMany({
+     * // Delete a few RearrangeSentenceExercises
+     * const { count } = await prisma.rearrangeSentenceExercise.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends SentenceOrderingExerciseDeleteManyArgs>(args?: SelectSubset<T, SentenceOrderingExerciseDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends RearrangeSentenceExerciseDeleteManyArgs>(args?: SelectSubset<T, RearrangeSentenceExerciseDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more SentenceOrderingExercises.
+     * Update zero or more RearrangeSentenceExercises.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SentenceOrderingExerciseUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {RearrangeSentenceExerciseUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many SentenceOrderingExercises
-     * const sentenceOrderingExercise = await prisma.sentenceOrderingExercise.updateMany({
+     * // Update many RearrangeSentenceExercises
+     * const rearrangeSentenceExercise = await prisma.rearrangeSentenceExercise.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -35901,14 +39067,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends SentenceOrderingExerciseUpdateManyArgs>(args: SelectSubset<T, SentenceOrderingExerciseUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends RearrangeSentenceExerciseUpdateManyArgs>(args: SelectSubset<T, RearrangeSentenceExerciseUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more SentenceOrderingExercises and returns the data updated in the database.
-     * @param {SentenceOrderingExerciseUpdateManyAndReturnArgs} args - Arguments to update many SentenceOrderingExercises.
+     * Update zero or more RearrangeSentenceExercises and returns the data updated in the database.
+     * @param {RearrangeSentenceExerciseUpdateManyAndReturnArgs} args - Arguments to update many RearrangeSentenceExercises.
      * @example
-     * // Update many SentenceOrderingExercises
-     * const sentenceOrderingExercise = await prisma.sentenceOrderingExercise.updateManyAndReturn({
+     * // Update many RearrangeSentenceExercises
+     * const rearrangeSentenceExercise = await prisma.rearrangeSentenceExercise.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -35917,8 +39083,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more SentenceOrderingExercises and only return the `id`
-     * const sentenceOrderingExerciseWithIdOnly = await prisma.sentenceOrderingExercise.updateManyAndReturn({
+     * // Update zero or more RearrangeSentenceExercises and only return the `id`
+     * const rearrangeSentenceExerciseWithIdOnly = await prisma.rearrangeSentenceExercise.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -35931,56 +39097,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends SentenceOrderingExerciseUpdateManyAndReturnArgs>(args: SelectSubset<T, SentenceOrderingExerciseUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SentenceOrderingExercisePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends RearrangeSentenceExerciseUpdateManyAndReturnArgs>(args: SelectSubset<T, RearrangeSentenceExerciseUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RearrangeSentenceExercisePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one SentenceOrderingExercise.
-     * @param {SentenceOrderingExerciseUpsertArgs} args - Arguments to update or create a SentenceOrderingExercise.
+     * Create or update one RearrangeSentenceExercise.
+     * @param {RearrangeSentenceExerciseUpsertArgs} args - Arguments to update or create a RearrangeSentenceExercise.
      * @example
-     * // Update or create a SentenceOrderingExercise
-     * const sentenceOrderingExercise = await prisma.sentenceOrderingExercise.upsert({
+     * // Update or create a RearrangeSentenceExercise
+     * const rearrangeSentenceExercise = await prisma.rearrangeSentenceExercise.upsert({
      *   create: {
-     *     // ... data to create a SentenceOrderingExercise
+     *     // ... data to create a RearrangeSentenceExercise
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the SentenceOrderingExercise we want to update
+     *     // ... the filter for the RearrangeSentenceExercise we want to update
      *   }
      * })
      */
-    upsert<T extends SentenceOrderingExerciseUpsertArgs>(args: SelectSubset<T, SentenceOrderingExerciseUpsertArgs<ExtArgs>>): Prisma__SentenceOrderingExerciseClient<$Result.GetResult<Prisma.$SentenceOrderingExercisePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends RearrangeSentenceExerciseUpsertArgs>(args: SelectSubset<T, RearrangeSentenceExerciseUpsertArgs<ExtArgs>>): Prisma__RearrangeSentenceExerciseClient<$Result.GetResult<Prisma.$RearrangeSentenceExercisePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of SentenceOrderingExercises.
+     * Count the number of RearrangeSentenceExercises.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SentenceOrderingExerciseCountArgs} args - Arguments to filter SentenceOrderingExercises to count.
+     * @param {RearrangeSentenceExerciseCountArgs} args - Arguments to filter RearrangeSentenceExercises to count.
      * @example
-     * // Count the number of SentenceOrderingExercises
-     * const count = await prisma.sentenceOrderingExercise.count({
+     * // Count the number of RearrangeSentenceExercises
+     * const count = await prisma.rearrangeSentenceExercise.count({
      *   where: {
-     *     // ... the filter for the SentenceOrderingExercises we want to count
+     *     // ... the filter for the RearrangeSentenceExercises we want to count
      *   }
      * })
     **/
-    count<T extends SentenceOrderingExerciseCountArgs>(
-      args?: Subset<T, SentenceOrderingExerciseCountArgs>,
+    count<T extends RearrangeSentenceExerciseCountArgs>(
+      args?: Subset<T, RearrangeSentenceExerciseCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], SentenceOrderingExerciseCountAggregateOutputType>
+          : GetScalarType<T['select'], RearrangeSentenceExerciseCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a SentenceOrderingExercise.
+     * Allows you to perform aggregations operations on a RearrangeSentenceExercise.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SentenceOrderingExerciseAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {RearrangeSentenceExerciseAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -36000,13 +39166,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends SentenceOrderingExerciseAggregateArgs>(args: Subset<T, SentenceOrderingExerciseAggregateArgs>): Prisma.PrismaPromise<GetSentenceOrderingExerciseAggregateType<T>>
+    aggregate<T extends RearrangeSentenceExerciseAggregateArgs>(args: Subset<T, RearrangeSentenceExerciseAggregateArgs>): Prisma.PrismaPromise<GetRearrangeSentenceExerciseAggregateType<T>>
 
     /**
-     * Group by SentenceOrderingExercise.
+     * Group by RearrangeSentenceExercise.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SentenceOrderingExerciseGroupByArgs} args - Group by arguments.
+     * @param {RearrangeSentenceExerciseGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -36021,14 +39187,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends SentenceOrderingExerciseGroupByArgs,
+      T extends RearrangeSentenceExerciseGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: SentenceOrderingExerciseGroupByArgs['orderBy'] }
-        : { orderBy?: SentenceOrderingExerciseGroupByArgs['orderBy'] },
+        ? { orderBy: RearrangeSentenceExerciseGroupByArgs['orderBy'] }
+        : { orderBy?: RearrangeSentenceExerciseGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -36077,20 +39243,20 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, SentenceOrderingExerciseGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSentenceOrderingExerciseGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, RearrangeSentenceExerciseGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRearrangeSentenceExerciseGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the SentenceOrderingExercise model
+   * Fields of the RearrangeSentenceExercise model
    */
-  readonly fields: SentenceOrderingExerciseFieldRefs;
+  readonly fields: RearrangeSentenceExerciseFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for SentenceOrderingExercise.
+   * The delegate class that acts as a "Promise-like" for RearrangeSentenceExercise.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__SentenceOrderingExerciseClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__RearrangeSentenceExerciseClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     contentBlock<T extends ContentBlockDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlockDefaultArgs<ExtArgs>>): Prisma__ContentBlockClient<$Result.GetResult<Prisma.$ContentBlockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
@@ -36119,437 +39285,2913 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the SentenceOrderingExercise model
+   * Fields of the RearrangeSentenceExercise model
    */
-  interface SentenceOrderingExerciseFieldRefs {
-    readonly id: FieldRef<"SentenceOrderingExercise", 'String'>
-    readonly contentBlockId: FieldRef<"SentenceOrderingExercise", 'String'>
-    readonly contentId: FieldRef<"SentenceOrderingExercise", 'String'>
-    readonly classId: FieldRef<"SentenceOrderingExercise", 'String'>
-    readonly subjectId: FieldRef<"SentenceOrderingExercise", 'String'>
-    readonly unitId: FieldRef<"SentenceOrderingExercise", 'String'>
-    readonly lessonId: FieldRef<"SentenceOrderingExercise", 'String'>
-    readonly topicId: FieldRef<"SentenceOrderingExercise", 'String'>
-    readonly title: FieldRef<"SentenceOrderingExercise", 'String'>
-    readonly instruction: FieldRef<"SentenceOrderingExercise", 'String'>
-    readonly question: FieldRef<"SentenceOrderingExercise", 'String'>
-    readonly answer: FieldRef<"SentenceOrderingExercise", 'String'>
-    readonly details: FieldRef<"SentenceOrderingExercise", 'String'>
-    readonly documentJson: FieldRef<"SentenceOrderingExercise", 'String'>
-    readonly organizationId: FieldRef<"SentenceOrderingExercise", 'String'>
-    readonly createdBy: FieldRef<"SentenceOrderingExercise", 'String'>
-    readonly updatedBy: FieldRef<"SentenceOrderingExercise", 'String'>
-    readonly createdAt: FieldRef<"SentenceOrderingExercise", 'DateTime'>
-    readonly updatedAt: FieldRef<"SentenceOrderingExercise", 'DateTime'>
+  interface RearrangeSentenceExerciseFieldRefs {
+    readonly id: FieldRef<"RearrangeSentenceExercise", 'String'>
+    readonly contentBlockId: FieldRef<"RearrangeSentenceExercise", 'String'>
+    readonly contentId: FieldRef<"RearrangeSentenceExercise", 'String'>
+    readonly classId: FieldRef<"RearrangeSentenceExercise", 'String'>
+    readonly subjectId: FieldRef<"RearrangeSentenceExercise", 'String'>
+    readonly unitId: FieldRef<"RearrangeSentenceExercise", 'String'>
+    readonly lessonId: FieldRef<"RearrangeSentenceExercise", 'String'>
+    readonly topicId: FieldRef<"RearrangeSentenceExercise", 'String'>
+    readonly title: FieldRef<"RearrangeSentenceExercise", 'String'>
+    readonly instruction: FieldRef<"RearrangeSentenceExercise", 'String'>
+    readonly question: FieldRef<"RearrangeSentenceExercise", 'String'>
+    readonly answer: FieldRef<"RearrangeSentenceExercise", 'String'>
+    readonly details: FieldRef<"RearrangeSentenceExercise", 'String'>
+    readonly documentJson: FieldRef<"RearrangeSentenceExercise", 'String'>
+    readonly organizationId: FieldRef<"RearrangeSentenceExercise", 'String'>
+    readonly createdBy: FieldRef<"RearrangeSentenceExercise", 'String'>
+    readonly updatedBy: FieldRef<"RearrangeSentenceExercise", 'String'>
+    readonly createdAt: FieldRef<"RearrangeSentenceExercise", 'DateTime'>
+    readonly updatedAt: FieldRef<"RearrangeSentenceExercise", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * SentenceOrderingExercise findUnique
+   * RearrangeSentenceExercise findUnique
    */
-  export type SentenceOrderingExerciseFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RearrangeSentenceExerciseFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SentenceOrderingExercise
+     * Select specific fields to fetch from the RearrangeSentenceExercise
      */
-    select?: SentenceOrderingExerciseSelect<ExtArgs> | null
+    select?: RearrangeSentenceExerciseSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SentenceOrderingExercise
+     * Omit specific fields from the RearrangeSentenceExercise
      */
-    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    omit?: RearrangeSentenceExerciseOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SentenceOrderingExerciseInclude<ExtArgs> | null
+    include?: RearrangeSentenceExerciseInclude<ExtArgs> | null
     /**
-     * Filter, which SentenceOrderingExercise to fetch.
+     * Filter, which RearrangeSentenceExercise to fetch.
      */
-    where: SentenceOrderingExerciseWhereUniqueInput
+    where: RearrangeSentenceExerciseWhereUniqueInput
   }
 
   /**
-   * SentenceOrderingExercise findUniqueOrThrow
+   * RearrangeSentenceExercise findUniqueOrThrow
    */
-  export type SentenceOrderingExerciseFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RearrangeSentenceExerciseFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SentenceOrderingExercise
+     * Select specific fields to fetch from the RearrangeSentenceExercise
      */
-    select?: SentenceOrderingExerciseSelect<ExtArgs> | null
+    select?: RearrangeSentenceExerciseSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SentenceOrderingExercise
+     * Omit specific fields from the RearrangeSentenceExercise
      */
-    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    omit?: RearrangeSentenceExerciseOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SentenceOrderingExerciseInclude<ExtArgs> | null
+    include?: RearrangeSentenceExerciseInclude<ExtArgs> | null
     /**
-     * Filter, which SentenceOrderingExercise to fetch.
+     * Filter, which RearrangeSentenceExercise to fetch.
      */
-    where: SentenceOrderingExerciseWhereUniqueInput
+    where: RearrangeSentenceExerciseWhereUniqueInput
   }
 
   /**
-   * SentenceOrderingExercise findFirst
+   * RearrangeSentenceExercise findFirst
    */
-  export type SentenceOrderingExerciseFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RearrangeSentenceExerciseFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SentenceOrderingExercise
+     * Select specific fields to fetch from the RearrangeSentenceExercise
      */
-    select?: SentenceOrderingExerciseSelect<ExtArgs> | null
+    select?: RearrangeSentenceExerciseSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SentenceOrderingExercise
+     * Omit specific fields from the RearrangeSentenceExercise
      */
-    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    omit?: RearrangeSentenceExerciseOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SentenceOrderingExerciseInclude<ExtArgs> | null
+    include?: RearrangeSentenceExerciseInclude<ExtArgs> | null
     /**
-     * Filter, which SentenceOrderingExercise to fetch.
+     * Filter, which RearrangeSentenceExercise to fetch.
      */
-    where?: SentenceOrderingExerciseWhereInput
+    where?: RearrangeSentenceExerciseWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of SentenceOrderingExercises to fetch.
+     * Determine the order of RearrangeSentenceExercises to fetch.
      */
-    orderBy?: SentenceOrderingExerciseOrderByWithRelationInput | SentenceOrderingExerciseOrderByWithRelationInput[]
+    orderBy?: RearrangeSentenceExerciseOrderByWithRelationInput | RearrangeSentenceExerciseOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for SentenceOrderingExercises.
+     * Sets the position for searching for RearrangeSentenceExercises.
      */
-    cursor?: SentenceOrderingExerciseWhereUniqueInput
+    cursor?: RearrangeSentenceExerciseWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` SentenceOrderingExercises from the position of the cursor.
+     * Take `±n` RearrangeSentenceExercises from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` SentenceOrderingExercises.
+     * Skip the first `n` RearrangeSentenceExercises.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of SentenceOrderingExercises.
+     * Filter by unique combinations of RearrangeSentenceExercises.
      */
-    distinct?: SentenceOrderingExerciseScalarFieldEnum | SentenceOrderingExerciseScalarFieldEnum[]
+    distinct?: RearrangeSentenceExerciseScalarFieldEnum | RearrangeSentenceExerciseScalarFieldEnum[]
   }
 
   /**
-   * SentenceOrderingExercise findFirstOrThrow
+   * RearrangeSentenceExercise findFirstOrThrow
    */
-  export type SentenceOrderingExerciseFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RearrangeSentenceExerciseFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SentenceOrderingExercise
+     * Select specific fields to fetch from the RearrangeSentenceExercise
      */
-    select?: SentenceOrderingExerciseSelect<ExtArgs> | null
+    select?: RearrangeSentenceExerciseSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SentenceOrderingExercise
+     * Omit specific fields from the RearrangeSentenceExercise
      */
-    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    omit?: RearrangeSentenceExerciseOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SentenceOrderingExerciseInclude<ExtArgs> | null
+    include?: RearrangeSentenceExerciseInclude<ExtArgs> | null
     /**
-     * Filter, which SentenceOrderingExercise to fetch.
+     * Filter, which RearrangeSentenceExercise to fetch.
      */
-    where?: SentenceOrderingExerciseWhereInput
+    where?: RearrangeSentenceExerciseWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of SentenceOrderingExercises to fetch.
+     * Determine the order of RearrangeSentenceExercises to fetch.
      */
-    orderBy?: SentenceOrderingExerciseOrderByWithRelationInput | SentenceOrderingExerciseOrderByWithRelationInput[]
+    orderBy?: RearrangeSentenceExerciseOrderByWithRelationInput | RearrangeSentenceExerciseOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for SentenceOrderingExercises.
+     * Sets the position for searching for RearrangeSentenceExercises.
      */
-    cursor?: SentenceOrderingExerciseWhereUniqueInput
+    cursor?: RearrangeSentenceExerciseWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` SentenceOrderingExercises from the position of the cursor.
+     * Take `±n` RearrangeSentenceExercises from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` SentenceOrderingExercises.
+     * Skip the first `n` RearrangeSentenceExercises.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of SentenceOrderingExercises.
+     * Filter by unique combinations of RearrangeSentenceExercises.
      */
-    distinct?: SentenceOrderingExerciseScalarFieldEnum | SentenceOrderingExerciseScalarFieldEnum[]
+    distinct?: RearrangeSentenceExerciseScalarFieldEnum | RearrangeSentenceExerciseScalarFieldEnum[]
   }
 
   /**
-   * SentenceOrderingExercise findMany
+   * RearrangeSentenceExercise findMany
    */
-  export type SentenceOrderingExerciseFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RearrangeSentenceExerciseFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SentenceOrderingExercise
+     * Select specific fields to fetch from the RearrangeSentenceExercise
      */
-    select?: SentenceOrderingExerciseSelect<ExtArgs> | null
+    select?: RearrangeSentenceExerciseSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SentenceOrderingExercise
+     * Omit specific fields from the RearrangeSentenceExercise
      */
-    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    omit?: RearrangeSentenceExerciseOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SentenceOrderingExerciseInclude<ExtArgs> | null
+    include?: RearrangeSentenceExerciseInclude<ExtArgs> | null
     /**
-     * Filter, which SentenceOrderingExercises to fetch.
+     * Filter, which RearrangeSentenceExercises to fetch.
      */
-    where?: SentenceOrderingExerciseWhereInput
+    where?: RearrangeSentenceExerciseWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of SentenceOrderingExercises to fetch.
+     * Determine the order of RearrangeSentenceExercises to fetch.
      */
-    orderBy?: SentenceOrderingExerciseOrderByWithRelationInput | SentenceOrderingExerciseOrderByWithRelationInput[]
+    orderBy?: RearrangeSentenceExerciseOrderByWithRelationInput | RearrangeSentenceExerciseOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing SentenceOrderingExercises.
+     * Sets the position for listing RearrangeSentenceExercises.
      */
-    cursor?: SentenceOrderingExerciseWhereUniqueInput
+    cursor?: RearrangeSentenceExerciseWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` SentenceOrderingExercises from the position of the cursor.
+     * Take `±n` RearrangeSentenceExercises from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` SentenceOrderingExercises.
+     * Skip the first `n` RearrangeSentenceExercises.
      */
     skip?: number
-    distinct?: SentenceOrderingExerciseScalarFieldEnum | SentenceOrderingExerciseScalarFieldEnum[]
+    distinct?: RearrangeSentenceExerciseScalarFieldEnum | RearrangeSentenceExerciseScalarFieldEnum[]
   }
 
   /**
-   * SentenceOrderingExercise create
+   * RearrangeSentenceExercise create
    */
-  export type SentenceOrderingExerciseCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RearrangeSentenceExerciseCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SentenceOrderingExercise
+     * Select specific fields to fetch from the RearrangeSentenceExercise
      */
-    select?: SentenceOrderingExerciseSelect<ExtArgs> | null
+    select?: RearrangeSentenceExerciseSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SentenceOrderingExercise
+     * Omit specific fields from the RearrangeSentenceExercise
      */
-    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    omit?: RearrangeSentenceExerciseOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SentenceOrderingExerciseInclude<ExtArgs> | null
+    include?: RearrangeSentenceExerciseInclude<ExtArgs> | null
     /**
-     * The data needed to create a SentenceOrderingExercise.
+     * The data needed to create a RearrangeSentenceExercise.
      */
-    data: XOR<SentenceOrderingExerciseCreateInput, SentenceOrderingExerciseUncheckedCreateInput>
+    data: XOR<RearrangeSentenceExerciseCreateInput, RearrangeSentenceExerciseUncheckedCreateInput>
   }
 
   /**
-   * SentenceOrderingExercise createMany
+   * RearrangeSentenceExercise createMany
    */
-  export type SentenceOrderingExerciseCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RearrangeSentenceExerciseCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many SentenceOrderingExercises.
+     * The data used to create many RearrangeSentenceExercises.
      */
-    data: SentenceOrderingExerciseCreateManyInput | SentenceOrderingExerciseCreateManyInput[]
+    data: RearrangeSentenceExerciseCreateManyInput | RearrangeSentenceExerciseCreateManyInput[]
   }
 
   /**
-   * SentenceOrderingExercise createManyAndReturn
+   * RearrangeSentenceExercise createManyAndReturn
    */
-  export type SentenceOrderingExerciseCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RearrangeSentenceExerciseCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SentenceOrderingExercise
+     * Select specific fields to fetch from the RearrangeSentenceExercise
      */
-    select?: SentenceOrderingExerciseSelectCreateManyAndReturn<ExtArgs> | null
+    select?: RearrangeSentenceExerciseSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the SentenceOrderingExercise
+     * Omit specific fields from the RearrangeSentenceExercise
      */
-    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    omit?: RearrangeSentenceExerciseOmit<ExtArgs> | null
     /**
-     * The data used to create many SentenceOrderingExercises.
+     * The data used to create many RearrangeSentenceExercises.
      */
-    data: SentenceOrderingExerciseCreateManyInput | SentenceOrderingExerciseCreateManyInput[]
+    data: RearrangeSentenceExerciseCreateManyInput | RearrangeSentenceExerciseCreateManyInput[]
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SentenceOrderingExerciseIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: RearrangeSentenceExerciseIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * SentenceOrderingExercise update
+   * RearrangeSentenceExercise update
    */
-  export type SentenceOrderingExerciseUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RearrangeSentenceExerciseUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SentenceOrderingExercise
+     * Select specific fields to fetch from the RearrangeSentenceExercise
      */
-    select?: SentenceOrderingExerciseSelect<ExtArgs> | null
+    select?: RearrangeSentenceExerciseSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SentenceOrderingExercise
+     * Omit specific fields from the RearrangeSentenceExercise
      */
-    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    omit?: RearrangeSentenceExerciseOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SentenceOrderingExerciseInclude<ExtArgs> | null
+    include?: RearrangeSentenceExerciseInclude<ExtArgs> | null
     /**
-     * The data needed to update a SentenceOrderingExercise.
+     * The data needed to update a RearrangeSentenceExercise.
      */
-    data: XOR<SentenceOrderingExerciseUpdateInput, SentenceOrderingExerciseUncheckedUpdateInput>
+    data: XOR<RearrangeSentenceExerciseUpdateInput, RearrangeSentenceExerciseUncheckedUpdateInput>
     /**
-     * Choose, which SentenceOrderingExercise to update.
+     * Choose, which RearrangeSentenceExercise to update.
      */
-    where: SentenceOrderingExerciseWhereUniqueInput
+    where: RearrangeSentenceExerciseWhereUniqueInput
   }
 
   /**
-   * SentenceOrderingExercise updateMany
+   * RearrangeSentenceExercise updateMany
    */
-  export type SentenceOrderingExerciseUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RearrangeSentenceExerciseUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update SentenceOrderingExercises.
+     * The data used to update RearrangeSentenceExercises.
      */
-    data: XOR<SentenceOrderingExerciseUpdateManyMutationInput, SentenceOrderingExerciseUncheckedUpdateManyInput>
+    data: XOR<RearrangeSentenceExerciseUpdateManyMutationInput, RearrangeSentenceExerciseUncheckedUpdateManyInput>
     /**
-     * Filter which SentenceOrderingExercises to update
+     * Filter which RearrangeSentenceExercises to update
      */
-    where?: SentenceOrderingExerciseWhereInput
+    where?: RearrangeSentenceExerciseWhereInput
     /**
-     * Limit how many SentenceOrderingExercises to update.
+     * Limit how many RearrangeSentenceExercises to update.
      */
     limit?: number
   }
 
   /**
-   * SentenceOrderingExercise updateManyAndReturn
+   * RearrangeSentenceExercise updateManyAndReturn
    */
-  export type SentenceOrderingExerciseUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RearrangeSentenceExerciseUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SentenceOrderingExercise
+     * Select specific fields to fetch from the RearrangeSentenceExercise
      */
-    select?: SentenceOrderingExerciseSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: RearrangeSentenceExerciseSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the SentenceOrderingExercise
+     * Omit specific fields from the RearrangeSentenceExercise
      */
-    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    omit?: RearrangeSentenceExerciseOmit<ExtArgs> | null
     /**
-     * The data used to update SentenceOrderingExercises.
+     * The data used to update RearrangeSentenceExercises.
      */
-    data: XOR<SentenceOrderingExerciseUpdateManyMutationInput, SentenceOrderingExerciseUncheckedUpdateManyInput>
+    data: XOR<RearrangeSentenceExerciseUpdateManyMutationInput, RearrangeSentenceExerciseUncheckedUpdateManyInput>
     /**
-     * Filter which SentenceOrderingExercises to update
+     * Filter which RearrangeSentenceExercises to update
      */
-    where?: SentenceOrderingExerciseWhereInput
+    where?: RearrangeSentenceExerciseWhereInput
     /**
-     * Limit how many SentenceOrderingExercises to update.
+     * Limit how many RearrangeSentenceExercises to update.
      */
     limit?: number
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SentenceOrderingExerciseIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: RearrangeSentenceExerciseIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * SentenceOrderingExercise upsert
+   * RearrangeSentenceExercise upsert
    */
-  export type SentenceOrderingExerciseUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RearrangeSentenceExerciseUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SentenceOrderingExercise
+     * Select specific fields to fetch from the RearrangeSentenceExercise
      */
-    select?: SentenceOrderingExerciseSelect<ExtArgs> | null
+    select?: RearrangeSentenceExerciseSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SentenceOrderingExercise
+     * Omit specific fields from the RearrangeSentenceExercise
      */
-    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    omit?: RearrangeSentenceExerciseOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SentenceOrderingExerciseInclude<ExtArgs> | null
+    include?: RearrangeSentenceExerciseInclude<ExtArgs> | null
     /**
-     * The filter to search for the SentenceOrderingExercise to update in case it exists.
+     * The filter to search for the RearrangeSentenceExercise to update in case it exists.
      */
-    where: SentenceOrderingExerciseWhereUniqueInput
+    where: RearrangeSentenceExerciseWhereUniqueInput
     /**
-     * In case the SentenceOrderingExercise found by the `where` argument doesn't exist, create a new SentenceOrderingExercise with this data.
+     * In case the RearrangeSentenceExercise found by the `where` argument doesn't exist, create a new RearrangeSentenceExercise with this data.
      */
-    create: XOR<SentenceOrderingExerciseCreateInput, SentenceOrderingExerciseUncheckedCreateInput>
+    create: XOR<RearrangeSentenceExerciseCreateInput, RearrangeSentenceExerciseUncheckedCreateInput>
     /**
-     * In case the SentenceOrderingExercise was found with the provided `where` argument, update it with this data.
+     * In case the RearrangeSentenceExercise was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<SentenceOrderingExerciseUpdateInput, SentenceOrderingExerciseUncheckedUpdateInput>
+    update: XOR<RearrangeSentenceExerciseUpdateInput, RearrangeSentenceExerciseUncheckedUpdateInput>
   }
 
   /**
-   * SentenceOrderingExercise delete
+   * RearrangeSentenceExercise delete
    */
-  export type SentenceOrderingExerciseDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RearrangeSentenceExerciseDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SentenceOrderingExercise
+     * Select specific fields to fetch from the RearrangeSentenceExercise
      */
-    select?: SentenceOrderingExerciseSelect<ExtArgs> | null
+    select?: RearrangeSentenceExerciseSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SentenceOrderingExercise
+     * Omit specific fields from the RearrangeSentenceExercise
      */
-    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    omit?: RearrangeSentenceExerciseOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SentenceOrderingExerciseInclude<ExtArgs> | null
+    include?: RearrangeSentenceExerciseInclude<ExtArgs> | null
     /**
-     * Filter which SentenceOrderingExercise to delete.
+     * Filter which RearrangeSentenceExercise to delete.
      */
-    where: SentenceOrderingExerciseWhereUniqueInput
+    where: RearrangeSentenceExerciseWhereUniqueInput
   }
 
   /**
-   * SentenceOrderingExercise deleteMany
+   * RearrangeSentenceExercise deleteMany
    */
-  export type SentenceOrderingExerciseDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RearrangeSentenceExerciseDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which SentenceOrderingExercises to delete
+     * Filter which RearrangeSentenceExercises to delete
      */
-    where?: SentenceOrderingExerciseWhereInput
+    where?: RearrangeSentenceExerciseWhereInput
     /**
-     * Limit how many SentenceOrderingExercises to delete.
+     * Limit how many RearrangeSentenceExercises to delete.
      */
     limit?: number
   }
 
   /**
-   * SentenceOrderingExercise without action
+   * RearrangeSentenceExercise without action
    */
-  export type SentenceOrderingExerciseDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RearrangeSentenceExerciseDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SentenceOrderingExercise
+     * Select specific fields to fetch from the RearrangeSentenceExercise
      */
-    select?: SentenceOrderingExerciseSelect<ExtArgs> | null
+    select?: RearrangeSentenceExerciseSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SentenceOrderingExercise
+     * Omit specific fields from the RearrangeSentenceExercise
      */
-    omit?: SentenceOrderingExerciseOmit<ExtArgs> | null
+    omit?: RearrangeSentenceExerciseOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SentenceOrderingExerciseInclude<ExtArgs> | null
+    include?: RearrangeSentenceExerciseInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model QuestionFromPoems
+   */
+
+  export type AggregateQuestionFromPoems = {
+    _count: QuestionFromPoemsCountAggregateOutputType | null
+    _min: QuestionFromPoemsMinAggregateOutputType | null
+    _max: QuestionFromPoemsMaxAggregateOutputType | null
+  }
+
+  export type QuestionFromPoemsMinAggregateOutputType = {
+    id: string | null
+    contentBlockId: string | null
+    contentId: string | null
+    classId: string | null
+    subjectId: string | null
+    unitId: string | null
+    lessonId: string | null
+    topicId: string | null
+    title: string | null
+    instruction: string | null
+    question: string | null
+    answer: string | null
+    details: string | null
+    documentJson: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type QuestionFromPoemsMaxAggregateOutputType = {
+    id: string | null
+    contentBlockId: string | null
+    contentId: string | null
+    classId: string | null
+    subjectId: string | null
+    unitId: string | null
+    lessonId: string | null
+    topicId: string | null
+    title: string | null
+    instruction: string | null
+    question: string | null
+    answer: string | null
+    details: string | null
+    documentJson: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type QuestionFromPoemsCountAggregateOutputType = {
+    id: number
+    contentBlockId: number
+    contentId: number
+    classId: number
+    subjectId: number
+    unitId: number
+    lessonId: number
+    topicId: number
+    title: number
+    instruction: number
+    question: number
+    answer: number
+    details: number
+    documentJson: number
+    organizationId: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type QuestionFromPoemsMinAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    title?: true
+    instruction?: true
+    question?: true
+    answer?: true
+    details?: true
+    documentJson?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type QuestionFromPoemsMaxAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    title?: true
+    instruction?: true
+    question?: true
+    answer?: true
+    details?: true
+    documentJson?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type QuestionFromPoemsCountAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    title?: true
+    instruction?: true
+    question?: true
+    answer?: true
+    details?: true
+    documentJson?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type QuestionFromPoemsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QuestionFromPoems to aggregate.
+     */
+    where?: QuestionFromPoemsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuestionFromPoems to fetch.
+     */
+    orderBy?: QuestionFromPoemsOrderByWithRelationInput | QuestionFromPoemsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: QuestionFromPoemsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuestionFromPoems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuestionFromPoems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned QuestionFromPoems
+    **/
+    _count?: true | QuestionFromPoemsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: QuestionFromPoemsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: QuestionFromPoemsMaxAggregateInputType
+  }
+
+  export type GetQuestionFromPoemsAggregateType<T extends QuestionFromPoemsAggregateArgs> = {
+        [P in keyof T & keyof AggregateQuestionFromPoems]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateQuestionFromPoems[P]>
+      : GetScalarType<T[P], AggregateQuestionFromPoems[P]>
+  }
+
+
+
+
+  export type QuestionFromPoemsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuestionFromPoemsWhereInput
+    orderBy?: QuestionFromPoemsOrderByWithAggregationInput | QuestionFromPoemsOrderByWithAggregationInput[]
+    by: QuestionFromPoemsScalarFieldEnum[] | QuestionFromPoemsScalarFieldEnum
+    having?: QuestionFromPoemsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: QuestionFromPoemsCountAggregateInputType | true
+    _min?: QuestionFromPoemsMinAggregateInputType
+    _max?: QuestionFromPoemsMaxAggregateInputType
+  }
+
+  export type QuestionFromPoemsGroupByOutputType = {
+    id: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId: string | null
+    title: string
+    instruction: string
+    question: string
+    answer: string
+    details: string
+    documentJson: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: QuestionFromPoemsCountAggregateOutputType | null
+    _min: QuestionFromPoemsMinAggregateOutputType | null
+    _max: QuestionFromPoemsMaxAggregateOutputType | null
+  }
+
+  type GetQuestionFromPoemsGroupByPayload<T extends QuestionFromPoemsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<QuestionFromPoemsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof QuestionFromPoemsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], QuestionFromPoemsGroupByOutputType[P]>
+            : GetScalarType<T[P], QuestionFromPoemsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type QuestionFromPoemsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    title?: boolean
+    instruction?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    documentJson?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["questionFromPoems"]>
+
+  export type QuestionFromPoemsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    title?: boolean
+    instruction?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    documentJson?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["questionFromPoems"]>
+
+  export type QuestionFromPoemsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    title?: boolean
+    instruction?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    documentJson?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["questionFromPoems"]>
+
+  export type QuestionFromPoemsSelectScalar = {
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    title?: boolean
+    instruction?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    documentJson?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type QuestionFromPoemsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "title" | "instruction" | "question" | "answer" | "details" | "documentJson" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["questionFromPoems"]>
+  export type QuestionFromPoemsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+  export type QuestionFromPoemsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+  export type QuestionFromPoemsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+
+  export type $QuestionFromPoemsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "QuestionFromPoems"
+    objects: {
+      contentBlock: Prisma.$ContentBlockPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      contentBlockId: string
+      contentId: string
+      classId: string
+      subjectId: string
+      unitId: string
+      lessonId: string
+      topicId: string | null
+      title: string
+      instruction: string
+      question: string
+      answer: string
+      details: string
+      documentJson: string
+      organizationId: string
+      createdBy: string
+      updatedBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["questionFromPoems"]>
+    composites: {}
+  }
+
+  type QuestionFromPoemsGetPayload<S extends boolean | null | undefined | QuestionFromPoemsDefaultArgs> = $Result.GetResult<Prisma.$QuestionFromPoemsPayload, S>
+
+  type QuestionFromPoemsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<QuestionFromPoemsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: QuestionFromPoemsCountAggregateInputType | true
+    }
+
+  export interface QuestionFromPoemsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['QuestionFromPoems'], meta: { name: 'QuestionFromPoems' } }
+    /**
+     * Find zero or one QuestionFromPoems that matches the filter.
+     * @param {QuestionFromPoemsFindUniqueArgs} args - Arguments to find a QuestionFromPoems
+     * @example
+     * // Get one QuestionFromPoems
+     * const questionFromPoems = await prisma.questionFromPoems.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends QuestionFromPoemsFindUniqueArgs>(args: SelectSubset<T, QuestionFromPoemsFindUniqueArgs<ExtArgs>>): Prisma__QuestionFromPoemsClient<$Result.GetResult<Prisma.$QuestionFromPoemsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one QuestionFromPoems that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {QuestionFromPoemsFindUniqueOrThrowArgs} args - Arguments to find a QuestionFromPoems
+     * @example
+     * // Get one QuestionFromPoems
+     * const questionFromPoems = await prisma.questionFromPoems.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends QuestionFromPoemsFindUniqueOrThrowArgs>(args: SelectSubset<T, QuestionFromPoemsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__QuestionFromPoemsClient<$Result.GetResult<Prisma.$QuestionFromPoemsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QuestionFromPoems that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuestionFromPoemsFindFirstArgs} args - Arguments to find a QuestionFromPoems
+     * @example
+     * // Get one QuestionFromPoems
+     * const questionFromPoems = await prisma.questionFromPoems.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends QuestionFromPoemsFindFirstArgs>(args?: SelectSubset<T, QuestionFromPoemsFindFirstArgs<ExtArgs>>): Prisma__QuestionFromPoemsClient<$Result.GetResult<Prisma.$QuestionFromPoemsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QuestionFromPoems that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuestionFromPoemsFindFirstOrThrowArgs} args - Arguments to find a QuestionFromPoems
+     * @example
+     * // Get one QuestionFromPoems
+     * const questionFromPoems = await prisma.questionFromPoems.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends QuestionFromPoemsFindFirstOrThrowArgs>(args?: SelectSubset<T, QuestionFromPoemsFindFirstOrThrowArgs<ExtArgs>>): Prisma__QuestionFromPoemsClient<$Result.GetResult<Prisma.$QuestionFromPoemsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more QuestionFromPoems that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuestionFromPoemsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all QuestionFromPoems
+     * const questionFromPoems = await prisma.questionFromPoems.findMany()
+     * 
+     * // Get first 10 QuestionFromPoems
+     * const questionFromPoems = await prisma.questionFromPoems.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const questionFromPoemsWithIdOnly = await prisma.questionFromPoems.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends QuestionFromPoemsFindManyArgs>(args?: SelectSubset<T, QuestionFromPoemsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuestionFromPoemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a QuestionFromPoems.
+     * @param {QuestionFromPoemsCreateArgs} args - Arguments to create a QuestionFromPoems.
+     * @example
+     * // Create one QuestionFromPoems
+     * const QuestionFromPoems = await prisma.questionFromPoems.create({
+     *   data: {
+     *     // ... data to create a QuestionFromPoems
+     *   }
+     * })
+     * 
+     */
+    create<T extends QuestionFromPoemsCreateArgs>(args: SelectSubset<T, QuestionFromPoemsCreateArgs<ExtArgs>>): Prisma__QuestionFromPoemsClient<$Result.GetResult<Prisma.$QuestionFromPoemsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many QuestionFromPoems.
+     * @param {QuestionFromPoemsCreateManyArgs} args - Arguments to create many QuestionFromPoems.
+     * @example
+     * // Create many QuestionFromPoems
+     * const questionFromPoems = await prisma.questionFromPoems.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends QuestionFromPoemsCreateManyArgs>(args?: SelectSubset<T, QuestionFromPoemsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many QuestionFromPoems and returns the data saved in the database.
+     * @param {QuestionFromPoemsCreateManyAndReturnArgs} args - Arguments to create many QuestionFromPoems.
+     * @example
+     * // Create many QuestionFromPoems
+     * const questionFromPoems = await prisma.questionFromPoems.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many QuestionFromPoems and only return the `id`
+     * const questionFromPoemsWithIdOnly = await prisma.questionFromPoems.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends QuestionFromPoemsCreateManyAndReturnArgs>(args?: SelectSubset<T, QuestionFromPoemsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuestionFromPoemsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a QuestionFromPoems.
+     * @param {QuestionFromPoemsDeleteArgs} args - Arguments to delete one QuestionFromPoems.
+     * @example
+     * // Delete one QuestionFromPoems
+     * const QuestionFromPoems = await prisma.questionFromPoems.delete({
+     *   where: {
+     *     // ... filter to delete one QuestionFromPoems
+     *   }
+     * })
+     * 
+     */
+    delete<T extends QuestionFromPoemsDeleteArgs>(args: SelectSubset<T, QuestionFromPoemsDeleteArgs<ExtArgs>>): Prisma__QuestionFromPoemsClient<$Result.GetResult<Prisma.$QuestionFromPoemsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one QuestionFromPoems.
+     * @param {QuestionFromPoemsUpdateArgs} args - Arguments to update one QuestionFromPoems.
+     * @example
+     * // Update one QuestionFromPoems
+     * const questionFromPoems = await prisma.questionFromPoems.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends QuestionFromPoemsUpdateArgs>(args: SelectSubset<T, QuestionFromPoemsUpdateArgs<ExtArgs>>): Prisma__QuestionFromPoemsClient<$Result.GetResult<Prisma.$QuestionFromPoemsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more QuestionFromPoems.
+     * @param {QuestionFromPoemsDeleteManyArgs} args - Arguments to filter QuestionFromPoems to delete.
+     * @example
+     * // Delete a few QuestionFromPoems
+     * const { count } = await prisma.questionFromPoems.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends QuestionFromPoemsDeleteManyArgs>(args?: SelectSubset<T, QuestionFromPoemsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QuestionFromPoems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuestionFromPoemsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many QuestionFromPoems
+     * const questionFromPoems = await prisma.questionFromPoems.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends QuestionFromPoemsUpdateManyArgs>(args: SelectSubset<T, QuestionFromPoemsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QuestionFromPoems and returns the data updated in the database.
+     * @param {QuestionFromPoemsUpdateManyAndReturnArgs} args - Arguments to update many QuestionFromPoems.
+     * @example
+     * // Update many QuestionFromPoems
+     * const questionFromPoems = await prisma.questionFromPoems.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more QuestionFromPoems and only return the `id`
+     * const questionFromPoemsWithIdOnly = await prisma.questionFromPoems.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends QuestionFromPoemsUpdateManyAndReturnArgs>(args: SelectSubset<T, QuestionFromPoemsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuestionFromPoemsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one QuestionFromPoems.
+     * @param {QuestionFromPoemsUpsertArgs} args - Arguments to update or create a QuestionFromPoems.
+     * @example
+     * // Update or create a QuestionFromPoems
+     * const questionFromPoems = await prisma.questionFromPoems.upsert({
+     *   create: {
+     *     // ... data to create a QuestionFromPoems
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the QuestionFromPoems we want to update
+     *   }
+     * })
+     */
+    upsert<T extends QuestionFromPoemsUpsertArgs>(args: SelectSubset<T, QuestionFromPoemsUpsertArgs<ExtArgs>>): Prisma__QuestionFromPoemsClient<$Result.GetResult<Prisma.$QuestionFromPoemsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of QuestionFromPoems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuestionFromPoemsCountArgs} args - Arguments to filter QuestionFromPoems to count.
+     * @example
+     * // Count the number of QuestionFromPoems
+     * const count = await prisma.questionFromPoems.count({
+     *   where: {
+     *     // ... the filter for the QuestionFromPoems we want to count
+     *   }
+     * })
+    **/
+    count<T extends QuestionFromPoemsCountArgs>(
+      args?: Subset<T, QuestionFromPoemsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], QuestionFromPoemsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a QuestionFromPoems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuestionFromPoemsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends QuestionFromPoemsAggregateArgs>(args: Subset<T, QuestionFromPoemsAggregateArgs>): Prisma.PrismaPromise<GetQuestionFromPoemsAggregateType<T>>
+
+    /**
+     * Group by QuestionFromPoems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuestionFromPoemsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends QuestionFromPoemsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: QuestionFromPoemsGroupByArgs['orderBy'] }
+        : { orderBy?: QuestionFromPoemsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, QuestionFromPoemsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetQuestionFromPoemsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the QuestionFromPoems model
+   */
+  readonly fields: QuestionFromPoemsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for QuestionFromPoems.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__QuestionFromPoemsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    contentBlock<T extends ContentBlockDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlockDefaultArgs<ExtArgs>>): Prisma__ContentBlockClient<$Result.GetResult<Prisma.$ContentBlockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the QuestionFromPoems model
+   */
+  interface QuestionFromPoemsFieldRefs {
+    readonly id: FieldRef<"QuestionFromPoems", 'String'>
+    readonly contentBlockId: FieldRef<"QuestionFromPoems", 'String'>
+    readonly contentId: FieldRef<"QuestionFromPoems", 'String'>
+    readonly classId: FieldRef<"QuestionFromPoems", 'String'>
+    readonly subjectId: FieldRef<"QuestionFromPoems", 'String'>
+    readonly unitId: FieldRef<"QuestionFromPoems", 'String'>
+    readonly lessonId: FieldRef<"QuestionFromPoems", 'String'>
+    readonly topicId: FieldRef<"QuestionFromPoems", 'String'>
+    readonly title: FieldRef<"QuestionFromPoems", 'String'>
+    readonly instruction: FieldRef<"QuestionFromPoems", 'String'>
+    readonly question: FieldRef<"QuestionFromPoems", 'String'>
+    readonly answer: FieldRef<"QuestionFromPoems", 'String'>
+    readonly details: FieldRef<"QuestionFromPoems", 'String'>
+    readonly documentJson: FieldRef<"QuestionFromPoems", 'String'>
+    readonly organizationId: FieldRef<"QuestionFromPoems", 'String'>
+    readonly createdBy: FieldRef<"QuestionFromPoems", 'String'>
+    readonly updatedBy: FieldRef<"QuestionFromPoems", 'String'>
+    readonly createdAt: FieldRef<"QuestionFromPoems", 'DateTime'>
+    readonly updatedAt: FieldRef<"QuestionFromPoems", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * QuestionFromPoems findUnique
+   */
+  export type QuestionFromPoemsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromPoems
+     */
+    select?: QuestionFromPoemsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromPoems
+     */
+    omit?: QuestionFromPoemsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromPoemsInclude<ExtArgs> | null
+    /**
+     * Filter, which QuestionFromPoems to fetch.
+     */
+    where: QuestionFromPoemsWhereUniqueInput
+  }
+
+  /**
+   * QuestionFromPoems findUniqueOrThrow
+   */
+  export type QuestionFromPoemsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromPoems
+     */
+    select?: QuestionFromPoemsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromPoems
+     */
+    omit?: QuestionFromPoemsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromPoemsInclude<ExtArgs> | null
+    /**
+     * Filter, which QuestionFromPoems to fetch.
+     */
+    where: QuestionFromPoemsWhereUniqueInput
+  }
+
+  /**
+   * QuestionFromPoems findFirst
+   */
+  export type QuestionFromPoemsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromPoems
+     */
+    select?: QuestionFromPoemsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromPoems
+     */
+    omit?: QuestionFromPoemsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromPoemsInclude<ExtArgs> | null
+    /**
+     * Filter, which QuestionFromPoems to fetch.
+     */
+    where?: QuestionFromPoemsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuestionFromPoems to fetch.
+     */
+    orderBy?: QuestionFromPoemsOrderByWithRelationInput | QuestionFromPoemsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QuestionFromPoems.
+     */
+    cursor?: QuestionFromPoemsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuestionFromPoems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuestionFromPoems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QuestionFromPoems.
+     */
+    distinct?: QuestionFromPoemsScalarFieldEnum | QuestionFromPoemsScalarFieldEnum[]
+  }
+
+  /**
+   * QuestionFromPoems findFirstOrThrow
+   */
+  export type QuestionFromPoemsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromPoems
+     */
+    select?: QuestionFromPoemsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromPoems
+     */
+    omit?: QuestionFromPoemsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromPoemsInclude<ExtArgs> | null
+    /**
+     * Filter, which QuestionFromPoems to fetch.
+     */
+    where?: QuestionFromPoemsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuestionFromPoems to fetch.
+     */
+    orderBy?: QuestionFromPoemsOrderByWithRelationInput | QuestionFromPoemsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QuestionFromPoems.
+     */
+    cursor?: QuestionFromPoemsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuestionFromPoems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuestionFromPoems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QuestionFromPoems.
+     */
+    distinct?: QuestionFromPoemsScalarFieldEnum | QuestionFromPoemsScalarFieldEnum[]
+  }
+
+  /**
+   * QuestionFromPoems findMany
+   */
+  export type QuestionFromPoemsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromPoems
+     */
+    select?: QuestionFromPoemsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromPoems
+     */
+    omit?: QuestionFromPoemsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromPoemsInclude<ExtArgs> | null
+    /**
+     * Filter, which QuestionFromPoems to fetch.
+     */
+    where?: QuestionFromPoemsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuestionFromPoems to fetch.
+     */
+    orderBy?: QuestionFromPoemsOrderByWithRelationInput | QuestionFromPoemsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing QuestionFromPoems.
+     */
+    cursor?: QuestionFromPoemsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuestionFromPoems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuestionFromPoems.
+     */
+    skip?: number
+    distinct?: QuestionFromPoemsScalarFieldEnum | QuestionFromPoemsScalarFieldEnum[]
+  }
+
+  /**
+   * QuestionFromPoems create
+   */
+  export type QuestionFromPoemsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromPoems
+     */
+    select?: QuestionFromPoemsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromPoems
+     */
+    omit?: QuestionFromPoemsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromPoemsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a QuestionFromPoems.
+     */
+    data: XOR<QuestionFromPoemsCreateInput, QuestionFromPoemsUncheckedCreateInput>
+  }
+
+  /**
+   * QuestionFromPoems createMany
+   */
+  export type QuestionFromPoemsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many QuestionFromPoems.
+     */
+    data: QuestionFromPoemsCreateManyInput | QuestionFromPoemsCreateManyInput[]
+  }
+
+  /**
+   * QuestionFromPoems createManyAndReturn
+   */
+  export type QuestionFromPoemsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromPoems
+     */
+    select?: QuestionFromPoemsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromPoems
+     */
+    omit?: QuestionFromPoemsOmit<ExtArgs> | null
+    /**
+     * The data used to create many QuestionFromPoems.
+     */
+    data: QuestionFromPoemsCreateManyInput | QuestionFromPoemsCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromPoemsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * QuestionFromPoems update
+   */
+  export type QuestionFromPoemsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromPoems
+     */
+    select?: QuestionFromPoemsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromPoems
+     */
+    omit?: QuestionFromPoemsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromPoemsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a QuestionFromPoems.
+     */
+    data: XOR<QuestionFromPoemsUpdateInput, QuestionFromPoemsUncheckedUpdateInput>
+    /**
+     * Choose, which QuestionFromPoems to update.
+     */
+    where: QuestionFromPoemsWhereUniqueInput
+  }
+
+  /**
+   * QuestionFromPoems updateMany
+   */
+  export type QuestionFromPoemsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update QuestionFromPoems.
+     */
+    data: XOR<QuestionFromPoemsUpdateManyMutationInput, QuestionFromPoemsUncheckedUpdateManyInput>
+    /**
+     * Filter which QuestionFromPoems to update
+     */
+    where?: QuestionFromPoemsWhereInput
+    /**
+     * Limit how many QuestionFromPoems to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * QuestionFromPoems updateManyAndReturn
+   */
+  export type QuestionFromPoemsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromPoems
+     */
+    select?: QuestionFromPoemsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromPoems
+     */
+    omit?: QuestionFromPoemsOmit<ExtArgs> | null
+    /**
+     * The data used to update QuestionFromPoems.
+     */
+    data: XOR<QuestionFromPoemsUpdateManyMutationInput, QuestionFromPoemsUncheckedUpdateManyInput>
+    /**
+     * Filter which QuestionFromPoems to update
+     */
+    where?: QuestionFromPoemsWhereInput
+    /**
+     * Limit how many QuestionFromPoems to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromPoemsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * QuestionFromPoems upsert
+   */
+  export type QuestionFromPoemsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromPoems
+     */
+    select?: QuestionFromPoemsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromPoems
+     */
+    omit?: QuestionFromPoemsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromPoemsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the QuestionFromPoems to update in case it exists.
+     */
+    where: QuestionFromPoemsWhereUniqueInput
+    /**
+     * In case the QuestionFromPoems found by the `where` argument doesn't exist, create a new QuestionFromPoems with this data.
+     */
+    create: XOR<QuestionFromPoemsCreateInput, QuestionFromPoemsUncheckedCreateInput>
+    /**
+     * In case the QuestionFromPoems was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<QuestionFromPoemsUpdateInput, QuestionFromPoemsUncheckedUpdateInput>
+  }
+
+  /**
+   * QuestionFromPoems delete
+   */
+  export type QuestionFromPoemsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromPoems
+     */
+    select?: QuestionFromPoemsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromPoems
+     */
+    omit?: QuestionFromPoemsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromPoemsInclude<ExtArgs> | null
+    /**
+     * Filter which QuestionFromPoems to delete.
+     */
+    where: QuestionFromPoemsWhereUniqueInput
+  }
+
+  /**
+   * QuestionFromPoems deleteMany
+   */
+  export type QuestionFromPoemsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QuestionFromPoems to delete
+     */
+    where?: QuestionFromPoemsWhereInput
+    /**
+     * Limit how many QuestionFromPoems to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * QuestionFromPoems without action
+   */
+  export type QuestionFromPoemsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromPoems
+     */
+    select?: QuestionFromPoemsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromPoems
+     */
+    omit?: QuestionFromPoemsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromPoemsInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model QuestionFromStory
+   */
+
+  export type AggregateQuestionFromStory = {
+    _count: QuestionFromStoryCountAggregateOutputType | null
+    _min: QuestionFromStoryMinAggregateOutputType | null
+    _max: QuestionFromStoryMaxAggregateOutputType | null
+  }
+
+  export type QuestionFromStoryMinAggregateOutputType = {
+    id: string | null
+    contentBlockId: string | null
+    contentId: string | null
+    classId: string | null
+    subjectId: string | null
+    unitId: string | null
+    lessonId: string | null
+    topicId: string | null
+    title: string | null
+    instruction: string | null
+    question: string | null
+    answer: string | null
+    details: string | null
+    documentJson: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type QuestionFromStoryMaxAggregateOutputType = {
+    id: string | null
+    contentBlockId: string | null
+    contentId: string | null
+    classId: string | null
+    subjectId: string | null
+    unitId: string | null
+    lessonId: string | null
+    topicId: string | null
+    title: string | null
+    instruction: string | null
+    question: string | null
+    answer: string | null
+    details: string | null
+    documentJson: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type QuestionFromStoryCountAggregateOutputType = {
+    id: number
+    contentBlockId: number
+    contentId: number
+    classId: number
+    subjectId: number
+    unitId: number
+    lessonId: number
+    topicId: number
+    title: number
+    instruction: number
+    question: number
+    answer: number
+    details: number
+    documentJson: number
+    organizationId: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type QuestionFromStoryMinAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    title?: true
+    instruction?: true
+    question?: true
+    answer?: true
+    details?: true
+    documentJson?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type QuestionFromStoryMaxAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    title?: true
+    instruction?: true
+    question?: true
+    answer?: true
+    details?: true
+    documentJson?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type QuestionFromStoryCountAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    title?: true
+    instruction?: true
+    question?: true
+    answer?: true
+    details?: true
+    documentJson?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type QuestionFromStoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QuestionFromStory to aggregate.
+     */
+    where?: QuestionFromStoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuestionFromStories to fetch.
+     */
+    orderBy?: QuestionFromStoryOrderByWithRelationInput | QuestionFromStoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: QuestionFromStoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuestionFromStories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuestionFromStories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned QuestionFromStories
+    **/
+    _count?: true | QuestionFromStoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: QuestionFromStoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: QuestionFromStoryMaxAggregateInputType
+  }
+
+  export type GetQuestionFromStoryAggregateType<T extends QuestionFromStoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateQuestionFromStory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateQuestionFromStory[P]>
+      : GetScalarType<T[P], AggregateQuestionFromStory[P]>
+  }
+
+
+
+
+  export type QuestionFromStoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuestionFromStoryWhereInput
+    orderBy?: QuestionFromStoryOrderByWithAggregationInput | QuestionFromStoryOrderByWithAggregationInput[]
+    by: QuestionFromStoryScalarFieldEnum[] | QuestionFromStoryScalarFieldEnum
+    having?: QuestionFromStoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: QuestionFromStoryCountAggregateInputType | true
+    _min?: QuestionFromStoryMinAggregateInputType
+    _max?: QuestionFromStoryMaxAggregateInputType
+  }
+
+  export type QuestionFromStoryGroupByOutputType = {
+    id: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId: string | null
+    title: string
+    instruction: string
+    question: string
+    answer: string
+    details: string
+    documentJson: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: QuestionFromStoryCountAggregateOutputType | null
+    _min: QuestionFromStoryMinAggregateOutputType | null
+    _max: QuestionFromStoryMaxAggregateOutputType | null
+  }
+
+  type GetQuestionFromStoryGroupByPayload<T extends QuestionFromStoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<QuestionFromStoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof QuestionFromStoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], QuestionFromStoryGroupByOutputType[P]>
+            : GetScalarType<T[P], QuestionFromStoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type QuestionFromStorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    title?: boolean
+    instruction?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    documentJson?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["questionFromStory"]>
+
+  export type QuestionFromStorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    title?: boolean
+    instruction?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    documentJson?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["questionFromStory"]>
+
+  export type QuestionFromStorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    title?: boolean
+    instruction?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    documentJson?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["questionFromStory"]>
+
+  export type QuestionFromStorySelectScalar = {
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    title?: boolean
+    instruction?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    documentJson?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type QuestionFromStoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "title" | "instruction" | "question" | "answer" | "details" | "documentJson" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["questionFromStory"]>
+  export type QuestionFromStoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+  export type QuestionFromStoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+  export type QuestionFromStoryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+
+  export type $QuestionFromStoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "QuestionFromStory"
+    objects: {
+      contentBlock: Prisma.$ContentBlockPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      contentBlockId: string
+      contentId: string
+      classId: string
+      subjectId: string
+      unitId: string
+      lessonId: string
+      topicId: string | null
+      title: string
+      instruction: string
+      question: string
+      answer: string
+      details: string
+      documentJson: string
+      organizationId: string
+      createdBy: string
+      updatedBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["questionFromStory"]>
+    composites: {}
+  }
+
+  type QuestionFromStoryGetPayload<S extends boolean | null | undefined | QuestionFromStoryDefaultArgs> = $Result.GetResult<Prisma.$QuestionFromStoryPayload, S>
+
+  type QuestionFromStoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<QuestionFromStoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: QuestionFromStoryCountAggregateInputType | true
+    }
+
+  export interface QuestionFromStoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['QuestionFromStory'], meta: { name: 'QuestionFromStory' } }
+    /**
+     * Find zero or one QuestionFromStory that matches the filter.
+     * @param {QuestionFromStoryFindUniqueArgs} args - Arguments to find a QuestionFromStory
+     * @example
+     * // Get one QuestionFromStory
+     * const questionFromStory = await prisma.questionFromStory.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends QuestionFromStoryFindUniqueArgs>(args: SelectSubset<T, QuestionFromStoryFindUniqueArgs<ExtArgs>>): Prisma__QuestionFromStoryClient<$Result.GetResult<Prisma.$QuestionFromStoryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one QuestionFromStory that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {QuestionFromStoryFindUniqueOrThrowArgs} args - Arguments to find a QuestionFromStory
+     * @example
+     * // Get one QuestionFromStory
+     * const questionFromStory = await prisma.questionFromStory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends QuestionFromStoryFindUniqueOrThrowArgs>(args: SelectSubset<T, QuestionFromStoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__QuestionFromStoryClient<$Result.GetResult<Prisma.$QuestionFromStoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QuestionFromStory that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuestionFromStoryFindFirstArgs} args - Arguments to find a QuestionFromStory
+     * @example
+     * // Get one QuestionFromStory
+     * const questionFromStory = await prisma.questionFromStory.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends QuestionFromStoryFindFirstArgs>(args?: SelectSubset<T, QuestionFromStoryFindFirstArgs<ExtArgs>>): Prisma__QuestionFromStoryClient<$Result.GetResult<Prisma.$QuestionFromStoryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QuestionFromStory that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuestionFromStoryFindFirstOrThrowArgs} args - Arguments to find a QuestionFromStory
+     * @example
+     * // Get one QuestionFromStory
+     * const questionFromStory = await prisma.questionFromStory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends QuestionFromStoryFindFirstOrThrowArgs>(args?: SelectSubset<T, QuestionFromStoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__QuestionFromStoryClient<$Result.GetResult<Prisma.$QuestionFromStoryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more QuestionFromStories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuestionFromStoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all QuestionFromStories
+     * const questionFromStories = await prisma.questionFromStory.findMany()
+     * 
+     * // Get first 10 QuestionFromStories
+     * const questionFromStories = await prisma.questionFromStory.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const questionFromStoryWithIdOnly = await prisma.questionFromStory.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends QuestionFromStoryFindManyArgs>(args?: SelectSubset<T, QuestionFromStoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuestionFromStoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a QuestionFromStory.
+     * @param {QuestionFromStoryCreateArgs} args - Arguments to create a QuestionFromStory.
+     * @example
+     * // Create one QuestionFromStory
+     * const QuestionFromStory = await prisma.questionFromStory.create({
+     *   data: {
+     *     // ... data to create a QuestionFromStory
+     *   }
+     * })
+     * 
+     */
+    create<T extends QuestionFromStoryCreateArgs>(args: SelectSubset<T, QuestionFromStoryCreateArgs<ExtArgs>>): Prisma__QuestionFromStoryClient<$Result.GetResult<Prisma.$QuestionFromStoryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many QuestionFromStories.
+     * @param {QuestionFromStoryCreateManyArgs} args - Arguments to create many QuestionFromStories.
+     * @example
+     * // Create many QuestionFromStories
+     * const questionFromStory = await prisma.questionFromStory.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends QuestionFromStoryCreateManyArgs>(args?: SelectSubset<T, QuestionFromStoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many QuestionFromStories and returns the data saved in the database.
+     * @param {QuestionFromStoryCreateManyAndReturnArgs} args - Arguments to create many QuestionFromStories.
+     * @example
+     * // Create many QuestionFromStories
+     * const questionFromStory = await prisma.questionFromStory.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many QuestionFromStories and only return the `id`
+     * const questionFromStoryWithIdOnly = await prisma.questionFromStory.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends QuestionFromStoryCreateManyAndReturnArgs>(args?: SelectSubset<T, QuestionFromStoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuestionFromStoryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a QuestionFromStory.
+     * @param {QuestionFromStoryDeleteArgs} args - Arguments to delete one QuestionFromStory.
+     * @example
+     * // Delete one QuestionFromStory
+     * const QuestionFromStory = await prisma.questionFromStory.delete({
+     *   where: {
+     *     // ... filter to delete one QuestionFromStory
+     *   }
+     * })
+     * 
+     */
+    delete<T extends QuestionFromStoryDeleteArgs>(args: SelectSubset<T, QuestionFromStoryDeleteArgs<ExtArgs>>): Prisma__QuestionFromStoryClient<$Result.GetResult<Prisma.$QuestionFromStoryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one QuestionFromStory.
+     * @param {QuestionFromStoryUpdateArgs} args - Arguments to update one QuestionFromStory.
+     * @example
+     * // Update one QuestionFromStory
+     * const questionFromStory = await prisma.questionFromStory.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends QuestionFromStoryUpdateArgs>(args: SelectSubset<T, QuestionFromStoryUpdateArgs<ExtArgs>>): Prisma__QuestionFromStoryClient<$Result.GetResult<Prisma.$QuestionFromStoryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more QuestionFromStories.
+     * @param {QuestionFromStoryDeleteManyArgs} args - Arguments to filter QuestionFromStories to delete.
+     * @example
+     * // Delete a few QuestionFromStories
+     * const { count } = await prisma.questionFromStory.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends QuestionFromStoryDeleteManyArgs>(args?: SelectSubset<T, QuestionFromStoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QuestionFromStories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuestionFromStoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many QuestionFromStories
+     * const questionFromStory = await prisma.questionFromStory.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends QuestionFromStoryUpdateManyArgs>(args: SelectSubset<T, QuestionFromStoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QuestionFromStories and returns the data updated in the database.
+     * @param {QuestionFromStoryUpdateManyAndReturnArgs} args - Arguments to update many QuestionFromStories.
+     * @example
+     * // Update many QuestionFromStories
+     * const questionFromStory = await prisma.questionFromStory.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more QuestionFromStories and only return the `id`
+     * const questionFromStoryWithIdOnly = await prisma.questionFromStory.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends QuestionFromStoryUpdateManyAndReturnArgs>(args: SelectSubset<T, QuestionFromStoryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuestionFromStoryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one QuestionFromStory.
+     * @param {QuestionFromStoryUpsertArgs} args - Arguments to update or create a QuestionFromStory.
+     * @example
+     * // Update or create a QuestionFromStory
+     * const questionFromStory = await prisma.questionFromStory.upsert({
+     *   create: {
+     *     // ... data to create a QuestionFromStory
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the QuestionFromStory we want to update
+     *   }
+     * })
+     */
+    upsert<T extends QuestionFromStoryUpsertArgs>(args: SelectSubset<T, QuestionFromStoryUpsertArgs<ExtArgs>>): Prisma__QuestionFromStoryClient<$Result.GetResult<Prisma.$QuestionFromStoryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of QuestionFromStories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuestionFromStoryCountArgs} args - Arguments to filter QuestionFromStories to count.
+     * @example
+     * // Count the number of QuestionFromStories
+     * const count = await prisma.questionFromStory.count({
+     *   where: {
+     *     // ... the filter for the QuestionFromStories we want to count
+     *   }
+     * })
+    **/
+    count<T extends QuestionFromStoryCountArgs>(
+      args?: Subset<T, QuestionFromStoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], QuestionFromStoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a QuestionFromStory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuestionFromStoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends QuestionFromStoryAggregateArgs>(args: Subset<T, QuestionFromStoryAggregateArgs>): Prisma.PrismaPromise<GetQuestionFromStoryAggregateType<T>>
+
+    /**
+     * Group by QuestionFromStory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuestionFromStoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends QuestionFromStoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: QuestionFromStoryGroupByArgs['orderBy'] }
+        : { orderBy?: QuestionFromStoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, QuestionFromStoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetQuestionFromStoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the QuestionFromStory model
+   */
+  readonly fields: QuestionFromStoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for QuestionFromStory.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__QuestionFromStoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    contentBlock<T extends ContentBlockDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlockDefaultArgs<ExtArgs>>): Prisma__ContentBlockClient<$Result.GetResult<Prisma.$ContentBlockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the QuestionFromStory model
+   */
+  interface QuestionFromStoryFieldRefs {
+    readonly id: FieldRef<"QuestionFromStory", 'String'>
+    readonly contentBlockId: FieldRef<"QuestionFromStory", 'String'>
+    readonly contentId: FieldRef<"QuestionFromStory", 'String'>
+    readonly classId: FieldRef<"QuestionFromStory", 'String'>
+    readonly subjectId: FieldRef<"QuestionFromStory", 'String'>
+    readonly unitId: FieldRef<"QuestionFromStory", 'String'>
+    readonly lessonId: FieldRef<"QuestionFromStory", 'String'>
+    readonly topicId: FieldRef<"QuestionFromStory", 'String'>
+    readonly title: FieldRef<"QuestionFromStory", 'String'>
+    readonly instruction: FieldRef<"QuestionFromStory", 'String'>
+    readonly question: FieldRef<"QuestionFromStory", 'String'>
+    readonly answer: FieldRef<"QuestionFromStory", 'String'>
+    readonly details: FieldRef<"QuestionFromStory", 'String'>
+    readonly documentJson: FieldRef<"QuestionFromStory", 'String'>
+    readonly organizationId: FieldRef<"QuestionFromStory", 'String'>
+    readonly createdBy: FieldRef<"QuestionFromStory", 'String'>
+    readonly updatedBy: FieldRef<"QuestionFromStory", 'String'>
+    readonly createdAt: FieldRef<"QuestionFromStory", 'DateTime'>
+    readonly updatedAt: FieldRef<"QuestionFromStory", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * QuestionFromStory findUnique
+   */
+  export type QuestionFromStoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromStory
+     */
+    select?: QuestionFromStorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromStory
+     */
+    omit?: QuestionFromStoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromStoryInclude<ExtArgs> | null
+    /**
+     * Filter, which QuestionFromStory to fetch.
+     */
+    where: QuestionFromStoryWhereUniqueInput
+  }
+
+  /**
+   * QuestionFromStory findUniqueOrThrow
+   */
+  export type QuestionFromStoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromStory
+     */
+    select?: QuestionFromStorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromStory
+     */
+    omit?: QuestionFromStoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromStoryInclude<ExtArgs> | null
+    /**
+     * Filter, which QuestionFromStory to fetch.
+     */
+    where: QuestionFromStoryWhereUniqueInput
+  }
+
+  /**
+   * QuestionFromStory findFirst
+   */
+  export type QuestionFromStoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromStory
+     */
+    select?: QuestionFromStorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromStory
+     */
+    omit?: QuestionFromStoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromStoryInclude<ExtArgs> | null
+    /**
+     * Filter, which QuestionFromStory to fetch.
+     */
+    where?: QuestionFromStoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuestionFromStories to fetch.
+     */
+    orderBy?: QuestionFromStoryOrderByWithRelationInput | QuestionFromStoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QuestionFromStories.
+     */
+    cursor?: QuestionFromStoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuestionFromStories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuestionFromStories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QuestionFromStories.
+     */
+    distinct?: QuestionFromStoryScalarFieldEnum | QuestionFromStoryScalarFieldEnum[]
+  }
+
+  /**
+   * QuestionFromStory findFirstOrThrow
+   */
+  export type QuestionFromStoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromStory
+     */
+    select?: QuestionFromStorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromStory
+     */
+    omit?: QuestionFromStoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromStoryInclude<ExtArgs> | null
+    /**
+     * Filter, which QuestionFromStory to fetch.
+     */
+    where?: QuestionFromStoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuestionFromStories to fetch.
+     */
+    orderBy?: QuestionFromStoryOrderByWithRelationInput | QuestionFromStoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QuestionFromStories.
+     */
+    cursor?: QuestionFromStoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuestionFromStories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuestionFromStories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QuestionFromStories.
+     */
+    distinct?: QuestionFromStoryScalarFieldEnum | QuestionFromStoryScalarFieldEnum[]
+  }
+
+  /**
+   * QuestionFromStory findMany
+   */
+  export type QuestionFromStoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromStory
+     */
+    select?: QuestionFromStorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromStory
+     */
+    omit?: QuestionFromStoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromStoryInclude<ExtArgs> | null
+    /**
+     * Filter, which QuestionFromStories to fetch.
+     */
+    where?: QuestionFromStoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuestionFromStories to fetch.
+     */
+    orderBy?: QuestionFromStoryOrderByWithRelationInput | QuestionFromStoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing QuestionFromStories.
+     */
+    cursor?: QuestionFromStoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuestionFromStories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuestionFromStories.
+     */
+    skip?: number
+    distinct?: QuestionFromStoryScalarFieldEnum | QuestionFromStoryScalarFieldEnum[]
+  }
+
+  /**
+   * QuestionFromStory create
+   */
+  export type QuestionFromStoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromStory
+     */
+    select?: QuestionFromStorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromStory
+     */
+    omit?: QuestionFromStoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromStoryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a QuestionFromStory.
+     */
+    data: XOR<QuestionFromStoryCreateInput, QuestionFromStoryUncheckedCreateInput>
+  }
+
+  /**
+   * QuestionFromStory createMany
+   */
+  export type QuestionFromStoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many QuestionFromStories.
+     */
+    data: QuestionFromStoryCreateManyInput | QuestionFromStoryCreateManyInput[]
+  }
+
+  /**
+   * QuestionFromStory createManyAndReturn
+   */
+  export type QuestionFromStoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromStory
+     */
+    select?: QuestionFromStorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromStory
+     */
+    omit?: QuestionFromStoryOmit<ExtArgs> | null
+    /**
+     * The data used to create many QuestionFromStories.
+     */
+    data: QuestionFromStoryCreateManyInput | QuestionFromStoryCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromStoryIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * QuestionFromStory update
+   */
+  export type QuestionFromStoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromStory
+     */
+    select?: QuestionFromStorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromStory
+     */
+    omit?: QuestionFromStoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromStoryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a QuestionFromStory.
+     */
+    data: XOR<QuestionFromStoryUpdateInput, QuestionFromStoryUncheckedUpdateInput>
+    /**
+     * Choose, which QuestionFromStory to update.
+     */
+    where: QuestionFromStoryWhereUniqueInput
+  }
+
+  /**
+   * QuestionFromStory updateMany
+   */
+  export type QuestionFromStoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update QuestionFromStories.
+     */
+    data: XOR<QuestionFromStoryUpdateManyMutationInput, QuestionFromStoryUncheckedUpdateManyInput>
+    /**
+     * Filter which QuestionFromStories to update
+     */
+    where?: QuestionFromStoryWhereInput
+    /**
+     * Limit how many QuestionFromStories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * QuestionFromStory updateManyAndReturn
+   */
+  export type QuestionFromStoryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromStory
+     */
+    select?: QuestionFromStorySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromStory
+     */
+    omit?: QuestionFromStoryOmit<ExtArgs> | null
+    /**
+     * The data used to update QuestionFromStories.
+     */
+    data: XOR<QuestionFromStoryUpdateManyMutationInput, QuestionFromStoryUncheckedUpdateManyInput>
+    /**
+     * Filter which QuestionFromStories to update
+     */
+    where?: QuestionFromStoryWhereInput
+    /**
+     * Limit how many QuestionFromStories to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromStoryIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * QuestionFromStory upsert
+   */
+  export type QuestionFromStoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromStory
+     */
+    select?: QuestionFromStorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromStory
+     */
+    omit?: QuestionFromStoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromStoryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the QuestionFromStory to update in case it exists.
+     */
+    where: QuestionFromStoryWhereUniqueInput
+    /**
+     * In case the QuestionFromStory found by the `where` argument doesn't exist, create a new QuestionFromStory with this data.
+     */
+    create: XOR<QuestionFromStoryCreateInput, QuestionFromStoryUncheckedCreateInput>
+    /**
+     * In case the QuestionFromStory was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<QuestionFromStoryUpdateInput, QuestionFromStoryUncheckedUpdateInput>
+  }
+
+  /**
+   * QuestionFromStory delete
+   */
+  export type QuestionFromStoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromStory
+     */
+    select?: QuestionFromStorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromStory
+     */
+    omit?: QuestionFromStoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromStoryInclude<ExtArgs> | null
+    /**
+     * Filter which QuestionFromStory to delete.
+     */
+    where: QuestionFromStoryWhereUniqueInput
+  }
+
+  /**
+   * QuestionFromStory deleteMany
+   */
+  export type QuestionFromStoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QuestionFromStories to delete
+     */
+    where?: QuestionFromStoryWhereInput
+    /**
+     * Limit how many QuestionFromStories to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * QuestionFromStory without action
+   */
+  export type QuestionFromStoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionFromStory
+     */
+    select?: QuestionFromStorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuestionFromStory
+     */
+    omit?: QuestionFromStoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestionFromStoryInclude<ExtArgs> | null
   }
 
 
@@ -37784,6 +43426,9 @@ export namespace Prisma {
     unitId: string | null
     lessonId: string | null
     topicId: string | null
+    passage: string | null
+    passageSource: string | null
+    paragraphBlockId: string | null
     question: string | null
     answer: string | null
     details: string | null
@@ -37804,6 +43449,9 @@ export namespace Prisma {
     unitId: string | null
     lessonId: string | null
     topicId: string | null
+    passage: string | null
+    passageSource: string | null
+    paragraphBlockId: string | null
     question: string | null
     answer: string | null
     details: string | null
@@ -37824,6 +43472,9 @@ export namespace Prisma {
     unitId: number
     lessonId: number
     topicId: number
+    passage: number
+    passageSource: number
+    paragraphBlockId: number
     question: number
     answer: number
     details: number
@@ -37846,6 +43497,9 @@ export namespace Prisma {
     unitId?: true
     lessonId?: true
     topicId?: true
+    passage?: true
+    passageSource?: true
+    paragraphBlockId?: true
     question?: true
     answer?: true
     details?: true
@@ -37866,6 +43520,9 @@ export namespace Prisma {
     unitId?: true
     lessonId?: true
     topicId?: true
+    passage?: true
+    passageSource?: true
+    paragraphBlockId?: true
     question?: true
     answer?: true
     details?: true
@@ -37886,6 +43543,9 @@ export namespace Prisma {
     unitId?: true
     lessonId?: true
     topicId?: true
+    passage?: true
+    passageSource?: true
+    paragraphBlockId?: true
     question?: true
     answer?: true
     details?: true
@@ -37979,6 +43639,9 @@ export namespace Prisma {
     unitId: string
     lessonId: string
     topicId: string | null
+    passage: string
+    passageSource: string
+    paragraphBlockId: string | null
     question: string
     answer: string
     details: string
@@ -38016,6 +43679,9 @@ export namespace Prisma {
     unitId?: boolean
     lessonId?: boolean
     topicId?: boolean
+    passage?: boolean
+    passageSource?: boolean
+    paragraphBlockId?: boolean
     question?: boolean
     answer?: boolean
     details?: boolean
@@ -38037,6 +43703,9 @@ export namespace Prisma {
     unitId?: boolean
     lessonId?: boolean
     topicId?: boolean
+    passage?: boolean
+    passageSource?: boolean
+    paragraphBlockId?: boolean
     question?: boolean
     answer?: boolean
     details?: boolean
@@ -38058,6 +43727,9 @@ export namespace Prisma {
     unitId?: boolean
     lessonId?: boolean
     topicId?: boolean
+    passage?: boolean
+    passageSource?: boolean
+    paragraphBlockId?: boolean
     question?: boolean
     answer?: boolean
     details?: boolean
@@ -38079,6 +43751,9 @@ export namespace Prisma {
     unitId?: boolean
     lessonId?: boolean
     topicId?: boolean
+    passage?: boolean
+    passageSource?: boolean
+    paragraphBlockId?: boolean
     question?: boolean
     answer?: boolean
     details?: boolean
@@ -38090,7 +43765,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type InformationTransferOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "question" | "answer" | "details" | "documentJson" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["informationTransfer"]>
+  export type InformationTransferOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "passage" | "passageSource" | "paragraphBlockId" | "question" | "answer" | "details" | "documentJson" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["informationTransfer"]>
   export type InformationTransferInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
   }
@@ -38115,6 +43790,9 @@ export namespace Prisma {
       unitId: string
       lessonId: string
       topicId: string | null
+      passage: string
+      passageSource: string
+      paragraphBlockId: string | null
       question: string
       answer: string
       details: string
@@ -38556,6 +44234,9 @@ export namespace Prisma {
     readonly unitId: FieldRef<"InformationTransfer", 'String'>
     readonly lessonId: FieldRef<"InformationTransfer", 'String'>
     readonly topicId: FieldRef<"InformationTransfer", 'String'>
+    readonly passage: FieldRef<"InformationTransfer", 'String'>
+    readonly passageSource: FieldRef<"InformationTransfer", 'String'>
+    readonly paragraphBlockId: FieldRef<"InformationTransfer", 'String'>
     readonly question: FieldRef<"InformationTransfer", 'String'>
     readonly answer: FieldRef<"InformationTransfer", 'String'>
     readonly details: FieldRef<"InformationTransfer", 'String'>
@@ -49769,6 +55450,4530 @@ export namespace Prisma {
 
 
   /**
+   * Model SubjectMatchingSentencesBlock
+   */
+
+  export type AggregateSubjectMatchingSentencesBlock = {
+    _count: SubjectMatchingSentencesBlockCountAggregateOutputType | null
+    _avg: SubjectMatchingSentencesBlockAvgAggregateOutputType | null
+    _sum: SubjectMatchingSentencesBlockSumAggregateOutputType | null
+    _min: SubjectMatchingSentencesBlockMinAggregateOutputType | null
+    _max: SubjectMatchingSentencesBlockMaxAggregateOutputType | null
+  }
+
+  export type SubjectMatchingSentencesBlockAvgAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type SubjectMatchingSentencesBlockSumAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type SubjectMatchingSentencesBlockMinAggregateOutputType = {
+    id: string | null
+    classId: string | null
+    subjectId: string | null
+    title: string | null
+    instruction: string | null
+    details: string | null
+    documentJson: string | null
+    sortOrder: number | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SubjectMatchingSentencesBlockMaxAggregateOutputType = {
+    id: string | null
+    classId: string | null
+    subjectId: string | null
+    title: string | null
+    instruction: string | null
+    details: string | null
+    documentJson: string | null
+    sortOrder: number | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SubjectMatchingSentencesBlockCountAggregateOutputType = {
+    id: number
+    classId: number
+    subjectId: number
+    title: number
+    instruction: number
+    details: number
+    documentJson: number
+    sortOrder: number
+    organizationId: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SubjectMatchingSentencesBlockAvgAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type SubjectMatchingSentencesBlockSumAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type SubjectMatchingSentencesBlockMinAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    title?: true
+    instruction?: true
+    details?: true
+    documentJson?: true
+    sortOrder?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SubjectMatchingSentencesBlockMaxAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    title?: true
+    instruction?: true
+    details?: true
+    documentJson?: true
+    sortOrder?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SubjectMatchingSentencesBlockCountAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    title?: true
+    instruction?: true
+    details?: true
+    documentJson?: true
+    sortOrder?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SubjectMatchingSentencesBlockAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SubjectMatchingSentencesBlock to aggregate.
+     */
+    where?: SubjectMatchingSentencesBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubjectMatchingSentencesBlocks to fetch.
+     */
+    orderBy?: SubjectMatchingSentencesBlockOrderByWithRelationInput | SubjectMatchingSentencesBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SubjectMatchingSentencesBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubjectMatchingSentencesBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubjectMatchingSentencesBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SubjectMatchingSentencesBlocks
+    **/
+    _count?: true | SubjectMatchingSentencesBlockCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SubjectMatchingSentencesBlockAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SubjectMatchingSentencesBlockSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SubjectMatchingSentencesBlockMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SubjectMatchingSentencesBlockMaxAggregateInputType
+  }
+
+  export type GetSubjectMatchingSentencesBlockAggregateType<T extends SubjectMatchingSentencesBlockAggregateArgs> = {
+        [P in keyof T & keyof AggregateSubjectMatchingSentencesBlock]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSubjectMatchingSentencesBlock[P]>
+      : GetScalarType<T[P], AggregateSubjectMatchingSentencesBlock[P]>
+  }
+
+
+
+
+  export type SubjectMatchingSentencesBlockGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubjectMatchingSentencesBlockWhereInput
+    orderBy?: SubjectMatchingSentencesBlockOrderByWithAggregationInput | SubjectMatchingSentencesBlockOrderByWithAggregationInput[]
+    by: SubjectMatchingSentencesBlockScalarFieldEnum[] | SubjectMatchingSentencesBlockScalarFieldEnum
+    having?: SubjectMatchingSentencesBlockScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SubjectMatchingSentencesBlockCountAggregateInputType | true
+    _avg?: SubjectMatchingSentencesBlockAvgAggregateInputType
+    _sum?: SubjectMatchingSentencesBlockSumAggregateInputType
+    _min?: SubjectMatchingSentencesBlockMinAggregateInputType
+    _max?: SubjectMatchingSentencesBlockMaxAggregateInputType
+  }
+
+  export type SubjectMatchingSentencesBlockGroupByOutputType = {
+    id: string
+    classId: string
+    subjectId: string
+    title: string
+    instruction: string
+    details: string
+    documentJson: string
+    sortOrder: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: SubjectMatchingSentencesBlockCountAggregateOutputType | null
+    _avg: SubjectMatchingSentencesBlockAvgAggregateOutputType | null
+    _sum: SubjectMatchingSentencesBlockSumAggregateOutputType | null
+    _min: SubjectMatchingSentencesBlockMinAggregateOutputType | null
+    _max: SubjectMatchingSentencesBlockMaxAggregateOutputType | null
+  }
+
+  type GetSubjectMatchingSentencesBlockGroupByPayload<T extends SubjectMatchingSentencesBlockGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SubjectMatchingSentencesBlockGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SubjectMatchingSentencesBlockGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SubjectMatchingSentencesBlockGroupByOutputType[P]>
+            : GetScalarType<T[P], SubjectMatchingSentencesBlockGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SubjectMatchingSentencesBlockSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    title?: boolean
+    instruction?: boolean
+    details?: boolean
+    documentJson?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["subjectMatchingSentencesBlock"]>
+
+  export type SubjectMatchingSentencesBlockSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    title?: boolean
+    instruction?: boolean
+    details?: boolean
+    documentJson?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["subjectMatchingSentencesBlock"]>
+
+  export type SubjectMatchingSentencesBlockSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    title?: boolean
+    instruction?: boolean
+    details?: boolean
+    documentJson?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["subjectMatchingSentencesBlock"]>
+
+  export type SubjectMatchingSentencesBlockSelectScalar = {
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    title?: boolean
+    instruction?: boolean
+    details?: boolean
+    documentJson?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SubjectMatchingSentencesBlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "subjectId" | "title" | "instruction" | "details" | "documentJson" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["subjectMatchingSentencesBlock"]>
+
+  export type $SubjectMatchingSentencesBlockPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SubjectMatchingSentencesBlock"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      classId: string
+      subjectId: string
+      title: string
+      instruction: string
+      details: string
+      documentJson: string
+      sortOrder: number
+      organizationId: string
+      createdBy: string
+      updatedBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["subjectMatchingSentencesBlock"]>
+    composites: {}
+  }
+
+  type SubjectMatchingSentencesBlockGetPayload<S extends boolean | null | undefined | SubjectMatchingSentencesBlockDefaultArgs> = $Result.GetResult<Prisma.$SubjectMatchingSentencesBlockPayload, S>
+
+  type SubjectMatchingSentencesBlockCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SubjectMatchingSentencesBlockFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SubjectMatchingSentencesBlockCountAggregateInputType | true
+    }
+
+  export interface SubjectMatchingSentencesBlockDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SubjectMatchingSentencesBlock'], meta: { name: 'SubjectMatchingSentencesBlock' } }
+    /**
+     * Find zero or one SubjectMatchingSentencesBlock that matches the filter.
+     * @param {SubjectMatchingSentencesBlockFindUniqueArgs} args - Arguments to find a SubjectMatchingSentencesBlock
+     * @example
+     * // Get one SubjectMatchingSentencesBlock
+     * const subjectMatchingSentencesBlock = await prisma.subjectMatchingSentencesBlock.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SubjectMatchingSentencesBlockFindUniqueArgs>(args: SelectSubset<T, SubjectMatchingSentencesBlockFindUniqueArgs<ExtArgs>>): Prisma__SubjectMatchingSentencesBlockClient<$Result.GetResult<Prisma.$SubjectMatchingSentencesBlockPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SubjectMatchingSentencesBlock that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SubjectMatchingSentencesBlockFindUniqueOrThrowArgs} args - Arguments to find a SubjectMatchingSentencesBlock
+     * @example
+     * // Get one SubjectMatchingSentencesBlock
+     * const subjectMatchingSentencesBlock = await prisma.subjectMatchingSentencesBlock.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SubjectMatchingSentencesBlockFindUniqueOrThrowArgs>(args: SelectSubset<T, SubjectMatchingSentencesBlockFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SubjectMatchingSentencesBlockClient<$Result.GetResult<Prisma.$SubjectMatchingSentencesBlockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SubjectMatchingSentencesBlock that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectMatchingSentencesBlockFindFirstArgs} args - Arguments to find a SubjectMatchingSentencesBlock
+     * @example
+     * // Get one SubjectMatchingSentencesBlock
+     * const subjectMatchingSentencesBlock = await prisma.subjectMatchingSentencesBlock.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SubjectMatchingSentencesBlockFindFirstArgs>(args?: SelectSubset<T, SubjectMatchingSentencesBlockFindFirstArgs<ExtArgs>>): Prisma__SubjectMatchingSentencesBlockClient<$Result.GetResult<Prisma.$SubjectMatchingSentencesBlockPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SubjectMatchingSentencesBlock that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectMatchingSentencesBlockFindFirstOrThrowArgs} args - Arguments to find a SubjectMatchingSentencesBlock
+     * @example
+     * // Get one SubjectMatchingSentencesBlock
+     * const subjectMatchingSentencesBlock = await prisma.subjectMatchingSentencesBlock.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SubjectMatchingSentencesBlockFindFirstOrThrowArgs>(args?: SelectSubset<T, SubjectMatchingSentencesBlockFindFirstOrThrowArgs<ExtArgs>>): Prisma__SubjectMatchingSentencesBlockClient<$Result.GetResult<Prisma.$SubjectMatchingSentencesBlockPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SubjectMatchingSentencesBlocks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectMatchingSentencesBlockFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SubjectMatchingSentencesBlocks
+     * const subjectMatchingSentencesBlocks = await prisma.subjectMatchingSentencesBlock.findMany()
+     * 
+     * // Get first 10 SubjectMatchingSentencesBlocks
+     * const subjectMatchingSentencesBlocks = await prisma.subjectMatchingSentencesBlock.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const subjectMatchingSentencesBlockWithIdOnly = await prisma.subjectMatchingSentencesBlock.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SubjectMatchingSentencesBlockFindManyArgs>(args?: SelectSubset<T, SubjectMatchingSentencesBlockFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectMatchingSentencesBlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SubjectMatchingSentencesBlock.
+     * @param {SubjectMatchingSentencesBlockCreateArgs} args - Arguments to create a SubjectMatchingSentencesBlock.
+     * @example
+     * // Create one SubjectMatchingSentencesBlock
+     * const SubjectMatchingSentencesBlock = await prisma.subjectMatchingSentencesBlock.create({
+     *   data: {
+     *     // ... data to create a SubjectMatchingSentencesBlock
+     *   }
+     * })
+     * 
+     */
+    create<T extends SubjectMatchingSentencesBlockCreateArgs>(args: SelectSubset<T, SubjectMatchingSentencesBlockCreateArgs<ExtArgs>>): Prisma__SubjectMatchingSentencesBlockClient<$Result.GetResult<Prisma.$SubjectMatchingSentencesBlockPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SubjectMatchingSentencesBlocks.
+     * @param {SubjectMatchingSentencesBlockCreateManyArgs} args - Arguments to create many SubjectMatchingSentencesBlocks.
+     * @example
+     * // Create many SubjectMatchingSentencesBlocks
+     * const subjectMatchingSentencesBlock = await prisma.subjectMatchingSentencesBlock.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SubjectMatchingSentencesBlockCreateManyArgs>(args?: SelectSubset<T, SubjectMatchingSentencesBlockCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SubjectMatchingSentencesBlocks and returns the data saved in the database.
+     * @param {SubjectMatchingSentencesBlockCreateManyAndReturnArgs} args - Arguments to create many SubjectMatchingSentencesBlocks.
+     * @example
+     * // Create many SubjectMatchingSentencesBlocks
+     * const subjectMatchingSentencesBlock = await prisma.subjectMatchingSentencesBlock.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SubjectMatchingSentencesBlocks and only return the `id`
+     * const subjectMatchingSentencesBlockWithIdOnly = await prisma.subjectMatchingSentencesBlock.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SubjectMatchingSentencesBlockCreateManyAndReturnArgs>(args?: SelectSubset<T, SubjectMatchingSentencesBlockCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectMatchingSentencesBlockPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SubjectMatchingSentencesBlock.
+     * @param {SubjectMatchingSentencesBlockDeleteArgs} args - Arguments to delete one SubjectMatchingSentencesBlock.
+     * @example
+     * // Delete one SubjectMatchingSentencesBlock
+     * const SubjectMatchingSentencesBlock = await prisma.subjectMatchingSentencesBlock.delete({
+     *   where: {
+     *     // ... filter to delete one SubjectMatchingSentencesBlock
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SubjectMatchingSentencesBlockDeleteArgs>(args: SelectSubset<T, SubjectMatchingSentencesBlockDeleteArgs<ExtArgs>>): Prisma__SubjectMatchingSentencesBlockClient<$Result.GetResult<Prisma.$SubjectMatchingSentencesBlockPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SubjectMatchingSentencesBlock.
+     * @param {SubjectMatchingSentencesBlockUpdateArgs} args - Arguments to update one SubjectMatchingSentencesBlock.
+     * @example
+     * // Update one SubjectMatchingSentencesBlock
+     * const subjectMatchingSentencesBlock = await prisma.subjectMatchingSentencesBlock.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SubjectMatchingSentencesBlockUpdateArgs>(args: SelectSubset<T, SubjectMatchingSentencesBlockUpdateArgs<ExtArgs>>): Prisma__SubjectMatchingSentencesBlockClient<$Result.GetResult<Prisma.$SubjectMatchingSentencesBlockPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SubjectMatchingSentencesBlocks.
+     * @param {SubjectMatchingSentencesBlockDeleteManyArgs} args - Arguments to filter SubjectMatchingSentencesBlocks to delete.
+     * @example
+     * // Delete a few SubjectMatchingSentencesBlocks
+     * const { count } = await prisma.subjectMatchingSentencesBlock.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SubjectMatchingSentencesBlockDeleteManyArgs>(args?: SelectSubset<T, SubjectMatchingSentencesBlockDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SubjectMatchingSentencesBlocks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectMatchingSentencesBlockUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SubjectMatchingSentencesBlocks
+     * const subjectMatchingSentencesBlock = await prisma.subjectMatchingSentencesBlock.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SubjectMatchingSentencesBlockUpdateManyArgs>(args: SelectSubset<T, SubjectMatchingSentencesBlockUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SubjectMatchingSentencesBlocks and returns the data updated in the database.
+     * @param {SubjectMatchingSentencesBlockUpdateManyAndReturnArgs} args - Arguments to update many SubjectMatchingSentencesBlocks.
+     * @example
+     * // Update many SubjectMatchingSentencesBlocks
+     * const subjectMatchingSentencesBlock = await prisma.subjectMatchingSentencesBlock.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SubjectMatchingSentencesBlocks and only return the `id`
+     * const subjectMatchingSentencesBlockWithIdOnly = await prisma.subjectMatchingSentencesBlock.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SubjectMatchingSentencesBlockUpdateManyAndReturnArgs>(args: SelectSubset<T, SubjectMatchingSentencesBlockUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectMatchingSentencesBlockPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SubjectMatchingSentencesBlock.
+     * @param {SubjectMatchingSentencesBlockUpsertArgs} args - Arguments to update or create a SubjectMatchingSentencesBlock.
+     * @example
+     * // Update or create a SubjectMatchingSentencesBlock
+     * const subjectMatchingSentencesBlock = await prisma.subjectMatchingSentencesBlock.upsert({
+     *   create: {
+     *     // ... data to create a SubjectMatchingSentencesBlock
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SubjectMatchingSentencesBlock we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SubjectMatchingSentencesBlockUpsertArgs>(args: SelectSubset<T, SubjectMatchingSentencesBlockUpsertArgs<ExtArgs>>): Prisma__SubjectMatchingSentencesBlockClient<$Result.GetResult<Prisma.$SubjectMatchingSentencesBlockPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SubjectMatchingSentencesBlocks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectMatchingSentencesBlockCountArgs} args - Arguments to filter SubjectMatchingSentencesBlocks to count.
+     * @example
+     * // Count the number of SubjectMatchingSentencesBlocks
+     * const count = await prisma.subjectMatchingSentencesBlock.count({
+     *   where: {
+     *     // ... the filter for the SubjectMatchingSentencesBlocks we want to count
+     *   }
+     * })
+    **/
+    count<T extends SubjectMatchingSentencesBlockCountArgs>(
+      args?: Subset<T, SubjectMatchingSentencesBlockCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SubjectMatchingSentencesBlockCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SubjectMatchingSentencesBlock.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectMatchingSentencesBlockAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SubjectMatchingSentencesBlockAggregateArgs>(args: Subset<T, SubjectMatchingSentencesBlockAggregateArgs>): Prisma.PrismaPromise<GetSubjectMatchingSentencesBlockAggregateType<T>>
+
+    /**
+     * Group by SubjectMatchingSentencesBlock.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectMatchingSentencesBlockGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SubjectMatchingSentencesBlockGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SubjectMatchingSentencesBlockGroupByArgs['orderBy'] }
+        : { orderBy?: SubjectMatchingSentencesBlockGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SubjectMatchingSentencesBlockGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSubjectMatchingSentencesBlockGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SubjectMatchingSentencesBlock model
+   */
+  readonly fields: SubjectMatchingSentencesBlockFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SubjectMatchingSentencesBlock.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SubjectMatchingSentencesBlockClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SubjectMatchingSentencesBlock model
+   */
+  interface SubjectMatchingSentencesBlockFieldRefs {
+    readonly id: FieldRef<"SubjectMatchingSentencesBlock", 'String'>
+    readonly classId: FieldRef<"SubjectMatchingSentencesBlock", 'String'>
+    readonly subjectId: FieldRef<"SubjectMatchingSentencesBlock", 'String'>
+    readonly title: FieldRef<"SubjectMatchingSentencesBlock", 'String'>
+    readonly instruction: FieldRef<"SubjectMatchingSentencesBlock", 'String'>
+    readonly details: FieldRef<"SubjectMatchingSentencesBlock", 'String'>
+    readonly documentJson: FieldRef<"SubjectMatchingSentencesBlock", 'String'>
+    readonly sortOrder: FieldRef<"SubjectMatchingSentencesBlock", 'Int'>
+    readonly organizationId: FieldRef<"SubjectMatchingSentencesBlock", 'String'>
+    readonly createdBy: FieldRef<"SubjectMatchingSentencesBlock", 'String'>
+    readonly updatedBy: FieldRef<"SubjectMatchingSentencesBlock", 'String'>
+    readonly createdAt: FieldRef<"SubjectMatchingSentencesBlock", 'DateTime'>
+    readonly updatedAt: FieldRef<"SubjectMatchingSentencesBlock", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SubjectMatchingSentencesBlock findUnique
+   */
+  export type SubjectMatchingSentencesBlockFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectMatchingSentencesBlock
+     */
+    select?: SubjectMatchingSentencesBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectMatchingSentencesBlock
+     */
+    omit?: SubjectMatchingSentencesBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectMatchingSentencesBlock to fetch.
+     */
+    where: SubjectMatchingSentencesBlockWhereUniqueInput
+  }
+
+  /**
+   * SubjectMatchingSentencesBlock findUniqueOrThrow
+   */
+  export type SubjectMatchingSentencesBlockFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectMatchingSentencesBlock
+     */
+    select?: SubjectMatchingSentencesBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectMatchingSentencesBlock
+     */
+    omit?: SubjectMatchingSentencesBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectMatchingSentencesBlock to fetch.
+     */
+    where: SubjectMatchingSentencesBlockWhereUniqueInput
+  }
+
+  /**
+   * SubjectMatchingSentencesBlock findFirst
+   */
+  export type SubjectMatchingSentencesBlockFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectMatchingSentencesBlock
+     */
+    select?: SubjectMatchingSentencesBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectMatchingSentencesBlock
+     */
+    omit?: SubjectMatchingSentencesBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectMatchingSentencesBlock to fetch.
+     */
+    where?: SubjectMatchingSentencesBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubjectMatchingSentencesBlocks to fetch.
+     */
+    orderBy?: SubjectMatchingSentencesBlockOrderByWithRelationInput | SubjectMatchingSentencesBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SubjectMatchingSentencesBlocks.
+     */
+    cursor?: SubjectMatchingSentencesBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubjectMatchingSentencesBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubjectMatchingSentencesBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubjectMatchingSentencesBlocks.
+     */
+    distinct?: SubjectMatchingSentencesBlockScalarFieldEnum | SubjectMatchingSentencesBlockScalarFieldEnum[]
+  }
+
+  /**
+   * SubjectMatchingSentencesBlock findFirstOrThrow
+   */
+  export type SubjectMatchingSentencesBlockFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectMatchingSentencesBlock
+     */
+    select?: SubjectMatchingSentencesBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectMatchingSentencesBlock
+     */
+    omit?: SubjectMatchingSentencesBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectMatchingSentencesBlock to fetch.
+     */
+    where?: SubjectMatchingSentencesBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubjectMatchingSentencesBlocks to fetch.
+     */
+    orderBy?: SubjectMatchingSentencesBlockOrderByWithRelationInput | SubjectMatchingSentencesBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SubjectMatchingSentencesBlocks.
+     */
+    cursor?: SubjectMatchingSentencesBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubjectMatchingSentencesBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubjectMatchingSentencesBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubjectMatchingSentencesBlocks.
+     */
+    distinct?: SubjectMatchingSentencesBlockScalarFieldEnum | SubjectMatchingSentencesBlockScalarFieldEnum[]
+  }
+
+  /**
+   * SubjectMatchingSentencesBlock findMany
+   */
+  export type SubjectMatchingSentencesBlockFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectMatchingSentencesBlock
+     */
+    select?: SubjectMatchingSentencesBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectMatchingSentencesBlock
+     */
+    omit?: SubjectMatchingSentencesBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectMatchingSentencesBlocks to fetch.
+     */
+    where?: SubjectMatchingSentencesBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubjectMatchingSentencesBlocks to fetch.
+     */
+    orderBy?: SubjectMatchingSentencesBlockOrderByWithRelationInput | SubjectMatchingSentencesBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SubjectMatchingSentencesBlocks.
+     */
+    cursor?: SubjectMatchingSentencesBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubjectMatchingSentencesBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubjectMatchingSentencesBlocks.
+     */
+    skip?: number
+    distinct?: SubjectMatchingSentencesBlockScalarFieldEnum | SubjectMatchingSentencesBlockScalarFieldEnum[]
+  }
+
+  /**
+   * SubjectMatchingSentencesBlock create
+   */
+  export type SubjectMatchingSentencesBlockCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectMatchingSentencesBlock
+     */
+    select?: SubjectMatchingSentencesBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectMatchingSentencesBlock
+     */
+    omit?: SubjectMatchingSentencesBlockOmit<ExtArgs> | null
+    /**
+     * The data needed to create a SubjectMatchingSentencesBlock.
+     */
+    data: XOR<SubjectMatchingSentencesBlockCreateInput, SubjectMatchingSentencesBlockUncheckedCreateInput>
+  }
+
+  /**
+   * SubjectMatchingSentencesBlock createMany
+   */
+  export type SubjectMatchingSentencesBlockCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SubjectMatchingSentencesBlocks.
+     */
+    data: SubjectMatchingSentencesBlockCreateManyInput | SubjectMatchingSentencesBlockCreateManyInput[]
+  }
+
+  /**
+   * SubjectMatchingSentencesBlock createManyAndReturn
+   */
+  export type SubjectMatchingSentencesBlockCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectMatchingSentencesBlock
+     */
+    select?: SubjectMatchingSentencesBlockSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectMatchingSentencesBlock
+     */
+    omit?: SubjectMatchingSentencesBlockOmit<ExtArgs> | null
+    /**
+     * The data used to create many SubjectMatchingSentencesBlocks.
+     */
+    data: SubjectMatchingSentencesBlockCreateManyInput | SubjectMatchingSentencesBlockCreateManyInput[]
+  }
+
+  /**
+   * SubjectMatchingSentencesBlock update
+   */
+  export type SubjectMatchingSentencesBlockUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectMatchingSentencesBlock
+     */
+    select?: SubjectMatchingSentencesBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectMatchingSentencesBlock
+     */
+    omit?: SubjectMatchingSentencesBlockOmit<ExtArgs> | null
+    /**
+     * The data needed to update a SubjectMatchingSentencesBlock.
+     */
+    data: XOR<SubjectMatchingSentencesBlockUpdateInput, SubjectMatchingSentencesBlockUncheckedUpdateInput>
+    /**
+     * Choose, which SubjectMatchingSentencesBlock to update.
+     */
+    where: SubjectMatchingSentencesBlockWhereUniqueInput
+  }
+
+  /**
+   * SubjectMatchingSentencesBlock updateMany
+   */
+  export type SubjectMatchingSentencesBlockUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SubjectMatchingSentencesBlocks.
+     */
+    data: XOR<SubjectMatchingSentencesBlockUpdateManyMutationInput, SubjectMatchingSentencesBlockUncheckedUpdateManyInput>
+    /**
+     * Filter which SubjectMatchingSentencesBlocks to update
+     */
+    where?: SubjectMatchingSentencesBlockWhereInput
+    /**
+     * Limit how many SubjectMatchingSentencesBlocks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubjectMatchingSentencesBlock updateManyAndReturn
+   */
+  export type SubjectMatchingSentencesBlockUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectMatchingSentencesBlock
+     */
+    select?: SubjectMatchingSentencesBlockSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectMatchingSentencesBlock
+     */
+    omit?: SubjectMatchingSentencesBlockOmit<ExtArgs> | null
+    /**
+     * The data used to update SubjectMatchingSentencesBlocks.
+     */
+    data: XOR<SubjectMatchingSentencesBlockUpdateManyMutationInput, SubjectMatchingSentencesBlockUncheckedUpdateManyInput>
+    /**
+     * Filter which SubjectMatchingSentencesBlocks to update
+     */
+    where?: SubjectMatchingSentencesBlockWhereInput
+    /**
+     * Limit how many SubjectMatchingSentencesBlocks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubjectMatchingSentencesBlock upsert
+   */
+  export type SubjectMatchingSentencesBlockUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectMatchingSentencesBlock
+     */
+    select?: SubjectMatchingSentencesBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectMatchingSentencesBlock
+     */
+    omit?: SubjectMatchingSentencesBlockOmit<ExtArgs> | null
+    /**
+     * The filter to search for the SubjectMatchingSentencesBlock to update in case it exists.
+     */
+    where: SubjectMatchingSentencesBlockWhereUniqueInput
+    /**
+     * In case the SubjectMatchingSentencesBlock found by the `where` argument doesn't exist, create a new SubjectMatchingSentencesBlock with this data.
+     */
+    create: XOR<SubjectMatchingSentencesBlockCreateInput, SubjectMatchingSentencesBlockUncheckedCreateInput>
+    /**
+     * In case the SubjectMatchingSentencesBlock was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SubjectMatchingSentencesBlockUpdateInput, SubjectMatchingSentencesBlockUncheckedUpdateInput>
+  }
+
+  /**
+   * SubjectMatchingSentencesBlock delete
+   */
+  export type SubjectMatchingSentencesBlockDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectMatchingSentencesBlock
+     */
+    select?: SubjectMatchingSentencesBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectMatchingSentencesBlock
+     */
+    omit?: SubjectMatchingSentencesBlockOmit<ExtArgs> | null
+    /**
+     * Filter which SubjectMatchingSentencesBlock to delete.
+     */
+    where: SubjectMatchingSentencesBlockWhereUniqueInput
+  }
+
+  /**
+   * SubjectMatchingSentencesBlock deleteMany
+   */
+  export type SubjectMatchingSentencesBlockDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SubjectMatchingSentencesBlocks to delete
+     */
+    where?: SubjectMatchingSentencesBlockWhereInput
+    /**
+     * Limit how many SubjectMatchingSentencesBlocks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubjectMatchingSentencesBlock without action
+   */
+  export type SubjectMatchingSentencesBlockDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectMatchingSentencesBlock
+     */
+    select?: SubjectMatchingSentencesBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectMatchingSentencesBlock
+     */
+    omit?: SubjectMatchingSentencesBlockOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SubjectRearrangeSentenceBlock
+   */
+
+  export type AggregateSubjectRearrangeSentenceBlock = {
+    _count: SubjectRearrangeSentenceBlockCountAggregateOutputType | null
+    _avg: SubjectRearrangeSentenceBlockAvgAggregateOutputType | null
+    _sum: SubjectRearrangeSentenceBlockSumAggregateOutputType | null
+    _min: SubjectRearrangeSentenceBlockMinAggregateOutputType | null
+    _max: SubjectRearrangeSentenceBlockMaxAggregateOutputType | null
+  }
+
+  export type SubjectRearrangeSentenceBlockAvgAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type SubjectRearrangeSentenceBlockSumAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type SubjectRearrangeSentenceBlockMinAggregateOutputType = {
+    id: string | null
+    classId: string | null
+    subjectId: string | null
+    title: string | null
+    instruction: string | null
+    details: string | null
+    documentJson: string | null
+    sortOrder: number | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SubjectRearrangeSentenceBlockMaxAggregateOutputType = {
+    id: string | null
+    classId: string | null
+    subjectId: string | null
+    title: string | null
+    instruction: string | null
+    details: string | null
+    documentJson: string | null
+    sortOrder: number | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SubjectRearrangeSentenceBlockCountAggregateOutputType = {
+    id: number
+    classId: number
+    subjectId: number
+    title: number
+    instruction: number
+    details: number
+    documentJson: number
+    sortOrder: number
+    organizationId: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SubjectRearrangeSentenceBlockAvgAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type SubjectRearrangeSentenceBlockSumAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type SubjectRearrangeSentenceBlockMinAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    title?: true
+    instruction?: true
+    details?: true
+    documentJson?: true
+    sortOrder?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SubjectRearrangeSentenceBlockMaxAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    title?: true
+    instruction?: true
+    details?: true
+    documentJson?: true
+    sortOrder?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SubjectRearrangeSentenceBlockCountAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    title?: true
+    instruction?: true
+    details?: true
+    documentJson?: true
+    sortOrder?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SubjectRearrangeSentenceBlockAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SubjectRearrangeSentenceBlock to aggregate.
+     */
+    where?: SubjectRearrangeSentenceBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubjectRearrangeSentenceBlocks to fetch.
+     */
+    orderBy?: SubjectRearrangeSentenceBlockOrderByWithRelationInput | SubjectRearrangeSentenceBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SubjectRearrangeSentenceBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubjectRearrangeSentenceBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubjectRearrangeSentenceBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SubjectRearrangeSentenceBlocks
+    **/
+    _count?: true | SubjectRearrangeSentenceBlockCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SubjectRearrangeSentenceBlockAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SubjectRearrangeSentenceBlockSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SubjectRearrangeSentenceBlockMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SubjectRearrangeSentenceBlockMaxAggregateInputType
+  }
+
+  export type GetSubjectRearrangeSentenceBlockAggregateType<T extends SubjectRearrangeSentenceBlockAggregateArgs> = {
+        [P in keyof T & keyof AggregateSubjectRearrangeSentenceBlock]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSubjectRearrangeSentenceBlock[P]>
+      : GetScalarType<T[P], AggregateSubjectRearrangeSentenceBlock[P]>
+  }
+
+
+
+
+  export type SubjectRearrangeSentenceBlockGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubjectRearrangeSentenceBlockWhereInput
+    orderBy?: SubjectRearrangeSentenceBlockOrderByWithAggregationInput | SubjectRearrangeSentenceBlockOrderByWithAggregationInput[]
+    by: SubjectRearrangeSentenceBlockScalarFieldEnum[] | SubjectRearrangeSentenceBlockScalarFieldEnum
+    having?: SubjectRearrangeSentenceBlockScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SubjectRearrangeSentenceBlockCountAggregateInputType | true
+    _avg?: SubjectRearrangeSentenceBlockAvgAggregateInputType
+    _sum?: SubjectRearrangeSentenceBlockSumAggregateInputType
+    _min?: SubjectRearrangeSentenceBlockMinAggregateInputType
+    _max?: SubjectRearrangeSentenceBlockMaxAggregateInputType
+  }
+
+  export type SubjectRearrangeSentenceBlockGroupByOutputType = {
+    id: string
+    classId: string
+    subjectId: string
+    title: string
+    instruction: string
+    details: string
+    documentJson: string
+    sortOrder: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: SubjectRearrangeSentenceBlockCountAggregateOutputType | null
+    _avg: SubjectRearrangeSentenceBlockAvgAggregateOutputType | null
+    _sum: SubjectRearrangeSentenceBlockSumAggregateOutputType | null
+    _min: SubjectRearrangeSentenceBlockMinAggregateOutputType | null
+    _max: SubjectRearrangeSentenceBlockMaxAggregateOutputType | null
+  }
+
+  type GetSubjectRearrangeSentenceBlockGroupByPayload<T extends SubjectRearrangeSentenceBlockGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SubjectRearrangeSentenceBlockGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SubjectRearrangeSentenceBlockGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SubjectRearrangeSentenceBlockGroupByOutputType[P]>
+            : GetScalarType<T[P], SubjectRearrangeSentenceBlockGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SubjectRearrangeSentenceBlockSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    title?: boolean
+    instruction?: boolean
+    details?: boolean
+    documentJson?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["subjectRearrangeSentenceBlock"]>
+
+  export type SubjectRearrangeSentenceBlockSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    title?: boolean
+    instruction?: boolean
+    details?: boolean
+    documentJson?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["subjectRearrangeSentenceBlock"]>
+
+  export type SubjectRearrangeSentenceBlockSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    title?: boolean
+    instruction?: boolean
+    details?: boolean
+    documentJson?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["subjectRearrangeSentenceBlock"]>
+
+  export type SubjectRearrangeSentenceBlockSelectScalar = {
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    title?: boolean
+    instruction?: boolean
+    details?: boolean
+    documentJson?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SubjectRearrangeSentenceBlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "subjectId" | "title" | "instruction" | "details" | "documentJson" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["subjectRearrangeSentenceBlock"]>
+
+  export type $SubjectRearrangeSentenceBlockPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SubjectRearrangeSentenceBlock"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      classId: string
+      subjectId: string
+      title: string
+      instruction: string
+      details: string
+      documentJson: string
+      sortOrder: number
+      organizationId: string
+      createdBy: string
+      updatedBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["subjectRearrangeSentenceBlock"]>
+    composites: {}
+  }
+
+  type SubjectRearrangeSentenceBlockGetPayload<S extends boolean | null | undefined | SubjectRearrangeSentenceBlockDefaultArgs> = $Result.GetResult<Prisma.$SubjectRearrangeSentenceBlockPayload, S>
+
+  type SubjectRearrangeSentenceBlockCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SubjectRearrangeSentenceBlockFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SubjectRearrangeSentenceBlockCountAggregateInputType | true
+    }
+
+  export interface SubjectRearrangeSentenceBlockDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SubjectRearrangeSentenceBlock'], meta: { name: 'SubjectRearrangeSentenceBlock' } }
+    /**
+     * Find zero or one SubjectRearrangeSentenceBlock that matches the filter.
+     * @param {SubjectRearrangeSentenceBlockFindUniqueArgs} args - Arguments to find a SubjectRearrangeSentenceBlock
+     * @example
+     * // Get one SubjectRearrangeSentenceBlock
+     * const subjectRearrangeSentenceBlock = await prisma.subjectRearrangeSentenceBlock.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SubjectRearrangeSentenceBlockFindUniqueArgs>(args: SelectSubset<T, SubjectRearrangeSentenceBlockFindUniqueArgs<ExtArgs>>): Prisma__SubjectRearrangeSentenceBlockClient<$Result.GetResult<Prisma.$SubjectRearrangeSentenceBlockPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SubjectRearrangeSentenceBlock that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SubjectRearrangeSentenceBlockFindUniqueOrThrowArgs} args - Arguments to find a SubjectRearrangeSentenceBlock
+     * @example
+     * // Get one SubjectRearrangeSentenceBlock
+     * const subjectRearrangeSentenceBlock = await prisma.subjectRearrangeSentenceBlock.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SubjectRearrangeSentenceBlockFindUniqueOrThrowArgs>(args: SelectSubset<T, SubjectRearrangeSentenceBlockFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SubjectRearrangeSentenceBlockClient<$Result.GetResult<Prisma.$SubjectRearrangeSentenceBlockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SubjectRearrangeSentenceBlock that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectRearrangeSentenceBlockFindFirstArgs} args - Arguments to find a SubjectRearrangeSentenceBlock
+     * @example
+     * // Get one SubjectRearrangeSentenceBlock
+     * const subjectRearrangeSentenceBlock = await prisma.subjectRearrangeSentenceBlock.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SubjectRearrangeSentenceBlockFindFirstArgs>(args?: SelectSubset<T, SubjectRearrangeSentenceBlockFindFirstArgs<ExtArgs>>): Prisma__SubjectRearrangeSentenceBlockClient<$Result.GetResult<Prisma.$SubjectRearrangeSentenceBlockPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SubjectRearrangeSentenceBlock that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectRearrangeSentenceBlockFindFirstOrThrowArgs} args - Arguments to find a SubjectRearrangeSentenceBlock
+     * @example
+     * // Get one SubjectRearrangeSentenceBlock
+     * const subjectRearrangeSentenceBlock = await prisma.subjectRearrangeSentenceBlock.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SubjectRearrangeSentenceBlockFindFirstOrThrowArgs>(args?: SelectSubset<T, SubjectRearrangeSentenceBlockFindFirstOrThrowArgs<ExtArgs>>): Prisma__SubjectRearrangeSentenceBlockClient<$Result.GetResult<Prisma.$SubjectRearrangeSentenceBlockPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SubjectRearrangeSentenceBlocks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectRearrangeSentenceBlockFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SubjectRearrangeSentenceBlocks
+     * const subjectRearrangeSentenceBlocks = await prisma.subjectRearrangeSentenceBlock.findMany()
+     * 
+     * // Get first 10 SubjectRearrangeSentenceBlocks
+     * const subjectRearrangeSentenceBlocks = await prisma.subjectRearrangeSentenceBlock.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const subjectRearrangeSentenceBlockWithIdOnly = await prisma.subjectRearrangeSentenceBlock.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SubjectRearrangeSentenceBlockFindManyArgs>(args?: SelectSubset<T, SubjectRearrangeSentenceBlockFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectRearrangeSentenceBlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SubjectRearrangeSentenceBlock.
+     * @param {SubjectRearrangeSentenceBlockCreateArgs} args - Arguments to create a SubjectRearrangeSentenceBlock.
+     * @example
+     * // Create one SubjectRearrangeSentenceBlock
+     * const SubjectRearrangeSentenceBlock = await prisma.subjectRearrangeSentenceBlock.create({
+     *   data: {
+     *     // ... data to create a SubjectRearrangeSentenceBlock
+     *   }
+     * })
+     * 
+     */
+    create<T extends SubjectRearrangeSentenceBlockCreateArgs>(args: SelectSubset<T, SubjectRearrangeSentenceBlockCreateArgs<ExtArgs>>): Prisma__SubjectRearrangeSentenceBlockClient<$Result.GetResult<Prisma.$SubjectRearrangeSentenceBlockPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SubjectRearrangeSentenceBlocks.
+     * @param {SubjectRearrangeSentenceBlockCreateManyArgs} args - Arguments to create many SubjectRearrangeSentenceBlocks.
+     * @example
+     * // Create many SubjectRearrangeSentenceBlocks
+     * const subjectRearrangeSentenceBlock = await prisma.subjectRearrangeSentenceBlock.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SubjectRearrangeSentenceBlockCreateManyArgs>(args?: SelectSubset<T, SubjectRearrangeSentenceBlockCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SubjectRearrangeSentenceBlocks and returns the data saved in the database.
+     * @param {SubjectRearrangeSentenceBlockCreateManyAndReturnArgs} args - Arguments to create many SubjectRearrangeSentenceBlocks.
+     * @example
+     * // Create many SubjectRearrangeSentenceBlocks
+     * const subjectRearrangeSentenceBlock = await prisma.subjectRearrangeSentenceBlock.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SubjectRearrangeSentenceBlocks and only return the `id`
+     * const subjectRearrangeSentenceBlockWithIdOnly = await prisma.subjectRearrangeSentenceBlock.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SubjectRearrangeSentenceBlockCreateManyAndReturnArgs>(args?: SelectSubset<T, SubjectRearrangeSentenceBlockCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectRearrangeSentenceBlockPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SubjectRearrangeSentenceBlock.
+     * @param {SubjectRearrangeSentenceBlockDeleteArgs} args - Arguments to delete one SubjectRearrangeSentenceBlock.
+     * @example
+     * // Delete one SubjectRearrangeSentenceBlock
+     * const SubjectRearrangeSentenceBlock = await prisma.subjectRearrangeSentenceBlock.delete({
+     *   where: {
+     *     // ... filter to delete one SubjectRearrangeSentenceBlock
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SubjectRearrangeSentenceBlockDeleteArgs>(args: SelectSubset<T, SubjectRearrangeSentenceBlockDeleteArgs<ExtArgs>>): Prisma__SubjectRearrangeSentenceBlockClient<$Result.GetResult<Prisma.$SubjectRearrangeSentenceBlockPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SubjectRearrangeSentenceBlock.
+     * @param {SubjectRearrangeSentenceBlockUpdateArgs} args - Arguments to update one SubjectRearrangeSentenceBlock.
+     * @example
+     * // Update one SubjectRearrangeSentenceBlock
+     * const subjectRearrangeSentenceBlock = await prisma.subjectRearrangeSentenceBlock.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SubjectRearrangeSentenceBlockUpdateArgs>(args: SelectSubset<T, SubjectRearrangeSentenceBlockUpdateArgs<ExtArgs>>): Prisma__SubjectRearrangeSentenceBlockClient<$Result.GetResult<Prisma.$SubjectRearrangeSentenceBlockPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SubjectRearrangeSentenceBlocks.
+     * @param {SubjectRearrangeSentenceBlockDeleteManyArgs} args - Arguments to filter SubjectRearrangeSentenceBlocks to delete.
+     * @example
+     * // Delete a few SubjectRearrangeSentenceBlocks
+     * const { count } = await prisma.subjectRearrangeSentenceBlock.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SubjectRearrangeSentenceBlockDeleteManyArgs>(args?: SelectSubset<T, SubjectRearrangeSentenceBlockDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SubjectRearrangeSentenceBlocks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectRearrangeSentenceBlockUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SubjectRearrangeSentenceBlocks
+     * const subjectRearrangeSentenceBlock = await prisma.subjectRearrangeSentenceBlock.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SubjectRearrangeSentenceBlockUpdateManyArgs>(args: SelectSubset<T, SubjectRearrangeSentenceBlockUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SubjectRearrangeSentenceBlocks and returns the data updated in the database.
+     * @param {SubjectRearrangeSentenceBlockUpdateManyAndReturnArgs} args - Arguments to update many SubjectRearrangeSentenceBlocks.
+     * @example
+     * // Update many SubjectRearrangeSentenceBlocks
+     * const subjectRearrangeSentenceBlock = await prisma.subjectRearrangeSentenceBlock.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SubjectRearrangeSentenceBlocks and only return the `id`
+     * const subjectRearrangeSentenceBlockWithIdOnly = await prisma.subjectRearrangeSentenceBlock.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SubjectRearrangeSentenceBlockUpdateManyAndReturnArgs>(args: SelectSubset<T, SubjectRearrangeSentenceBlockUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectRearrangeSentenceBlockPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SubjectRearrangeSentenceBlock.
+     * @param {SubjectRearrangeSentenceBlockUpsertArgs} args - Arguments to update or create a SubjectRearrangeSentenceBlock.
+     * @example
+     * // Update or create a SubjectRearrangeSentenceBlock
+     * const subjectRearrangeSentenceBlock = await prisma.subjectRearrangeSentenceBlock.upsert({
+     *   create: {
+     *     // ... data to create a SubjectRearrangeSentenceBlock
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SubjectRearrangeSentenceBlock we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SubjectRearrangeSentenceBlockUpsertArgs>(args: SelectSubset<T, SubjectRearrangeSentenceBlockUpsertArgs<ExtArgs>>): Prisma__SubjectRearrangeSentenceBlockClient<$Result.GetResult<Prisma.$SubjectRearrangeSentenceBlockPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SubjectRearrangeSentenceBlocks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectRearrangeSentenceBlockCountArgs} args - Arguments to filter SubjectRearrangeSentenceBlocks to count.
+     * @example
+     * // Count the number of SubjectRearrangeSentenceBlocks
+     * const count = await prisma.subjectRearrangeSentenceBlock.count({
+     *   where: {
+     *     // ... the filter for the SubjectRearrangeSentenceBlocks we want to count
+     *   }
+     * })
+    **/
+    count<T extends SubjectRearrangeSentenceBlockCountArgs>(
+      args?: Subset<T, SubjectRearrangeSentenceBlockCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SubjectRearrangeSentenceBlockCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SubjectRearrangeSentenceBlock.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectRearrangeSentenceBlockAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SubjectRearrangeSentenceBlockAggregateArgs>(args: Subset<T, SubjectRearrangeSentenceBlockAggregateArgs>): Prisma.PrismaPromise<GetSubjectRearrangeSentenceBlockAggregateType<T>>
+
+    /**
+     * Group by SubjectRearrangeSentenceBlock.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectRearrangeSentenceBlockGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SubjectRearrangeSentenceBlockGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SubjectRearrangeSentenceBlockGroupByArgs['orderBy'] }
+        : { orderBy?: SubjectRearrangeSentenceBlockGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SubjectRearrangeSentenceBlockGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSubjectRearrangeSentenceBlockGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SubjectRearrangeSentenceBlock model
+   */
+  readonly fields: SubjectRearrangeSentenceBlockFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SubjectRearrangeSentenceBlock.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SubjectRearrangeSentenceBlockClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SubjectRearrangeSentenceBlock model
+   */
+  interface SubjectRearrangeSentenceBlockFieldRefs {
+    readonly id: FieldRef<"SubjectRearrangeSentenceBlock", 'String'>
+    readonly classId: FieldRef<"SubjectRearrangeSentenceBlock", 'String'>
+    readonly subjectId: FieldRef<"SubjectRearrangeSentenceBlock", 'String'>
+    readonly title: FieldRef<"SubjectRearrangeSentenceBlock", 'String'>
+    readonly instruction: FieldRef<"SubjectRearrangeSentenceBlock", 'String'>
+    readonly details: FieldRef<"SubjectRearrangeSentenceBlock", 'String'>
+    readonly documentJson: FieldRef<"SubjectRearrangeSentenceBlock", 'String'>
+    readonly sortOrder: FieldRef<"SubjectRearrangeSentenceBlock", 'Int'>
+    readonly organizationId: FieldRef<"SubjectRearrangeSentenceBlock", 'String'>
+    readonly createdBy: FieldRef<"SubjectRearrangeSentenceBlock", 'String'>
+    readonly updatedBy: FieldRef<"SubjectRearrangeSentenceBlock", 'String'>
+    readonly createdAt: FieldRef<"SubjectRearrangeSentenceBlock", 'DateTime'>
+    readonly updatedAt: FieldRef<"SubjectRearrangeSentenceBlock", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SubjectRearrangeSentenceBlock findUnique
+   */
+  export type SubjectRearrangeSentenceBlockFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectRearrangeSentenceBlock
+     */
+    select?: SubjectRearrangeSentenceBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectRearrangeSentenceBlock
+     */
+    omit?: SubjectRearrangeSentenceBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectRearrangeSentenceBlock to fetch.
+     */
+    where: SubjectRearrangeSentenceBlockWhereUniqueInput
+  }
+
+  /**
+   * SubjectRearrangeSentenceBlock findUniqueOrThrow
+   */
+  export type SubjectRearrangeSentenceBlockFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectRearrangeSentenceBlock
+     */
+    select?: SubjectRearrangeSentenceBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectRearrangeSentenceBlock
+     */
+    omit?: SubjectRearrangeSentenceBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectRearrangeSentenceBlock to fetch.
+     */
+    where: SubjectRearrangeSentenceBlockWhereUniqueInput
+  }
+
+  /**
+   * SubjectRearrangeSentenceBlock findFirst
+   */
+  export type SubjectRearrangeSentenceBlockFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectRearrangeSentenceBlock
+     */
+    select?: SubjectRearrangeSentenceBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectRearrangeSentenceBlock
+     */
+    omit?: SubjectRearrangeSentenceBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectRearrangeSentenceBlock to fetch.
+     */
+    where?: SubjectRearrangeSentenceBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubjectRearrangeSentenceBlocks to fetch.
+     */
+    orderBy?: SubjectRearrangeSentenceBlockOrderByWithRelationInput | SubjectRearrangeSentenceBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SubjectRearrangeSentenceBlocks.
+     */
+    cursor?: SubjectRearrangeSentenceBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubjectRearrangeSentenceBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubjectRearrangeSentenceBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubjectRearrangeSentenceBlocks.
+     */
+    distinct?: SubjectRearrangeSentenceBlockScalarFieldEnum | SubjectRearrangeSentenceBlockScalarFieldEnum[]
+  }
+
+  /**
+   * SubjectRearrangeSentenceBlock findFirstOrThrow
+   */
+  export type SubjectRearrangeSentenceBlockFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectRearrangeSentenceBlock
+     */
+    select?: SubjectRearrangeSentenceBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectRearrangeSentenceBlock
+     */
+    omit?: SubjectRearrangeSentenceBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectRearrangeSentenceBlock to fetch.
+     */
+    where?: SubjectRearrangeSentenceBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubjectRearrangeSentenceBlocks to fetch.
+     */
+    orderBy?: SubjectRearrangeSentenceBlockOrderByWithRelationInput | SubjectRearrangeSentenceBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SubjectRearrangeSentenceBlocks.
+     */
+    cursor?: SubjectRearrangeSentenceBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubjectRearrangeSentenceBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubjectRearrangeSentenceBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubjectRearrangeSentenceBlocks.
+     */
+    distinct?: SubjectRearrangeSentenceBlockScalarFieldEnum | SubjectRearrangeSentenceBlockScalarFieldEnum[]
+  }
+
+  /**
+   * SubjectRearrangeSentenceBlock findMany
+   */
+  export type SubjectRearrangeSentenceBlockFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectRearrangeSentenceBlock
+     */
+    select?: SubjectRearrangeSentenceBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectRearrangeSentenceBlock
+     */
+    omit?: SubjectRearrangeSentenceBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectRearrangeSentenceBlocks to fetch.
+     */
+    where?: SubjectRearrangeSentenceBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubjectRearrangeSentenceBlocks to fetch.
+     */
+    orderBy?: SubjectRearrangeSentenceBlockOrderByWithRelationInput | SubjectRearrangeSentenceBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SubjectRearrangeSentenceBlocks.
+     */
+    cursor?: SubjectRearrangeSentenceBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubjectRearrangeSentenceBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubjectRearrangeSentenceBlocks.
+     */
+    skip?: number
+    distinct?: SubjectRearrangeSentenceBlockScalarFieldEnum | SubjectRearrangeSentenceBlockScalarFieldEnum[]
+  }
+
+  /**
+   * SubjectRearrangeSentenceBlock create
+   */
+  export type SubjectRearrangeSentenceBlockCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectRearrangeSentenceBlock
+     */
+    select?: SubjectRearrangeSentenceBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectRearrangeSentenceBlock
+     */
+    omit?: SubjectRearrangeSentenceBlockOmit<ExtArgs> | null
+    /**
+     * The data needed to create a SubjectRearrangeSentenceBlock.
+     */
+    data: XOR<SubjectRearrangeSentenceBlockCreateInput, SubjectRearrangeSentenceBlockUncheckedCreateInput>
+  }
+
+  /**
+   * SubjectRearrangeSentenceBlock createMany
+   */
+  export type SubjectRearrangeSentenceBlockCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SubjectRearrangeSentenceBlocks.
+     */
+    data: SubjectRearrangeSentenceBlockCreateManyInput | SubjectRearrangeSentenceBlockCreateManyInput[]
+  }
+
+  /**
+   * SubjectRearrangeSentenceBlock createManyAndReturn
+   */
+  export type SubjectRearrangeSentenceBlockCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectRearrangeSentenceBlock
+     */
+    select?: SubjectRearrangeSentenceBlockSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectRearrangeSentenceBlock
+     */
+    omit?: SubjectRearrangeSentenceBlockOmit<ExtArgs> | null
+    /**
+     * The data used to create many SubjectRearrangeSentenceBlocks.
+     */
+    data: SubjectRearrangeSentenceBlockCreateManyInput | SubjectRearrangeSentenceBlockCreateManyInput[]
+  }
+
+  /**
+   * SubjectRearrangeSentenceBlock update
+   */
+  export type SubjectRearrangeSentenceBlockUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectRearrangeSentenceBlock
+     */
+    select?: SubjectRearrangeSentenceBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectRearrangeSentenceBlock
+     */
+    omit?: SubjectRearrangeSentenceBlockOmit<ExtArgs> | null
+    /**
+     * The data needed to update a SubjectRearrangeSentenceBlock.
+     */
+    data: XOR<SubjectRearrangeSentenceBlockUpdateInput, SubjectRearrangeSentenceBlockUncheckedUpdateInput>
+    /**
+     * Choose, which SubjectRearrangeSentenceBlock to update.
+     */
+    where: SubjectRearrangeSentenceBlockWhereUniqueInput
+  }
+
+  /**
+   * SubjectRearrangeSentenceBlock updateMany
+   */
+  export type SubjectRearrangeSentenceBlockUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SubjectRearrangeSentenceBlocks.
+     */
+    data: XOR<SubjectRearrangeSentenceBlockUpdateManyMutationInput, SubjectRearrangeSentenceBlockUncheckedUpdateManyInput>
+    /**
+     * Filter which SubjectRearrangeSentenceBlocks to update
+     */
+    where?: SubjectRearrangeSentenceBlockWhereInput
+    /**
+     * Limit how many SubjectRearrangeSentenceBlocks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubjectRearrangeSentenceBlock updateManyAndReturn
+   */
+  export type SubjectRearrangeSentenceBlockUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectRearrangeSentenceBlock
+     */
+    select?: SubjectRearrangeSentenceBlockSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectRearrangeSentenceBlock
+     */
+    omit?: SubjectRearrangeSentenceBlockOmit<ExtArgs> | null
+    /**
+     * The data used to update SubjectRearrangeSentenceBlocks.
+     */
+    data: XOR<SubjectRearrangeSentenceBlockUpdateManyMutationInput, SubjectRearrangeSentenceBlockUncheckedUpdateManyInput>
+    /**
+     * Filter which SubjectRearrangeSentenceBlocks to update
+     */
+    where?: SubjectRearrangeSentenceBlockWhereInput
+    /**
+     * Limit how many SubjectRearrangeSentenceBlocks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubjectRearrangeSentenceBlock upsert
+   */
+  export type SubjectRearrangeSentenceBlockUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectRearrangeSentenceBlock
+     */
+    select?: SubjectRearrangeSentenceBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectRearrangeSentenceBlock
+     */
+    omit?: SubjectRearrangeSentenceBlockOmit<ExtArgs> | null
+    /**
+     * The filter to search for the SubjectRearrangeSentenceBlock to update in case it exists.
+     */
+    where: SubjectRearrangeSentenceBlockWhereUniqueInput
+    /**
+     * In case the SubjectRearrangeSentenceBlock found by the `where` argument doesn't exist, create a new SubjectRearrangeSentenceBlock with this data.
+     */
+    create: XOR<SubjectRearrangeSentenceBlockCreateInput, SubjectRearrangeSentenceBlockUncheckedCreateInput>
+    /**
+     * In case the SubjectRearrangeSentenceBlock was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SubjectRearrangeSentenceBlockUpdateInput, SubjectRearrangeSentenceBlockUncheckedUpdateInput>
+  }
+
+  /**
+   * SubjectRearrangeSentenceBlock delete
+   */
+  export type SubjectRearrangeSentenceBlockDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectRearrangeSentenceBlock
+     */
+    select?: SubjectRearrangeSentenceBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectRearrangeSentenceBlock
+     */
+    omit?: SubjectRearrangeSentenceBlockOmit<ExtArgs> | null
+    /**
+     * Filter which SubjectRearrangeSentenceBlock to delete.
+     */
+    where: SubjectRearrangeSentenceBlockWhereUniqueInput
+  }
+
+  /**
+   * SubjectRearrangeSentenceBlock deleteMany
+   */
+  export type SubjectRearrangeSentenceBlockDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SubjectRearrangeSentenceBlocks to delete
+     */
+    where?: SubjectRearrangeSentenceBlockWhereInput
+    /**
+     * Limit how many SubjectRearrangeSentenceBlocks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubjectRearrangeSentenceBlock without action
+   */
+  export type SubjectRearrangeSentenceBlockDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectRearrangeSentenceBlock
+     */
+    select?: SubjectRearrangeSentenceBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectRearrangeSentenceBlock
+     */
+    omit?: SubjectRearrangeSentenceBlockOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SubjectQuestionFromPoemsBlock
+   */
+
+  export type AggregateSubjectQuestionFromPoemsBlock = {
+    _count: SubjectQuestionFromPoemsBlockCountAggregateOutputType | null
+    _avg: SubjectQuestionFromPoemsBlockAvgAggregateOutputType | null
+    _sum: SubjectQuestionFromPoemsBlockSumAggregateOutputType | null
+    _min: SubjectQuestionFromPoemsBlockMinAggregateOutputType | null
+    _max: SubjectQuestionFromPoemsBlockMaxAggregateOutputType | null
+  }
+
+  export type SubjectQuestionFromPoemsBlockAvgAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type SubjectQuestionFromPoemsBlockSumAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type SubjectQuestionFromPoemsBlockMinAggregateOutputType = {
+    id: string | null
+    classId: string | null
+    subjectId: string | null
+    title: string | null
+    instruction: string | null
+    details: string | null
+    documentJson: string | null
+    sortOrder: number | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SubjectQuestionFromPoemsBlockMaxAggregateOutputType = {
+    id: string | null
+    classId: string | null
+    subjectId: string | null
+    title: string | null
+    instruction: string | null
+    details: string | null
+    documentJson: string | null
+    sortOrder: number | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SubjectQuestionFromPoemsBlockCountAggregateOutputType = {
+    id: number
+    classId: number
+    subjectId: number
+    title: number
+    instruction: number
+    details: number
+    documentJson: number
+    sortOrder: number
+    organizationId: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SubjectQuestionFromPoemsBlockAvgAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type SubjectQuestionFromPoemsBlockSumAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type SubjectQuestionFromPoemsBlockMinAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    title?: true
+    instruction?: true
+    details?: true
+    documentJson?: true
+    sortOrder?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SubjectQuestionFromPoemsBlockMaxAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    title?: true
+    instruction?: true
+    details?: true
+    documentJson?: true
+    sortOrder?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SubjectQuestionFromPoemsBlockCountAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    title?: true
+    instruction?: true
+    details?: true
+    documentJson?: true
+    sortOrder?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SubjectQuestionFromPoemsBlockAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SubjectQuestionFromPoemsBlock to aggregate.
+     */
+    where?: SubjectQuestionFromPoemsBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubjectQuestionFromPoemsBlocks to fetch.
+     */
+    orderBy?: SubjectQuestionFromPoemsBlockOrderByWithRelationInput | SubjectQuestionFromPoemsBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SubjectQuestionFromPoemsBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubjectQuestionFromPoemsBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubjectQuestionFromPoemsBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SubjectQuestionFromPoemsBlocks
+    **/
+    _count?: true | SubjectQuestionFromPoemsBlockCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SubjectQuestionFromPoemsBlockAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SubjectQuestionFromPoemsBlockSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SubjectQuestionFromPoemsBlockMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SubjectQuestionFromPoemsBlockMaxAggregateInputType
+  }
+
+  export type GetSubjectQuestionFromPoemsBlockAggregateType<T extends SubjectQuestionFromPoemsBlockAggregateArgs> = {
+        [P in keyof T & keyof AggregateSubjectQuestionFromPoemsBlock]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSubjectQuestionFromPoemsBlock[P]>
+      : GetScalarType<T[P], AggregateSubjectQuestionFromPoemsBlock[P]>
+  }
+
+
+
+
+  export type SubjectQuestionFromPoemsBlockGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubjectQuestionFromPoemsBlockWhereInput
+    orderBy?: SubjectQuestionFromPoemsBlockOrderByWithAggregationInput | SubjectQuestionFromPoemsBlockOrderByWithAggregationInput[]
+    by: SubjectQuestionFromPoemsBlockScalarFieldEnum[] | SubjectQuestionFromPoemsBlockScalarFieldEnum
+    having?: SubjectQuestionFromPoemsBlockScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SubjectQuestionFromPoemsBlockCountAggregateInputType | true
+    _avg?: SubjectQuestionFromPoemsBlockAvgAggregateInputType
+    _sum?: SubjectQuestionFromPoemsBlockSumAggregateInputType
+    _min?: SubjectQuestionFromPoemsBlockMinAggregateInputType
+    _max?: SubjectQuestionFromPoemsBlockMaxAggregateInputType
+  }
+
+  export type SubjectQuestionFromPoemsBlockGroupByOutputType = {
+    id: string
+    classId: string
+    subjectId: string
+    title: string
+    instruction: string
+    details: string
+    documentJson: string
+    sortOrder: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: SubjectQuestionFromPoemsBlockCountAggregateOutputType | null
+    _avg: SubjectQuestionFromPoemsBlockAvgAggregateOutputType | null
+    _sum: SubjectQuestionFromPoemsBlockSumAggregateOutputType | null
+    _min: SubjectQuestionFromPoemsBlockMinAggregateOutputType | null
+    _max: SubjectQuestionFromPoemsBlockMaxAggregateOutputType | null
+  }
+
+  type GetSubjectQuestionFromPoemsBlockGroupByPayload<T extends SubjectQuestionFromPoemsBlockGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SubjectQuestionFromPoemsBlockGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SubjectQuestionFromPoemsBlockGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SubjectQuestionFromPoemsBlockGroupByOutputType[P]>
+            : GetScalarType<T[P], SubjectQuestionFromPoemsBlockGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SubjectQuestionFromPoemsBlockSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    title?: boolean
+    instruction?: boolean
+    details?: boolean
+    documentJson?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["subjectQuestionFromPoemsBlock"]>
+
+  export type SubjectQuestionFromPoemsBlockSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    title?: boolean
+    instruction?: boolean
+    details?: boolean
+    documentJson?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["subjectQuestionFromPoemsBlock"]>
+
+  export type SubjectQuestionFromPoemsBlockSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    title?: boolean
+    instruction?: boolean
+    details?: boolean
+    documentJson?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["subjectQuestionFromPoemsBlock"]>
+
+  export type SubjectQuestionFromPoemsBlockSelectScalar = {
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    title?: boolean
+    instruction?: boolean
+    details?: boolean
+    documentJson?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SubjectQuestionFromPoemsBlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "subjectId" | "title" | "instruction" | "details" | "documentJson" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["subjectQuestionFromPoemsBlock"]>
+
+  export type $SubjectQuestionFromPoemsBlockPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SubjectQuestionFromPoemsBlock"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      classId: string
+      subjectId: string
+      title: string
+      instruction: string
+      details: string
+      documentJson: string
+      sortOrder: number
+      organizationId: string
+      createdBy: string
+      updatedBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["subjectQuestionFromPoemsBlock"]>
+    composites: {}
+  }
+
+  type SubjectQuestionFromPoemsBlockGetPayload<S extends boolean | null | undefined | SubjectQuestionFromPoemsBlockDefaultArgs> = $Result.GetResult<Prisma.$SubjectQuestionFromPoemsBlockPayload, S>
+
+  type SubjectQuestionFromPoemsBlockCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SubjectQuestionFromPoemsBlockFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SubjectQuestionFromPoemsBlockCountAggregateInputType | true
+    }
+
+  export interface SubjectQuestionFromPoemsBlockDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SubjectQuestionFromPoemsBlock'], meta: { name: 'SubjectQuestionFromPoemsBlock' } }
+    /**
+     * Find zero or one SubjectQuestionFromPoemsBlock that matches the filter.
+     * @param {SubjectQuestionFromPoemsBlockFindUniqueArgs} args - Arguments to find a SubjectQuestionFromPoemsBlock
+     * @example
+     * // Get one SubjectQuestionFromPoemsBlock
+     * const subjectQuestionFromPoemsBlock = await prisma.subjectQuestionFromPoemsBlock.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SubjectQuestionFromPoemsBlockFindUniqueArgs>(args: SelectSubset<T, SubjectQuestionFromPoemsBlockFindUniqueArgs<ExtArgs>>): Prisma__SubjectQuestionFromPoemsBlockClient<$Result.GetResult<Prisma.$SubjectQuestionFromPoemsBlockPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SubjectQuestionFromPoemsBlock that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SubjectQuestionFromPoemsBlockFindUniqueOrThrowArgs} args - Arguments to find a SubjectQuestionFromPoemsBlock
+     * @example
+     * // Get one SubjectQuestionFromPoemsBlock
+     * const subjectQuestionFromPoemsBlock = await prisma.subjectQuestionFromPoemsBlock.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SubjectQuestionFromPoemsBlockFindUniqueOrThrowArgs>(args: SelectSubset<T, SubjectQuestionFromPoemsBlockFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SubjectQuestionFromPoemsBlockClient<$Result.GetResult<Prisma.$SubjectQuestionFromPoemsBlockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SubjectQuestionFromPoemsBlock that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectQuestionFromPoemsBlockFindFirstArgs} args - Arguments to find a SubjectQuestionFromPoemsBlock
+     * @example
+     * // Get one SubjectQuestionFromPoemsBlock
+     * const subjectQuestionFromPoemsBlock = await prisma.subjectQuestionFromPoemsBlock.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SubjectQuestionFromPoemsBlockFindFirstArgs>(args?: SelectSubset<T, SubjectQuestionFromPoemsBlockFindFirstArgs<ExtArgs>>): Prisma__SubjectQuestionFromPoemsBlockClient<$Result.GetResult<Prisma.$SubjectQuestionFromPoemsBlockPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SubjectQuestionFromPoemsBlock that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectQuestionFromPoemsBlockFindFirstOrThrowArgs} args - Arguments to find a SubjectQuestionFromPoemsBlock
+     * @example
+     * // Get one SubjectQuestionFromPoemsBlock
+     * const subjectQuestionFromPoemsBlock = await prisma.subjectQuestionFromPoemsBlock.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SubjectQuestionFromPoemsBlockFindFirstOrThrowArgs>(args?: SelectSubset<T, SubjectQuestionFromPoemsBlockFindFirstOrThrowArgs<ExtArgs>>): Prisma__SubjectQuestionFromPoemsBlockClient<$Result.GetResult<Prisma.$SubjectQuestionFromPoemsBlockPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SubjectQuestionFromPoemsBlocks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectQuestionFromPoemsBlockFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SubjectQuestionFromPoemsBlocks
+     * const subjectQuestionFromPoemsBlocks = await prisma.subjectQuestionFromPoemsBlock.findMany()
+     * 
+     * // Get first 10 SubjectQuestionFromPoemsBlocks
+     * const subjectQuestionFromPoemsBlocks = await prisma.subjectQuestionFromPoemsBlock.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const subjectQuestionFromPoemsBlockWithIdOnly = await prisma.subjectQuestionFromPoemsBlock.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SubjectQuestionFromPoemsBlockFindManyArgs>(args?: SelectSubset<T, SubjectQuestionFromPoemsBlockFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectQuestionFromPoemsBlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SubjectQuestionFromPoemsBlock.
+     * @param {SubjectQuestionFromPoemsBlockCreateArgs} args - Arguments to create a SubjectQuestionFromPoemsBlock.
+     * @example
+     * // Create one SubjectQuestionFromPoemsBlock
+     * const SubjectQuestionFromPoemsBlock = await prisma.subjectQuestionFromPoemsBlock.create({
+     *   data: {
+     *     // ... data to create a SubjectQuestionFromPoemsBlock
+     *   }
+     * })
+     * 
+     */
+    create<T extends SubjectQuestionFromPoemsBlockCreateArgs>(args: SelectSubset<T, SubjectQuestionFromPoemsBlockCreateArgs<ExtArgs>>): Prisma__SubjectQuestionFromPoemsBlockClient<$Result.GetResult<Prisma.$SubjectQuestionFromPoemsBlockPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SubjectQuestionFromPoemsBlocks.
+     * @param {SubjectQuestionFromPoemsBlockCreateManyArgs} args - Arguments to create many SubjectQuestionFromPoemsBlocks.
+     * @example
+     * // Create many SubjectQuestionFromPoemsBlocks
+     * const subjectQuestionFromPoemsBlock = await prisma.subjectQuestionFromPoemsBlock.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SubjectQuestionFromPoemsBlockCreateManyArgs>(args?: SelectSubset<T, SubjectQuestionFromPoemsBlockCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SubjectQuestionFromPoemsBlocks and returns the data saved in the database.
+     * @param {SubjectQuestionFromPoemsBlockCreateManyAndReturnArgs} args - Arguments to create many SubjectQuestionFromPoemsBlocks.
+     * @example
+     * // Create many SubjectQuestionFromPoemsBlocks
+     * const subjectQuestionFromPoemsBlock = await prisma.subjectQuestionFromPoemsBlock.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SubjectQuestionFromPoemsBlocks and only return the `id`
+     * const subjectQuestionFromPoemsBlockWithIdOnly = await prisma.subjectQuestionFromPoemsBlock.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SubjectQuestionFromPoemsBlockCreateManyAndReturnArgs>(args?: SelectSubset<T, SubjectQuestionFromPoemsBlockCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectQuestionFromPoemsBlockPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SubjectQuestionFromPoemsBlock.
+     * @param {SubjectQuestionFromPoemsBlockDeleteArgs} args - Arguments to delete one SubjectQuestionFromPoemsBlock.
+     * @example
+     * // Delete one SubjectQuestionFromPoemsBlock
+     * const SubjectQuestionFromPoemsBlock = await prisma.subjectQuestionFromPoemsBlock.delete({
+     *   where: {
+     *     // ... filter to delete one SubjectQuestionFromPoemsBlock
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SubjectQuestionFromPoemsBlockDeleteArgs>(args: SelectSubset<T, SubjectQuestionFromPoemsBlockDeleteArgs<ExtArgs>>): Prisma__SubjectQuestionFromPoemsBlockClient<$Result.GetResult<Prisma.$SubjectQuestionFromPoemsBlockPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SubjectQuestionFromPoemsBlock.
+     * @param {SubjectQuestionFromPoemsBlockUpdateArgs} args - Arguments to update one SubjectQuestionFromPoemsBlock.
+     * @example
+     * // Update one SubjectQuestionFromPoemsBlock
+     * const subjectQuestionFromPoemsBlock = await prisma.subjectQuestionFromPoemsBlock.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SubjectQuestionFromPoemsBlockUpdateArgs>(args: SelectSubset<T, SubjectQuestionFromPoemsBlockUpdateArgs<ExtArgs>>): Prisma__SubjectQuestionFromPoemsBlockClient<$Result.GetResult<Prisma.$SubjectQuestionFromPoemsBlockPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SubjectQuestionFromPoemsBlocks.
+     * @param {SubjectQuestionFromPoemsBlockDeleteManyArgs} args - Arguments to filter SubjectQuestionFromPoemsBlocks to delete.
+     * @example
+     * // Delete a few SubjectQuestionFromPoemsBlocks
+     * const { count } = await prisma.subjectQuestionFromPoemsBlock.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SubjectQuestionFromPoemsBlockDeleteManyArgs>(args?: SelectSubset<T, SubjectQuestionFromPoemsBlockDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SubjectQuestionFromPoemsBlocks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectQuestionFromPoemsBlockUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SubjectQuestionFromPoemsBlocks
+     * const subjectQuestionFromPoemsBlock = await prisma.subjectQuestionFromPoemsBlock.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SubjectQuestionFromPoemsBlockUpdateManyArgs>(args: SelectSubset<T, SubjectQuestionFromPoemsBlockUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SubjectQuestionFromPoemsBlocks and returns the data updated in the database.
+     * @param {SubjectQuestionFromPoemsBlockUpdateManyAndReturnArgs} args - Arguments to update many SubjectQuestionFromPoemsBlocks.
+     * @example
+     * // Update many SubjectQuestionFromPoemsBlocks
+     * const subjectQuestionFromPoemsBlock = await prisma.subjectQuestionFromPoemsBlock.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SubjectQuestionFromPoemsBlocks and only return the `id`
+     * const subjectQuestionFromPoemsBlockWithIdOnly = await prisma.subjectQuestionFromPoemsBlock.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SubjectQuestionFromPoemsBlockUpdateManyAndReturnArgs>(args: SelectSubset<T, SubjectQuestionFromPoemsBlockUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectQuestionFromPoemsBlockPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SubjectQuestionFromPoemsBlock.
+     * @param {SubjectQuestionFromPoemsBlockUpsertArgs} args - Arguments to update or create a SubjectQuestionFromPoemsBlock.
+     * @example
+     * // Update or create a SubjectQuestionFromPoemsBlock
+     * const subjectQuestionFromPoemsBlock = await prisma.subjectQuestionFromPoemsBlock.upsert({
+     *   create: {
+     *     // ... data to create a SubjectQuestionFromPoemsBlock
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SubjectQuestionFromPoemsBlock we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SubjectQuestionFromPoemsBlockUpsertArgs>(args: SelectSubset<T, SubjectQuestionFromPoemsBlockUpsertArgs<ExtArgs>>): Prisma__SubjectQuestionFromPoemsBlockClient<$Result.GetResult<Prisma.$SubjectQuestionFromPoemsBlockPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SubjectQuestionFromPoemsBlocks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectQuestionFromPoemsBlockCountArgs} args - Arguments to filter SubjectQuestionFromPoemsBlocks to count.
+     * @example
+     * // Count the number of SubjectQuestionFromPoemsBlocks
+     * const count = await prisma.subjectQuestionFromPoemsBlock.count({
+     *   where: {
+     *     // ... the filter for the SubjectQuestionFromPoemsBlocks we want to count
+     *   }
+     * })
+    **/
+    count<T extends SubjectQuestionFromPoemsBlockCountArgs>(
+      args?: Subset<T, SubjectQuestionFromPoemsBlockCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SubjectQuestionFromPoemsBlockCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SubjectQuestionFromPoemsBlock.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectQuestionFromPoemsBlockAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SubjectQuestionFromPoemsBlockAggregateArgs>(args: Subset<T, SubjectQuestionFromPoemsBlockAggregateArgs>): Prisma.PrismaPromise<GetSubjectQuestionFromPoemsBlockAggregateType<T>>
+
+    /**
+     * Group by SubjectQuestionFromPoemsBlock.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectQuestionFromPoemsBlockGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SubjectQuestionFromPoemsBlockGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SubjectQuestionFromPoemsBlockGroupByArgs['orderBy'] }
+        : { orderBy?: SubjectQuestionFromPoemsBlockGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SubjectQuestionFromPoemsBlockGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSubjectQuestionFromPoemsBlockGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SubjectQuestionFromPoemsBlock model
+   */
+  readonly fields: SubjectQuestionFromPoemsBlockFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SubjectQuestionFromPoemsBlock.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SubjectQuestionFromPoemsBlockClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SubjectQuestionFromPoemsBlock model
+   */
+  interface SubjectQuestionFromPoemsBlockFieldRefs {
+    readonly id: FieldRef<"SubjectQuestionFromPoemsBlock", 'String'>
+    readonly classId: FieldRef<"SubjectQuestionFromPoemsBlock", 'String'>
+    readonly subjectId: FieldRef<"SubjectQuestionFromPoemsBlock", 'String'>
+    readonly title: FieldRef<"SubjectQuestionFromPoemsBlock", 'String'>
+    readonly instruction: FieldRef<"SubjectQuestionFromPoemsBlock", 'String'>
+    readonly details: FieldRef<"SubjectQuestionFromPoemsBlock", 'String'>
+    readonly documentJson: FieldRef<"SubjectQuestionFromPoemsBlock", 'String'>
+    readonly sortOrder: FieldRef<"SubjectQuestionFromPoemsBlock", 'Int'>
+    readonly organizationId: FieldRef<"SubjectQuestionFromPoemsBlock", 'String'>
+    readonly createdBy: FieldRef<"SubjectQuestionFromPoemsBlock", 'String'>
+    readonly updatedBy: FieldRef<"SubjectQuestionFromPoemsBlock", 'String'>
+    readonly createdAt: FieldRef<"SubjectQuestionFromPoemsBlock", 'DateTime'>
+    readonly updatedAt: FieldRef<"SubjectQuestionFromPoemsBlock", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SubjectQuestionFromPoemsBlock findUnique
+   */
+  export type SubjectQuestionFromPoemsBlockFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectQuestionFromPoemsBlock
+     */
+    select?: SubjectQuestionFromPoemsBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectQuestionFromPoemsBlock
+     */
+    omit?: SubjectQuestionFromPoemsBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectQuestionFromPoemsBlock to fetch.
+     */
+    where: SubjectQuestionFromPoemsBlockWhereUniqueInput
+  }
+
+  /**
+   * SubjectQuestionFromPoemsBlock findUniqueOrThrow
+   */
+  export type SubjectQuestionFromPoemsBlockFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectQuestionFromPoemsBlock
+     */
+    select?: SubjectQuestionFromPoemsBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectQuestionFromPoemsBlock
+     */
+    omit?: SubjectQuestionFromPoemsBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectQuestionFromPoemsBlock to fetch.
+     */
+    where: SubjectQuestionFromPoemsBlockWhereUniqueInput
+  }
+
+  /**
+   * SubjectQuestionFromPoemsBlock findFirst
+   */
+  export type SubjectQuestionFromPoemsBlockFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectQuestionFromPoemsBlock
+     */
+    select?: SubjectQuestionFromPoemsBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectQuestionFromPoemsBlock
+     */
+    omit?: SubjectQuestionFromPoemsBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectQuestionFromPoemsBlock to fetch.
+     */
+    where?: SubjectQuestionFromPoemsBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubjectQuestionFromPoemsBlocks to fetch.
+     */
+    orderBy?: SubjectQuestionFromPoemsBlockOrderByWithRelationInput | SubjectQuestionFromPoemsBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SubjectQuestionFromPoemsBlocks.
+     */
+    cursor?: SubjectQuestionFromPoemsBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubjectQuestionFromPoemsBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubjectQuestionFromPoemsBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubjectQuestionFromPoemsBlocks.
+     */
+    distinct?: SubjectQuestionFromPoemsBlockScalarFieldEnum | SubjectQuestionFromPoemsBlockScalarFieldEnum[]
+  }
+
+  /**
+   * SubjectQuestionFromPoemsBlock findFirstOrThrow
+   */
+  export type SubjectQuestionFromPoemsBlockFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectQuestionFromPoemsBlock
+     */
+    select?: SubjectQuestionFromPoemsBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectQuestionFromPoemsBlock
+     */
+    omit?: SubjectQuestionFromPoemsBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectQuestionFromPoemsBlock to fetch.
+     */
+    where?: SubjectQuestionFromPoemsBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubjectQuestionFromPoemsBlocks to fetch.
+     */
+    orderBy?: SubjectQuestionFromPoemsBlockOrderByWithRelationInput | SubjectQuestionFromPoemsBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SubjectQuestionFromPoemsBlocks.
+     */
+    cursor?: SubjectQuestionFromPoemsBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubjectQuestionFromPoemsBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubjectQuestionFromPoemsBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubjectQuestionFromPoemsBlocks.
+     */
+    distinct?: SubjectQuestionFromPoemsBlockScalarFieldEnum | SubjectQuestionFromPoemsBlockScalarFieldEnum[]
+  }
+
+  /**
+   * SubjectQuestionFromPoemsBlock findMany
+   */
+  export type SubjectQuestionFromPoemsBlockFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectQuestionFromPoemsBlock
+     */
+    select?: SubjectQuestionFromPoemsBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectQuestionFromPoemsBlock
+     */
+    omit?: SubjectQuestionFromPoemsBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectQuestionFromPoemsBlocks to fetch.
+     */
+    where?: SubjectQuestionFromPoemsBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubjectQuestionFromPoemsBlocks to fetch.
+     */
+    orderBy?: SubjectQuestionFromPoemsBlockOrderByWithRelationInput | SubjectQuestionFromPoemsBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SubjectQuestionFromPoemsBlocks.
+     */
+    cursor?: SubjectQuestionFromPoemsBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubjectQuestionFromPoemsBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubjectQuestionFromPoemsBlocks.
+     */
+    skip?: number
+    distinct?: SubjectQuestionFromPoemsBlockScalarFieldEnum | SubjectQuestionFromPoemsBlockScalarFieldEnum[]
+  }
+
+  /**
+   * SubjectQuestionFromPoemsBlock create
+   */
+  export type SubjectQuestionFromPoemsBlockCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectQuestionFromPoemsBlock
+     */
+    select?: SubjectQuestionFromPoemsBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectQuestionFromPoemsBlock
+     */
+    omit?: SubjectQuestionFromPoemsBlockOmit<ExtArgs> | null
+    /**
+     * The data needed to create a SubjectQuestionFromPoemsBlock.
+     */
+    data: XOR<SubjectQuestionFromPoemsBlockCreateInput, SubjectQuestionFromPoemsBlockUncheckedCreateInput>
+  }
+
+  /**
+   * SubjectQuestionFromPoemsBlock createMany
+   */
+  export type SubjectQuestionFromPoemsBlockCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SubjectQuestionFromPoemsBlocks.
+     */
+    data: SubjectQuestionFromPoemsBlockCreateManyInput | SubjectQuestionFromPoemsBlockCreateManyInput[]
+  }
+
+  /**
+   * SubjectQuestionFromPoemsBlock createManyAndReturn
+   */
+  export type SubjectQuestionFromPoemsBlockCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectQuestionFromPoemsBlock
+     */
+    select?: SubjectQuestionFromPoemsBlockSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectQuestionFromPoemsBlock
+     */
+    omit?: SubjectQuestionFromPoemsBlockOmit<ExtArgs> | null
+    /**
+     * The data used to create many SubjectQuestionFromPoemsBlocks.
+     */
+    data: SubjectQuestionFromPoemsBlockCreateManyInput | SubjectQuestionFromPoemsBlockCreateManyInput[]
+  }
+
+  /**
+   * SubjectQuestionFromPoemsBlock update
+   */
+  export type SubjectQuestionFromPoemsBlockUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectQuestionFromPoemsBlock
+     */
+    select?: SubjectQuestionFromPoemsBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectQuestionFromPoemsBlock
+     */
+    omit?: SubjectQuestionFromPoemsBlockOmit<ExtArgs> | null
+    /**
+     * The data needed to update a SubjectQuestionFromPoemsBlock.
+     */
+    data: XOR<SubjectQuestionFromPoemsBlockUpdateInput, SubjectQuestionFromPoemsBlockUncheckedUpdateInput>
+    /**
+     * Choose, which SubjectQuestionFromPoemsBlock to update.
+     */
+    where: SubjectQuestionFromPoemsBlockWhereUniqueInput
+  }
+
+  /**
+   * SubjectQuestionFromPoemsBlock updateMany
+   */
+  export type SubjectQuestionFromPoemsBlockUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SubjectQuestionFromPoemsBlocks.
+     */
+    data: XOR<SubjectQuestionFromPoemsBlockUpdateManyMutationInput, SubjectQuestionFromPoemsBlockUncheckedUpdateManyInput>
+    /**
+     * Filter which SubjectQuestionFromPoemsBlocks to update
+     */
+    where?: SubjectQuestionFromPoemsBlockWhereInput
+    /**
+     * Limit how many SubjectQuestionFromPoemsBlocks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubjectQuestionFromPoemsBlock updateManyAndReturn
+   */
+  export type SubjectQuestionFromPoemsBlockUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectQuestionFromPoemsBlock
+     */
+    select?: SubjectQuestionFromPoemsBlockSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectQuestionFromPoemsBlock
+     */
+    omit?: SubjectQuestionFromPoemsBlockOmit<ExtArgs> | null
+    /**
+     * The data used to update SubjectQuestionFromPoemsBlocks.
+     */
+    data: XOR<SubjectQuestionFromPoemsBlockUpdateManyMutationInput, SubjectQuestionFromPoemsBlockUncheckedUpdateManyInput>
+    /**
+     * Filter which SubjectQuestionFromPoemsBlocks to update
+     */
+    where?: SubjectQuestionFromPoemsBlockWhereInput
+    /**
+     * Limit how many SubjectQuestionFromPoemsBlocks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubjectQuestionFromPoemsBlock upsert
+   */
+  export type SubjectQuestionFromPoemsBlockUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectQuestionFromPoemsBlock
+     */
+    select?: SubjectQuestionFromPoemsBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectQuestionFromPoemsBlock
+     */
+    omit?: SubjectQuestionFromPoemsBlockOmit<ExtArgs> | null
+    /**
+     * The filter to search for the SubjectQuestionFromPoemsBlock to update in case it exists.
+     */
+    where: SubjectQuestionFromPoemsBlockWhereUniqueInput
+    /**
+     * In case the SubjectQuestionFromPoemsBlock found by the `where` argument doesn't exist, create a new SubjectQuestionFromPoemsBlock with this data.
+     */
+    create: XOR<SubjectQuestionFromPoemsBlockCreateInput, SubjectQuestionFromPoemsBlockUncheckedCreateInput>
+    /**
+     * In case the SubjectQuestionFromPoemsBlock was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SubjectQuestionFromPoemsBlockUpdateInput, SubjectQuestionFromPoemsBlockUncheckedUpdateInput>
+  }
+
+  /**
+   * SubjectQuestionFromPoemsBlock delete
+   */
+  export type SubjectQuestionFromPoemsBlockDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectQuestionFromPoemsBlock
+     */
+    select?: SubjectQuestionFromPoemsBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectQuestionFromPoemsBlock
+     */
+    omit?: SubjectQuestionFromPoemsBlockOmit<ExtArgs> | null
+    /**
+     * Filter which SubjectQuestionFromPoemsBlock to delete.
+     */
+    where: SubjectQuestionFromPoemsBlockWhereUniqueInput
+  }
+
+  /**
+   * SubjectQuestionFromPoemsBlock deleteMany
+   */
+  export type SubjectQuestionFromPoemsBlockDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SubjectQuestionFromPoemsBlocks to delete
+     */
+    where?: SubjectQuestionFromPoemsBlockWhereInput
+    /**
+     * Limit how many SubjectQuestionFromPoemsBlocks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubjectQuestionFromPoemsBlock without action
+   */
+  export type SubjectQuestionFromPoemsBlockDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectQuestionFromPoemsBlock
+     */
+    select?: SubjectQuestionFromPoemsBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectQuestionFromPoemsBlock
+     */
+    omit?: SubjectQuestionFromPoemsBlockOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SubjectQuestionFromStoryBlock
+   */
+
+  export type AggregateSubjectQuestionFromStoryBlock = {
+    _count: SubjectQuestionFromStoryBlockCountAggregateOutputType | null
+    _avg: SubjectQuestionFromStoryBlockAvgAggregateOutputType | null
+    _sum: SubjectQuestionFromStoryBlockSumAggregateOutputType | null
+    _min: SubjectQuestionFromStoryBlockMinAggregateOutputType | null
+    _max: SubjectQuestionFromStoryBlockMaxAggregateOutputType | null
+  }
+
+  export type SubjectQuestionFromStoryBlockAvgAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type SubjectQuestionFromStoryBlockSumAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type SubjectQuestionFromStoryBlockMinAggregateOutputType = {
+    id: string | null
+    classId: string | null
+    subjectId: string | null
+    title: string | null
+    instruction: string | null
+    details: string | null
+    documentJson: string | null
+    sortOrder: number | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SubjectQuestionFromStoryBlockMaxAggregateOutputType = {
+    id: string | null
+    classId: string | null
+    subjectId: string | null
+    title: string | null
+    instruction: string | null
+    details: string | null
+    documentJson: string | null
+    sortOrder: number | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SubjectQuestionFromStoryBlockCountAggregateOutputType = {
+    id: number
+    classId: number
+    subjectId: number
+    title: number
+    instruction: number
+    details: number
+    documentJson: number
+    sortOrder: number
+    organizationId: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SubjectQuestionFromStoryBlockAvgAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type SubjectQuestionFromStoryBlockSumAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type SubjectQuestionFromStoryBlockMinAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    title?: true
+    instruction?: true
+    details?: true
+    documentJson?: true
+    sortOrder?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SubjectQuestionFromStoryBlockMaxAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    title?: true
+    instruction?: true
+    details?: true
+    documentJson?: true
+    sortOrder?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SubjectQuestionFromStoryBlockCountAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    title?: true
+    instruction?: true
+    details?: true
+    documentJson?: true
+    sortOrder?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SubjectQuestionFromStoryBlockAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SubjectQuestionFromStoryBlock to aggregate.
+     */
+    where?: SubjectQuestionFromStoryBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubjectQuestionFromStoryBlocks to fetch.
+     */
+    orderBy?: SubjectQuestionFromStoryBlockOrderByWithRelationInput | SubjectQuestionFromStoryBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SubjectQuestionFromStoryBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubjectQuestionFromStoryBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubjectQuestionFromStoryBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SubjectQuestionFromStoryBlocks
+    **/
+    _count?: true | SubjectQuestionFromStoryBlockCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SubjectQuestionFromStoryBlockAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SubjectQuestionFromStoryBlockSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SubjectQuestionFromStoryBlockMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SubjectQuestionFromStoryBlockMaxAggregateInputType
+  }
+
+  export type GetSubjectQuestionFromStoryBlockAggregateType<T extends SubjectQuestionFromStoryBlockAggregateArgs> = {
+        [P in keyof T & keyof AggregateSubjectQuestionFromStoryBlock]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSubjectQuestionFromStoryBlock[P]>
+      : GetScalarType<T[P], AggregateSubjectQuestionFromStoryBlock[P]>
+  }
+
+
+
+
+  export type SubjectQuestionFromStoryBlockGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubjectQuestionFromStoryBlockWhereInput
+    orderBy?: SubjectQuestionFromStoryBlockOrderByWithAggregationInput | SubjectQuestionFromStoryBlockOrderByWithAggregationInput[]
+    by: SubjectQuestionFromStoryBlockScalarFieldEnum[] | SubjectQuestionFromStoryBlockScalarFieldEnum
+    having?: SubjectQuestionFromStoryBlockScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SubjectQuestionFromStoryBlockCountAggregateInputType | true
+    _avg?: SubjectQuestionFromStoryBlockAvgAggregateInputType
+    _sum?: SubjectQuestionFromStoryBlockSumAggregateInputType
+    _min?: SubjectQuestionFromStoryBlockMinAggregateInputType
+    _max?: SubjectQuestionFromStoryBlockMaxAggregateInputType
+  }
+
+  export type SubjectQuestionFromStoryBlockGroupByOutputType = {
+    id: string
+    classId: string
+    subjectId: string
+    title: string
+    instruction: string
+    details: string
+    documentJson: string
+    sortOrder: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: SubjectQuestionFromStoryBlockCountAggregateOutputType | null
+    _avg: SubjectQuestionFromStoryBlockAvgAggregateOutputType | null
+    _sum: SubjectQuestionFromStoryBlockSumAggregateOutputType | null
+    _min: SubjectQuestionFromStoryBlockMinAggregateOutputType | null
+    _max: SubjectQuestionFromStoryBlockMaxAggregateOutputType | null
+  }
+
+  type GetSubjectQuestionFromStoryBlockGroupByPayload<T extends SubjectQuestionFromStoryBlockGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SubjectQuestionFromStoryBlockGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SubjectQuestionFromStoryBlockGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SubjectQuestionFromStoryBlockGroupByOutputType[P]>
+            : GetScalarType<T[P], SubjectQuestionFromStoryBlockGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SubjectQuestionFromStoryBlockSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    title?: boolean
+    instruction?: boolean
+    details?: boolean
+    documentJson?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["subjectQuestionFromStoryBlock"]>
+
+  export type SubjectQuestionFromStoryBlockSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    title?: boolean
+    instruction?: boolean
+    details?: boolean
+    documentJson?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["subjectQuestionFromStoryBlock"]>
+
+  export type SubjectQuestionFromStoryBlockSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    title?: boolean
+    instruction?: boolean
+    details?: boolean
+    documentJson?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["subjectQuestionFromStoryBlock"]>
+
+  export type SubjectQuestionFromStoryBlockSelectScalar = {
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    title?: boolean
+    instruction?: boolean
+    details?: boolean
+    documentJson?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SubjectQuestionFromStoryBlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "subjectId" | "title" | "instruction" | "details" | "documentJson" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["subjectQuestionFromStoryBlock"]>
+
+  export type $SubjectQuestionFromStoryBlockPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SubjectQuestionFromStoryBlock"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      classId: string
+      subjectId: string
+      title: string
+      instruction: string
+      details: string
+      documentJson: string
+      sortOrder: number
+      organizationId: string
+      createdBy: string
+      updatedBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["subjectQuestionFromStoryBlock"]>
+    composites: {}
+  }
+
+  type SubjectQuestionFromStoryBlockGetPayload<S extends boolean | null | undefined | SubjectQuestionFromStoryBlockDefaultArgs> = $Result.GetResult<Prisma.$SubjectQuestionFromStoryBlockPayload, S>
+
+  type SubjectQuestionFromStoryBlockCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SubjectQuestionFromStoryBlockFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SubjectQuestionFromStoryBlockCountAggregateInputType | true
+    }
+
+  export interface SubjectQuestionFromStoryBlockDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SubjectQuestionFromStoryBlock'], meta: { name: 'SubjectQuestionFromStoryBlock' } }
+    /**
+     * Find zero or one SubjectQuestionFromStoryBlock that matches the filter.
+     * @param {SubjectQuestionFromStoryBlockFindUniqueArgs} args - Arguments to find a SubjectQuestionFromStoryBlock
+     * @example
+     * // Get one SubjectQuestionFromStoryBlock
+     * const subjectQuestionFromStoryBlock = await prisma.subjectQuestionFromStoryBlock.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SubjectQuestionFromStoryBlockFindUniqueArgs>(args: SelectSubset<T, SubjectQuestionFromStoryBlockFindUniqueArgs<ExtArgs>>): Prisma__SubjectQuestionFromStoryBlockClient<$Result.GetResult<Prisma.$SubjectQuestionFromStoryBlockPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SubjectQuestionFromStoryBlock that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SubjectQuestionFromStoryBlockFindUniqueOrThrowArgs} args - Arguments to find a SubjectQuestionFromStoryBlock
+     * @example
+     * // Get one SubjectQuestionFromStoryBlock
+     * const subjectQuestionFromStoryBlock = await prisma.subjectQuestionFromStoryBlock.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SubjectQuestionFromStoryBlockFindUniqueOrThrowArgs>(args: SelectSubset<T, SubjectQuestionFromStoryBlockFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SubjectQuestionFromStoryBlockClient<$Result.GetResult<Prisma.$SubjectQuestionFromStoryBlockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SubjectQuestionFromStoryBlock that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectQuestionFromStoryBlockFindFirstArgs} args - Arguments to find a SubjectQuestionFromStoryBlock
+     * @example
+     * // Get one SubjectQuestionFromStoryBlock
+     * const subjectQuestionFromStoryBlock = await prisma.subjectQuestionFromStoryBlock.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SubjectQuestionFromStoryBlockFindFirstArgs>(args?: SelectSubset<T, SubjectQuestionFromStoryBlockFindFirstArgs<ExtArgs>>): Prisma__SubjectQuestionFromStoryBlockClient<$Result.GetResult<Prisma.$SubjectQuestionFromStoryBlockPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SubjectQuestionFromStoryBlock that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectQuestionFromStoryBlockFindFirstOrThrowArgs} args - Arguments to find a SubjectQuestionFromStoryBlock
+     * @example
+     * // Get one SubjectQuestionFromStoryBlock
+     * const subjectQuestionFromStoryBlock = await prisma.subjectQuestionFromStoryBlock.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SubjectQuestionFromStoryBlockFindFirstOrThrowArgs>(args?: SelectSubset<T, SubjectQuestionFromStoryBlockFindFirstOrThrowArgs<ExtArgs>>): Prisma__SubjectQuestionFromStoryBlockClient<$Result.GetResult<Prisma.$SubjectQuestionFromStoryBlockPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SubjectQuestionFromStoryBlocks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectQuestionFromStoryBlockFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SubjectQuestionFromStoryBlocks
+     * const subjectQuestionFromStoryBlocks = await prisma.subjectQuestionFromStoryBlock.findMany()
+     * 
+     * // Get first 10 SubjectQuestionFromStoryBlocks
+     * const subjectQuestionFromStoryBlocks = await prisma.subjectQuestionFromStoryBlock.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const subjectQuestionFromStoryBlockWithIdOnly = await prisma.subjectQuestionFromStoryBlock.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SubjectQuestionFromStoryBlockFindManyArgs>(args?: SelectSubset<T, SubjectQuestionFromStoryBlockFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectQuestionFromStoryBlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SubjectQuestionFromStoryBlock.
+     * @param {SubjectQuestionFromStoryBlockCreateArgs} args - Arguments to create a SubjectQuestionFromStoryBlock.
+     * @example
+     * // Create one SubjectQuestionFromStoryBlock
+     * const SubjectQuestionFromStoryBlock = await prisma.subjectQuestionFromStoryBlock.create({
+     *   data: {
+     *     // ... data to create a SubjectQuestionFromStoryBlock
+     *   }
+     * })
+     * 
+     */
+    create<T extends SubjectQuestionFromStoryBlockCreateArgs>(args: SelectSubset<T, SubjectQuestionFromStoryBlockCreateArgs<ExtArgs>>): Prisma__SubjectQuestionFromStoryBlockClient<$Result.GetResult<Prisma.$SubjectQuestionFromStoryBlockPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SubjectQuestionFromStoryBlocks.
+     * @param {SubjectQuestionFromStoryBlockCreateManyArgs} args - Arguments to create many SubjectQuestionFromStoryBlocks.
+     * @example
+     * // Create many SubjectQuestionFromStoryBlocks
+     * const subjectQuestionFromStoryBlock = await prisma.subjectQuestionFromStoryBlock.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SubjectQuestionFromStoryBlockCreateManyArgs>(args?: SelectSubset<T, SubjectQuestionFromStoryBlockCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SubjectQuestionFromStoryBlocks and returns the data saved in the database.
+     * @param {SubjectQuestionFromStoryBlockCreateManyAndReturnArgs} args - Arguments to create many SubjectQuestionFromStoryBlocks.
+     * @example
+     * // Create many SubjectQuestionFromStoryBlocks
+     * const subjectQuestionFromStoryBlock = await prisma.subjectQuestionFromStoryBlock.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SubjectQuestionFromStoryBlocks and only return the `id`
+     * const subjectQuestionFromStoryBlockWithIdOnly = await prisma.subjectQuestionFromStoryBlock.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SubjectQuestionFromStoryBlockCreateManyAndReturnArgs>(args?: SelectSubset<T, SubjectQuestionFromStoryBlockCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectQuestionFromStoryBlockPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SubjectQuestionFromStoryBlock.
+     * @param {SubjectQuestionFromStoryBlockDeleteArgs} args - Arguments to delete one SubjectQuestionFromStoryBlock.
+     * @example
+     * // Delete one SubjectQuestionFromStoryBlock
+     * const SubjectQuestionFromStoryBlock = await prisma.subjectQuestionFromStoryBlock.delete({
+     *   where: {
+     *     // ... filter to delete one SubjectQuestionFromStoryBlock
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SubjectQuestionFromStoryBlockDeleteArgs>(args: SelectSubset<T, SubjectQuestionFromStoryBlockDeleteArgs<ExtArgs>>): Prisma__SubjectQuestionFromStoryBlockClient<$Result.GetResult<Prisma.$SubjectQuestionFromStoryBlockPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SubjectQuestionFromStoryBlock.
+     * @param {SubjectQuestionFromStoryBlockUpdateArgs} args - Arguments to update one SubjectQuestionFromStoryBlock.
+     * @example
+     * // Update one SubjectQuestionFromStoryBlock
+     * const subjectQuestionFromStoryBlock = await prisma.subjectQuestionFromStoryBlock.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SubjectQuestionFromStoryBlockUpdateArgs>(args: SelectSubset<T, SubjectQuestionFromStoryBlockUpdateArgs<ExtArgs>>): Prisma__SubjectQuestionFromStoryBlockClient<$Result.GetResult<Prisma.$SubjectQuestionFromStoryBlockPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SubjectQuestionFromStoryBlocks.
+     * @param {SubjectQuestionFromStoryBlockDeleteManyArgs} args - Arguments to filter SubjectQuestionFromStoryBlocks to delete.
+     * @example
+     * // Delete a few SubjectQuestionFromStoryBlocks
+     * const { count } = await prisma.subjectQuestionFromStoryBlock.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SubjectQuestionFromStoryBlockDeleteManyArgs>(args?: SelectSubset<T, SubjectQuestionFromStoryBlockDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SubjectQuestionFromStoryBlocks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectQuestionFromStoryBlockUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SubjectQuestionFromStoryBlocks
+     * const subjectQuestionFromStoryBlock = await prisma.subjectQuestionFromStoryBlock.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SubjectQuestionFromStoryBlockUpdateManyArgs>(args: SelectSubset<T, SubjectQuestionFromStoryBlockUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SubjectQuestionFromStoryBlocks and returns the data updated in the database.
+     * @param {SubjectQuestionFromStoryBlockUpdateManyAndReturnArgs} args - Arguments to update many SubjectQuestionFromStoryBlocks.
+     * @example
+     * // Update many SubjectQuestionFromStoryBlocks
+     * const subjectQuestionFromStoryBlock = await prisma.subjectQuestionFromStoryBlock.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SubjectQuestionFromStoryBlocks and only return the `id`
+     * const subjectQuestionFromStoryBlockWithIdOnly = await prisma.subjectQuestionFromStoryBlock.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SubjectQuestionFromStoryBlockUpdateManyAndReturnArgs>(args: SelectSubset<T, SubjectQuestionFromStoryBlockUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectQuestionFromStoryBlockPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SubjectQuestionFromStoryBlock.
+     * @param {SubjectQuestionFromStoryBlockUpsertArgs} args - Arguments to update or create a SubjectQuestionFromStoryBlock.
+     * @example
+     * // Update or create a SubjectQuestionFromStoryBlock
+     * const subjectQuestionFromStoryBlock = await prisma.subjectQuestionFromStoryBlock.upsert({
+     *   create: {
+     *     // ... data to create a SubjectQuestionFromStoryBlock
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SubjectQuestionFromStoryBlock we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SubjectQuestionFromStoryBlockUpsertArgs>(args: SelectSubset<T, SubjectQuestionFromStoryBlockUpsertArgs<ExtArgs>>): Prisma__SubjectQuestionFromStoryBlockClient<$Result.GetResult<Prisma.$SubjectQuestionFromStoryBlockPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SubjectQuestionFromStoryBlocks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectQuestionFromStoryBlockCountArgs} args - Arguments to filter SubjectQuestionFromStoryBlocks to count.
+     * @example
+     * // Count the number of SubjectQuestionFromStoryBlocks
+     * const count = await prisma.subjectQuestionFromStoryBlock.count({
+     *   where: {
+     *     // ... the filter for the SubjectQuestionFromStoryBlocks we want to count
+     *   }
+     * })
+    **/
+    count<T extends SubjectQuestionFromStoryBlockCountArgs>(
+      args?: Subset<T, SubjectQuestionFromStoryBlockCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SubjectQuestionFromStoryBlockCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SubjectQuestionFromStoryBlock.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectQuestionFromStoryBlockAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SubjectQuestionFromStoryBlockAggregateArgs>(args: Subset<T, SubjectQuestionFromStoryBlockAggregateArgs>): Prisma.PrismaPromise<GetSubjectQuestionFromStoryBlockAggregateType<T>>
+
+    /**
+     * Group by SubjectQuestionFromStoryBlock.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectQuestionFromStoryBlockGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SubjectQuestionFromStoryBlockGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SubjectQuestionFromStoryBlockGroupByArgs['orderBy'] }
+        : { orderBy?: SubjectQuestionFromStoryBlockGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SubjectQuestionFromStoryBlockGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSubjectQuestionFromStoryBlockGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SubjectQuestionFromStoryBlock model
+   */
+  readonly fields: SubjectQuestionFromStoryBlockFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SubjectQuestionFromStoryBlock.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SubjectQuestionFromStoryBlockClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SubjectQuestionFromStoryBlock model
+   */
+  interface SubjectQuestionFromStoryBlockFieldRefs {
+    readonly id: FieldRef<"SubjectQuestionFromStoryBlock", 'String'>
+    readonly classId: FieldRef<"SubjectQuestionFromStoryBlock", 'String'>
+    readonly subjectId: FieldRef<"SubjectQuestionFromStoryBlock", 'String'>
+    readonly title: FieldRef<"SubjectQuestionFromStoryBlock", 'String'>
+    readonly instruction: FieldRef<"SubjectQuestionFromStoryBlock", 'String'>
+    readonly details: FieldRef<"SubjectQuestionFromStoryBlock", 'String'>
+    readonly documentJson: FieldRef<"SubjectQuestionFromStoryBlock", 'String'>
+    readonly sortOrder: FieldRef<"SubjectQuestionFromStoryBlock", 'Int'>
+    readonly organizationId: FieldRef<"SubjectQuestionFromStoryBlock", 'String'>
+    readonly createdBy: FieldRef<"SubjectQuestionFromStoryBlock", 'String'>
+    readonly updatedBy: FieldRef<"SubjectQuestionFromStoryBlock", 'String'>
+    readonly createdAt: FieldRef<"SubjectQuestionFromStoryBlock", 'DateTime'>
+    readonly updatedAt: FieldRef<"SubjectQuestionFromStoryBlock", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SubjectQuestionFromStoryBlock findUnique
+   */
+  export type SubjectQuestionFromStoryBlockFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectQuestionFromStoryBlock
+     */
+    select?: SubjectQuestionFromStoryBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectQuestionFromStoryBlock
+     */
+    omit?: SubjectQuestionFromStoryBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectQuestionFromStoryBlock to fetch.
+     */
+    where: SubjectQuestionFromStoryBlockWhereUniqueInput
+  }
+
+  /**
+   * SubjectQuestionFromStoryBlock findUniqueOrThrow
+   */
+  export type SubjectQuestionFromStoryBlockFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectQuestionFromStoryBlock
+     */
+    select?: SubjectQuestionFromStoryBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectQuestionFromStoryBlock
+     */
+    omit?: SubjectQuestionFromStoryBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectQuestionFromStoryBlock to fetch.
+     */
+    where: SubjectQuestionFromStoryBlockWhereUniqueInput
+  }
+
+  /**
+   * SubjectQuestionFromStoryBlock findFirst
+   */
+  export type SubjectQuestionFromStoryBlockFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectQuestionFromStoryBlock
+     */
+    select?: SubjectQuestionFromStoryBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectQuestionFromStoryBlock
+     */
+    omit?: SubjectQuestionFromStoryBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectQuestionFromStoryBlock to fetch.
+     */
+    where?: SubjectQuestionFromStoryBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubjectQuestionFromStoryBlocks to fetch.
+     */
+    orderBy?: SubjectQuestionFromStoryBlockOrderByWithRelationInput | SubjectQuestionFromStoryBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SubjectQuestionFromStoryBlocks.
+     */
+    cursor?: SubjectQuestionFromStoryBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubjectQuestionFromStoryBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubjectQuestionFromStoryBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubjectQuestionFromStoryBlocks.
+     */
+    distinct?: SubjectQuestionFromStoryBlockScalarFieldEnum | SubjectQuestionFromStoryBlockScalarFieldEnum[]
+  }
+
+  /**
+   * SubjectQuestionFromStoryBlock findFirstOrThrow
+   */
+  export type SubjectQuestionFromStoryBlockFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectQuestionFromStoryBlock
+     */
+    select?: SubjectQuestionFromStoryBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectQuestionFromStoryBlock
+     */
+    omit?: SubjectQuestionFromStoryBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectQuestionFromStoryBlock to fetch.
+     */
+    where?: SubjectQuestionFromStoryBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubjectQuestionFromStoryBlocks to fetch.
+     */
+    orderBy?: SubjectQuestionFromStoryBlockOrderByWithRelationInput | SubjectQuestionFromStoryBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SubjectQuestionFromStoryBlocks.
+     */
+    cursor?: SubjectQuestionFromStoryBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubjectQuestionFromStoryBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubjectQuestionFromStoryBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubjectQuestionFromStoryBlocks.
+     */
+    distinct?: SubjectQuestionFromStoryBlockScalarFieldEnum | SubjectQuestionFromStoryBlockScalarFieldEnum[]
+  }
+
+  /**
+   * SubjectQuestionFromStoryBlock findMany
+   */
+  export type SubjectQuestionFromStoryBlockFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectQuestionFromStoryBlock
+     */
+    select?: SubjectQuestionFromStoryBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectQuestionFromStoryBlock
+     */
+    omit?: SubjectQuestionFromStoryBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectQuestionFromStoryBlocks to fetch.
+     */
+    where?: SubjectQuestionFromStoryBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubjectQuestionFromStoryBlocks to fetch.
+     */
+    orderBy?: SubjectQuestionFromStoryBlockOrderByWithRelationInput | SubjectQuestionFromStoryBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SubjectQuestionFromStoryBlocks.
+     */
+    cursor?: SubjectQuestionFromStoryBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubjectQuestionFromStoryBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubjectQuestionFromStoryBlocks.
+     */
+    skip?: number
+    distinct?: SubjectQuestionFromStoryBlockScalarFieldEnum | SubjectQuestionFromStoryBlockScalarFieldEnum[]
+  }
+
+  /**
+   * SubjectQuestionFromStoryBlock create
+   */
+  export type SubjectQuestionFromStoryBlockCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectQuestionFromStoryBlock
+     */
+    select?: SubjectQuestionFromStoryBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectQuestionFromStoryBlock
+     */
+    omit?: SubjectQuestionFromStoryBlockOmit<ExtArgs> | null
+    /**
+     * The data needed to create a SubjectQuestionFromStoryBlock.
+     */
+    data: XOR<SubjectQuestionFromStoryBlockCreateInput, SubjectQuestionFromStoryBlockUncheckedCreateInput>
+  }
+
+  /**
+   * SubjectQuestionFromStoryBlock createMany
+   */
+  export type SubjectQuestionFromStoryBlockCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SubjectQuestionFromStoryBlocks.
+     */
+    data: SubjectQuestionFromStoryBlockCreateManyInput | SubjectQuestionFromStoryBlockCreateManyInput[]
+  }
+
+  /**
+   * SubjectQuestionFromStoryBlock createManyAndReturn
+   */
+  export type SubjectQuestionFromStoryBlockCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectQuestionFromStoryBlock
+     */
+    select?: SubjectQuestionFromStoryBlockSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectQuestionFromStoryBlock
+     */
+    omit?: SubjectQuestionFromStoryBlockOmit<ExtArgs> | null
+    /**
+     * The data used to create many SubjectQuestionFromStoryBlocks.
+     */
+    data: SubjectQuestionFromStoryBlockCreateManyInput | SubjectQuestionFromStoryBlockCreateManyInput[]
+  }
+
+  /**
+   * SubjectQuestionFromStoryBlock update
+   */
+  export type SubjectQuestionFromStoryBlockUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectQuestionFromStoryBlock
+     */
+    select?: SubjectQuestionFromStoryBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectQuestionFromStoryBlock
+     */
+    omit?: SubjectQuestionFromStoryBlockOmit<ExtArgs> | null
+    /**
+     * The data needed to update a SubjectQuestionFromStoryBlock.
+     */
+    data: XOR<SubjectQuestionFromStoryBlockUpdateInput, SubjectQuestionFromStoryBlockUncheckedUpdateInput>
+    /**
+     * Choose, which SubjectQuestionFromStoryBlock to update.
+     */
+    where: SubjectQuestionFromStoryBlockWhereUniqueInput
+  }
+
+  /**
+   * SubjectQuestionFromStoryBlock updateMany
+   */
+  export type SubjectQuestionFromStoryBlockUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SubjectQuestionFromStoryBlocks.
+     */
+    data: XOR<SubjectQuestionFromStoryBlockUpdateManyMutationInput, SubjectQuestionFromStoryBlockUncheckedUpdateManyInput>
+    /**
+     * Filter which SubjectQuestionFromStoryBlocks to update
+     */
+    where?: SubjectQuestionFromStoryBlockWhereInput
+    /**
+     * Limit how many SubjectQuestionFromStoryBlocks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubjectQuestionFromStoryBlock updateManyAndReturn
+   */
+  export type SubjectQuestionFromStoryBlockUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectQuestionFromStoryBlock
+     */
+    select?: SubjectQuestionFromStoryBlockSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectQuestionFromStoryBlock
+     */
+    omit?: SubjectQuestionFromStoryBlockOmit<ExtArgs> | null
+    /**
+     * The data used to update SubjectQuestionFromStoryBlocks.
+     */
+    data: XOR<SubjectQuestionFromStoryBlockUpdateManyMutationInput, SubjectQuestionFromStoryBlockUncheckedUpdateManyInput>
+    /**
+     * Filter which SubjectQuestionFromStoryBlocks to update
+     */
+    where?: SubjectQuestionFromStoryBlockWhereInput
+    /**
+     * Limit how many SubjectQuestionFromStoryBlocks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubjectQuestionFromStoryBlock upsert
+   */
+  export type SubjectQuestionFromStoryBlockUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectQuestionFromStoryBlock
+     */
+    select?: SubjectQuestionFromStoryBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectQuestionFromStoryBlock
+     */
+    omit?: SubjectQuestionFromStoryBlockOmit<ExtArgs> | null
+    /**
+     * The filter to search for the SubjectQuestionFromStoryBlock to update in case it exists.
+     */
+    where: SubjectQuestionFromStoryBlockWhereUniqueInput
+    /**
+     * In case the SubjectQuestionFromStoryBlock found by the `where` argument doesn't exist, create a new SubjectQuestionFromStoryBlock with this data.
+     */
+    create: XOR<SubjectQuestionFromStoryBlockCreateInput, SubjectQuestionFromStoryBlockUncheckedCreateInput>
+    /**
+     * In case the SubjectQuestionFromStoryBlock was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SubjectQuestionFromStoryBlockUpdateInput, SubjectQuestionFromStoryBlockUncheckedUpdateInput>
+  }
+
+  /**
+   * SubjectQuestionFromStoryBlock delete
+   */
+  export type SubjectQuestionFromStoryBlockDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectQuestionFromStoryBlock
+     */
+    select?: SubjectQuestionFromStoryBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectQuestionFromStoryBlock
+     */
+    omit?: SubjectQuestionFromStoryBlockOmit<ExtArgs> | null
+    /**
+     * Filter which SubjectQuestionFromStoryBlock to delete.
+     */
+    where: SubjectQuestionFromStoryBlockWhereUniqueInput
+  }
+
+  /**
+   * SubjectQuestionFromStoryBlock deleteMany
+   */
+  export type SubjectQuestionFromStoryBlockDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SubjectQuestionFromStoryBlocks to delete
+     */
+    where?: SubjectQuestionFromStoryBlockWhereInput
+    /**
+     * Limit how many SubjectQuestionFromStoryBlocks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubjectQuestionFromStoryBlock without action
+   */
+  export type SubjectQuestionFromStoryBlockDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectQuestionFromStoryBlock
+     */
+    select?: SubjectQuestionFromStoryBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectQuestionFromStoryBlock
+     */
+    omit?: SubjectQuestionFromStoryBlockOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -49995,6 +60200,46 @@ export namespace Prisma {
   };
 
   export type ContentScalarFieldEnum = (typeof ContentScalarFieldEnum)[keyof typeof ContentScalarFieldEnum]
+
+
+  export const SeenPassageOneScalarFieldEnum: {
+    id: 'id',
+    contentBlockId: 'contentBlockId',
+    contentId: 'contentId',
+    classId: 'classId',
+    subjectId: 'subjectId',
+    unitId: 'unitId',
+    lessonId: 'lessonId',
+    topicId: 'topicId',
+    body: 'body',
+    organizationId: 'organizationId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SeenPassageOneScalarFieldEnum = (typeof SeenPassageOneScalarFieldEnum)[keyof typeof SeenPassageOneScalarFieldEnum]
+
+
+  export const SeenPassageTwoScalarFieldEnum: {
+    id: 'id',
+    contentBlockId: 'contentBlockId',
+    contentId: 'contentId',
+    classId: 'classId',
+    subjectId: 'subjectId',
+    unitId: 'unitId',
+    lessonId: 'lessonId',
+    topicId: 'topicId',
+    body: 'body',
+    organizationId: 'organizationId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SeenPassageTwoScalarFieldEnum = (typeof SeenPassageTwoScalarFieldEnum)[keyof typeof SeenPassageTwoScalarFieldEnum]
 
 
   export const UnseenCompositionScalarFieldEnum: {
@@ -50296,7 +60541,7 @@ export namespace Prisma {
   export type ColumnMatchingExerciseScalarFieldEnum = (typeof ColumnMatchingExerciseScalarFieldEnum)[keyof typeof ColumnMatchingExerciseScalarFieldEnum]
 
 
-  export const SentenceOrderingExerciseScalarFieldEnum: {
+  export const RearrangeSentenceExerciseScalarFieldEnum: {
     id: 'id',
     contentBlockId: 'contentBlockId',
     contentId: 'contentId',
@@ -50318,7 +60563,57 @@ export namespace Prisma {
     updatedAt: 'updatedAt'
   };
 
-  export type SentenceOrderingExerciseScalarFieldEnum = (typeof SentenceOrderingExerciseScalarFieldEnum)[keyof typeof SentenceOrderingExerciseScalarFieldEnum]
+  export type RearrangeSentenceExerciseScalarFieldEnum = (typeof RearrangeSentenceExerciseScalarFieldEnum)[keyof typeof RearrangeSentenceExerciseScalarFieldEnum]
+
+
+  export const QuestionFromPoemsScalarFieldEnum: {
+    id: 'id',
+    contentBlockId: 'contentBlockId',
+    contentId: 'contentId',
+    classId: 'classId',
+    subjectId: 'subjectId',
+    unitId: 'unitId',
+    lessonId: 'lessonId',
+    topicId: 'topicId',
+    title: 'title',
+    instruction: 'instruction',
+    question: 'question',
+    answer: 'answer',
+    details: 'details',
+    documentJson: 'documentJson',
+    organizationId: 'organizationId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type QuestionFromPoemsScalarFieldEnum = (typeof QuestionFromPoemsScalarFieldEnum)[keyof typeof QuestionFromPoemsScalarFieldEnum]
+
+
+  export const QuestionFromStoryScalarFieldEnum: {
+    id: 'id',
+    contentBlockId: 'contentBlockId',
+    contentId: 'contentId',
+    classId: 'classId',
+    subjectId: 'subjectId',
+    unitId: 'unitId',
+    lessonId: 'lessonId',
+    topicId: 'topicId',
+    title: 'title',
+    instruction: 'instruction',
+    question: 'question',
+    answer: 'answer',
+    details: 'details',
+    documentJson: 'documentJson',
+    organizationId: 'organizationId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type QuestionFromStoryScalarFieldEnum = (typeof QuestionFromStoryScalarFieldEnum)[keyof typeof QuestionFromStoryScalarFieldEnum]
 
 
   export const TrueFalseExerciseScalarFieldEnum: {
@@ -50353,6 +60648,9 @@ export namespace Prisma {
     unitId: 'unitId',
     lessonId: 'lessonId',
     topicId: 'topicId',
+    passage: 'passage',
+    passageSource: 'passageSource',
+    paragraphBlockId: 'paragraphBlockId',
     question: 'question',
     answer: 'answer',
     details: 'details',
@@ -50563,6 +60861,82 @@ export namespace Prisma {
   };
 
   export type ConnectorScalarFieldEnum = (typeof ConnectorScalarFieldEnum)[keyof typeof ConnectorScalarFieldEnum]
+
+
+  export const SubjectMatchingSentencesBlockScalarFieldEnum: {
+    id: 'id',
+    classId: 'classId',
+    subjectId: 'subjectId',
+    title: 'title',
+    instruction: 'instruction',
+    details: 'details',
+    documentJson: 'documentJson',
+    sortOrder: 'sortOrder',
+    organizationId: 'organizationId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SubjectMatchingSentencesBlockScalarFieldEnum = (typeof SubjectMatchingSentencesBlockScalarFieldEnum)[keyof typeof SubjectMatchingSentencesBlockScalarFieldEnum]
+
+
+  export const SubjectRearrangeSentenceBlockScalarFieldEnum: {
+    id: 'id',
+    classId: 'classId',
+    subjectId: 'subjectId',
+    title: 'title',
+    instruction: 'instruction',
+    details: 'details',
+    documentJson: 'documentJson',
+    sortOrder: 'sortOrder',
+    organizationId: 'organizationId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SubjectRearrangeSentenceBlockScalarFieldEnum = (typeof SubjectRearrangeSentenceBlockScalarFieldEnum)[keyof typeof SubjectRearrangeSentenceBlockScalarFieldEnum]
+
+
+  export const SubjectQuestionFromPoemsBlockScalarFieldEnum: {
+    id: 'id',
+    classId: 'classId',
+    subjectId: 'subjectId',
+    title: 'title',
+    instruction: 'instruction',
+    details: 'details',
+    documentJson: 'documentJson',
+    sortOrder: 'sortOrder',
+    organizationId: 'organizationId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SubjectQuestionFromPoemsBlockScalarFieldEnum = (typeof SubjectQuestionFromPoemsBlockScalarFieldEnum)[keyof typeof SubjectQuestionFromPoemsBlockScalarFieldEnum]
+
+
+  export const SubjectQuestionFromStoryBlockScalarFieldEnum: {
+    id: 'id',
+    classId: 'classId',
+    subjectId: 'subjectId',
+    title: 'title',
+    instruction: 'instruction',
+    details: 'details',
+    documentJson: 'documentJson',
+    sortOrder: 'sortOrder',
+    organizationId: 'organizationId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SubjectQuestionFromStoryBlockScalarFieldEnum = (typeof SubjectQuestionFromStoryBlockScalarFieldEnum)[keyof typeof SubjectQuestionFromStoryBlockScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -51793,6 +62167,206 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Content"> | Date | string
   }
 
+  export type SeenPassageOneWhereInput = {
+    AND?: SeenPassageOneWhereInput | SeenPassageOneWhereInput[]
+    OR?: SeenPassageOneWhereInput[]
+    NOT?: SeenPassageOneWhereInput | SeenPassageOneWhereInput[]
+    id?: StringFilter<"SeenPassageOne"> | string
+    contentBlockId?: StringFilter<"SeenPassageOne"> | string
+    contentId?: StringFilter<"SeenPassageOne"> | string
+    classId?: StringFilter<"SeenPassageOne"> | string
+    subjectId?: StringFilter<"SeenPassageOne"> | string
+    unitId?: StringFilter<"SeenPassageOne"> | string
+    lessonId?: StringFilter<"SeenPassageOne"> | string
+    topicId?: StringNullableFilter<"SeenPassageOne"> | string | null
+    body?: StringFilter<"SeenPassageOne"> | string
+    organizationId?: StringFilter<"SeenPassageOne"> | string
+    createdBy?: StringFilter<"SeenPassageOne"> | string
+    updatedBy?: StringFilter<"SeenPassageOne"> | string
+    createdAt?: DateTimeFilter<"SeenPassageOne"> | Date | string
+    updatedAt?: DateTimeFilter<"SeenPassageOne"> | Date | string
+    contentBlock?: XOR<ContentBlockScalarRelationFilter, ContentBlockWhereInput>
+  }
+
+  export type SeenPassageOneOrderByWithRelationInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrderInput | SortOrder
+    body?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    contentBlock?: ContentBlockOrderByWithRelationInput
+  }
+
+  export type SeenPassageOneWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    contentBlockId?: string
+    AND?: SeenPassageOneWhereInput | SeenPassageOneWhereInput[]
+    OR?: SeenPassageOneWhereInput[]
+    NOT?: SeenPassageOneWhereInput | SeenPassageOneWhereInput[]
+    contentId?: StringFilter<"SeenPassageOne"> | string
+    classId?: StringFilter<"SeenPassageOne"> | string
+    subjectId?: StringFilter<"SeenPassageOne"> | string
+    unitId?: StringFilter<"SeenPassageOne"> | string
+    lessonId?: StringFilter<"SeenPassageOne"> | string
+    topicId?: StringNullableFilter<"SeenPassageOne"> | string | null
+    body?: StringFilter<"SeenPassageOne"> | string
+    organizationId?: StringFilter<"SeenPassageOne"> | string
+    createdBy?: StringFilter<"SeenPassageOne"> | string
+    updatedBy?: StringFilter<"SeenPassageOne"> | string
+    createdAt?: DateTimeFilter<"SeenPassageOne"> | Date | string
+    updatedAt?: DateTimeFilter<"SeenPassageOne"> | Date | string
+    contentBlock?: XOR<ContentBlockScalarRelationFilter, ContentBlockWhereInput>
+  }, "id" | "contentBlockId">
+
+  export type SeenPassageOneOrderByWithAggregationInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrderInput | SortOrder
+    body?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SeenPassageOneCountOrderByAggregateInput
+    _max?: SeenPassageOneMaxOrderByAggregateInput
+    _min?: SeenPassageOneMinOrderByAggregateInput
+  }
+
+  export type SeenPassageOneScalarWhereWithAggregatesInput = {
+    AND?: SeenPassageOneScalarWhereWithAggregatesInput | SeenPassageOneScalarWhereWithAggregatesInput[]
+    OR?: SeenPassageOneScalarWhereWithAggregatesInput[]
+    NOT?: SeenPassageOneScalarWhereWithAggregatesInput | SeenPassageOneScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SeenPassageOne"> | string
+    contentBlockId?: StringWithAggregatesFilter<"SeenPassageOne"> | string
+    contentId?: StringWithAggregatesFilter<"SeenPassageOne"> | string
+    classId?: StringWithAggregatesFilter<"SeenPassageOne"> | string
+    subjectId?: StringWithAggregatesFilter<"SeenPassageOne"> | string
+    unitId?: StringWithAggregatesFilter<"SeenPassageOne"> | string
+    lessonId?: StringWithAggregatesFilter<"SeenPassageOne"> | string
+    topicId?: StringNullableWithAggregatesFilter<"SeenPassageOne"> | string | null
+    body?: StringWithAggregatesFilter<"SeenPassageOne"> | string
+    organizationId?: StringWithAggregatesFilter<"SeenPassageOne"> | string
+    createdBy?: StringWithAggregatesFilter<"SeenPassageOne"> | string
+    updatedBy?: StringWithAggregatesFilter<"SeenPassageOne"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"SeenPassageOne"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SeenPassageOne"> | Date | string
+  }
+
+  export type SeenPassageTwoWhereInput = {
+    AND?: SeenPassageTwoWhereInput | SeenPassageTwoWhereInput[]
+    OR?: SeenPassageTwoWhereInput[]
+    NOT?: SeenPassageTwoWhereInput | SeenPassageTwoWhereInput[]
+    id?: StringFilter<"SeenPassageTwo"> | string
+    contentBlockId?: StringFilter<"SeenPassageTwo"> | string
+    contentId?: StringFilter<"SeenPassageTwo"> | string
+    classId?: StringFilter<"SeenPassageTwo"> | string
+    subjectId?: StringFilter<"SeenPassageTwo"> | string
+    unitId?: StringFilter<"SeenPassageTwo"> | string
+    lessonId?: StringFilter<"SeenPassageTwo"> | string
+    topicId?: StringNullableFilter<"SeenPassageTwo"> | string | null
+    body?: StringFilter<"SeenPassageTwo"> | string
+    organizationId?: StringFilter<"SeenPassageTwo"> | string
+    createdBy?: StringFilter<"SeenPassageTwo"> | string
+    updatedBy?: StringFilter<"SeenPassageTwo"> | string
+    createdAt?: DateTimeFilter<"SeenPassageTwo"> | Date | string
+    updatedAt?: DateTimeFilter<"SeenPassageTwo"> | Date | string
+    contentBlock?: XOR<ContentBlockScalarRelationFilter, ContentBlockWhereInput>
+  }
+
+  export type SeenPassageTwoOrderByWithRelationInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrderInput | SortOrder
+    body?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    contentBlock?: ContentBlockOrderByWithRelationInput
+  }
+
+  export type SeenPassageTwoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    contentBlockId?: string
+    AND?: SeenPassageTwoWhereInput | SeenPassageTwoWhereInput[]
+    OR?: SeenPassageTwoWhereInput[]
+    NOT?: SeenPassageTwoWhereInput | SeenPassageTwoWhereInput[]
+    contentId?: StringFilter<"SeenPassageTwo"> | string
+    classId?: StringFilter<"SeenPassageTwo"> | string
+    subjectId?: StringFilter<"SeenPassageTwo"> | string
+    unitId?: StringFilter<"SeenPassageTwo"> | string
+    lessonId?: StringFilter<"SeenPassageTwo"> | string
+    topicId?: StringNullableFilter<"SeenPassageTwo"> | string | null
+    body?: StringFilter<"SeenPassageTwo"> | string
+    organizationId?: StringFilter<"SeenPassageTwo"> | string
+    createdBy?: StringFilter<"SeenPassageTwo"> | string
+    updatedBy?: StringFilter<"SeenPassageTwo"> | string
+    createdAt?: DateTimeFilter<"SeenPassageTwo"> | Date | string
+    updatedAt?: DateTimeFilter<"SeenPassageTwo"> | Date | string
+    contentBlock?: XOR<ContentBlockScalarRelationFilter, ContentBlockWhereInput>
+  }, "id" | "contentBlockId">
+
+  export type SeenPassageTwoOrderByWithAggregationInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrderInput | SortOrder
+    body?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SeenPassageTwoCountOrderByAggregateInput
+    _max?: SeenPassageTwoMaxOrderByAggregateInput
+    _min?: SeenPassageTwoMinOrderByAggregateInput
+  }
+
+  export type SeenPassageTwoScalarWhereWithAggregatesInput = {
+    AND?: SeenPassageTwoScalarWhereWithAggregatesInput | SeenPassageTwoScalarWhereWithAggregatesInput[]
+    OR?: SeenPassageTwoScalarWhereWithAggregatesInput[]
+    NOT?: SeenPassageTwoScalarWhereWithAggregatesInput | SeenPassageTwoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SeenPassageTwo"> | string
+    contentBlockId?: StringWithAggregatesFilter<"SeenPassageTwo"> | string
+    contentId?: StringWithAggregatesFilter<"SeenPassageTwo"> | string
+    classId?: StringWithAggregatesFilter<"SeenPassageTwo"> | string
+    subjectId?: StringWithAggregatesFilter<"SeenPassageTwo"> | string
+    unitId?: StringWithAggregatesFilter<"SeenPassageTwo"> | string
+    lessonId?: StringWithAggregatesFilter<"SeenPassageTwo"> | string
+    topicId?: StringNullableWithAggregatesFilter<"SeenPassageTwo"> | string | null
+    body?: StringWithAggregatesFilter<"SeenPassageTwo"> | string
+    organizationId?: StringWithAggregatesFilter<"SeenPassageTwo"> | string
+    createdBy?: StringWithAggregatesFilter<"SeenPassageTwo"> | string
+    updatedBy?: StringWithAggregatesFilter<"SeenPassageTwo"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"SeenPassageTwo"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SeenPassageTwo"> | Date | string
+  }
+
   export type UnseenCompositionWhereInput = {
     AND?: UnseenCompositionWhereInput | UnseenCompositionWhereInput[]
     OR?: UnseenCompositionWhereInput[]
@@ -51897,7 +62471,9 @@ export namespace Prisma {
     questionAnswerExercise?: XOR<QuestionAnswerExerciseNullableScalarRelationFilter, QuestionAnswerExerciseWhereInput> | null
     tableCompletionExercise?: XOR<TableCompletionExerciseNullableScalarRelationFilter, TableCompletionExerciseWhereInput> | null
     columnMatchingExercise?: XOR<ColumnMatchingExerciseNullableScalarRelationFilter, ColumnMatchingExerciseWhereInput> | null
-    sentenceOrderingExercise?: XOR<SentenceOrderingExerciseNullableScalarRelationFilter, SentenceOrderingExerciseWhereInput> | null
+    rearrangeSentenceExercise?: XOR<RearrangeSentenceExerciseNullableScalarRelationFilter, RearrangeSentenceExerciseWhereInput> | null
+    questionFromPoems?: XOR<QuestionFromPoemsNullableScalarRelationFilter, QuestionFromPoemsWhereInput> | null
+    questionFromStory?: XOR<QuestionFromStoryNullableScalarRelationFilter, QuestionFromStoryWhereInput> | null
     trueFalseExercise?: XOR<TrueFalseExerciseNullableScalarRelationFilter, TrueFalseExerciseWhereInput> | null
     informationTransfer?: XOR<InformationTransferNullableScalarRelationFilter, InformationTransferWhereInput> | null
     substitutionTable?: XOR<SubstitutionTableNullableScalarRelationFilter, SubstitutionTableWhereInput> | null
@@ -51909,6 +62485,8 @@ export namespace Prisma {
     suffixAndPrefix?: XOR<SuffixAndPrefixNullableScalarRelationFilter, SuffixAndPrefixWhereInput> | null
     tagQuestion?: XOR<TagQuestionNullableScalarRelationFilter, TagQuestionWhereInput> | null
     connector?: XOR<ConnectorNullableScalarRelationFilter, ConnectorWhereInput> | null
+    seenPassageOne?: XOR<SeenPassageOneNullableScalarRelationFilter, SeenPassageOneWhereInput> | null
+    seenPassageTwo?: XOR<SeenPassageTwoNullableScalarRelationFilter, SeenPassageTwoWhereInput> | null
   }
 
   export type ContentBlockOrderByWithRelationInput = {
@@ -51929,7 +62507,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseOrderByWithRelationInput
     tableCompletionExercise?: TableCompletionExerciseOrderByWithRelationInput
     columnMatchingExercise?: ColumnMatchingExerciseOrderByWithRelationInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseOrderByWithRelationInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseOrderByWithRelationInput
+    questionFromPoems?: QuestionFromPoemsOrderByWithRelationInput
+    questionFromStory?: QuestionFromStoryOrderByWithRelationInput
     trueFalseExercise?: TrueFalseExerciseOrderByWithRelationInput
     informationTransfer?: InformationTransferOrderByWithRelationInput
     substitutionTable?: SubstitutionTableOrderByWithRelationInput
@@ -51941,6 +62521,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixOrderByWithRelationInput
     tagQuestion?: TagQuestionOrderByWithRelationInput
     connector?: ConnectorOrderByWithRelationInput
+    seenPassageOne?: SeenPassageOneOrderByWithRelationInput
+    seenPassageTwo?: SeenPassageTwoOrderByWithRelationInput
   }
 
   export type ContentBlockWhereUniqueInput = Prisma.AtLeast<{
@@ -51964,7 +62546,9 @@ export namespace Prisma {
     questionAnswerExercise?: XOR<QuestionAnswerExerciseNullableScalarRelationFilter, QuestionAnswerExerciseWhereInput> | null
     tableCompletionExercise?: XOR<TableCompletionExerciseNullableScalarRelationFilter, TableCompletionExerciseWhereInput> | null
     columnMatchingExercise?: XOR<ColumnMatchingExerciseNullableScalarRelationFilter, ColumnMatchingExerciseWhereInput> | null
-    sentenceOrderingExercise?: XOR<SentenceOrderingExerciseNullableScalarRelationFilter, SentenceOrderingExerciseWhereInput> | null
+    rearrangeSentenceExercise?: XOR<RearrangeSentenceExerciseNullableScalarRelationFilter, RearrangeSentenceExerciseWhereInput> | null
+    questionFromPoems?: XOR<QuestionFromPoemsNullableScalarRelationFilter, QuestionFromPoemsWhereInput> | null
+    questionFromStory?: XOR<QuestionFromStoryNullableScalarRelationFilter, QuestionFromStoryWhereInput> | null
     trueFalseExercise?: XOR<TrueFalseExerciseNullableScalarRelationFilter, TrueFalseExerciseWhereInput> | null
     informationTransfer?: XOR<InformationTransferNullableScalarRelationFilter, InformationTransferWhereInput> | null
     substitutionTable?: XOR<SubstitutionTableNullableScalarRelationFilter, SubstitutionTableWhereInput> | null
@@ -51976,6 +62560,8 @@ export namespace Prisma {
     suffixAndPrefix?: XOR<SuffixAndPrefixNullableScalarRelationFilter, SuffixAndPrefixWhereInput> | null
     tagQuestion?: XOR<TagQuestionNullableScalarRelationFilter, TagQuestionWhereInput> | null
     connector?: XOR<ConnectorNullableScalarRelationFilter, ConnectorWhereInput> | null
+    seenPassageOne?: XOR<SeenPassageOneNullableScalarRelationFilter, SeenPassageOneWhereInput> | null
+    seenPassageTwo?: XOR<SeenPassageTwoNullableScalarRelationFilter, SeenPassageTwoWhereInput> | null
   }, "id">
 
   export type ContentBlockOrderByWithAggregationInput = {
@@ -53369,33 +63955,33 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"ColumnMatchingExercise"> | Date | string
   }
 
-  export type SentenceOrderingExerciseWhereInput = {
-    AND?: SentenceOrderingExerciseWhereInput | SentenceOrderingExerciseWhereInput[]
-    OR?: SentenceOrderingExerciseWhereInput[]
-    NOT?: SentenceOrderingExerciseWhereInput | SentenceOrderingExerciseWhereInput[]
-    id?: StringFilter<"SentenceOrderingExercise"> | string
-    contentBlockId?: StringFilter<"SentenceOrderingExercise"> | string
-    contentId?: StringFilter<"SentenceOrderingExercise"> | string
-    classId?: StringFilter<"SentenceOrderingExercise"> | string
-    subjectId?: StringFilter<"SentenceOrderingExercise"> | string
-    unitId?: StringFilter<"SentenceOrderingExercise"> | string
-    lessonId?: StringFilter<"SentenceOrderingExercise"> | string
-    topicId?: StringNullableFilter<"SentenceOrderingExercise"> | string | null
-    title?: StringFilter<"SentenceOrderingExercise"> | string
-    instruction?: StringFilter<"SentenceOrderingExercise"> | string
-    question?: StringFilter<"SentenceOrderingExercise"> | string
-    answer?: StringFilter<"SentenceOrderingExercise"> | string
-    details?: StringFilter<"SentenceOrderingExercise"> | string
-    documentJson?: StringFilter<"SentenceOrderingExercise"> | string
-    organizationId?: StringFilter<"SentenceOrderingExercise"> | string
-    createdBy?: StringFilter<"SentenceOrderingExercise"> | string
-    updatedBy?: StringFilter<"SentenceOrderingExercise"> | string
-    createdAt?: DateTimeFilter<"SentenceOrderingExercise"> | Date | string
-    updatedAt?: DateTimeFilter<"SentenceOrderingExercise"> | Date | string
+  export type RearrangeSentenceExerciseWhereInput = {
+    AND?: RearrangeSentenceExerciseWhereInput | RearrangeSentenceExerciseWhereInput[]
+    OR?: RearrangeSentenceExerciseWhereInput[]
+    NOT?: RearrangeSentenceExerciseWhereInput | RearrangeSentenceExerciseWhereInput[]
+    id?: StringFilter<"RearrangeSentenceExercise"> | string
+    contentBlockId?: StringFilter<"RearrangeSentenceExercise"> | string
+    contentId?: StringFilter<"RearrangeSentenceExercise"> | string
+    classId?: StringFilter<"RearrangeSentenceExercise"> | string
+    subjectId?: StringFilter<"RearrangeSentenceExercise"> | string
+    unitId?: StringFilter<"RearrangeSentenceExercise"> | string
+    lessonId?: StringFilter<"RearrangeSentenceExercise"> | string
+    topicId?: StringNullableFilter<"RearrangeSentenceExercise"> | string | null
+    title?: StringFilter<"RearrangeSentenceExercise"> | string
+    instruction?: StringFilter<"RearrangeSentenceExercise"> | string
+    question?: StringFilter<"RearrangeSentenceExercise"> | string
+    answer?: StringFilter<"RearrangeSentenceExercise"> | string
+    details?: StringFilter<"RearrangeSentenceExercise"> | string
+    documentJson?: StringFilter<"RearrangeSentenceExercise"> | string
+    organizationId?: StringFilter<"RearrangeSentenceExercise"> | string
+    createdBy?: StringFilter<"RearrangeSentenceExercise"> | string
+    updatedBy?: StringFilter<"RearrangeSentenceExercise"> | string
+    createdAt?: DateTimeFilter<"RearrangeSentenceExercise"> | Date | string
+    updatedAt?: DateTimeFilter<"RearrangeSentenceExercise"> | Date | string
     contentBlock?: XOR<ContentBlockScalarRelationFilter, ContentBlockWhereInput>
   }
 
-  export type SentenceOrderingExerciseOrderByWithRelationInput = {
+  export type RearrangeSentenceExerciseOrderByWithRelationInput = {
     id?: SortOrder
     contentBlockId?: SortOrder
     contentId?: SortOrder
@@ -53418,33 +64004,33 @@ export namespace Prisma {
     contentBlock?: ContentBlockOrderByWithRelationInput
   }
 
-  export type SentenceOrderingExerciseWhereUniqueInput = Prisma.AtLeast<{
+  export type RearrangeSentenceExerciseWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     contentBlockId?: string
-    AND?: SentenceOrderingExerciseWhereInput | SentenceOrderingExerciseWhereInput[]
-    OR?: SentenceOrderingExerciseWhereInput[]
-    NOT?: SentenceOrderingExerciseWhereInput | SentenceOrderingExerciseWhereInput[]
-    contentId?: StringFilter<"SentenceOrderingExercise"> | string
-    classId?: StringFilter<"SentenceOrderingExercise"> | string
-    subjectId?: StringFilter<"SentenceOrderingExercise"> | string
-    unitId?: StringFilter<"SentenceOrderingExercise"> | string
-    lessonId?: StringFilter<"SentenceOrderingExercise"> | string
-    topicId?: StringNullableFilter<"SentenceOrderingExercise"> | string | null
-    title?: StringFilter<"SentenceOrderingExercise"> | string
-    instruction?: StringFilter<"SentenceOrderingExercise"> | string
-    question?: StringFilter<"SentenceOrderingExercise"> | string
-    answer?: StringFilter<"SentenceOrderingExercise"> | string
-    details?: StringFilter<"SentenceOrderingExercise"> | string
-    documentJson?: StringFilter<"SentenceOrderingExercise"> | string
-    organizationId?: StringFilter<"SentenceOrderingExercise"> | string
-    createdBy?: StringFilter<"SentenceOrderingExercise"> | string
-    updatedBy?: StringFilter<"SentenceOrderingExercise"> | string
-    createdAt?: DateTimeFilter<"SentenceOrderingExercise"> | Date | string
-    updatedAt?: DateTimeFilter<"SentenceOrderingExercise"> | Date | string
+    AND?: RearrangeSentenceExerciseWhereInput | RearrangeSentenceExerciseWhereInput[]
+    OR?: RearrangeSentenceExerciseWhereInput[]
+    NOT?: RearrangeSentenceExerciseWhereInput | RearrangeSentenceExerciseWhereInput[]
+    contentId?: StringFilter<"RearrangeSentenceExercise"> | string
+    classId?: StringFilter<"RearrangeSentenceExercise"> | string
+    subjectId?: StringFilter<"RearrangeSentenceExercise"> | string
+    unitId?: StringFilter<"RearrangeSentenceExercise"> | string
+    lessonId?: StringFilter<"RearrangeSentenceExercise"> | string
+    topicId?: StringNullableFilter<"RearrangeSentenceExercise"> | string | null
+    title?: StringFilter<"RearrangeSentenceExercise"> | string
+    instruction?: StringFilter<"RearrangeSentenceExercise"> | string
+    question?: StringFilter<"RearrangeSentenceExercise"> | string
+    answer?: StringFilter<"RearrangeSentenceExercise"> | string
+    details?: StringFilter<"RearrangeSentenceExercise"> | string
+    documentJson?: StringFilter<"RearrangeSentenceExercise"> | string
+    organizationId?: StringFilter<"RearrangeSentenceExercise"> | string
+    createdBy?: StringFilter<"RearrangeSentenceExercise"> | string
+    updatedBy?: StringFilter<"RearrangeSentenceExercise"> | string
+    createdAt?: DateTimeFilter<"RearrangeSentenceExercise"> | Date | string
+    updatedAt?: DateTimeFilter<"RearrangeSentenceExercise"> | Date | string
     contentBlock?: XOR<ContentBlockScalarRelationFilter, ContentBlockWhereInput>
   }, "id" | "contentBlockId">
 
-  export type SentenceOrderingExerciseOrderByWithAggregationInput = {
+  export type RearrangeSentenceExerciseOrderByWithAggregationInput = {
     id?: SortOrder
     contentBlockId?: SortOrder
     contentId?: SortOrder
@@ -53464,34 +64050,284 @@ export namespace Prisma {
     updatedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    _count?: SentenceOrderingExerciseCountOrderByAggregateInput
-    _max?: SentenceOrderingExerciseMaxOrderByAggregateInput
-    _min?: SentenceOrderingExerciseMinOrderByAggregateInput
+    _count?: RearrangeSentenceExerciseCountOrderByAggregateInput
+    _max?: RearrangeSentenceExerciseMaxOrderByAggregateInput
+    _min?: RearrangeSentenceExerciseMinOrderByAggregateInput
   }
 
-  export type SentenceOrderingExerciseScalarWhereWithAggregatesInput = {
-    AND?: SentenceOrderingExerciseScalarWhereWithAggregatesInput | SentenceOrderingExerciseScalarWhereWithAggregatesInput[]
-    OR?: SentenceOrderingExerciseScalarWhereWithAggregatesInput[]
-    NOT?: SentenceOrderingExerciseScalarWhereWithAggregatesInput | SentenceOrderingExerciseScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
-    contentBlockId?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
-    contentId?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
-    classId?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
-    subjectId?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
-    unitId?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
-    lessonId?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
-    topicId?: StringNullableWithAggregatesFilter<"SentenceOrderingExercise"> | string | null
-    title?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
-    instruction?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
-    question?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
-    answer?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
-    details?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
-    documentJson?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
-    organizationId?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
-    createdBy?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
-    updatedBy?: StringWithAggregatesFilter<"SentenceOrderingExercise"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"SentenceOrderingExercise"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"SentenceOrderingExercise"> | Date | string
+  export type RearrangeSentenceExerciseScalarWhereWithAggregatesInput = {
+    AND?: RearrangeSentenceExerciseScalarWhereWithAggregatesInput | RearrangeSentenceExerciseScalarWhereWithAggregatesInput[]
+    OR?: RearrangeSentenceExerciseScalarWhereWithAggregatesInput[]
+    NOT?: RearrangeSentenceExerciseScalarWhereWithAggregatesInput | RearrangeSentenceExerciseScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"RearrangeSentenceExercise"> | string
+    contentBlockId?: StringWithAggregatesFilter<"RearrangeSentenceExercise"> | string
+    contentId?: StringWithAggregatesFilter<"RearrangeSentenceExercise"> | string
+    classId?: StringWithAggregatesFilter<"RearrangeSentenceExercise"> | string
+    subjectId?: StringWithAggregatesFilter<"RearrangeSentenceExercise"> | string
+    unitId?: StringWithAggregatesFilter<"RearrangeSentenceExercise"> | string
+    lessonId?: StringWithAggregatesFilter<"RearrangeSentenceExercise"> | string
+    topicId?: StringNullableWithAggregatesFilter<"RearrangeSentenceExercise"> | string | null
+    title?: StringWithAggregatesFilter<"RearrangeSentenceExercise"> | string
+    instruction?: StringWithAggregatesFilter<"RearrangeSentenceExercise"> | string
+    question?: StringWithAggregatesFilter<"RearrangeSentenceExercise"> | string
+    answer?: StringWithAggregatesFilter<"RearrangeSentenceExercise"> | string
+    details?: StringWithAggregatesFilter<"RearrangeSentenceExercise"> | string
+    documentJson?: StringWithAggregatesFilter<"RearrangeSentenceExercise"> | string
+    organizationId?: StringWithAggregatesFilter<"RearrangeSentenceExercise"> | string
+    createdBy?: StringWithAggregatesFilter<"RearrangeSentenceExercise"> | string
+    updatedBy?: StringWithAggregatesFilter<"RearrangeSentenceExercise"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"RearrangeSentenceExercise"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"RearrangeSentenceExercise"> | Date | string
+  }
+
+  export type QuestionFromPoemsWhereInput = {
+    AND?: QuestionFromPoemsWhereInput | QuestionFromPoemsWhereInput[]
+    OR?: QuestionFromPoemsWhereInput[]
+    NOT?: QuestionFromPoemsWhereInput | QuestionFromPoemsWhereInput[]
+    id?: StringFilter<"QuestionFromPoems"> | string
+    contentBlockId?: StringFilter<"QuestionFromPoems"> | string
+    contentId?: StringFilter<"QuestionFromPoems"> | string
+    classId?: StringFilter<"QuestionFromPoems"> | string
+    subjectId?: StringFilter<"QuestionFromPoems"> | string
+    unitId?: StringFilter<"QuestionFromPoems"> | string
+    lessonId?: StringFilter<"QuestionFromPoems"> | string
+    topicId?: StringNullableFilter<"QuestionFromPoems"> | string | null
+    title?: StringFilter<"QuestionFromPoems"> | string
+    instruction?: StringFilter<"QuestionFromPoems"> | string
+    question?: StringFilter<"QuestionFromPoems"> | string
+    answer?: StringFilter<"QuestionFromPoems"> | string
+    details?: StringFilter<"QuestionFromPoems"> | string
+    documentJson?: StringFilter<"QuestionFromPoems"> | string
+    organizationId?: StringFilter<"QuestionFromPoems"> | string
+    createdBy?: StringFilter<"QuestionFromPoems"> | string
+    updatedBy?: StringFilter<"QuestionFromPoems"> | string
+    createdAt?: DateTimeFilter<"QuestionFromPoems"> | Date | string
+    updatedAt?: DateTimeFilter<"QuestionFromPoems"> | Date | string
+    contentBlock?: XOR<ContentBlockScalarRelationFilter, ContentBlockWhereInput>
+  }
+
+  export type QuestionFromPoemsOrderByWithRelationInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrderInput | SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    contentBlock?: ContentBlockOrderByWithRelationInput
+  }
+
+  export type QuestionFromPoemsWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    contentBlockId?: string
+    AND?: QuestionFromPoemsWhereInput | QuestionFromPoemsWhereInput[]
+    OR?: QuestionFromPoemsWhereInput[]
+    NOT?: QuestionFromPoemsWhereInput | QuestionFromPoemsWhereInput[]
+    contentId?: StringFilter<"QuestionFromPoems"> | string
+    classId?: StringFilter<"QuestionFromPoems"> | string
+    subjectId?: StringFilter<"QuestionFromPoems"> | string
+    unitId?: StringFilter<"QuestionFromPoems"> | string
+    lessonId?: StringFilter<"QuestionFromPoems"> | string
+    topicId?: StringNullableFilter<"QuestionFromPoems"> | string | null
+    title?: StringFilter<"QuestionFromPoems"> | string
+    instruction?: StringFilter<"QuestionFromPoems"> | string
+    question?: StringFilter<"QuestionFromPoems"> | string
+    answer?: StringFilter<"QuestionFromPoems"> | string
+    details?: StringFilter<"QuestionFromPoems"> | string
+    documentJson?: StringFilter<"QuestionFromPoems"> | string
+    organizationId?: StringFilter<"QuestionFromPoems"> | string
+    createdBy?: StringFilter<"QuestionFromPoems"> | string
+    updatedBy?: StringFilter<"QuestionFromPoems"> | string
+    createdAt?: DateTimeFilter<"QuestionFromPoems"> | Date | string
+    updatedAt?: DateTimeFilter<"QuestionFromPoems"> | Date | string
+    contentBlock?: XOR<ContentBlockScalarRelationFilter, ContentBlockWhereInput>
+  }, "id" | "contentBlockId">
+
+  export type QuestionFromPoemsOrderByWithAggregationInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrderInput | SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: QuestionFromPoemsCountOrderByAggregateInput
+    _max?: QuestionFromPoemsMaxOrderByAggregateInput
+    _min?: QuestionFromPoemsMinOrderByAggregateInput
+  }
+
+  export type QuestionFromPoemsScalarWhereWithAggregatesInput = {
+    AND?: QuestionFromPoemsScalarWhereWithAggregatesInput | QuestionFromPoemsScalarWhereWithAggregatesInput[]
+    OR?: QuestionFromPoemsScalarWhereWithAggregatesInput[]
+    NOT?: QuestionFromPoemsScalarWhereWithAggregatesInput | QuestionFromPoemsScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"QuestionFromPoems"> | string
+    contentBlockId?: StringWithAggregatesFilter<"QuestionFromPoems"> | string
+    contentId?: StringWithAggregatesFilter<"QuestionFromPoems"> | string
+    classId?: StringWithAggregatesFilter<"QuestionFromPoems"> | string
+    subjectId?: StringWithAggregatesFilter<"QuestionFromPoems"> | string
+    unitId?: StringWithAggregatesFilter<"QuestionFromPoems"> | string
+    lessonId?: StringWithAggregatesFilter<"QuestionFromPoems"> | string
+    topicId?: StringNullableWithAggregatesFilter<"QuestionFromPoems"> | string | null
+    title?: StringWithAggregatesFilter<"QuestionFromPoems"> | string
+    instruction?: StringWithAggregatesFilter<"QuestionFromPoems"> | string
+    question?: StringWithAggregatesFilter<"QuestionFromPoems"> | string
+    answer?: StringWithAggregatesFilter<"QuestionFromPoems"> | string
+    details?: StringWithAggregatesFilter<"QuestionFromPoems"> | string
+    documentJson?: StringWithAggregatesFilter<"QuestionFromPoems"> | string
+    organizationId?: StringWithAggregatesFilter<"QuestionFromPoems"> | string
+    createdBy?: StringWithAggregatesFilter<"QuestionFromPoems"> | string
+    updatedBy?: StringWithAggregatesFilter<"QuestionFromPoems"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"QuestionFromPoems"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"QuestionFromPoems"> | Date | string
+  }
+
+  export type QuestionFromStoryWhereInput = {
+    AND?: QuestionFromStoryWhereInput | QuestionFromStoryWhereInput[]
+    OR?: QuestionFromStoryWhereInput[]
+    NOT?: QuestionFromStoryWhereInput | QuestionFromStoryWhereInput[]
+    id?: StringFilter<"QuestionFromStory"> | string
+    contentBlockId?: StringFilter<"QuestionFromStory"> | string
+    contentId?: StringFilter<"QuestionFromStory"> | string
+    classId?: StringFilter<"QuestionFromStory"> | string
+    subjectId?: StringFilter<"QuestionFromStory"> | string
+    unitId?: StringFilter<"QuestionFromStory"> | string
+    lessonId?: StringFilter<"QuestionFromStory"> | string
+    topicId?: StringNullableFilter<"QuestionFromStory"> | string | null
+    title?: StringFilter<"QuestionFromStory"> | string
+    instruction?: StringFilter<"QuestionFromStory"> | string
+    question?: StringFilter<"QuestionFromStory"> | string
+    answer?: StringFilter<"QuestionFromStory"> | string
+    details?: StringFilter<"QuestionFromStory"> | string
+    documentJson?: StringFilter<"QuestionFromStory"> | string
+    organizationId?: StringFilter<"QuestionFromStory"> | string
+    createdBy?: StringFilter<"QuestionFromStory"> | string
+    updatedBy?: StringFilter<"QuestionFromStory"> | string
+    createdAt?: DateTimeFilter<"QuestionFromStory"> | Date | string
+    updatedAt?: DateTimeFilter<"QuestionFromStory"> | Date | string
+    contentBlock?: XOR<ContentBlockScalarRelationFilter, ContentBlockWhereInput>
+  }
+
+  export type QuestionFromStoryOrderByWithRelationInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrderInput | SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    contentBlock?: ContentBlockOrderByWithRelationInput
+  }
+
+  export type QuestionFromStoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    contentBlockId?: string
+    AND?: QuestionFromStoryWhereInput | QuestionFromStoryWhereInput[]
+    OR?: QuestionFromStoryWhereInput[]
+    NOT?: QuestionFromStoryWhereInput | QuestionFromStoryWhereInput[]
+    contentId?: StringFilter<"QuestionFromStory"> | string
+    classId?: StringFilter<"QuestionFromStory"> | string
+    subjectId?: StringFilter<"QuestionFromStory"> | string
+    unitId?: StringFilter<"QuestionFromStory"> | string
+    lessonId?: StringFilter<"QuestionFromStory"> | string
+    topicId?: StringNullableFilter<"QuestionFromStory"> | string | null
+    title?: StringFilter<"QuestionFromStory"> | string
+    instruction?: StringFilter<"QuestionFromStory"> | string
+    question?: StringFilter<"QuestionFromStory"> | string
+    answer?: StringFilter<"QuestionFromStory"> | string
+    details?: StringFilter<"QuestionFromStory"> | string
+    documentJson?: StringFilter<"QuestionFromStory"> | string
+    organizationId?: StringFilter<"QuestionFromStory"> | string
+    createdBy?: StringFilter<"QuestionFromStory"> | string
+    updatedBy?: StringFilter<"QuestionFromStory"> | string
+    createdAt?: DateTimeFilter<"QuestionFromStory"> | Date | string
+    updatedAt?: DateTimeFilter<"QuestionFromStory"> | Date | string
+    contentBlock?: XOR<ContentBlockScalarRelationFilter, ContentBlockWhereInput>
+  }, "id" | "contentBlockId">
+
+  export type QuestionFromStoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrderInput | SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: QuestionFromStoryCountOrderByAggregateInput
+    _max?: QuestionFromStoryMaxOrderByAggregateInput
+    _min?: QuestionFromStoryMinOrderByAggregateInput
+  }
+
+  export type QuestionFromStoryScalarWhereWithAggregatesInput = {
+    AND?: QuestionFromStoryScalarWhereWithAggregatesInput | QuestionFromStoryScalarWhereWithAggregatesInput[]
+    OR?: QuestionFromStoryScalarWhereWithAggregatesInput[]
+    NOT?: QuestionFromStoryScalarWhereWithAggregatesInput | QuestionFromStoryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"QuestionFromStory"> | string
+    contentBlockId?: StringWithAggregatesFilter<"QuestionFromStory"> | string
+    contentId?: StringWithAggregatesFilter<"QuestionFromStory"> | string
+    classId?: StringWithAggregatesFilter<"QuestionFromStory"> | string
+    subjectId?: StringWithAggregatesFilter<"QuestionFromStory"> | string
+    unitId?: StringWithAggregatesFilter<"QuestionFromStory"> | string
+    lessonId?: StringWithAggregatesFilter<"QuestionFromStory"> | string
+    topicId?: StringNullableWithAggregatesFilter<"QuestionFromStory"> | string | null
+    title?: StringWithAggregatesFilter<"QuestionFromStory"> | string
+    instruction?: StringWithAggregatesFilter<"QuestionFromStory"> | string
+    question?: StringWithAggregatesFilter<"QuestionFromStory"> | string
+    answer?: StringWithAggregatesFilter<"QuestionFromStory"> | string
+    details?: StringWithAggregatesFilter<"QuestionFromStory"> | string
+    documentJson?: StringWithAggregatesFilter<"QuestionFromStory"> | string
+    organizationId?: StringWithAggregatesFilter<"QuestionFromStory"> | string
+    createdBy?: StringWithAggregatesFilter<"QuestionFromStory"> | string
+    updatedBy?: StringWithAggregatesFilter<"QuestionFromStory"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"QuestionFromStory"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"QuestionFromStory"> | Date | string
   }
 
   export type TrueFalseExerciseWhereInput = {
@@ -53621,6 +64457,9 @@ export namespace Prisma {
     unitId?: StringFilter<"InformationTransfer"> | string
     lessonId?: StringFilter<"InformationTransfer"> | string
     topicId?: StringNullableFilter<"InformationTransfer"> | string | null
+    passage?: StringFilter<"InformationTransfer"> | string
+    passageSource?: StringFilter<"InformationTransfer"> | string
+    paragraphBlockId?: StringNullableFilter<"InformationTransfer"> | string | null
     question?: StringFilter<"InformationTransfer"> | string
     answer?: StringFilter<"InformationTransfer"> | string
     details?: StringFilter<"InformationTransfer"> | string
@@ -53642,6 +64481,9 @@ export namespace Prisma {
     unitId?: SortOrder
     lessonId?: SortOrder
     topicId?: SortOrderInput | SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrderInput | SortOrder
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
@@ -53666,6 +64508,9 @@ export namespace Prisma {
     unitId?: StringFilter<"InformationTransfer"> | string
     lessonId?: StringFilter<"InformationTransfer"> | string
     topicId?: StringNullableFilter<"InformationTransfer"> | string | null
+    passage?: StringFilter<"InformationTransfer"> | string
+    passageSource?: StringFilter<"InformationTransfer"> | string
+    paragraphBlockId?: StringNullableFilter<"InformationTransfer"> | string | null
     question?: StringFilter<"InformationTransfer"> | string
     answer?: StringFilter<"InformationTransfer"> | string
     details?: StringFilter<"InformationTransfer"> | string
@@ -53687,6 +64532,9 @@ export namespace Prisma {
     unitId?: SortOrder
     lessonId?: SortOrder
     topicId?: SortOrderInput | SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrderInput | SortOrder
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
@@ -53713,6 +64561,9 @@ export namespace Prisma {
     unitId?: StringWithAggregatesFilter<"InformationTransfer"> | string
     lessonId?: StringWithAggregatesFilter<"InformationTransfer"> | string
     topicId?: StringNullableWithAggregatesFilter<"InformationTransfer"> | string | null
+    passage?: StringWithAggregatesFilter<"InformationTransfer"> | string
+    passageSource?: StringWithAggregatesFilter<"InformationTransfer"> | string
+    paragraphBlockId?: StringNullableWithAggregatesFilter<"InformationTransfer"> | string | null
     question?: StringWithAggregatesFilter<"InformationTransfer"> | string
     answer?: StringWithAggregatesFilter<"InformationTransfer"> | string
     details?: StringWithAggregatesFilter<"InformationTransfer"> | string
@@ -54712,6 +65563,382 @@ export namespace Prisma {
     updatedBy?: StringWithAggregatesFilter<"Connector"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Connector"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Connector"> | Date | string
+  }
+
+  export type SubjectMatchingSentencesBlockWhereInput = {
+    AND?: SubjectMatchingSentencesBlockWhereInput | SubjectMatchingSentencesBlockWhereInput[]
+    OR?: SubjectMatchingSentencesBlockWhereInput[]
+    NOT?: SubjectMatchingSentencesBlockWhereInput | SubjectMatchingSentencesBlockWhereInput[]
+    id?: StringFilter<"SubjectMatchingSentencesBlock"> | string
+    classId?: StringFilter<"SubjectMatchingSentencesBlock"> | string
+    subjectId?: StringFilter<"SubjectMatchingSentencesBlock"> | string
+    title?: StringFilter<"SubjectMatchingSentencesBlock"> | string
+    instruction?: StringFilter<"SubjectMatchingSentencesBlock"> | string
+    details?: StringFilter<"SubjectMatchingSentencesBlock"> | string
+    documentJson?: StringFilter<"SubjectMatchingSentencesBlock"> | string
+    sortOrder?: IntFilter<"SubjectMatchingSentencesBlock"> | number
+    organizationId?: StringFilter<"SubjectMatchingSentencesBlock"> | string
+    createdBy?: StringFilter<"SubjectMatchingSentencesBlock"> | string
+    updatedBy?: StringFilter<"SubjectMatchingSentencesBlock"> | string
+    createdAt?: DateTimeFilter<"SubjectMatchingSentencesBlock"> | Date | string
+    updatedAt?: DateTimeFilter<"SubjectMatchingSentencesBlock"> | Date | string
+  }
+
+  export type SubjectMatchingSentencesBlockOrderByWithRelationInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectMatchingSentencesBlockWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SubjectMatchingSentencesBlockWhereInput | SubjectMatchingSentencesBlockWhereInput[]
+    OR?: SubjectMatchingSentencesBlockWhereInput[]
+    NOT?: SubjectMatchingSentencesBlockWhereInput | SubjectMatchingSentencesBlockWhereInput[]
+    classId?: StringFilter<"SubjectMatchingSentencesBlock"> | string
+    subjectId?: StringFilter<"SubjectMatchingSentencesBlock"> | string
+    title?: StringFilter<"SubjectMatchingSentencesBlock"> | string
+    instruction?: StringFilter<"SubjectMatchingSentencesBlock"> | string
+    details?: StringFilter<"SubjectMatchingSentencesBlock"> | string
+    documentJson?: StringFilter<"SubjectMatchingSentencesBlock"> | string
+    sortOrder?: IntFilter<"SubjectMatchingSentencesBlock"> | number
+    organizationId?: StringFilter<"SubjectMatchingSentencesBlock"> | string
+    createdBy?: StringFilter<"SubjectMatchingSentencesBlock"> | string
+    updatedBy?: StringFilter<"SubjectMatchingSentencesBlock"> | string
+    createdAt?: DateTimeFilter<"SubjectMatchingSentencesBlock"> | Date | string
+    updatedAt?: DateTimeFilter<"SubjectMatchingSentencesBlock"> | Date | string
+  }, "id">
+
+  export type SubjectMatchingSentencesBlockOrderByWithAggregationInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SubjectMatchingSentencesBlockCountOrderByAggregateInput
+    _avg?: SubjectMatchingSentencesBlockAvgOrderByAggregateInput
+    _max?: SubjectMatchingSentencesBlockMaxOrderByAggregateInput
+    _min?: SubjectMatchingSentencesBlockMinOrderByAggregateInput
+    _sum?: SubjectMatchingSentencesBlockSumOrderByAggregateInput
+  }
+
+  export type SubjectMatchingSentencesBlockScalarWhereWithAggregatesInput = {
+    AND?: SubjectMatchingSentencesBlockScalarWhereWithAggregatesInput | SubjectMatchingSentencesBlockScalarWhereWithAggregatesInput[]
+    OR?: SubjectMatchingSentencesBlockScalarWhereWithAggregatesInput[]
+    NOT?: SubjectMatchingSentencesBlockScalarWhereWithAggregatesInput | SubjectMatchingSentencesBlockScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SubjectMatchingSentencesBlock"> | string
+    classId?: StringWithAggregatesFilter<"SubjectMatchingSentencesBlock"> | string
+    subjectId?: StringWithAggregatesFilter<"SubjectMatchingSentencesBlock"> | string
+    title?: StringWithAggregatesFilter<"SubjectMatchingSentencesBlock"> | string
+    instruction?: StringWithAggregatesFilter<"SubjectMatchingSentencesBlock"> | string
+    details?: StringWithAggregatesFilter<"SubjectMatchingSentencesBlock"> | string
+    documentJson?: StringWithAggregatesFilter<"SubjectMatchingSentencesBlock"> | string
+    sortOrder?: IntWithAggregatesFilter<"SubjectMatchingSentencesBlock"> | number
+    organizationId?: StringWithAggregatesFilter<"SubjectMatchingSentencesBlock"> | string
+    createdBy?: StringWithAggregatesFilter<"SubjectMatchingSentencesBlock"> | string
+    updatedBy?: StringWithAggregatesFilter<"SubjectMatchingSentencesBlock"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"SubjectMatchingSentencesBlock"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SubjectMatchingSentencesBlock"> | Date | string
+  }
+
+  export type SubjectRearrangeSentenceBlockWhereInput = {
+    AND?: SubjectRearrangeSentenceBlockWhereInput | SubjectRearrangeSentenceBlockWhereInput[]
+    OR?: SubjectRearrangeSentenceBlockWhereInput[]
+    NOT?: SubjectRearrangeSentenceBlockWhereInput | SubjectRearrangeSentenceBlockWhereInput[]
+    id?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
+    classId?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
+    subjectId?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
+    title?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
+    instruction?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
+    details?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
+    documentJson?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
+    sortOrder?: IntFilter<"SubjectRearrangeSentenceBlock"> | number
+    organizationId?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
+    createdBy?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
+    updatedBy?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
+    createdAt?: DateTimeFilter<"SubjectRearrangeSentenceBlock"> | Date | string
+    updatedAt?: DateTimeFilter<"SubjectRearrangeSentenceBlock"> | Date | string
+  }
+
+  export type SubjectRearrangeSentenceBlockOrderByWithRelationInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectRearrangeSentenceBlockWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SubjectRearrangeSentenceBlockWhereInput | SubjectRearrangeSentenceBlockWhereInput[]
+    OR?: SubjectRearrangeSentenceBlockWhereInput[]
+    NOT?: SubjectRearrangeSentenceBlockWhereInput | SubjectRearrangeSentenceBlockWhereInput[]
+    classId?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
+    subjectId?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
+    title?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
+    instruction?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
+    details?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
+    documentJson?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
+    sortOrder?: IntFilter<"SubjectRearrangeSentenceBlock"> | number
+    organizationId?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
+    createdBy?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
+    updatedBy?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
+    createdAt?: DateTimeFilter<"SubjectRearrangeSentenceBlock"> | Date | string
+    updatedAt?: DateTimeFilter<"SubjectRearrangeSentenceBlock"> | Date | string
+  }, "id">
+
+  export type SubjectRearrangeSentenceBlockOrderByWithAggregationInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SubjectRearrangeSentenceBlockCountOrderByAggregateInput
+    _avg?: SubjectRearrangeSentenceBlockAvgOrderByAggregateInput
+    _max?: SubjectRearrangeSentenceBlockMaxOrderByAggregateInput
+    _min?: SubjectRearrangeSentenceBlockMinOrderByAggregateInput
+    _sum?: SubjectRearrangeSentenceBlockSumOrderByAggregateInput
+  }
+
+  export type SubjectRearrangeSentenceBlockScalarWhereWithAggregatesInput = {
+    AND?: SubjectRearrangeSentenceBlockScalarWhereWithAggregatesInput | SubjectRearrangeSentenceBlockScalarWhereWithAggregatesInput[]
+    OR?: SubjectRearrangeSentenceBlockScalarWhereWithAggregatesInput[]
+    NOT?: SubjectRearrangeSentenceBlockScalarWhereWithAggregatesInput | SubjectRearrangeSentenceBlockScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SubjectRearrangeSentenceBlock"> | string
+    classId?: StringWithAggregatesFilter<"SubjectRearrangeSentenceBlock"> | string
+    subjectId?: StringWithAggregatesFilter<"SubjectRearrangeSentenceBlock"> | string
+    title?: StringWithAggregatesFilter<"SubjectRearrangeSentenceBlock"> | string
+    instruction?: StringWithAggregatesFilter<"SubjectRearrangeSentenceBlock"> | string
+    details?: StringWithAggregatesFilter<"SubjectRearrangeSentenceBlock"> | string
+    documentJson?: StringWithAggregatesFilter<"SubjectRearrangeSentenceBlock"> | string
+    sortOrder?: IntWithAggregatesFilter<"SubjectRearrangeSentenceBlock"> | number
+    organizationId?: StringWithAggregatesFilter<"SubjectRearrangeSentenceBlock"> | string
+    createdBy?: StringWithAggregatesFilter<"SubjectRearrangeSentenceBlock"> | string
+    updatedBy?: StringWithAggregatesFilter<"SubjectRearrangeSentenceBlock"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"SubjectRearrangeSentenceBlock"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SubjectRearrangeSentenceBlock"> | Date | string
+  }
+
+  export type SubjectQuestionFromPoemsBlockWhereInput = {
+    AND?: SubjectQuestionFromPoemsBlockWhereInput | SubjectQuestionFromPoemsBlockWhereInput[]
+    OR?: SubjectQuestionFromPoemsBlockWhereInput[]
+    NOT?: SubjectQuestionFromPoemsBlockWhereInput | SubjectQuestionFromPoemsBlockWhereInput[]
+    id?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
+    classId?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
+    subjectId?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
+    title?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
+    instruction?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
+    details?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
+    documentJson?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
+    sortOrder?: IntFilter<"SubjectQuestionFromPoemsBlock"> | number
+    organizationId?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
+    createdBy?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
+    updatedBy?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
+    createdAt?: DateTimeFilter<"SubjectQuestionFromPoemsBlock"> | Date | string
+    updatedAt?: DateTimeFilter<"SubjectQuestionFromPoemsBlock"> | Date | string
+  }
+
+  export type SubjectQuestionFromPoemsBlockOrderByWithRelationInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectQuestionFromPoemsBlockWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SubjectQuestionFromPoemsBlockWhereInput | SubjectQuestionFromPoemsBlockWhereInput[]
+    OR?: SubjectQuestionFromPoemsBlockWhereInput[]
+    NOT?: SubjectQuestionFromPoemsBlockWhereInput | SubjectQuestionFromPoemsBlockWhereInput[]
+    classId?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
+    subjectId?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
+    title?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
+    instruction?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
+    details?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
+    documentJson?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
+    sortOrder?: IntFilter<"SubjectQuestionFromPoemsBlock"> | number
+    organizationId?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
+    createdBy?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
+    updatedBy?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
+    createdAt?: DateTimeFilter<"SubjectQuestionFromPoemsBlock"> | Date | string
+    updatedAt?: DateTimeFilter<"SubjectQuestionFromPoemsBlock"> | Date | string
+  }, "id">
+
+  export type SubjectQuestionFromPoemsBlockOrderByWithAggregationInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SubjectQuestionFromPoemsBlockCountOrderByAggregateInput
+    _avg?: SubjectQuestionFromPoemsBlockAvgOrderByAggregateInput
+    _max?: SubjectQuestionFromPoemsBlockMaxOrderByAggregateInput
+    _min?: SubjectQuestionFromPoemsBlockMinOrderByAggregateInput
+    _sum?: SubjectQuestionFromPoemsBlockSumOrderByAggregateInput
+  }
+
+  export type SubjectQuestionFromPoemsBlockScalarWhereWithAggregatesInput = {
+    AND?: SubjectQuestionFromPoemsBlockScalarWhereWithAggregatesInput | SubjectQuestionFromPoemsBlockScalarWhereWithAggregatesInput[]
+    OR?: SubjectQuestionFromPoemsBlockScalarWhereWithAggregatesInput[]
+    NOT?: SubjectQuestionFromPoemsBlockScalarWhereWithAggregatesInput | SubjectQuestionFromPoemsBlockScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SubjectQuestionFromPoemsBlock"> | string
+    classId?: StringWithAggregatesFilter<"SubjectQuestionFromPoemsBlock"> | string
+    subjectId?: StringWithAggregatesFilter<"SubjectQuestionFromPoemsBlock"> | string
+    title?: StringWithAggregatesFilter<"SubjectQuestionFromPoemsBlock"> | string
+    instruction?: StringWithAggregatesFilter<"SubjectQuestionFromPoemsBlock"> | string
+    details?: StringWithAggregatesFilter<"SubjectQuestionFromPoemsBlock"> | string
+    documentJson?: StringWithAggregatesFilter<"SubjectQuestionFromPoemsBlock"> | string
+    sortOrder?: IntWithAggregatesFilter<"SubjectQuestionFromPoemsBlock"> | number
+    organizationId?: StringWithAggregatesFilter<"SubjectQuestionFromPoemsBlock"> | string
+    createdBy?: StringWithAggregatesFilter<"SubjectQuestionFromPoemsBlock"> | string
+    updatedBy?: StringWithAggregatesFilter<"SubjectQuestionFromPoemsBlock"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"SubjectQuestionFromPoemsBlock"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SubjectQuestionFromPoemsBlock"> | Date | string
+  }
+
+  export type SubjectQuestionFromStoryBlockWhereInput = {
+    AND?: SubjectQuestionFromStoryBlockWhereInput | SubjectQuestionFromStoryBlockWhereInput[]
+    OR?: SubjectQuestionFromStoryBlockWhereInput[]
+    NOT?: SubjectQuestionFromStoryBlockWhereInput | SubjectQuestionFromStoryBlockWhereInput[]
+    id?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
+    classId?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
+    subjectId?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
+    title?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
+    instruction?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
+    details?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
+    documentJson?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
+    sortOrder?: IntFilter<"SubjectQuestionFromStoryBlock"> | number
+    organizationId?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
+    createdBy?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
+    updatedBy?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
+    createdAt?: DateTimeFilter<"SubjectQuestionFromStoryBlock"> | Date | string
+    updatedAt?: DateTimeFilter<"SubjectQuestionFromStoryBlock"> | Date | string
+  }
+
+  export type SubjectQuestionFromStoryBlockOrderByWithRelationInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectQuestionFromStoryBlockWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SubjectQuestionFromStoryBlockWhereInput | SubjectQuestionFromStoryBlockWhereInput[]
+    OR?: SubjectQuestionFromStoryBlockWhereInput[]
+    NOT?: SubjectQuestionFromStoryBlockWhereInput | SubjectQuestionFromStoryBlockWhereInput[]
+    classId?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
+    subjectId?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
+    title?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
+    instruction?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
+    details?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
+    documentJson?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
+    sortOrder?: IntFilter<"SubjectQuestionFromStoryBlock"> | number
+    organizationId?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
+    createdBy?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
+    updatedBy?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
+    createdAt?: DateTimeFilter<"SubjectQuestionFromStoryBlock"> | Date | string
+    updatedAt?: DateTimeFilter<"SubjectQuestionFromStoryBlock"> | Date | string
+  }, "id">
+
+  export type SubjectQuestionFromStoryBlockOrderByWithAggregationInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SubjectQuestionFromStoryBlockCountOrderByAggregateInput
+    _avg?: SubjectQuestionFromStoryBlockAvgOrderByAggregateInput
+    _max?: SubjectQuestionFromStoryBlockMaxOrderByAggregateInput
+    _min?: SubjectQuestionFromStoryBlockMinOrderByAggregateInput
+    _sum?: SubjectQuestionFromStoryBlockSumOrderByAggregateInput
+  }
+
+  export type SubjectQuestionFromStoryBlockScalarWhereWithAggregatesInput = {
+    AND?: SubjectQuestionFromStoryBlockScalarWhereWithAggregatesInput | SubjectQuestionFromStoryBlockScalarWhereWithAggregatesInput[]
+    OR?: SubjectQuestionFromStoryBlockScalarWhereWithAggregatesInput[]
+    NOT?: SubjectQuestionFromStoryBlockScalarWhereWithAggregatesInput | SubjectQuestionFromStoryBlockScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SubjectQuestionFromStoryBlock"> | string
+    classId?: StringWithAggregatesFilter<"SubjectQuestionFromStoryBlock"> | string
+    subjectId?: StringWithAggregatesFilter<"SubjectQuestionFromStoryBlock"> | string
+    title?: StringWithAggregatesFilter<"SubjectQuestionFromStoryBlock"> | string
+    instruction?: StringWithAggregatesFilter<"SubjectQuestionFromStoryBlock"> | string
+    details?: StringWithAggregatesFilter<"SubjectQuestionFromStoryBlock"> | string
+    documentJson?: StringWithAggregatesFilter<"SubjectQuestionFromStoryBlock"> | string
+    sortOrder?: IntWithAggregatesFilter<"SubjectQuestionFromStoryBlock"> | number
+    organizationId?: StringWithAggregatesFilter<"SubjectQuestionFromStoryBlock"> | string
+    createdBy?: StringWithAggregatesFilter<"SubjectQuestionFromStoryBlock"> | string
+    updatedBy?: StringWithAggregatesFilter<"SubjectQuestionFromStoryBlock"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"SubjectQuestionFromStoryBlock"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SubjectQuestionFromStoryBlock"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -56060,6 +67287,242 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SeenPassageOneCreateInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    body?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contentBlock: ContentBlockCreateNestedOneWithoutSeenPassageOneInput
+  }
+
+  export type SeenPassageOneUncheckedCreateInput = {
+    id?: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    body?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SeenPassageOneUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contentBlock?: ContentBlockUpdateOneRequiredWithoutSeenPassageOneNestedInput
+  }
+
+  export type SeenPassageOneUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentBlockId?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeenPassageOneCreateManyInput = {
+    id?: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    body?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SeenPassageOneUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeenPassageOneUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentBlockId?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeenPassageTwoCreateInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    body?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contentBlock: ContentBlockCreateNestedOneWithoutSeenPassageTwoInput
+  }
+
+  export type SeenPassageTwoUncheckedCreateInput = {
+    id?: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    body?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SeenPassageTwoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contentBlock?: ContentBlockUpdateOneRequiredWithoutSeenPassageTwoNestedInput
+  }
+
+  export type SeenPassageTwoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentBlockId?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeenPassageTwoCreateManyInput = {
+    id?: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    body?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SeenPassageTwoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeenPassageTwoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentBlockId?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UnseenCompositionCreateInput = {
     id?: string
     title: string
@@ -56166,7 +67629,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -56178,6 +67643,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockUncheckedCreateInput = {
@@ -56197,7 +67664,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -56209,6 +67678,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockUpdateInput = {
@@ -56228,7 +67699,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -56240,6 +67713,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockUncheckedUpdateInput = {
@@ -56259,7 +67734,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -56271,6 +67748,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockCreateManyInput = {
@@ -57940,7 +69419,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type SentenceOrderingExerciseCreateInput = {
+  export type RearrangeSentenceExerciseCreateInput = {
     id?: string
     contentId: string
     classId: string
@@ -57959,10 +69438,10 @@ export namespace Prisma {
     updatedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    contentBlock: ContentBlockCreateNestedOneWithoutSentenceOrderingExerciseInput
+    contentBlock: ContentBlockCreateNestedOneWithoutRearrangeSentenceExerciseInput
   }
 
-  export type SentenceOrderingExerciseUncheckedCreateInput = {
+  export type RearrangeSentenceExerciseUncheckedCreateInput = {
     id?: string
     contentBlockId: string
     contentId: string
@@ -57984,7 +69463,7 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type SentenceOrderingExerciseUpdateInput = {
+  export type RearrangeSentenceExerciseUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     contentId?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
@@ -58003,10 +69482,10 @@ export namespace Prisma {
     updatedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    contentBlock?: ContentBlockUpdateOneRequiredWithoutSentenceOrderingExerciseNestedInput
+    contentBlock?: ContentBlockUpdateOneRequiredWithoutRearrangeSentenceExerciseNestedInput
   }
 
-  export type SentenceOrderingExerciseUncheckedUpdateInput = {
+  export type RearrangeSentenceExerciseUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     contentBlockId?: StringFieldUpdateOperationsInput | string
     contentId?: StringFieldUpdateOperationsInput | string
@@ -58028,7 +69507,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type SentenceOrderingExerciseCreateManyInput = {
+  export type RearrangeSentenceExerciseCreateManyInput = {
     id?: string
     contentBlockId: string
     contentId: string
@@ -58050,7 +69529,7 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type SentenceOrderingExerciseUpdateManyMutationInput = {
+  export type RearrangeSentenceExerciseUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     contentId?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
@@ -58071,7 +69550,313 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type SentenceOrderingExerciseUncheckedUpdateManyInput = {
+  export type RearrangeSentenceExerciseUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentBlockId?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuestionFromPoemsCreateInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contentBlock: ContentBlockCreateNestedOneWithoutQuestionFromPoemsInput
+  }
+
+  export type QuestionFromPoemsUncheckedCreateInput = {
+    id?: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuestionFromPoemsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contentBlock?: ContentBlockUpdateOneRequiredWithoutQuestionFromPoemsNestedInput
+  }
+
+  export type QuestionFromPoemsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentBlockId?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuestionFromPoemsCreateManyInput = {
+    id?: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuestionFromPoemsUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuestionFromPoemsUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentBlockId?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuestionFromStoryCreateInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contentBlock: ContentBlockCreateNestedOneWithoutQuestionFromStoryInput
+  }
+
+  export type QuestionFromStoryUncheckedCreateInput = {
+    id?: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuestionFromStoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contentBlock?: ContentBlockUpdateOneRequiredWithoutQuestionFromStoryNestedInput
+  }
+
+  export type QuestionFromStoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentBlockId?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuestionFromStoryCreateManyInput = {
+    id?: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuestionFromStoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuestionFromStoryUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     contentBlockId?: StringFieldUpdateOperationsInput | string
     contentId?: StringFieldUpdateOperationsInput | string
@@ -58240,6 +70025,9 @@ export namespace Prisma {
     unitId: string
     lessonId: string
     topicId?: string | null
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     question?: string
     answer?: string
     details?: string
@@ -58261,6 +70049,9 @@ export namespace Prisma {
     unitId: string
     lessonId: string
     topicId?: string | null
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     question?: string
     answer?: string
     details?: string
@@ -58280,6 +70071,9 @@ export namespace Prisma {
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -58301,6 +70095,9 @@ export namespace Prisma {
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -58321,6 +70118,9 @@ export namespace Prisma {
     unitId: string
     lessonId: string
     topicId?: string | null
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     question?: string
     answer?: string
     details?: string
@@ -58340,6 +70140,9 @@ export namespace Prisma {
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -58360,6 +70163,9 @@ export namespace Prisma {
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -59559,6 +71365,454 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SubjectMatchingSentencesBlockCreateInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    title?: string
+    instruction?: string
+    details?: string
+    documentJson?: string
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubjectMatchingSentencesBlockUncheckedCreateInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    title?: string
+    instruction?: string
+    details?: string
+    documentJson?: string
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubjectMatchingSentencesBlockUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectMatchingSentencesBlockUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectMatchingSentencesBlockCreateManyInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    title?: string
+    instruction?: string
+    details?: string
+    documentJson?: string
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubjectMatchingSentencesBlockUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectMatchingSentencesBlockUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectRearrangeSentenceBlockCreateInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    title?: string
+    instruction?: string
+    details?: string
+    documentJson?: string
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubjectRearrangeSentenceBlockUncheckedCreateInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    title?: string
+    instruction?: string
+    details?: string
+    documentJson?: string
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubjectRearrangeSentenceBlockUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectRearrangeSentenceBlockUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectRearrangeSentenceBlockCreateManyInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    title?: string
+    instruction?: string
+    details?: string
+    documentJson?: string
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubjectRearrangeSentenceBlockUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectRearrangeSentenceBlockUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectQuestionFromPoemsBlockCreateInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    title?: string
+    instruction?: string
+    details?: string
+    documentJson?: string
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubjectQuestionFromPoemsBlockUncheckedCreateInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    title?: string
+    instruction?: string
+    details?: string
+    documentJson?: string
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubjectQuestionFromPoemsBlockUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectQuestionFromPoemsBlockUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectQuestionFromPoemsBlockCreateManyInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    title?: string
+    instruction?: string
+    details?: string
+    documentJson?: string
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubjectQuestionFromPoemsBlockUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectQuestionFromPoemsBlockUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectQuestionFromStoryBlockCreateInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    title?: string
+    instruction?: string
+    details?: string
+    documentJson?: string
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubjectQuestionFromStoryBlockUncheckedCreateInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    title?: string
+    instruction?: string
+    details?: string
+    documentJson?: string
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubjectQuestionFromStoryBlockUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectQuestionFromStoryBlockUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectQuestionFromStoryBlockCreateManyInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    title?: string
+    instruction?: string
+    details?: string
+    documentJson?: string
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubjectQuestionFromStoryBlockUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectQuestionFromStoryBlockUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -60489,6 +72743,113 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type ContentBlockScalarRelationFilter = {
+    is?: ContentBlockWhereInput
+    isNot?: ContentBlockWhereInput
+  }
+
+  export type SeenPassageOneCountOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    body?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SeenPassageOneMaxOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    body?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SeenPassageOneMinOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    body?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SeenPassageTwoCountOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    body?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SeenPassageTwoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    body?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SeenPassageTwoMinOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    body?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type UnseenCompositionCountOrderByAggregateInput = {
     id?: SortOrder
     classId?: SortOrder
@@ -60583,9 +72944,19 @@ export namespace Prisma {
     isNot?: ColumnMatchingExerciseWhereInput | null
   }
 
-  export type SentenceOrderingExerciseNullableScalarRelationFilter = {
-    is?: SentenceOrderingExerciseWhereInput | null
-    isNot?: SentenceOrderingExerciseWhereInput | null
+  export type RearrangeSentenceExerciseNullableScalarRelationFilter = {
+    is?: RearrangeSentenceExerciseWhereInput | null
+    isNot?: RearrangeSentenceExerciseWhereInput | null
+  }
+
+  export type QuestionFromPoemsNullableScalarRelationFilter = {
+    is?: QuestionFromPoemsWhereInput | null
+    isNot?: QuestionFromPoemsWhereInput | null
+  }
+
+  export type QuestionFromStoryNullableScalarRelationFilter = {
+    is?: QuestionFromStoryWhereInput | null
+    isNot?: QuestionFromStoryWhereInput | null
   }
 
   export type TrueFalseExerciseNullableScalarRelationFilter = {
@@ -60643,6 +73014,16 @@ export namespace Prisma {
     isNot?: ConnectorWhereInput | null
   }
 
+  export type SeenPassageOneNullableScalarRelationFilter = {
+    is?: SeenPassageOneWhereInput | null
+    isNot?: SeenPassageOneWhereInput | null
+  }
+
+  export type SeenPassageTwoNullableScalarRelationFilter = {
+    is?: SeenPassageTwoWhereInput | null
+    isNot?: SeenPassageTwoWhereInput | null
+  }
+
   export type ContentBlockCountOrderByAggregateInput = {
     id?: SortOrder
     contentId?: SortOrder
@@ -60676,11 +73057,6 @@ export namespace Prisma {
 
   export type ContentBlockSumOrderByAggregateInput = {
     sortOrder?: SortOrder
-  }
-
-  export type ContentBlockScalarRelationFilter = {
-    is?: ContentBlockWhereInput
-    isNot?: ContentBlockWhereInput
   }
 
   export type ParagraphCountOrderByAggregateInput = {
@@ -61434,7 +73810,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type SentenceOrderingExerciseCountOrderByAggregateInput = {
+  export type RearrangeSentenceExerciseCountOrderByAggregateInput = {
     id?: SortOrder
     contentBlockId?: SortOrder
     contentId?: SortOrder
@@ -61456,7 +73832,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type SentenceOrderingExerciseMaxOrderByAggregateInput = {
+  export type RearrangeSentenceExerciseMaxOrderByAggregateInput = {
     id?: SortOrder
     contentBlockId?: SortOrder
     contentId?: SortOrder
@@ -61478,7 +73854,139 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type SentenceOrderingExerciseMinOrderByAggregateInput = {
+  export type RearrangeSentenceExerciseMinOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuestionFromPoemsCountOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuestionFromPoemsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuestionFromPoemsMinOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuestionFromStoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuestionFromStoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuestionFromStoryMinOrderByAggregateInput = {
     id?: SortOrder
     contentBlockId?: SortOrder
     contentId?: SortOrder
@@ -61569,6 +74077,9 @@ export namespace Prisma {
     unitId?: SortOrder
     lessonId?: SortOrder
     topicId?: SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrder
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
@@ -61589,6 +74100,9 @@ export namespace Prisma {
     unitId?: SortOrder
     lessonId?: SortOrder
     topicId?: SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrder
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
@@ -61609,6 +74123,9 @@ export namespace Prisma {
     unitId?: SortOrder
     lessonId?: SortOrder
     topicId?: SortOrder
+    passage?: SortOrder
+    passageSource?: SortOrder
+    paragraphBlockId?: SortOrder
     question?: SortOrder
     answer?: SortOrder
     details?: SortOrder
@@ -62131,6 +74648,230 @@ export namespace Prisma {
     updatedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type SubjectMatchingSentencesBlockCountOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectMatchingSentencesBlockAvgOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
+  export type SubjectMatchingSentencesBlockMaxOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectMatchingSentencesBlockMinOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectMatchingSentencesBlockSumOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
+  export type SubjectRearrangeSentenceBlockCountOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectRearrangeSentenceBlockAvgOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
+  export type SubjectRearrangeSentenceBlockMaxOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectRearrangeSentenceBlockMinOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectRearrangeSentenceBlockSumOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
+  export type SubjectQuestionFromPoemsBlockCountOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectQuestionFromPoemsBlockAvgOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
+  export type SubjectQuestionFromPoemsBlockMaxOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectQuestionFromPoemsBlockMinOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectQuestionFromPoemsBlockSumOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
+  export type SubjectQuestionFromStoryBlockCountOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectQuestionFromStoryBlockAvgOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
+  export type SubjectQuestionFromStoryBlockMaxOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectQuestionFromStoryBlockMinOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectQuestionFromStoryBlockSumOrderByAggregateInput = {
+    sortOrder?: SortOrder
   }
 
   export type ClassCreateNestedOneWithoutStudentsInput = {
@@ -63027,6 +75768,34 @@ export namespace Prisma {
     deleteMany?: ContentBlockScalarWhereInput | ContentBlockScalarWhereInput[]
   }
 
+  export type ContentBlockCreateNestedOneWithoutSeenPassageOneInput = {
+    create?: XOR<ContentBlockCreateWithoutSeenPassageOneInput, ContentBlockUncheckedCreateWithoutSeenPassageOneInput>
+    connectOrCreate?: ContentBlockCreateOrConnectWithoutSeenPassageOneInput
+    connect?: ContentBlockWhereUniqueInput
+  }
+
+  export type ContentBlockUpdateOneRequiredWithoutSeenPassageOneNestedInput = {
+    create?: XOR<ContentBlockCreateWithoutSeenPassageOneInput, ContentBlockUncheckedCreateWithoutSeenPassageOneInput>
+    connectOrCreate?: ContentBlockCreateOrConnectWithoutSeenPassageOneInput
+    upsert?: ContentBlockUpsertWithoutSeenPassageOneInput
+    connect?: ContentBlockWhereUniqueInput
+    update?: XOR<XOR<ContentBlockUpdateToOneWithWhereWithoutSeenPassageOneInput, ContentBlockUpdateWithoutSeenPassageOneInput>, ContentBlockUncheckedUpdateWithoutSeenPassageOneInput>
+  }
+
+  export type ContentBlockCreateNestedOneWithoutSeenPassageTwoInput = {
+    create?: XOR<ContentBlockCreateWithoutSeenPassageTwoInput, ContentBlockUncheckedCreateWithoutSeenPassageTwoInput>
+    connectOrCreate?: ContentBlockCreateOrConnectWithoutSeenPassageTwoInput
+    connect?: ContentBlockWhereUniqueInput
+  }
+
+  export type ContentBlockUpdateOneRequiredWithoutSeenPassageTwoNestedInput = {
+    create?: XOR<ContentBlockCreateWithoutSeenPassageTwoInput, ContentBlockUncheckedCreateWithoutSeenPassageTwoInput>
+    connectOrCreate?: ContentBlockCreateOrConnectWithoutSeenPassageTwoInput
+    upsert?: ContentBlockUpsertWithoutSeenPassageTwoInput
+    connect?: ContentBlockWhereUniqueInput
+    update?: XOR<XOR<ContentBlockUpdateToOneWithWhereWithoutSeenPassageTwoInput, ContentBlockUpdateWithoutSeenPassageTwoInput>, ContentBlockUncheckedUpdateWithoutSeenPassageTwoInput>
+  }
+
   export type ClassCreateNestedOneWithoutUnseenCompositionsInput = {
     create?: XOR<ClassCreateWithoutUnseenCompositionsInput, ClassUncheckedCreateWithoutUnseenCompositionsInput>
     connectOrCreate?: ClassCreateOrConnectWithoutUnseenCompositionsInput
@@ -63121,10 +75890,22 @@ export namespace Prisma {
     connect?: ColumnMatchingExerciseWhereUniqueInput
   }
 
-  export type SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput = {
-    create?: XOR<SentenceOrderingExerciseCreateWithoutContentBlockInput, SentenceOrderingExerciseUncheckedCreateWithoutContentBlockInput>
-    connectOrCreate?: SentenceOrderingExerciseCreateOrConnectWithoutContentBlockInput
-    connect?: SentenceOrderingExerciseWhereUniqueInput
+  export type RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput = {
+    create?: XOR<RearrangeSentenceExerciseCreateWithoutContentBlockInput, RearrangeSentenceExerciseUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: RearrangeSentenceExerciseCreateOrConnectWithoutContentBlockInput
+    connect?: RearrangeSentenceExerciseWhereUniqueInput
+  }
+
+  export type QuestionFromPoemsCreateNestedOneWithoutContentBlockInput = {
+    create?: XOR<QuestionFromPoemsCreateWithoutContentBlockInput, QuestionFromPoemsUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: QuestionFromPoemsCreateOrConnectWithoutContentBlockInput
+    connect?: QuestionFromPoemsWhereUniqueInput
+  }
+
+  export type QuestionFromStoryCreateNestedOneWithoutContentBlockInput = {
+    create?: XOR<QuestionFromStoryCreateWithoutContentBlockInput, QuestionFromStoryUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: QuestionFromStoryCreateOrConnectWithoutContentBlockInput
+    connect?: QuestionFromStoryWhereUniqueInput
   }
 
   export type TrueFalseExerciseCreateNestedOneWithoutContentBlockInput = {
@@ -63193,6 +75974,18 @@ export namespace Prisma {
     connect?: ConnectorWhereUniqueInput
   }
 
+  export type SeenPassageOneCreateNestedOneWithoutContentBlockInput = {
+    create?: XOR<SeenPassageOneCreateWithoutContentBlockInput, SeenPassageOneUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: SeenPassageOneCreateOrConnectWithoutContentBlockInput
+    connect?: SeenPassageOneWhereUniqueInput
+  }
+
+  export type SeenPassageTwoCreateNestedOneWithoutContentBlockInput = {
+    create?: XOR<SeenPassageTwoCreateWithoutContentBlockInput, SeenPassageTwoUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: SeenPassageTwoCreateOrConnectWithoutContentBlockInput
+    connect?: SeenPassageTwoWhereUniqueInput
+  }
+
   export type ParagraphUncheckedCreateNestedOneWithoutContentBlockInput = {
     create?: XOR<ParagraphCreateWithoutContentBlockInput, ParagraphUncheckedCreateWithoutContentBlockInput>
     connectOrCreate?: ParagraphCreateOrConnectWithoutContentBlockInput
@@ -63253,10 +76046,22 @@ export namespace Prisma {
     connect?: ColumnMatchingExerciseWhereUniqueInput
   }
 
-  export type SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput = {
-    create?: XOR<SentenceOrderingExerciseCreateWithoutContentBlockInput, SentenceOrderingExerciseUncheckedCreateWithoutContentBlockInput>
-    connectOrCreate?: SentenceOrderingExerciseCreateOrConnectWithoutContentBlockInput
-    connect?: SentenceOrderingExerciseWhereUniqueInput
+  export type RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput = {
+    create?: XOR<RearrangeSentenceExerciseCreateWithoutContentBlockInput, RearrangeSentenceExerciseUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: RearrangeSentenceExerciseCreateOrConnectWithoutContentBlockInput
+    connect?: RearrangeSentenceExerciseWhereUniqueInput
+  }
+
+  export type QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput = {
+    create?: XOR<QuestionFromPoemsCreateWithoutContentBlockInput, QuestionFromPoemsUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: QuestionFromPoemsCreateOrConnectWithoutContentBlockInput
+    connect?: QuestionFromPoemsWhereUniqueInput
+  }
+
+  export type QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput = {
+    create?: XOR<QuestionFromStoryCreateWithoutContentBlockInput, QuestionFromStoryUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: QuestionFromStoryCreateOrConnectWithoutContentBlockInput
+    connect?: QuestionFromStoryWhereUniqueInput
   }
 
   export type TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput = {
@@ -63323,6 +76128,18 @@ export namespace Prisma {
     create?: XOR<ConnectorCreateWithoutContentBlockInput, ConnectorUncheckedCreateWithoutContentBlockInput>
     connectOrCreate?: ConnectorCreateOrConnectWithoutContentBlockInput
     connect?: ConnectorWhereUniqueInput
+  }
+
+  export type SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput = {
+    create?: XOR<SeenPassageOneCreateWithoutContentBlockInput, SeenPassageOneUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: SeenPassageOneCreateOrConnectWithoutContentBlockInput
+    connect?: SeenPassageOneWhereUniqueInput
+  }
+
+  export type SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput = {
+    create?: XOR<SeenPassageTwoCreateWithoutContentBlockInput, SeenPassageTwoUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: SeenPassageTwoCreateOrConnectWithoutContentBlockInput
+    connect?: SeenPassageTwoWhereUniqueInput
   }
 
   export type ContentUpdateOneRequiredWithoutBlocksNestedInput = {
@@ -63433,14 +76250,34 @@ export namespace Prisma {
     update?: XOR<XOR<ColumnMatchingExerciseUpdateToOneWithWhereWithoutContentBlockInput, ColumnMatchingExerciseUpdateWithoutContentBlockInput>, ColumnMatchingExerciseUncheckedUpdateWithoutContentBlockInput>
   }
 
-  export type SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput = {
-    create?: XOR<SentenceOrderingExerciseCreateWithoutContentBlockInput, SentenceOrderingExerciseUncheckedCreateWithoutContentBlockInput>
-    connectOrCreate?: SentenceOrderingExerciseCreateOrConnectWithoutContentBlockInput
-    upsert?: SentenceOrderingExerciseUpsertWithoutContentBlockInput
-    disconnect?: SentenceOrderingExerciseWhereInput | boolean
-    delete?: SentenceOrderingExerciseWhereInput | boolean
-    connect?: SentenceOrderingExerciseWhereUniqueInput
-    update?: XOR<XOR<SentenceOrderingExerciseUpdateToOneWithWhereWithoutContentBlockInput, SentenceOrderingExerciseUpdateWithoutContentBlockInput>, SentenceOrderingExerciseUncheckedUpdateWithoutContentBlockInput>
+  export type RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput = {
+    create?: XOR<RearrangeSentenceExerciseCreateWithoutContentBlockInput, RearrangeSentenceExerciseUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: RearrangeSentenceExerciseCreateOrConnectWithoutContentBlockInput
+    upsert?: RearrangeSentenceExerciseUpsertWithoutContentBlockInput
+    disconnect?: RearrangeSentenceExerciseWhereInput | boolean
+    delete?: RearrangeSentenceExerciseWhereInput | boolean
+    connect?: RearrangeSentenceExerciseWhereUniqueInput
+    update?: XOR<XOR<RearrangeSentenceExerciseUpdateToOneWithWhereWithoutContentBlockInput, RearrangeSentenceExerciseUpdateWithoutContentBlockInput>, RearrangeSentenceExerciseUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput = {
+    create?: XOR<QuestionFromPoemsCreateWithoutContentBlockInput, QuestionFromPoemsUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: QuestionFromPoemsCreateOrConnectWithoutContentBlockInput
+    upsert?: QuestionFromPoemsUpsertWithoutContentBlockInput
+    disconnect?: QuestionFromPoemsWhereInput | boolean
+    delete?: QuestionFromPoemsWhereInput | boolean
+    connect?: QuestionFromPoemsWhereUniqueInput
+    update?: XOR<XOR<QuestionFromPoemsUpdateToOneWithWhereWithoutContentBlockInput, QuestionFromPoemsUpdateWithoutContentBlockInput>, QuestionFromPoemsUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type QuestionFromStoryUpdateOneWithoutContentBlockNestedInput = {
+    create?: XOR<QuestionFromStoryCreateWithoutContentBlockInput, QuestionFromStoryUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: QuestionFromStoryCreateOrConnectWithoutContentBlockInput
+    upsert?: QuestionFromStoryUpsertWithoutContentBlockInput
+    disconnect?: QuestionFromStoryWhereInput | boolean
+    delete?: QuestionFromStoryWhereInput | boolean
+    connect?: QuestionFromStoryWhereUniqueInput
+    update?: XOR<XOR<QuestionFromStoryUpdateToOneWithWhereWithoutContentBlockInput, QuestionFromStoryUpdateWithoutContentBlockInput>, QuestionFromStoryUncheckedUpdateWithoutContentBlockInput>
   }
 
   export type TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput = {
@@ -63553,6 +76390,26 @@ export namespace Prisma {
     update?: XOR<XOR<ConnectorUpdateToOneWithWhereWithoutContentBlockInput, ConnectorUpdateWithoutContentBlockInput>, ConnectorUncheckedUpdateWithoutContentBlockInput>
   }
 
+  export type SeenPassageOneUpdateOneWithoutContentBlockNestedInput = {
+    create?: XOR<SeenPassageOneCreateWithoutContentBlockInput, SeenPassageOneUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: SeenPassageOneCreateOrConnectWithoutContentBlockInput
+    upsert?: SeenPassageOneUpsertWithoutContentBlockInput
+    disconnect?: SeenPassageOneWhereInput | boolean
+    delete?: SeenPassageOneWhereInput | boolean
+    connect?: SeenPassageOneWhereUniqueInput
+    update?: XOR<XOR<SeenPassageOneUpdateToOneWithWhereWithoutContentBlockInput, SeenPassageOneUpdateWithoutContentBlockInput>, SeenPassageOneUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type SeenPassageTwoUpdateOneWithoutContentBlockNestedInput = {
+    create?: XOR<SeenPassageTwoCreateWithoutContentBlockInput, SeenPassageTwoUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: SeenPassageTwoCreateOrConnectWithoutContentBlockInput
+    upsert?: SeenPassageTwoUpsertWithoutContentBlockInput
+    disconnect?: SeenPassageTwoWhereInput | boolean
+    delete?: SeenPassageTwoWhereInput | boolean
+    connect?: SeenPassageTwoWhereUniqueInput
+    update?: XOR<XOR<SeenPassageTwoUpdateToOneWithWhereWithoutContentBlockInput, SeenPassageTwoUpdateWithoutContentBlockInput>, SeenPassageTwoUncheckedUpdateWithoutContentBlockInput>
+  }
+
   export type ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput = {
     create?: XOR<ParagraphCreateWithoutContentBlockInput, ParagraphUncheckedCreateWithoutContentBlockInput>
     connectOrCreate?: ParagraphCreateOrConnectWithoutContentBlockInput
@@ -63653,14 +76510,34 @@ export namespace Prisma {
     update?: XOR<XOR<ColumnMatchingExerciseUpdateToOneWithWhereWithoutContentBlockInput, ColumnMatchingExerciseUpdateWithoutContentBlockInput>, ColumnMatchingExerciseUncheckedUpdateWithoutContentBlockInput>
   }
 
-  export type SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput = {
-    create?: XOR<SentenceOrderingExerciseCreateWithoutContentBlockInput, SentenceOrderingExerciseUncheckedCreateWithoutContentBlockInput>
-    connectOrCreate?: SentenceOrderingExerciseCreateOrConnectWithoutContentBlockInput
-    upsert?: SentenceOrderingExerciseUpsertWithoutContentBlockInput
-    disconnect?: SentenceOrderingExerciseWhereInput | boolean
-    delete?: SentenceOrderingExerciseWhereInput | boolean
-    connect?: SentenceOrderingExerciseWhereUniqueInput
-    update?: XOR<XOR<SentenceOrderingExerciseUpdateToOneWithWhereWithoutContentBlockInput, SentenceOrderingExerciseUpdateWithoutContentBlockInput>, SentenceOrderingExerciseUncheckedUpdateWithoutContentBlockInput>
+  export type RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput = {
+    create?: XOR<RearrangeSentenceExerciseCreateWithoutContentBlockInput, RearrangeSentenceExerciseUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: RearrangeSentenceExerciseCreateOrConnectWithoutContentBlockInput
+    upsert?: RearrangeSentenceExerciseUpsertWithoutContentBlockInput
+    disconnect?: RearrangeSentenceExerciseWhereInput | boolean
+    delete?: RearrangeSentenceExerciseWhereInput | boolean
+    connect?: RearrangeSentenceExerciseWhereUniqueInput
+    update?: XOR<XOR<RearrangeSentenceExerciseUpdateToOneWithWhereWithoutContentBlockInput, RearrangeSentenceExerciseUpdateWithoutContentBlockInput>, RearrangeSentenceExerciseUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput = {
+    create?: XOR<QuestionFromPoemsCreateWithoutContentBlockInput, QuestionFromPoemsUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: QuestionFromPoemsCreateOrConnectWithoutContentBlockInput
+    upsert?: QuestionFromPoemsUpsertWithoutContentBlockInput
+    disconnect?: QuestionFromPoemsWhereInput | boolean
+    delete?: QuestionFromPoemsWhereInput | boolean
+    connect?: QuestionFromPoemsWhereUniqueInput
+    update?: XOR<XOR<QuestionFromPoemsUpdateToOneWithWhereWithoutContentBlockInput, QuestionFromPoemsUpdateWithoutContentBlockInput>, QuestionFromPoemsUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput = {
+    create?: XOR<QuestionFromStoryCreateWithoutContentBlockInput, QuestionFromStoryUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: QuestionFromStoryCreateOrConnectWithoutContentBlockInput
+    upsert?: QuestionFromStoryUpsertWithoutContentBlockInput
+    disconnect?: QuestionFromStoryWhereInput | boolean
+    delete?: QuestionFromStoryWhereInput | boolean
+    connect?: QuestionFromStoryWhereUniqueInput
+    update?: XOR<XOR<QuestionFromStoryUpdateToOneWithWhereWithoutContentBlockInput, QuestionFromStoryUpdateWithoutContentBlockInput>, QuestionFromStoryUncheckedUpdateWithoutContentBlockInput>
   }
 
   export type TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput = {
@@ -63771,6 +76648,26 @@ export namespace Prisma {
     delete?: ConnectorWhereInput | boolean
     connect?: ConnectorWhereUniqueInput
     update?: XOR<XOR<ConnectorUpdateToOneWithWhereWithoutContentBlockInput, ConnectorUpdateWithoutContentBlockInput>, ConnectorUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput = {
+    create?: XOR<SeenPassageOneCreateWithoutContentBlockInput, SeenPassageOneUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: SeenPassageOneCreateOrConnectWithoutContentBlockInput
+    upsert?: SeenPassageOneUpsertWithoutContentBlockInput
+    disconnect?: SeenPassageOneWhereInput | boolean
+    delete?: SeenPassageOneWhereInput | boolean
+    connect?: SeenPassageOneWhereUniqueInput
+    update?: XOR<XOR<SeenPassageOneUpdateToOneWithWhereWithoutContentBlockInput, SeenPassageOneUpdateWithoutContentBlockInput>, SeenPassageOneUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput = {
+    create?: XOR<SeenPassageTwoCreateWithoutContentBlockInput, SeenPassageTwoUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: SeenPassageTwoCreateOrConnectWithoutContentBlockInput
+    upsert?: SeenPassageTwoUpsertWithoutContentBlockInput
+    disconnect?: SeenPassageTwoWhereInput | boolean
+    delete?: SeenPassageTwoWhereInput | boolean
+    connect?: SeenPassageTwoWhereUniqueInput
+    update?: XOR<XOR<SeenPassageTwoUpdateToOneWithWhereWithoutContentBlockInput, SeenPassageTwoUpdateWithoutContentBlockInput>, SeenPassageTwoUncheckedUpdateWithoutContentBlockInput>
   }
 
   export type ContentBlockCreateNestedOneWithoutParagraphInput = {
@@ -64025,18 +76922,46 @@ export namespace Prisma {
     update?: XOR<XOR<ContentBlockUpdateToOneWithWhereWithoutColumnMatchingExerciseInput, ContentBlockUpdateWithoutColumnMatchingExerciseInput>, ContentBlockUncheckedUpdateWithoutColumnMatchingExerciseInput>
   }
 
-  export type ContentBlockCreateNestedOneWithoutSentenceOrderingExerciseInput = {
-    create?: XOR<ContentBlockCreateWithoutSentenceOrderingExerciseInput, ContentBlockUncheckedCreateWithoutSentenceOrderingExerciseInput>
-    connectOrCreate?: ContentBlockCreateOrConnectWithoutSentenceOrderingExerciseInput
+  export type ContentBlockCreateNestedOneWithoutRearrangeSentenceExerciseInput = {
+    create?: XOR<ContentBlockCreateWithoutRearrangeSentenceExerciseInput, ContentBlockUncheckedCreateWithoutRearrangeSentenceExerciseInput>
+    connectOrCreate?: ContentBlockCreateOrConnectWithoutRearrangeSentenceExerciseInput
     connect?: ContentBlockWhereUniqueInput
   }
 
-  export type ContentBlockUpdateOneRequiredWithoutSentenceOrderingExerciseNestedInput = {
-    create?: XOR<ContentBlockCreateWithoutSentenceOrderingExerciseInput, ContentBlockUncheckedCreateWithoutSentenceOrderingExerciseInput>
-    connectOrCreate?: ContentBlockCreateOrConnectWithoutSentenceOrderingExerciseInput
-    upsert?: ContentBlockUpsertWithoutSentenceOrderingExerciseInput
+  export type ContentBlockUpdateOneRequiredWithoutRearrangeSentenceExerciseNestedInput = {
+    create?: XOR<ContentBlockCreateWithoutRearrangeSentenceExerciseInput, ContentBlockUncheckedCreateWithoutRearrangeSentenceExerciseInput>
+    connectOrCreate?: ContentBlockCreateOrConnectWithoutRearrangeSentenceExerciseInput
+    upsert?: ContentBlockUpsertWithoutRearrangeSentenceExerciseInput
     connect?: ContentBlockWhereUniqueInput
-    update?: XOR<XOR<ContentBlockUpdateToOneWithWhereWithoutSentenceOrderingExerciseInput, ContentBlockUpdateWithoutSentenceOrderingExerciseInput>, ContentBlockUncheckedUpdateWithoutSentenceOrderingExerciseInput>
+    update?: XOR<XOR<ContentBlockUpdateToOneWithWhereWithoutRearrangeSentenceExerciseInput, ContentBlockUpdateWithoutRearrangeSentenceExerciseInput>, ContentBlockUncheckedUpdateWithoutRearrangeSentenceExerciseInput>
+  }
+
+  export type ContentBlockCreateNestedOneWithoutQuestionFromPoemsInput = {
+    create?: XOR<ContentBlockCreateWithoutQuestionFromPoemsInput, ContentBlockUncheckedCreateWithoutQuestionFromPoemsInput>
+    connectOrCreate?: ContentBlockCreateOrConnectWithoutQuestionFromPoemsInput
+    connect?: ContentBlockWhereUniqueInput
+  }
+
+  export type ContentBlockUpdateOneRequiredWithoutQuestionFromPoemsNestedInput = {
+    create?: XOR<ContentBlockCreateWithoutQuestionFromPoemsInput, ContentBlockUncheckedCreateWithoutQuestionFromPoemsInput>
+    connectOrCreate?: ContentBlockCreateOrConnectWithoutQuestionFromPoemsInput
+    upsert?: ContentBlockUpsertWithoutQuestionFromPoemsInput
+    connect?: ContentBlockWhereUniqueInput
+    update?: XOR<XOR<ContentBlockUpdateToOneWithWhereWithoutQuestionFromPoemsInput, ContentBlockUpdateWithoutQuestionFromPoemsInput>, ContentBlockUncheckedUpdateWithoutQuestionFromPoemsInput>
+  }
+
+  export type ContentBlockCreateNestedOneWithoutQuestionFromStoryInput = {
+    create?: XOR<ContentBlockCreateWithoutQuestionFromStoryInput, ContentBlockUncheckedCreateWithoutQuestionFromStoryInput>
+    connectOrCreate?: ContentBlockCreateOrConnectWithoutQuestionFromStoryInput
+    connect?: ContentBlockWhereUniqueInput
+  }
+
+  export type ContentBlockUpdateOneRequiredWithoutQuestionFromStoryNestedInput = {
+    create?: XOR<ContentBlockCreateWithoutQuestionFromStoryInput, ContentBlockUncheckedCreateWithoutQuestionFromStoryInput>
+    connectOrCreate?: ContentBlockCreateOrConnectWithoutQuestionFromStoryInput
+    upsert?: ContentBlockUpsertWithoutQuestionFromStoryInput
+    connect?: ContentBlockWhereUniqueInput
+    update?: XOR<XOR<ContentBlockUpdateToOneWithWhereWithoutQuestionFromStoryInput, ContentBlockUpdateWithoutQuestionFromStoryInput>, ContentBlockUncheckedUpdateWithoutQuestionFromStoryInput>
   }
 
   export type ContentBlockCreateNestedOneWithoutTrueFalseExerciseInput = {
@@ -66606,7 +79531,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -66618,6 +79545,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockUncheckedCreateWithoutContentInput = {
@@ -66636,7 +79565,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -66648,6 +79579,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockCreateOrConnectWithoutContentInput = {
@@ -66966,6 +79899,310 @@ export namespace Prisma {
     sortOrder?: IntFilter<"ContentBlock"> | number
     createdAt?: DateTimeFilter<"ContentBlock"> | Date | string
     updatedAt?: DateTimeFilter<"ContentBlock"> | Date | string
+  }
+
+  export type ContentBlockCreateWithoutSeenPassageOneInput = {
+    id?: string
+    kind: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    content: ContentCreateNestedOneWithoutBlocksInput
+    paragraph?: ParagraphCreateNestedOneWithoutContentBlockInput
+    vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
+    synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
+    gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
+    mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
+    questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
+    trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
+    informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
+    substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
+    rightFormOfVerb?: RightFormOfVerbCreateNestedOneWithoutContentBlockInput
+    narration?: NarrationCreateNestedOneWithoutContentBlockInput
+    changingSentence?: ChangingSentenceCreateNestedOneWithoutContentBlockInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
+    preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
+    suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
+    connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
+  }
+
+  export type ContentBlockUncheckedCreateWithoutSeenPassageOneInput = {
+    id?: string
+    contentId: string
+    kind: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
+    vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
+    synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
+    questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
+    trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
+    substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
+    rightFormOfVerb?: RightFormOfVerbUncheckedCreateNestedOneWithoutContentBlockInput
+    narration?: NarrationUncheckedCreateNestedOneWithoutContentBlockInput
+    changingSentence?: ChangingSentenceUncheckedCreateNestedOneWithoutContentBlockInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
+    preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
+    suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
+    connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
+  }
+
+  export type ContentBlockCreateOrConnectWithoutSeenPassageOneInput = {
+    where: ContentBlockWhereUniqueInput
+    create: XOR<ContentBlockCreateWithoutSeenPassageOneInput, ContentBlockUncheckedCreateWithoutSeenPassageOneInput>
+  }
+
+  export type ContentBlockUpsertWithoutSeenPassageOneInput = {
+    update: XOR<ContentBlockUpdateWithoutSeenPassageOneInput, ContentBlockUncheckedUpdateWithoutSeenPassageOneInput>
+    create: XOR<ContentBlockCreateWithoutSeenPassageOneInput, ContentBlockUncheckedCreateWithoutSeenPassageOneInput>
+    where?: ContentBlockWhereInput
+  }
+
+  export type ContentBlockUpdateToOneWithWhereWithoutSeenPassageOneInput = {
+    where?: ContentBlockWhereInput
+    data: XOR<ContentBlockUpdateWithoutSeenPassageOneInput, ContentBlockUncheckedUpdateWithoutSeenPassageOneInput>
+  }
+
+  export type ContentBlockUpdateWithoutSeenPassageOneInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
+    paragraph?: ParagraphUpdateOneWithoutContentBlockNestedInput
+    vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
+    synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
+    gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
+    mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
+    questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
+    trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
+    informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
+    substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
+    rightFormOfVerb?: RightFormOfVerbUpdateOneWithoutContentBlockNestedInput
+    narration?: NarrationUpdateOneWithoutContentBlockNestedInput
+    changingSentence?: ChangingSentenceUpdateOneWithoutContentBlockNestedInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
+    preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
+    suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
+    connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
+  }
+
+  export type ContentBlockUncheckedUpdateWithoutSeenPassageOneInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
+    vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
+    synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
+    trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
+    substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
+    rightFormOfVerb?: RightFormOfVerbUncheckedUpdateOneWithoutContentBlockNestedInput
+    narration?: NarrationUncheckedUpdateOneWithoutContentBlockNestedInput
+    changingSentence?: ChangingSentenceUncheckedUpdateOneWithoutContentBlockNestedInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
+    preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
+    suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
+    connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
+  }
+
+  export type ContentBlockCreateWithoutSeenPassageTwoInput = {
+    id?: string
+    kind: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    content: ContentCreateNestedOneWithoutBlocksInput
+    paragraph?: ParagraphCreateNestedOneWithoutContentBlockInput
+    vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
+    synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
+    gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
+    mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
+    questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
+    trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
+    informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
+    substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
+    rightFormOfVerb?: RightFormOfVerbCreateNestedOneWithoutContentBlockInput
+    narration?: NarrationCreateNestedOneWithoutContentBlockInput
+    changingSentence?: ChangingSentenceCreateNestedOneWithoutContentBlockInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
+    preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
+    suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
+    connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+  }
+
+  export type ContentBlockUncheckedCreateWithoutSeenPassageTwoInput = {
+    id?: string
+    contentId: string
+    kind: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
+    vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
+    synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
+    questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
+    trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
+    substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
+    rightFormOfVerb?: RightFormOfVerbUncheckedCreateNestedOneWithoutContentBlockInput
+    narration?: NarrationUncheckedCreateNestedOneWithoutContentBlockInput
+    changingSentence?: ChangingSentenceUncheckedCreateNestedOneWithoutContentBlockInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
+    preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
+    suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
+    connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+  }
+
+  export type ContentBlockCreateOrConnectWithoutSeenPassageTwoInput = {
+    where: ContentBlockWhereUniqueInput
+    create: XOR<ContentBlockCreateWithoutSeenPassageTwoInput, ContentBlockUncheckedCreateWithoutSeenPassageTwoInput>
+  }
+
+  export type ContentBlockUpsertWithoutSeenPassageTwoInput = {
+    update: XOR<ContentBlockUpdateWithoutSeenPassageTwoInput, ContentBlockUncheckedUpdateWithoutSeenPassageTwoInput>
+    create: XOR<ContentBlockCreateWithoutSeenPassageTwoInput, ContentBlockUncheckedCreateWithoutSeenPassageTwoInput>
+    where?: ContentBlockWhereInput
+  }
+
+  export type ContentBlockUpdateToOneWithWhereWithoutSeenPassageTwoInput = {
+    where?: ContentBlockWhereInput
+    data: XOR<ContentBlockUpdateWithoutSeenPassageTwoInput, ContentBlockUncheckedUpdateWithoutSeenPassageTwoInput>
+  }
+
+  export type ContentBlockUpdateWithoutSeenPassageTwoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
+    paragraph?: ParagraphUpdateOneWithoutContentBlockNestedInput
+    vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
+    synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
+    gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
+    mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
+    questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
+    trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
+    informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
+    substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
+    rightFormOfVerb?: RightFormOfVerbUpdateOneWithoutContentBlockNestedInput
+    narration?: NarrationUpdateOneWithoutContentBlockNestedInput
+    changingSentence?: ChangingSentenceUpdateOneWithoutContentBlockNestedInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
+    preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
+    suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
+    connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+  }
+
+  export type ContentBlockUncheckedUpdateWithoutSeenPassageTwoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
+    vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
+    synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
+    trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
+    substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
+    rightFormOfVerb?: RightFormOfVerbUncheckedUpdateOneWithoutContentBlockNestedInput
+    narration?: NarrationUncheckedUpdateOneWithoutContentBlockNestedInput
+    changingSentence?: ChangingSentenceUncheckedUpdateOneWithoutContentBlockNestedInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
+    preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
+    suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
+    connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ClassCreateWithoutUnseenCompositionsInput = {
@@ -67667,7 +80904,7 @@ export namespace Prisma {
     create: XOR<ColumnMatchingExerciseCreateWithoutContentBlockInput, ColumnMatchingExerciseUncheckedCreateWithoutContentBlockInput>
   }
 
-  export type SentenceOrderingExerciseCreateWithoutContentBlockInput = {
+  export type RearrangeSentenceExerciseCreateWithoutContentBlockInput = {
     id?: string
     contentId: string
     classId: string
@@ -67688,7 +80925,7 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type SentenceOrderingExerciseUncheckedCreateWithoutContentBlockInput = {
+  export type RearrangeSentenceExerciseUncheckedCreateWithoutContentBlockInput = {
     id?: string
     contentId: string
     classId: string
@@ -67709,9 +80946,103 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type SentenceOrderingExerciseCreateOrConnectWithoutContentBlockInput = {
-    where: SentenceOrderingExerciseWhereUniqueInput
-    create: XOR<SentenceOrderingExerciseCreateWithoutContentBlockInput, SentenceOrderingExerciseUncheckedCreateWithoutContentBlockInput>
+  export type RearrangeSentenceExerciseCreateOrConnectWithoutContentBlockInput = {
+    where: RearrangeSentenceExerciseWhereUniqueInput
+    create: XOR<RearrangeSentenceExerciseCreateWithoutContentBlockInput, RearrangeSentenceExerciseUncheckedCreateWithoutContentBlockInput>
+  }
+
+  export type QuestionFromPoemsCreateWithoutContentBlockInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuestionFromPoemsUncheckedCreateWithoutContentBlockInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuestionFromPoemsCreateOrConnectWithoutContentBlockInput = {
+    where: QuestionFromPoemsWhereUniqueInput
+    create: XOR<QuestionFromPoemsCreateWithoutContentBlockInput, QuestionFromPoemsUncheckedCreateWithoutContentBlockInput>
+  }
+
+  export type QuestionFromStoryCreateWithoutContentBlockInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuestionFromStoryUncheckedCreateWithoutContentBlockInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    title?: string
+    instruction?: string
+    question?: string
+    answer?: string
+    details?: string
+    documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuestionFromStoryCreateOrConnectWithoutContentBlockInput = {
+    where: QuestionFromStoryWhereUniqueInput
+    create: XOR<QuestionFromStoryCreateWithoutContentBlockInput, QuestionFromStoryUncheckedCreateWithoutContentBlockInput>
   }
 
   export type TrueFalseExerciseCreateWithoutContentBlockInput = {
@@ -67765,6 +81096,9 @@ export namespace Prisma {
     unitId: string
     lessonId: string
     topicId?: string | null
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     question?: string
     answer?: string
     details?: string
@@ -67784,6 +81118,9 @@ export namespace Prisma {
     unitId: string
     lessonId: string
     topicId?: string | null
+    passage?: string
+    passageSource?: string
+    paragraphBlockId?: string | null
     question?: string
     answer?: string
     details?: string
@@ -68167,6 +81504,80 @@ export namespace Prisma {
   export type ConnectorCreateOrConnectWithoutContentBlockInput = {
     where: ConnectorWhereUniqueInput
     create: XOR<ConnectorCreateWithoutContentBlockInput, ConnectorUncheckedCreateWithoutContentBlockInput>
+  }
+
+  export type SeenPassageOneCreateWithoutContentBlockInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    body?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SeenPassageOneUncheckedCreateWithoutContentBlockInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    body?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SeenPassageOneCreateOrConnectWithoutContentBlockInput = {
+    where: SeenPassageOneWhereUniqueInput
+    create: XOR<SeenPassageOneCreateWithoutContentBlockInput, SeenPassageOneUncheckedCreateWithoutContentBlockInput>
+  }
+
+  export type SeenPassageTwoCreateWithoutContentBlockInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    body?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SeenPassageTwoUncheckedCreateWithoutContentBlockInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    body?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SeenPassageTwoCreateOrConnectWithoutContentBlockInput = {
+    where: SeenPassageTwoWhereUniqueInput
+    create: XOR<SeenPassageTwoCreateWithoutContentBlockInput, SeenPassageTwoUncheckedCreateWithoutContentBlockInput>
   }
 
   export type ContentUpsertWithoutBlocksInput = {
@@ -68714,18 +82125,18 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type SentenceOrderingExerciseUpsertWithoutContentBlockInput = {
-    update: XOR<SentenceOrderingExerciseUpdateWithoutContentBlockInput, SentenceOrderingExerciseUncheckedUpdateWithoutContentBlockInput>
-    create: XOR<SentenceOrderingExerciseCreateWithoutContentBlockInput, SentenceOrderingExerciseUncheckedCreateWithoutContentBlockInput>
-    where?: SentenceOrderingExerciseWhereInput
+  export type RearrangeSentenceExerciseUpsertWithoutContentBlockInput = {
+    update: XOR<RearrangeSentenceExerciseUpdateWithoutContentBlockInput, RearrangeSentenceExerciseUncheckedUpdateWithoutContentBlockInput>
+    create: XOR<RearrangeSentenceExerciseCreateWithoutContentBlockInput, RearrangeSentenceExerciseUncheckedCreateWithoutContentBlockInput>
+    where?: RearrangeSentenceExerciseWhereInput
   }
 
-  export type SentenceOrderingExerciseUpdateToOneWithWhereWithoutContentBlockInput = {
-    where?: SentenceOrderingExerciseWhereInput
-    data: XOR<SentenceOrderingExerciseUpdateWithoutContentBlockInput, SentenceOrderingExerciseUncheckedUpdateWithoutContentBlockInput>
+  export type RearrangeSentenceExerciseUpdateToOneWithWhereWithoutContentBlockInput = {
+    where?: RearrangeSentenceExerciseWhereInput
+    data: XOR<RearrangeSentenceExerciseUpdateWithoutContentBlockInput, RearrangeSentenceExerciseUncheckedUpdateWithoutContentBlockInput>
   }
 
-  export type SentenceOrderingExerciseUpdateWithoutContentBlockInput = {
+  export type RearrangeSentenceExerciseUpdateWithoutContentBlockInput = {
     id?: StringFieldUpdateOperationsInput | string
     contentId?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
@@ -68746,7 +82157,113 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type SentenceOrderingExerciseUncheckedUpdateWithoutContentBlockInput = {
+  export type RearrangeSentenceExerciseUncheckedUpdateWithoutContentBlockInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuestionFromPoemsUpsertWithoutContentBlockInput = {
+    update: XOR<QuestionFromPoemsUpdateWithoutContentBlockInput, QuestionFromPoemsUncheckedUpdateWithoutContentBlockInput>
+    create: XOR<QuestionFromPoemsCreateWithoutContentBlockInput, QuestionFromPoemsUncheckedCreateWithoutContentBlockInput>
+    where?: QuestionFromPoemsWhereInput
+  }
+
+  export type QuestionFromPoemsUpdateToOneWithWhereWithoutContentBlockInput = {
+    where?: QuestionFromPoemsWhereInput
+    data: XOR<QuestionFromPoemsUpdateWithoutContentBlockInput, QuestionFromPoemsUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type QuestionFromPoemsUpdateWithoutContentBlockInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuestionFromPoemsUncheckedUpdateWithoutContentBlockInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuestionFromStoryUpsertWithoutContentBlockInput = {
+    update: XOR<QuestionFromStoryUpdateWithoutContentBlockInput, QuestionFromStoryUncheckedUpdateWithoutContentBlockInput>
+    create: XOR<QuestionFromStoryCreateWithoutContentBlockInput, QuestionFromStoryUncheckedCreateWithoutContentBlockInput>
+    where?: QuestionFromStoryWhereInput
+  }
+
+  export type QuestionFromStoryUpdateToOneWithWhereWithoutContentBlockInput = {
+    where?: QuestionFromStoryWhereInput
+    data: XOR<QuestionFromStoryUpdateWithoutContentBlockInput, QuestionFromStoryUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type QuestionFromStoryUpdateWithoutContentBlockInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuestionFromStoryUncheckedUpdateWithoutContentBlockInput = {
     id?: StringFieldUpdateOperationsInput | string
     contentId?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
@@ -68835,6 +82352,9 @@ export namespace Prisma {
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -68854,6 +82374,9 @@ export namespace Prisma {
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
     topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    passage?: StringFieldUpdateOperationsInput | string
+    passageSource?: StringFieldUpdateOperationsInput | string
+    paragraphBlockId?: NullableStringFieldUpdateOperationsInput | string | null
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -69288,6 +82811,92 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SeenPassageOneUpsertWithoutContentBlockInput = {
+    update: XOR<SeenPassageOneUpdateWithoutContentBlockInput, SeenPassageOneUncheckedUpdateWithoutContentBlockInput>
+    create: XOR<SeenPassageOneCreateWithoutContentBlockInput, SeenPassageOneUncheckedCreateWithoutContentBlockInput>
+    where?: SeenPassageOneWhereInput
+  }
+
+  export type SeenPassageOneUpdateToOneWithWhereWithoutContentBlockInput = {
+    where?: SeenPassageOneWhereInput
+    data: XOR<SeenPassageOneUpdateWithoutContentBlockInput, SeenPassageOneUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type SeenPassageOneUpdateWithoutContentBlockInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeenPassageOneUncheckedUpdateWithoutContentBlockInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeenPassageTwoUpsertWithoutContentBlockInput = {
+    update: XOR<SeenPassageTwoUpdateWithoutContentBlockInput, SeenPassageTwoUncheckedUpdateWithoutContentBlockInput>
+    create: XOR<SeenPassageTwoCreateWithoutContentBlockInput, SeenPassageTwoUncheckedCreateWithoutContentBlockInput>
+    where?: SeenPassageTwoWhereInput
+  }
+
+  export type SeenPassageTwoUpdateToOneWithWhereWithoutContentBlockInput = {
+    where?: SeenPassageTwoWhereInput
+    data: XOR<SeenPassageTwoUpdateWithoutContentBlockInput, SeenPassageTwoUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type SeenPassageTwoUpdateWithoutContentBlockInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeenPassageTwoUncheckedUpdateWithoutContentBlockInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ContentBlockCreateWithoutParagraphInput = {
     id?: string
     kind: string
@@ -69304,7 +82913,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -69316,6 +82927,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockUncheckedCreateWithoutParagraphInput = {
@@ -69334,7 +82947,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -69346,6 +82961,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockCreateOrConnectWithoutParagraphInput = {
@@ -69380,7 +82997,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -69392,6 +83011,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockUncheckedUpdateWithoutParagraphInput = {
@@ -69410,7 +83031,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -69422,6 +83045,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockCreateWithoutVocabularyInput = {
@@ -69440,7 +83065,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -69452,6 +83079,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockUncheckedCreateWithoutVocabularyInput = {
@@ -69470,7 +83099,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -69482,6 +83113,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockCreateOrConnectWithoutVocabularyInput = {
@@ -69549,7 +83182,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -69561,6 +83196,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockUncheckedUpdateWithoutVocabularyInput = {
@@ -69579,7 +83216,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -69591,6 +83230,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
   export type VocabularyEntryUpsertWithWhereUniqueWithoutVocabularyInput = {
@@ -69733,7 +83374,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -69745,6 +83388,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockUncheckedCreateWithoutSynonymsAntonymsInput = {
@@ -69763,7 +83408,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -69775,6 +83422,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockCreateOrConnectWithoutSynonymsAntonymsInput = {
@@ -69848,7 +83497,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -69860,6 +83511,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockUncheckedUpdateWithoutSynonymsAntonymsInput = {
@@ -69878,7 +83531,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -69890,6 +83545,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
   export type SynonymsAntonymsEntryUpsertWithWhereUniqueWithoutSynonymsAntonymsInput = {
@@ -70035,7 +83692,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -70047,6 +83706,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockUncheckedCreateWithoutGapFillExerciseInput = {
@@ -70065,7 +83726,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -70077,6 +83740,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockCreateOrConnectWithoutGapFillExerciseInput = {
@@ -70111,7 +83776,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -70123,6 +83790,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockUncheckedUpdateWithoutGapFillExerciseInput = {
@@ -70141,7 +83810,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -70153,6 +83824,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockCreateWithoutGapFillFirstPaperInput = {
@@ -70171,7 +83844,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -70183,6 +83858,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockUncheckedCreateWithoutGapFillFirstPaperInput = {
@@ -70201,7 +83878,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -70213,6 +83892,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockCreateOrConnectWithoutGapFillFirstPaperInput = {
@@ -70247,7 +83928,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -70259,6 +83942,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockUncheckedUpdateWithoutGapFillFirstPaperInput = {
@@ -70277,7 +83962,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -70289,6 +83976,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockCreateWithoutGapFillSecondPaperInput = {
@@ -70307,7 +83996,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -70319,6 +84010,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockUncheckedCreateWithoutGapFillSecondPaperInput = {
@@ -70337,7 +84030,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -70349,6 +84044,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockCreateOrConnectWithoutGapFillSecondPaperInput = {
@@ -70383,7 +84080,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -70395,6 +84094,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockUncheckedUpdateWithoutGapFillSecondPaperInput = {
@@ -70413,7 +84114,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -70425,6 +84128,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockCreateWithoutMcqSectionInput = {
@@ -70443,7 +84148,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -70455,6 +84162,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockUncheckedCreateWithoutMcqSectionInput = {
@@ -70473,7 +84182,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -70485,6 +84196,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockCreateOrConnectWithoutMcqSectionInput = {
@@ -70519,7 +84232,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -70531,6 +84246,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockUncheckedUpdateWithoutMcqSectionInput = {
@@ -70549,7 +84266,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -70561,6 +84280,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockCreateWithoutQuestionAnswerExerciseInput = {
@@ -70579,7 +84300,9 @@ export namespace Prisma {
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -70591,6 +84314,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockUncheckedCreateWithoutQuestionAnswerExerciseInput = {
@@ -70609,7 +84334,9 @@ export namespace Prisma {
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -70621,6 +84348,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockCreateOrConnectWithoutQuestionAnswerExerciseInput = {
@@ -70655,7 +84384,9 @@ export namespace Prisma {
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -70667,6 +84398,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockUncheckedUpdateWithoutQuestionAnswerExerciseInput = {
@@ -70685,7 +84418,9 @@ export namespace Prisma {
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -70697,6 +84432,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockCreateWithoutTableCompletionExerciseInput = {
@@ -70715,7 +84452,9 @@ export namespace Prisma {
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -70727,6 +84466,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockUncheckedCreateWithoutTableCompletionExerciseInput = {
@@ -70745,7 +84486,9 @@ export namespace Prisma {
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -70757,6 +84500,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockCreateOrConnectWithoutTableCompletionExerciseInput = {
@@ -70791,7 +84536,9 @@ export namespace Prisma {
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -70803,6 +84550,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockUncheckedUpdateWithoutTableCompletionExerciseInput = {
@@ -70821,7 +84570,9 @@ export namespace Prisma {
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -70833,6 +84584,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockCreateWithoutColumnMatchingExerciseInput = {
@@ -70851,7 +84604,9 @@ export namespace Prisma {
     mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -70863,6 +84618,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockUncheckedCreateWithoutColumnMatchingExerciseInput = {
@@ -70881,7 +84638,9 @@ export namespace Prisma {
     mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -70893,6 +84652,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockCreateOrConnectWithoutColumnMatchingExerciseInput = {
@@ -70927,7 +84688,9 @@ export namespace Prisma {
     mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -70939,6 +84702,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockUncheckedUpdateWithoutColumnMatchingExerciseInput = {
@@ -70957,7 +84722,9 @@ export namespace Prisma {
     mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -70969,9 +84736,11 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
-  export type ContentBlockCreateWithoutSentenceOrderingExerciseInput = {
+  export type ContentBlockCreateWithoutRearrangeSentenceExerciseInput = {
     id?: string
     kind: string
     sortOrder?: number
@@ -70988,6 +84757,8 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -70999,9 +84770,11 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
   }
 
-  export type ContentBlockUncheckedCreateWithoutSentenceOrderingExerciseInput = {
+  export type ContentBlockUncheckedCreateWithoutRearrangeSentenceExerciseInput = {
     id?: string
     contentId: string
     kind: string
@@ -71018,6 +84791,8 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -71029,25 +84804,27 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
   }
 
-  export type ContentBlockCreateOrConnectWithoutSentenceOrderingExerciseInput = {
+  export type ContentBlockCreateOrConnectWithoutRearrangeSentenceExerciseInput = {
     where: ContentBlockWhereUniqueInput
-    create: XOR<ContentBlockCreateWithoutSentenceOrderingExerciseInput, ContentBlockUncheckedCreateWithoutSentenceOrderingExerciseInput>
+    create: XOR<ContentBlockCreateWithoutRearrangeSentenceExerciseInput, ContentBlockUncheckedCreateWithoutRearrangeSentenceExerciseInput>
   }
 
-  export type ContentBlockUpsertWithoutSentenceOrderingExerciseInput = {
-    update: XOR<ContentBlockUpdateWithoutSentenceOrderingExerciseInput, ContentBlockUncheckedUpdateWithoutSentenceOrderingExerciseInput>
-    create: XOR<ContentBlockCreateWithoutSentenceOrderingExerciseInput, ContentBlockUncheckedCreateWithoutSentenceOrderingExerciseInput>
+  export type ContentBlockUpsertWithoutRearrangeSentenceExerciseInput = {
+    update: XOR<ContentBlockUpdateWithoutRearrangeSentenceExerciseInput, ContentBlockUncheckedUpdateWithoutRearrangeSentenceExerciseInput>
+    create: XOR<ContentBlockCreateWithoutRearrangeSentenceExerciseInput, ContentBlockUncheckedCreateWithoutRearrangeSentenceExerciseInput>
     where?: ContentBlockWhereInput
   }
 
-  export type ContentBlockUpdateToOneWithWhereWithoutSentenceOrderingExerciseInput = {
+  export type ContentBlockUpdateToOneWithWhereWithoutRearrangeSentenceExerciseInput = {
     where?: ContentBlockWhereInput
-    data: XOR<ContentBlockUpdateWithoutSentenceOrderingExerciseInput, ContentBlockUncheckedUpdateWithoutSentenceOrderingExerciseInput>
+    data: XOR<ContentBlockUpdateWithoutRearrangeSentenceExerciseInput, ContentBlockUncheckedUpdateWithoutRearrangeSentenceExerciseInput>
   }
 
-  export type ContentBlockUpdateWithoutSentenceOrderingExerciseInput = {
+  export type ContentBlockUpdateWithoutRearrangeSentenceExerciseInput = {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -71064,6 +84841,8 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -71075,9 +84854,11 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
   }
 
-  export type ContentBlockUncheckedUpdateWithoutSentenceOrderingExerciseInput = {
+  export type ContentBlockUncheckedUpdateWithoutRearrangeSentenceExerciseInput = {
     id?: StringFieldUpdateOperationsInput | string
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
@@ -71094,6 +84875,8 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -71105,6 +84888,312 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
+  }
+
+  export type ContentBlockCreateWithoutQuestionFromPoemsInput = {
+    id?: string
+    kind: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    content: ContentCreateNestedOneWithoutBlocksInput
+    paragraph?: ParagraphCreateNestedOneWithoutContentBlockInput
+    vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
+    synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
+    gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
+    mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
+    questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
+    trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
+    informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
+    substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
+    rightFormOfVerb?: RightFormOfVerbCreateNestedOneWithoutContentBlockInput
+    narration?: NarrationCreateNestedOneWithoutContentBlockInput
+    changingSentence?: ChangingSentenceCreateNestedOneWithoutContentBlockInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
+    preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
+    suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
+    connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
+  }
+
+  export type ContentBlockUncheckedCreateWithoutQuestionFromPoemsInput = {
+    id?: string
+    contentId: string
+    kind: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
+    vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
+    synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
+    questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
+    trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
+    substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
+    rightFormOfVerb?: RightFormOfVerbUncheckedCreateNestedOneWithoutContentBlockInput
+    narration?: NarrationUncheckedCreateNestedOneWithoutContentBlockInput
+    changingSentence?: ChangingSentenceUncheckedCreateNestedOneWithoutContentBlockInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
+    preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
+    suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
+    connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
+  }
+
+  export type ContentBlockCreateOrConnectWithoutQuestionFromPoemsInput = {
+    where: ContentBlockWhereUniqueInput
+    create: XOR<ContentBlockCreateWithoutQuestionFromPoemsInput, ContentBlockUncheckedCreateWithoutQuestionFromPoemsInput>
+  }
+
+  export type ContentBlockUpsertWithoutQuestionFromPoemsInput = {
+    update: XOR<ContentBlockUpdateWithoutQuestionFromPoemsInput, ContentBlockUncheckedUpdateWithoutQuestionFromPoemsInput>
+    create: XOR<ContentBlockCreateWithoutQuestionFromPoemsInput, ContentBlockUncheckedCreateWithoutQuestionFromPoemsInput>
+    where?: ContentBlockWhereInput
+  }
+
+  export type ContentBlockUpdateToOneWithWhereWithoutQuestionFromPoemsInput = {
+    where?: ContentBlockWhereInput
+    data: XOR<ContentBlockUpdateWithoutQuestionFromPoemsInput, ContentBlockUncheckedUpdateWithoutQuestionFromPoemsInput>
+  }
+
+  export type ContentBlockUpdateWithoutQuestionFromPoemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
+    paragraph?: ParagraphUpdateOneWithoutContentBlockNestedInput
+    vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
+    synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
+    gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
+    mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
+    questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
+    trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
+    informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
+    substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
+    rightFormOfVerb?: RightFormOfVerbUpdateOneWithoutContentBlockNestedInput
+    narration?: NarrationUpdateOneWithoutContentBlockNestedInput
+    changingSentence?: ChangingSentenceUpdateOneWithoutContentBlockNestedInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
+    preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
+    suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
+    connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
+  }
+
+  export type ContentBlockUncheckedUpdateWithoutQuestionFromPoemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
+    vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
+    synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
+    trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
+    substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
+    rightFormOfVerb?: RightFormOfVerbUncheckedUpdateOneWithoutContentBlockNestedInput
+    narration?: NarrationUncheckedUpdateOneWithoutContentBlockNestedInput
+    changingSentence?: ChangingSentenceUncheckedUpdateOneWithoutContentBlockNestedInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
+    preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
+    suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
+    connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
+  }
+
+  export type ContentBlockCreateWithoutQuestionFromStoryInput = {
+    id?: string
+    kind: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    content: ContentCreateNestedOneWithoutBlocksInput
+    paragraph?: ParagraphCreateNestedOneWithoutContentBlockInput
+    vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
+    synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
+    gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
+    mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
+    questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
+    informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
+    substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
+    rightFormOfVerb?: RightFormOfVerbCreateNestedOneWithoutContentBlockInput
+    narration?: NarrationCreateNestedOneWithoutContentBlockInput
+    changingSentence?: ChangingSentenceCreateNestedOneWithoutContentBlockInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
+    preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
+    suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
+    connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
+  }
+
+  export type ContentBlockUncheckedCreateWithoutQuestionFromStoryInput = {
+    id?: string
+    contentId: string
+    kind: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
+    vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
+    synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
+    questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
+    substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
+    rightFormOfVerb?: RightFormOfVerbUncheckedCreateNestedOneWithoutContentBlockInput
+    narration?: NarrationUncheckedCreateNestedOneWithoutContentBlockInput
+    changingSentence?: ChangingSentenceUncheckedCreateNestedOneWithoutContentBlockInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
+    preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
+    suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
+    connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
+  }
+
+  export type ContentBlockCreateOrConnectWithoutQuestionFromStoryInput = {
+    where: ContentBlockWhereUniqueInput
+    create: XOR<ContentBlockCreateWithoutQuestionFromStoryInput, ContentBlockUncheckedCreateWithoutQuestionFromStoryInput>
+  }
+
+  export type ContentBlockUpsertWithoutQuestionFromStoryInput = {
+    update: XOR<ContentBlockUpdateWithoutQuestionFromStoryInput, ContentBlockUncheckedUpdateWithoutQuestionFromStoryInput>
+    create: XOR<ContentBlockCreateWithoutQuestionFromStoryInput, ContentBlockUncheckedCreateWithoutQuestionFromStoryInput>
+    where?: ContentBlockWhereInput
+  }
+
+  export type ContentBlockUpdateToOneWithWhereWithoutQuestionFromStoryInput = {
+    where?: ContentBlockWhereInput
+    data: XOR<ContentBlockUpdateWithoutQuestionFromStoryInput, ContentBlockUncheckedUpdateWithoutQuestionFromStoryInput>
+  }
+
+  export type ContentBlockUpdateWithoutQuestionFromStoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
+    paragraph?: ParagraphUpdateOneWithoutContentBlockNestedInput
+    vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
+    synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
+    gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
+    mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
+    questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
+    informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
+    substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
+    rightFormOfVerb?: RightFormOfVerbUpdateOneWithoutContentBlockNestedInput
+    narration?: NarrationUpdateOneWithoutContentBlockNestedInput
+    changingSentence?: ChangingSentenceUpdateOneWithoutContentBlockNestedInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
+    preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
+    suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
+    connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
+  }
+
+  export type ContentBlockUncheckedUpdateWithoutQuestionFromStoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
+    vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
+    synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
+    substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
+    rightFormOfVerb?: RightFormOfVerbUncheckedUpdateOneWithoutContentBlockNestedInput
+    narration?: NarrationUncheckedUpdateOneWithoutContentBlockNestedInput
+    changingSentence?: ChangingSentenceUncheckedUpdateOneWithoutContentBlockNestedInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
+    preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
+    suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
+    connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockCreateWithoutTrueFalseExerciseInput = {
@@ -71124,7 +85213,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
     rightFormOfVerb?: RightFormOfVerbCreateNestedOneWithoutContentBlockInput
@@ -71135,6 +85226,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockUncheckedCreateWithoutTrueFalseExerciseInput = {
@@ -71154,7 +85247,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
     rightFormOfVerb?: RightFormOfVerbUncheckedCreateNestedOneWithoutContentBlockInput
@@ -71165,6 +85260,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockCreateOrConnectWithoutTrueFalseExerciseInput = {
@@ -71200,7 +85297,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
     rightFormOfVerb?: RightFormOfVerbUpdateOneWithoutContentBlockNestedInput
@@ -71211,6 +85310,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockUncheckedUpdateWithoutTrueFalseExerciseInput = {
@@ -71230,7 +85331,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
     rightFormOfVerb?: RightFormOfVerbUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -71241,6 +85344,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockCreateWithoutInformationTransferInput = {
@@ -71260,7 +85365,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
     rightFormOfVerb?: RightFormOfVerbCreateNestedOneWithoutContentBlockInput
@@ -71271,6 +85378,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockUncheckedCreateWithoutInformationTransferInput = {
@@ -71290,7 +85399,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
     rightFormOfVerb?: RightFormOfVerbUncheckedCreateNestedOneWithoutContentBlockInput
@@ -71301,6 +85412,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockCreateOrConnectWithoutInformationTransferInput = {
@@ -71336,7 +85449,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
     rightFormOfVerb?: RightFormOfVerbUpdateOneWithoutContentBlockNestedInput
@@ -71347,6 +85462,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockUncheckedUpdateWithoutInformationTransferInput = {
@@ -71366,7 +85483,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
     rightFormOfVerb?: RightFormOfVerbUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -71377,6 +85496,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockCreateWithoutSubstitutionTableInput = {
@@ -71396,7 +85517,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     rightFormOfVerb?: RightFormOfVerbCreateNestedOneWithoutContentBlockInput
@@ -71407,6 +85530,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockUncheckedCreateWithoutSubstitutionTableInput = {
@@ -71426,7 +85551,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     rightFormOfVerb?: RightFormOfVerbUncheckedCreateNestedOneWithoutContentBlockInput
@@ -71437,6 +85564,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockCreateOrConnectWithoutSubstitutionTableInput = {
@@ -71472,7 +85601,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     rightFormOfVerb?: RightFormOfVerbUpdateOneWithoutContentBlockNestedInput
@@ -71483,6 +85614,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockUncheckedUpdateWithoutSubstitutionTableInput = {
@@ -71502,7 +85635,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     rightFormOfVerb?: RightFormOfVerbUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -71513,6 +85648,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockCreateWithoutRightFormOfVerbInput = {
@@ -71532,7 +85669,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -71543,6 +85682,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockUncheckedCreateWithoutRightFormOfVerbInput = {
@@ -71562,7 +85703,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -71573,6 +85716,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockCreateOrConnectWithoutRightFormOfVerbInput = {
@@ -71608,7 +85753,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -71619,6 +85766,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockUncheckedUpdateWithoutRightFormOfVerbInput = {
@@ -71638,7 +85787,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -71649,6 +85800,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockCreateWithoutNarrationInput = {
@@ -71668,7 +85821,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -71679,6 +85834,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockUncheckedCreateWithoutNarrationInput = {
@@ -71698,7 +85855,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -71709,6 +85868,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockCreateOrConnectWithoutNarrationInput = {
@@ -71744,7 +85905,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -71755,6 +85918,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockUncheckedUpdateWithoutNarrationInput = {
@@ -71774,7 +85939,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -71785,6 +85952,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockCreateWithoutChangingSentenceInput = {
@@ -71804,7 +85973,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -71815,6 +85986,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockUncheckedCreateWithoutChangingSentenceInput = {
@@ -71834,7 +86007,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -71845,6 +86020,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockCreateOrConnectWithoutChangingSentenceInput = {
@@ -71880,7 +86057,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -71891,6 +86070,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockUncheckedUpdateWithoutChangingSentenceInput = {
@@ -71910,7 +86091,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -71921,6 +86104,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockCreateWithoutPunctuationAndCapitalizationInput = {
@@ -71940,7 +86125,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -71951,6 +86138,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockUncheckedCreateWithoutPunctuationAndCapitalizationInput = {
@@ -71970,7 +86159,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -71981,6 +86172,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockCreateOrConnectWithoutPunctuationAndCapitalizationInput = {
@@ -72016,7 +86209,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -72027,6 +86222,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockUncheckedUpdateWithoutPunctuationAndCapitalizationInput = {
@@ -72046,7 +86243,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -72057,6 +86256,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockCreateWithoutPrepositionInput = {
@@ -72076,7 +86277,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -72087,6 +86290,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockUncheckedCreateWithoutPrepositionInput = {
@@ -72106,7 +86311,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -72117,6 +86324,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockCreateOrConnectWithoutPrepositionInput = {
@@ -72152,7 +86361,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -72163,6 +86374,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockUncheckedUpdateWithoutPrepositionInput = {
@@ -72182,7 +86395,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -72193,6 +86408,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockCreateWithoutSuffixAndPrefixInput = {
@@ -72212,7 +86429,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -72223,6 +86442,8 @@ export namespace Prisma {
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockUncheckedCreateWithoutSuffixAndPrefixInput = {
@@ -72242,7 +86463,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -72253,6 +86476,8 @@ export namespace Prisma {
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockCreateOrConnectWithoutSuffixAndPrefixInput = {
@@ -72288,7 +86513,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -72299,6 +86526,8 @@ export namespace Prisma {
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockUncheckedUpdateWithoutSuffixAndPrefixInput = {
@@ -72318,7 +86547,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -72329,6 +86560,8 @@ export namespace Prisma {
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockCreateWithoutTagQuestionInput = {
@@ -72348,7 +86581,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -72359,6 +86594,8 @@ export namespace Prisma {
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockUncheckedCreateWithoutTagQuestionInput = {
@@ -72378,7 +86615,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -72389,6 +86628,8 @@ export namespace Prisma {
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockCreateOrConnectWithoutTagQuestionInput = {
@@ -72424,7 +86665,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -72435,6 +86678,8 @@ export namespace Prisma {
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockUncheckedUpdateWithoutTagQuestionInput = {
@@ -72454,7 +86699,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -72465,6 +86712,8 @@ export namespace Prisma {
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockCreateWithoutConnectorInput = {
@@ -72484,7 +86733,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
@@ -72495,6 +86746,8 @@ export namespace Prisma {
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockUncheckedCreateWithoutConnectorInput = {
@@ -72514,7 +86767,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
     trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
     informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
     substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
@@ -72525,6 +86780,8 @@ export namespace Prisma {
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
   }
 
   export type ContentBlockCreateOrConnectWithoutConnectorInput = {
@@ -72560,7 +86817,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -72571,6 +86830,8 @@ export namespace Prisma {
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockUncheckedUpdateWithoutConnectorInput = {
@@ -72590,7 +86851,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -72601,6 +86864,8 @@ export namespace Prisma {
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
   export type AuthSessionCreateManyUserInput = {
@@ -73581,7 +87846,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
@@ -73593,6 +87860,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockUncheckedUpdateWithoutContentInput = {
@@ -73611,7 +87880,9 @@ export namespace Prisma {
     questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
-    sentenceOrderingExercise?: SentenceOrderingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
     trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
     informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
     substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -73623,6 +87894,8 @@ export namespace Prisma {
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
   export type ContentBlockUncheckedUpdateManyWithoutContentInput = {

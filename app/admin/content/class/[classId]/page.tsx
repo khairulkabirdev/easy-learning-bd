@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { ChevronRight, Home } from "lucide-react";
 import { notFound } from "next/navigation";
 
 import { SubjectTileGrid } from "@/components/app/SubjectTileGrid";
@@ -37,13 +35,6 @@ export default async function AdminContentClassPage({
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-        <Home className="h-4 w-4" />
-        <Link href="/admin/content" className="hover:text-foreground">Content</Link>
-        <ChevronRight className="h-4 w-4" />
-        <span className="font-medium text-foreground">{classItem.name}</span>
-      </div>
-
       <div className="space-y-1">
         <h1 className="text-2xl font-semibold tracking-tight">{classItem.name}</h1>
         <p className="text-sm text-muted-foreground">Select a subject to continue.</p>

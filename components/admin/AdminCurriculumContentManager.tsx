@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
-import { ArrowRight, ChevronRight, Home, Plus, Trash2 } from "lucide-react";
+import { ArrowRight, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { deleteContent, saveContent } from "@/app/admin/content/actions";
@@ -114,22 +114,6 @@ export function AdminCurriculumContentManager({
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
-      <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-        <Home className="h-4 w-4" />
-        <Link href="/admin/content" className="hover:text-foreground">Content</Link>
-        <ChevronRight className="h-4 w-4" />
-        <Link href={`/admin/content/class/${classItem.id}`} className="hover:text-foreground">{classItem.name}</Link>
-        <ChevronRight className="h-4 w-4" />
-        <Link
-          href={`/admin/content/class/${classItem.id}/subject/${subject.id}`}
-          className="hover:text-foreground"
-        >
-          {subject.name}
-        </Link>
-        <ChevronRight className="h-4 w-4" />
-        <span className="font-medium text-foreground">{heading}</span>
-      </div>
-
       <div className="space-y-1">
         <h1 className="text-3xl font-semibold tracking-tight">{heading}</h1>
         <p className="text-sm text-muted-foreground">{description}</p>

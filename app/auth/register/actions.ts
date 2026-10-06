@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { assertTrustedMutationOrigin, registerWithPassword } from "@/lib/app-auth";
+import { consumeAuthRateLimit } from "@/lib/auth-rate-limit";
 
 const DEFAULT_ORGANIZATION_ID = "default-org";
 const bdPhoneSchema = z
@@ -13,14 +14,14 @@ const bdPhoneSchema = z
 
 const registerSchema = z
   .object({
-    name: z.string().trim().min(1, "Name is required."),
-    email: z.email("Valid email is required."),
+    name: z.string().trim().min(1, "Name is required.").max(120, "Name is too long."),
+    email: z.email("Valid email is required.").max(320, "Email is too long."),
     phone: bdPhoneSchema,
-    password: z.string().min(8, "Password must be at least 8 characters."),
-    confirmPassword: z.string().min(1, "Confirm your password."),
+    password: z.string().min(8, "Password must be at least 8 characters.").max(128, "Password is too long."),
+    confirmPassword: z.string().min(1, "Confirm your password.").max(128, "Password is too long."),
     role: z.enum(["student", "teacher"]),
-    institutionName: z.string().trim().optional(),
-    classId: z.string().optional(),
+    institutionName: z.string().trim().max(200, "Institution name is too long.").optional(),
+    classId: z.string().max(100).optional(),
   })
   .refine((value) => value.password === value.confirmPassword, {
     message: "Passwords do not match.",
@@ -57,6 +58,16 @@ export async function registerAction(_: RegisterActionState, formData: FormData)
     return {
       error: parsed.error.issues[0]?.message || "Registration failed.",
     };
+  }
+
+  const rateLimit = await consumeAuthRateLimit({
+    scope: "register",
+    identifier: parsed.data.email,
+    limit: 5,
+    windowMs: 60 * 60 * 1000,
+  });
+  if (!rateLimit.allowed) {
+    return { error: "Too many registration attempts. Please try again later." };
   }
 
   const result = await registerWithPassword({

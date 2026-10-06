@@ -383,7 +383,7 @@ CREATE TABLE "ColumnMatchingExercise" (
 );
 
 -- CreateTable
-CREATE TABLE "SentenceOrderingExercise" (
+CREATE TABLE "RearrangeSentenceExercise" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "contentBlockId" TEXT NOT NULL,
     "contentId" TEXT NOT NULL,
@@ -403,7 +403,55 @@ CREATE TABLE "SentenceOrderingExercise" (
     "updatedBy" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
-    CONSTRAINT "SentenceOrderingExercise_contentBlockId_fkey" FOREIGN KEY ("contentBlockId") REFERENCES "ContentBlock" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT "RearrangeSentenceExercise_contentBlockId_fkey" FOREIGN KEY ("contentBlockId") REFERENCES "ContentBlock" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "QuestionFromPoems" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "contentBlockId" TEXT NOT NULL,
+    "contentId" TEXT NOT NULL,
+    "classId" TEXT NOT NULL,
+    "subjectId" TEXT NOT NULL,
+    "unitId" TEXT NOT NULL,
+    "lessonId" TEXT NOT NULL,
+    "topicId" TEXT,
+    "title" TEXT NOT NULL DEFAULT '',
+    "instruction" TEXT NOT NULL DEFAULT '',
+    "question" TEXT NOT NULL DEFAULT '',
+    "answer" TEXT NOT NULL DEFAULT '',
+    "details" TEXT NOT NULL DEFAULT '',
+    "documentJson" TEXT NOT NULL DEFAULT '{"rows":[]}',
+    "organizationId" TEXT NOT NULL,
+    "createdBy" TEXT NOT NULL,
+    "updatedBy" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "QuestionFromPoems_contentBlockId_fkey" FOREIGN KEY ("contentBlockId") REFERENCES "ContentBlock" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "QuestionFromStory" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "contentBlockId" TEXT NOT NULL,
+    "contentId" TEXT NOT NULL,
+    "classId" TEXT NOT NULL,
+    "subjectId" TEXT NOT NULL,
+    "unitId" TEXT NOT NULL,
+    "lessonId" TEXT NOT NULL,
+    "topicId" TEXT,
+    "title" TEXT NOT NULL DEFAULT '',
+    "instruction" TEXT NOT NULL DEFAULT '',
+    "question" TEXT NOT NULL DEFAULT '',
+    "answer" TEXT NOT NULL DEFAULT '',
+    "details" TEXT NOT NULL DEFAULT '',
+    "documentJson" TEXT NOT NULL DEFAULT '{"rows":[]}',
+    "organizationId" TEXT NOT NULL,
+    "createdBy" TEXT NOT NULL,
+    "updatedBy" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "QuestionFromStory_contentBlockId_fkey" FOREIGN KEY ("contentBlockId") REFERENCES "ContentBlock" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -688,7 +736,13 @@ CREATE UNIQUE INDEX "TableCompletionExercise_contentBlockId_key" ON "TableComple
 CREATE UNIQUE INDEX "ColumnMatchingExercise_contentBlockId_key" ON "ColumnMatchingExercise"("contentBlockId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "SentenceOrderingExercise_contentBlockId_key" ON "SentenceOrderingExercise"("contentBlockId");
+CREATE UNIQUE INDEX "RearrangeSentenceExercise_contentBlockId_key" ON "RearrangeSentenceExercise"("contentBlockId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "QuestionFromPoems_contentBlockId_key" ON "QuestionFromPoems"("contentBlockId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "QuestionFromStory_contentBlockId_key" ON "QuestionFromStory"("contentBlockId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "TrueFalseExercise_contentBlockId_key" ON "TrueFalseExercise"("contentBlockId");
@@ -723,3 +777,77 @@ CREATE UNIQUE INDEX "TagQuestion_contentBlockId_key" ON "TagQuestion"("contentBl
 -- CreateIndex
 CREATE UNIQUE INDEX "Connector_contentBlockId_key" ON "Connector"("contentBlockId");
 
+
+-- Subject-level English First Paper section blocks. These records intentionally
+-- do not require Unit / Lesson / Topic assignments.
+CREATE TABLE IF NOT EXISTS "SubjectMatchingSentencesBlock" (
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "classId" TEXT NOT NULL,
+  "subjectId" TEXT NOT NULL,
+  "title" TEXT NOT NULL DEFAULT '',
+  "instruction" TEXT NOT NULL DEFAULT '',
+  "details" TEXT NOT NULL DEFAULT '',
+  "documentJson" TEXT NOT NULL DEFAULT '{"version":2,"columns":[],"rows":[],"answers":[]}',
+  "sortOrder" INTEGER NOT NULL DEFAULT 0,
+  "organizationId" TEXT NOT NULL,
+  "createdBy" TEXT NOT NULL,
+  "updatedBy" TEXT NOT NULL,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" DATETIME NOT NULL
+);
+CREATE INDEX IF NOT EXISTS "SubjectMatchingSentencesBlock_organizationId_classId_subjectId_sortOrder_idx"
+ON "SubjectMatchingSentencesBlock"("organizationId", "classId", "subjectId", "sortOrder");
+
+CREATE TABLE IF NOT EXISTS "SubjectRearrangeSentenceBlock" (
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "classId" TEXT NOT NULL,
+  "subjectId" TEXT NOT NULL,
+  "title" TEXT NOT NULL DEFAULT '',
+  "instruction" TEXT NOT NULL DEFAULT '',
+  "details" TEXT NOT NULL DEFAULT '',
+  "documentJson" TEXT NOT NULL DEFAULT '{"version":1,"rows":[]}',
+  "sortOrder" INTEGER NOT NULL DEFAULT 0,
+  "organizationId" TEXT NOT NULL,
+  "createdBy" TEXT NOT NULL,
+  "updatedBy" TEXT NOT NULL,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" DATETIME NOT NULL
+);
+CREATE INDEX IF NOT EXISTS "SubjectRearrangeSentenceBlock_organizationId_classId_subjectId_sortOrder_idx"
+ON "SubjectRearrangeSentenceBlock"("organizationId", "classId", "subjectId", "sortOrder");
+
+CREATE TABLE IF NOT EXISTS "SubjectQuestionFromPoemsBlock" (
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "classId" TEXT NOT NULL,
+  "subjectId" TEXT NOT NULL,
+  "title" TEXT NOT NULL DEFAULT '',
+  "instruction" TEXT NOT NULL DEFAULT '',
+  "details" TEXT NOT NULL DEFAULT '',
+  "documentJson" TEXT NOT NULL DEFAULT '{"version":1,"rows":[]}',
+  "sortOrder" INTEGER NOT NULL DEFAULT 0,
+  "organizationId" TEXT NOT NULL,
+  "createdBy" TEXT NOT NULL,
+  "updatedBy" TEXT NOT NULL,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" DATETIME NOT NULL
+);
+CREATE INDEX IF NOT EXISTS "SubjectQuestionFromPoemsBlock_organizationId_classId_subjectId_sortOrder_idx"
+ON "SubjectQuestionFromPoemsBlock"("organizationId", "classId", "subjectId", "sortOrder");
+
+CREATE TABLE IF NOT EXISTS "SubjectQuestionFromStoryBlock" (
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "classId" TEXT NOT NULL,
+  "subjectId" TEXT NOT NULL,
+  "title" TEXT NOT NULL DEFAULT '',
+  "instruction" TEXT NOT NULL DEFAULT '',
+  "details" TEXT NOT NULL DEFAULT '',
+  "documentJson" TEXT NOT NULL DEFAULT '{"version":1,"rows":[]}',
+  "sortOrder" INTEGER NOT NULL DEFAULT 0,
+  "organizationId" TEXT NOT NULL,
+  "createdBy" TEXT NOT NULL,
+  "updatedBy" TEXT NOT NULL,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" DATETIME NOT NULL
+);
+CREATE INDEX IF NOT EXISTS "SubjectQuestionFromStoryBlock_organizationId_classId_subjectId_sortOrder_idx"
+ON "SubjectQuestionFromStoryBlock"("organizationId", "classId", "subjectId", "sortOrder");

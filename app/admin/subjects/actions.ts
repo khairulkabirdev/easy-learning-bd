@@ -81,14 +81,38 @@ export async function saveSubject(input: unknown) {
     id: parsed.id,
   });
 
+  const existing = parsed.id
+    ? await prisma.subject.findFirst({
+        where: { id: parsed.id, organizationId: user.organizationId },
+        select: {
+          id: true,
+          classId: true,
+          imagePath: true,
+          _count: { select: { units: true, contents: true, unseenCompositions: true } },
+        },
+      })
+    : null;
+
+  if (parsed.id && !existing) {
+    throw new Error("Subject not found.");
+  }
+
+  if (existing && existing.classId !== parsed.classId) {
+    const dependentCount = existing._count.units + existing._count.contents + existing._count.unseenCompositions;
+    if (dependentCount > 0) {
+      throw new Error("This subject already has units or content. Move those records first before changing its class.");
+    }
+  }
+
   const media = await resolveEntityMedia({
     input: parsed,
     domain: "subjects",
+    previousImagePath: existing?.imagePath || "",
   });
 
   if (parsed.id) {
     const updated = await prisma.subject.update({
-      where: { id: parsed.id },
+      where: { id: parsed.id, organizationId: user.organizationId },
       data: {
         classId: parsed.classId,
         name: parsed.name,
@@ -157,7 +181,7 @@ export async function deleteSubject(id: string) {
   }
 
   const deleted = await prisma.subject.delete({
-    where: { id },
+    where: { id, organizationId: user.organizationId },
   });
 
   await logAudit({

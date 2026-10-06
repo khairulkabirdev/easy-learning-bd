@@ -1,4 +1,4 @@
-﻿process.env.DATABASE_URL ??= 'file:./dev.db';
+process.env.DATABASE_URL ??= "file:./dev.db";
 
 import bcrypt from "bcryptjs";
 
@@ -6,6 +6,16 @@ import { PrismaClient, PublishStatus, UserRole } from "../generated/prisma/clien
 
 const prisma = new PrismaClient();
 const ORG_ID = "default-org";
+
+
+function seedValue(name: string, developmentFallback: string) {
+  const configured = process.env[name]?.trim();
+  if (configured) return configured;
+  if (process.env.NODE_ENV === "production") {
+    throw new Error(`${name} must be configured before running the production seed.`);
+  }
+  return developmentFallback;
+}
 
 function slugify(value: string) {
   return value
@@ -43,16 +53,16 @@ async function upsertUser(params: {
 
 async function main() {
   const admin = await upsertUser({
-    name: "Local Admin",
-    email: "admin@example.com",
-    password: "admin123456",
+    name: process.env.SEED_ADMIN_NAME?.trim() || "Local Admin",
+    email: seedValue("SEED_ADMIN_EMAIL", "admin@example.com"),
+    password: seedValue("SEED_ADMIN_PASSWORD", "admin123456"),
     role: UserRole.admin,
   });
 
   await upsertUser({
-    name: "Student User",
-    email: "student@example.com",
-    password: "student123456",
+    name: process.env.SEED_STUDENT_NAME?.trim() || "Student User",
+    email: seedValue("SEED_STUDENT_EMAIL", "student@example.com"),
+    password: seedValue("SEED_STUDENT_PASSWORD", "student123456"),
     role: UserRole.student,
   });
 

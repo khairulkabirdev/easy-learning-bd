@@ -68,6 +68,9 @@ export function EntityMediaField({
         const formData = new FormData();
         formData.set("domain", domain);
         formData.set("file", file);
+        if (value.imagePath.startsWith("/uploads/temp/")) {
+          formData.set("previousTempPath", value.imagePath);
+        }
         const uploaded = await uploadEntityImageTemp(formData);
 
         onChange({

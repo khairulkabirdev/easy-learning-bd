@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db";
+import { SEEN_PASSAGE_ONE_REF, SEEN_PASSAGE_TWO_REF } from "@/lib/seen-composition-passages";
 
 function safeParseJson<T>(value: string, fallback: T): T {
   try {
@@ -172,7 +173,7 @@ function parseTagQuestionData(answer: string, question: string, recordId: string
   };
 }
 
-function parseTableCompletionDocument(documentJson: string, recordId: string) {
+function parseTableCompletionDocument(documentJson: string, recordId: string, alphabeticColumns = false) {
   const parsed = safeParseJson<{
     version?: number;
     columns?: Array<{ id?: string; label?: string; sortOrder?: number }>;
@@ -195,12 +196,14 @@ function parseTableCompletionDocument(documentJson: string, recordId: string) {
   }>(documentJson, {});
 
   const sourceColumns = Array.isArray(parsed.columns) ? parsed.columns : [];
+  const defaultColumnLabel = (index: number) =>
+    alphabeticColumns && index < 26 ? `Column ${String.fromCharCode(65 + index)}` : `Column ${index + 1}`;
   const columns = (sourceColumns.length >= 2 ? sourceColumns : [
-    { id: `${recordId}-column-1`, label: "Column 1", sortOrder: 0 },
-    { id: `${recordId}-column-2`, label: "Column 2", sortOrder: 1 },
+    { id: `${recordId}-column-1`, label: defaultColumnLabel(0), sortOrder: 0 },
+    { id: `${recordId}-column-2`, label: defaultColumnLabel(1), sortOrder: 1 },
   ]).map((column, index) => ({
     id: column.id || `${recordId}-column-${index + 1}`,
-    label: column.label || `Column ${index + 1}`,
+    label: column.label || defaultColumnLabel(index),
     sortOrder: index,
   }));
 
@@ -445,6 +448,8 @@ const contentSelect = {
       kind: true,
       sortOrder: true,
       paragraph: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, body: true } },
+      seenPassageOne: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, body: true } },
+      seenPassageTwo: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, body: true } },
       vocabulary: {
         select: {
           id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true,
@@ -469,9 +474,11 @@ const contentSelect = {
       questionAnswerExercise: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, title: true, instruction: true, question: true, answer: true, details: true, documentJson: true } },
       tableCompletionExercise: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, title: true, instruction: true, question: true, answer: true, details: true, documentJson: true } },
       columnMatchingExercise: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, title: true, instruction: true, question: true, answer: true, details: true, documentJson: true } },
-      sentenceOrderingExercise: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, title: true, instruction: true, question: true, answer: true, details: true, documentJson: true } },
+      rearrangeSentenceExercise: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, title: true, instruction: true, question: true, answer: true, details: true, documentJson: true } },
+      questionFromPoems: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, title: true, instruction: true, question: true, answer: true, details: true, documentJson: true } },
+      questionFromStory: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, title: true, instruction: true, question: true, answer: true, details: true, documentJson: true } },
       trueFalseExercise: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, title: true, instruction: true, passage: true, documentJson: true } },
-      informationTransfer: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, question: true, answer: true, details: true, documentJson: true } },
+      informationTransfer: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, passage: true, passageSource: true, paragraphBlockId: true, question: true, answer: true, details: true, documentJson: true } },
       substitutionTable: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, question: true, answer: true, details: true } },
       rightFormOfVerb: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, question: true, answer: true, details: true } },
       narration: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, question: true, answer: true, details: true } },
@@ -488,10 +495,19 @@ const contentSelect = {
 function resolveLinkedPassage(content: any, record: any) {
   if (!record) return "";
   if (record.passageSource === "paragraph" && record.paragraphBlockId) {
-    const paragraphBlock = content.blocks.find(
-      (item: any) => item.id === record.paragraphBlockId && item.paragraph,
-    );
-    return paragraphBlock?.paragraph?.body || "";
+    let linkedBlockId = record.paragraphBlockId;
+
+    if (linkedBlockId === SEEN_PASSAGE_ONE_REF) {
+      linkedBlockId = content.blocks.find((item: any) => item.kind === "seen-passage-one" && item.seenPassageOne)?.id || linkedBlockId;
+    } else if (linkedBlockId === SEEN_PASSAGE_TWO_REF) {
+      linkedBlockId = content.blocks.find((item: any) => item.kind === "seen-passage-two" && item.seenPassageTwo)?.id || linkedBlockId;
+    }
+
+    const linkedBlock = content.blocks.find((item: any) => item.id === linkedBlockId);
+    if (linkedBlock?.paragraph) return linkedBlock.paragraph.body || "";
+    if (linkedBlock?.seenPassageOne) return linkedBlock.seenPassageOne.body || "";
+    if (linkedBlock?.seenPassageTwo) return linkedBlock.seenPassageTwo.body || "";
+    return "";
   }
   return record.passage || "";
 }
@@ -519,9 +535,13 @@ function serializeContents(contents: Array<any>) {
               ? block.tableCompletionExercise
               : block.kind === "column-matching"
                 ? block.columnMatchingExercise
-                : block.kind === "sentence-ordering"
-                  ? block.sentenceOrderingExercise
-                  : null;
+                : block.kind === "rearrange-sentence"
+                  ? block.rearrangeSentenceExercise
+                  : block.kind === "question-from-poems"
+                    ? block.questionFromPoems
+                    : block.kind === "question-from-story"
+                      ? block.questionFromStory
+                      : null;
 
         if (!exercise) return null;
         const questionAnswerDocument = parseQuestionAnswerDocument(exercise.documentJson);
@@ -536,7 +556,7 @@ function serializeContents(contents: Array<any>) {
                 block.kind === "question-answer" && typeof questionAnswerDocument.paragraphBlockId === "string"
                   ? questionAnswerDocument.paragraphBlockId
                   : null,
-              rows: block.kind === "table-completion"
+              rows: block.kind === "table-completion" || block.kind === "column-matching"
                 ? []
                 : (() => {
                     const rows = (questionAnswerDocument.rows || []).map((row) => ({
@@ -546,7 +566,7 @@ function serializeContents(contents: Array<any>) {
                       answer: row.answer || "",
                     }));
 
-                    if (block.kind === "question-answer" && rows.length === 0 && (exercise.question?.trim() || exercise.answer?.trim())) {
+                    if (["question-answer", "rearrange-sentence", "question-from-poems", "question-from-story"].includes(block.kind) && rows.length === 0 && (exercise.question?.trim() || exercise.answer?.trim())) {
                       return [{
                         id: `${exercise.id}-legacy-row-1`,
                         sortOrder: 0,
@@ -557,8 +577,8 @@ function serializeContents(contents: Array<any>) {
 
                     return rows;
                   })(),
-              table: block.kind === "table-completion"
-                ? parseTableCompletionDocument(exercise.documentJson, exercise.id)
+              table: block.kind === "table-completion" || block.kind === "column-matching"
+                ? parseTableCompletionDocument(exercise.documentJson, exercise.id, block.kind === "column-matching")
                 : undefined,
             };
       })(),
@@ -579,6 +599,7 @@ function serializeContents(contents: Array<any>) {
             const normalized = normalizeInformationTransferRecord(block.informationTransfer);
             return {
               ...block.informationTransfer,
+              resolvedPassage: resolveLinkedPassage(content, block.informationTransfer),
               question: normalized.question,
               blanks: normalized.blanks,
             };

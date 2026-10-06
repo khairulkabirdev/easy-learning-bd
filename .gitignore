@@ -33,13 +33,22 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
-/generated/prisma
-
-/README
-
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# generated Prisma client (recreated by npm postinstall)
+/generated/prisma/
+/src/generated/prisma/
+
+# SQLite transient / local backup files
+*.db-shm
+*.db-wal
+*.db-journal
+prisma/*.bk
+
+!.env.example
+/README

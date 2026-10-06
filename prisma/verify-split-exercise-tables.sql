@@ -4,4 +4,8 @@ SELECT 'TableCompletionExercise', COUNT(*) FROM "TableCompletionExercise"
 UNION ALL
 SELECT 'ColumnMatchingExercise', COUNT(*) FROM "ColumnMatchingExercise"
 UNION ALL
-SELECT 'SentenceOrderingExercise', COUNT(*) FROM "SentenceOrderingExercise";
+SELECT 'RearrangeSentenceExercise', COUNT(*) FROM "RearrangeSentenceExercise"
+UNION ALL
+SELECT 'QuestionFromPoems', COUNT(*) FROM "QuestionFromPoems"
+UNION ALL
+SELECT 'QuestionFromStory', COUNT(*) FROM "QuestionFromStory";

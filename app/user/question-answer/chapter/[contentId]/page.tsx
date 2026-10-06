@@ -1,6 +1,5 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ChevronRight, Home, Layers3 } from "lucide-react";
+import { Layers3 } from "lucide-react";
 
 import { getPublishedQuestionAnswerContentById } from "@/app/user/lessons/data";
 import type {
@@ -9,7 +8,6 @@ import type {
 } from "@/app/admin/content/content-types";
 import { QuestionAnswerChapterPager } from "@/components/app/QuestionAnswerChapterPager";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
 import { requireStudent } from "@/lib/app-auth";
 import { cn } from "@/lib/utils";
 
@@ -84,29 +82,6 @@ export default async function UserQuestionAnswerChapterPage({
 
   return (
     <div>
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Home className="h-4 w-4" />
-          <ChevronRight className="h-4 w-4" />
-          <Link
-            href="/user/chapter-preparation"
-            className="font-medium text-foreground hover:text-primary"
-          >
-            অধ্যায়ভিত্তিক প্রস্তুতি
-          </Link>
-          <ChevronRight className="h-4 w-4" />
-          <span className="font-medium text-foreground">Question Answer</span>
-        </div>
-
-        <Link
-          href={`/user/chapter-preparation/subjects/${content.subjectId}/units/${content.unitId}/lessons/${content.lessonId}`}
-          className={cn(buttonVariants({ variant: "outline" }))}
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          লেশনে ফিরুন
-        </Link>
-      </div>
-
       <div className="space-y-1">
         <div className="flex flex-wrap items-center gap-2">
           <h1 className="text-2xl font-semibold tracking-tight">Question Answer</h1>

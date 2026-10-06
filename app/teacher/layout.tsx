@@ -1,4 +1,5 @@
 import { LayoutDashboard } from "lucide-react";
+import { PageNavigation } from "@/components/app/PageNavigation";
 
 import { AppDashboardShell, type ShellNavGroup } from "@/components/app/AppShellNav";
 import { ShellActions } from "@/components/app/ShellActions";
@@ -31,7 +32,10 @@ export default async function TeacherLayout({
       groups={teacherNavGroups}
       action={<ShellActions />}
     >
-      {children}
+      <div className="space-y-6">
+        <PageNavigation />
+        <div>{children}</div>
+      </div>
     </AppDashboardShell>
   );
 }

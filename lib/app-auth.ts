@@ -22,6 +22,9 @@ function getSessionSecret() {
   if (!secret) {
     throw new Error("SESSION_SECRET is not configured.");
   }
+  if (secret.length < 32) {
+    throw new Error("SESSION_SECRET must be at least 32 characters.");
+  }
   return secret;
 }
 
@@ -31,7 +34,21 @@ function encodeSessionPayload(payload: SessionPayload) {
 
 function decodeSessionPayload(value: string): SessionPayload | null {
   try {
-    return JSON.parse(Buffer.from(value, "base64url").toString("utf8")) as SessionPayload;
+    const parsed = JSON.parse(Buffer.from(value, "base64url").toString("utf8")) as Partial<SessionPayload>;
+    if (
+      typeof parsed.sessionId !== "string" ||
+      typeof parsed.userId !== "string" ||
+      typeof parsed.expiresAt !== "number" ||
+      !Number.isFinite(parsed.expiresAt)
+    ) {
+      return null;
+    }
+
+    return {
+      sessionId: parsed.sessionId,
+      userId: parsed.userId,
+      expiresAt: parsed.expiresAt,
+    };
   } catch {
     return null;
   }
@@ -52,7 +69,11 @@ function verifySignedCookieValue(cookieValue: string) {
   if (!raw || !sig) return null;
 
   const expected = signValue(raw);
-  const valid = crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected));
+  const suppliedBuffer = Buffer.from(sig);
+  const expectedBuffer = Buffer.from(expected);
+  if (suppliedBuffer.length !== expectedBuffer.length) return null;
+
+  const valid = crypto.timingSafeEqual(suppliedBuffer, expectedBuffer);
   if (!valid) return null;
 
   return decodeSessionPayload(raw);
@@ -83,6 +104,10 @@ export async function createSession(userId: string) {
   const token = generateOpaqueToken();
   const tokenHash = hashSessionToken(token);
   const expiresAt = new Date(Date.now() + SESSION_TTL_MS);
+
+  await prisma.authSession.deleteMany({
+    where: { expiresAt: { lte: new Date() } },
+  });
 
   await prisma.authSession.create({
     data: {
@@ -152,7 +177,12 @@ export async function getCurrentSession() {
 
   const payload = verifySignedCookieValue(signedPayload);
   if (!payload) return null;
-  if (payload.expiresAt < Date.now()) return null;
+  if (payload.expiresAt < Date.now()) {
+    await prisma.authSession.deleteMany({
+      where: { id: payload.sessionId, userId: payload.userId },
+    });
+    return null;
+  }
 
   const session = await prisma.authSession.findFirst({
     where: {
@@ -167,6 +197,13 @@ export async function getCurrentSession() {
   });
 
   if (!session) return null;
+
+  if (Date.now() - session.lastUsedAt.getTime() > 15 * 60 * 1000) {
+    await prisma.authSession.update({
+      where: { id: session.id },
+      data: { lastUsedAt: new Date() },
+    });
+  }
 
   return session;
 }
@@ -269,22 +306,47 @@ export async function registerWithPassword(input: {
     }
   }
 
-  const user = await prisma.user.create({
-    data: {
-      name: input.name.trim(),
-      email,
-      passwordHash: await hashPassword(input.password),
-      role: input.role,
-      phone: input.phone,
-      institutionName: input.role === "teacher" ? input.institutionName?.trim() || null : null,
-      classId: input.role === "student" ? input.classId : null,
-      organizationId: input.organizationId,
-    },
-  });
+  const passwordHash = await hashPassword(input.password);
+
+  let user;
+  try {
+    user = await prisma.user.create({
+      data: {
+        name: input.name.trim(),
+        email,
+        passwordHash,
+        role: input.role,
+        phone: input.phone,
+        institutionName: input.role === "teacher" ? input.institutionName?.trim() || null : null,
+        classId: input.role === "student" ? input.classId : null,
+        organizationId: input.organizationId,
+      },
+    });
+  } catch (error) {
+    const code = typeof error === "object" && error !== null && "code" in error ? String(error.code) : "";
+    if (code === "P2002") {
+      return { ok: false as const, error: "An account with this email already exists." };
+    }
+    throw error;
+  }
 
   await createSession(user.id);
 
   return { ok: true as const, role: user.role };
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function reportPasswordResetDeliveryIssue(message: string, error?: unknown) {
+  if (error) console.error(`[password-reset] ${message}`, error);
+  else console.error(`[password-reset] ${message}`);
 }
 
 export async function requestPasswordReset(email: string) {
@@ -294,69 +356,85 @@ export async function requestPasswordReset(email: string) {
     select: { id: true, name: true, email: true, organizationId: true },
   });
 
-  if (!user) {
-    return { ok: true as const };
-  }
+  // Always return the same public result so this endpoint cannot be used to enumerate accounts.
+  if (!user) return { ok: true as const };
 
   const settings = await prisma.authEmailSetting.findUnique({
     where: { organizationId: user.organizationId },
   });
 
-  if (!settings?.resetEmailEnabled) {
-    return { ok: false as const, error: "Password reset email is not enabled." };
-  }
-
-  if (!settings.senderEmail || !settings.appBaseUrl) {
-    return { ok: false as const, error: "Password reset email settings are incomplete." };
+  if (!settings?.resetEmailEnabled || !settings.senderEmail || !settings.appBaseUrl) {
+    reportPasswordResetDeliveryIssue(`Reset email is unavailable for organization ${user.organizationId}.`);
+    return { ok: true as const };
   }
 
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
-    return { ok: false as const, error: "RESEND_API_KEY is not configured." };
+    reportPasswordResetDeliveryIssue("RESEND_API_KEY is not configured.");
+    return { ok: true as const };
   }
 
   const token = generateOpaqueToken();
-  const resetUrl = new URL("/auth/reset-password", settings.appBaseUrl);
+  let resetUrl: URL;
+  try {
+    resetUrl = new URL("/auth/reset-password", settings.appBaseUrl);
+    if (!["http:", "https:"].includes(resetUrl.protocol)) throw new Error("Unsupported app URL protocol.");
+  } catch (error) {
+    reportPasswordResetDeliveryIssue("The configured appBaseUrl is invalid.", error);
+    return { ok: true as const };
+  }
   resetUrl.searchParams.set("token", token);
 
-  await prisma.passwordResetToken.create({
+  await prisma.passwordResetToken.deleteMany({
+    where: { userId: user.id, OR: [{ expiresAt: { lte: new Date() } }, { usedAt: { not: null } }] },
+  });
+
+  const resetRecord = await prisma.passwordResetToken.create({
     data: {
       userId: user.id,
       tokenHash: hashPasswordResetToken(token),
       expiresAt: new Date(Date.now() + PASSWORD_RESET_TTL_MS),
     },
+    select: { id: true },
   });
 
   const from = settings.senderName
     ? `${settings.senderName} <${settings.senderEmail}>`
     : settings.senderEmail;
 
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from,
-      to: user.email,
-      subject: "Reset your EasyLearningBD password",
-      html: `<p>Hello ${user.name},</p><p>Use this link to reset your password. It expires in 30 minutes.</p><p><a href="${resetUrl.toString()}">Reset password</a></p>`,
-      text: `Hello ${user.name},\n\nUse this link to reset your password. It expires in 30 minutes:\n${resetUrl.toString()}`,
-    }),
-  });
+  try {
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from,
+        to: user.email,
+        subject: "Reset your EasyLearningBD password",
+        html: `<p>Hello ${escapeHtml(user.name)},</p><p>Use this link to reset your password. It expires in 30 minutes.</p><p><a href="${escapeHtml(resetUrl.toString())}">Reset password</a></p>`,
+        text: `Hello ${user.name},\n\nUse this link to reset your password. It expires in 30 minutes:\n${resetUrl.toString()}`,
+      }),
+    });
 
-  if (!response.ok) {
-    return { ok: false as const, error: "Failed to send password reset email." };
+    if (!response.ok) {
+      await prisma.passwordResetToken.deleteMany({ where: { id: resetRecord.id } });
+      reportPasswordResetDeliveryIssue(`Email provider returned HTTP ${response.status}.`);
+    }
+  } catch (error) {
+    await prisma.passwordResetToken.deleteMany({ where: { id: resetRecord.id } });
+    reportPasswordResetDeliveryIssue("Failed to send password reset email.", error);
   }
 
   return { ok: true as const };
 }
 
 export async function resetPasswordWithToken(token: string, password: string) {
+  const tokenHash = hashPasswordResetToken(token);
   const resetToken = await prisma.passwordResetToken.findFirst({
     where: {
-      tokenHash: hashPasswordResetToken(token),
+      tokenHash,
       usedAt: null,
       expiresAt: { gt: new Date() },
     },
@@ -367,19 +445,34 @@ export async function resetPasswordWithToken(token: string, password: string) {
     return { ok: false as const, error: "This reset link is invalid or expired." };
   }
 
-  await prisma.$transaction([
-    prisma.user.update({
-      where: { id: resetToken.userId },
-      data: { passwordHash: await hashPassword(password) },
-    }),
-    prisma.passwordResetToken.update({
-      where: { id: resetToken.id },
+  const passwordHash = await hashPassword(password);
+  const applied = await prisma.$transaction(async (tx) => {
+    const claimed = await tx.passwordResetToken.updateMany({
+      where: {
+        id: resetToken.id,
+        tokenHash,
+        usedAt: null,
+        expiresAt: { gt: new Date() },
+      },
       data: { usedAt: new Date() },
-    }),
-    prisma.authSession.deleteMany({
-      where: { userId: resetToken.userId },
-    }),
-  ]);
+    });
+
+    if (claimed.count !== 1) return false;
+
+    await tx.user.update({
+      where: { id: resetToken.userId },
+      data: { passwordHash },
+    });
+    await tx.authSession.deleteMany({ where: { userId: resetToken.userId } });
+    await tx.passwordResetToken.deleteMany({
+      where: { userId: resetToken.userId, id: { not: resetToken.id } },
+    });
+    return true;
+  });
+
+  if (!applied) {
+    return { ok: false as const, error: "This reset link is invalid or expired." };
+  }
 
   return { ok: true as const };
 }

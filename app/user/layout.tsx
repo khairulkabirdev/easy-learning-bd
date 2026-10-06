@@ -1,4 +1,5 @@
 import { AppDashboardShell, userNavGroups } from "@/components/app/AppShellNav";
+import { PageNavigation } from "@/components/app/PageNavigation";
 import { ShellActions } from "@/components/app/ShellActions";
 import { requireStudent } from "@/lib/app-auth";
 import { prisma } from "@/lib/db";
@@ -29,7 +30,10 @@ export default async function UserLayout({
       groups={userNavGroups}
       action={<ShellActions />}
     >
-      {children}
+      <div className="space-y-6">
+        <PageNavigation />
+        <div>{children}</div>
+      </div>
     </AppDashboardShell>
   );
 }

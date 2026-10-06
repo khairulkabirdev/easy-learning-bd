@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Easy Learning BD
 
-## Getting Started
+Next.js 16 education CMS and student learning platform using Prisma and SQLite.
 
-First, run the development server:
+## Current database
+
+This package intentionally remains on **SQLite**. Do not change the Prisma datasource provider yet.
+
+## First run
+
+1. Copy `.env.example` to `.env` and set a strong `SESSION_SECRET` (32+ characters).
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+`npm install` runs `prisma generate` automatically for the current operating system.
+
+3. Repair/verify the bundled SQLite schema and indexes:
+
+```bash
+npm run db:repair:sqlite
+```
+
+4. Start development:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Validation commands
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint
+npm run build
+```
 
-## Learn More
+Or run both:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run check
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Important notes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Keep `prisma/dev.db` backed up before database work.
+- Uploaded images are stored under `public/uploads/` and therefore require persistent server storage.
+- Do not commit `.env` or production credentials.
+- The generated Prisma client is intentionally not stored in the repository; it is recreated by `npm install` / `npm run prisma:generate`.
+- See `STABILITY-FIXES.md` for the security, data-integrity, upload, and compatibility work included in this package.
 
-## Deploy on Vercel
+## Later database migration
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+When you are ready to move from SQLite to MySQL or PostgreSQL, migrate from a backup using Prisma/database migration tooling and verify all structured exercise JSON and relationships. Do not hand-edit the SQLite file into another provider.

@@ -23,6 +23,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import { sanitizeRichHtml } from "@/lib/sanitize-rich-html";
 
 export type StudentContentRecord = Omit<ContentRecordWithBlocks, "createdAt"> & {
   createdAt: string;
@@ -36,8 +37,10 @@ const threeFieldBlockLabels: Partial<Record<ContentBlockKind, string>> = {
   "gap-fill-second-paper": "Gap Fill Second Paper",
   "question-answer": "Question Answer",
   "table-completion": "Table Completion",
-  "column-matching": "Column Matching",
-  "sentence-ordering": "Rearrange Sentence",
+  "column-matching": "Matching Sentences",
+  "rearrange-sentence": "Rearrange Sentence",
+  "question-from-poems": "Question from Poems",
+  "question-from-story": "Question from Story",
   "information-transfer": "Information Transfer",
   "substitution-table": "Substitution Table",
   "right-form-of-verb": "Right Form of Verb",
@@ -80,7 +83,7 @@ function RichContent({ value }: { value: string }) {
         "[&_table]:w-full [&_table]:border-collapse [&_td]:border [&_td]:border-border [&_td]:p-2",
         "[&_th]:border [&_th]:border-border [&_th]:bg-muted/60 [&_th]:p-2 [&_ul]:list-disc [&_ul]:space-y-1",
       )}
-      dangerouslySetInnerHTML={{ __html: value }}
+      dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(value) }}
     />
   );
 }
@@ -1523,17 +1526,20 @@ function StudentBlockCard({
     resolvedPassage?: string;
   } | null | undefined) {
     if (!record) return "";
-    if (record.resolvedPassage) return record.resolvedPassage;
+    if (record.resolvedPassage !== undefined) return record.resolvedPassage;
     if (record.passageSource === "paragraph" && record.paragraphBlockId) {
-      const linkedParagraph = content.blocks.find(
-        (item) => item.id === record.paragraphBlockId && item.kind === "paragraph" && item.paragraph,
-      );
-      return linkedParagraph?.paragraph?.body || "";
+      const linkedBlock = content.blocks.find((item) => item.id === record.paragraphBlockId);
+      if (linkedBlock?.paragraph) return linkedBlock.paragraph.body || "";
+      if (linkedBlock?.seenPassageOne) return linkedBlock.seenPassageOne.body || "";
+      if (linkedBlock?.seenPassageTwo) return linkedBlock.seenPassageTwo.body || "";
+      return "";
     }
     return record.passage || "";
   }
 
   if (block.kind === "paragraph" && block.paragraph) return <ParagraphBlock body={block.paragraph.body} />;
+  if (block.kind === "seen-passage-one" && block.seenPassageOne) return <ParagraphBlock body={block.seenPassageOne.body} />;
+  if (block.kind === "seen-passage-two" && block.seenPassageTwo) return <ParagraphBlock body={block.seenPassageTwo.body} />;
   if (block.kind === "vocabulary" && block.vocabulary) {
     return <VocabularyBlock entries={block.vocabulary.entries} passage={resolvePassage(block.vocabulary)} />;
   }
@@ -1565,7 +1571,7 @@ function StudentBlockCard({
       />
     );
   }
-  if (block.kind === "sentence-ordering" && block.questionAnswerExercise) {
+  if (block.kind === "rearrange-sentence" && block.questionAnswerExercise) {
     return block.questionAnswerExercise.rows.length > 0 ? (
       <SentenceOrderingBlock
         title={block.questionAnswerExercise.title || "Rearrange Sentence"}
@@ -1611,7 +1617,29 @@ function StudentBlockCard({
     );
   }
 
-  if (block.questionAnswerExercise && ["question-answer", "column-matching"].includes(block.kind)) {
+  if (block.kind === "column-matching" && block.questionAnswerExercise) {
+    if (block.questionAnswerExercise.table && block.questionAnswerExercise.table.rows.length > 0) {
+      return (
+        <TableCompletionBlock
+          title={block.questionAnswerExercise.title || "Matching Sentences"}
+          instruction={block.questionAnswerExercise.instruction}
+          details={block.questionAnswerExercise.details}
+          table={block.questionAnswerExercise.table}
+        />
+      );
+    }
+
+    return (
+      <ThreeFieldExerciseBlock
+        title={block.questionAnswerExercise.title || "Matching Sentences"}
+        question={block.questionAnswerExercise.question}
+        answer={block.questionAnswerExercise.answer}
+        details={block.questionAnswerExercise.details || block.questionAnswerExercise.instruction}
+      />
+    );
+  }
+
+  if (block.questionAnswerExercise && ["question-answer", "question-from-poems", "question-from-story"].includes(block.kind)) {
     return block.questionAnswerExercise.rows.length > 0 ? (
       <QuestionAnswerRowsBlock
         title={block.questionAnswerExercise.title || threeFieldBlockLabels[block.kind] || "Exercise"}
@@ -1635,6 +1663,7 @@ function StudentBlockCard({
         question={block.informationTransfer.question}
         blanks={block.informationTransfer.blanks}
         details={block.informationTransfer.details}
+        passage={resolvePassage(block.informationTransfer)}
       />
     );
   }

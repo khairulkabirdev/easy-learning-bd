@@ -16,11 +16,42 @@ const allowedMimeTypes = new Map<string, string>([
   ["image/jpg", ".jpg"],
 ]);
 
-const uploadDomainSchema = z.enum(["classes", "subjects", "units", "lessons", "topics"]);
+const uploadDomainSchema = z.enum(["classes", "subjects", "units", "lessons", "topics", "profiles"]);
 
 const publicRoot = path.join(process.cwd(), "public");
 const uploadsRoot = path.join(publicRoot, "uploads");
 const tempRoot = path.join(uploadsRoot, "temp");
+
+const TEMP_FILE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
+let lastTempPruneAt = 0;
+
+async function pruneOldTempUploads() {
+  const now = Date.now();
+  if (now - lastTempPruneAt < 60 * 60 * 1000) return;
+  lastTempPruneAt = now;
+
+  let entries: import("fs").Dirent[];
+  try {
+    entries = await fs.readdir(tempRoot, { withFileTypes: true });
+  } catch {
+    return;
+  }
+
+  await Promise.all(
+    entries
+      .filter((entry) => entry.isFile())
+      .map(async (entry) => {
+        const filePath = path.join(tempRoot, entry.name);
+        try {
+          assertNoPathTraversal(filePath, tempRoot);
+          const stat = await fs.stat(filePath);
+          if (now - stat.mtimeMs > TEMP_FILE_MAX_AGE_MS) await fs.unlink(filePath);
+        } catch {
+          // Best-effort cleanup must never break a new upload.
+        }
+      }),
+  );
+}
 
 function normalizePublicPath(filePath: string) {
   return `/${path.relative(publicRoot, filePath).replace(/\\/g, "/")}`;
@@ -38,10 +69,34 @@ async function fileToBuffer(file: File) {
 function assertNoPathTraversal(targetPath: string, allowedRoot: string) {
   const resolvedTarget = path.resolve(targetPath);
   const resolvedRoot = path.resolve(allowedRoot);
+  const relative = path.relative(resolvedRoot, resolvedTarget);
 
-  if (!resolvedTarget.startsWith(resolvedRoot)) {
-    throw new Error("Invalid upload target path.");
+  if (relative === "" || (!relative.startsWith("..") && !path.isAbsolute(relative))) {
+    return;
   }
+
+  throw new Error("Invalid upload target path.");
+}
+
+function detectImageExtension(buffer: Buffer) {
+  if (buffer.length >= 8 && buffer.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) {
+    return ".png";
+  }
+
+  if (buffer.length >= 3 && buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff) {
+    return ".jpg";
+  }
+
+  if (buffer.length >= 6) {
+    const signature = buffer.subarray(0, 6).toString("ascii");
+    if (signature === "GIF87a" || signature === "GIF89a") return ".gif";
+  }
+
+  if (buffer.length >= 12 && buffer.subarray(0, 4).toString("ascii") === "RIFF" && buffer.subarray(8, 12).toString("ascii") === "WEBP") {
+    return ".webp";
+  }
+
+  return null;
 }
 
 export function parseExternalImageUrl(value: string) {
@@ -68,16 +123,25 @@ export async function saveImageToTemp(file: File) {
     throw new Error("Image must be 4.8 MB or smaller.");
   }
 
-  const extension = allowedMimeTypes.get(file.type.toLowerCase()) ?? path.extname(file.name).toLowerCase();
-  if (!extension || ![".png", ".jpg", ".jpeg", ".webp", ".gif"].includes(extension)) {
+  const declaredExtension = allowedMimeTypes.get(file.type.toLowerCase());
+  if (!declaredExtension) {
     throw new Error("Only PNG, JPG, JPEG, WEBP, and GIF files are allowed.");
   }
 
   const buffer = await fileToBuffer(file);
+  const detectedExtension = detectImageExtension(buffer);
+  if (!detectedExtension) {
+    throw new Error("The uploaded file is not a valid supported image.");
+  }
+
+  if (declaredExtension !== detectedExtension) {
+    throw new Error("Image file type does not match its contents.");
+  }
 
   await ensureDir(tempRoot);
+  await pruneOldTempUploads();
 
-  const filename = `${crypto.randomUUID()}${extension}`;
+  const filename = `${crypto.randomUUID()}${detectedExtension}`;
   const tempPath = path.join(tempRoot, filename);
 
   assertNoPathTraversal(tempPath, tempRoot);
