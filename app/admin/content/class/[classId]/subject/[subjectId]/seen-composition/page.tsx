@@ -51,6 +51,7 @@ export default async function SeenCompositionPage({
       orderBy: [{ createdAt: "desc" }],
       select: {
         id: true,
+        title: true,
         createdAt: true,
         unit: { select: { id: true, title: true } },
         lesson: { select: { id: true, title: true } },
@@ -72,6 +73,7 @@ export default async function SeenCompositionPage({
       topics={topics}
       contents={contents.map((item) => ({
         id: item.id,
+        title: item.title,
         createdAt: item.createdAt.toISOString(),
         unit: item.unit,
         lesson: item.lesson,

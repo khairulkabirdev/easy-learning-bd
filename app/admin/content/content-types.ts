@@ -85,6 +85,8 @@ export type VocabularyEntryRecord = {
   vocabularyId: string;
   word: string;
   meaning: string;
+  imageUrl: string;
+  imagePath: string;
   sortOrder: number;
 };
 
@@ -398,6 +400,8 @@ export type ContentBlockRecord = {
   contentId: string;
   kind: ContentBlockKind;
   sortOrder: number;
+  boardId: string | null;
+  academicYearId: string | null;
   paragraph: ParagraphRecord | null;
   seenPassageOne: SeenCompositionPassageRecord | null;
   seenPassageTwo: SeenCompositionPassageRecord | null;
@@ -423,6 +427,7 @@ export type ContentBlockRecord = {
 
 export type ContentRecordWithBlocks = {
   id: string;
+  title?: string;
   classId: string;
   subjectId: string;
   unitId: string;

@@ -4,12 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { isEnglishFirstPaperSubject } from "@/app/admin/content/navigation-helpers";
-import {
-  createDefaultUnseenCompositionDocument,
-  UNSEEN_COMPOSITION_BLOCK_KINDS,
-  type UnseenCompositionBlock,
-  type UnseenCompositionDocument,
-} from "@/app/admin/content/unseen-composition/types";
+import { createDefaultUnseenCompositionDocument } from "@/app/admin/content/unseen-composition/types";
 import { requireAdmin, assertTrustedMutationOrigin } from "@/lib/app-auth";
 import { logAudit } from "@/lib/auditLogger";
 import { prisma } from "@/lib/db";
@@ -86,40 +81,54 @@ export async function saveUnseenComposition(input: unknown) {
   const parsed = saveSchema.parse(input);
   const owned = await getOwnedRecord(parsed.id, user.organizationId);
 
-  let normalizedDocument: UnseenCompositionDocument;
+  let document: { version?: unknown; blocks?: unknown };
   try {
-    const document = JSON.parse(parsed.documentJson) as { version?: unknown; blocks?: unknown };
+    document = JSON.parse(parsed.documentJson) as { version?: unknown; blocks?: unknown };
     if (document.version !== 1 || !Array.isArray(document.blocks)) {
       throw new Error();
     }
-
-    const blocks = document.blocks as Array<Partial<UnseenCompositionBlock>>;
-    const hasUnsupportedBlock = blocks.some(
-      (block) =>
-        !block ||
-        typeof block !== "object" ||
-        typeof block.id !== "string" ||
-        typeof block.kind !== "string" ||
-        !UNSEEN_COMPOSITION_BLOCK_KINDS.includes(block.kind as UnseenCompositionBlock["kind"]),
-    );
-    if (hasUnsupportedBlock) throw new Error();
-
-    normalizedDocument = {
-      version: 1,
-      blocks: (blocks as UnseenCompositionBlock[]).map((block, index) => ({
-        ...block,
-        sortOrder: index,
-      })),
-    };
   } catch {
     throw new Error("Invalid Unseen Composition document.");
   }
+
+  const blockRecords = (document.blocks as unknown[]).filter(
+    (block): block is Record<string, unknown> => Boolean(block) && typeof block === "object",
+  );
+  const boardIds = Array.from(
+    new Set(
+      blockRecords
+        .map((block) => (typeof block.boardId === "string" ? block.boardId : ""))
+        .filter(Boolean),
+    ),
+  );
+  const academicYearIds = Array.from(
+    new Set(
+      blockRecords
+        .map((block) => (typeof block.academicYearId === "string" ? block.academicYearId : ""))
+        .filter(Boolean),
+    ),
+  );
+
+  const [ownedBoards, ownedYears] = await Promise.all([
+    boardIds.length
+      ? prisma.board.count({
+          where: { id: { in: boardIds }, organizationId: user.organizationId },
+        })
+      : Promise.resolve(0),
+    academicYearIds.length
+      ? prisma.academicYear.count({
+          where: { id: { in: academicYearIds }, organizationId: user.organizationId },
+        })
+      : Promise.resolve(0),
+  ]);
+  if (ownedBoards !== boardIds.length) throw new Error("One or more selected boards are invalid.");
+  if (ownedYears !== academicYearIds.length) throw new Error("One or more selected years are invalid.");
 
   const updated = await prisma.unseenComposition.update({
     where: { id: parsed.id, organizationId: user.organizationId },
     data: {
       title: parsed.title,
-      documentJson: JSON.stringify(normalizedDocument),
+      documentJson: parsed.documentJson,
       updatedBy: user.id,
     },
   });

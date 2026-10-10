@@ -244,6 +244,7 @@ model Topic {
 
 model Content {
   id             String   @id @default(cuid())
+  title          String   @default("")
   classId        String
   subjectId      String
   unitId         String
@@ -328,12 +329,14 @@ model UnseenComposition {
 }
 
 model ContentBlock {
-  id        String   @id @default(cuid())
-  contentId String
-  kind      String
-  sortOrder Int      @default(0)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id             String   @id @default(cuid())
+  contentId      String
+  kind           String
+  sortOrder      Int      @default(0)
+  boardId        String?
+  academicYearId String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   content                      Content                       @relation(fields: [contentId], references: [id], onDelete: Cascade)
   paragraph                    Paragraph?
@@ -364,6 +367,7 @@ model ContentBlock {
   seenPassageTwo               SeenPassageTwo?
 
   @@index([contentId, sortOrder])
+  @@index([boardId, academicYearId])
 }
 
 model Paragraph {
@@ -416,6 +420,8 @@ model VocabularyEntry {
   vocabularyId   String
   word           String   @default("")
   meaning        String   @default("")
+  imageUrl       String   @default("")
+  imagePath      String   @default("")
   sortOrder      Int      @default(0)
   organizationId String
   createdBy      String
@@ -423,10 +429,46 @@ model VocabularyEntry {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  vocabulary Vocabulary @relation(fields: [vocabularyId], references: [id], onDelete: Cascade)
+  vocabulary    Vocabulary     @relation(fields: [vocabularyId], references: [id], onDelete: Cascade)
+  uploadedFiles UploadedFile[]
 
   @@index([vocabularyId, sortOrder])
   @@index([organizationId])
+}
+
+model UploadedFile {
+  id                String    @id @default(cuid())
+  purpose           String    @default("")
+  ownerType         String    @default("")
+  ownerId           String    @default("")
+  vocabularyEntryId String?
+  url               String    @default("")
+  path              String    @default("")
+  originalName      String    @default("")
+  sourceMimeType    String    @default("")
+  mimeType          String    @default("")
+  extension         String    @default("")
+  sizeBytes         Int       @default(0)
+  width             Int       @default(0)
+  height            Int       @default(0)
+  checksumSha256    String    @default("")
+  status            String    @default("active")
+  isCurrent         Boolean   @default(true)
+  replacedAt        DateTime?
+  deletedAt         DateTime?
+  storageDeletedAt  DateTime?
+  organizationId    String
+  createdBy         String
+  updatedBy         String
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  vocabularyEntry VocabularyEntry? @relation(fields: [vocabularyEntryId], references: [id], onDelete: SetNull)
+
+  @@index([vocabularyEntryId, isCurrent, status])
+  @@index([organizationId, status, createdAt])
+  @@index([organizationId, ownerType, ownerId])
+  @@index([path])
 }
 
 model SynonymsAntonyms {
@@ -996,6 +1038,8 @@ model SubjectMatchingSentencesBlock {
   id             String   @id @default(cuid())
   classId        String
   subjectId      String
+  boardId        String?
+  academicYearId String?
   title          String   @default("")
   instruction    String   @default("")
   details        String   @default("")
@@ -1008,12 +1052,15 @@ model SubjectMatchingSentencesBlock {
   updatedAt      DateTime @updatedAt
 
   @@index([organizationId, classId, subjectId, sortOrder])
+  @@index([organizationId, boardId, academicYearId])
 }
 
 model SubjectRearrangeSentenceBlock {
   id             String   @id @default(cuid())
   classId        String
   subjectId      String
+  boardId        String?
+  academicYearId String?
   title          String   @default("")
   instruction    String   @default("")
   details        String   @default("")
@@ -1026,12 +1073,15 @@ model SubjectRearrangeSentenceBlock {
   updatedAt      DateTime @updatedAt
 
   @@index([organizationId, classId, subjectId, sortOrder])
+  @@index([organizationId, boardId, academicYearId])
 }
 
 model SubjectQuestionFromPoemsBlock {
   id             String   @id @default(cuid())
   classId        String
   subjectId      String
+  boardId        String?
+  academicYearId String?
   title          String   @default("")
   instruction    String   @default("")
   details        String   @default("")
@@ -1044,12 +1094,15 @@ model SubjectQuestionFromPoemsBlock {
   updatedAt      DateTime @updatedAt
 
   @@index([organizationId, classId, subjectId, sortOrder])
+  @@index([organizationId, boardId, academicYearId])
 }
 
 model SubjectQuestionFromStoryBlock {
   id             String   @id @default(cuid())
   classId        String
   subjectId      String
+  boardId        String?
+  academicYearId String?
   title          String   @default("")
   instruction    String   @default("")
   details        String   @default("")
@@ -1062,4 +1115,58 @@ model SubjectQuestionFromStoryBlock {
   updatedAt      DateTime @updatedAt
 
   @@index([organizationId, classId, subjectId, sortOrder])
+  @@index([organizationId, boardId, academicYearId])
+}
+
+// Subject-level English 2nd Paper question-type blocks. These records are
+// managed directly under the subject and do not require Unit/Lesson/Topic.
+model SubjectEnglishSecondPaperBlock {
+  id             String   @id @default(cuid())
+  classId        String
+  subjectId      String
+  kind           String
+  boardId        String?
+  academicYearId String?
+  title          String   @default("")
+  instruction    String   @default("")
+  details        String   @default("")
+  documentJson   String   @default("{}")
+  sortOrder      Int      @default(0)
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([organizationId, classId, subjectId, kind, sortOrder])
+  @@index([organizationId, boardId, academicYearId])
+}
+
+// Admin-only master data used for board/year setup.
+model Board {
+  id             String   @id @default(cuid())
+  name           String
+  isActive       Boolean  @default(true)
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([organizationId, name])
+  @@index([organizationId, isActive, name])
+}
+
+model AcademicYear {
+  id             String   @id @default(cuid())
+  year           Int
+  isActive       Boolean  @default(true)
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([organizationId, year])
+  @@index([organizationId, isActive, year])
 }

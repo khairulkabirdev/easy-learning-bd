@@ -23,11 +23,13 @@ const sectionKindSchema = z.enum([
 
 const baseSchema = z.object({
   kind: sectionKindSchema,
-  classId: z.string().min(1),
-  subjectId: z.string().min(1),
+  classId: z.string().trim().min(1),
+  subjectId: z.string().trim().min(1),
 });
 
 const contentSchema = {
+  boardId: z.string().min(1).nullable().optional(),
+  academicYearId: z.string().min(1).nullable().optional(),
   title: z.string().max(500),
   instruction: z.string().max(20_000),
   details: z.string().max(200_000),
@@ -45,7 +47,11 @@ const contentSchema = {
 };
 
 const createSchema = baseSchema.extend(contentSchema);
-const updateSchema = baseSchema.extend({ id: z.string().min(1), ...contentSchema });
+const updateSchema = baseSchema.extend({
+  id: z.string().trim().min(1),
+  validationMode: z.enum(["draft", "final"]).default("draft"),
+  ...contentSchema,
+});
 
 const idSchema = baseSchema.extend({ id: z.string().min(1) });
 const moveSchema = idSchema.extend({ direction: z.enum(["up", "down"]) });
@@ -82,6 +88,23 @@ async function assertOwnedEnglishFirstPaperSubject(
   return subject;
 }
 
+async function assertBoardYearSelection(
+  boardId: string | null | undefined,
+  academicYearId: string | null | undefined,
+  organizationId: string,
+) {
+  const [board, academicYear] = await Promise.all([
+    boardId
+      ? prisma.board.findFirst({ where: { id: boardId, organizationId }, select: { id: true } })
+      : Promise.resolve(null),
+    academicYearId
+      ? prisma.academicYear.findFirst({ where: { id: academicYearId, organizationId }, select: { id: true } })
+      : Promise.resolve(null),
+  ]);
+  if (boardId && !board) throw new Error("Selected board was not found.");
+  if (academicYearId && !academicYear) throw new Error("Selected year was not found.");
+}
+
 async function nextSortOrder(kind: SubjectSectionKind, classId: string, subjectId: string, organizationId: string) {
   const where = { classId, subjectId, organizationId };
   switch (kind) {
@@ -112,6 +135,8 @@ async function createRecord(
     organizationId: string;
     userId: string;
     sortOrder: number;
+    boardId?: string | null;
+    academicYearId?: string | null;
     title: string;
     instruction: string;
     details: string;
@@ -122,6 +147,8 @@ async function createRecord(
     classId: data.classId,
     subjectId: data.subjectId,
     sortOrder: data.sortOrder,
+    boardId: data.boardId ?? null,
+    academicYearId: data.academicYearId ?? null,
     organizationId: data.organizationId,
     createdBy: data.userId,
     updatedBy: data.userId,
@@ -147,6 +174,7 @@ export async function createSubjectSectionBlock(input: unknown) {
   const user = await requireAdmin();
   const parsed = createSchema.parse(input);
   await assertOwnedEnglishFirstPaperSubject(parsed.classId, parsed.subjectId, user.organizationId);
+  await assertBoardYearSelection(parsed.boardId, parsed.academicYearId, user.organizationId);
 
   const document =
     parsed.kind === "matching-sentences"
@@ -168,6 +196,8 @@ export async function createSubjectSectionBlock(input: unknown) {
     organizationId: user.organizationId,
     userId: user.id,
     sortOrder,
+    boardId: parsed.boardId ?? null,
+    academicYearId: parsed.academicYearId ?? null,
     title: parsed.title.trim(),
     instruction: parsed.instruction,
     details: parsed.details,
@@ -201,6 +231,8 @@ async function updateOwnedRecord(
     organizationId,
   };
   const data = {
+    boardId: input.boardId ?? null,
+    academicYearId: input.academicYearId ?? null,
     title: input.title,
     instruction: input.instruction,
     details: input.details,
@@ -225,8 +257,34 @@ export async function updateSubjectSectionBlock(input: unknown) {
   const user = await requireAdmin();
   const parsed = updateSchema.parse(input);
   await assertOwnedEnglishFirstPaperSubject(parsed.classId, parsed.subjectId, user.organizationId);
+  await assertBoardYearSelection(parsed.boardId, parsed.academicYearId, user.organizationId);
 
-  const result = await updateOwnedRecord(parsed.kind, parsed, user.organizationId, user.id);
+  // Edit pages intentionally autosave structural draft operations (for example,
+  // adding an empty row before the author fills its cells). Final/manual Save
+  // uses the exact same validation as /add; draft autosaves still pass through
+  // ownership/schema checks but may temporarily contain incomplete builder rows.
+  const document =
+    parsed.kind === "matching-sentences"
+      ? parseMatchingDocument(parsed.documentJson, parsed.id)
+      : parseQuestionAnswerDocument(parsed.documentJson, parsed.id);
+  if (parsed.validationMode === "final") {
+    const validationErrors = validateSubjectSectionDraft(parsed.kind, {
+      title: parsed.title,
+      instruction: parsed.instruction,
+      details: parsed.details,
+      document,
+    });
+    const firstValidationError = Object.values(validationErrors)[0];
+    if (firstValidationError) throw new Error(firstValidationError);
+  }
+
+  const normalized = {
+    ...parsed,
+    title: parsed.title.trim(),
+    documentJson: JSON.stringify(document),
+  };
+
+  const result = await updateOwnedRecord(parsed.kind, normalized, user.organizationId, user.id);
   if (result.count !== 1) throw new Error("Block was not found or does not belong to this subject.");
 
   await logAudit({
@@ -236,10 +294,12 @@ export async function updateSubjectSectionBlock(input: unknown) {
     entityName: auditEntityName(parsed.kind),
     entityId: parsed.id,
     changes: {
-      title: parsed.title,
-      instruction: parsed.instruction,
-      details: parsed.details,
-      documentJson: parsed.documentJson,
+      boardId: normalized.boardId ?? null,
+      academicYearId: normalized.academicYearId ?? null,
+      title: normalized.title,
+      instruction: normalized.instruction,
+      details: normalized.details,
+      documentJson: normalized.documentJson,
     },
     organizationId: user.organizationId,
   });

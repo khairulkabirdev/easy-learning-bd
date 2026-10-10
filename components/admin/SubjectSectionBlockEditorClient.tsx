@@ -20,6 +20,7 @@ import {
   type SubjectSectionRecord,
   type SubjectSectionValidationErrors,
 } from "@/app/admin/content/subject-section-blocks/types";
+import { BlockBoardYearFields } from "@/components/admin/BlockBoardYearFields";
 import { TiptapRichTextEditor } from "@/components/admin/TiptapRichTextEditor";
 import { TableCompletionChoiceCombobox } from "@/components/app/TableCompletionChoiceCombobox";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -36,6 +37,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
 type EditorState = {
+  boardId: string | null;
+  academicYearId: string | null;
   title: string;
   instruction: string;
   details: string;
@@ -95,6 +98,8 @@ export function SubjectSectionBlockEditorClient({
   const isCreate = mode === "create";
   const basePath = `/admin/content/class/${classItem.id}/subject/${subject.id}/${kind}`;
   const [state, setState] = useState<EditorState>(() => ({
+    boardId: record.boardId ?? null,
+    academicYearId: record.academicYearId ?? null,
     title: record.title,
     instruction: record.instruction,
     details: record.details,
@@ -115,7 +120,9 @@ export function SubjectSectionBlockEditorClient({
   const latestSaveIdRef = useRef(0);
   const mutationRevisionRef = useRef(0);
   const lastSavedKeyRef = useRef(
-    isCreate ? "" : `${record.title}\n${record.instruction}\n${record.details}\n${record.documentJson}`,
+    isCreate
+      ? ""
+      : `${record.boardId ?? ""}\n${record.academicYearId ?? ""}\n${record.title}\n${record.instruction}\n${record.details}\n${record.documentJson}`,
   );
 
   useEffect(() => {
@@ -145,11 +152,22 @@ export function SubjectSectionBlockEditorClient({
     autosaveTimerRef.current = null;
   }
 
-  async function persist(snapshot: EditorState, successMessage = "Saved.") {
+  async function persist(
+    snapshot: EditorState,
+    successMessage = "Saved.",
+    validationMode: "draft" | "final" = "draft",
+  ) {
     if (isCreate) return false;
     const normalized = normalizedState(snapshot);
+    const currentValidationErrors = validateSubjectSectionDraft(kind, normalized);
+    setValidationErrors(currentValidationErrors);
+    if (validationMode === "final" && Object.keys(currentValidationErrors).length > 0) {
+      setMessage(null);
+      setError(null);
+      return false;
+    }
     const documentJson = JSON.stringify(normalized.document);
-    const saveKey = `${normalized.title}\n${normalized.instruction}\n${normalized.details}\n${documentJson}`;
+    const saveKey = `${normalized.boardId ?? ""}\n${normalized.academicYearId ?? ""}\n${normalized.title}\n${normalized.instruction}\n${normalized.details}\n${documentJson}`;
     if (saveKey === lastSavedKeyRef.current) {
       setMessage(successMessage);
       return true;
@@ -165,10 +183,13 @@ export function SubjectSectionBlockEditorClient({
         id: record.id,
         classId: classItem.id,
         subjectId: subject.id,
+        boardId: normalized.boardId,
+        academicYearId: normalized.academicYearId,
         title: normalized.title,
         instruction: normalized.instruction,
         details: normalized.details,
         documentJson,
+        validationMode,
       });
       lastSavedKeyRef.current = saveKey;
     };
@@ -247,7 +268,7 @@ export function SubjectSectionBlockEditorClient({
 
     setValidationErrors({});
     if (!isCreate) {
-      await persist(normalized, "Saved.");
+      await persist(normalized, "Saved.", "final");
       return;
     }
 
@@ -259,6 +280,8 @@ export function SubjectSectionBlockEditorClient({
         kind,
         classId: classItem.id,
         subjectId: subject.id,
+        boardId: normalized.boardId,
+        academicYearId: normalized.academicYearId,
         title: normalized.title,
         instruction: normalized.instruction,
         details: normalized.details,
@@ -341,6 +364,13 @@ export function SubjectSectionBlockEditorClient({
           <CardDescription>{isCreate ? "Fill in the required exercise fields before creating the block." : "Edit the same fields used by this exercise block."}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
+          <BlockBoardYearFields
+            boardId={state.boardId}
+            academicYearId={state.academicYearId}
+            onChange={(value) => patchState(value)}
+            disabled={isSaving}
+          />
+
           <div className="grid gap-4 lg:grid-cols-2">
             <Field data-invalid={Boolean(validationErrors.title)}>
               <FieldLabel htmlFor="section-title">

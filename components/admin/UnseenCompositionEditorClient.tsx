@@ -28,6 +28,7 @@ import {
   type UnseenTrueFalseBlock,
   type WritingSummaryBlock,
 } from "@/app/admin/content/unseen-composition/types";
+import { BlockBoardYearFields } from "@/components/admin/BlockBoardYearFields";
 import { ResponsiveEntityEditor } from "@/components/admin/ResponsiveEntityEditor";
 import { TiptapRichTextEditor } from "@/components/admin/TiptapRichTextEditor";
 import {
@@ -334,6 +335,24 @@ export function UnseenCompositionEditorClient({ record, classItem, subject }: Pr
     scheduleAutosave();
   }
 
+  function updateBlockBoardYear(
+    id: string,
+    value: { boardId: string | null; academicYearId: string | null },
+  ) {
+    const currentDocument = documentRef.current;
+    const nextDocument: UnseenCompositionDocument = {
+      ...currentDocument,
+      blocks: currentDocument.blocks.map((block) =>
+        block.id === id ? ({ ...block, ...value } as UnseenCompositionBlock) : block,
+      ),
+    };
+
+    markChanged();
+    mutationRevisionRef.current += 1;
+    setDocumentState(nextDocument);
+    scheduleAutosave();
+  }
+
   function persistStructuralChange(
     previousDocument: UnseenCompositionDocument,
     nextDocument: UnseenCompositionDocument,
@@ -423,7 +442,7 @@ export function UnseenCompositionEditorClient({ record, classItem, subject }: Pr
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 pb-12">
+    <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 pb-12">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="space-y-3">
           <Link
@@ -557,6 +576,13 @@ export function UnseenCompositionEditorClient({ record, classItem, subject }: Pr
                 </CardHeader>
 
                 <CardContent className="space-y-5 pt-5">
+                  <BlockBoardYearFields
+                    boardId={block.boardId}
+                    academicYearId={block.academicYearId}
+                    onChange={(value) => updateBlockBoardYear(block.id, value)}
+                    disabled={isSaving}
+                  />
+
                   {block.kind === "unseen-passage" ? (
                     <div className="space-y-2">
                       <Label>Passage</Label>

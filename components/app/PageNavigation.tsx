@@ -63,6 +63,16 @@ const STATIC_LABELS: Record<string, string> = {
   "unseen-composition": "Unseen Composition",
   "unseen-compositon": "Unseen Composition",
   "unseen-compostion": "Unseen Composition",
+  "gap-filling": "Gap Filling",
+  "substitution-table": "Substitution Table",
+  "right-form-of-verb": "Right Form of Verb",
+  narration: "Narration",
+  "changing-sentence": "Changing Sentence",
+  "punctuation-and-capitalization": "Punctuation and Capitalization",
+  preposition: "Preposition",
+  "suffix-and-prefix": "Suffix and Prefix",
+  "tag-question": "Tag Question",
+  connector: "Connector",
   "fill-in-the-blanks": "Fill in the Blanks",
   "information-transfer": "Information Transfer",
   mcq: "MCQ",
@@ -159,7 +169,17 @@ function buildAutoItems(pathname: string, labels: Record<string, string>) {
         previous === "matching-sentences" ||
         previous === "rearrange-sentence" ||
         previous === "question-from-poems" ||
-        previous === "question-from-story"
+        previous === "question-from-story" ||
+        previous === "gap-filling" ||
+        previous === "substitution-table" ||
+        previous === "right-form-of-verb" ||
+        previous === "narration" ||
+        previous === "changing-sentence" ||
+        previous === "punctuation-and-capitalization" ||
+        previous === "preposition" ||
+        previous === "suffix-and-prefix" ||
+        previous === "tag-question" ||
+        previous === "connector"
       ) {
         label = "Edit";
       } else {

@@ -56,6 +56,8 @@ export type SubjectSectionRecord = {
   id: string;
   classId: string;
   subjectId: string;
+  boardId?: string | null;
+  academicYearId?: string | null;
   title: string;
   instruction: string;
   details: string;

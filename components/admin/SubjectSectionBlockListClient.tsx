@@ -1,9 +1,10 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useMemo, useState, useTransition } from "react";
+import { format } from "date-fns";
 import { ArrowDown, ArrowUp, Edit3, Plus, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 import {
   deleteSubjectSectionBlock,
@@ -13,6 +14,10 @@ import {
   SUBJECT_SECTION_META,
   type SubjectSectionKind,
 } from "@/app/admin/content/subject-section-blocks/types";
+import {
+  AdminRecordDataTable,
+  type AdminRecordDataTableColumn,
+} from "@/components/admin/AdminRecordDataTable";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -91,6 +96,90 @@ export function SubjectSectionBlockListClient({ kind, classItem, subject, record
     });
   }
 
+  const columns = useMemo<AdminRecordDataTableColumn<SubjectSectionListItem>[]>(
+    () => [
+      {
+        id: "position",
+        header: "#",
+        sortValue: (row) => row.sortOrder,
+        cell: (_row, originalIndex) => <Badge variant="secondary">#{originalIndex + 1}</Badge>,
+        headerClassName: "w-16",
+        cellClassName: "w-16",
+      },
+      {
+        id: "title",
+        header: "Title",
+        sortValue: (row) => row.title,
+        cell: (row, originalIndex) => (
+          <div className="max-w-96 truncate font-medium" title={row.title.trim() || `${meta.title} ${originalIndex + 1}`}>
+            {row.title.trim() || `${meta.title} ${originalIndex + 1}`}
+          </div>
+        ),
+      },
+      {
+        id: "updated",
+        header: "Updated",
+        sortValue: (row) => new Date(row.updatedAt),
+        cell: (row) => (
+          <span className="text-muted-foreground">
+            {format(new Date(row.updatedAt), "dd MMM yyyy, HH:mm")}
+          </span>
+        ),
+      },
+      {
+        id: "actions",
+        header: "Actions",
+        headerClassName: "text-right",
+        cellClassName: "text-right",
+        cell: (row, originalIndex) => (
+          <div className="flex min-w-max items-center justify-end gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="icon-sm"
+              aria-label="Move up"
+              title="Move up"
+              disabled={isPending || originalIndex === 0}
+              onClick={() => handleMove(row.id, "up")}
+            >
+              <ArrowUp />
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="icon-sm"
+              aria-label="Move down"
+              title="Move down"
+              disabled={isPending || originalIndex === records.length - 1}
+              onClick={() => handleMove(row.id, "down")}
+            >
+              <ArrowDown />
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              render={<Link href={`${basePath}/${row.id}`} />}
+            >
+              <Edit3 data-icon="inline-start" />
+              Edit
+            </Button>
+            <Button
+              type="button"
+              variant="destructive"
+              size="sm"
+              disabled={isPending}
+              onClick={() => setPendingDeleteId(row.id)}
+            >
+              <Trash2 data-icon="inline-start" />
+              Delete
+            </Button>
+          </div>
+        ),
+      },
+    ],
+    [basePath, isPending, meta.title, records.length],
+  );
+
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -103,10 +192,7 @@ export function SubjectSectionBlockListClient({ kind, classItem, subject, record
           <h1 className="text-2xl font-bold tracking-tight">{meta.title}</h1>
           <p className="max-w-3xl text-sm text-muted-foreground">{meta.description}</p>
         </div>
-        <Button
-          size="default"
-          render={<Link href={`${basePath}/add`} />}
-        >
+        <Button size="default" render={<Link href={`${basePath}/add`} />}>
           <Plus data-icon="inline-start" />
           Add {meta.title}
         </Button>
@@ -118,84 +204,30 @@ export function SubjectSectionBlockListClient({ kind, classItem, subject, record
         </div>
       ) : null}
 
-      {records.length === 0 ? (
-        <Card className="border-dashed">
-          <CardHeader>
-            <CardTitle>No blocks yet</CardTitle>
-            <CardDescription>
-              Click <strong>Add {meta.title}</strong>. The /add form opens first, and no database record is created until the required fields pass validation and you submit the form.
-            </CardDescription>
-          </CardHeader>
-        </Card>
-      ) : (
-        <div className="space-y-3">
-          {records.map((record, index) => (
-            <Card key={record.id}>
-              <CardContent className="flex flex-wrap items-center justify-between gap-4 py-4">
-                <div className="min-w-0 space-y-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <Badge variant="secondary">#{index + 1}</Badge>
-                    <div className="truncate font-semibold">
-                      {record.title.trim() || `${meta.title} ${index + 1}`}
-                    </div>
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    Updated {record.updatedAt.slice(0, 16).replace("T", " ")} UTC
-                  </div>
-                </div>
-
-                <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    aria-label="Move up"
-                    title="Move up"
-                    disabled={isPending || index === 0}
-                    onClick={() => handleMove(record.id, "up")}
-                  >
-                    <ArrowUp className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    aria-label="Move down"
-                    title="Move down"
-                    disabled={isPending || index === records.length - 1}
-                    onClick={() => handleMove(record.id, "down")}
-                  >
-                    <ArrowDown className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="default"
-                    render={<Link href={`${basePath}/${record.id}`} />}
-                  >
-                    <Edit3 data-icon="inline-start" />
-                    Edit
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="destructive"
-                    size="default"
-                    disabled={isPending}
-                    onClick={() => setPendingDeleteId(record.id)}
-                  >
-                    <Trash2 data-icon="inline-start" />
-                    Delete
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
+      <Card>
+        <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div className="space-y-1">
+            <CardTitle>{meta.title} records</CardTitle>
+            <CardDescription>Search, sort, paginate, reorder, edit, or delete records.</CardDescription>
+          </div>
+          <Badge variant="outline">{records.length} records</Badge>
+        </CardHeader>
+        <CardContent>
+          <AdminRecordDataTable
+            rows={records}
+            columns={columns}
+            searchValue={(row) => row.title}
+            searchPlaceholder={`Search ${meta.title.toLowerCase()} title...`}
+            emptyMessage={`No ${meta.title} records yet.`}
+            initialPageSize={10}
+          />
+        </CardContent>
+      </Card>
 
       <AlertDialog open={Boolean(pendingDeleteId)} onOpenChange={(open) => !open && setPendingDeleteId(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete this block?</AlertDialogTitle>
+            <AlertDialogTitle>Delete this record?</AlertDialogTitle>
             <AlertDialogDescription>
               {pendingDelete?.title?.trim()
                 ? `“${pendingDelete.title}” will be permanently deleted.`
@@ -204,8 +236,11 @@ export function SubjectSectionBlockListClient({ kind, classItem, subject, record
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-              Delete block
+            <AlertDialogAction
+              onClick={confirmDelete}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Delete record
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

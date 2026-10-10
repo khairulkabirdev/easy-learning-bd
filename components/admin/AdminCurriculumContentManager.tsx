@@ -2,22 +2,39 @@
 
 import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
-import { ArrowRight, Plus, Trash2 } from "lucide-react";
+import { format } from "date-fns";
+import { Edit3, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { deleteContent, saveContent } from "@/app/admin/content/actions";
-import { ResponsiveEntityEditor } from "@/components/admin/ResponsiveEntityEditor";
 import { AdminSelectField as SelectField } from "@/components/admin/AdminSelectField";
+import {
+  AdminRecordDataTable,
+  type AdminRecordDataTableColumn,
+} from "@/components/admin/AdminRecordDataTable";
+import { ResponsiveEntityEditor } from "@/components/admin/ResponsiveEntityEditor";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FieldGroup } from "@/components/ui/field";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 
 type UnitOption = { id: string; title: string };
 type LessonOption = { id: string; unitId: string; title: string };
 type TopicOption = { id: string; lessonId: string; title: string };
 type ContentRow = {
   id: string;
+  title: string;
   unit: { id: string; title: string };
   lesson: { id: string; title: string };
   topic: { id: string; title: string } | null;
@@ -53,8 +70,9 @@ export function AdminCurriculumContentManager({
   const [isDeleting, startDeleteTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [isEditorOpen, setIsEditorOpen] = useState(false);
+  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
 
-  const [form, setForm] = useState({ unitId: "", lessonId: "", topicId: "" });
+  const [form, setForm] = useState({ title: "", unitId: "", lessonId: "", topicId: "" });
   const [filter, setFilter] = useState({ unitId: "", lessonId: "", topicId: "" });
   const [appliedFilter, setAppliedFilter] = useState({ unitId: "", lessonId: "", topicId: "" });
 
@@ -72,9 +90,14 @@ export function AdminCurriculumContentManager({
     });
   }, [contents, appliedFilter]);
 
+  const pendingDelete = useMemo(
+    () => contents.find((item) => item.id === pendingDeleteId) ?? null,
+    [contents, pendingDeleteId],
+  );
+
   function beginCreate() {
     setError(null);
-    setForm({ unitId: "", lessonId: "", topicId: "" });
+    setForm({ title: "", unitId: "", lessonId: "", topicId: "" });
     setIsEditorOpen(true);
   }
 
@@ -83,6 +106,7 @@ export function AdminCurriculumContentManager({
     startSaveTransition(async () => {
       try {
         await saveContent({
+          title: editorMode === "seen-composition" ? form.title.trim() : undefined,
           classId: classItem.id,
           subjectId: subject.id,
           unitId: form.unitId,
@@ -99,8 +123,10 @@ export function AdminCurriculumContentManager({
     });
   }
 
-  function handleDeleteContent(id: string) {
-    if (!window.confirm("Delete this content record?")) return;
+  function confirmDeleteContent() {
+    if (!pendingDeleteId) return;
+    const id = pendingDeleteId;
+    setPendingDeleteId(null);
     setError(null);
     startDeleteTransition(async () => {
       try {
@@ -111,6 +137,86 @@ export function AdminCurriculumContentManager({
       }
     });
   }
+
+  const columns = useMemo<AdminRecordDataTableColumn<ContentRow>[]>(() => {
+    const items: AdminRecordDataTableColumn<ContentRow>[] = [];
+
+    if (editorMode === "seen-composition") {
+      items.push({
+        id: "title",
+        header: "Title",
+        sortValue: (row) => row.title,
+        cell: (row) => (
+          <div className="max-w-72 truncate font-medium" title={row.title || "Untitled Seen Composition"}>
+            {row.title.trim() || "Untitled Seen Composition"}
+          </div>
+        ),
+      });
+    }
+
+    items.push(
+      {
+        id: "unit",
+        header: "Unit",
+        sortValue: (row) => row.unit.title,
+        cell: (row) => <span className="font-medium">{row.unit.title}</span>,
+      },
+      {
+        id: "lesson",
+        header: "Lesson",
+        sortValue: (row) => row.lesson.title,
+        cell: (row) => row.lesson.title,
+      },
+      {
+        id: "topic",
+        header: "Topic",
+        sortValue: (row) => row.topic?.title ?? "",
+        cell: (row) => row.topic?.title || <span className="text-muted-foreground">—</span>,
+      },
+      {
+        id: "blocks",
+        header: "Blocks",
+        sortValue: (row) => row.blocksCount,
+        cell: (row) => <Badge variant="secondary">{row.blocksCount}</Badge>,
+      },
+      {
+        id: "created",
+        header: "Created",
+        sortValue: (row) => new Date(row.createdAt),
+        cell: (row) => <span className="text-muted-foreground">{format(new Date(row.createdAt), "dd MMM yyyy")}</span>,
+      },
+      {
+        id: "actions",
+        header: "Actions",
+        headerClassName: "text-right",
+        cellClassName: "text-right",
+        cell: (row) => (
+          <div className="flex min-w-max items-center justify-end gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              render={<Link href={`/admin/content/${row.id}${editorMode ? `?editorMode=${editorMode}` : ""}`} />}
+            >
+              <Edit3 data-icon="inline-start" />
+              Edit
+            </Button>
+            <Button
+              type="button"
+              variant="destructive"
+              size="sm"
+              disabled={isDeleting}
+              onClick={() => setPendingDeleteId(row.id)}
+            >
+              <Trash2 data-icon="inline-start" />
+              Delete
+            </Button>
+          </div>
+        ),
+      },
+    );
+
+    return items;
+  }, [editorMode, isDeleting]);
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
@@ -189,7 +295,7 @@ export function AdminCurriculumContentManager({
             <CardDescription>Select unit, lesson, and optional topic. Class and subject are already fixed.</CardDescription>
           </div>
           <Button type="button" onClick={beginCreate} className="sm:self-center">
-            <Plus className="mr-2 h-4 w-4" />
+            <Plus data-icon="inline-start" />
             New Content
           </Button>
         </CardHeader>
@@ -199,7 +305,7 @@ export function AdminCurriculumContentManager({
         <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
             <CardTitle>Content records</CardTitle>
-            <CardDescription>Open a record to manage its content blocks.</CardDescription>
+            <CardDescription>Search, sort, paginate, edit, or delete content records.</CardDescription>
           </div>
           <Badge variant="outline">{contents.length} records</Badge>
         </CardHeader>
@@ -208,42 +314,18 @@ export function AdminCurriculumContentManager({
             <div className="rounded-xl border border-dashed p-8 text-sm text-muted-foreground">
               Select unit and lesson, then apply the filter.
             </div>
-          ) : filteredContents.length === 0 ? (
-            <div className="rounded-xl border border-dashed p-8 text-sm text-muted-foreground">No content records found.</div>
           ) : (
-            <div className="space-y-3">
-              {filteredContents.map((item) => (
-                <div key={item.id} className="flex flex-col gap-4 rounded-xl border bg-card p-4 lg:flex-row lg:items-center lg:justify-between">
-                  <div className="space-y-2">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <Badge variant="outline">{item.unit.title}</Badge>
-                      <span className="text-muted-foreground">/</span>
-                      <Badge variant="outline">{item.lesson.title}</Badge>
-                      {item.topic ? (
-                        <>
-                          <span className="text-muted-foreground">/</span>
-                          <Badge variant="outline">{item.topic.title}</Badge>
-                        </>
-                      ) : null}
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      {item.blocksCount} block{item.blocksCount === 1 ? "" : "s"} · Created {new Date(item.createdAt).toLocaleDateString()}
-                    </p>
-                  </div>
-                  <div className="flex flex-wrap gap-3">
-                    <Link
-                      href={`/admin/content/${item.id}${editorMode ? `?editorMode=${editorMode}` : ""}`}
-                      className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:opacity-90"
-                    >
-                      Open Editor <ArrowRight className="h-4 w-4" />
-                    </Link>
-                    <Button type="button" variant="destructive" disabled={isDeleting} onClick={() => handleDeleteContent(item.id)}>
-                      <Trash2 className="mr-2 h-4 w-4" /> Delete
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <AdminRecordDataTable
+              rows={filteredContents}
+              columns={columns}
+              searchValue={(row) =>
+                [row.title, row.unit.title, row.lesson.title, row.topic?.title ?? ""].join(" ")
+              }
+              searchPlaceholder={editorMode === "seen-composition" ? "Search title, unit, lesson, or topic..." : "Search unit, lesson, or topic..."}
+              emptyMessage="No content records found."
+              initialPageSize={10}
+              defaultSort={{ columnId: "created", direction: "desc" }}
+            />
           )}
         </CardContent>
       </Card>
@@ -256,17 +338,40 @@ export function AdminCurriculumContentManager({
         footer={
           <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
             <Button type="button" variant="outline" onClick={() => setIsEditorOpen(false)}>Cancel</Button>
-            <Button type="button" onClick={handleCreateContent} disabled={isSaving || !form.unitId || !form.lessonId}>
+            <Button
+              type="button"
+              onClick={handleCreateContent}
+              disabled={
+                isSaving ||
+                !form.unitId ||
+                !form.lessonId ||
+                (editorMode === "seen-composition" && !form.title.trim())
+              }
+            >
               {isSaving ? "Creating..." : "Create Content"}
             </Button>
           </div>
         }
       >
         <div className="space-y-4">
+          {editorMode === "seen-composition" ? (
+            <Field data-invalid={!form.title.trim()}>
+              <FieldLabel htmlFor="seen-composition-title">Title</FieldLabel>
+              <Input
+                id="seen-composition-title"
+                value={form.title}
+                onChange={(event) => setForm((current) => ({ ...current, title: event.target.value }))}
+                placeholder="Enter Seen Composition title"
+                maxLength={200}
+                autoFocus
+              />
+              {!form.title.trim() ? <FieldError>Title is required.</FieldError> : null}
+            </Field>
+          ) : null}
           <SelectField
             label="Unit"
             value={form.unitId}
-            onChange={(unitId) => setForm({ unitId, lessonId: "", topicId: "" })}
+            onChange={(unitId) => setForm((current) => ({ ...current, unitId, lessonId: "", topicId: "" }))}
             options={units.map((item) => ({ id: item.id, label: item.title }))}
             placeholder="Select unit"
           />
@@ -289,6 +394,28 @@ export function AdminCurriculumContentManager({
           {error ? <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-3 text-sm text-destructive">{error}</div> : null}
         </div>
       </ResponsiveEntityEditor>
+
+      <AlertDialog open={Boolean(pendingDeleteId)} onOpenChange={(open) => !open && setPendingDeleteId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete this content record?</AlertDialogTitle>
+            <AlertDialogDescription>
+              {editorMode === "seen-composition" && pendingDelete?.title?.trim()
+                ? `“${pendingDelete.title}” and every content block stored inside it will be permanently deleted.`
+                : "This content record and every content block stored inside it will be permanently deleted."}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmDeleteContent}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Delete content
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

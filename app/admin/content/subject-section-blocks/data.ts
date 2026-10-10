@@ -60,6 +60,8 @@ export async function getSubjectSectionRecord(
     id: true,
     classId: true,
     subjectId: true,
+    boardId: true,
+    academicYearId: true,
     title: true,
     instruction: true,
     details: true,

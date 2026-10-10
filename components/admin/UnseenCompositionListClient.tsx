@@ -1,30 +1,47 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useTransition } from "react";
-import { ArrowRight, Plus, Trash2 } from "lucide-react";
+import { useMemo, useState, useTransition } from "react";
+import { format } from "date-fns";
+import { Edit3, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import {
   createUnseenComposition,
   deleteUnseenComposition,
 } from "@/app/admin/content/unseen-composition/actions";
+import {
+  AdminRecordDataTable,
+  type AdminRecordDataTableColumn,
+} from "@/components/admin/AdminRecordDataTable";
 import { ResponsiveEntityEditor } from "@/components/admin/ResponsiveEntityEditor";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+type UnseenRow = {
+  id: string;
+  title: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
 type Props = {
   classItem: { id: string; name: string };
   subject: { id: string; name: string };
-  records: Array<{
-    id: string;
-    title: string;
-    createdAt: string;
-    updatedAt: string;
-  }>;
+  records: UnseenRow[];
 };
 
 export function UnseenCompositionListClient({ classItem, subject, records }: Props) {
@@ -32,8 +49,14 @@ export function UnseenCompositionListClient({ classItem, subject, records }: Pro
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
   const [isCreating, startCreateTransition] = useTransition();
   const [isDeleting, startDeleteTransition] = useTransition();
+
+  const pendingDelete = useMemo(
+    () => records.find((record) => record.id === pendingDeleteId) ?? null,
+    [pendingDeleteId, records],
+  );
 
   function createRecord() {
     setError(null);
@@ -55,8 +78,10 @@ export function UnseenCompositionListClient({ classItem, subject, records }: Pro
     });
   }
 
-  function deleteRecord(id: string) {
-    if (!window.confirm("Delete this Unseen Composition?")) return;
+  function confirmDeleteRecord() {
+    if (!pendingDeleteId) return;
+    const id = pendingDeleteId;
+    setPendingDeleteId(null);
     setError(null);
     startDeleteTransition(async () => {
       try {
@@ -67,6 +92,66 @@ export function UnseenCompositionListClient({ classItem, subject, records }: Pro
       }
     });
   }
+
+  const columns = useMemo<AdminRecordDataTableColumn<UnseenRow>[]>(
+    () => [
+      {
+        id: "title",
+        header: "Title",
+        sortValue: (row) => row.title,
+        cell: (row) => (
+          <div className="max-w-96 truncate font-medium" title={row.title}>
+            {row.title}
+          </div>
+        ),
+      },
+      {
+        id: "updated",
+        header: "Updated",
+        sortValue: (row) => new Date(row.updatedAt),
+        cell: (row) => <span className="text-muted-foreground">{format(new Date(row.updatedAt), "dd MMM yyyy, HH:mm")}</span>,
+      },
+      {
+        id: "created",
+        header: "Created",
+        sortValue: (row) => new Date(row.createdAt),
+        cell: (row) => <span className="text-muted-foreground">{format(new Date(row.createdAt), "dd MMM yyyy")}</span>,
+      },
+      {
+        id: "actions",
+        header: "Actions",
+        headerClassName: "text-right",
+        cellClassName: "text-right",
+        cell: (row) => (
+          <div className="flex min-w-max items-center justify-end gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              render={
+                <Link
+                  href={`/admin/content/class/${classItem.id}/subject/${subject.id}/unseen-composition/${row.id}`}
+                />
+              }
+            >
+              <Edit3 data-icon="inline-start" />
+              Edit
+            </Button>
+            <Button
+              type="button"
+              variant="destructive"
+              size="sm"
+              disabled={isDeleting}
+              onClick={() => setPendingDeleteId(row.id)}
+            >
+              <Trash2 data-icon="inline-start" />
+              Delete
+            </Button>
+          </div>
+        ),
+      },
+    ],
+    [classItem.id, isDeleting, subject.id],
+  );
 
   return (
     <div className="space-y-6">
@@ -89,7 +174,7 @@ export function UnseenCompositionListClient({ classItem, subject, records }: Pro
             </div>
           </div>
           <Button type="button" onClick={() => setOpen(true)} className="sm:self-center">
-            <Plus className="mr-2 h-4 w-4" />
+            <Plus data-icon="inline-start" />
             New Unseen
           </Button>
         </CardHeader>
@@ -99,50 +184,20 @@ export function UnseenCompositionListClient({ classItem, subject, records }: Pro
         <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div className="space-y-1">
             <CardTitle>Unseen records</CardTitle>
-            <CardDescription>Open a record to edit its passage and exercise blocks.</CardDescription>
+            <CardDescription>Search, sort, paginate, edit, or delete Unseen Composition records.</CardDescription>
           </div>
           <Badge variant="outline">{records.length} records</Badge>
         </CardHeader>
         <CardContent>
-          {records.length === 0 ? (
-            <div className="rounded-xl border border-dashed p-8 text-sm text-muted-foreground">
-              No Unseen Composition records yet. Click <strong>New Unseen</strong> to create one.
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {records.map((record) => (
-                <div
-                  key={record.id}
-                  className="flex flex-col gap-4 rounded-xl border bg-card p-4 lg:flex-row lg:items-center lg:justify-between"
-                >
-                  <div className="min-w-0">
-                    <div className="font-semibold">{record.title}</div>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                      Updated {new Date(record.updatedAt).toLocaleDateString()}
-                    </p>
-                  </div>
-                  <div className="flex flex-wrap gap-3">
-                    <Link
-                      href={`/admin/content/class/${classItem.id}/subject/${subject.id}/unseen-composition/${record.id}`}
-                      className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
-                    >
-                      Open Editor
-                      <ArrowRight className="h-4 w-4" />
-                    </Link>
-                    <Button
-                      type="button"
-                      variant="destructive"
-                      disabled={isDeleting}
-                      onClick={() => deleteRecord(record.id)}
-                    >
-                      <Trash2 className="mr-2 h-4 w-4" />
-                      Delete
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+          <AdminRecordDataTable
+            rows={records}
+            columns={columns}
+            searchValue={(row) => row.title}
+            searchPlaceholder="Search Unseen Composition title..."
+            emptyMessage="No Unseen Composition records yet."
+            initialPageSize={10}
+            defaultSort={{ columnId: "updated", direction: "desc" }}
+          />
         </CardContent>
       </Card>
 
@@ -156,7 +211,7 @@ export function UnseenCompositionListClient({ classItem, subject, records }: Pro
           }
         }}
         title="Create Unseen Composition"
-        description="Enter the title. The editor contains a Passage field plus only Writing Summary, Information Transfer, and True / False exercise blocks."
+        description="Enter the title, then open the dedicated block editor."
         footer={
           <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>
@@ -180,6 +235,28 @@ export function UnseenCompositionListClient({ classItem, subject, records }: Pro
           {error ? <p className="text-sm text-destructive">{error}</p> : null}
         </div>
       </ResponsiveEntityEditor>
+
+      <AlertDialog open={Boolean(pendingDeleteId)} onOpenChange={(nextOpen) => !nextOpen && setPendingDeleteId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete this Unseen Composition?</AlertDialogTitle>
+            <AlertDialogDescription>
+              {pendingDelete?.title
+                ? `“${pendingDelete.title}” and all blocks stored in this record will be permanently deleted.`
+                : "This Unseen Composition record will be permanently deleted."}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmDeleteRecord}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Delete record
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

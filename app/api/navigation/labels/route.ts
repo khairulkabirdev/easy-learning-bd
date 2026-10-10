@@ -21,6 +21,19 @@ const CONTENT_EDITOR_MODES = {
 
 type ContentEditorMode = keyof typeof CONTENT_EDITOR_MODES;
 
+const ENGLISH_SECOND_PAPER_SEGMENTS = new Set([
+  "gap-filling",
+  "substitution-table",
+  "right-form-of-verb",
+  "narration",
+  "changing-sentence",
+  "punctuation-and-capitalization",
+  "preposition",
+  "suffix-and-prefix",
+  "tag-question",
+  "connector",
+]);
+
 function classifyIds(pathname: string) {
   const segments = pathname.split("/").filter(Boolean);
   const classIds: string[] = [];
@@ -33,6 +46,7 @@ function classifyIds(pathname: string) {
   const rearrangeIds: string[] = [];
   const poemIds: string[] = [];
   const storyIds: string[] = [];
+  const secondPaperIds: string[] = [];
   const contentIds: string[] = [];
 
   for (let index = 0; index < segments.length; index += 1) {
@@ -55,6 +69,7 @@ function classifyIds(pathname: string) {
     else if (previous === "rearrange-sentence") rearrangeIds.push(segment);
     else if (previous === "question-from-poems") poemIds.push(segment);
     else if (previous === "question-from-story") storyIds.push(segment);
+    else if (ENGLISH_SECOND_PAPER_SEGMENTS.has(previous)) secondPaperIds.push(segment);
     else if (previous === "content" || previous === "chapter") contentIds.push(segment);
   }
 
@@ -69,6 +84,7 @@ function classifyIds(pathname: string) {
     rearrangeIds: unique(rearrangeIds),
     poemIds: unique(poemIds),
     storyIds: unique(storyIds),
+    secondPaperIds: unique(secondPaperIds),
     contentIds: unique(contentIds),
   };
 }
@@ -126,7 +142,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ labels: {} });
   }
 
-  const [classes, subjects, units, lessons, topics, unseen, matching, rearrange, poems, stories, contents] =
+  const [classes, subjects, units, lessons, topics, unseen, matching, rearrange, poems, stories, secondPaper, contents] =
     await Promise.all([
       ids.classIds.length
         ? prisma.class.findMany({
@@ -188,6 +204,12 @@ export async function GET(request: NextRequest) {
             select: { id: true, title: true },
           })
         : Promise.resolve([]),
+      ids.secondPaperIds.length
+        ? prisma.subjectEnglishSecondPaperBlock.findMany({
+            where: { id: { in: ids.secondPaperIds }, organizationId },
+            select: { id: true, title: true },
+          })
+        : Promise.resolve([]),
       ids.contentIds.length
         ? prisma.content.findMany({
             where: { id: { in: ids.contentIds }, organizationId },
@@ -212,6 +234,7 @@ export async function GET(request: NextRequest) {
   for (const item of rearrange) labels[item.id] = item.title || "Rearrange Sentence";
   for (const item of poems) labels[item.id] = item.title || "Question from Poems";
   for (const item of stories) labels[item.id] = item.title || "Question from Story";
+  for (const item of secondPaper) labels[item.id] = item.title || "Edit";
   for (const item of contents) labels[item.id] = item.topic?.title || item.lesson.title || "Content";
 
   return NextResponse.json({ labels });

@@ -1,8 +1,9 @@
 import { notFound } from "next/navigation";
 
 import { EnglishFirstPaperTypeGrid } from "@/components/app/EnglishFirstPaperTypeGrid";
+import { EnglishSecondPaperTypeGrid } from "@/components/app/EnglishSecondPaperTypeGrid";
 import { AdminCurriculumContentManager } from "@/components/admin/AdminCurriculumContentManager";
-import { isEnglishFirstPaperSubject } from "@/app/admin/content/navigation-helpers";
+import { isEnglishFirstPaperSubject, isEnglishSecondPaperSubject } from "@/app/admin/content/navigation-helpers";
 import { requireAdmin } from "@/lib/app-auth";
 import { prisma } from "@/lib/db";
 
@@ -40,6 +41,19 @@ export default async function AdminContentSubjectPage({
         </div>
 
         <EnglishFirstPaperTypeGrid classId={classId} subjectId={subjectId} />
+      </div>
+    );
+  }
+
+  if (isEnglishSecondPaperSubject(subject)) {
+    return (
+      <div className="space-y-6">
+        <div className="space-y-1">
+          <h1 className="text-2xl font-semibold tracking-tight">{subject.name}</h1>
+          <p className="text-sm text-muted-foreground">Choose the English 2nd Paper question type.</p>
+        </div>
+
+        <EnglishSecondPaperTypeGrid classId={classId} subjectId={subjectId} />
       </div>
     );
   }

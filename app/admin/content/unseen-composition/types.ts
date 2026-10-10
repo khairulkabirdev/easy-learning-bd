@@ -2,6 +2,8 @@ export type UnseenPassageBlock = {
   id: string;
   kind: "unseen-passage";
   sortOrder: number;
+  boardId: string | null;
+  academicYearId: string | null;
   body: string;
 };
 
@@ -9,6 +11,8 @@ export type WritingSummaryBlock = {
   id: string;
   kind: "writing-summary";
   sortOrder: number;
+  boardId: string | null;
+  academicYearId: string | null;
   instruction: string;
   modelAnswer: string;
 };
@@ -23,6 +27,8 @@ export type InformationTransferBlock = {
   id: string;
   kind: "information-transfer";
   sortOrder: number;
+  boardId: string | null;
+  academicYearId: string | null;
   question: string;
   details: string;
   blanks: InformationTransferBlank[];
@@ -32,6 +38,8 @@ export type UnseenTrueFalseBlock = {
   id: string;
   kind: "true-false";
   sortOrder: number;
+  boardId: string | null;
+  academicYearId: string | null;
   instruction: string;
   rows: Array<{
     id: string;
@@ -75,6 +83,8 @@ export function createUnseenCompositionBlock(
         id: id(),
         kind,
         sortOrder,
+        boardId: null,
+        academicYearId: null,
         body: "",
       };
     case "writing-summary":
@@ -82,6 +92,8 @@ export function createUnseenCompositionBlock(
         id: id(),
         kind,
         sortOrder,
+        boardId: null,
+        academicYearId: null,
         instruction: "",
         modelAnswer: "",
       };
@@ -90,6 +102,8 @@ export function createUnseenCompositionBlock(
         id: id(),
         kind,
         sortOrder,
+        boardId: null,
+        academicYearId: null,
         question: "",
         details: "",
         blanks: [],
@@ -99,6 +113,8 @@ export function createUnseenCompositionBlock(
         id: id(),
         kind,
         sortOrder,
+        boardId: null,
+        academicYearId: null,
         instruction: "",
         rows: [],
       };
@@ -139,6 +155,9 @@ function normalizeInformationTransferBlock(
     id: typeof block.id === "string" && block.id ? block.id : id(),
     kind: "information-transfer",
     sortOrder,
+    boardId: typeof block.boardId === "string" && block.boardId ? block.boardId : null,
+    academicYearId:
+      typeof block.academicYearId === "string" && block.academicYearId ? block.academicYearId : null,
     question,
     details,
     blanks,
@@ -156,6 +175,9 @@ function normalizeBlock(block: Record<string, unknown>, sortOrder: number): Unse
         id: typeof block.id === "string" && block.id ? block.id : id(),
         kind: "unseen-passage",
         sortOrder,
+        boardId: typeof block.boardId === "string" && block.boardId ? block.boardId : null,
+        academicYearId:
+          typeof block.academicYearId === "string" && block.academicYearId ? block.academicYearId : null,
         body: typeof block.body === "string" ? block.body : "",
       };
     case "writing-summary":
@@ -163,6 +185,9 @@ function normalizeBlock(block: Record<string, unknown>, sortOrder: number): Unse
         id: typeof block.id === "string" && block.id ? block.id : id(),
         kind: "writing-summary",
         sortOrder,
+        boardId: typeof block.boardId === "string" && block.boardId ? block.boardId : null,
+        academicYearId:
+          typeof block.academicYearId === "string" && block.academicYearId ? block.academicYearId : null,
         instruction: typeof block.instruction === "string" ? block.instruction : "",
         modelAnswer: typeof block.modelAnswer === "string" ? block.modelAnswer : "",
       };
@@ -182,6 +207,9 @@ function normalizeBlock(block: Record<string, unknown>, sortOrder: number): Unse
         id: typeof block.id === "string" && block.id ? block.id : id(),
         kind: "true-false",
         sortOrder,
+        boardId: typeof block.boardId === "string" && block.boardId ? block.boardId : null,
+        academicYearId:
+          typeof block.academicYearId === "string" && block.academicYearId ? block.academicYearId : null,
         instruction: typeof block.instruction === "string" ? block.instruction : "",
         rows,
       };

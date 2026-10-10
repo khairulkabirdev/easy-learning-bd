@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { ContentBlocksEditorClient } from "@/app/admin/content/[contentId]/ContentBlocksEditorClient";
+import { SeenCompositionTitleEditor } from "@/components/admin/SeenCompositionTitleEditor";
 import type { ContentBlockKind, ContentRecordWithBlocks } from "@/app/admin/content/content-types";
 import { requireAdmin } from "@/lib/app-auth";
 import { prisma } from "@/lib/db";
@@ -472,6 +473,7 @@ export default async function AdminContentBlocksPage({
     },
     select: {
       id: true,
+      title: true,
       classId: true,
       subjectId: true,
       unitId: true,
@@ -490,6 +492,8 @@ export default async function AdminContentBlocksPage({
           contentId: true,
           kind: true,
           sortOrder: true,
+          boardId: true,
+          academicYearId: true,
           paragraph: {
             select: {
               id: true,
@@ -549,6 +553,8 @@ export default async function AdminContentBlocksPage({
                   vocabularyId: true,
                   word: true,
                   meaning: true,
+                  imageUrl: true,
+                  imagePath: true,
                   sortOrder: true,
                 },
               },
@@ -1206,6 +1212,9 @@ export default async function AdminContentBlocksPage({
 
   return (
     <div className="space-y-4">
+      {editorMode === "seen-composition" ? (
+        <SeenCompositionTitleEditor contentId={content.id} initialTitle={content.title} />
+      ) : null}
       <ContentBlocksEditorClient
         content={typedContent}
         allowedBlockKindsOverride={allowedBlockKinds}

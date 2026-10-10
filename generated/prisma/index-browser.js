@@ -291,6 +291,7 @@ exports.Prisma.TopicScalarFieldEnum = {
 
 exports.Prisma.ContentScalarFieldEnum = {
   id: 'id',
+  title: 'title',
   classId: 'classId',
   subjectId: 'subjectId',
   unitId: 'unitId',
@@ -355,6 +356,8 @@ exports.Prisma.ContentBlockScalarFieldEnum = {
   contentId: 'contentId',
   kind: 'kind',
   sortOrder: 'sortOrder',
+  boardId: 'boardId',
+  academicYearId: 'academicYearId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -400,7 +403,37 @@ exports.Prisma.VocabularyEntryScalarFieldEnum = {
   vocabularyId: 'vocabularyId',
   word: 'word',
   meaning: 'meaning',
+  imageUrl: 'imageUrl',
+  imagePath: 'imagePath',
   sortOrder: 'sortOrder',
+  organizationId: 'organizationId',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.UploadedFileScalarFieldEnum = {
+  id: 'id',
+  purpose: 'purpose',
+  ownerType: 'ownerType',
+  ownerId: 'ownerId',
+  vocabularyEntryId: 'vocabularyEntryId',
+  url: 'url',
+  path: 'path',
+  originalName: 'originalName',
+  sourceMimeType: 'sourceMimeType',
+  mimeType: 'mimeType',
+  extension: 'extension',
+  sizeBytes: 'sizeBytes',
+  width: 'width',
+  height: 'height',
+  checksumSha256: 'checksumSha256',
+  status: 'status',
+  isCurrent: 'isCurrent',
+  replacedAt: 'replacedAt',
+  deletedAt: 'deletedAt',
+  storageDeletedAt: 'storageDeletedAt',
   organizationId: 'organizationId',
   createdBy: 'createdBy',
   updatedBy: 'updatedBy',
@@ -878,6 +911,8 @@ exports.Prisma.SubjectMatchingSentencesBlockScalarFieldEnum = {
   id: 'id',
   classId: 'classId',
   subjectId: 'subjectId',
+  boardId: 'boardId',
+  academicYearId: 'academicYearId',
   title: 'title',
   instruction: 'instruction',
   details: 'details',
@@ -894,6 +929,8 @@ exports.Prisma.SubjectRearrangeSentenceBlockScalarFieldEnum = {
   id: 'id',
   classId: 'classId',
   subjectId: 'subjectId',
+  boardId: 'boardId',
+  academicYearId: 'academicYearId',
   title: 'title',
   instruction: 'instruction',
   details: 'details',
@@ -910,6 +947,8 @@ exports.Prisma.SubjectQuestionFromPoemsBlockScalarFieldEnum = {
   id: 'id',
   classId: 'classId',
   subjectId: 'subjectId',
+  boardId: 'boardId',
+  academicYearId: 'academicYearId',
   title: 'title',
   instruction: 'instruction',
   details: 'details',
@@ -926,11 +965,54 @@ exports.Prisma.SubjectQuestionFromStoryBlockScalarFieldEnum = {
   id: 'id',
   classId: 'classId',
   subjectId: 'subjectId',
+  boardId: 'boardId',
+  academicYearId: 'academicYearId',
   title: 'title',
   instruction: 'instruction',
   details: 'details',
   documentJson: 'documentJson',
   sortOrder: 'sortOrder',
+  organizationId: 'organizationId',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SubjectEnglishSecondPaperBlockScalarFieldEnum = {
+  id: 'id',
+  classId: 'classId',
+  subjectId: 'subjectId',
+  kind: 'kind',
+  boardId: 'boardId',
+  academicYearId: 'academicYearId',
+  title: 'title',
+  instruction: 'instruction',
+  details: 'details',
+  documentJson: 'documentJson',
+  sortOrder: 'sortOrder',
+  organizationId: 'organizationId',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BoardScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  isActive: 'isActive',
+  organizationId: 'organizationId',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AcademicYearScalarFieldEnum = {
+  id: 'id',
+  year: 'year',
+  isActive: 'isActive',
   organizationId: 'organizationId',
   createdBy: 'createdBy',
   updatedBy: 'updatedBy',
@@ -978,6 +1060,7 @@ exports.Prisma.ModelName = {
   Paragraph: 'Paragraph',
   Vocabulary: 'Vocabulary',
   VocabularyEntry: 'VocabularyEntry',
+  UploadedFile: 'UploadedFile',
   SynonymsAntonyms: 'SynonymsAntonyms',
   SynonymsAntonymsEntry: 'SynonymsAntonymsEntry',
   GapFillExercise: 'GapFillExercise',
@@ -1004,7 +1087,10 @@ exports.Prisma.ModelName = {
   SubjectMatchingSentencesBlock: 'SubjectMatchingSentencesBlock',
   SubjectRearrangeSentenceBlock: 'SubjectRearrangeSentenceBlock',
   SubjectQuestionFromPoemsBlock: 'SubjectQuestionFromPoemsBlock',
-  SubjectQuestionFromStoryBlock: 'SubjectQuestionFromStoryBlock'
+  SubjectQuestionFromStoryBlock: 'SubjectQuestionFromStoryBlock',
+  SubjectEnglishSecondPaperBlock: 'SubjectEnglishSecondPaperBlock',
+  Board: 'Board',
+  AcademicYear: 'AcademicYear'
 };
 
 /**

@@ -10,9 +10,9 @@ import { entityMediaSchema, resolveEntityMedia } from "@/lib/entity-media";
 
 const unitSchema = z.object({
   id: z.string().optional(),
-  classId: z.string().min(1, "Class is required."),
-  subjectId: z.string().min(1, "Subject is required."),
-  title: z.string().min(1, "Title is required."),
+  classId: z.string().trim().min(1, "Class is required."),
+  subjectId: z.string().trim().min(1, "Subject is required."),
+  title: z.string().trim().min(1, "Title is required."),
   unitNumber: z.string().default(""),
   description: z.string().default(""),
   sortOrder: z.coerce.number().int().min(0).default(0),

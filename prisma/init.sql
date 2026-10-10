@@ -152,6 +152,7 @@ CREATE TABLE "Topic" (
 -- CreateTable
 CREATE TABLE "Content" (
     "id" TEXT NOT NULL PRIMARY KEY,
+    "title" TEXT NOT NULL DEFAULT '',
     "classId" TEXT NOT NULL,
     "subjectId" TEXT NOT NULL,
     "unitId" TEXT NOT NULL,
@@ -175,10 +176,14 @@ CREATE TABLE "ContentBlock" (
     "contentId" TEXT NOT NULL,
     "kind" TEXT NOT NULL,
     "sortOrder" INTEGER NOT NULL DEFAULT 0,
+    "boardId" TEXT,
+    "academicYearId" TEXT,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
     CONSTRAINT "ContentBlock_contentId_fkey" FOREIGN KEY ("contentId") REFERENCES "Content" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
+CREATE INDEX IF NOT EXISTS "ContentBlock_boardId_academicYearId_idx"
+ON "ContentBlock"("boardId", "academicYearId");
 
 -- CreateTable
 CREATE TABLE "Paragraph" (
@@ -223,6 +228,8 @@ CREATE TABLE "VocabularyEntry" (
     "vocabularyId" TEXT NOT NULL,
     "word" TEXT NOT NULL DEFAULT '',
     "meaning" TEXT NOT NULL DEFAULT '',
+    "imageUrl" TEXT NOT NULL DEFAULT '',
+    "imagePath" TEXT NOT NULL DEFAULT '',
     "sortOrder" INTEGER NOT NULL DEFAULT 0,
     "organizationId" TEXT NOT NULL,
     "createdBy" TEXT NOT NULL,
@@ -231,6 +238,51 @@ CREATE TABLE "VocabularyEntry" (
     "updatedAt" DATETIME NOT NULL,
     CONSTRAINT "VocabularyEntry_vocabularyId_fkey" FOREIGN KEY ("vocabularyId") REFERENCES "Vocabulary" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+-- Generic upload/file lifecycle tracker. Vocabulary item images are the first
+-- relation using it; future uploads should attach to this same table.
+CREATE TABLE "UploadedFile" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "purpose" TEXT NOT NULL DEFAULT '',
+    "ownerType" TEXT NOT NULL DEFAULT '',
+    "ownerId" TEXT NOT NULL DEFAULT '',
+    "vocabularyEntryId" TEXT,
+    "url" TEXT NOT NULL DEFAULT '',
+    "path" TEXT NOT NULL DEFAULT '',
+    "originalName" TEXT NOT NULL DEFAULT '',
+    "sourceMimeType" TEXT NOT NULL DEFAULT '',
+    "mimeType" TEXT NOT NULL DEFAULT '',
+    "extension" TEXT NOT NULL DEFAULT '',
+    "sizeBytes" INTEGER NOT NULL DEFAULT 0,
+    "width" INTEGER NOT NULL DEFAULT 0,
+    "height" INTEGER NOT NULL DEFAULT 0,
+    "checksumSha256" TEXT NOT NULL DEFAULT '',
+    "status" TEXT NOT NULL DEFAULT 'active',
+    "isCurrent" BOOLEAN NOT NULL DEFAULT true,
+    "replacedAt" DATETIME,
+    "deletedAt" DATETIME,
+    "storageDeletedAt" DATETIME,
+    "organizationId" TEXT NOT NULL,
+    "createdBy" TEXT NOT NULL,
+    "updatedBy" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "UploadedFile_vocabularyEntryId_fkey" FOREIGN KEY ("vocabularyEntryId") REFERENCES "VocabularyEntry" ("id") ON DELETE SET NULL ON UPDATE CASCADE
+);
+CREATE INDEX "UploadedFile_vocabularyEntryId_isCurrent_status_idx"
+ON "UploadedFile"("vocabularyEntryId", "isCurrent", "status");
+CREATE INDEX "UploadedFile_organizationId_status_createdAt_idx"
+ON "UploadedFile"("organizationId", "status", "createdAt");
+CREATE INDEX "UploadedFile_organizationId_ownerType_ownerId_idx"
+ON "UploadedFile"("organizationId", "ownerType", "ownerId");
+CREATE INDEX "UploadedFile_path_idx"
+ON "UploadedFile"("path");
+CREATE UNIQUE INDEX "UploadedFile_vocabulary_current_active_key"
+ON "UploadedFile"("vocabularyEntryId")
+WHERE "vocabularyEntryId" IS NOT NULL
+  AND "purpose" = 'vocabulary-item-image'
+  AND "isCurrent" = true
+  AND "status" = 'active';
 
 -- CreateTable
 CREATE TABLE "SynonymsAntonyms" (
@@ -784,6 +836,8 @@ CREATE TABLE IF NOT EXISTS "SubjectMatchingSentencesBlock" (
   "id" TEXT NOT NULL PRIMARY KEY,
   "classId" TEXT NOT NULL,
   "subjectId" TEXT NOT NULL,
+  "boardId" TEXT,
+  "academicYearId" TEXT,
   "title" TEXT NOT NULL DEFAULT '',
   "instruction" TEXT NOT NULL DEFAULT '',
   "details" TEXT NOT NULL DEFAULT '',
@@ -797,11 +851,15 @@ CREATE TABLE IF NOT EXISTS "SubjectMatchingSentencesBlock" (
 );
 CREATE INDEX IF NOT EXISTS "SubjectMatchingSentencesBlock_organizationId_classId_subjectId_sortOrder_idx"
 ON "SubjectMatchingSentencesBlock"("organizationId", "classId", "subjectId", "sortOrder");
+CREATE INDEX IF NOT EXISTS "SubjectMatchingSentencesBlock_organizationId_boardId_academicYearId_idx"
+ON "SubjectMatchingSentencesBlock"("organizationId", "boardId", "academicYearId");
 
 CREATE TABLE IF NOT EXISTS "SubjectRearrangeSentenceBlock" (
   "id" TEXT NOT NULL PRIMARY KEY,
   "classId" TEXT NOT NULL,
   "subjectId" TEXT NOT NULL,
+  "boardId" TEXT,
+  "academicYearId" TEXT,
   "title" TEXT NOT NULL DEFAULT '',
   "instruction" TEXT NOT NULL DEFAULT '',
   "details" TEXT NOT NULL DEFAULT '',
@@ -815,11 +873,15 @@ CREATE TABLE IF NOT EXISTS "SubjectRearrangeSentenceBlock" (
 );
 CREATE INDEX IF NOT EXISTS "SubjectRearrangeSentenceBlock_organizationId_classId_subjectId_sortOrder_idx"
 ON "SubjectRearrangeSentenceBlock"("organizationId", "classId", "subjectId", "sortOrder");
+CREATE INDEX IF NOT EXISTS "SubjectRearrangeSentenceBlock_organizationId_boardId_academicYearId_idx"
+ON "SubjectRearrangeSentenceBlock"("organizationId", "boardId", "academicYearId");
 
 CREATE TABLE IF NOT EXISTS "SubjectQuestionFromPoemsBlock" (
   "id" TEXT NOT NULL PRIMARY KEY,
   "classId" TEXT NOT NULL,
   "subjectId" TEXT NOT NULL,
+  "boardId" TEXT,
+  "academicYearId" TEXT,
   "title" TEXT NOT NULL DEFAULT '',
   "instruction" TEXT NOT NULL DEFAULT '',
   "details" TEXT NOT NULL DEFAULT '',
@@ -833,11 +895,15 @@ CREATE TABLE IF NOT EXISTS "SubjectQuestionFromPoemsBlock" (
 );
 CREATE INDEX IF NOT EXISTS "SubjectQuestionFromPoemsBlock_organizationId_classId_subjectId_sortOrder_idx"
 ON "SubjectQuestionFromPoemsBlock"("organizationId", "classId", "subjectId", "sortOrder");
+CREATE INDEX IF NOT EXISTS "SubjectQuestionFromPoemsBlock_organizationId_boardId_academicYearId_idx"
+ON "SubjectQuestionFromPoemsBlock"("organizationId", "boardId", "academicYearId");
 
 CREATE TABLE IF NOT EXISTS "SubjectQuestionFromStoryBlock" (
   "id" TEXT NOT NULL PRIMARY KEY,
   "classId" TEXT NOT NULL,
   "subjectId" TEXT NOT NULL,
+  "boardId" TEXT,
+  "academicYearId" TEXT,
   "title" TEXT NOT NULL DEFAULT '',
   "instruction" TEXT NOT NULL DEFAULT '',
   "details" TEXT NOT NULL DEFAULT '',
@@ -851,3 +917,61 @@ CREATE TABLE IF NOT EXISTS "SubjectQuestionFromStoryBlock" (
 );
 CREATE INDEX IF NOT EXISTS "SubjectQuestionFromStoryBlock_organizationId_classId_subjectId_sortOrder_idx"
 ON "SubjectQuestionFromStoryBlock"("organizationId", "classId", "subjectId", "sortOrder");
+CREATE INDEX IF NOT EXISTS "SubjectQuestionFromStoryBlock_organizationId_boardId_academicYearId_idx"
+ON "SubjectQuestionFromStoryBlock"("organizationId", "boardId", "academicYearId");
+
+-- Admin-only Board / Year master data.
+CREATE TABLE IF NOT EXISTS "Board" (
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "name" TEXT NOT NULL,
+  "isActive" BOOLEAN NOT NULL DEFAULT true,
+  "organizationId" TEXT NOT NULL,
+  "createdBy" TEXT NOT NULL,
+  "updatedBy" TEXT NOT NULL,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" DATETIME NOT NULL
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "Board_organizationId_name_key"
+ON "Board"("organizationId", "name");
+CREATE INDEX IF NOT EXISTS "Board_organizationId_isActive_name_idx"
+ON "Board"("organizationId", "isActive", "name");
+
+CREATE TABLE IF NOT EXISTS "AcademicYear" (
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "year" INTEGER NOT NULL,
+  "isActive" BOOLEAN NOT NULL DEFAULT true,
+  "organizationId" TEXT NOT NULL,
+  "createdBy" TEXT NOT NULL,
+  "updatedBy" TEXT NOT NULL,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" DATETIME NOT NULL
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "AcademicYear_organizationId_year_key"
+ON "AcademicYear"("organizationId", "year");
+CREATE INDEX IF NOT EXISTS "AcademicYear_organizationId_isActive_year_idx"
+ON "AcademicYear"("organizationId", "isActive", "year");
+
+-- Subject-level English 2nd Paper question-type blocks. These records do not
+-- require Unit / Lesson / Topic assignments.
+CREATE TABLE IF NOT EXISTS "SubjectEnglishSecondPaperBlock" (
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "classId" TEXT NOT NULL,
+  "subjectId" TEXT NOT NULL,
+  "kind" TEXT NOT NULL,
+  "boardId" TEXT,
+  "academicYearId" TEXT,
+  "title" TEXT NOT NULL DEFAULT '',
+  "instruction" TEXT NOT NULL DEFAULT '',
+  "details" TEXT NOT NULL DEFAULT '',
+  "documentJson" TEXT NOT NULL DEFAULT '{}',
+  "sortOrder" INTEGER NOT NULL DEFAULT 0,
+  "organizationId" TEXT NOT NULL,
+  "createdBy" TEXT NOT NULL,
+  "updatedBy" TEXT NOT NULL,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" DATETIME NOT NULL
+);
+CREATE INDEX IF NOT EXISTS "SubjectEnglishSecondPaperBlock_organizationId_classId_subjectId_kind_sortOrder_idx"
+ON "SubjectEnglishSecondPaperBlock"("organizationId", "classId", "subjectId", "kind", "sortOrder");
+CREATE INDEX IF NOT EXISTS "SubjectEnglishSecondPaperBlock_organizationId_boardId_academicYearId_idx"
+ON "SubjectEnglishSecondPaperBlock"("organizationId", "boardId", "academicYearId");

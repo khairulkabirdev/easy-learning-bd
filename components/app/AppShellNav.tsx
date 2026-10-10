@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 import Link from "next/link";
-import { BookOpen, ChevronDown, FolderOpen, LayoutDashboard, LogOut, Settings, Shapes, User2 } from "lucide-react";
+import { BookOpen, CalendarDays, ChevronDown, FolderOpen, Landmark, LayoutDashboard, LogOut, Settings, Shapes, User2 } from "lucide-react";
 
 import { SidebarNavLinks } from "@/components/app/SidebarNavLinks";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
@@ -20,8 +20,13 @@ import { logoutAction } from "@/app/actions/session";
 
 export type ShellNavItem = {
   title: string;
-  href: string;
+  href?: string;
   icon: ReactNode;
+  children?: Array<{
+    title: string;
+    href: string;
+    icon?: ReactNode;
+  }>;
 };
 
 export type ShellNavGroup = {
@@ -40,6 +45,14 @@ export const adminNavGroups: ShellNavGroup[] = [
       { title: "Lessons", href: "/admin/lessons", icon: <FolderOpen className="h-4 w-4" /> },
       { title: "Topics", href: "/admin/topics", icon: <FolderOpen className="h-4 w-4" /> },
       { title: "Content", href: "/admin/content", icon: <FolderOpen className="h-4 w-4" /> },
+      {
+        title: "Board",
+        icon: <Landmark className="h-4 w-4" />,
+        children: [
+          { title: "Board", href: "/admin/board", icon: <Landmark className="h-4 w-4" /> },
+          { title: "Year", href: "/admin/board/year", icon: <CalendarDays className="h-4 w-4" /> },
+        ],
+      },
     ],
   },
   {

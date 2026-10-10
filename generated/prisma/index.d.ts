@@ -104,6 +104,11 @@ export type Vocabulary = $Result.DefaultSelection<Prisma.$VocabularyPayload>
  */
 export type VocabularyEntry = $Result.DefaultSelection<Prisma.$VocabularyEntryPayload>
 /**
+ * Model UploadedFile
+ * 
+ */
+export type UploadedFile = $Result.DefaultSelection<Prisma.$UploadedFilePayload>
+/**
  * Model SynonymsAntonyms
  * 
  */
@@ -238,6 +243,21 @@ export type SubjectQuestionFromPoemsBlock = $Result.DefaultSelection<Prisma.$Sub
  * 
  */
 export type SubjectQuestionFromStoryBlock = $Result.DefaultSelection<Prisma.$SubjectQuestionFromStoryBlockPayload>
+/**
+ * Model SubjectEnglishSecondPaperBlock
+ * 
+ */
+export type SubjectEnglishSecondPaperBlock = $Result.DefaultSelection<Prisma.$SubjectEnglishSecondPaperBlockPayload>
+/**
+ * Model Board
+ * 
+ */
+export type Board = $Result.DefaultSelection<Prisma.$BoardPayload>
+/**
+ * Model AcademicYear
+ * 
+ */
+export type AcademicYear = $Result.DefaultSelection<Prisma.$AcademicYearPayload>
 
 /**
  * Enums
@@ -569,6 +589,16 @@ export class PrismaClient<
   get vocabularyEntry(): Prisma.VocabularyEntryDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.uploadedFile`: Exposes CRUD operations for the **UploadedFile** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UploadedFiles
+    * const uploadedFiles = await prisma.uploadedFile.findMany()
+    * ```
+    */
+  get uploadedFile(): Prisma.UploadedFileDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.synonymsAntonyms`: Exposes CRUD operations for the **SynonymsAntonyms** model.
     * Example usage:
     * ```ts
@@ -837,6 +867,36 @@ export class PrismaClient<
     * ```
     */
   get subjectQuestionFromStoryBlock(): Prisma.SubjectQuestionFromStoryBlockDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.subjectEnglishSecondPaperBlock`: Exposes CRUD operations for the **SubjectEnglishSecondPaperBlock** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SubjectEnglishSecondPaperBlocks
+    * const subjectEnglishSecondPaperBlocks = await prisma.subjectEnglishSecondPaperBlock.findMany()
+    * ```
+    */
+  get subjectEnglishSecondPaperBlock(): Prisma.SubjectEnglishSecondPaperBlockDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.board`: Exposes CRUD operations for the **Board** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Boards
+    * const boards = await prisma.board.findMany()
+    * ```
+    */
+  get board(): Prisma.BoardDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.academicYear`: Exposes CRUD operations for the **AcademicYear** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AcademicYears
+    * const academicYears = await prisma.academicYear.findMany()
+    * ```
+    */
+  get academicYear(): Prisma.AcademicYearDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1296,6 +1356,7 @@ export namespace Prisma {
     Paragraph: 'Paragraph',
     Vocabulary: 'Vocabulary',
     VocabularyEntry: 'VocabularyEntry',
+    UploadedFile: 'UploadedFile',
     SynonymsAntonyms: 'SynonymsAntonyms',
     SynonymsAntonymsEntry: 'SynonymsAntonymsEntry',
     GapFillExercise: 'GapFillExercise',
@@ -1322,7 +1383,10 @@ export namespace Prisma {
     SubjectMatchingSentencesBlock: 'SubjectMatchingSentencesBlock',
     SubjectRearrangeSentenceBlock: 'SubjectRearrangeSentenceBlock',
     SubjectQuestionFromPoemsBlock: 'SubjectQuestionFromPoemsBlock',
-    SubjectQuestionFromStoryBlock: 'SubjectQuestionFromStoryBlock'
+    SubjectQuestionFromStoryBlock: 'SubjectQuestionFromStoryBlock',
+    SubjectEnglishSecondPaperBlock: 'SubjectEnglishSecondPaperBlock',
+    Board: 'Board',
+    AcademicYear: 'AcademicYear'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1341,7 +1405,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "authSession" | "passwordResetToken" | "authEmailSetting" | "auditLog" | "class" | "subject" | "unit" | "lesson" | "topic" | "content" | "seenPassageOne" | "seenPassageTwo" | "unseenComposition" | "contentBlock" | "paragraph" | "vocabulary" | "vocabularyEntry" | "synonymsAntonyms" | "synonymsAntonymsEntry" | "gapFillExercise" | "gapFillFirstPaper" | "gapFillSecondPaper" | "mcqSection" | "questionAnswerExercise" | "tableCompletionExercise" | "columnMatchingExercise" | "rearrangeSentenceExercise" | "questionFromPoems" | "questionFromStory" | "trueFalseExercise" | "informationTransfer" | "substitutionTable" | "rightFormOfVerb" | "narration" | "changingSentence" | "punctuationAndCapitalization" | "preposition" | "suffixAndPrefix" | "tagQuestion" | "connector" | "subjectMatchingSentencesBlock" | "subjectRearrangeSentenceBlock" | "subjectQuestionFromPoemsBlock" | "subjectQuestionFromStoryBlock"
+      modelProps: "user" | "authSession" | "passwordResetToken" | "authEmailSetting" | "auditLog" | "class" | "subject" | "unit" | "lesson" | "topic" | "content" | "seenPassageOne" | "seenPassageTwo" | "unseenComposition" | "contentBlock" | "paragraph" | "vocabulary" | "vocabularyEntry" | "uploadedFile" | "synonymsAntonyms" | "synonymsAntonymsEntry" | "gapFillExercise" | "gapFillFirstPaper" | "gapFillSecondPaper" | "mcqSection" | "questionAnswerExercise" | "tableCompletionExercise" | "columnMatchingExercise" | "rearrangeSentenceExercise" | "questionFromPoems" | "questionFromStory" | "trueFalseExercise" | "informationTransfer" | "substitutionTable" | "rightFormOfVerb" | "narration" | "changingSentence" | "punctuationAndCapitalization" | "preposition" | "suffixAndPrefix" | "tagQuestion" | "connector" | "subjectMatchingSentencesBlock" | "subjectRearrangeSentenceBlock" | "subjectQuestionFromPoemsBlock" | "subjectQuestionFromStoryBlock" | "subjectEnglishSecondPaperBlock" | "board" | "academicYear"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2674,6 +2738,80 @@ export namespace Prisma {
           count: {
             args: Prisma.VocabularyEntryCountArgs<ExtArgs>
             result: $Utils.Optional<VocabularyEntryCountAggregateOutputType> | number
+          }
+        }
+      }
+      UploadedFile: {
+        payload: Prisma.$UploadedFilePayload<ExtArgs>
+        fields: Prisma.UploadedFileFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UploadedFileFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UploadedFilePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UploadedFileFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UploadedFilePayload>
+          }
+          findFirst: {
+            args: Prisma.UploadedFileFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UploadedFilePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UploadedFileFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UploadedFilePayload>
+          }
+          findMany: {
+            args: Prisma.UploadedFileFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UploadedFilePayload>[]
+          }
+          create: {
+            args: Prisma.UploadedFileCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UploadedFilePayload>
+          }
+          createMany: {
+            args: Prisma.UploadedFileCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UploadedFileCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UploadedFilePayload>[]
+          }
+          delete: {
+            args: Prisma.UploadedFileDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UploadedFilePayload>
+          }
+          update: {
+            args: Prisma.UploadedFileUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UploadedFilePayload>
+          }
+          deleteMany: {
+            args: Prisma.UploadedFileDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UploadedFileUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UploadedFileUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UploadedFilePayload>[]
+          }
+          upsert: {
+            args: Prisma.UploadedFileUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UploadedFilePayload>
+          }
+          aggregate: {
+            args: Prisma.UploadedFileAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUploadedFile>
+          }
+          groupBy: {
+            args: Prisma.UploadedFileGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UploadedFileGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UploadedFileCountArgs<ExtArgs>
+            result: $Utils.Optional<UploadedFileCountAggregateOutputType> | number
           }
         }
       }
@@ -4675,6 +4813,228 @@ export namespace Prisma {
           }
         }
       }
+      SubjectEnglishSecondPaperBlock: {
+        payload: Prisma.$SubjectEnglishSecondPaperBlockPayload<ExtArgs>
+        fields: Prisma.SubjectEnglishSecondPaperBlockFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SubjectEnglishSecondPaperBlockFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectEnglishSecondPaperBlockPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SubjectEnglishSecondPaperBlockFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectEnglishSecondPaperBlockPayload>
+          }
+          findFirst: {
+            args: Prisma.SubjectEnglishSecondPaperBlockFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectEnglishSecondPaperBlockPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SubjectEnglishSecondPaperBlockFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectEnglishSecondPaperBlockPayload>
+          }
+          findMany: {
+            args: Prisma.SubjectEnglishSecondPaperBlockFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectEnglishSecondPaperBlockPayload>[]
+          }
+          create: {
+            args: Prisma.SubjectEnglishSecondPaperBlockCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectEnglishSecondPaperBlockPayload>
+          }
+          createMany: {
+            args: Prisma.SubjectEnglishSecondPaperBlockCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SubjectEnglishSecondPaperBlockCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectEnglishSecondPaperBlockPayload>[]
+          }
+          delete: {
+            args: Prisma.SubjectEnglishSecondPaperBlockDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectEnglishSecondPaperBlockPayload>
+          }
+          update: {
+            args: Prisma.SubjectEnglishSecondPaperBlockUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectEnglishSecondPaperBlockPayload>
+          }
+          deleteMany: {
+            args: Prisma.SubjectEnglishSecondPaperBlockDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SubjectEnglishSecondPaperBlockUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SubjectEnglishSecondPaperBlockUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectEnglishSecondPaperBlockPayload>[]
+          }
+          upsert: {
+            args: Prisma.SubjectEnglishSecondPaperBlockUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectEnglishSecondPaperBlockPayload>
+          }
+          aggregate: {
+            args: Prisma.SubjectEnglishSecondPaperBlockAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSubjectEnglishSecondPaperBlock>
+          }
+          groupBy: {
+            args: Prisma.SubjectEnglishSecondPaperBlockGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SubjectEnglishSecondPaperBlockGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SubjectEnglishSecondPaperBlockCountArgs<ExtArgs>
+            result: $Utils.Optional<SubjectEnglishSecondPaperBlockCountAggregateOutputType> | number
+          }
+        }
+      }
+      Board: {
+        payload: Prisma.$BoardPayload<ExtArgs>
+        fields: Prisma.BoardFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BoardFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoardPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BoardFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoardPayload>
+          }
+          findFirst: {
+            args: Prisma.BoardFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoardPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BoardFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoardPayload>
+          }
+          findMany: {
+            args: Prisma.BoardFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoardPayload>[]
+          }
+          create: {
+            args: Prisma.BoardCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoardPayload>
+          }
+          createMany: {
+            args: Prisma.BoardCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BoardCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoardPayload>[]
+          }
+          delete: {
+            args: Prisma.BoardDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoardPayload>
+          }
+          update: {
+            args: Prisma.BoardUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoardPayload>
+          }
+          deleteMany: {
+            args: Prisma.BoardDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BoardUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BoardUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoardPayload>[]
+          }
+          upsert: {
+            args: Prisma.BoardUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BoardPayload>
+          }
+          aggregate: {
+            args: Prisma.BoardAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBoard>
+          }
+          groupBy: {
+            args: Prisma.BoardGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BoardGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BoardCountArgs<ExtArgs>
+            result: $Utils.Optional<BoardCountAggregateOutputType> | number
+          }
+        }
+      }
+      AcademicYear: {
+        payload: Prisma.$AcademicYearPayload<ExtArgs>
+        fields: Prisma.AcademicYearFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AcademicYearFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicYearPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AcademicYearFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicYearPayload>
+          }
+          findFirst: {
+            args: Prisma.AcademicYearFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicYearPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AcademicYearFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicYearPayload>
+          }
+          findMany: {
+            args: Prisma.AcademicYearFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicYearPayload>[]
+          }
+          create: {
+            args: Prisma.AcademicYearCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicYearPayload>
+          }
+          createMany: {
+            args: Prisma.AcademicYearCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AcademicYearCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicYearPayload>[]
+          }
+          delete: {
+            args: Prisma.AcademicYearDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicYearPayload>
+          }
+          update: {
+            args: Prisma.AcademicYearUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicYearPayload>
+          }
+          deleteMany: {
+            args: Prisma.AcademicYearDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AcademicYearUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AcademicYearUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicYearPayload>[]
+          }
+          upsert: {
+            args: Prisma.AcademicYearUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicYearPayload>
+          }
+          aggregate: {
+            args: Prisma.AcademicYearAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAcademicYear>
+          }
+          groupBy: {
+            args: Prisma.AcademicYearGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AcademicYearGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AcademicYearCountArgs<ExtArgs>
+            result: $Utils.Optional<AcademicYearCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -4789,6 +5149,7 @@ export namespace Prisma {
     paragraph?: ParagraphOmit
     vocabulary?: VocabularyOmit
     vocabularyEntry?: VocabularyEntryOmit
+    uploadedFile?: UploadedFileOmit
     synonymsAntonyms?: SynonymsAntonymsOmit
     synonymsAntonymsEntry?: SynonymsAntonymsEntryOmit
     gapFillExercise?: GapFillExerciseOmit
@@ -4816,6 +5177,9 @@ export namespace Prisma {
     subjectRearrangeSentenceBlock?: SubjectRearrangeSentenceBlockOmit
     subjectQuestionFromPoemsBlock?: SubjectQuestionFromPoemsBlockOmit
     subjectQuestionFromStoryBlock?: SubjectQuestionFromStoryBlockOmit
+    subjectEnglishSecondPaperBlock?: SubjectEnglishSecondPaperBlockOmit
+    board?: BoardOmit
+    academicYear?: AcademicYearOmit
   }
 
   /* Types for Logging */
@@ -5217,6 +5581,37 @@ export namespace Prisma {
    */
   export type VocabularyCountOutputTypeCountEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: VocabularyEntryWhereInput
+  }
+
+
+  /**
+   * Count Type VocabularyEntryCountOutputType
+   */
+
+  export type VocabularyEntryCountOutputType = {
+    uploadedFiles: number
+  }
+
+  export type VocabularyEntryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    uploadedFiles?: boolean | VocabularyEntryCountOutputTypeCountUploadedFilesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * VocabularyEntryCountOutputType without action
+   */
+  export type VocabularyEntryCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VocabularyEntryCountOutputType
+     */
+    select?: VocabularyEntryCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * VocabularyEntryCountOutputType without action
+   */
+  export type VocabularyEntryCountOutputTypeCountUploadedFilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UploadedFileWhereInput
   }
 
 
@@ -17495,6 +17890,7 @@ export namespace Prisma {
 
   export type ContentMinAggregateOutputType = {
     id: string | null
+    title: string | null
     classId: string | null
     subjectId: string | null
     unitId: string | null
@@ -17509,6 +17905,7 @@ export namespace Prisma {
 
   export type ContentMaxAggregateOutputType = {
     id: string | null
+    title: string | null
     classId: string | null
     subjectId: string | null
     unitId: string | null
@@ -17523,6 +17920,7 @@ export namespace Prisma {
 
   export type ContentCountAggregateOutputType = {
     id: number
+    title: number
     classId: number
     subjectId: number
     unitId: number
@@ -17539,6 +17937,7 @@ export namespace Prisma {
 
   export type ContentMinAggregateInputType = {
     id?: true
+    title?: true
     classId?: true
     subjectId?: true
     unitId?: true
@@ -17553,6 +17952,7 @@ export namespace Prisma {
 
   export type ContentMaxAggregateInputType = {
     id?: true
+    title?: true
     classId?: true
     subjectId?: true
     unitId?: true
@@ -17567,6 +17967,7 @@ export namespace Prisma {
 
   export type ContentCountAggregateInputType = {
     id?: true
+    title?: true
     classId?: true
     subjectId?: true
     unitId?: true
@@ -17654,6 +18055,7 @@ export namespace Prisma {
 
   export type ContentGroupByOutputType = {
     id: string
+    title: string
     classId: string
     subjectId: string
     unitId: string
@@ -17685,6 +18087,7 @@ export namespace Prisma {
 
   export type ContentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    title?: boolean
     classId?: boolean
     subjectId?: boolean
     unitId?: boolean
@@ -17706,6 +18109,7 @@ export namespace Prisma {
 
   export type ContentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    title?: boolean
     classId?: boolean
     subjectId?: boolean
     unitId?: boolean
@@ -17725,6 +18129,7 @@ export namespace Prisma {
 
   export type ContentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    title?: boolean
     classId?: boolean
     subjectId?: boolean
     unitId?: boolean
@@ -17744,6 +18149,7 @@ export namespace Prisma {
 
   export type ContentSelectScalar = {
     id?: boolean
+    title?: boolean
     classId?: boolean
     subjectId?: boolean
     unitId?: boolean
@@ -17756,7 +18162,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ContentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["content"]>
+  export type ContentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["content"]>
   export type ContentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     class?: boolean | ClassDefaultArgs<ExtArgs>
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
@@ -17793,6 +18199,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      title: string
       classId: string
       subjectId: string
       unitId: string
@@ -18233,6 +18640,7 @@ export namespace Prisma {
    */
   interface ContentFieldRefs {
     readonly id: FieldRef<"Content", 'String'>
+    readonly title: FieldRef<"Content", 'String'>
     readonly classId: FieldRef<"Content", 'String'>
     readonly subjectId: FieldRef<"Content", 'String'>
     readonly unitId: FieldRef<"Content", 'String'>
@@ -22198,6 +22606,8 @@ export namespace Prisma {
     contentId: string | null
     kind: string | null
     sortOrder: number | null
+    boardId: string | null
+    academicYearId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -22207,6 +22617,8 @@ export namespace Prisma {
     contentId: string | null
     kind: string | null
     sortOrder: number | null
+    boardId: string | null
+    academicYearId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -22216,6 +22628,8 @@ export namespace Prisma {
     contentId: number
     kind: number
     sortOrder: number
+    boardId: number
+    academicYearId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -22235,6 +22649,8 @@ export namespace Prisma {
     contentId?: true
     kind?: true
     sortOrder?: true
+    boardId?: true
+    academicYearId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -22244,6 +22660,8 @@ export namespace Prisma {
     contentId?: true
     kind?: true
     sortOrder?: true
+    boardId?: true
+    academicYearId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -22253,6 +22671,8 @@ export namespace Prisma {
     contentId?: true
     kind?: true
     sortOrder?: true
+    boardId?: true
+    academicYearId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -22349,6 +22769,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder: number
+    boardId: string | null
+    academicYearId: string | null
     createdAt: Date
     updatedAt: Date
     _count: ContentBlockCountAggregateOutputType | null
@@ -22377,6 +22799,8 @@ export namespace Prisma {
     contentId?: boolean
     kind?: boolean
     sortOrder?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     content?: boolean | ContentDefaultArgs<ExtArgs>
@@ -22413,6 +22837,8 @@ export namespace Prisma {
     contentId?: boolean
     kind?: boolean
     sortOrder?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     content?: boolean | ContentDefaultArgs<ExtArgs>
@@ -22423,6 +22849,8 @@ export namespace Prisma {
     contentId?: boolean
     kind?: boolean
     sortOrder?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     content?: boolean | ContentDefaultArgs<ExtArgs>
@@ -22433,11 +22861,13 @@ export namespace Prisma {
     contentId?: boolean
     kind?: boolean
     sortOrder?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ContentBlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentId" | "kind" | "sortOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["contentBlock"]>
+  export type ContentBlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentId" | "kind" | "sortOrder" | "boardId" | "academicYearId" | "createdAt" | "updatedAt", ExtArgs["result"]["contentBlock"]>
   export type ContentBlockInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     content?: boolean | ContentDefaultArgs<ExtArgs>
     paragraph?: boolean | ContentBlock$paragraphArgs<ExtArgs>
@@ -22510,6 +22940,8 @@ export namespace Prisma {
       contentId: string
       kind: string
       sortOrder: number
+      boardId: string | null
+      academicYearId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["contentBlock"]>
@@ -22966,6 +23398,8 @@ export namespace Prisma {
     readonly contentId: FieldRef<"ContentBlock", 'String'>
     readonly kind: FieldRef<"ContentBlock", 'String'>
     readonly sortOrder: FieldRef<"ContentBlock", 'Int'>
+    readonly boardId: FieldRef<"ContentBlock", 'String'>
+    readonly academicYearId: FieldRef<"ContentBlock", 'String'>
     readonly createdAt: FieldRef<"ContentBlock", 'DateTime'>
     readonly updatedAt: FieldRef<"ContentBlock", 'DateTime'>
   }
@@ -26301,6 +26735,8 @@ export namespace Prisma {
     vocabularyId: string | null
     word: string | null
     meaning: string | null
+    imageUrl: string | null
+    imagePath: string | null
     sortOrder: number | null
     organizationId: string | null
     createdBy: string | null
@@ -26314,6 +26750,8 @@ export namespace Prisma {
     vocabularyId: string | null
     word: string | null
     meaning: string | null
+    imageUrl: string | null
+    imagePath: string | null
     sortOrder: number | null
     organizationId: string | null
     createdBy: string | null
@@ -26327,6 +26765,8 @@ export namespace Prisma {
     vocabularyId: number
     word: number
     meaning: number
+    imageUrl: number
+    imagePath: number
     sortOrder: number
     organizationId: number
     createdBy: number
@@ -26350,6 +26790,8 @@ export namespace Prisma {
     vocabularyId?: true
     word?: true
     meaning?: true
+    imageUrl?: true
+    imagePath?: true
     sortOrder?: true
     organizationId?: true
     createdBy?: true
@@ -26363,6 +26805,8 @@ export namespace Prisma {
     vocabularyId?: true
     word?: true
     meaning?: true
+    imageUrl?: true
+    imagePath?: true
     sortOrder?: true
     organizationId?: true
     createdBy?: true
@@ -26376,6 +26820,8 @@ export namespace Prisma {
     vocabularyId?: true
     word?: true
     meaning?: true
+    imageUrl?: true
+    imagePath?: true
     sortOrder?: true
     organizationId?: true
     createdBy?: true
@@ -26476,6 +26922,8 @@ export namespace Prisma {
     vocabularyId: string
     word: string
     meaning: string
+    imageUrl: string
+    imagePath: string
     sortOrder: number
     organizationId: string
     createdBy: string
@@ -26508,6 +26956,8 @@ export namespace Prisma {
     vocabularyId?: boolean
     word?: boolean
     meaning?: boolean
+    imageUrl?: boolean
+    imagePath?: boolean
     sortOrder?: boolean
     organizationId?: boolean
     createdBy?: boolean
@@ -26515,6 +26965,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     vocabulary?: boolean | VocabularyDefaultArgs<ExtArgs>
+    uploadedFiles?: boolean | VocabularyEntry$uploadedFilesArgs<ExtArgs>
+    _count?: boolean | VocabularyEntryCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["vocabularyEntry"]>
 
   export type VocabularyEntrySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -26522,6 +26974,8 @@ export namespace Prisma {
     vocabularyId?: boolean
     word?: boolean
     meaning?: boolean
+    imageUrl?: boolean
+    imagePath?: boolean
     sortOrder?: boolean
     organizationId?: boolean
     createdBy?: boolean
@@ -26536,6 +26990,8 @@ export namespace Prisma {
     vocabularyId?: boolean
     word?: boolean
     meaning?: boolean
+    imageUrl?: boolean
+    imagePath?: boolean
     sortOrder?: boolean
     organizationId?: boolean
     createdBy?: boolean
@@ -26550,6 +27006,8 @@ export namespace Prisma {
     vocabularyId?: boolean
     word?: boolean
     meaning?: boolean
+    imageUrl?: boolean
+    imagePath?: boolean
     sortOrder?: boolean
     organizationId?: boolean
     createdBy?: boolean
@@ -26558,9 +27016,11 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type VocabularyEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vocabularyId" | "word" | "meaning" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["vocabularyEntry"]>
+  export type VocabularyEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vocabularyId" | "word" | "meaning" | "imageUrl" | "imagePath" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["vocabularyEntry"]>
   export type VocabularyEntryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vocabulary?: boolean | VocabularyDefaultArgs<ExtArgs>
+    uploadedFiles?: boolean | VocabularyEntry$uploadedFilesArgs<ExtArgs>
+    _count?: boolean | VocabularyEntryCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type VocabularyEntryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vocabulary?: boolean | VocabularyDefaultArgs<ExtArgs>
@@ -26573,12 +27033,15 @@ export namespace Prisma {
     name: "VocabularyEntry"
     objects: {
       vocabulary: Prisma.$VocabularyPayload<ExtArgs>
+      uploadedFiles: Prisma.$UploadedFilePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       vocabularyId: string
       word: string
       meaning: string
+      imageUrl: string
+      imagePath: string
       sortOrder: number
       organizationId: string
       createdBy: string
@@ -26980,6 +27443,7 @@ export namespace Prisma {
   export interface Prisma__VocabularyEntryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     vocabulary<T extends VocabularyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VocabularyDefaultArgs<ExtArgs>>): Prisma__VocabularyClient<$Result.GetResult<Prisma.$VocabularyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    uploadedFiles<T extends VocabularyEntry$uploadedFilesArgs<ExtArgs> = {}>(args?: Subset<T, VocabularyEntry$uploadedFilesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UploadedFilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -27013,6 +27477,8 @@ export namespace Prisma {
     readonly vocabularyId: FieldRef<"VocabularyEntry", 'String'>
     readonly word: FieldRef<"VocabularyEntry", 'String'>
     readonly meaning: FieldRef<"VocabularyEntry", 'String'>
+    readonly imageUrl: FieldRef<"VocabularyEntry", 'String'>
+    readonly imagePath: FieldRef<"VocabularyEntry", 'String'>
     readonly sortOrder: FieldRef<"VocabularyEntry", 'Int'>
     readonly organizationId: FieldRef<"VocabularyEntry", 'String'>
     readonly createdBy: FieldRef<"VocabularyEntry", 'String'>
@@ -27413,6 +27879,30 @@ export namespace Prisma {
   }
 
   /**
+   * VocabularyEntry.uploadedFiles
+   */
+  export type VocabularyEntry$uploadedFilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedFile
+     */
+    select?: UploadedFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedFile
+     */
+    omit?: UploadedFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedFileInclude<ExtArgs> | null
+    where?: UploadedFileWhereInput
+    orderBy?: UploadedFileOrderByWithRelationInput | UploadedFileOrderByWithRelationInput[]
+    cursor?: UploadedFileWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UploadedFileScalarFieldEnum | UploadedFileScalarFieldEnum[]
+  }
+
+  /**
    * VocabularyEntry without action
    */
   export type VocabularyEntryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -27428,6 +27918,1383 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: VocabularyEntryInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UploadedFile
+   */
+
+  export type AggregateUploadedFile = {
+    _count: UploadedFileCountAggregateOutputType | null
+    _avg: UploadedFileAvgAggregateOutputType | null
+    _sum: UploadedFileSumAggregateOutputType | null
+    _min: UploadedFileMinAggregateOutputType | null
+    _max: UploadedFileMaxAggregateOutputType | null
+  }
+
+  export type UploadedFileAvgAggregateOutputType = {
+    sizeBytes: number | null
+    width: number | null
+    height: number | null
+  }
+
+  export type UploadedFileSumAggregateOutputType = {
+    sizeBytes: number | null
+    width: number | null
+    height: number | null
+  }
+
+  export type UploadedFileMinAggregateOutputType = {
+    id: string | null
+    purpose: string | null
+    ownerType: string | null
+    ownerId: string | null
+    vocabularyEntryId: string | null
+    url: string | null
+    path: string | null
+    originalName: string | null
+    sourceMimeType: string | null
+    mimeType: string | null
+    extension: string | null
+    sizeBytes: number | null
+    width: number | null
+    height: number | null
+    checksumSha256: string | null
+    status: string | null
+    isCurrent: boolean | null
+    replacedAt: Date | null
+    deletedAt: Date | null
+    storageDeletedAt: Date | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UploadedFileMaxAggregateOutputType = {
+    id: string | null
+    purpose: string | null
+    ownerType: string | null
+    ownerId: string | null
+    vocabularyEntryId: string | null
+    url: string | null
+    path: string | null
+    originalName: string | null
+    sourceMimeType: string | null
+    mimeType: string | null
+    extension: string | null
+    sizeBytes: number | null
+    width: number | null
+    height: number | null
+    checksumSha256: string | null
+    status: string | null
+    isCurrent: boolean | null
+    replacedAt: Date | null
+    deletedAt: Date | null
+    storageDeletedAt: Date | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UploadedFileCountAggregateOutputType = {
+    id: number
+    purpose: number
+    ownerType: number
+    ownerId: number
+    vocabularyEntryId: number
+    url: number
+    path: number
+    originalName: number
+    sourceMimeType: number
+    mimeType: number
+    extension: number
+    sizeBytes: number
+    width: number
+    height: number
+    checksumSha256: number
+    status: number
+    isCurrent: number
+    replacedAt: number
+    deletedAt: number
+    storageDeletedAt: number
+    organizationId: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type UploadedFileAvgAggregateInputType = {
+    sizeBytes?: true
+    width?: true
+    height?: true
+  }
+
+  export type UploadedFileSumAggregateInputType = {
+    sizeBytes?: true
+    width?: true
+    height?: true
+  }
+
+  export type UploadedFileMinAggregateInputType = {
+    id?: true
+    purpose?: true
+    ownerType?: true
+    ownerId?: true
+    vocabularyEntryId?: true
+    url?: true
+    path?: true
+    originalName?: true
+    sourceMimeType?: true
+    mimeType?: true
+    extension?: true
+    sizeBytes?: true
+    width?: true
+    height?: true
+    checksumSha256?: true
+    status?: true
+    isCurrent?: true
+    replacedAt?: true
+    deletedAt?: true
+    storageDeletedAt?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UploadedFileMaxAggregateInputType = {
+    id?: true
+    purpose?: true
+    ownerType?: true
+    ownerId?: true
+    vocabularyEntryId?: true
+    url?: true
+    path?: true
+    originalName?: true
+    sourceMimeType?: true
+    mimeType?: true
+    extension?: true
+    sizeBytes?: true
+    width?: true
+    height?: true
+    checksumSha256?: true
+    status?: true
+    isCurrent?: true
+    replacedAt?: true
+    deletedAt?: true
+    storageDeletedAt?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UploadedFileCountAggregateInputType = {
+    id?: true
+    purpose?: true
+    ownerType?: true
+    ownerId?: true
+    vocabularyEntryId?: true
+    url?: true
+    path?: true
+    originalName?: true
+    sourceMimeType?: true
+    mimeType?: true
+    extension?: true
+    sizeBytes?: true
+    width?: true
+    height?: true
+    checksumSha256?: true
+    status?: true
+    isCurrent?: true
+    replacedAt?: true
+    deletedAt?: true
+    storageDeletedAt?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type UploadedFileAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UploadedFile to aggregate.
+     */
+    where?: UploadedFileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UploadedFiles to fetch.
+     */
+    orderBy?: UploadedFileOrderByWithRelationInput | UploadedFileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UploadedFileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UploadedFiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UploadedFiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UploadedFiles
+    **/
+    _count?: true | UploadedFileCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UploadedFileAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UploadedFileSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UploadedFileMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UploadedFileMaxAggregateInputType
+  }
+
+  export type GetUploadedFileAggregateType<T extends UploadedFileAggregateArgs> = {
+        [P in keyof T & keyof AggregateUploadedFile]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUploadedFile[P]>
+      : GetScalarType<T[P], AggregateUploadedFile[P]>
+  }
+
+
+
+
+  export type UploadedFileGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UploadedFileWhereInput
+    orderBy?: UploadedFileOrderByWithAggregationInput | UploadedFileOrderByWithAggregationInput[]
+    by: UploadedFileScalarFieldEnum[] | UploadedFileScalarFieldEnum
+    having?: UploadedFileScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UploadedFileCountAggregateInputType | true
+    _avg?: UploadedFileAvgAggregateInputType
+    _sum?: UploadedFileSumAggregateInputType
+    _min?: UploadedFileMinAggregateInputType
+    _max?: UploadedFileMaxAggregateInputType
+  }
+
+  export type UploadedFileGroupByOutputType = {
+    id: string
+    purpose: string
+    ownerType: string
+    ownerId: string
+    vocabularyEntryId: string | null
+    url: string
+    path: string
+    originalName: string
+    sourceMimeType: string
+    mimeType: string
+    extension: string
+    sizeBytes: number
+    width: number
+    height: number
+    checksumSha256: string
+    status: string
+    isCurrent: boolean
+    replacedAt: Date | null
+    deletedAt: Date | null
+    storageDeletedAt: Date | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: UploadedFileCountAggregateOutputType | null
+    _avg: UploadedFileAvgAggregateOutputType | null
+    _sum: UploadedFileSumAggregateOutputType | null
+    _min: UploadedFileMinAggregateOutputType | null
+    _max: UploadedFileMaxAggregateOutputType | null
+  }
+
+  type GetUploadedFileGroupByPayload<T extends UploadedFileGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UploadedFileGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UploadedFileGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UploadedFileGroupByOutputType[P]>
+            : GetScalarType<T[P], UploadedFileGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UploadedFileSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    purpose?: boolean
+    ownerType?: boolean
+    ownerId?: boolean
+    vocabularyEntryId?: boolean
+    url?: boolean
+    path?: boolean
+    originalName?: boolean
+    sourceMimeType?: boolean
+    mimeType?: boolean
+    extension?: boolean
+    sizeBytes?: boolean
+    width?: boolean
+    height?: boolean
+    checksumSha256?: boolean
+    status?: boolean
+    isCurrent?: boolean
+    replacedAt?: boolean
+    deletedAt?: boolean
+    storageDeletedAt?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    vocabularyEntry?: boolean | UploadedFile$vocabularyEntryArgs<ExtArgs>
+  }, ExtArgs["result"]["uploadedFile"]>
+
+  export type UploadedFileSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    purpose?: boolean
+    ownerType?: boolean
+    ownerId?: boolean
+    vocabularyEntryId?: boolean
+    url?: boolean
+    path?: boolean
+    originalName?: boolean
+    sourceMimeType?: boolean
+    mimeType?: boolean
+    extension?: boolean
+    sizeBytes?: boolean
+    width?: boolean
+    height?: boolean
+    checksumSha256?: boolean
+    status?: boolean
+    isCurrent?: boolean
+    replacedAt?: boolean
+    deletedAt?: boolean
+    storageDeletedAt?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    vocabularyEntry?: boolean | UploadedFile$vocabularyEntryArgs<ExtArgs>
+  }, ExtArgs["result"]["uploadedFile"]>
+
+  export type UploadedFileSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    purpose?: boolean
+    ownerType?: boolean
+    ownerId?: boolean
+    vocabularyEntryId?: boolean
+    url?: boolean
+    path?: boolean
+    originalName?: boolean
+    sourceMimeType?: boolean
+    mimeType?: boolean
+    extension?: boolean
+    sizeBytes?: boolean
+    width?: boolean
+    height?: boolean
+    checksumSha256?: boolean
+    status?: boolean
+    isCurrent?: boolean
+    replacedAt?: boolean
+    deletedAt?: boolean
+    storageDeletedAt?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    vocabularyEntry?: boolean | UploadedFile$vocabularyEntryArgs<ExtArgs>
+  }, ExtArgs["result"]["uploadedFile"]>
+
+  export type UploadedFileSelectScalar = {
+    id?: boolean
+    purpose?: boolean
+    ownerType?: boolean
+    ownerId?: boolean
+    vocabularyEntryId?: boolean
+    url?: boolean
+    path?: boolean
+    originalName?: boolean
+    sourceMimeType?: boolean
+    mimeType?: boolean
+    extension?: boolean
+    sizeBytes?: boolean
+    width?: boolean
+    height?: boolean
+    checksumSha256?: boolean
+    status?: boolean
+    isCurrent?: boolean
+    replacedAt?: boolean
+    deletedAt?: boolean
+    storageDeletedAt?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type UploadedFileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purpose" | "ownerType" | "ownerId" | "vocabularyEntryId" | "url" | "path" | "originalName" | "sourceMimeType" | "mimeType" | "extension" | "sizeBytes" | "width" | "height" | "checksumSha256" | "status" | "isCurrent" | "replacedAt" | "deletedAt" | "storageDeletedAt" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["uploadedFile"]>
+  export type UploadedFileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    vocabularyEntry?: boolean | UploadedFile$vocabularyEntryArgs<ExtArgs>
+  }
+  export type UploadedFileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    vocabularyEntry?: boolean | UploadedFile$vocabularyEntryArgs<ExtArgs>
+  }
+  export type UploadedFileIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    vocabularyEntry?: boolean | UploadedFile$vocabularyEntryArgs<ExtArgs>
+  }
+
+  export type $UploadedFilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UploadedFile"
+    objects: {
+      vocabularyEntry: Prisma.$VocabularyEntryPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      purpose: string
+      ownerType: string
+      ownerId: string
+      vocabularyEntryId: string | null
+      url: string
+      path: string
+      originalName: string
+      sourceMimeType: string
+      mimeType: string
+      extension: string
+      sizeBytes: number
+      width: number
+      height: number
+      checksumSha256: string
+      status: string
+      isCurrent: boolean
+      replacedAt: Date | null
+      deletedAt: Date | null
+      storageDeletedAt: Date | null
+      organizationId: string
+      createdBy: string
+      updatedBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["uploadedFile"]>
+    composites: {}
+  }
+
+  type UploadedFileGetPayload<S extends boolean | null | undefined | UploadedFileDefaultArgs> = $Result.GetResult<Prisma.$UploadedFilePayload, S>
+
+  type UploadedFileCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UploadedFileFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UploadedFileCountAggregateInputType | true
+    }
+
+  export interface UploadedFileDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UploadedFile'], meta: { name: 'UploadedFile' } }
+    /**
+     * Find zero or one UploadedFile that matches the filter.
+     * @param {UploadedFileFindUniqueArgs} args - Arguments to find a UploadedFile
+     * @example
+     * // Get one UploadedFile
+     * const uploadedFile = await prisma.uploadedFile.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UploadedFileFindUniqueArgs>(args: SelectSubset<T, UploadedFileFindUniqueArgs<ExtArgs>>): Prisma__UploadedFileClient<$Result.GetResult<Prisma.$UploadedFilePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UploadedFile that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UploadedFileFindUniqueOrThrowArgs} args - Arguments to find a UploadedFile
+     * @example
+     * // Get one UploadedFile
+     * const uploadedFile = await prisma.uploadedFile.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UploadedFileFindUniqueOrThrowArgs>(args: SelectSubset<T, UploadedFileFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UploadedFileClient<$Result.GetResult<Prisma.$UploadedFilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UploadedFile that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UploadedFileFindFirstArgs} args - Arguments to find a UploadedFile
+     * @example
+     * // Get one UploadedFile
+     * const uploadedFile = await prisma.uploadedFile.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UploadedFileFindFirstArgs>(args?: SelectSubset<T, UploadedFileFindFirstArgs<ExtArgs>>): Prisma__UploadedFileClient<$Result.GetResult<Prisma.$UploadedFilePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UploadedFile that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UploadedFileFindFirstOrThrowArgs} args - Arguments to find a UploadedFile
+     * @example
+     * // Get one UploadedFile
+     * const uploadedFile = await prisma.uploadedFile.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UploadedFileFindFirstOrThrowArgs>(args?: SelectSubset<T, UploadedFileFindFirstOrThrowArgs<ExtArgs>>): Prisma__UploadedFileClient<$Result.GetResult<Prisma.$UploadedFilePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UploadedFiles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UploadedFileFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UploadedFiles
+     * const uploadedFiles = await prisma.uploadedFile.findMany()
+     * 
+     * // Get first 10 UploadedFiles
+     * const uploadedFiles = await prisma.uploadedFile.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const uploadedFileWithIdOnly = await prisma.uploadedFile.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UploadedFileFindManyArgs>(args?: SelectSubset<T, UploadedFileFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UploadedFilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UploadedFile.
+     * @param {UploadedFileCreateArgs} args - Arguments to create a UploadedFile.
+     * @example
+     * // Create one UploadedFile
+     * const UploadedFile = await prisma.uploadedFile.create({
+     *   data: {
+     *     // ... data to create a UploadedFile
+     *   }
+     * })
+     * 
+     */
+    create<T extends UploadedFileCreateArgs>(args: SelectSubset<T, UploadedFileCreateArgs<ExtArgs>>): Prisma__UploadedFileClient<$Result.GetResult<Prisma.$UploadedFilePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UploadedFiles.
+     * @param {UploadedFileCreateManyArgs} args - Arguments to create many UploadedFiles.
+     * @example
+     * // Create many UploadedFiles
+     * const uploadedFile = await prisma.uploadedFile.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UploadedFileCreateManyArgs>(args?: SelectSubset<T, UploadedFileCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UploadedFiles and returns the data saved in the database.
+     * @param {UploadedFileCreateManyAndReturnArgs} args - Arguments to create many UploadedFiles.
+     * @example
+     * // Create many UploadedFiles
+     * const uploadedFile = await prisma.uploadedFile.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UploadedFiles and only return the `id`
+     * const uploadedFileWithIdOnly = await prisma.uploadedFile.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UploadedFileCreateManyAndReturnArgs>(args?: SelectSubset<T, UploadedFileCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UploadedFilePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UploadedFile.
+     * @param {UploadedFileDeleteArgs} args - Arguments to delete one UploadedFile.
+     * @example
+     * // Delete one UploadedFile
+     * const UploadedFile = await prisma.uploadedFile.delete({
+     *   where: {
+     *     // ... filter to delete one UploadedFile
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UploadedFileDeleteArgs>(args: SelectSubset<T, UploadedFileDeleteArgs<ExtArgs>>): Prisma__UploadedFileClient<$Result.GetResult<Prisma.$UploadedFilePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UploadedFile.
+     * @param {UploadedFileUpdateArgs} args - Arguments to update one UploadedFile.
+     * @example
+     * // Update one UploadedFile
+     * const uploadedFile = await prisma.uploadedFile.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UploadedFileUpdateArgs>(args: SelectSubset<T, UploadedFileUpdateArgs<ExtArgs>>): Prisma__UploadedFileClient<$Result.GetResult<Prisma.$UploadedFilePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UploadedFiles.
+     * @param {UploadedFileDeleteManyArgs} args - Arguments to filter UploadedFiles to delete.
+     * @example
+     * // Delete a few UploadedFiles
+     * const { count } = await prisma.uploadedFile.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UploadedFileDeleteManyArgs>(args?: SelectSubset<T, UploadedFileDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UploadedFiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UploadedFileUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UploadedFiles
+     * const uploadedFile = await prisma.uploadedFile.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UploadedFileUpdateManyArgs>(args: SelectSubset<T, UploadedFileUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UploadedFiles and returns the data updated in the database.
+     * @param {UploadedFileUpdateManyAndReturnArgs} args - Arguments to update many UploadedFiles.
+     * @example
+     * // Update many UploadedFiles
+     * const uploadedFile = await prisma.uploadedFile.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UploadedFiles and only return the `id`
+     * const uploadedFileWithIdOnly = await prisma.uploadedFile.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UploadedFileUpdateManyAndReturnArgs>(args: SelectSubset<T, UploadedFileUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UploadedFilePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UploadedFile.
+     * @param {UploadedFileUpsertArgs} args - Arguments to update or create a UploadedFile.
+     * @example
+     * // Update or create a UploadedFile
+     * const uploadedFile = await prisma.uploadedFile.upsert({
+     *   create: {
+     *     // ... data to create a UploadedFile
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UploadedFile we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UploadedFileUpsertArgs>(args: SelectSubset<T, UploadedFileUpsertArgs<ExtArgs>>): Prisma__UploadedFileClient<$Result.GetResult<Prisma.$UploadedFilePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UploadedFiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UploadedFileCountArgs} args - Arguments to filter UploadedFiles to count.
+     * @example
+     * // Count the number of UploadedFiles
+     * const count = await prisma.uploadedFile.count({
+     *   where: {
+     *     // ... the filter for the UploadedFiles we want to count
+     *   }
+     * })
+    **/
+    count<T extends UploadedFileCountArgs>(
+      args?: Subset<T, UploadedFileCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UploadedFileCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UploadedFile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UploadedFileAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UploadedFileAggregateArgs>(args: Subset<T, UploadedFileAggregateArgs>): Prisma.PrismaPromise<GetUploadedFileAggregateType<T>>
+
+    /**
+     * Group by UploadedFile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UploadedFileGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UploadedFileGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UploadedFileGroupByArgs['orderBy'] }
+        : { orderBy?: UploadedFileGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UploadedFileGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUploadedFileGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UploadedFile model
+   */
+  readonly fields: UploadedFileFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UploadedFile.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UploadedFileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    vocabularyEntry<T extends UploadedFile$vocabularyEntryArgs<ExtArgs> = {}>(args?: Subset<T, UploadedFile$vocabularyEntryArgs<ExtArgs>>): Prisma__VocabularyEntryClient<$Result.GetResult<Prisma.$VocabularyEntryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UploadedFile model
+   */
+  interface UploadedFileFieldRefs {
+    readonly id: FieldRef<"UploadedFile", 'String'>
+    readonly purpose: FieldRef<"UploadedFile", 'String'>
+    readonly ownerType: FieldRef<"UploadedFile", 'String'>
+    readonly ownerId: FieldRef<"UploadedFile", 'String'>
+    readonly vocabularyEntryId: FieldRef<"UploadedFile", 'String'>
+    readonly url: FieldRef<"UploadedFile", 'String'>
+    readonly path: FieldRef<"UploadedFile", 'String'>
+    readonly originalName: FieldRef<"UploadedFile", 'String'>
+    readonly sourceMimeType: FieldRef<"UploadedFile", 'String'>
+    readonly mimeType: FieldRef<"UploadedFile", 'String'>
+    readonly extension: FieldRef<"UploadedFile", 'String'>
+    readonly sizeBytes: FieldRef<"UploadedFile", 'Int'>
+    readonly width: FieldRef<"UploadedFile", 'Int'>
+    readonly height: FieldRef<"UploadedFile", 'Int'>
+    readonly checksumSha256: FieldRef<"UploadedFile", 'String'>
+    readonly status: FieldRef<"UploadedFile", 'String'>
+    readonly isCurrent: FieldRef<"UploadedFile", 'Boolean'>
+    readonly replacedAt: FieldRef<"UploadedFile", 'DateTime'>
+    readonly deletedAt: FieldRef<"UploadedFile", 'DateTime'>
+    readonly storageDeletedAt: FieldRef<"UploadedFile", 'DateTime'>
+    readonly organizationId: FieldRef<"UploadedFile", 'String'>
+    readonly createdBy: FieldRef<"UploadedFile", 'String'>
+    readonly updatedBy: FieldRef<"UploadedFile", 'String'>
+    readonly createdAt: FieldRef<"UploadedFile", 'DateTime'>
+    readonly updatedAt: FieldRef<"UploadedFile", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UploadedFile findUnique
+   */
+  export type UploadedFileFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedFile
+     */
+    select?: UploadedFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedFile
+     */
+    omit?: UploadedFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedFileInclude<ExtArgs> | null
+    /**
+     * Filter, which UploadedFile to fetch.
+     */
+    where: UploadedFileWhereUniqueInput
+  }
+
+  /**
+   * UploadedFile findUniqueOrThrow
+   */
+  export type UploadedFileFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedFile
+     */
+    select?: UploadedFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedFile
+     */
+    omit?: UploadedFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedFileInclude<ExtArgs> | null
+    /**
+     * Filter, which UploadedFile to fetch.
+     */
+    where: UploadedFileWhereUniqueInput
+  }
+
+  /**
+   * UploadedFile findFirst
+   */
+  export type UploadedFileFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedFile
+     */
+    select?: UploadedFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedFile
+     */
+    omit?: UploadedFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedFileInclude<ExtArgs> | null
+    /**
+     * Filter, which UploadedFile to fetch.
+     */
+    where?: UploadedFileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UploadedFiles to fetch.
+     */
+    orderBy?: UploadedFileOrderByWithRelationInput | UploadedFileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UploadedFiles.
+     */
+    cursor?: UploadedFileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UploadedFiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UploadedFiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UploadedFiles.
+     */
+    distinct?: UploadedFileScalarFieldEnum | UploadedFileScalarFieldEnum[]
+  }
+
+  /**
+   * UploadedFile findFirstOrThrow
+   */
+  export type UploadedFileFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedFile
+     */
+    select?: UploadedFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedFile
+     */
+    omit?: UploadedFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedFileInclude<ExtArgs> | null
+    /**
+     * Filter, which UploadedFile to fetch.
+     */
+    where?: UploadedFileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UploadedFiles to fetch.
+     */
+    orderBy?: UploadedFileOrderByWithRelationInput | UploadedFileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UploadedFiles.
+     */
+    cursor?: UploadedFileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UploadedFiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UploadedFiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UploadedFiles.
+     */
+    distinct?: UploadedFileScalarFieldEnum | UploadedFileScalarFieldEnum[]
+  }
+
+  /**
+   * UploadedFile findMany
+   */
+  export type UploadedFileFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedFile
+     */
+    select?: UploadedFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedFile
+     */
+    omit?: UploadedFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedFileInclude<ExtArgs> | null
+    /**
+     * Filter, which UploadedFiles to fetch.
+     */
+    where?: UploadedFileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UploadedFiles to fetch.
+     */
+    orderBy?: UploadedFileOrderByWithRelationInput | UploadedFileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UploadedFiles.
+     */
+    cursor?: UploadedFileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UploadedFiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UploadedFiles.
+     */
+    skip?: number
+    distinct?: UploadedFileScalarFieldEnum | UploadedFileScalarFieldEnum[]
+  }
+
+  /**
+   * UploadedFile create
+   */
+  export type UploadedFileCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedFile
+     */
+    select?: UploadedFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedFile
+     */
+    omit?: UploadedFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedFileInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UploadedFile.
+     */
+    data: XOR<UploadedFileCreateInput, UploadedFileUncheckedCreateInput>
+  }
+
+  /**
+   * UploadedFile createMany
+   */
+  export type UploadedFileCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UploadedFiles.
+     */
+    data: UploadedFileCreateManyInput | UploadedFileCreateManyInput[]
+  }
+
+  /**
+   * UploadedFile createManyAndReturn
+   */
+  export type UploadedFileCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedFile
+     */
+    select?: UploadedFileSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedFile
+     */
+    omit?: UploadedFileOmit<ExtArgs> | null
+    /**
+     * The data used to create many UploadedFiles.
+     */
+    data: UploadedFileCreateManyInput | UploadedFileCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedFileIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UploadedFile update
+   */
+  export type UploadedFileUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedFile
+     */
+    select?: UploadedFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedFile
+     */
+    omit?: UploadedFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedFileInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UploadedFile.
+     */
+    data: XOR<UploadedFileUpdateInput, UploadedFileUncheckedUpdateInput>
+    /**
+     * Choose, which UploadedFile to update.
+     */
+    where: UploadedFileWhereUniqueInput
+  }
+
+  /**
+   * UploadedFile updateMany
+   */
+  export type UploadedFileUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UploadedFiles.
+     */
+    data: XOR<UploadedFileUpdateManyMutationInput, UploadedFileUncheckedUpdateManyInput>
+    /**
+     * Filter which UploadedFiles to update
+     */
+    where?: UploadedFileWhereInput
+    /**
+     * Limit how many UploadedFiles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UploadedFile updateManyAndReturn
+   */
+  export type UploadedFileUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedFile
+     */
+    select?: UploadedFileSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedFile
+     */
+    omit?: UploadedFileOmit<ExtArgs> | null
+    /**
+     * The data used to update UploadedFiles.
+     */
+    data: XOR<UploadedFileUpdateManyMutationInput, UploadedFileUncheckedUpdateManyInput>
+    /**
+     * Filter which UploadedFiles to update
+     */
+    where?: UploadedFileWhereInput
+    /**
+     * Limit how many UploadedFiles to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedFileIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UploadedFile upsert
+   */
+  export type UploadedFileUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedFile
+     */
+    select?: UploadedFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedFile
+     */
+    omit?: UploadedFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedFileInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UploadedFile to update in case it exists.
+     */
+    where: UploadedFileWhereUniqueInput
+    /**
+     * In case the UploadedFile found by the `where` argument doesn't exist, create a new UploadedFile with this data.
+     */
+    create: XOR<UploadedFileCreateInput, UploadedFileUncheckedCreateInput>
+    /**
+     * In case the UploadedFile was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UploadedFileUpdateInput, UploadedFileUncheckedUpdateInput>
+  }
+
+  /**
+   * UploadedFile delete
+   */
+  export type UploadedFileDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedFile
+     */
+    select?: UploadedFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedFile
+     */
+    omit?: UploadedFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedFileInclude<ExtArgs> | null
+    /**
+     * Filter which UploadedFile to delete.
+     */
+    where: UploadedFileWhereUniqueInput
+  }
+
+  /**
+   * UploadedFile deleteMany
+   */
+  export type UploadedFileDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UploadedFiles to delete
+     */
+    where?: UploadedFileWhereInput
+    /**
+     * Limit how many UploadedFiles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UploadedFile.vocabularyEntry
+   */
+  export type UploadedFile$vocabularyEntryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VocabularyEntry
+     */
+    select?: VocabularyEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VocabularyEntry
+     */
+    omit?: VocabularyEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VocabularyEntryInclude<ExtArgs> | null
+    where?: VocabularyEntryWhereInput
+  }
+
+  /**
+   * UploadedFile without action
+   */
+  export type UploadedFileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedFile
+     */
+    select?: UploadedFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedFile
+     */
+    omit?: UploadedFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedFileInclude<ExtArgs> | null
   }
 
 
@@ -55473,6 +57340,8 @@ export namespace Prisma {
     id: string | null
     classId: string | null
     subjectId: string | null
+    boardId: string | null
+    academicYearId: string | null
     title: string | null
     instruction: string | null
     details: string | null
@@ -55489,6 +57358,8 @@ export namespace Prisma {
     id: string | null
     classId: string | null
     subjectId: string | null
+    boardId: string | null
+    academicYearId: string | null
     title: string | null
     instruction: string | null
     details: string | null
@@ -55505,6 +57376,8 @@ export namespace Prisma {
     id: number
     classId: number
     subjectId: number
+    boardId: number
+    academicYearId: number
     title: number
     instruction: number
     details: number
@@ -55531,6 +57404,8 @@ export namespace Prisma {
     id?: true
     classId?: true
     subjectId?: true
+    boardId?: true
+    academicYearId?: true
     title?: true
     instruction?: true
     details?: true
@@ -55547,6 +57422,8 @@ export namespace Prisma {
     id?: true
     classId?: true
     subjectId?: true
+    boardId?: true
+    academicYearId?: true
     title?: true
     instruction?: true
     details?: true
@@ -55563,6 +57440,8 @@ export namespace Prisma {
     id?: true
     classId?: true
     subjectId?: true
+    boardId?: true
+    academicYearId?: true
     title?: true
     instruction?: true
     details?: true
@@ -55666,6 +57545,8 @@ export namespace Prisma {
     id: string
     classId: string
     subjectId: string
+    boardId: string | null
+    academicYearId: string | null
     title: string
     instruction: string
     details: string
@@ -55701,6 +57582,8 @@ export namespace Prisma {
     id?: boolean
     classId?: boolean
     subjectId?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
     title?: boolean
     instruction?: boolean
     details?: boolean
@@ -55717,6 +57600,8 @@ export namespace Prisma {
     id?: boolean
     classId?: boolean
     subjectId?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
     title?: boolean
     instruction?: boolean
     details?: boolean
@@ -55733,6 +57618,8 @@ export namespace Prisma {
     id?: boolean
     classId?: boolean
     subjectId?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
     title?: boolean
     instruction?: boolean
     details?: boolean
@@ -55749,6 +57636,8 @@ export namespace Prisma {
     id?: boolean
     classId?: boolean
     subjectId?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
     title?: boolean
     instruction?: boolean
     details?: boolean
@@ -55761,7 +57650,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type SubjectMatchingSentencesBlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "subjectId" | "title" | "instruction" | "details" | "documentJson" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["subjectMatchingSentencesBlock"]>
+  export type SubjectMatchingSentencesBlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "subjectId" | "boardId" | "academicYearId" | "title" | "instruction" | "details" | "documentJson" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["subjectMatchingSentencesBlock"]>
 
   export type $SubjectMatchingSentencesBlockPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "SubjectMatchingSentencesBlock"
@@ -55770,6 +57659,8 @@ export namespace Prisma {
       id: string
       classId: string
       subjectId: string
+      boardId: string | null
+      academicYearId: string | null
       title: string
       instruction: string
       details: string
@@ -56206,6 +58097,8 @@ export namespace Prisma {
     readonly id: FieldRef<"SubjectMatchingSentencesBlock", 'String'>
     readonly classId: FieldRef<"SubjectMatchingSentencesBlock", 'String'>
     readonly subjectId: FieldRef<"SubjectMatchingSentencesBlock", 'String'>
+    readonly boardId: FieldRef<"SubjectMatchingSentencesBlock", 'String'>
+    readonly academicYearId: FieldRef<"SubjectMatchingSentencesBlock", 'String'>
     readonly title: FieldRef<"SubjectMatchingSentencesBlock", 'String'>
     readonly instruction: FieldRef<"SubjectMatchingSentencesBlock", 'String'>
     readonly details: FieldRef<"SubjectMatchingSentencesBlock", 'String'>
@@ -56604,6 +58497,8 @@ export namespace Prisma {
     id: string | null
     classId: string | null
     subjectId: string | null
+    boardId: string | null
+    academicYearId: string | null
     title: string | null
     instruction: string | null
     details: string | null
@@ -56620,6 +58515,8 @@ export namespace Prisma {
     id: string | null
     classId: string | null
     subjectId: string | null
+    boardId: string | null
+    academicYearId: string | null
     title: string | null
     instruction: string | null
     details: string | null
@@ -56636,6 +58533,8 @@ export namespace Prisma {
     id: number
     classId: number
     subjectId: number
+    boardId: number
+    academicYearId: number
     title: number
     instruction: number
     details: number
@@ -56662,6 +58561,8 @@ export namespace Prisma {
     id?: true
     classId?: true
     subjectId?: true
+    boardId?: true
+    academicYearId?: true
     title?: true
     instruction?: true
     details?: true
@@ -56678,6 +58579,8 @@ export namespace Prisma {
     id?: true
     classId?: true
     subjectId?: true
+    boardId?: true
+    academicYearId?: true
     title?: true
     instruction?: true
     details?: true
@@ -56694,6 +58597,8 @@ export namespace Prisma {
     id?: true
     classId?: true
     subjectId?: true
+    boardId?: true
+    academicYearId?: true
     title?: true
     instruction?: true
     details?: true
@@ -56797,6 +58702,8 @@ export namespace Prisma {
     id: string
     classId: string
     subjectId: string
+    boardId: string | null
+    academicYearId: string | null
     title: string
     instruction: string
     details: string
@@ -56832,6 +58739,8 @@ export namespace Prisma {
     id?: boolean
     classId?: boolean
     subjectId?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
     title?: boolean
     instruction?: boolean
     details?: boolean
@@ -56848,6 +58757,8 @@ export namespace Prisma {
     id?: boolean
     classId?: boolean
     subjectId?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
     title?: boolean
     instruction?: boolean
     details?: boolean
@@ -56864,6 +58775,8 @@ export namespace Prisma {
     id?: boolean
     classId?: boolean
     subjectId?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
     title?: boolean
     instruction?: boolean
     details?: boolean
@@ -56880,6 +58793,8 @@ export namespace Prisma {
     id?: boolean
     classId?: boolean
     subjectId?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
     title?: boolean
     instruction?: boolean
     details?: boolean
@@ -56892,7 +58807,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type SubjectRearrangeSentenceBlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "subjectId" | "title" | "instruction" | "details" | "documentJson" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["subjectRearrangeSentenceBlock"]>
+  export type SubjectRearrangeSentenceBlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "subjectId" | "boardId" | "academicYearId" | "title" | "instruction" | "details" | "documentJson" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["subjectRearrangeSentenceBlock"]>
 
   export type $SubjectRearrangeSentenceBlockPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "SubjectRearrangeSentenceBlock"
@@ -56901,6 +58816,8 @@ export namespace Prisma {
       id: string
       classId: string
       subjectId: string
+      boardId: string | null
+      academicYearId: string | null
       title: string
       instruction: string
       details: string
@@ -57337,6 +59254,8 @@ export namespace Prisma {
     readonly id: FieldRef<"SubjectRearrangeSentenceBlock", 'String'>
     readonly classId: FieldRef<"SubjectRearrangeSentenceBlock", 'String'>
     readonly subjectId: FieldRef<"SubjectRearrangeSentenceBlock", 'String'>
+    readonly boardId: FieldRef<"SubjectRearrangeSentenceBlock", 'String'>
+    readonly academicYearId: FieldRef<"SubjectRearrangeSentenceBlock", 'String'>
     readonly title: FieldRef<"SubjectRearrangeSentenceBlock", 'String'>
     readonly instruction: FieldRef<"SubjectRearrangeSentenceBlock", 'String'>
     readonly details: FieldRef<"SubjectRearrangeSentenceBlock", 'String'>
@@ -57735,6 +59654,8 @@ export namespace Prisma {
     id: string | null
     classId: string | null
     subjectId: string | null
+    boardId: string | null
+    academicYearId: string | null
     title: string | null
     instruction: string | null
     details: string | null
@@ -57751,6 +59672,8 @@ export namespace Prisma {
     id: string | null
     classId: string | null
     subjectId: string | null
+    boardId: string | null
+    academicYearId: string | null
     title: string | null
     instruction: string | null
     details: string | null
@@ -57767,6 +59690,8 @@ export namespace Prisma {
     id: number
     classId: number
     subjectId: number
+    boardId: number
+    academicYearId: number
     title: number
     instruction: number
     details: number
@@ -57793,6 +59718,8 @@ export namespace Prisma {
     id?: true
     classId?: true
     subjectId?: true
+    boardId?: true
+    academicYearId?: true
     title?: true
     instruction?: true
     details?: true
@@ -57809,6 +59736,8 @@ export namespace Prisma {
     id?: true
     classId?: true
     subjectId?: true
+    boardId?: true
+    academicYearId?: true
     title?: true
     instruction?: true
     details?: true
@@ -57825,6 +59754,8 @@ export namespace Prisma {
     id?: true
     classId?: true
     subjectId?: true
+    boardId?: true
+    academicYearId?: true
     title?: true
     instruction?: true
     details?: true
@@ -57928,6 +59859,8 @@ export namespace Prisma {
     id: string
     classId: string
     subjectId: string
+    boardId: string | null
+    academicYearId: string | null
     title: string
     instruction: string
     details: string
@@ -57963,6 +59896,8 @@ export namespace Prisma {
     id?: boolean
     classId?: boolean
     subjectId?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
     title?: boolean
     instruction?: boolean
     details?: boolean
@@ -57979,6 +59914,8 @@ export namespace Prisma {
     id?: boolean
     classId?: boolean
     subjectId?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
     title?: boolean
     instruction?: boolean
     details?: boolean
@@ -57995,6 +59932,8 @@ export namespace Prisma {
     id?: boolean
     classId?: boolean
     subjectId?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
     title?: boolean
     instruction?: boolean
     details?: boolean
@@ -58011,6 +59950,8 @@ export namespace Prisma {
     id?: boolean
     classId?: boolean
     subjectId?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
     title?: boolean
     instruction?: boolean
     details?: boolean
@@ -58023,7 +59964,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type SubjectQuestionFromPoemsBlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "subjectId" | "title" | "instruction" | "details" | "documentJson" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["subjectQuestionFromPoemsBlock"]>
+  export type SubjectQuestionFromPoemsBlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "subjectId" | "boardId" | "academicYearId" | "title" | "instruction" | "details" | "documentJson" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["subjectQuestionFromPoemsBlock"]>
 
   export type $SubjectQuestionFromPoemsBlockPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "SubjectQuestionFromPoemsBlock"
@@ -58032,6 +59973,8 @@ export namespace Prisma {
       id: string
       classId: string
       subjectId: string
+      boardId: string | null
+      academicYearId: string | null
       title: string
       instruction: string
       details: string
@@ -58468,6 +60411,8 @@ export namespace Prisma {
     readonly id: FieldRef<"SubjectQuestionFromPoemsBlock", 'String'>
     readonly classId: FieldRef<"SubjectQuestionFromPoemsBlock", 'String'>
     readonly subjectId: FieldRef<"SubjectQuestionFromPoemsBlock", 'String'>
+    readonly boardId: FieldRef<"SubjectQuestionFromPoemsBlock", 'String'>
+    readonly academicYearId: FieldRef<"SubjectQuestionFromPoemsBlock", 'String'>
     readonly title: FieldRef<"SubjectQuestionFromPoemsBlock", 'String'>
     readonly instruction: FieldRef<"SubjectQuestionFromPoemsBlock", 'String'>
     readonly details: FieldRef<"SubjectQuestionFromPoemsBlock", 'String'>
@@ -58866,6 +60811,8 @@ export namespace Prisma {
     id: string | null
     classId: string | null
     subjectId: string | null
+    boardId: string | null
+    academicYearId: string | null
     title: string | null
     instruction: string | null
     details: string | null
@@ -58882,6 +60829,8 @@ export namespace Prisma {
     id: string | null
     classId: string | null
     subjectId: string | null
+    boardId: string | null
+    academicYearId: string | null
     title: string | null
     instruction: string | null
     details: string | null
@@ -58898,6 +60847,8 @@ export namespace Prisma {
     id: number
     classId: number
     subjectId: number
+    boardId: number
+    academicYearId: number
     title: number
     instruction: number
     details: number
@@ -58924,6 +60875,8 @@ export namespace Prisma {
     id?: true
     classId?: true
     subjectId?: true
+    boardId?: true
+    academicYearId?: true
     title?: true
     instruction?: true
     details?: true
@@ -58940,6 +60893,8 @@ export namespace Prisma {
     id?: true
     classId?: true
     subjectId?: true
+    boardId?: true
+    academicYearId?: true
     title?: true
     instruction?: true
     details?: true
@@ -58956,6 +60911,8 @@ export namespace Prisma {
     id?: true
     classId?: true
     subjectId?: true
+    boardId?: true
+    academicYearId?: true
     title?: true
     instruction?: true
     details?: true
@@ -59059,6 +61016,8 @@ export namespace Prisma {
     id: string
     classId: string
     subjectId: string
+    boardId: string | null
+    academicYearId: string | null
     title: string
     instruction: string
     details: string
@@ -59094,6 +61053,8 @@ export namespace Prisma {
     id?: boolean
     classId?: boolean
     subjectId?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
     title?: boolean
     instruction?: boolean
     details?: boolean
@@ -59110,6 +61071,8 @@ export namespace Prisma {
     id?: boolean
     classId?: boolean
     subjectId?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
     title?: boolean
     instruction?: boolean
     details?: boolean
@@ -59126,6 +61089,8 @@ export namespace Prisma {
     id?: boolean
     classId?: boolean
     subjectId?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
     title?: boolean
     instruction?: boolean
     details?: boolean
@@ -59142,6 +61107,8 @@ export namespace Prisma {
     id?: boolean
     classId?: boolean
     subjectId?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
     title?: boolean
     instruction?: boolean
     details?: boolean
@@ -59154,7 +61121,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type SubjectQuestionFromStoryBlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "subjectId" | "title" | "instruction" | "details" | "documentJson" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["subjectQuestionFromStoryBlock"]>
+  export type SubjectQuestionFromStoryBlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "subjectId" | "boardId" | "academicYearId" | "title" | "instruction" | "details" | "documentJson" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["subjectQuestionFromStoryBlock"]>
 
   export type $SubjectQuestionFromStoryBlockPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "SubjectQuestionFromStoryBlock"
@@ -59163,6 +61130,8 @@ export namespace Prisma {
       id: string
       classId: string
       subjectId: string
+      boardId: string | null
+      academicYearId: string | null
       title: string
       instruction: string
       details: string
@@ -59599,6 +61568,8 @@ export namespace Prisma {
     readonly id: FieldRef<"SubjectQuestionFromStoryBlock", 'String'>
     readonly classId: FieldRef<"SubjectQuestionFromStoryBlock", 'String'>
     readonly subjectId: FieldRef<"SubjectQuestionFromStoryBlock", 'String'>
+    readonly boardId: FieldRef<"SubjectQuestionFromStoryBlock", 'String'>
+    readonly academicYearId: FieldRef<"SubjectQuestionFromStoryBlock", 'String'>
     readonly title: FieldRef<"SubjectQuestionFromStoryBlock", 'String'>
     readonly instruction: FieldRef<"SubjectQuestionFromStoryBlock", 'String'>
     readonly details: FieldRef<"SubjectQuestionFromStoryBlock", 'String'>
@@ -59974,6 +61945,3274 @@ export namespace Prisma {
 
 
   /**
+   * Model SubjectEnglishSecondPaperBlock
+   */
+
+  export type AggregateSubjectEnglishSecondPaperBlock = {
+    _count: SubjectEnglishSecondPaperBlockCountAggregateOutputType | null
+    _avg: SubjectEnglishSecondPaperBlockAvgAggregateOutputType | null
+    _sum: SubjectEnglishSecondPaperBlockSumAggregateOutputType | null
+    _min: SubjectEnglishSecondPaperBlockMinAggregateOutputType | null
+    _max: SubjectEnglishSecondPaperBlockMaxAggregateOutputType | null
+  }
+
+  export type SubjectEnglishSecondPaperBlockAvgAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type SubjectEnglishSecondPaperBlockSumAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type SubjectEnglishSecondPaperBlockMinAggregateOutputType = {
+    id: string | null
+    classId: string | null
+    subjectId: string | null
+    kind: string | null
+    boardId: string | null
+    academicYearId: string | null
+    title: string | null
+    instruction: string | null
+    details: string | null
+    documentJson: string | null
+    sortOrder: number | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SubjectEnglishSecondPaperBlockMaxAggregateOutputType = {
+    id: string | null
+    classId: string | null
+    subjectId: string | null
+    kind: string | null
+    boardId: string | null
+    academicYearId: string | null
+    title: string | null
+    instruction: string | null
+    details: string | null
+    documentJson: string | null
+    sortOrder: number | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SubjectEnglishSecondPaperBlockCountAggregateOutputType = {
+    id: number
+    classId: number
+    subjectId: number
+    kind: number
+    boardId: number
+    academicYearId: number
+    title: number
+    instruction: number
+    details: number
+    documentJson: number
+    sortOrder: number
+    organizationId: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SubjectEnglishSecondPaperBlockAvgAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type SubjectEnglishSecondPaperBlockSumAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type SubjectEnglishSecondPaperBlockMinAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    kind?: true
+    boardId?: true
+    academicYearId?: true
+    title?: true
+    instruction?: true
+    details?: true
+    documentJson?: true
+    sortOrder?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SubjectEnglishSecondPaperBlockMaxAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    kind?: true
+    boardId?: true
+    academicYearId?: true
+    title?: true
+    instruction?: true
+    details?: true
+    documentJson?: true
+    sortOrder?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SubjectEnglishSecondPaperBlockCountAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    kind?: true
+    boardId?: true
+    academicYearId?: true
+    title?: true
+    instruction?: true
+    details?: true
+    documentJson?: true
+    sortOrder?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SubjectEnglishSecondPaperBlockAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SubjectEnglishSecondPaperBlock to aggregate.
+     */
+    where?: SubjectEnglishSecondPaperBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubjectEnglishSecondPaperBlocks to fetch.
+     */
+    orderBy?: SubjectEnglishSecondPaperBlockOrderByWithRelationInput | SubjectEnglishSecondPaperBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SubjectEnglishSecondPaperBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubjectEnglishSecondPaperBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubjectEnglishSecondPaperBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SubjectEnglishSecondPaperBlocks
+    **/
+    _count?: true | SubjectEnglishSecondPaperBlockCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SubjectEnglishSecondPaperBlockAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SubjectEnglishSecondPaperBlockSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SubjectEnglishSecondPaperBlockMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SubjectEnglishSecondPaperBlockMaxAggregateInputType
+  }
+
+  export type GetSubjectEnglishSecondPaperBlockAggregateType<T extends SubjectEnglishSecondPaperBlockAggregateArgs> = {
+        [P in keyof T & keyof AggregateSubjectEnglishSecondPaperBlock]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSubjectEnglishSecondPaperBlock[P]>
+      : GetScalarType<T[P], AggregateSubjectEnglishSecondPaperBlock[P]>
+  }
+
+
+
+
+  export type SubjectEnglishSecondPaperBlockGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubjectEnglishSecondPaperBlockWhereInput
+    orderBy?: SubjectEnglishSecondPaperBlockOrderByWithAggregationInput | SubjectEnglishSecondPaperBlockOrderByWithAggregationInput[]
+    by: SubjectEnglishSecondPaperBlockScalarFieldEnum[] | SubjectEnglishSecondPaperBlockScalarFieldEnum
+    having?: SubjectEnglishSecondPaperBlockScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SubjectEnglishSecondPaperBlockCountAggregateInputType | true
+    _avg?: SubjectEnglishSecondPaperBlockAvgAggregateInputType
+    _sum?: SubjectEnglishSecondPaperBlockSumAggregateInputType
+    _min?: SubjectEnglishSecondPaperBlockMinAggregateInputType
+    _max?: SubjectEnglishSecondPaperBlockMaxAggregateInputType
+  }
+
+  export type SubjectEnglishSecondPaperBlockGroupByOutputType = {
+    id: string
+    classId: string
+    subjectId: string
+    kind: string
+    boardId: string | null
+    academicYearId: string | null
+    title: string
+    instruction: string
+    details: string
+    documentJson: string
+    sortOrder: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: SubjectEnglishSecondPaperBlockCountAggregateOutputType | null
+    _avg: SubjectEnglishSecondPaperBlockAvgAggregateOutputType | null
+    _sum: SubjectEnglishSecondPaperBlockSumAggregateOutputType | null
+    _min: SubjectEnglishSecondPaperBlockMinAggregateOutputType | null
+    _max: SubjectEnglishSecondPaperBlockMaxAggregateOutputType | null
+  }
+
+  type GetSubjectEnglishSecondPaperBlockGroupByPayload<T extends SubjectEnglishSecondPaperBlockGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SubjectEnglishSecondPaperBlockGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SubjectEnglishSecondPaperBlockGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SubjectEnglishSecondPaperBlockGroupByOutputType[P]>
+            : GetScalarType<T[P], SubjectEnglishSecondPaperBlockGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SubjectEnglishSecondPaperBlockSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    kind?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
+    title?: boolean
+    instruction?: boolean
+    details?: boolean
+    documentJson?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["subjectEnglishSecondPaperBlock"]>
+
+  export type SubjectEnglishSecondPaperBlockSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    kind?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
+    title?: boolean
+    instruction?: boolean
+    details?: boolean
+    documentJson?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["subjectEnglishSecondPaperBlock"]>
+
+  export type SubjectEnglishSecondPaperBlockSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    kind?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
+    title?: boolean
+    instruction?: boolean
+    details?: boolean
+    documentJson?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["subjectEnglishSecondPaperBlock"]>
+
+  export type SubjectEnglishSecondPaperBlockSelectScalar = {
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    kind?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
+    title?: boolean
+    instruction?: boolean
+    details?: boolean
+    documentJson?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SubjectEnglishSecondPaperBlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "subjectId" | "kind" | "boardId" | "academicYearId" | "title" | "instruction" | "details" | "documentJson" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["subjectEnglishSecondPaperBlock"]>
+
+  export type $SubjectEnglishSecondPaperBlockPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SubjectEnglishSecondPaperBlock"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      classId: string
+      subjectId: string
+      kind: string
+      boardId: string | null
+      academicYearId: string | null
+      title: string
+      instruction: string
+      details: string
+      documentJson: string
+      sortOrder: number
+      organizationId: string
+      createdBy: string
+      updatedBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["subjectEnglishSecondPaperBlock"]>
+    composites: {}
+  }
+
+  type SubjectEnglishSecondPaperBlockGetPayload<S extends boolean | null | undefined | SubjectEnglishSecondPaperBlockDefaultArgs> = $Result.GetResult<Prisma.$SubjectEnglishSecondPaperBlockPayload, S>
+
+  type SubjectEnglishSecondPaperBlockCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SubjectEnglishSecondPaperBlockFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SubjectEnglishSecondPaperBlockCountAggregateInputType | true
+    }
+
+  export interface SubjectEnglishSecondPaperBlockDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SubjectEnglishSecondPaperBlock'], meta: { name: 'SubjectEnglishSecondPaperBlock' } }
+    /**
+     * Find zero or one SubjectEnglishSecondPaperBlock that matches the filter.
+     * @param {SubjectEnglishSecondPaperBlockFindUniqueArgs} args - Arguments to find a SubjectEnglishSecondPaperBlock
+     * @example
+     * // Get one SubjectEnglishSecondPaperBlock
+     * const subjectEnglishSecondPaperBlock = await prisma.subjectEnglishSecondPaperBlock.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SubjectEnglishSecondPaperBlockFindUniqueArgs>(args: SelectSubset<T, SubjectEnglishSecondPaperBlockFindUniqueArgs<ExtArgs>>): Prisma__SubjectEnglishSecondPaperBlockClient<$Result.GetResult<Prisma.$SubjectEnglishSecondPaperBlockPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SubjectEnglishSecondPaperBlock that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SubjectEnglishSecondPaperBlockFindUniqueOrThrowArgs} args - Arguments to find a SubjectEnglishSecondPaperBlock
+     * @example
+     * // Get one SubjectEnglishSecondPaperBlock
+     * const subjectEnglishSecondPaperBlock = await prisma.subjectEnglishSecondPaperBlock.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SubjectEnglishSecondPaperBlockFindUniqueOrThrowArgs>(args: SelectSubset<T, SubjectEnglishSecondPaperBlockFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SubjectEnglishSecondPaperBlockClient<$Result.GetResult<Prisma.$SubjectEnglishSecondPaperBlockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SubjectEnglishSecondPaperBlock that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectEnglishSecondPaperBlockFindFirstArgs} args - Arguments to find a SubjectEnglishSecondPaperBlock
+     * @example
+     * // Get one SubjectEnglishSecondPaperBlock
+     * const subjectEnglishSecondPaperBlock = await prisma.subjectEnglishSecondPaperBlock.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SubjectEnglishSecondPaperBlockFindFirstArgs>(args?: SelectSubset<T, SubjectEnglishSecondPaperBlockFindFirstArgs<ExtArgs>>): Prisma__SubjectEnglishSecondPaperBlockClient<$Result.GetResult<Prisma.$SubjectEnglishSecondPaperBlockPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SubjectEnglishSecondPaperBlock that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectEnglishSecondPaperBlockFindFirstOrThrowArgs} args - Arguments to find a SubjectEnglishSecondPaperBlock
+     * @example
+     * // Get one SubjectEnglishSecondPaperBlock
+     * const subjectEnglishSecondPaperBlock = await prisma.subjectEnglishSecondPaperBlock.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SubjectEnglishSecondPaperBlockFindFirstOrThrowArgs>(args?: SelectSubset<T, SubjectEnglishSecondPaperBlockFindFirstOrThrowArgs<ExtArgs>>): Prisma__SubjectEnglishSecondPaperBlockClient<$Result.GetResult<Prisma.$SubjectEnglishSecondPaperBlockPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SubjectEnglishSecondPaperBlocks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectEnglishSecondPaperBlockFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SubjectEnglishSecondPaperBlocks
+     * const subjectEnglishSecondPaperBlocks = await prisma.subjectEnglishSecondPaperBlock.findMany()
+     * 
+     * // Get first 10 SubjectEnglishSecondPaperBlocks
+     * const subjectEnglishSecondPaperBlocks = await prisma.subjectEnglishSecondPaperBlock.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const subjectEnglishSecondPaperBlockWithIdOnly = await prisma.subjectEnglishSecondPaperBlock.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SubjectEnglishSecondPaperBlockFindManyArgs>(args?: SelectSubset<T, SubjectEnglishSecondPaperBlockFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectEnglishSecondPaperBlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SubjectEnglishSecondPaperBlock.
+     * @param {SubjectEnglishSecondPaperBlockCreateArgs} args - Arguments to create a SubjectEnglishSecondPaperBlock.
+     * @example
+     * // Create one SubjectEnglishSecondPaperBlock
+     * const SubjectEnglishSecondPaperBlock = await prisma.subjectEnglishSecondPaperBlock.create({
+     *   data: {
+     *     // ... data to create a SubjectEnglishSecondPaperBlock
+     *   }
+     * })
+     * 
+     */
+    create<T extends SubjectEnglishSecondPaperBlockCreateArgs>(args: SelectSubset<T, SubjectEnglishSecondPaperBlockCreateArgs<ExtArgs>>): Prisma__SubjectEnglishSecondPaperBlockClient<$Result.GetResult<Prisma.$SubjectEnglishSecondPaperBlockPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SubjectEnglishSecondPaperBlocks.
+     * @param {SubjectEnglishSecondPaperBlockCreateManyArgs} args - Arguments to create many SubjectEnglishSecondPaperBlocks.
+     * @example
+     * // Create many SubjectEnglishSecondPaperBlocks
+     * const subjectEnglishSecondPaperBlock = await prisma.subjectEnglishSecondPaperBlock.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SubjectEnglishSecondPaperBlockCreateManyArgs>(args?: SelectSubset<T, SubjectEnglishSecondPaperBlockCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SubjectEnglishSecondPaperBlocks and returns the data saved in the database.
+     * @param {SubjectEnglishSecondPaperBlockCreateManyAndReturnArgs} args - Arguments to create many SubjectEnglishSecondPaperBlocks.
+     * @example
+     * // Create many SubjectEnglishSecondPaperBlocks
+     * const subjectEnglishSecondPaperBlock = await prisma.subjectEnglishSecondPaperBlock.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SubjectEnglishSecondPaperBlocks and only return the `id`
+     * const subjectEnglishSecondPaperBlockWithIdOnly = await prisma.subjectEnglishSecondPaperBlock.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SubjectEnglishSecondPaperBlockCreateManyAndReturnArgs>(args?: SelectSubset<T, SubjectEnglishSecondPaperBlockCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectEnglishSecondPaperBlockPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SubjectEnglishSecondPaperBlock.
+     * @param {SubjectEnglishSecondPaperBlockDeleteArgs} args - Arguments to delete one SubjectEnglishSecondPaperBlock.
+     * @example
+     * // Delete one SubjectEnglishSecondPaperBlock
+     * const SubjectEnglishSecondPaperBlock = await prisma.subjectEnglishSecondPaperBlock.delete({
+     *   where: {
+     *     // ... filter to delete one SubjectEnglishSecondPaperBlock
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SubjectEnglishSecondPaperBlockDeleteArgs>(args: SelectSubset<T, SubjectEnglishSecondPaperBlockDeleteArgs<ExtArgs>>): Prisma__SubjectEnglishSecondPaperBlockClient<$Result.GetResult<Prisma.$SubjectEnglishSecondPaperBlockPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SubjectEnglishSecondPaperBlock.
+     * @param {SubjectEnglishSecondPaperBlockUpdateArgs} args - Arguments to update one SubjectEnglishSecondPaperBlock.
+     * @example
+     * // Update one SubjectEnglishSecondPaperBlock
+     * const subjectEnglishSecondPaperBlock = await prisma.subjectEnglishSecondPaperBlock.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SubjectEnglishSecondPaperBlockUpdateArgs>(args: SelectSubset<T, SubjectEnglishSecondPaperBlockUpdateArgs<ExtArgs>>): Prisma__SubjectEnglishSecondPaperBlockClient<$Result.GetResult<Prisma.$SubjectEnglishSecondPaperBlockPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SubjectEnglishSecondPaperBlocks.
+     * @param {SubjectEnglishSecondPaperBlockDeleteManyArgs} args - Arguments to filter SubjectEnglishSecondPaperBlocks to delete.
+     * @example
+     * // Delete a few SubjectEnglishSecondPaperBlocks
+     * const { count } = await prisma.subjectEnglishSecondPaperBlock.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SubjectEnglishSecondPaperBlockDeleteManyArgs>(args?: SelectSubset<T, SubjectEnglishSecondPaperBlockDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SubjectEnglishSecondPaperBlocks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectEnglishSecondPaperBlockUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SubjectEnglishSecondPaperBlocks
+     * const subjectEnglishSecondPaperBlock = await prisma.subjectEnglishSecondPaperBlock.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SubjectEnglishSecondPaperBlockUpdateManyArgs>(args: SelectSubset<T, SubjectEnglishSecondPaperBlockUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SubjectEnglishSecondPaperBlocks and returns the data updated in the database.
+     * @param {SubjectEnglishSecondPaperBlockUpdateManyAndReturnArgs} args - Arguments to update many SubjectEnglishSecondPaperBlocks.
+     * @example
+     * // Update many SubjectEnglishSecondPaperBlocks
+     * const subjectEnglishSecondPaperBlock = await prisma.subjectEnglishSecondPaperBlock.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SubjectEnglishSecondPaperBlocks and only return the `id`
+     * const subjectEnglishSecondPaperBlockWithIdOnly = await prisma.subjectEnglishSecondPaperBlock.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SubjectEnglishSecondPaperBlockUpdateManyAndReturnArgs>(args: SelectSubset<T, SubjectEnglishSecondPaperBlockUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectEnglishSecondPaperBlockPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SubjectEnglishSecondPaperBlock.
+     * @param {SubjectEnglishSecondPaperBlockUpsertArgs} args - Arguments to update or create a SubjectEnglishSecondPaperBlock.
+     * @example
+     * // Update or create a SubjectEnglishSecondPaperBlock
+     * const subjectEnglishSecondPaperBlock = await prisma.subjectEnglishSecondPaperBlock.upsert({
+     *   create: {
+     *     // ... data to create a SubjectEnglishSecondPaperBlock
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SubjectEnglishSecondPaperBlock we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SubjectEnglishSecondPaperBlockUpsertArgs>(args: SelectSubset<T, SubjectEnglishSecondPaperBlockUpsertArgs<ExtArgs>>): Prisma__SubjectEnglishSecondPaperBlockClient<$Result.GetResult<Prisma.$SubjectEnglishSecondPaperBlockPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SubjectEnglishSecondPaperBlocks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectEnglishSecondPaperBlockCountArgs} args - Arguments to filter SubjectEnglishSecondPaperBlocks to count.
+     * @example
+     * // Count the number of SubjectEnglishSecondPaperBlocks
+     * const count = await prisma.subjectEnglishSecondPaperBlock.count({
+     *   where: {
+     *     // ... the filter for the SubjectEnglishSecondPaperBlocks we want to count
+     *   }
+     * })
+    **/
+    count<T extends SubjectEnglishSecondPaperBlockCountArgs>(
+      args?: Subset<T, SubjectEnglishSecondPaperBlockCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SubjectEnglishSecondPaperBlockCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SubjectEnglishSecondPaperBlock.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectEnglishSecondPaperBlockAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SubjectEnglishSecondPaperBlockAggregateArgs>(args: Subset<T, SubjectEnglishSecondPaperBlockAggregateArgs>): Prisma.PrismaPromise<GetSubjectEnglishSecondPaperBlockAggregateType<T>>
+
+    /**
+     * Group by SubjectEnglishSecondPaperBlock.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectEnglishSecondPaperBlockGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SubjectEnglishSecondPaperBlockGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SubjectEnglishSecondPaperBlockGroupByArgs['orderBy'] }
+        : { orderBy?: SubjectEnglishSecondPaperBlockGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SubjectEnglishSecondPaperBlockGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSubjectEnglishSecondPaperBlockGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SubjectEnglishSecondPaperBlock model
+   */
+  readonly fields: SubjectEnglishSecondPaperBlockFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SubjectEnglishSecondPaperBlock.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SubjectEnglishSecondPaperBlockClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SubjectEnglishSecondPaperBlock model
+   */
+  interface SubjectEnglishSecondPaperBlockFieldRefs {
+    readonly id: FieldRef<"SubjectEnglishSecondPaperBlock", 'String'>
+    readonly classId: FieldRef<"SubjectEnglishSecondPaperBlock", 'String'>
+    readonly subjectId: FieldRef<"SubjectEnglishSecondPaperBlock", 'String'>
+    readonly kind: FieldRef<"SubjectEnglishSecondPaperBlock", 'String'>
+    readonly boardId: FieldRef<"SubjectEnglishSecondPaperBlock", 'String'>
+    readonly academicYearId: FieldRef<"SubjectEnglishSecondPaperBlock", 'String'>
+    readonly title: FieldRef<"SubjectEnglishSecondPaperBlock", 'String'>
+    readonly instruction: FieldRef<"SubjectEnglishSecondPaperBlock", 'String'>
+    readonly details: FieldRef<"SubjectEnglishSecondPaperBlock", 'String'>
+    readonly documentJson: FieldRef<"SubjectEnglishSecondPaperBlock", 'String'>
+    readonly sortOrder: FieldRef<"SubjectEnglishSecondPaperBlock", 'Int'>
+    readonly organizationId: FieldRef<"SubjectEnglishSecondPaperBlock", 'String'>
+    readonly createdBy: FieldRef<"SubjectEnglishSecondPaperBlock", 'String'>
+    readonly updatedBy: FieldRef<"SubjectEnglishSecondPaperBlock", 'String'>
+    readonly createdAt: FieldRef<"SubjectEnglishSecondPaperBlock", 'DateTime'>
+    readonly updatedAt: FieldRef<"SubjectEnglishSecondPaperBlock", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SubjectEnglishSecondPaperBlock findUnique
+   */
+  export type SubjectEnglishSecondPaperBlockFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectEnglishSecondPaperBlock
+     */
+    select?: SubjectEnglishSecondPaperBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectEnglishSecondPaperBlock
+     */
+    omit?: SubjectEnglishSecondPaperBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectEnglishSecondPaperBlock to fetch.
+     */
+    where: SubjectEnglishSecondPaperBlockWhereUniqueInput
+  }
+
+  /**
+   * SubjectEnglishSecondPaperBlock findUniqueOrThrow
+   */
+  export type SubjectEnglishSecondPaperBlockFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectEnglishSecondPaperBlock
+     */
+    select?: SubjectEnglishSecondPaperBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectEnglishSecondPaperBlock
+     */
+    omit?: SubjectEnglishSecondPaperBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectEnglishSecondPaperBlock to fetch.
+     */
+    where: SubjectEnglishSecondPaperBlockWhereUniqueInput
+  }
+
+  /**
+   * SubjectEnglishSecondPaperBlock findFirst
+   */
+  export type SubjectEnglishSecondPaperBlockFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectEnglishSecondPaperBlock
+     */
+    select?: SubjectEnglishSecondPaperBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectEnglishSecondPaperBlock
+     */
+    omit?: SubjectEnglishSecondPaperBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectEnglishSecondPaperBlock to fetch.
+     */
+    where?: SubjectEnglishSecondPaperBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubjectEnglishSecondPaperBlocks to fetch.
+     */
+    orderBy?: SubjectEnglishSecondPaperBlockOrderByWithRelationInput | SubjectEnglishSecondPaperBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SubjectEnglishSecondPaperBlocks.
+     */
+    cursor?: SubjectEnglishSecondPaperBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubjectEnglishSecondPaperBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubjectEnglishSecondPaperBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubjectEnglishSecondPaperBlocks.
+     */
+    distinct?: SubjectEnglishSecondPaperBlockScalarFieldEnum | SubjectEnglishSecondPaperBlockScalarFieldEnum[]
+  }
+
+  /**
+   * SubjectEnglishSecondPaperBlock findFirstOrThrow
+   */
+  export type SubjectEnglishSecondPaperBlockFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectEnglishSecondPaperBlock
+     */
+    select?: SubjectEnglishSecondPaperBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectEnglishSecondPaperBlock
+     */
+    omit?: SubjectEnglishSecondPaperBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectEnglishSecondPaperBlock to fetch.
+     */
+    where?: SubjectEnglishSecondPaperBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubjectEnglishSecondPaperBlocks to fetch.
+     */
+    orderBy?: SubjectEnglishSecondPaperBlockOrderByWithRelationInput | SubjectEnglishSecondPaperBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SubjectEnglishSecondPaperBlocks.
+     */
+    cursor?: SubjectEnglishSecondPaperBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubjectEnglishSecondPaperBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubjectEnglishSecondPaperBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubjectEnglishSecondPaperBlocks.
+     */
+    distinct?: SubjectEnglishSecondPaperBlockScalarFieldEnum | SubjectEnglishSecondPaperBlockScalarFieldEnum[]
+  }
+
+  /**
+   * SubjectEnglishSecondPaperBlock findMany
+   */
+  export type SubjectEnglishSecondPaperBlockFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectEnglishSecondPaperBlock
+     */
+    select?: SubjectEnglishSecondPaperBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectEnglishSecondPaperBlock
+     */
+    omit?: SubjectEnglishSecondPaperBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectEnglishSecondPaperBlocks to fetch.
+     */
+    where?: SubjectEnglishSecondPaperBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubjectEnglishSecondPaperBlocks to fetch.
+     */
+    orderBy?: SubjectEnglishSecondPaperBlockOrderByWithRelationInput | SubjectEnglishSecondPaperBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SubjectEnglishSecondPaperBlocks.
+     */
+    cursor?: SubjectEnglishSecondPaperBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubjectEnglishSecondPaperBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubjectEnglishSecondPaperBlocks.
+     */
+    skip?: number
+    distinct?: SubjectEnglishSecondPaperBlockScalarFieldEnum | SubjectEnglishSecondPaperBlockScalarFieldEnum[]
+  }
+
+  /**
+   * SubjectEnglishSecondPaperBlock create
+   */
+  export type SubjectEnglishSecondPaperBlockCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectEnglishSecondPaperBlock
+     */
+    select?: SubjectEnglishSecondPaperBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectEnglishSecondPaperBlock
+     */
+    omit?: SubjectEnglishSecondPaperBlockOmit<ExtArgs> | null
+    /**
+     * The data needed to create a SubjectEnglishSecondPaperBlock.
+     */
+    data: XOR<SubjectEnglishSecondPaperBlockCreateInput, SubjectEnglishSecondPaperBlockUncheckedCreateInput>
+  }
+
+  /**
+   * SubjectEnglishSecondPaperBlock createMany
+   */
+  export type SubjectEnglishSecondPaperBlockCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SubjectEnglishSecondPaperBlocks.
+     */
+    data: SubjectEnglishSecondPaperBlockCreateManyInput | SubjectEnglishSecondPaperBlockCreateManyInput[]
+  }
+
+  /**
+   * SubjectEnglishSecondPaperBlock createManyAndReturn
+   */
+  export type SubjectEnglishSecondPaperBlockCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectEnglishSecondPaperBlock
+     */
+    select?: SubjectEnglishSecondPaperBlockSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectEnglishSecondPaperBlock
+     */
+    omit?: SubjectEnglishSecondPaperBlockOmit<ExtArgs> | null
+    /**
+     * The data used to create many SubjectEnglishSecondPaperBlocks.
+     */
+    data: SubjectEnglishSecondPaperBlockCreateManyInput | SubjectEnglishSecondPaperBlockCreateManyInput[]
+  }
+
+  /**
+   * SubjectEnglishSecondPaperBlock update
+   */
+  export type SubjectEnglishSecondPaperBlockUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectEnglishSecondPaperBlock
+     */
+    select?: SubjectEnglishSecondPaperBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectEnglishSecondPaperBlock
+     */
+    omit?: SubjectEnglishSecondPaperBlockOmit<ExtArgs> | null
+    /**
+     * The data needed to update a SubjectEnglishSecondPaperBlock.
+     */
+    data: XOR<SubjectEnglishSecondPaperBlockUpdateInput, SubjectEnglishSecondPaperBlockUncheckedUpdateInput>
+    /**
+     * Choose, which SubjectEnglishSecondPaperBlock to update.
+     */
+    where: SubjectEnglishSecondPaperBlockWhereUniqueInput
+  }
+
+  /**
+   * SubjectEnglishSecondPaperBlock updateMany
+   */
+  export type SubjectEnglishSecondPaperBlockUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SubjectEnglishSecondPaperBlocks.
+     */
+    data: XOR<SubjectEnglishSecondPaperBlockUpdateManyMutationInput, SubjectEnglishSecondPaperBlockUncheckedUpdateManyInput>
+    /**
+     * Filter which SubjectEnglishSecondPaperBlocks to update
+     */
+    where?: SubjectEnglishSecondPaperBlockWhereInput
+    /**
+     * Limit how many SubjectEnglishSecondPaperBlocks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubjectEnglishSecondPaperBlock updateManyAndReturn
+   */
+  export type SubjectEnglishSecondPaperBlockUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectEnglishSecondPaperBlock
+     */
+    select?: SubjectEnglishSecondPaperBlockSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectEnglishSecondPaperBlock
+     */
+    omit?: SubjectEnglishSecondPaperBlockOmit<ExtArgs> | null
+    /**
+     * The data used to update SubjectEnglishSecondPaperBlocks.
+     */
+    data: XOR<SubjectEnglishSecondPaperBlockUpdateManyMutationInput, SubjectEnglishSecondPaperBlockUncheckedUpdateManyInput>
+    /**
+     * Filter which SubjectEnglishSecondPaperBlocks to update
+     */
+    where?: SubjectEnglishSecondPaperBlockWhereInput
+    /**
+     * Limit how many SubjectEnglishSecondPaperBlocks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubjectEnglishSecondPaperBlock upsert
+   */
+  export type SubjectEnglishSecondPaperBlockUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectEnglishSecondPaperBlock
+     */
+    select?: SubjectEnglishSecondPaperBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectEnglishSecondPaperBlock
+     */
+    omit?: SubjectEnglishSecondPaperBlockOmit<ExtArgs> | null
+    /**
+     * The filter to search for the SubjectEnglishSecondPaperBlock to update in case it exists.
+     */
+    where: SubjectEnglishSecondPaperBlockWhereUniqueInput
+    /**
+     * In case the SubjectEnglishSecondPaperBlock found by the `where` argument doesn't exist, create a new SubjectEnglishSecondPaperBlock with this data.
+     */
+    create: XOR<SubjectEnglishSecondPaperBlockCreateInput, SubjectEnglishSecondPaperBlockUncheckedCreateInput>
+    /**
+     * In case the SubjectEnglishSecondPaperBlock was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SubjectEnglishSecondPaperBlockUpdateInput, SubjectEnglishSecondPaperBlockUncheckedUpdateInput>
+  }
+
+  /**
+   * SubjectEnglishSecondPaperBlock delete
+   */
+  export type SubjectEnglishSecondPaperBlockDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectEnglishSecondPaperBlock
+     */
+    select?: SubjectEnglishSecondPaperBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectEnglishSecondPaperBlock
+     */
+    omit?: SubjectEnglishSecondPaperBlockOmit<ExtArgs> | null
+    /**
+     * Filter which SubjectEnglishSecondPaperBlock to delete.
+     */
+    where: SubjectEnglishSecondPaperBlockWhereUniqueInput
+  }
+
+  /**
+   * SubjectEnglishSecondPaperBlock deleteMany
+   */
+  export type SubjectEnglishSecondPaperBlockDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SubjectEnglishSecondPaperBlocks to delete
+     */
+    where?: SubjectEnglishSecondPaperBlockWhereInput
+    /**
+     * Limit how many SubjectEnglishSecondPaperBlocks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubjectEnglishSecondPaperBlock without action
+   */
+  export type SubjectEnglishSecondPaperBlockDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectEnglishSecondPaperBlock
+     */
+    select?: SubjectEnglishSecondPaperBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectEnglishSecondPaperBlock
+     */
+    omit?: SubjectEnglishSecondPaperBlockOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Board
+   */
+
+  export type AggregateBoard = {
+    _count: BoardCountAggregateOutputType | null
+    _min: BoardMinAggregateOutputType | null
+    _max: BoardMaxAggregateOutputType | null
+  }
+
+  export type BoardMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    isActive: boolean | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BoardMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    isActive: boolean | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BoardCountAggregateOutputType = {
+    id: number
+    name: number
+    isActive: number
+    organizationId: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BoardMinAggregateInputType = {
+    id?: true
+    name?: true
+    isActive?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BoardMaxAggregateInputType = {
+    id?: true
+    name?: true
+    isActive?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BoardCountAggregateInputType = {
+    id?: true
+    name?: true
+    isActive?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BoardAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Board to aggregate.
+     */
+    where?: BoardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Boards to fetch.
+     */
+    orderBy?: BoardOrderByWithRelationInput | BoardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BoardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Boards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Boards.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Boards
+    **/
+    _count?: true | BoardCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BoardMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BoardMaxAggregateInputType
+  }
+
+  export type GetBoardAggregateType<T extends BoardAggregateArgs> = {
+        [P in keyof T & keyof AggregateBoard]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBoard[P]>
+      : GetScalarType<T[P], AggregateBoard[P]>
+  }
+
+
+
+
+  export type BoardGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BoardWhereInput
+    orderBy?: BoardOrderByWithAggregationInput | BoardOrderByWithAggregationInput[]
+    by: BoardScalarFieldEnum[] | BoardScalarFieldEnum
+    having?: BoardScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BoardCountAggregateInputType | true
+    _min?: BoardMinAggregateInputType
+    _max?: BoardMaxAggregateInputType
+  }
+
+  export type BoardGroupByOutputType = {
+    id: string
+    name: string
+    isActive: boolean
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: BoardCountAggregateOutputType | null
+    _min: BoardMinAggregateOutputType | null
+    _max: BoardMaxAggregateOutputType | null
+  }
+
+  type GetBoardGroupByPayload<T extends BoardGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BoardGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BoardGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BoardGroupByOutputType[P]>
+            : GetScalarType<T[P], BoardGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BoardSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    isActive?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["board"]>
+
+  export type BoardSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    isActive?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["board"]>
+
+  export type BoardSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    isActive?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["board"]>
+
+  export type BoardSelectScalar = {
+    id?: boolean
+    name?: boolean
+    isActive?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BoardOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "isActive" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["board"]>
+
+  export type $BoardPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Board"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      isActive: boolean
+      organizationId: string
+      createdBy: string
+      updatedBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["board"]>
+    composites: {}
+  }
+
+  type BoardGetPayload<S extends boolean | null | undefined | BoardDefaultArgs> = $Result.GetResult<Prisma.$BoardPayload, S>
+
+  type BoardCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BoardFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BoardCountAggregateInputType | true
+    }
+
+  export interface BoardDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Board'], meta: { name: 'Board' } }
+    /**
+     * Find zero or one Board that matches the filter.
+     * @param {BoardFindUniqueArgs} args - Arguments to find a Board
+     * @example
+     * // Get one Board
+     * const board = await prisma.board.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BoardFindUniqueArgs>(args: SelectSubset<T, BoardFindUniqueArgs<ExtArgs>>): Prisma__BoardClient<$Result.GetResult<Prisma.$BoardPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Board that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BoardFindUniqueOrThrowArgs} args - Arguments to find a Board
+     * @example
+     * // Get one Board
+     * const board = await prisma.board.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BoardFindUniqueOrThrowArgs>(args: SelectSubset<T, BoardFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BoardClient<$Result.GetResult<Prisma.$BoardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Board that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BoardFindFirstArgs} args - Arguments to find a Board
+     * @example
+     * // Get one Board
+     * const board = await prisma.board.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BoardFindFirstArgs>(args?: SelectSubset<T, BoardFindFirstArgs<ExtArgs>>): Prisma__BoardClient<$Result.GetResult<Prisma.$BoardPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Board that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BoardFindFirstOrThrowArgs} args - Arguments to find a Board
+     * @example
+     * // Get one Board
+     * const board = await prisma.board.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BoardFindFirstOrThrowArgs>(args?: SelectSubset<T, BoardFindFirstOrThrowArgs<ExtArgs>>): Prisma__BoardClient<$Result.GetResult<Prisma.$BoardPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Boards that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BoardFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Boards
+     * const boards = await prisma.board.findMany()
+     * 
+     * // Get first 10 Boards
+     * const boards = await prisma.board.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const boardWithIdOnly = await prisma.board.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BoardFindManyArgs>(args?: SelectSubset<T, BoardFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BoardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Board.
+     * @param {BoardCreateArgs} args - Arguments to create a Board.
+     * @example
+     * // Create one Board
+     * const Board = await prisma.board.create({
+     *   data: {
+     *     // ... data to create a Board
+     *   }
+     * })
+     * 
+     */
+    create<T extends BoardCreateArgs>(args: SelectSubset<T, BoardCreateArgs<ExtArgs>>): Prisma__BoardClient<$Result.GetResult<Prisma.$BoardPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Boards.
+     * @param {BoardCreateManyArgs} args - Arguments to create many Boards.
+     * @example
+     * // Create many Boards
+     * const board = await prisma.board.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BoardCreateManyArgs>(args?: SelectSubset<T, BoardCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Boards and returns the data saved in the database.
+     * @param {BoardCreateManyAndReturnArgs} args - Arguments to create many Boards.
+     * @example
+     * // Create many Boards
+     * const board = await prisma.board.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Boards and only return the `id`
+     * const boardWithIdOnly = await prisma.board.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BoardCreateManyAndReturnArgs>(args?: SelectSubset<T, BoardCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BoardPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Board.
+     * @param {BoardDeleteArgs} args - Arguments to delete one Board.
+     * @example
+     * // Delete one Board
+     * const Board = await prisma.board.delete({
+     *   where: {
+     *     // ... filter to delete one Board
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BoardDeleteArgs>(args: SelectSubset<T, BoardDeleteArgs<ExtArgs>>): Prisma__BoardClient<$Result.GetResult<Prisma.$BoardPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Board.
+     * @param {BoardUpdateArgs} args - Arguments to update one Board.
+     * @example
+     * // Update one Board
+     * const board = await prisma.board.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BoardUpdateArgs>(args: SelectSubset<T, BoardUpdateArgs<ExtArgs>>): Prisma__BoardClient<$Result.GetResult<Prisma.$BoardPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Boards.
+     * @param {BoardDeleteManyArgs} args - Arguments to filter Boards to delete.
+     * @example
+     * // Delete a few Boards
+     * const { count } = await prisma.board.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BoardDeleteManyArgs>(args?: SelectSubset<T, BoardDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Boards.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BoardUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Boards
+     * const board = await prisma.board.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BoardUpdateManyArgs>(args: SelectSubset<T, BoardUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Boards and returns the data updated in the database.
+     * @param {BoardUpdateManyAndReturnArgs} args - Arguments to update many Boards.
+     * @example
+     * // Update many Boards
+     * const board = await prisma.board.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Boards and only return the `id`
+     * const boardWithIdOnly = await prisma.board.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BoardUpdateManyAndReturnArgs>(args: SelectSubset<T, BoardUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BoardPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Board.
+     * @param {BoardUpsertArgs} args - Arguments to update or create a Board.
+     * @example
+     * // Update or create a Board
+     * const board = await prisma.board.upsert({
+     *   create: {
+     *     // ... data to create a Board
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Board we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BoardUpsertArgs>(args: SelectSubset<T, BoardUpsertArgs<ExtArgs>>): Prisma__BoardClient<$Result.GetResult<Prisma.$BoardPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Boards.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BoardCountArgs} args - Arguments to filter Boards to count.
+     * @example
+     * // Count the number of Boards
+     * const count = await prisma.board.count({
+     *   where: {
+     *     // ... the filter for the Boards we want to count
+     *   }
+     * })
+    **/
+    count<T extends BoardCountArgs>(
+      args?: Subset<T, BoardCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BoardCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Board.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BoardAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BoardAggregateArgs>(args: Subset<T, BoardAggregateArgs>): Prisma.PrismaPromise<GetBoardAggregateType<T>>
+
+    /**
+     * Group by Board.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BoardGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BoardGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BoardGroupByArgs['orderBy'] }
+        : { orderBy?: BoardGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BoardGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBoardGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Board model
+   */
+  readonly fields: BoardFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Board.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BoardClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Board model
+   */
+  interface BoardFieldRefs {
+    readonly id: FieldRef<"Board", 'String'>
+    readonly name: FieldRef<"Board", 'String'>
+    readonly isActive: FieldRef<"Board", 'Boolean'>
+    readonly organizationId: FieldRef<"Board", 'String'>
+    readonly createdBy: FieldRef<"Board", 'String'>
+    readonly updatedBy: FieldRef<"Board", 'String'>
+    readonly createdAt: FieldRef<"Board", 'DateTime'>
+    readonly updatedAt: FieldRef<"Board", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Board findUnique
+   */
+  export type BoardFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Board
+     */
+    select?: BoardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Board
+     */
+    omit?: BoardOmit<ExtArgs> | null
+    /**
+     * Filter, which Board to fetch.
+     */
+    where: BoardWhereUniqueInput
+  }
+
+  /**
+   * Board findUniqueOrThrow
+   */
+  export type BoardFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Board
+     */
+    select?: BoardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Board
+     */
+    omit?: BoardOmit<ExtArgs> | null
+    /**
+     * Filter, which Board to fetch.
+     */
+    where: BoardWhereUniqueInput
+  }
+
+  /**
+   * Board findFirst
+   */
+  export type BoardFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Board
+     */
+    select?: BoardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Board
+     */
+    omit?: BoardOmit<ExtArgs> | null
+    /**
+     * Filter, which Board to fetch.
+     */
+    where?: BoardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Boards to fetch.
+     */
+    orderBy?: BoardOrderByWithRelationInput | BoardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Boards.
+     */
+    cursor?: BoardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Boards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Boards.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Boards.
+     */
+    distinct?: BoardScalarFieldEnum | BoardScalarFieldEnum[]
+  }
+
+  /**
+   * Board findFirstOrThrow
+   */
+  export type BoardFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Board
+     */
+    select?: BoardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Board
+     */
+    omit?: BoardOmit<ExtArgs> | null
+    /**
+     * Filter, which Board to fetch.
+     */
+    where?: BoardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Boards to fetch.
+     */
+    orderBy?: BoardOrderByWithRelationInput | BoardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Boards.
+     */
+    cursor?: BoardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Boards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Boards.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Boards.
+     */
+    distinct?: BoardScalarFieldEnum | BoardScalarFieldEnum[]
+  }
+
+  /**
+   * Board findMany
+   */
+  export type BoardFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Board
+     */
+    select?: BoardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Board
+     */
+    omit?: BoardOmit<ExtArgs> | null
+    /**
+     * Filter, which Boards to fetch.
+     */
+    where?: BoardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Boards to fetch.
+     */
+    orderBy?: BoardOrderByWithRelationInput | BoardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Boards.
+     */
+    cursor?: BoardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Boards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Boards.
+     */
+    skip?: number
+    distinct?: BoardScalarFieldEnum | BoardScalarFieldEnum[]
+  }
+
+  /**
+   * Board create
+   */
+  export type BoardCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Board
+     */
+    select?: BoardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Board
+     */
+    omit?: BoardOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Board.
+     */
+    data: XOR<BoardCreateInput, BoardUncheckedCreateInput>
+  }
+
+  /**
+   * Board createMany
+   */
+  export type BoardCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Boards.
+     */
+    data: BoardCreateManyInput | BoardCreateManyInput[]
+  }
+
+  /**
+   * Board createManyAndReturn
+   */
+  export type BoardCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Board
+     */
+    select?: BoardSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Board
+     */
+    omit?: BoardOmit<ExtArgs> | null
+    /**
+     * The data used to create many Boards.
+     */
+    data: BoardCreateManyInput | BoardCreateManyInput[]
+  }
+
+  /**
+   * Board update
+   */
+  export type BoardUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Board
+     */
+    select?: BoardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Board
+     */
+    omit?: BoardOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Board.
+     */
+    data: XOR<BoardUpdateInput, BoardUncheckedUpdateInput>
+    /**
+     * Choose, which Board to update.
+     */
+    where: BoardWhereUniqueInput
+  }
+
+  /**
+   * Board updateMany
+   */
+  export type BoardUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Boards.
+     */
+    data: XOR<BoardUpdateManyMutationInput, BoardUncheckedUpdateManyInput>
+    /**
+     * Filter which Boards to update
+     */
+    where?: BoardWhereInput
+    /**
+     * Limit how many Boards to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Board updateManyAndReturn
+   */
+  export type BoardUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Board
+     */
+    select?: BoardSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Board
+     */
+    omit?: BoardOmit<ExtArgs> | null
+    /**
+     * The data used to update Boards.
+     */
+    data: XOR<BoardUpdateManyMutationInput, BoardUncheckedUpdateManyInput>
+    /**
+     * Filter which Boards to update
+     */
+    where?: BoardWhereInput
+    /**
+     * Limit how many Boards to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Board upsert
+   */
+  export type BoardUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Board
+     */
+    select?: BoardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Board
+     */
+    omit?: BoardOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Board to update in case it exists.
+     */
+    where: BoardWhereUniqueInput
+    /**
+     * In case the Board found by the `where` argument doesn't exist, create a new Board with this data.
+     */
+    create: XOR<BoardCreateInput, BoardUncheckedCreateInput>
+    /**
+     * In case the Board was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BoardUpdateInput, BoardUncheckedUpdateInput>
+  }
+
+  /**
+   * Board delete
+   */
+  export type BoardDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Board
+     */
+    select?: BoardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Board
+     */
+    omit?: BoardOmit<ExtArgs> | null
+    /**
+     * Filter which Board to delete.
+     */
+    where: BoardWhereUniqueInput
+  }
+
+  /**
+   * Board deleteMany
+   */
+  export type BoardDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Boards to delete
+     */
+    where?: BoardWhereInput
+    /**
+     * Limit how many Boards to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Board without action
+   */
+  export type BoardDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Board
+     */
+    select?: BoardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Board
+     */
+    omit?: BoardOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AcademicYear
+   */
+
+  export type AggregateAcademicYear = {
+    _count: AcademicYearCountAggregateOutputType | null
+    _avg: AcademicYearAvgAggregateOutputType | null
+    _sum: AcademicYearSumAggregateOutputType | null
+    _min: AcademicYearMinAggregateOutputType | null
+    _max: AcademicYearMaxAggregateOutputType | null
+  }
+
+  export type AcademicYearAvgAggregateOutputType = {
+    year: number | null
+  }
+
+  export type AcademicYearSumAggregateOutputType = {
+    year: number | null
+  }
+
+  export type AcademicYearMinAggregateOutputType = {
+    id: string | null
+    year: number | null
+    isActive: boolean | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AcademicYearMaxAggregateOutputType = {
+    id: string | null
+    year: number | null
+    isActive: boolean | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AcademicYearCountAggregateOutputType = {
+    id: number
+    year: number
+    isActive: number
+    organizationId: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AcademicYearAvgAggregateInputType = {
+    year?: true
+  }
+
+  export type AcademicYearSumAggregateInputType = {
+    year?: true
+  }
+
+  export type AcademicYearMinAggregateInputType = {
+    id?: true
+    year?: true
+    isActive?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AcademicYearMaxAggregateInputType = {
+    id?: true
+    year?: true
+    isActive?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AcademicYearCountAggregateInputType = {
+    id?: true
+    year?: true
+    isActive?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AcademicYearAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AcademicYear to aggregate.
+     */
+    where?: AcademicYearWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AcademicYears to fetch.
+     */
+    orderBy?: AcademicYearOrderByWithRelationInput | AcademicYearOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AcademicYearWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AcademicYears from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AcademicYears.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AcademicYears
+    **/
+    _count?: true | AcademicYearCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AcademicYearAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AcademicYearSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AcademicYearMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AcademicYearMaxAggregateInputType
+  }
+
+  export type GetAcademicYearAggregateType<T extends AcademicYearAggregateArgs> = {
+        [P in keyof T & keyof AggregateAcademicYear]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAcademicYear[P]>
+      : GetScalarType<T[P], AggregateAcademicYear[P]>
+  }
+
+
+
+
+  export type AcademicYearGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AcademicYearWhereInput
+    orderBy?: AcademicYearOrderByWithAggregationInput | AcademicYearOrderByWithAggregationInput[]
+    by: AcademicYearScalarFieldEnum[] | AcademicYearScalarFieldEnum
+    having?: AcademicYearScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AcademicYearCountAggregateInputType | true
+    _avg?: AcademicYearAvgAggregateInputType
+    _sum?: AcademicYearSumAggregateInputType
+    _min?: AcademicYearMinAggregateInputType
+    _max?: AcademicYearMaxAggregateInputType
+  }
+
+  export type AcademicYearGroupByOutputType = {
+    id: string
+    year: number
+    isActive: boolean
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: AcademicYearCountAggregateOutputType | null
+    _avg: AcademicYearAvgAggregateOutputType | null
+    _sum: AcademicYearSumAggregateOutputType | null
+    _min: AcademicYearMinAggregateOutputType | null
+    _max: AcademicYearMaxAggregateOutputType | null
+  }
+
+  type GetAcademicYearGroupByPayload<T extends AcademicYearGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AcademicYearGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AcademicYearGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AcademicYearGroupByOutputType[P]>
+            : GetScalarType<T[P], AcademicYearGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AcademicYearSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    year?: boolean
+    isActive?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["academicYear"]>
+
+  export type AcademicYearSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    year?: boolean
+    isActive?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["academicYear"]>
+
+  export type AcademicYearSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    year?: boolean
+    isActive?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["academicYear"]>
+
+  export type AcademicYearSelectScalar = {
+    id?: boolean
+    year?: boolean
+    isActive?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AcademicYearOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "year" | "isActive" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["academicYear"]>
+
+  export type $AcademicYearPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AcademicYear"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      year: number
+      isActive: boolean
+      organizationId: string
+      createdBy: string
+      updatedBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["academicYear"]>
+    composites: {}
+  }
+
+  type AcademicYearGetPayload<S extends boolean | null | undefined | AcademicYearDefaultArgs> = $Result.GetResult<Prisma.$AcademicYearPayload, S>
+
+  type AcademicYearCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AcademicYearFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AcademicYearCountAggregateInputType | true
+    }
+
+  export interface AcademicYearDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AcademicYear'], meta: { name: 'AcademicYear' } }
+    /**
+     * Find zero or one AcademicYear that matches the filter.
+     * @param {AcademicYearFindUniqueArgs} args - Arguments to find a AcademicYear
+     * @example
+     * // Get one AcademicYear
+     * const academicYear = await prisma.academicYear.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AcademicYearFindUniqueArgs>(args: SelectSubset<T, AcademicYearFindUniqueArgs<ExtArgs>>): Prisma__AcademicYearClient<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AcademicYear that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AcademicYearFindUniqueOrThrowArgs} args - Arguments to find a AcademicYear
+     * @example
+     * // Get one AcademicYear
+     * const academicYear = await prisma.academicYear.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AcademicYearFindUniqueOrThrowArgs>(args: SelectSubset<T, AcademicYearFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AcademicYearClient<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AcademicYear that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AcademicYearFindFirstArgs} args - Arguments to find a AcademicYear
+     * @example
+     * // Get one AcademicYear
+     * const academicYear = await prisma.academicYear.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AcademicYearFindFirstArgs>(args?: SelectSubset<T, AcademicYearFindFirstArgs<ExtArgs>>): Prisma__AcademicYearClient<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AcademicYear that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AcademicYearFindFirstOrThrowArgs} args - Arguments to find a AcademicYear
+     * @example
+     * // Get one AcademicYear
+     * const academicYear = await prisma.academicYear.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AcademicYearFindFirstOrThrowArgs>(args?: SelectSubset<T, AcademicYearFindFirstOrThrowArgs<ExtArgs>>): Prisma__AcademicYearClient<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AcademicYears that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AcademicYearFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AcademicYears
+     * const academicYears = await prisma.academicYear.findMany()
+     * 
+     * // Get first 10 AcademicYears
+     * const academicYears = await prisma.academicYear.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const academicYearWithIdOnly = await prisma.academicYear.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AcademicYearFindManyArgs>(args?: SelectSubset<T, AcademicYearFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AcademicYear.
+     * @param {AcademicYearCreateArgs} args - Arguments to create a AcademicYear.
+     * @example
+     * // Create one AcademicYear
+     * const AcademicYear = await prisma.academicYear.create({
+     *   data: {
+     *     // ... data to create a AcademicYear
+     *   }
+     * })
+     * 
+     */
+    create<T extends AcademicYearCreateArgs>(args: SelectSubset<T, AcademicYearCreateArgs<ExtArgs>>): Prisma__AcademicYearClient<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AcademicYears.
+     * @param {AcademicYearCreateManyArgs} args - Arguments to create many AcademicYears.
+     * @example
+     * // Create many AcademicYears
+     * const academicYear = await prisma.academicYear.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AcademicYearCreateManyArgs>(args?: SelectSubset<T, AcademicYearCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AcademicYears and returns the data saved in the database.
+     * @param {AcademicYearCreateManyAndReturnArgs} args - Arguments to create many AcademicYears.
+     * @example
+     * // Create many AcademicYears
+     * const academicYear = await prisma.academicYear.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AcademicYears and only return the `id`
+     * const academicYearWithIdOnly = await prisma.academicYear.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AcademicYearCreateManyAndReturnArgs>(args?: SelectSubset<T, AcademicYearCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AcademicYear.
+     * @param {AcademicYearDeleteArgs} args - Arguments to delete one AcademicYear.
+     * @example
+     * // Delete one AcademicYear
+     * const AcademicYear = await prisma.academicYear.delete({
+     *   where: {
+     *     // ... filter to delete one AcademicYear
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AcademicYearDeleteArgs>(args: SelectSubset<T, AcademicYearDeleteArgs<ExtArgs>>): Prisma__AcademicYearClient<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AcademicYear.
+     * @param {AcademicYearUpdateArgs} args - Arguments to update one AcademicYear.
+     * @example
+     * // Update one AcademicYear
+     * const academicYear = await prisma.academicYear.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AcademicYearUpdateArgs>(args: SelectSubset<T, AcademicYearUpdateArgs<ExtArgs>>): Prisma__AcademicYearClient<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AcademicYears.
+     * @param {AcademicYearDeleteManyArgs} args - Arguments to filter AcademicYears to delete.
+     * @example
+     * // Delete a few AcademicYears
+     * const { count } = await prisma.academicYear.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AcademicYearDeleteManyArgs>(args?: SelectSubset<T, AcademicYearDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AcademicYears.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AcademicYearUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AcademicYears
+     * const academicYear = await prisma.academicYear.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AcademicYearUpdateManyArgs>(args: SelectSubset<T, AcademicYearUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AcademicYears and returns the data updated in the database.
+     * @param {AcademicYearUpdateManyAndReturnArgs} args - Arguments to update many AcademicYears.
+     * @example
+     * // Update many AcademicYears
+     * const academicYear = await prisma.academicYear.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AcademicYears and only return the `id`
+     * const academicYearWithIdOnly = await prisma.academicYear.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AcademicYearUpdateManyAndReturnArgs>(args: SelectSubset<T, AcademicYearUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AcademicYear.
+     * @param {AcademicYearUpsertArgs} args - Arguments to update or create a AcademicYear.
+     * @example
+     * // Update or create a AcademicYear
+     * const academicYear = await prisma.academicYear.upsert({
+     *   create: {
+     *     // ... data to create a AcademicYear
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AcademicYear we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AcademicYearUpsertArgs>(args: SelectSubset<T, AcademicYearUpsertArgs<ExtArgs>>): Prisma__AcademicYearClient<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AcademicYears.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AcademicYearCountArgs} args - Arguments to filter AcademicYears to count.
+     * @example
+     * // Count the number of AcademicYears
+     * const count = await prisma.academicYear.count({
+     *   where: {
+     *     // ... the filter for the AcademicYears we want to count
+     *   }
+     * })
+    **/
+    count<T extends AcademicYearCountArgs>(
+      args?: Subset<T, AcademicYearCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AcademicYearCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AcademicYear.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AcademicYearAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AcademicYearAggregateArgs>(args: Subset<T, AcademicYearAggregateArgs>): Prisma.PrismaPromise<GetAcademicYearAggregateType<T>>
+
+    /**
+     * Group by AcademicYear.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AcademicYearGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AcademicYearGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AcademicYearGroupByArgs['orderBy'] }
+        : { orderBy?: AcademicYearGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AcademicYearGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAcademicYearGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AcademicYear model
+   */
+  readonly fields: AcademicYearFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AcademicYear.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AcademicYearClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AcademicYear model
+   */
+  interface AcademicYearFieldRefs {
+    readonly id: FieldRef<"AcademicYear", 'String'>
+    readonly year: FieldRef<"AcademicYear", 'Int'>
+    readonly isActive: FieldRef<"AcademicYear", 'Boolean'>
+    readonly organizationId: FieldRef<"AcademicYear", 'String'>
+    readonly createdBy: FieldRef<"AcademicYear", 'String'>
+    readonly updatedBy: FieldRef<"AcademicYear", 'String'>
+    readonly createdAt: FieldRef<"AcademicYear", 'DateTime'>
+    readonly updatedAt: FieldRef<"AcademicYear", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AcademicYear findUnique
+   */
+  export type AcademicYearFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * Filter, which AcademicYear to fetch.
+     */
+    where: AcademicYearWhereUniqueInput
+  }
+
+  /**
+   * AcademicYear findUniqueOrThrow
+   */
+  export type AcademicYearFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * Filter, which AcademicYear to fetch.
+     */
+    where: AcademicYearWhereUniqueInput
+  }
+
+  /**
+   * AcademicYear findFirst
+   */
+  export type AcademicYearFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * Filter, which AcademicYear to fetch.
+     */
+    where?: AcademicYearWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AcademicYears to fetch.
+     */
+    orderBy?: AcademicYearOrderByWithRelationInput | AcademicYearOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AcademicYears.
+     */
+    cursor?: AcademicYearWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AcademicYears from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AcademicYears.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AcademicYears.
+     */
+    distinct?: AcademicYearScalarFieldEnum | AcademicYearScalarFieldEnum[]
+  }
+
+  /**
+   * AcademicYear findFirstOrThrow
+   */
+  export type AcademicYearFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * Filter, which AcademicYear to fetch.
+     */
+    where?: AcademicYearWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AcademicYears to fetch.
+     */
+    orderBy?: AcademicYearOrderByWithRelationInput | AcademicYearOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AcademicYears.
+     */
+    cursor?: AcademicYearWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AcademicYears from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AcademicYears.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AcademicYears.
+     */
+    distinct?: AcademicYearScalarFieldEnum | AcademicYearScalarFieldEnum[]
+  }
+
+  /**
+   * AcademicYear findMany
+   */
+  export type AcademicYearFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * Filter, which AcademicYears to fetch.
+     */
+    where?: AcademicYearWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AcademicYears to fetch.
+     */
+    orderBy?: AcademicYearOrderByWithRelationInput | AcademicYearOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AcademicYears.
+     */
+    cursor?: AcademicYearWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AcademicYears from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AcademicYears.
+     */
+    skip?: number
+    distinct?: AcademicYearScalarFieldEnum | AcademicYearScalarFieldEnum[]
+  }
+
+  /**
+   * AcademicYear create
+   */
+  export type AcademicYearCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * The data needed to create a AcademicYear.
+     */
+    data: XOR<AcademicYearCreateInput, AcademicYearUncheckedCreateInput>
+  }
+
+  /**
+   * AcademicYear createMany
+   */
+  export type AcademicYearCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AcademicYears.
+     */
+    data: AcademicYearCreateManyInput | AcademicYearCreateManyInput[]
+  }
+
+  /**
+   * AcademicYear createManyAndReturn
+   */
+  export type AcademicYearCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * The data used to create many AcademicYears.
+     */
+    data: AcademicYearCreateManyInput | AcademicYearCreateManyInput[]
+  }
+
+  /**
+   * AcademicYear update
+   */
+  export type AcademicYearUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * The data needed to update a AcademicYear.
+     */
+    data: XOR<AcademicYearUpdateInput, AcademicYearUncheckedUpdateInput>
+    /**
+     * Choose, which AcademicYear to update.
+     */
+    where: AcademicYearWhereUniqueInput
+  }
+
+  /**
+   * AcademicYear updateMany
+   */
+  export type AcademicYearUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AcademicYears.
+     */
+    data: XOR<AcademicYearUpdateManyMutationInput, AcademicYearUncheckedUpdateManyInput>
+    /**
+     * Filter which AcademicYears to update
+     */
+    where?: AcademicYearWhereInput
+    /**
+     * Limit how many AcademicYears to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AcademicYear updateManyAndReturn
+   */
+  export type AcademicYearUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * The data used to update AcademicYears.
+     */
+    data: XOR<AcademicYearUpdateManyMutationInput, AcademicYearUncheckedUpdateManyInput>
+    /**
+     * Filter which AcademicYears to update
+     */
+    where?: AcademicYearWhereInput
+    /**
+     * Limit how many AcademicYears to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AcademicYear upsert
+   */
+  export type AcademicYearUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * The filter to search for the AcademicYear to update in case it exists.
+     */
+    where: AcademicYearWhereUniqueInput
+    /**
+     * In case the AcademicYear found by the `where` argument doesn't exist, create a new AcademicYear with this data.
+     */
+    create: XOR<AcademicYearCreateInput, AcademicYearUncheckedCreateInput>
+    /**
+     * In case the AcademicYear was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AcademicYearUpdateInput, AcademicYearUncheckedUpdateInput>
+  }
+
+  /**
+   * AcademicYear delete
+   */
+  export type AcademicYearDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * Filter which AcademicYear to delete.
+     */
+    where: AcademicYearWhereUniqueInput
+  }
+
+  /**
+   * AcademicYear deleteMany
+   */
+  export type AcademicYearDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AcademicYears to delete
+     */
+    where?: AcademicYearWhereInput
+    /**
+     * Limit how many AcademicYears to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AcademicYear without action
+   */
+  export type AcademicYearDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -60187,6 +65426,7 @@ export namespace Prisma {
 
   export const ContentScalarFieldEnum: {
     id: 'id',
+    title: 'title',
     classId: 'classId',
     subjectId: 'subjectId',
     unitId: 'unitId',
@@ -60263,6 +65503,8 @@ export namespace Prisma {
     contentId: 'contentId',
     kind: 'kind',
     sortOrder: 'sortOrder',
+    boardId: 'boardId',
+    academicYearId: 'academicYearId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -60317,6 +65559,8 @@ export namespace Prisma {
     vocabularyId: 'vocabularyId',
     word: 'word',
     meaning: 'meaning',
+    imageUrl: 'imageUrl',
+    imagePath: 'imagePath',
     sortOrder: 'sortOrder',
     organizationId: 'organizationId',
     createdBy: 'createdBy',
@@ -60326,6 +65570,37 @@ export namespace Prisma {
   };
 
   export type VocabularyEntryScalarFieldEnum = (typeof VocabularyEntryScalarFieldEnum)[keyof typeof VocabularyEntryScalarFieldEnum]
+
+
+  export const UploadedFileScalarFieldEnum: {
+    id: 'id',
+    purpose: 'purpose',
+    ownerType: 'ownerType',
+    ownerId: 'ownerId',
+    vocabularyEntryId: 'vocabularyEntryId',
+    url: 'url',
+    path: 'path',
+    originalName: 'originalName',
+    sourceMimeType: 'sourceMimeType',
+    mimeType: 'mimeType',
+    extension: 'extension',
+    sizeBytes: 'sizeBytes',
+    width: 'width',
+    height: 'height',
+    checksumSha256: 'checksumSha256',
+    status: 'status',
+    isCurrent: 'isCurrent',
+    replacedAt: 'replacedAt',
+    deletedAt: 'deletedAt',
+    storageDeletedAt: 'storageDeletedAt',
+    organizationId: 'organizationId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type UploadedFileScalarFieldEnum = (typeof UploadedFileScalarFieldEnum)[keyof typeof UploadedFileScalarFieldEnum]
 
 
   export const SynonymsAntonymsScalarFieldEnum: {
@@ -60867,6 +66142,8 @@ export namespace Prisma {
     id: 'id',
     classId: 'classId',
     subjectId: 'subjectId',
+    boardId: 'boardId',
+    academicYearId: 'academicYearId',
     title: 'title',
     instruction: 'instruction',
     details: 'details',
@@ -60886,6 +66163,8 @@ export namespace Prisma {
     id: 'id',
     classId: 'classId',
     subjectId: 'subjectId',
+    boardId: 'boardId',
+    academicYearId: 'academicYearId',
     title: 'title',
     instruction: 'instruction',
     details: 'details',
@@ -60905,6 +66184,8 @@ export namespace Prisma {
     id: 'id',
     classId: 'classId',
     subjectId: 'subjectId',
+    boardId: 'boardId',
+    academicYearId: 'academicYearId',
     title: 'title',
     instruction: 'instruction',
     details: 'details',
@@ -60924,6 +66205,8 @@ export namespace Prisma {
     id: 'id',
     classId: 'classId',
     subjectId: 'subjectId',
+    boardId: 'boardId',
+    academicYearId: 'academicYearId',
     title: 'title',
     instruction: 'instruction',
     details: 'details',
@@ -60937,6 +66220,56 @@ export namespace Prisma {
   };
 
   export type SubjectQuestionFromStoryBlockScalarFieldEnum = (typeof SubjectQuestionFromStoryBlockScalarFieldEnum)[keyof typeof SubjectQuestionFromStoryBlockScalarFieldEnum]
+
+
+  export const SubjectEnglishSecondPaperBlockScalarFieldEnum: {
+    id: 'id',
+    classId: 'classId',
+    subjectId: 'subjectId',
+    kind: 'kind',
+    boardId: 'boardId',
+    academicYearId: 'academicYearId',
+    title: 'title',
+    instruction: 'instruction',
+    details: 'details',
+    documentJson: 'documentJson',
+    sortOrder: 'sortOrder',
+    organizationId: 'organizationId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SubjectEnglishSecondPaperBlockScalarFieldEnum = (typeof SubjectEnglishSecondPaperBlockScalarFieldEnum)[keyof typeof SubjectEnglishSecondPaperBlockScalarFieldEnum]
+
+
+  export const BoardScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    isActive: 'isActive',
+    organizationId: 'organizationId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BoardScalarFieldEnum = (typeof BoardScalarFieldEnum)[keyof typeof BoardScalarFieldEnum]
+
+
+  export const AcademicYearScalarFieldEnum: {
+    id: 'id',
+    year: 'year',
+    isActive: 'isActive',
+    organizationId: 'organizationId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AcademicYearScalarFieldEnum = (typeof AcademicYearScalarFieldEnum)[keyof typeof AcademicYearScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -62071,6 +67404,7 @@ export namespace Prisma {
     OR?: ContentWhereInput[]
     NOT?: ContentWhereInput | ContentWhereInput[]
     id?: StringFilter<"Content"> | string
+    title?: StringFilter<"Content"> | string
     classId?: StringFilter<"Content"> | string
     subjectId?: StringFilter<"Content"> | string
     unitId?: StringFilter<"Content"> | string
@@ -62091,6 +67425,7 @@ export namespace Prisma {
 
   export type ContentOrderByWithRelationInput = {
     id?: SortOrder
+    title?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
     unitId?: SortOrder
@@ -62115,6 +67450,7 @@ export namespace Prisma {
     AND?: ContentWhereInput | ContentWhereInput[]
     OR?: ContentWhereInput[]
     NOT?: ContentWhereInput | ContentWhereInput[]
+    title?: StringFilter<"Content"> | string
     classId?: StringFilter<"Content"> | string
     subjectId?: StringFilter<"Content"> | string
     unitId?: StringFilter<"Content"> | string
@@ -62135,6 +67471,7 @@ export namespace Prisma {
 
   export type ContentOrderByWithAggregationInput = {
     id?: SortOrder
+    title?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
     unitId?: SortOrder
@@ -62155,6 +67492,7 @@ export namespace Prisma {
     OR?: ContentScalarWhereWithAggregatesInput[]
     NOT?: ContentScalarWhereWithAggregatesInput | ContentScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Content"> | string
+    title?: StringWithAggregatesFilter<"Content"> | string
     classId?: StringWithAggregatesFilter<"Content"> | string
     subjectId?: StringWithAggregatesFilter<"Content"> | string
     unitId?: StringWithAggregatesFilter<"Content"> | string
@@ -62458,6 +67796,8 @@ export namespace Prisma {
     contentId?: StringFilter<"ContentBlock"> | string
     kind?: StringFilter<"ContentBlock"> | string
     sortOrder?: IntFilter<"ContentBlock"> | number
+    boardId?: StringNullableFilter<"ContentBlock"> | string | null
+    academicYearId?: StringNullableFilter<"ContentBlock"> | string | null
     createdAt?: DateTimeFilter<"ContentBlock"> | Date | string
     updatedAt?: DateTimeFilter<"ContentBlock"> | Date | string
     content?: XOR<ContentScalarRelationFilter, ContentWhereInput>
@@ -62494,6 +67834,8 @@ export namespace Prisma {
     contentId?: SortOrder
     kind?: SortOrder
     sortOrder?: SortOrder
+    boardId?: SortOrderInput | SortOrder
+    academicYearId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     content?: ContentOrderByWithRelationInput
@@ -62533,6 +67875,8 @@ export namespace Prisma {
     contentId?: StringFilter<"ContentBlock"> | string
     kind?: StringFilter<"ContentBlock"> | string
     sortOrder?: IntFilter<"ContentBlock"> | number
+    boardId?: StringNullableFilter<"ContentBlock"> | string | null
+    academicYearId?: StringNullableFilter<"ContentBlock"> | string | null
     createdAt?: DateTimeFilter<"ContentBlock"> | Date | string
     updatedAt?: DateTimeFilter<"ContentBlock"> | Date | string
     content?: XOR<ContentScalarRelationFilter, ContentWhereInput>
@@ -62569,6 +67913,8 @@ export namespace Prisma {
     contentId?: SortOrder
     kind?: SortOrder
     sortOrder?: SortOrder
+    boardId?: SortOrderInput | SortOrder
+    academicYearId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ContentBlockCountOrderByAggregateInput
@@ -62586,6 +67932,8 @@ export namespace Prisma {
     contentId?: StringWithAggregatesFilter<"ContentBlock"> | string
     kind?: StringWithAggregatesFilter<"ContentBlock"> | string
     sortOrder?: IntWithAggregatesFilter<"ContentBlock"> | number
+    boardId?: StringNullableWithAggregatesFilter<"ContentBlock"> | string | null
+    academicYearId?: StringNullableWithAggregatesFilter<"ContentBlock"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ContentBlock"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ContentBlock"> | Date | string
   }
@@ -62811,6 +68159,8 @@ export namespace Prisma {
     vocabularyId?: StringFilter<"VocabularyEntry"> | string
     word?: StringFilter<"VocabularyEntry"> | string
     meaning?: StringFilter<"VocabularyEntry"> | string
+    imageUrl?: StringFilter<"VocabularyEntry"> | string
+    imagePath?: StringFilter<"VocabularyEntry"> | string
     sortOrder?: IntFilter<"VocabularyEntry"> | number
     organizationId?: StringFilter<"VocabularyEntry"> | string
     createdBy?: StringFilter<"VocabularyEntry"> | string
@@ -62818,6 +68168,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"VocabularyEntry"> | Date | string
     updatedAt?: DateTimeFilter<"VocabularyEntry"> | Date | string
     vocabulary?: XOR<VocabularyScalarRelationFilter, VocabularyWhereInput>
+    uploadedFiles?: UploadedFileListRelationFilter
   }
 
   export type VocabularyEntryOrderByWithRelationInput = {
@@ -62825,6 +68176,8 @@ export namespace Prisma {
     vocabularyId?: SortOrder
     word?: SortOrder
     meaning?: SortOrder
+    imageUrl?: SortOrder
+    imagePath?: SortOrder
     sortOrder?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
@@ -62832,6 +68185,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     vocabulary?: VocabularyOrderByWithRelationInput
+    uploadedFiles?: UploadedFileOrderByRelationAggregateInput
   }
 
   export type VocabularyEntryWhereUniqueInput = Prisma.AtLeast<{
@@ -62842,6 +68196,8 @@ export namespace Prisma {
     vocabularyId?: StringFilter<"VocabularyEntry"> | string
     word?: StringFilter<"VocabularyEntry"> | string
     meaning?: StringFilter<"VocabularyEntry"> | string
+    imageUrl?: StringFilter<"VocabularyEntry"> | string
+    imagePath?: StringFilter<"VocabularyEntry"> | string
     sortOrder?: IntFilter<"VocabularyEntry"> | number
     organizationId?: StringFilter<"VocabularyEntry"> | string
     createdBy?: StringFilter<"VocabularyEntry"> | string
@@ -62849,6 +68205,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"VocabularyEntry"> | Date | string
     updatedAt?: DateTimeFilter<"VocabularyEntry"> | Date | string
     vocabulary?: XOR<VocabularyScalarRelationFilter, VocabularyWhereInput>
+    uploadedFiles?: UploadedFileListRelationFilter
   }, "id">
 
   export type VocabularyEntryOrderByWithAggregationInput = {
@@ -62856,6 +68213,8 @@ export namespace Prisma {
     vocabularyId?: SortOrder
     word?: SortOrder
     meaning?: SortOrder
+    imageUrl?: SortOrder
+    imagePath?: SortOrder
     sortOrder?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
@@ -62877,12 +68236,171 @@ export namespace Prisma {
     vocabularyId?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     word?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     meaning?: StringWithAggregatesFilter<"VocabularyEntry"> | string
+    imageUrl?: StringWithAggregatesFilter<"VocabularyEntry"> | string
+    imagePath?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     sortOrder?: IntWithAggregatesFilter<"VocabularyEntry"> | number
     organizationId?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     createdBy?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     updatedBy?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     createdAt?: DateTimeWithAggregatesFilter<"VocabularyEntry"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"VocabularyEntry"> | Date | string
+  }
+
+  export type UploadedFileWhereInput = {
+    AND?: UploadedFileWhereInput | UploadedFileWhereInput[]
+    OR?: UploadedFileWhereInput[]
+    NOT?: UploadedFileWhereInput | UploadedFileWhereInput[]
+    id?: StringFilter<"UploadedFile"> | string
+    purpose?: StringFilter<"UploadedFile"> | string
+    ownerType?: StringFilter<"UploadedFile"> | string
+    ownerId?: StringFilter<"UploadedFile"> | string
+    vocabularyEntryId?: StringNullableFilter<"UploadedFile"> | string | null
+    url?: StringFilter<"UploadedFile"> | string
+    path?: StringFilter<"UploadedFile"> | string
+    originalName?: StringFilter<"UploadedFile"> | string
+    sourceMimeType?: StringFilter<"UploadedFile"> | string
+    mimeType?: StringFilter<"UploadedFile"> | string
+    extension?: StringFilter<"UploadedFile"> | string
+    sizeBytes?: IntFilter<"UploadedFile"> | number
+    width?: IntFilter<"UploadedFile"> | number
+    height?: IntFilter<"UploadedFile"> | number
+    checksumSha256?: StringFilter<"UploadedFile"> | string
+    status?: StringFilter<"UploadedFile"> | string
+    isCurrent?: BoolFilter<"UploadedFile"> | boolean
+    replacedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
+    deletedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
+    storageDeletedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
+    organizationId?: StringFilter<"UploadedFile"> | string
+    createdBy?: StringFilter<"UploadedFile"> | string
+    updatedBy?: StringFilter<"UploadedFile"> | string
+    createdAt?: DateTimeFilter<"UploadedFile"> | Date | string
+    updatedAt?: DateTimeFilter<"UploadedFile"> | Date | string
+    vocabularyEntry?: XOR<VocabularyEntryNullableScalarRelationFilter, VocabularyEntryWhereInput> | null
+  }
+
+  export type UploadedFileOrderByWithRelationInput = {
+    id?: SortOrder
+    purpose?: SortOrder
+    ownerType?: SortOrder
+    ownerId?: SortOrder
+    vocabularyEntryId?: SortOrderInput | SortOrder
+    url?: SortOrder
+    path?: SortOrder
+    originalName?: SortOrder
+    sourceMimeType?: SortOrder
+    mimeType?: SortOrder
+    extension?: SortOrder
+    sizeBytes?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    checksumSha256?: SortOrder
+    status?: SortOrder
+    isCurrent?: SortOrder
+    replacedAt?: SortOrderInput | SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    storageDeletedAt?: SortOrderInput | SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    vocabularyEntry?: VocabularyEntryOrderByWithRelationInput
+  }
+
+  export type UploadedFileWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: UploadedFileWhereInput | UploadedFileWhereInput[]
+    OR?: UploadedFileWhereInput[]
+    NOT?: UploadedFileWhereInput | UploadedFileWhereInput[]
+    purpose?: StringFilter<"UploadedFile"> | string
+    ownerType?: StringFilter<"UploadedFile"> | string
+    ownerId?: StringFilter<"UploadedFile"> | string
+    vocabularyEntryId?: StringNullableFilter<"UploadedFile"> | string | null
+    url?: StringFilter<"UploadedFile"> | string
+    path?: StringFilter<"UploadedFile"> | string
+    originalName?: StringFilter<"UploadedFile"> | string
+    sourceMimeType?: StringFilter<"UploadedFile"> | string
+    mimeType?: StringFilter<"UploadedFile"> | string
+    extension?: StringFilter<"UploadedFile"> | string
+    sizeBytes?: IntFilter<"UploadedFile"> | number
+    width?: IntFilter<"UploadedFile"> | number
+    height?: IntFilter<"UploadedFile"> | number
+    checksumSha256?: StringFilter<"UploadedFile"> | string
+    status?: StringFilter<"UploadedFile"> | string
+    isCurrent?: BoolFilter<"UploadedFile"> | boolean
+    replacedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
+    deletedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
+    storageDeletedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
+    organizationId?: StringFilter<"UploadedFile"> | string
+    createdBy?: StringFilter<"UploadedFile"> | string
+    updatedBy?: StringFilter<"UploadedFile"> | string
+    createdAt?: DateTimeFilter<"UploadedFile"> | Date | string
+    updatedAt?: DateTimeFilter<"UploadedFile"> | Date | string
+    vocabularyEntry?: XOR<VocabularyEntryNullableScalarRelationFilter, VocabularyEntryWhereInput> | null
+  }, "id">
+
+  export type UploadedFileOrderByWithAggregationInput = {
+    id?: SortOrder
+    purpose?: SortOrder
+    ownerType?: SortOrder
+    ownerId?: SortOrder
+    vocabularyEntryId?: SortOrderInput | SortOrder
+    url?: SortOrder
+    path?: SortOrder
+    originalName?: SortOrder
+    sourceMimeType?: SortOrder
+    mimeType?: SortOrder
+    extension?: SortOrder
+    sizeBytes?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    checksumSha256?: SortOrder
+    status?: SortOrder
+    isCurrent?: SortOrder
+    replacedAt?: SortOrderInput | SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    storageDeletedAt?: SortOrderInput | SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: UploadedFileCountOrderByAggregateInput
+    _avg?: UploadedFileAvgOrderByAggregateInput
+    _max?: UploadedFileMaxOrderByAggregateInput
+    _min?: UploadedFileMinOrderByAggregateInput
+    _sum?: UploadedFileSumOrderByAggregateInput
+  }
+
+  export type UploadedFileScalarWhereWithAggregatesInput = {
+    AND?: UploadedFileScalarWhereWithAggregatesInput | UploadedFileScalarWhereWithAggregatesInput[]
+    OR?: UploadedFileScalarWhereWithAggregatesInput[]
+    NOT?: UploadedFileScalarWhereWithAggregatesInput | UploadedFileScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UploadedFile"> | string
+    purpose?: StringWithAggregatesFilter<"UploadedFile"> | string
+    ownerType?: StringWithAggregatesFilter<"UploadedFile"> | string
+    ownerId?: StringWithAggregatesFilter<"UploadedFile"> | string
+    vocabularyEntryId?: StringNullableWithAggregatesFilter<"UploadedFile"> | string | null
+    url?: StringWithAggregatesFilter<"UploadedFile"> | string
+    path?: StringWithAggregatesFilter<"UploadedFile"> | string
+    originalName?: StringWithAggregatesFilter<"UploadedFile"> | string
+    sourceMimeType?: StringWithAggregatesFilter<"UploadedFile"> | string
+    mimeType?: StringWithAggregatesFilter<"UploadedFile"> | string
+    extension?: StringWithAggregatesFilter<"UploadedFile"> | string
+    sizeBytes?: IntWithAggregatesFilter<"UploadedFile"> | number
+    width?: IntWithAggregatesFilter<"UploadedFile"> | number
+    height?: IntWithAggregatesFilter<"UploadedFile"> | number
+    checksumSha256?: StringWithAggregatesFilter<"UploadedFile"> | string
+    status?: StringWithAggregatesFilter<"UploadedFile"> | string
+    isCurrent?: BoolWithAggregatesFilter<"UploadedFile"> | boolean
+    replacedAt?: DateTimeNullableWithAggregatesFilter<"UploadedFile"> | Date | string | null
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"UploadedFile"> | Date | string | null
+    storageDeletedAt?: DateTimeNullableWithAggregatesFilter<"UploadedFile"> | Date | string | null
+    organizationId?: StringWithAggregatesFilter<"UploadedFile"> | string
+    createdBy?: StringWithAggregatesFilter<"UploadedFile"> | string
+    updatedBy?: StringWithAggregatesFilter<"UploadedFile"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"UploadedFile"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"UploadedFile"> | Date | string
   }
 
   export type SynonymsAntonymsWhereInput = {
@@ -65572,6 +71090,8 @@ export namespace Prisma {
     id?: StringFilter<"SubjectMatchingSentencesBlock"> | string
     classId?: StringFilter<"SubjectMatchingSentencesBlock"> | string
     subjectId?: StringFilter<"SubjectMatchingSentencesBlock"> | string
+    boardId?: StringNullableFilter<"SubjectMatchingSentencesBlock"> | string | null
+    academicYearId?: StringNullableFilter<"SubjectMatchingSentencesBlock"> | string | null
     title?: StringFilter<"SubjectMatchingSentencesBlock"> | string
     instruction?: StringFilter<"SubjectMatchingSentencesBlock"> | string
     details?: StringFilter<"SubjectMatchingSentencesBlock"> | string
@@ -65588,6 +71108,8 @@ export namespace Prisma {
     id?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
+    boardId?: SortOrderInput | SortOrder
+    academicYearId?: SortOrderInput | SortOrder
     title?: SortOrder
     instruction?: SortOrder
     details?: SortOrder
@@ -65607,6 +71129,8 @@ export namespace Prisma {
     NOT?: SubjectMatchingSentencesBlockWhereInput | SubjectMatchingSentencesBlockWhereInput[]
     classId?: StringFilter<"SubjectMatchingSentencesBlock"> | string
     subjectId?: StringFilter<"SubjectMatchingSentencesBlock"> | string
+    boardId?: StringNullableFilter<"SubjectMatchingSentencesBlock"> | string | null
+    academicYearId?: StringNullableFilter<"SubjectMatchingSentencesBlock"> | string | null
     title?: StringFilter<"SubjectMatchingSentencesBlock"> | string
     instruction?: StringFilter<"SubjectMatchingSentencesBlock"> | string
     details?: StringFilter<"SubjectMatchingSentencesBlock"> | string
@@ -65623,6 +71147,8 @@ export namespace Prisma {
     id?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
+    boardId?: SortOrderInput | SortOrder
+    academicYearId?: SortOrderInput | SortOrder
     title?: SortOrder
     instruction?: SortOrder
     details?: SortOrder
@@ -65647,6 +71173,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"SubjectMatchingSentencesBlock"> | string
     classId?: StringWithAggregatesFilter<"SubjectMatchingSentencesBlock"> | string
     subjectId?: StringWithAggregatesFilter<"SubjectMatchingSentencesBlock"> | string
+    boardId?: StringNullableWithAggregatesFilter<"SubjectMatchingSentencesBlock"> | string | null
+    academicYearId?: StringNullableWithAggregatesFilter<"SubjectMatchingSentencesBlock"> | string | null
     title?: StringWithAggregatesFilter<"SubjectMatchingSentencesBlock"> | string
     instruction?: StringWithAggregatesFilter<"SubjectMatchingSentencesBlock"> | string
     details?: StringWithAggregatesFilter<"SubjectMatchingSentencesBlock"> | string
@@ -65666,6 +71194,8 @@ export namespace Prisma {
     id?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
     classId?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
     subjectId?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
+    boardId?: StringNullableFilter<"SubjectRearrangeSentenceBlock"> | string | null
+    academicYearId?: StringNullableFilter<"SubjectRearrangeSentenceBlock"> | string | null
     title?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
     instruction?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
     details?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
@@ -65682,6 +71212,8 @@ export namespace Prisma {
     id?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
+    boardId?: SortOrderInput | SortOrder
+    academicYearId?: SortOrderInput | SortOrder
     title?: SortOrder
     instruction?: SortOrder
     details?: SortOrder
@@ -65701,6 +71233,8 @@ export namespace Prisma {
     NOT?: SubjectRearrangeSentenceBlockWhereInput | SubjectRearrangeSentenceBlockWhereInput[]
     classId?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
     subjectId?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
+    boardId?: StringNullableFilter<"SubjectRearrangeSentenceBlock"> | string | null
+    academicYearId?: StringNullableFilter<"SubjectRearrangeSentenceBlock"> | string | null
     title?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
     instruction?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
     details?: StringFilter<"SubjectRearrangeSentenceBlock"> | string
@@ -65717,6 +71251,8 @@ export namespace Prisma {
     id?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
+    boardId?: SortOrderInput | SortOrder
+    academicYearId?: SortOrderInput | SortOrder
     title?: SortOrder
     instruction?: SortOrder
     details?: SortOrder
@@ -65741,6 +71277,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"SubjectRearrangeSentenceBlock"> | string
     classId?: StringWithAggregatesFilter<"SubjectRearrangeSentenceBlock"> | string
     subjectId?: StringWithAggregatesFilter<"SubjectRearrangeSentenceBlock"> | string
+    boardId?: StringNullableWithAggregatesFilter<"SubjectRearrangeSentenceBlock"> | string | null
+    academicYearId?: StringNullableWithAggregatesFilter<"SubjectRearrangeSentenceBlock"> | string | null
     title?: StringWithAggregatesFilter<"SubjectRearrangeSentenceBlock"> | string
     instruction?: StringWithAggregatesFilter<"SubjectRearrangeSentenceBlock"> | string
     details?: StringWithAggregatesFilter<"SubjectRearrangeSentenceBlock"> | string
@@ -65760,6 +71298,8 @@ export namespace Prisma {
     id?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
     classId?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
     subjectId?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
+    boardId?: StringNullableFilter<"SubjectQuestionFromPoemsBlock"> | string | null
+    academicYearId?: StringNullableFilter<"SubjectQuestionFromPoemsBlock"> | string | null
     title?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
     instruction?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
     details?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
@@ -65776,6 +71316,8 @@ export namespace Prisma {
     id?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
+    boardId?: SortOrderInput | SortOrder
+    academicYearId?: SortOrderInput | SortOrder
     title?: SortOrder
     instruction?: SortOrder
     details?: SortOrder
@@ -65795,6 +71337,8 @@ export namespace Prisma {
     NOT?: SubjectQuestionFromPoemsBlockWhereInput | SubjectQuestionFromPoemsBlockWhereInput[]
     classId?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
     subjectId?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
+    boardId?: StringNullableFilter<"SubjectQuestionFromPoemsBlock"> | string | null
+    academicYearId?: StringNullableFilter<"SubjectQuestionFromPoemsBlock"> | string | null
     title?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
     instruction?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
     details?: StringFilter<"SubjectQuestionFromPoemsBlock"> | string
@@ -65811,6 +71355,8 @@ export namespace Prisma {
     id?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
+    boardId?: SortOrderInput | SortOrder
+    academicYearId?: SortOrderInput | SortOrder
     title?: SortOrder
     instruction?: SortOrder
     details?: SortOrder
@@ -65835,6 +71381,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"SubjectQuestionFromPoemsBlock"> | string
     classId?: StringWithAggregatesFilter<"SubjectQuestionFromPoemsBlock"> | string
     subjectId?: StringWithAggregatesFilter<"SubjectQuestionFromPoemsBlock"> | string
+    boardId?: StringNullableWithAggregatesFilter<"SubjectQuestionFromPoemsBlock"> | string | null
+    academicYearId?: StringNullableWithAggregatesFilter<"SubjectQuestionFromPoemsBlock"> | string | null
     title?: StringWithAggregatesFilter<"SubjectQuestionFromPoemsBlock"> | string
     instruction?: StringWithAggregatesFilter<"SubjectQuestionFromPoemsBlock"> | string
     details?: StringWithAggregatesFilter<"SubjectQuestionFromPoemsBlock"> | string
@@ -65854,6 +71402,8 @@ export namespace Prisma {
     id?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
     classId?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
     subjectId?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
+    boardId?: StringNullableFilter<"SubjectQuestionFromStoryBlock"> | string | null
+    academicYearId?: StringNullableFilter<"SubjectQuestionFromStoryBlock"> | string | null
     title?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
     instruction?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
     details?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
@@ -65870,6 +71420,8 @@ export namespace Prisma {
     id?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
+    boardId?: SortOrderInput | SortOrder
+    academicYearId?: SortOrderInput | SortOrder
     title?: SortOrder
     instruction?: SortOrder
     details?: SortOrder
@@ -65889,6 +71441,8 @@ export namespace Prisma {
     NOT?: SubjectQuestionFromStoryBlockWhereInput | SubjectQuestionFromStoryBlockWhereInput[]
     classId?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
     subjectId?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
+    boardId?: StringNullableFilter<"SubjectQuestionFromStoryBlock"> | string | null
+    academicYearId?: StringNullableFilter<"SubjectQuestionFromStoryBlock"> | string | null
     title?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
     instruction?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
     details?: StringFilter<"SubjectQuestionFromStoryBlock"> | string
@@ -65905,6 +71459,8 @@ export namespace Prisma {
     id?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
+    boardId?: SortOrderInput | SortOrder
+    academicYearId?: SortOrderInput | SortOrder
     title?: SortOrder
     instruction?: SortOrder
     details?: SortOrder
@@ -65929,6 +71485,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"SubjectQuestionFromStoryBlock"> | string
     classId?: StringWithAggregatesFilter<"SubjectQuestionFromStoryBlock"> | string
     subjectId?: StringWithAggregatesFilter<"SubjectQuestionFromStoryBlock"> | string
+    boardId?: StringNullableWithAggregatesFilter<"SubjectQuestionFromStoryBlock"> | string | null
+    academicYearId?: StringNullableWithAggregatesFilter<"SubjectQuestionFromStoryBlock"> | string | null
     title?: StringWithAggregatesFilter<"SubjectQuestionFromStoryBlock"> | string
     instruction?: StringWithAggregatesFilter<"SubjectQuestionFromStoryBlock"> | string
     details?: StringWithAggregatesFilter<"SubjectQuestionFromStoryBlock"> | string
@@ -65939,6 +71497,253 @@ export namespace Prisma {
     updatedBy?: StringWithAggregatesFilter<"SubjectQuestionFromStoryBlock"> | string
     createdAt?: DateTimeWithAggregatesFilter<"SubjectQuestionFromStoryBlock"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"SubjectQuestionFromStoryBlock"> | Date | string
+  }
+
+  export type SubjectEnglishSecondPaperBlockWhereInput = {
+    AND?: SubjectEnglishSecondPaperBlockWhereInput | SubjectEnglishSecondPaperBlockWhereInput[]
+    OR?: SubjectEnglishSecondPaperBlockWhereInput[]
+    NOT?: SubjectEnglishSecondPaperBlockWhereInput | SubjectEnglishSecondPaperBlockWhereInput[]
+    id?: StringFilter<"SubjectEnglishSecondPaperBlock"> | string
+    classId?: StringFilter<"SubjectEnglishSecondPaperBlock"> | string
+    subjectId?: StringFilter<"SubjectEnglishSecondPaperBlock"> | string
+    kind?: StringFilter<"SubjectEnglishSecondPaperBlock"> | string
+    boardId?: StringNullableFilter<"SubjectEnglishSecondPaperBlock"> | string | null
+    academicYearId?: StringNullableFilter<"SubjectEnglishSecondPaperBlock"> | string | null
+    title?: StringFilter<"SubjectEnglishSecondPaperBlock"> | string
+    instruction?: StringFilter<"SubjectEnglishSecondPaperBlock"> | string
+    details?: StringFilter<"SubjectEnglishSecondPaperBlock"> | string
+    documentJson?: StringFilter<"SubjectEnglishSecondPaperBlock"> | string
+    sortOrder?: IntFilter<"SubjectEnglishSecondPaperBlock"> | number
+    organizationId?: StringFilter<"SubjectEnglishSecondPaperBlock"> | string
+    createdBy?: StringFilter<"SubjectEnglishSecondPaperBlock"> | string
+    updatedBy?: StringFilter<"SubjectEnglishSecondPaperBlock"> | string
+    createdAt?: DateTimeFilter<"SubjectEnglishSecondPaperBlock"> | Date | string
+    updatedAt?: DateTimeFilter<"SubjectEnglishSecondPaperBlock"> | Date | string
+  }
+
+  export type SubjectEnglishSecondPaperBlockOrderByWithRelationInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    kind?: SortOrder
+    boardId?: SortOrderInput | SortOrder
+    academicYearId?: SortOrderInput | SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectEnglishSecondPaperBlockWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SubjectEnglishSecondPaperBlockWhereInput | SubjectEnglishSecondPaperBlockWhereInput[]
+    OR?: SubjectEnglishSecondPaperBlockWhereInput[]
+    NOT?: SubjectEnglishSecondPaperBlockWhereInput | SubjectEnglishSecondPaperBlockWhereInput[]
+    classId?: StringFilter<"SubjectEnglishSecondPaperBlock"> | string
+    subjectId?: StringFilter<"SubjectEnglishSecondPaperBlock"> | string
+    kind?: StringFilter<"SubjectEnglishSecondPaperBlock"> | string
+    boardId?: StringNullableFilter<"SubjectEnglishSecondPaperBlock"> | string | null
+    academicYearId?: StringNullableFilter<"SubjectEnglishSecondPaperBlock"> | string | null
+    title?: StringFilter<"SubjectEnglishSecondPaperBlock"> | string
+    instruction?: StringFilter<"SubjectEnglishSecondPaperBlock"> | string
+    details?: StringFilter<"SubjectEnglishSecondPaperBlock"> | string
+    documentJson?: StringFilter<"SubjectEnglishSecondPaperBlock"> | string
+    sortOrder?: IntFilter<"SubjectEnglishSecondPaperBlock"> | number
+    organizationId?: StringFilter<"SubjectEnglishSecondPaperBlock"> | string
+    createdBy?: StringFilter<"SubjectEnglishSecondPaperBlock"> | string
+    updatedBy?: StringFilter<"SubjectEnglishSecondPaperBlock"> | string
+    createdAt?: DateTimeFilter<"SubjectEnglishSecondPaperBlock"> | Date | string
+    updatedAt?: DateTimeFilter<"SubjectEnglishSecondPaperBlock"> | Date | string
+  }, "id">
+
+  export type SubjectEnglishSecondPaperBlockOrderByWithAggregationInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    kind?: SortOrder
+    boardId?: SortOrderInput | SortOrder
+    academicYearId?: SortOrderInput | SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SubjectEnglishSecondPaperBlockCountOrderByAggregateInput
+    _avg?: SubjectEnglishSecondPaperBlockAvgOrderByAggregateInput
+    _max?: SubjectEnglishSecondPaperBlockMaxOrderByAggregateInput
+    _min?: SubjectEnglishSecondPaperBlockMinOrderByAggregateInput
+    _sum?: SubjectEnglishSecondPaperBlockSumOrderByAggregateInput
+  }
+
+  export type SubjectEnglishSecondPaperBlockScalarWhereWithAggregatesInput = {
+    AND?: SubjectEnglishSecondPaperBlockScalarWhereWithAggregatesInput | SubjectEnglishSecondPaperBlockScalarWhereWithAggregatesInput[]
+    OR?: SubjectEnglishSecondPaperBlockScalarWhereWithAggregatesInput[]
+    NOT?: SubjectEnglishSecondPaperBlockScalarWhereWithAggregatesInput | SubjectEnglishSecondPaperBlockScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SubjectEnglishSecondPaperBlock"> | string
+    classId?: StringWithAggregatesFilter<"SubjectEnglishSecondPaperBlock"> | string
+    subjectId?: StringWithAggregatesFilter<"SubjectEnglishSecondPaperBlock"> | string
+    kind?: StringWithAggregatesFilter<"SubjectEnglishSecondPaperBlock"> | string
+    boardId?: StringNullableWithAggregatesFilter<"SubjectEnglishSecondPaperBlock"> | string | null
+    academicYearId?: StringNullableWithAggregatesFilter<"SubjectEnglishSecondPaperBlock"> | string | null
+    title?: StringWithAggregatesFilter<"SubjectEnglishSecondPaperBlock"> | string
+    instruction?: StringWithAggregatesFilter<"SubjectEnglishSecondPaperBlock"> | string
+    details?: StringWithAggregatesFilter<"SubjectEnglishSecondPaperBlock"> | string
+    documentJson?: StringWithAggregatesFilter<"SubjectEnglishSecondPaperBlock"> | string
+    sortOrder?: IntWithAggregatesFilter<"SubjectEnglishSecondPaperBlock"> | number
+    organizationId?: StringWithAggregatesFilter<"SubjectEnglishSecondPaperBlock"> | string
+    createdBy?: StringWithAggregatesFilter<"SubjectEnglishSecondPaperBlock"> | string
+    updatedBy?: StringWithAggregatesFilter<"SubjectEnglishSecondPaperBlock"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"SubjectEnglishSecondPaperBlock"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SubjectEnglishSecondPaperBlock"> | Date | string
+  }
+
+  export type BoardWhereInput = {
+    AND?: BoardWhereInput | BoardWhereInput[]
+    OR?: BoardWhereInput[]
+    NOT?: BoardWhereInput | BoardWhereInput[]
+    id?: StringFilter<"Board"> | string
+    name?: StringFilter<"Board"> | string
+    isActive?: BoolFilter<"Board"> | boolean
+    organizationId?: StringFilter<"Board"> | string
+    createdBy?: StringFilter<"Board"> | string
+    updatedBy?: StringFilter<"Board"> | string
+    createdAt?: DateTimeFilter<"Board"> | Date | string
+    updatedAt?: DateTimeFilter<"Board"> | Date | string
+  }
+
+  export type BoardOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    isActive?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BoardWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    organizationId_name?: BoardOrganizationIdNameCompoundUniqueInput
+    AND?: BoardWhereInput | BoardWhereInput[]
+    OR?: BoardWhereInput[]
+    NOT?: BoardWhereInput | BoardWhereInput[]
+    name?: StringFilter<"Board"> | string
+    isActive?: BoolFilter<"Board"> | boolean
+    organizationId?: StringFilter<"Board"> | string
+    createdBy?: StringFilter<"Board"> | string
+    updatedBy?: StringFilter<"Board"> | string
+    createdAt?: DateTimeFilter<"Board"> | Date | string
+    updatedAt?: DateTimeFilter<"Board"> | Date | string
+  }, "id" | "organizationId_name">
+
+  export type BoardOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    isActive?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BoardCountOrderByAggregateInput
+    _max?: BoardMaxOrderByAggregateInput
+    _min?: BoardMinOrderByAggregateInput
+  }
+
+  export type BoardScalarWhereWithAggregatesInput = {
+    AND?: BoardScalarWhereWithAggregatesInput | BoardScalarWhereWithAggregatesInput[]
+    OR?: BoardScalarWhereWithAggregatesInput[]
+    NOT?: BoardScalarWhereWithAggregatesInput | BoardScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Board"> | string
+    name?: StringWithAggregatesFilter<"Board"> | string
+    isActive?: BoolWithAggregatesFilter<"Board"> | boolean
+    organizationId?: StringWithAggregatesFilter<"Board"> | string
+    createdBy?: StringWithAggregatesFilter<"Board"> | string
+    updatedBy?: StringWithAggregatesFilter<"Board"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Board"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Board"> | Date | string
+  }
+
+  export type AcademicYearWhereInput = {
+    AND?: AcademicYearWhereInput | AcademicYearWhereInput[]
+    OR?: AcademicYearWhereInput[]
+    NOT?: AcademicYearWhereInput | AcademicYearWhereInput[]
+    id?: StringFilter<"AcademicYear"> | string
+    year?: IntFilter<"AcademicYear"> | number
+    isActive?: BoolFilter<"AcademicYear"> | boolean
+    organizationId?: StringFilter<"AcademicYear"> | string
+    createdBy?: StringFilter<"AcademicYear"> | string
+    updatedBy?: StringFilter<"AcademicYear"> | string
+    createdAt?: DateTimeFilter<"AcademicYear"> | Date | string
+    updatedAt?: DateTimeFilter<"AcademicYear"> | Date | string
+  }
+
+  export type AcademicYearOrderByWithRelationInput = {
+    id?: SortOrder
+    year?: SortOrder
+    isActive?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AcademicYearWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    organizationId_year?: AcademicYearOrganizationIdYearCompoundUniqueInput
+    AND?: AcademicYearWhereInput | AcademicYearWhereInput[]
+    OR?: AcademicYearWhereInput[]
+    NOT?: AcademicYearWhereInput | AcademicYearWhereInput[]
+    year?: IntFilter<"AcademicYear"> | number
+    isActive?: BoolFilter<"AcademicYear"> | boolean
+    organizationId?: StringFilter<"AcademicYear"> | string
+    createdBy?: StringFilter<"AcademicYear"> | string
+    updatedBy?: StringFilter<"AcademicYear"> | string
+    createdAt?: DateTimeFilter<"AcademicYear"> | Date | string
+    updatedAt?: DateTimeFilter<"AcademicYear"> | Date | string
+  }, "id" | "organizationId_year">
+
+  export type AcademicYearOrderByWithAggregationInput = {
+    id?: SortOrder
+    year?: SortOrder
+    isActive?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AcademicYearCountOrderByAggregateInput
+    _avg?: AcademicYearAvgOrderByAggregateInput
+    _max?: AcademicYearMaxOrderByAggregateInput
+    _min?: AcademicYearMinOrderByAggregateInput
+    _sum?: AcademicYearSumOrderByAggregateInput
+  }
+
+  export type AcademicYearScalarWhereWithAggregatesInput = {
+    AND?: AcademicYearScalarWhereWithAggregatesInput | AcademicYearScalarWhereWithAggregatesInput[]
+    OR?: AcademicYearScalarWhereWithAggregatesInput[]
+    NOT?: AcademicYearScalarWhereWithAggregatesInput | AcademicYearScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AcademicYear"> | string
+    year?: IntWithAggregatesFilter<"AcademicYear"> | number
+    isActive?: BoolWithAggregatesFilter<"AcademicYear"> | boolean
+    organizationId?: StringWithAggregatesFilter<"AcademicYear"> | string
+    createdBy?: StringWithAggregatesFilter<"AcademicYear"> | string
+    updatedBy?: StringWithAggregatesFilter<"AcademicYear"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"AcademicYear"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AcademicYear"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -67192,6 +72997,7 @@ export namespace Prisma {
 
   export type ContentCreateInput = {
     id?: string
+    title?: string
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -67207,6 +73013,7 @@ export namespace Prisma {
 
   export type ContentUncheckedCreateInput = {
     id?: string
+    title?: string
     classId: string
     subjectId: string
     unitId: string
@@ -67222,6 +73029,7 @@ export namespace Prisma {
 
   export type ContentUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -67237,6 +73045,7 @@ export namespace Prisma {
 
   export type ContentUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
     unitId?: StringFieldUpdateOperationsInput | string
@@ -67252,6 +73061,7 @@ export namespace Prisma {
 
   export type ContentCreateManyInput = {
     id?: string
+    title?: string
     classId: string
     subjectId: string
     unitId: string
@@ -67266,6 +73076,7 @@ export namespace Prisma {
 
   export type ContentUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -67275,6 +73086,7 @@ export namespace Prisma {
 
   export type ContentUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
     unitId?: StringFieldUpdateOperationsInput | string
@@ -67616,6 +73428,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -67652,6 +73466,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -67686,6 +73502,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -67722,6 +73540,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -67757,6 +73577,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -67765,6 +73587,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -67774,6 +73598,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -68036,6 +73862,8 @@ export namespace Prisma {
     id?: string
     word?: string
     meaning?: string
+    imageUrl?: string
+    imagePath?: string
     sortOrder?: number
     organizationId: string
     createdBy: string
@@ -68043,6 +73871,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     vocabulary: VocabularyCreateNestedOneWithoutEntriesInput
+    uploadedFiles?: UploadedFileCreateNestedManyWithoutVocabularyEntryInput
   }
 
   export type VocabularyEntryUncheckedCreateInput = {
@@ -68050,18 +73879,23 @@ export namespace Prisma {
     vocabularyId: string
     word?: string
     meaning?: string
+    imageUrl?: string
+    imagePath?: string
     sortOrder?: number
     organizationId: string
     createdBy: string
     updatedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    uploadedFiles?: UploadedFileUncheckedCreateNestedManyWithoutVocabularyEntryInput
   }
 
   export type VocabularyEntryUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -68069,6 +73903,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vocabulary?: VocabularyUpdateOneRequiredWithoutEntriesNestedInput
+    uploadedFiles?: UploadedFileUpdateManyWithoutVocabularyEntryNestedInput
   }
 
   export type VocabularyEntryUncheckedUpdateInput = {
@@ -68076,12 +73911,15 @@ export namespace Prisma {
     vocabularyId?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    uploadedFiles?: UploadedFileUncheckedUpdateManyWithoutVocabularyEntryNestedInput
   }
 
   export type VocabularyEntryCreateManyInput = {
@@ -68089,6 +73927,8 @@ export namespace Prisma {
     vocabularyId: string
     word?: string
     meaning?: string
+    imageUrl?: string
+    imagePath?: string
     sortOrder?: number
     organizationId: string
     createdBy: string
@@ -68101,6 +73941,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -68114,7 +73956,204 @@ export namespace Prisma {
     vocabularyId?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UploadedFileCreateInput = {
+    id?: string
+    purpose?: string
+    ownerType?: string
+    ownerId?: string
+    url?: string
+    path?: string
+    originalName?: string
+    sourceMimeType?: string
+    mimeType?: string
+    extension?: string
+    sizeBytes?: number
+    width?: number
+    height?: number
+    checksumSha256?: string
+    status?: string
+    isCurrent?: boolean
+    replacedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    storageDeletedAt?: Date | string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vocabularyEntry?: VocabularyEntryCreateNestedOneWithoutUploadedFilesInput
+  }
+
+  export type UploadedFileUncheckedCreateInput = {
+    id?: string
+    purpose?: string
+    ownerType?: string
+    ownerId?: string
+    vocabularyEntryId?: string | null
+    url?: string
+    path?: string
+    originalName?: string
+    sourceMimeType?: string
+    mimeType?: string
+    extension?: string
+    sizeBytes?: number
+    width?: number
+    height?: number
+    checksumSha256?: string
+    status?: string
+    isCurrent?: boolean
+    replacedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    storageDeletedAt?: Date | string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UploadedFileUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    purpose?: StringFieldUpdateOperationsInput | string
+    ownerType?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    path?: StringFieldUpdateOperationsInput | string
+    originalName?: StringFieldUpdateOperationsInput | string
+    sourceMimeType?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    extension?: StringFieldUpdateOperationsInput | string
+    sizeBytes?: IntFieldUpdateOperationsInput | number
+    width?: IntFieldUpdateOperationsInput | number
+    height?: IntFieldUpdateOperationsInput | number
+    checksumSha256?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vocabularyEntry?: VocabularyEntryUpdateOneWithoutUploadedFilesNestedInput
+  }
+
+  export type UploadedFileUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    purpose?: StringFieldUpdateOperationsInput | string
+    ownerType?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    vocabularyEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: StringFieldUpdateOperationsInput | string
+    path?: StringFieldUpdateOperationsInput | string
+    originalName?: StringFieldUpdateOperationsInput | string
+    sourceMimeType?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    extension?: StringFieldUpdateOperationsInput | string
+    sizeBytes?: IntFieldUpdateOperationsInput | number
+    width?: IntFieldUpdateOperationsInput | number
+    height?: IntFieldUpdateOperationsInput | number
+    checksumSha256?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UploadedFileCreateManyInput = {
+    id?: string
+    purpose?: string
+    ownerType?: string
+    ownerId?: string
+    vocabularyEntryId?: string | null
+    url?: string
+    path?: string
+    originalName?: string
+    sourceMimeType?: string
+    mimeType?: string
+    extension?: string
+    sizeBytes?: number
+    width?: number
+    height?: number
+    checksumSha256?: string
+    status?: string
+    isCurrent?: boolean
+    replacedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    storageDeletedAt?: Date | string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UploadedFileUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    purpose?: StringFieldUpdateOperationsInput | string
+    ownerType?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    path?: StringFieldUpdateOperationsInput | string
+    originalName?: StringFieldUpdateOperationsInput | string
+    sourceMimeType?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    extension?: StringFieldUpdateOperationsInput | string
+    sizeBytes?: IntFieldUpdateOperationsInput | number
+    width?: IntFieldUpdateOperationsInput | number
+    height?: IntFieldUpdateOperationsInput | number
+    checksumSha256?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UploadedFileUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    purpose?: StringFieldUpdateOperationsInput | string
+    ownerType?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    vocabularyEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: StringFieldUpdateOperationsInput | string
+    path?: StringFieldUpdateOperationsInput | string
+    originalName?: StringFieldUpdateOperationsInput | string
+    sourceMimeType?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    extension?: StringFieldUpdateOperationsInput | string
+    sizeBytes?: IntFieldUpdateOperationsInput | number
+    width?: IntFieldUpdateOperationsInput | number
+    height?: IntFieldUpdateOperationsInput | number
+    checksumSha256?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -71369,6 +77408,8 @@ export namespace Prisma {
     id?: string
     classId: string
     subjectId: string
+    boardId?: string | null
+    academicYearId?: string | null
     title?: string
     instruction?: string
     details?: string
@@ -71385,6 +77426,8 @@ export namespace Prisma {
     id?: string
     classId: string
     subjectId: string
+    boardId?: string | null
+    academicYearId?: string | null
     title?: string
     instruction?: string
     details?: string
@@ -71401,6 +77444,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     instruction?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -71417,6 +77462,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     instruction?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -71433,6 +77480,8 @@ export namespace Prisma {
     id?: string
     classId: string
     subjectId: string
+    boardId?: string | null
+    academicYearId?: string | null
     title?: string
     instruction?: string
     details?: string
@@ -71449,6 +77498,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     instruction?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -71465,6 +77516,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     instruction?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -71481,6 +77534,8 @@ export namespace Prisma {
     id?: string
     classId: string
     subjectId: string
+    boardId?: string | null
+    academicYearId?: string | null
     title?: string
     instruction?: string
     details?: string
@@ -71497,6 +77552,8 @@ export namespace Prisma {
     id?: string
     classId: string
     subjectId: string
+    boardId?: string | null
+    academicYearId?: string | null
     title?: string
     instruction?: string
     details?: string
@@ -71513,6 +77570,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     instruction?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -71529,6 +77588,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     instruction?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -71545,6 +77606,8 @@ export namespace Prisma {
     id?: string
     classId: string
     subjectId: string
+    boardId?: string | null
+    academicYearId?: string | null
     title?: string
     instruction?: string
     details?: string
@@ -71561,6 +77624,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     instruction?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -71577,6 +77642,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     instruction?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -71593,6 +77660,8 @@ export namespace Prisma {
     id?: string
     classId: string
     subjectId: string
+    boardId?: string | null
+    academicYearId?: string | null
     title?: string
     instruction?: string
     details?: string
@@ -71609,6 +77678,8 @@ export namespace Prisma {
     id?: string
     classId: string
     subjectId: string
+    boardId?: string | null
+    academicYearId?: string | null
     title?: string
     instruction?: string
     details?: string
@@ -71625,6 +77696,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     instruction?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -71641,6 +77714,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     instruction?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -71657,6 +77732,8 @@ export namespace Prisma {
     id?: string
     classId: string
     subjectId: string
+    boardId?: string | null
+    academicYearId?: string | null
     title?: string
     instruction?: string
     details?: string
@@ -71673,6 +77750,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     instruction?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -71689,6 +77768,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     instruction?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -71705,6 +77786,8 @@ export namespace Prisma {
     id?: string
     classId: string
     subjectId: string
+    boardId?: string | null
+    academicYearId?: string | null
     title?: string
     instruction?: string
     details?: string
@@ -71721,6 +77804,8 @@ export namespace Prisma {
     id?: string
     classId: string
     subjectId: string
+    boardId?: string | null
+    academicYearId?: string | null
     title?: string
     instruction?: string
     details?: string
@@ -71737,6 +77822,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     instruction?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -71753,6 +77840,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     instruction?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -71769,6 +77858,8 @@ export namespace Prisma {
     id?: string
     classId: string
     subjectId: string
+    boardId?: string | null
+    academicYearId?: string | null
     title?: string
     instruction?: string
     details?: string
@@ -71785,6 +77876,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     instruction?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -71801,11 +77894,300 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     instruction?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     documentJson?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectEnglishSecondPaperBlockCreateInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    kind: string
+    boardId?: string | null
+    academicYearId?: string | null
+    title?: string
+    instruction?: string
+    details?: string
+    documentJson?: string
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubjectEnglishSecondPaperBlockUncheckedCreateInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    kind: string
+    boardId?: string | null
+    academicYearId?: string | null
+    title?: string
+    instruction?: string
+    details?: string
+    documentJson?: string
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubjectEnglishSecondPaperBlockUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectEnglishSecondPaperBlockUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectEnglishSecondPaperBlockCreateManyInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    kind: string
+    boardId?: string | null
+    academicYearId?: string | null
+    title?: string
+    instruction?: string
+    details?: string
+    documentJson?: string
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubjectEnglishSecondPaperBlockUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectEnglishSecondPaperBlockUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BoardCreateInput = {
+    id?: string
+    name: string
+    isActive?: boolean
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BoardUncheckedCreateInput = {
+    id?: string
+    name: string
+    isActive?: boolean
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BoardUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BoardUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BoardCreateManyInput = {
+    id?: string
+    name: string
+    isActive?: boolean
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BoardUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BoardUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AcademicYearCreateInput = {
+    id?: string
+    year: number
+    isActive?: boolean
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AcademicYearUncheckedCreateInput = {
+    id?: string
+    year: number
+    isActive?: boolean
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AcademicYearUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AcademicYearUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AcademicYearCreateManyInput = {
+    id?: string
+    year: number
+    isActive?: boolean
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AcademicYearUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AcademicYearUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -72703,6 +79085,7 @@ export namespace Prisma {
 
   export type ContentCountOrderByAggregateInput = {
     id?: SortOrder
+    title?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
     unitId?: SortOrder
@@ -72717,6 +79100,7 @@ export namespace Prisma {
 
   export type ContentMaxOrderByAggregateInput = {
     id?: SortOrder
+    title?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
     unitId?: SortOrder
@@ -72731,6 +79115,7 @@ export namespace Prisma {
 
   export type ContentMinOrderByAggregateInput = {
     id?: SortOrder
+    title?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
     unitId?: SortOrder
@@ -73029,6 +79414,8 @@ export namespace Prisma {
     contentId?: SortOrder
     kind?: SortOrder
     sortOrder?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -73042,6 +79429,8 @@ export namespace Prisma {
     contentId?: SortOrder
     kind?: SortOrder
     sortOrder?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -73051,6 +79440,8 @@ export namespace Prisma {
     contentId?: SortOrder
     kind?: SortOrder
     sortOrder?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -73182,11 +79573,23 @@ export namespace Prisma {
     isNot?: VocabularyWhereInput
   }
 
+  export type UploadedFileListRelationFilter = {
+    every?: UploadedFileWhereInput
+    some?: UploadedFileWhereInput
+    none?: UploadedFileWhereInput
+  }
+
+  export type UploadedFileOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type VocabularyEntryCountOrderByAggregateInput = {
     id?: SortOrder
     vocabularyId?: SortOrder
     word?: SortOrder
     meaning?: SortOrder
+    imageUrl?: SortOrder
+    imagePath?: SortOrder
     sortOrder?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
@@ -73204,6 +79607,8 @@ export namespace Prisma {
     vocabularyId?: SortOrder
     word?: SortOrder
     meaning?: SortOrder
+    imageUrl?: SortOrder
+    imagePath?: SortOrder
     sortOrder?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
@@ -73217,6 +79622,8 @@ export namespace Prisma {
     vocabularyId?: SortOrder
     word?: SortOrder
     meaning?: SortOrder
+    imageUrl?: SortOrder
+    imagePath?: SortOrder
     sortOrder?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
@@ -73227,6 +79634,107 @@ export namespace Prisma {
 
   export type VocabularyEntrySumOrderByAggregateInput = {
     sortOrder?: SortOrder
+  }
+
+  export type VocabularyEntryNullableScalarRelationFilter = {
+    is?: VocabularyEntryWhereInput | null
+    isNot?: VocabularyEntryWhereInput | null
+  }
+
+  export type UploadedFileCountOrderByAggregateInput = {
+    id?: SortOrder
+    purpose?: SortOrder
+    ownerType?: SortOrder
+    ownerId?: SortOrder
+    vocabularyEntryId?: SortOrder
+    url?: SortOrder
+    path?: SortOrder
+    originalName?: SortOrder
+    sourceMimeType?: SortOrder
+    mimeType?: SortOrder
+    extension?: SortOrder
+    sizeBytes?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    checksumSha256?: SortOrder
+    status?: SortOrder
+    isCurrent?: SortOrder
+    replacedAt?: SortOrder
+    deletedAt?: SortOrder
+    storageDeletedAt?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UploadedFileAvgOrderByAggregateInput = {
+    sizeBytes?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+  }
+
+  export type UploadedFileMaxOrderByAggregateInput = {
+    id?: SortOrder
+    purpose?: SortOrder
+    ownerType?: SortOrder
+    ownerId?: SortOrder
+    vocabularyEntryId?: SortOrder
+    url?: SortOrder
+    path?: SortOrder
+    originalName?: SortOrder
+    sourceMimeType?: SortOrder
+    mimeType?: SortOrder
+    extension?: SortOrder
+    sizeBytes?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    checksumSha256?: SortOrder
+    status?: SortOrder
+    isCurrent?: SortOrder
+    replacedAt?: SortOrder
+    deletedAt?: SortOrder
+    storageDeletedAt?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UploadedFileMinOrderByAggregateInput = {
+    id?: SortOrder
+    purpose?: SortOrder
+    ownerType?: SortOrder
+    ownerId?: SortOrder
+    vocabularyEntryId?: SortOrder
+    url?: SortOrder
+    path?: SortOrder
+    originalName?: SortOrder
+    sourceMimeType?: SortOrder
+    mimeType?: SortOrder
+    extension?: SortOrder
+    sizeBytes?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    checksumSha256?: SortOrder
+    status?: SortOrder
+    isCurrent?: SortOrder
+    replacedAt?: SortOrder
+    deletedAt?: SortOrder
+    storageDeletedAt?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UploadedFileSumOrderByAggregateInput = {
+    sizeBytes?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
   }
 
   export type SynonymsAntonymsEntryListRelationFilter = {
@@ -74654,6 +81162,8 @@ export namespace Prisma {
     id?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
     title?: SortOrder
     instruction?: SortOrder
     details?: SortOrder
@@ -74674,6 +81184,8 @@ export namespace Prisma {
     id?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
     title?: SortOrder
     instruction?: SortOrder
     details?: SortOrder
@@ -74690,6 +81202,8 @@ export namespace Prisma {
     id?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
     title?: SortOrder
     instruction?: SortOrder
     details?: SortOrder
@@ -74710,6 +81224,8 @@ export namespace Prisma {
     id?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
     title?: SortOrder
     instruction?: SortOrder
     details?: SortOrder
@@ -74730,6 +81246,8 @@ export namespace Prisma {
     id?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
     title?: SortOrder
     instruction?: SortOrder
     details?: SortOrder
@@ -74746,6 +81264,8 @@ export namespace Prisma {
     id?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
     title?: SortOrder
     instruction?: SortOrder
     details?: SortOrder
@@ -74766,6 +81286,8 @@ export namespace Prisma {
     id?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
     title?: SortOrder
     instruction?: SortOrder
     details?: SortOrder
@@ -74786,6 +81308,8 @@ export namespace Prisma {
     id?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
     title?: SortOrder
     instruction?: SortOrder
     details?: SortOrder
@@ -74802,6 +81326,8 @@ export namespace Prisma {
     id?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
     title?: SortOrder
     instruction?: SortOrder
     details?: SortOrder
@@ -74822,6 +81348,8 @@ export namespace Prisma {
     id?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
     title?: SortOrder
     instruction?: SortOrder
     details?: SortOrder
@@ -74842,6 +81370,8 @@ export namespace Prisma {
     id?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
     title?: SortOrder
     instruction?: SortOrder
     details?: SortOrder
@@ -74858,6 +81388,8 @@ export namespace Prisma {
     id?: SortOrder
     classId?: SortOrder
     subjectId?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
     title?: SortOrder
     instruction?: SortOrder
     details?: SortOrder
@@ -74872,6 +81404,155 @@ export namespace Prisma {
 
   export type SubjectQuestionFromStoryBlockSumOrderByAggregateInput = {
     sortOrder?: SortOrder
+  }
+
+  export type SubjectEnglishSecondPaperBlockCountOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    kind?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectEnglishSecondPaperBlockAvgOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
+  export type SubjectEnglishSecondPaperBlockMaxOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    kind?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectEnglishSecondPaperBlockMinOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    kind?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectEnglishSecondPaperBlockSumOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
+  export type BoardOrganizationIdNameCompoundUniqueInput = {
+    organizationId: string
+    name: string
+  }
+
+  export type BoardCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    isActive?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BoardMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    isActive?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BoardMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    isActive?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AcademicYearOrganizationIdYearCompoundUniqueInput = {
+    organizationId: string
+    year: number
+  }
+
+  export type AcademicYearCountOrderByAggregateInput = {
+    id?: SortOrder
+    year?: SortOrder
+    isActive?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AcademicYearAvgOrderByAggregateInput = {
+    year?: SortOrder
+  }
+
+  export type AcademicYearMaxOrderByAggregateInput = {
+    id?: SortOrder
+    year?: SortOrder
+    isActive?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AcademicYearMinOrderByAggregateInput = {
+    id?: SortOrder
+    year?: SortOrder
+    isActive?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AcademicYearSumOrderByAggregateInput = {
+    year?: SortOrder
   }
 
   export type ClassCreateNestedOneWithoutStudentsInput = {
@@ -76746,12 +83427,70 @@ export namespace Prisma {
     connect?: VocabularyWhereUniqueInput
   }
 
+  export type UploadedFileCreateNestedManyWithoutVocabularyEntryInput = {
+    create?: XOR<UploadedFileCreateWithoutVocabularyEntryInput, UploadedFileUncheckedCreateWithoutVocabularyEntryInput> | UploadedFileCreateWithoutVocabularyEntryInput[] | UploadedFileUncheckedCreateWithoutVocabularyEntryInput[]
+    connectOrCreate?: UploadedFileCreateOrConnectWithoutVocabularyEntryInput | UploadedFileCreateOrConnectWithoutVocabularyEntryInput[]
+    createMany?: UploadedFileCreateManyVocabularyEntryInputEnvelope
+    connect?: UploadedFileWhereUniqueInput | UploadedFileWhereUniqueInput[]
+  }
+
+  export type UploadedFileUncheckedCreateNestedManyWithoutVocabularyEntryInput = {
+    create?: XOR<UploadedFileCreateWithoutVocabularyEntryInput, UploadedFileUncheckedCreateWithoutVocabularyEntryInput> | UploadedFileCreateWithoutVocabularyEntryInput[] | UploadedFileUncheckedCreateWithoutVocabularyEntryInput[]
+    connectOrCreate?: UploadedFileCreateOrConnectWithoutVocabularyEntryInput | UploadedFileCreateOrConnectWithoutVocabularyEntryInput[]
+    createMany?: UploadedFileCreateManyVocabularyEntryInputEnvelope
+    connect?: UploadedFileWhereUniqueInput | UploadedFileWhereUniqueInput[]
+  }
+
   export type VocabularyUpdateOneRequiredWithoutEntriesNestedInput = {
     create?: XOR<VocabularyCreateWithoutEntriesInput, VocabularyUncheckedCreateWithoutEntriesInput>
     connectOrCreate?: VocabularyCreateOrConnectWithoutEntriesInput
     upsert?: VocabularyUpsertWithoutEntriesInput
     connect?: VocabularyWhereUniqueInput
     update?: XOR<XOR<VocabularyUpdateToOneWithWhereWithoutEntriesInput, VocabularyUpdateWithoutEntriesInput>, VocabularyUncheckedUpdateWithoutEntriesInput>
+  }
+
+  export type UploadedFileUpdateManyWithoutVocabularyEntryNestedInput = {
+    create?: XOR<UploadedFileCreateWithoutVocabularyEntryInput, UploadedFileUncheckedCreateWithoutVocabularyEntryInput> | UploadedFileCreateWithoutVocabularyEntryInput[] | UploadedFileUncheckedCreateWithoutVocabularyEntryInput[]
+    connectOrCreate?: UploadedFileCreateOrConnectWithoutVocabularyEntryInput | UploadedFileCreateOrConnectWithoutVocabularyEntryInput[]
+    upsert?: UploadedFileUpsertWithWhereUniqueWithoutVocabularyEntryInput | UploadedFileUpsertWithWhereUniqueWithoutVocabularyEntryInput[]
+    createMany?: UploadedFileCreateManyVocabularyEntryInputEnvelope
+    set?: UploadedFileWhereUniqueInput | UploadedFileWhereUniqueInput[]
+    disconnect?: UploadedFileWhereUniqueInput | UploadedFileWhereUniqueInput[]
+    delete?: UploadedFileWhereUniqueInput | UploadedFileWhereUniqueInput[]
+    connect?: UploadedFileWhereUniqueInput | UploadedFileWhereUniqueInput[]
+    update?: UploadedFileUpdateWithWhereUniqueWithoutVocabularyEntryInput | UploadedFileUpdateWithWhereUniqueWithoutVocabularyEntryInput[]
+    updateMany?: UploadedFileUpdateManyWithWhereWithoutVocabularyEntryInput | UploadedFileUpdateManyWithWhereWithoutVocabularyEntryInput[]
+    deleteMany?: UploadedFileScalarWhereInput | UploadedFileScalarWhereInput[]
+  }
+
+  export type UploadedFileUncheckedUpdateManyWithoutVocabularyEntryNestedInput = {
+    create?: XOR<UploadedFileCreateWithoutVocabularyEntryInput, UploadedFileUncheckedCreateWithoutVocabularyEntryInput> | UploadedFileCreateWithoutVocabularyEntryInput[] | UploadedFileUncheckedCreateWithoutVocabularyEntryInput[]
+    connectOrCreate?: UploadedFileCreateOrConnectWithoutVocabularyEntryInput | UploadedFileCreateOrConnectWithoutVocabularyEntryInput[]
+    upsert?: UploadedFileUpsertWithWhereUniqueWithoutVocabularyEntryInput | UploadedFileUpsertWithWhereUniqueWithoutVocabularyEntryInput[]
+    createMany?: UploadedFileCreateManyVocabularyEntryInputEnvelope
+    set?: UploadedFileWhereUniqueInput | UploadedFileWhereUniqueInput[]
+    disconnect?: UploadedFileWhereUniqueInput | UploadedFileWhereUniqueInput[]
+    delete?: UploadedFileWhereUniqueInput | UploadedFileWhereUniqueInput[]
+    connect?: UploadedFileWhereUniqueInput | UploadedFileWhereUniqueInput[]
+    update?: UploadedFileUpdateWithWhereUniqueWithoutVocabularyEntryInput | UploadedFileUpdateWithWhereUniqueWithoutVocabularyEntryInput[]
+    updateMany?: UploadedFileUpdateManyWithWhereWithoutVocabularyEntryInput | UploadedFileUpdateManyWithWhereWithoutVocabularyEntryInput[]
+    deleteMany?: UploadedFileScalarWhereInput | UploadedFileScalarWhereInput[]
+  }
+
+  export type VocabularyEntryCreateNestedOneWithoutUploadedFilesInput = {
+    create?: XOR<VocabularyEntryCreateWithoutUploadedFilesInput, VocabularyEntryUncheckedCreateWithoutUploadedFilesInput>
+    connectOrCreate?: VocabularyEntryCreateOrConnectWithoutUploadedFilesInput
+    connect?: VocabularyEntryWhereUniqueInput
+  }
+
+  export type VocabularyEntryUpdateOneWithoutUploadedFilesNestedInput = {
+    create?: XOR<VocabularyEntryCreateWithoutUploadedFilesInput, VocabularyEntryUncheckedCreateWithoutUploadedFilesInput>
+    connectOrCreate?: VocabularyEntryCreateOrConnectWithoutUploadedFilesInput
+    upsert?: VocabularyEntryUpsertWithoutUploadedFilesInput
+    disconnect?: VocabularyEntryWhereInput | boolean
+    delete?: VocabularyEntryWhereInput | boolean
+    connect?: VocabularyEntryWhereUniqueInput
+    update?: XOR<XOR<VocabularyEntryUpdateToOneWithWhereWithoutUploadedFilesInput, VocabularyEntryUpdateWithoutUploadedFilesInput>, VocabularyEntryUncheckedUpdateWithoutUploadedFilesInput>
   }
 
   export type ContentBlockCreateNestedOneWithoutSynonymsAntonymsInput = {
@@ -77888,6 +84627,7 @@ export namespace Prisma {
 
   export type ContentCreateWithoutClassInput = {
     id?: string
+    title?: string
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -77902,6 +84642,7 @@ export namespace Prisma {
 
   export type ContentUncheckedCreateWithoutClassInput = {
     id?: string
+    title?: string
     subjectId: string
     unitId: string
     lessonId: string
@@ -78117,6 +84858,7 @@ export namespace Prisma {
     OR?: ContentScalarWhereInput[]
     NOT?: ContentScalarWhereInput | ContentScalarWhereInput[]
     id?: StringFilter<"Content"> | string
+    title?: StringFilter<"Content"> | string
     classId?: StringFilter<"Content"> | string
     subjectId?: StringFilter<"Content"> | string
     unitId?: StringFilter<"Content"> | string
@@ -78314,6 +85056,7 @@ export namespace Prisma {
 
   export type ContentCreateWithoutSubjectInput = {
     id?: string
+    title?: string
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -78328,6 +85071,7 @@ export namespace Prisma {
 
   export type ContentUncheckedCreateWithoutSubjectInput = {
     id?: string
+    title?: string
     classId: string
     unitId: string
     lessonId: string
@@ -78648,6 +85392,7 @@ export namespace Prisma {
 
   export type ContentCreateWithoutUnitInput = {
     id?: string
+    title?: string
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -78662,6 +85407,7 @@ export namespace Prisma {
 
   export type ContentUncheckedCreateWithoutUnitInput = {
     id?: string
+    title?: string
     classId: string
     subjectId: string
     lessonId: string
@@ -78959,6 +85705,7 @@ export namespace Prisma {
 
   export type ContentCreateWithoutLessonInput = {
     id?: string
+    title?: string
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -78973,6 +85720,7 @@ export namespace Prisma {
 
   export type ContentUncheckedCreateWithoutLessonInput = {
     id?: string
+    title?: string
     classId: string
     subjectId: string
     unitId: string
@@ -79158,6 +85906,7 @@ export namespace Prisma {
 
   export type ContentCreateWithoutTopicInput = {
     id?: string
+    title?: string
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -79172,6 +85921,7 @@ export namespace Prisma {
 
   export type ContentUncheckedCreateWithoutTopicInput = {
     id?: string
+    title?: string
     classId: string
     subjectId: string
     unitId: string
@@ -79519,6 +86269,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphCreateNestedOneWithoutContentBlockInput
@@ -79553,6 +86305,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -79897,6 +86651,8 @@ export namespace Prisma {
     contentId?: StringFilter<"ContentBlock"> | string
     kind?: StringFilter<"ContentBlock"> | string
     sortOrder?: IntFilter<"ContentBlock"> | number
+    boardId?: StringNullableFilter<"ContentBlock"> | string | null
+    academicYearId?: StringNullableFilter<"ContentBlock"> | string | null
     createdAt?: DateTimeFilter<"ContentBlock"> | Date | string
     updatedAt?: DateTimeFilter<"ContentBlock"> | Date | string
   }
@@ -79905,6 +86661,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -79940,6 +86698,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -79989,6 +86749,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -80024,6 +86786,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -80057,6 +86821,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -80092,6 +86858,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -80141,6 +86909,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -80176,6 +86946,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -80427,6 +87199,7 @@ export namespace Prisma {
 
   export type ContentCreateWithoutBlocksInput = {
     id?: string
+    title?: string
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -80441,6 +87214,7 @@ export namespace Prisma {
 
   export type ContentUncheckedCreateWithoutBlocksInput = {
     id?: string
+    title?: string
     classId: string
     subjectId: string
     unitId: string
@@ -81593,6 +88367,7 @@ export namespace Prisma {
 
   export type ContentUpdateWithoutBlocksInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -81607,6 +88382,7 @@ export namespace Prisma {
 
   export type ContentUncheckedUpdateWithoutBlocksInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
     unitId?: StringFieldUpdateOperationsInput | string
@@ -82901,6 +89677,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -82936,6 +89714,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
@@ -82985,6 +89765,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -83020,6 +89802,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -83053,6 +89837,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -83088,6 +89874,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -83126,24 +89914,30 @@ export namespace Prisma {
     id?: string
     word?: string
     meaning?: string
+    imageUrl?: string
+    imagePath?: string
     sortOrder?: number
     organizationId: string
     createdBy: string
     updatedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    uploadedFiles?: UploadedFileCreateNestedManyWithoutVocabularyEntryInput
   }
 
   export type VocabularyEntryUncheckedCreateWithoutVocabularyInput = {
     id?: string
     word?: string
     meaning?: string
+    imageUrl?: string
+    imagePath?: string
     sortOrder?: number
     organizationId: string
     createdBy: string
     updatedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    uploadedFiles?: UploadedFileUncheckedCreateNestedManyWithoutVocabularyEntryInput
   }
 
   export type VocabularyEntryCreateOrConnectWithoutVocabularyInput = {
@@ -83170,6 +89964,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -83205,6 +90001,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -83258,6 +90056,8 @@ export namespace Prisma {
     vocabularyId?: StringFilter<"VocabularyEntry"> | string
     word?: StringFilter<"VocabularyEntry"> | string
     meaning?: StringFilter<"VocabularyEntry"> | string
+    imageUrl?: StringFilter<"VocabularyEntry"> | string
+    imagePath?: StringFilter<"VocabularyEntry"> | string
     sortOrder?: IntFilter<"VocabularyEntry"> | number
     organizationId?: StringFilter<"VocabularyEntry"> | string
     createdBy?: StringFilter<"VocabularyEntry"> | string
@@ -83309,6 +90109,69 @@ export namespace Prisma {
     create: XOR<VocabularyCreateWithoutEntriesInput, VocabularyUncheckedCreateWithoutEntriesInput>
   }
 
+  export type UploadedFileCreateWithoutVocabularyEntryInput = {
+    id?: string
+    purpose?: string
+    ownerType?: string
+    ownerId?: string
+    url?: string
+    path?: string
+    originalName?: string
+    sourceMimeType?: string
+    mimeType?: string
+    extension?: string
+    sizeBytes?: number
+    width?: number
+    height?: number
+    checksumSha256?: string
+    status?: string
+    isCurrent?: boolean
+    replacedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    storageDeletedAt?: Date | string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UploadedFileUncheckedCreateWithoutVocabularyEntryInput = {
+    id?: string
+    purpose?: string
+    ownerType?: string
+    ownerId?: string
+    url?: string
+    path?: string
+    originalName?: string
+    sourceMimeType?: string
+    mimeType?: string
+    extension?: string
+    sizeBytes?: number
+    width?: number
+    height?: number
+    checksumSha256?: string
+    status?: string
+    isCurrent?: boolean
+    replacedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    storageDeletedAt?: Date | string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UploadedFileCreateOrConnectWithoutVocabularyEntryInput = {
+    where: UploadedFileWhereUniqueInput
+    create: XOR<UploadedFileCreateWithoutVocabularyEntryInput, UploadedFileUncheckedCreateWithoutVocabularyEntryInput>
+  }
+
+  export type UploadedFileCreateManyVocabularyEntryInputEnvelope = {
+    data: UploadedFileCreateManyVocabularyEntryInput | UploadedFileCreateManyVocabularyEntryInput[]
+  }
+
   export type VocabularyUpsertWithoutEntriesInput = {
     update: XOR<VocabularyUpdateWithoutEntriesInput, VocabularyUncheckedUpdateWithoutEntriesInput>
     create: XOR<VocabularyCreateWithoutEntriesInput, VocabularyUncheckedCreateWithoutEntriesInput>
@@ -83358,10 +90221,135 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UploadedFileUpsertWithWhereUniqueWithoutVocabularyEntryInput = {
+    where: UploadedFileWhereUniqueInput
+    update: XOR<UploadedFileUpdateWithoutVocabularyEntryInput, UploadedFileUncheckedUpdateWithoutVocabularyEntryInput>
+    create: XOR<UploadedFileCreateWithoutVocabularyEntryInput, UploadedFileUncheckedCreateWithoutVocabularyEntryInput>
+  }
+
+  export type UploadedFileUpdateWithWhereUniqueWithoutVocabularyEntryInput = {
+    where: UploadedFileWhereUniqueInput
+    data: XOR<UploadedFileUpdateWithoutVocabularyEntryInput, UploadedFileUncheckedUpdateWithoutVocabularyEntryInput>
+  }
+
+  export type UploadedFileUpdateManyWithWhereWithoutVocabularyEntryInput = {
+    where: UploadedFileScalarWhereInput
+    data: XOR<UploadedFileUpdateManyMutationInput, UploadedFileUncheckedUpdateManyWithoutVocabularyEntryInput>
+  }
+
+  export type UploadedFileScalarWhereInput = {
+    AND?: UploadedFileScalarWhereInput | UploadedFileScalarWhereInput[]
+    OR?: UploadedFileScalarWhereInput[]
+    NOT?: UploadedFileScalarWhereInput | UploadedFileScalarWhereInput[]
+    id?: StringFilter<"UploadedFile"> | string
+    purpose?: StringFilter<"UploadedFile"> | string
+    ownerType?: StringFilter<"UploadedFile"> | string
+    ownerId?: StringFilter<"UploadedFile"> | string
+    vocabularyEntryId?: StringNullableFilter<"UploadedFile"> | string | null
+    url?: StringFilter<"UploadedFile"> | string
+    path?: StringFilter<"UploadedFile"> | string
+    originalName?: StringFilter<"UploadedFile"> | string
+    sourceMimeType?: StringFilter<"UploadedFile"> | string
+    mimeType?: StringFilter<"UploadedFile"> | string
+    extension?: StringFilter<"UploadedFile"> | string
+    sizeBytes?: IntFilter<"UploadedFile"> | number
+    width?: IntFilter<"UploadedFile"> | number
+    height?: IntFilter<"UploadedFile"> | number
+    checksumSha256?: StringFilter<"UploadedFile"> | string
+    status?: StringFilter<"UploadedFile"> | string
+    isCurrent?: BoolFilter<"UploadedFile"> | boolean
+    replacedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
+    deletedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
+    storageDeletedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
+    organizationId?: StringFilter<"UploadedFile"> | string
+    createdBy?: StringFilter<"UploadedFile"> | string
+    updatedBy?: StringFilter<"UploadedFile"> | string
+    createdAt?: DateTimeFilter<"UploadedFile"> | Date | string
+    updatedAt?: DateTimeFilter<"UploadedFile"> | Date | string
+  }
+
+  export type VocabularyEntryCreateWithoutUploadedFilesInput = {
+    id?: string
+    word?: string
+    meaning?: string
+    imageUrl?: string
+    imagePath?: string
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vocabulary: VocabularyCreateNestedOneWithoutEntriesInput
+  }
+
+  export type VocabularyEntryUncheckedCreateWithoutUploadedFilesInput = {
+    id?: string
+    vocabularyId: string
+    word?: string
+    meaning?: string
+    imageUrl?: string
+    imagePath?: string
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VocabularyEntryCreateOrConnectWithoutUploadedFilesInput = {
+    where: VocabularyEntryWhereUniqueInput
+    create: XOR<VocabularyEntryCreateWithoutUploadedFilesInput, VocabularyEntryUncheckedCreateWithoutUploadedFilesInput>
+  }
+
+  export type VocabularyEntryUpsertWithoutUploadedFilesInput = {
+    update: XOR<VocabularyEntryUpdateWithoutUploadedFilesInput, VocabularyEntryUncheckedUpdateWithoutUploadedFilesInput>
+    create: XOR<VocabularyEntryCreateWithoutUploadedFilesInput, VocabularyEntryUncheckedCreateWithoutUploadedFilesInput>
+    where?: VocabularyEntryWhereInput
+  }
+
+  export type VocabularyEntryUpdateToOneWithWhereWithoutUploadedFilesInput = {
+    where?: VocabularyEntryWhereInput
+    data: XOR<VocabularyEntryUpdateWithoutUploadedFilesInput, VocabularyEntryUncheckedUpdateWithoutUploadedFilesInput>
+  }
+
+  export type VocabularyEntryUpdateWithoutUploadedFilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    word?: StringFieldUpdateOperationsInput | string
+    meaning?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    imagePath?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vocabulary?: VocabularyUpdateOneRequiredWithoutEntriesNestedInput
+  }
+
+  export type VocabularyEntryUncheckedUpdateWithoutUploadedFilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    vocabularyId?: StringFieldUpdateOperationsInput | string
+    word?: StringFieldUpdateOperationsInput | string
+    meaning?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    imagePath?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ContentBlockCreateWithoutSynonymsAntonymsInput = {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -83397,6 +90385,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -83485,6 +90475,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -83520,6 +90512,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -83680,6 +90674,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -83715,6 +90711,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -83764,6 +90762,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -83799,6 +90799,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -83832,6 +90834,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -83867,6 +90871,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -83916,6 +90922,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -83951,6 +90959,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -83984,6 +90994,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -84019,6 +91031,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -84068,6 +91082,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -84103,6 +91119,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -84136,6 +91154,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -84171,6 +91191,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -84220,6 +91242,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -84255,6 +91279,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -84288,6 +91314,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -84323,6 +91351,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -84372,6 +91402,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -84407,6 +91439,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -84440,6 +91474,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -84475,6 +91511,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -84524,6 +91562,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -84559,6 +91599,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -84592,6 +91634,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -84627,6 +91671,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -84676,6 +91722,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -84711,6 +91759,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -84744,6 +91794,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -84779,6 +91831,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -84828,6 +91882,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -84863,6 +91919,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -84896,6 +91954,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -84931,6 +91991,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -84980,6 +92042,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -85015,6 +92079,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -85048,6 +92114,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -85083,6 +92151,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -85132,6 +92202,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -85167,6 +92239,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -85200,6 +92274,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -85235,6 +92311,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -85284,6 +92362,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -85319,6 +92399,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -85352,6 +92434,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -85387,6 +92471,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -85436,6 +92522,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -85471,6 +92559,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -85504,6 +92594,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -85539,6 +92631,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -85588,6 +92682,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -85623,6 +92719,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -85656,6 +92754,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -85691,6 +92791,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -85740,6 +92842,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -85775,6 +92879,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -85808,6 +92914,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -85843,6 +92951,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -85892,6 +93002,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -85927,6 +93039,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -85960,6 +93074,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -85995,6 +93111,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -86044,6 +93162,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -86079,6 +93199,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -86112,6 +93234,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -86147,6 +93271,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -86196,6 +93322,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -86231,6 +93359,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -86264,6 +93394,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -86299,6 +93431,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -86348,6 +93482,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -86383,6 +93519,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -86416,6 +93554,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -86451,6 +93591,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -86500,6 +93642,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -86535,6 +93679,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -86568,6 +93714,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -86603,6 +93751,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -86652,6 +93802,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -86687,6 +93839,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -86720,6 +93874,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -86755,6 +93911,8 @@ export namespace Prisma {
     contentId: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -86804,6 +93962,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -86839,6 +93999,8 @@ export namespace Prisma {
     contentId?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -86975,6 +94137,7 @@ export namespace Prisma {
 
   export type ContentCreateManyClassInput = {
     id?: string
+    title?: string
     subjectId: string
     unitId: string
     lessonId: string
@@ -87156,6 +94319,7 @@ export namespace Prisma {
 
   export type ContentUpdateWithoutClassInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -87170,6 +94334,7 @@ export namespace Prisma {
 
   export type ContentUncheckedUpdateWithoutClassInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
@@ -87184,6 +94349,7 @@ export namespace Prisma {
 
   export type ContentUncheckedUpdateManyWithoutClassInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
@@ -87327,6 +94493,7 @@ export namespace Prisma {
 
   export type ContentCreateManySubjectInput = {
     id?: string
+    title?: string
     classId: string
     unitId: string
     lessonId: string
@@ -87419,6 +94586,7 @@ export namespace Prisma {
 
   export type ContentUpdateWithoutSubjectInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -87433,6 +94601,7 @@ export namespace Prisma {
 
   export type ContentUncheckedUpdateWithoutSubjectInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
@@ -87447,6 +94616,7 @@ export namespace Prisma {
 
   export type ContentUncheckedUpdateManyWithoutSubjectInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     unitId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
@@ -87516,6 +94686,7 @@ export namespace Prisma {
 
   export type ContentCreateManyUnitInput = {
     id?: string
+    title?: string
     classId: string
     subjectId: string
     lessonId: string
@@ -87593,6 +94764,7 @@ export namespace Prisma {
 
   export type ContentUpdateWithoutUnitInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -87607,6 +94779,7 @@ export namespace Prisma {
 
   export type ContentUncheckedUpdateWithoutUnitInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
@@ -87621,6 +94794,7 @@ export namespace Prisma {
 
   export type ContentUncheckedUpdateManyWithoutUnitInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
     lessonId?: StringFieldUpdateOperationsInput | string
@@ -87654,6 +94828,7 @@ export namespace Prisma {
 
   export type ContentCreateManyLessonInput = {
     id?: string
+    title?: string
     classId: string
     subjectId: string
     unitId: string
@@ -87729,6 +94904,7 @@ export namespace Prisma {
 
   export type ContentUpdateWithoutLessonInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -87743,6 +94919,7 @@ export namespace Prisma {
 
   export type ContentUncheckedUpdateWithoutLessonInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
     unitId?: StringFieldUpdateOperationsInput | string
@@ -87757,6 +94934,7 @@ export namespace Prisma {
 
   export type ContentUncheckedUpdateManyWithoutLessonInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
     unitId?: StringFieldUpdateOperationsInput | string
@@ -87770,6 +94948,7 @@ export namespace Prisma {
 
   export type ContentCreateManyTopicInput = {
     id?: string
+    title?: string
     classId: string
     subjectId: string
     unitId: string
@@ -87783,6 +94962,7 @@ export namespace Prisma {
 
   export type ContentUpdateWithoutTopicInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -87797,6 +94977,7 @@ export namespace Prisma {
 
   export type ContentUncheckedUpdateWithoutTopicInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
     unitId?: StringFieldUpdateOperationsInput | string
@@ -87811,6 +94992,7 @@ export namespace Prisma {
 
   export type ContentUncheckedUpdateManyWithoutTopicInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
     unitId?: StringFieldUpdateOperationsInput | string
@@ -87826,6 +95008,8 @@ export namespace Prisma {
     id?: string
     kind: string
     sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -87834,6 +95018,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUpdateOneWithoutContentBlockNestedInput
@@ -87868,6 +95054,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -87902,6 +95090,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     kind?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -87910,6 +95100,8 @@ export namespace Prisma {
     id?: string
     word?: string
     meaning?: string
+    imageUrl?: string
+    imagePath?: string
     sortOrder?: number
     organizationId: string
     createdBy: string
@@ -87922,18 +95114,38 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    uploadedFiles?: UploadedFileUpdateManyWithoutVocabularyEntryNestedInput
   }
 
   export type VocabularyEntryUncheckedUpdateWithoutVocabularyInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    imagePath?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    uploadedFiles?: UploadedFileUncheckedUpdateManyWithoutVocabularyEntryNestedInput
+  }
+
+  export type VocabularyEntryUncheckedUpdateManyWithoutVocabularyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    word?: StringFieldUpdateOperationsInput | string
+    meaning?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -87942,11 +95154,107 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type VocabularyEntryUncheckedUpdateManyWithoutVocabularyInput = {
+  export type UploadedFileCreateManyVocabularyEntryInput = {
+    id?: string
+    purpose?: string
+    ownerType?: string
+    ownerId?: string
+    url?: string
+    path?: string
+    originalName?: string
+    sourceMimeType?: string
+    mimeType?: string
+    extension?: string
+    sizeBytes?: number
+    width?: number
+    height?: number
+    checksumSha256?: string
+    status?: string
+    isCurrent?: boolean
+    replacedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    storageDeletedAt?: Date | string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UploadedFileUpdateWithoutVocabularyEntryInput = {
     id?: StringFieldUpdateOperationsInput | string
-    word?: StringFieldUpdateOperationsInput | string
-    meaning?: StringFieldUpdateOperationsInput | string
-    sortOrder?: IntFieldUpdateOperationsInput | number
+    purpose?: StringFieldUpdateOperationsInput | string
+    ownerType?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    path?: StringFieldUpdateOperationsInput | string
+    originalName?: StringFieldUpdateOperationsInput | string
+    sourceMimeType?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    extension?: StringFieldUpdateOperationsInput | string
+    sizeBytes?: IntFieldUpdateOperationsInput | number
+    width?: IntFieldUpdateOperationsInput | number
+    height?: IntFieldUpdateOperationsInput | number
+    checksumSha256?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UploadedFileUncheckedUpdateWithoutVocabularyEntryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    purpose?: StringFieldUpdateOperationsInput | string
+    ownerType?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    path?: StringFieldUpdateOperationsInput | string
+    originalName?: StringFieldUpdateOperationsInput | string
+    sourceMimeType?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    extension?: StringFieldUpdateOperationsInput | string
+    sizeBytes?: IntFieldUpdateOperationsInput | number
+    width?: IntFieldUpdateOperationsInput | number
+    height?: IntFieldUpdateOperationsInput | number
+    checksumSha256?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UploadedFileUncheckedUpdateManyWithoutVocabularyEntryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    purpose?: StringFieldUpdateOperationsInput | string
+    ownerType?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    path?: StringFieldUpdateOperationsInput | string
+    originalName?: StringFieldUpdateOperationsInput | string
+    sourceMimeType?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    extension?: StringFieldUpdateOperationsInput | string
+    sizeBytes?: IntFieldUpdateOperationsInput | number
+    width?: IntFieldUpdateOperationsInput | number
+    height?: IntFieldUpdateOperationsInput | number
+    checksumSha256?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string

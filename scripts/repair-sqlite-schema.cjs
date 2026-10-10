@@ -54,6 +54,13 @@ const indexes = [
   ["Content_organizationId_classId_subjectId_unitId_lessonId_idx", 'CREATE INDEX IF NOT EXISTS "Content_organizationId_classId_subjectId_unitId_lessonId_idx" ON "Content"("organizationId", "classId", "subjectId", "unitId", "lessonId")'],
   ["Content_topicId_idx", 'CREATE INDEX IF NOT EXISTS "Content_topicId_idx" ON "Content"("topicId")'],
   ["ContentBlock_contentId_sortOrder_idx", 'CREATE INDEX IF NOT EXISTS "ContentBlock_contentId_sortOrder_idx" ON "ContentBlock"("contentId", "sortOrder")'],
+  ["ContentBlock_boardId_academicYearId_idx", 'CREATE INDEX IF NOT EXISTS "ContentBlock_boardId_academicYearId_idx" ON "ContentBlock"("boardId", "academicYearId")'],
+  ["SubjectMatchingSentencesBlock_organizationId_boardId_academicYearId_idx", 'CREATE INDEX IF NOT EXISTS "SubjectMatchingSentencesBlock_organizationId_boardId_academicYearId_idx" ON "SubjectMatchingSentencesBlock"("organizationId", "boardId", "academicYearId")'],
+  ["SubjectRearrangeSentenceBlock_organizationId_boardId_academicYearId_idx", 'CREATE INDEX IF NOT EXISTS "SubjectRearrangeSentenceBlock_organizationId_boardId_academicYearId_idx" ON "SubjectRearrangeSentenceBlock"("organizationId", "boardId", "academicYearId")'],
+  ["SubjectQuestionFromPoemsBlock_organizationId_boardId_academicYearId_idx", 'CREATE INDEX IF NOT EXISTS "SubjectQuestionFromPoemsBlock_organizationId_boardId_academicYearId_idx" ON "SubjectQuestionFromPoemsBlock"("organizationId", "boardId", "academicYearId")'],
+  ["SubjectQuestionFromStoryBlock_organizationId_boardId_academicYearId_idx", 'CREATE INDEX IF NOT EXISTS "SubjectQuestionFromStoryBlock_organizationId_boardId_academicYearId_idx" ON "SubjectQuestionFromStoryBlock"("organizationId", "boardId", "academicYearId")'],
+  ["SubjectEnglishSecondPaperBlock_organizationId_classId_subjectId_kind_sortOrder_idx", 'CREATE INDEX IF NOT EXISTS "SubjectEnglishSecondPaperBlock_organizationId_classId_subjectId_kind_sortOrder_idx" ON "SubjectEnglishSecondPaperBlock"("organizationId", "classId", "subjectId", "kind", "sortOrder")'],
+  ["SubjectEnglishSecondPaperBlock_organizationId_boardId_academicYearId_idx", 'CREATE INDEX IF NOT EXISTS "SubjectEnglishSecondPaperBlock_organizationId_boardId_academicYearId_idx" ON "SubjectEnglishSecondPaperBlock"("organizationId", "boardId", "academicYearId")'],
   ["Paragraph_organizationId_contentId_idx", 'CREATE INDEX IF NOT EXISTS "Paragraph_organizationId_contentId_idx" ON "Paragraph"("organizationId", "contentId")'],
   ["SeenPassageOne_contentBlockId_key", 'CREATE UNIQUE INDEX IF NOT EXISTS "SeenPassageOne_contentBlockId_key" ON "SeenPassageOne"("contentBlockId")'],
   ["SeenPassageOne_organizationId_contentId_idx", 'CREATE INDEX IF NOT EXISTS "SeenPassageOne_organizationId_contentId_idx" ON "SeenPassageOne"("organizationId", "contentId")'],
@@ -94,6 +101,159 @@ async function sqliteTableExists(name) {
     name,
   );
   return rows.length > 0;
+}
+
+
+async function ensureBoardAndYearTables() {
+  await prisma.$executeRawUnsafe(`CREATE TABLE IF NOT EXISTS "Board" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "name" TEXT NOT NULL,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "organizationId" TEXT NOT NULL,
+    "createdBy" TEXT NOT NULL,
+    "updatedBy" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+  )`);
+  await prisma.$executeRawUnsafe('CREATE UNIQUE INDEX IF NOT EXISTS "Board_organizationId_name_key" ON "Board"("organizationId", "name")');
+  await prisma.$executeRawUnsafe('CREATE INDEX IF NOT EXISTS "Board_organizationId_isActive_name_idx" ON "Board"("organizationId", "isActive", "name")');
+
+  await prisma.$executeRawUnsafe(`CREATE TABLE IF NOT EXISTS "AcademicYear" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "year" INTEGER NOT NULL,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "organizationId" TEXT NOT NULL,
+    "createdBy" TEXT NOT NULL,
+    "updatedBy" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+  )`);
+  await prisma.$executeRawUnsafe('CREATE UNIQUE INDEX IF NOT EXISTS "AcademicYear_organizationId_year_key" ON "AcademicYear"("organizationId", "year")');
+  await prisma.$executeRawUnsafe('CREATE INDEX IF NOT EXISTS "AcademicYear_organizationId_isActive_year_idx" ON "AcademicYear"("organizationId", "isActive", "year")');
+}
+
+async function ensureUploadedFileTable() {
+  await prisma.$executeRawUnsafe(`CREATE TABLE IF NOT EXISTS "UploadedFile" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "purpose" TEXT NOT NULL DEFAULT '',
+    "ownerType" TEXT NOT NULL DEFAULT '',
+    "ownerId" TEXT NOT NULL DEFAULT '',
+    "vocabularyEntryId" TEXT,
+    "url" TEXT NOT NULL DEFAULT '',
+    "path" TEXT NOT NULL DEFAULT '',
+    "originalName" TEXT NOT NULL DEFAULT '',
+    "sourceMimeType" TEXT NOT NULL DEFAULT '',
+    "mimeType" TEXT NOT NULL DEFAULT '',
+    "extension" TEXT NOT NULL DEFAULT '',
+    "sizeBytes" INTEGER NOT NULL DEFAULT 0,
+    "width" INTEGER NOT NULL DEFAULT 0,
+    "height" INTEGER NOT NULL DEFAULT 0,
+    "checksumSha256" TEXT NOT NULL DEFAULT '',
+    "status" TEXT NOT NULL DEFAULT 'active',
+    "isCurrent" BOOLEAN NOT NULL DEFAULT true,
+    "replacedAt" DATETIME,
+    "deletedAt" DATETIME,
+    "storageDeletedAt" DATETIME,
+    "organizationId" TEXT NOT NULL,
+    "createdBy" TEXT NOT NULL,
+    "updatedBy" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "UploadedFile_vocabularyEntryId_fkey"
+      FOREIGN KEY ("vocabularyEntryId") REFERENCES "VocabularyEntry" ("id")
+      ON DELETE SET NULL ON UPDATE CASCADE
+  )`);
+
+  await prisma.$executeRawUnsafe(
+    'CREATE INDEX IF NOT EXISTS "UploadedFile_vocabularyEntryId_isCurrent_status_idx" ON "UploadedFile"("vocabularyEntryId", "isCurrent", "status")',
+  );
+  await prisma.$executeRawUnsafe(
+    'CREATE INDEX IF NOT EXISTS "UploadedFile_organizationId_status_createdAt_idx" ON "UploadedFile"("organizationId", "status", "createdAt")',
+  );
+  await prisma.$executeRawUnsafe(
+    'CREATE INDEX IF NOT EXISTS "UploadedFile_organizationId_ownerType_ownerId_idx" ON "UploadedFile"("organizationId", "ownerType", "ownerId")',
+  );
+  await prisma.$executeRawUnsafe(
+    'CREATE INDEX IF NOT EXISTS "UploadedFile_path_idx" ON "UploadedFile"("path")',
+  );
+  await prisma.$executeRawUnsafe(
+    `CREATE UNIQUE INDEX IF NOT EXISTS "UploadedFile_vocabulary_current_active_key"
+     ON "UploadedFile"("vocabularyEntryId")
+     WHERE "vocabularyEntryId" IS NOT NULL
+       AND "purpose" = 'vocabulary-item-image'
+       AND "isCurrent" = true
+       AND "status" = 'active'`,
+  );
+
+  // Backfill existing VocabularyEntry images into the file tracker once.
+  // Keep the immutable ownerId even if the VocabularyEntry is deleted later.
+  await prisma.$executeRawUnsafe(`
+    INSERT OR IGNORE INTO "UploadedFile" (
+      "id",
+      "purpose",
+      "ownerType",
+      "ownerId",
+      "vocabularyEntryId",
+      "url",
+      "path",
+      "originalName",
+      "sourceMimeType",
+      "mimeType",
+      "extension",
+      "sizeBytes",
+      "width",
+      "height",
+      "checksumSha256",
+      "status",
+      "isCurrent",
+      "organizationId",
+      "createdBy",
+      "updatedBy",
+      "createdAt",
+      "updatedAt"
+    )
+    SELECT
+      'legacy-vocabulary-' || ve."id",
+      'vocabulary-item-image',
+      'VocabularyEntry',
+      ve."id",
+      ve."id",
+      CASE
+        WHEN ve."imageUrl" <> '' THEN ve."imageUrl"
+        WHEN ve."imagePath" LIKE 'public/uploads/vocabulary/%' THEN substr(ve."imagePath", 7)
+        ELSE ''
+      END,
+      CASE
+        WHEN ve."imagePath" <> '' THEN ve."imagePath"
+        WHEN ve."imageUrl" LIKE '/uploads/vocabulary/%' THEN 'public' || ve."imageUrl"
+        ELSE ''
+      END,
+      '',
+      '',
+      'image/webp',
+      'webp',
+      0,
+      0,
+      0,
+      '',
+      'active',
+      true,
+      ve."organizationId",
+      ve."createdBy",
+      ve."updatedBy",
+      ve."createdAt",
+      ve."updatedAt"
+    FROM "VocabularyEntry" ve
+    WHERE (ve."imageUrl" <> '' OR ve."imagePath" <> '')
+      AND NOT EXISTS (
+        SELECT 1
+        FROM "UploadedFile" uf
+        WHERE uf."vocabularyEntryId" = ve."id"
+          AND uf."purpose" = 'vocabulary-item-image'
+          AND uf."isCurrent" = true
+          AND uf."status" = 'active'
+      )
+  `);
 }
 
 async function ensureEnglishFirstPaperSectionTables() {
@@ -385,6 +545,34 @@ async function ensureSubjectLevelFirstPaperSectionTables() {
   }
 }
 
+
+async function ensureSubjectLevelSecondPaperSectionTable() {
+  await prisma.$executeRawUnsafe(`CREATE TABLE IF NOT EXISTS "SubjectEnglishSecondPaperBlock" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "classId" TEXT NOT NULL,
+    "subjectId" TEXT NOT NULL,
+    "kind" TEXT NOT NULL,
+    "boardId" TEXT,
+    "academicYearId" TEXT,
+    "title" TEXT NOT NULL DEFAULT '',
+    "instruction" TEXT NOT NULL DEFAULT '',
+    "details" TEXT NOT NULL DEFAULT '',
+    "documentJson" TEXT NOT NULL DEFAULT '{}',
+    "sortOrder" INTEGER NOT NULL DEFAULT 0,
+    "organizationId" TEXT NOT NULL,
+    "createdBy" TEXT NOT NULL,
+    "updatedBy" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+  )`);
+  await prisma.$executeRawUnsafe(
+    'CREATE INDEX IF NOT EXISTS "SubjectEnglishSecondPaperBlock_organizationId_classId_subjectId_kind_sortOrder_idx" ON "SubjectEnglishSecondPaperBlock"("organizationId", "classId", "subjectId", "kind", "sortOrder")',
+  );
+  await prisma.$executeRawUnsafe(
+    'CREATE INDEX IF NOT EXISTS "SubjectEnglishSecondPaperBlock_organizationId_boardId_academicYearId_idx" ON "SubjectEnglishSecondPaperBlock"("organizationId", "boardId", "academicYearId")',
+  );
+}
+
 async function ensureColumn(table, name, definition) {
   const columns = await prisma.$queryRawUnsafe(`PRAGMA table_info("${table}")`);
   if (columns.some((column) => column.name === name)) return false;
@@ -429,12 +617,50 @@ async function migrateProfileTempImages() {
 }
 
 async function main() {
+  await ensureBoardAndYearTables();
   await ensureEnglishFirstPaperSectionTables();
   await ensureSubjectLevelFirstPaperSectionTables();
+  await ensureSubjectLevelSecondPaperSectionTable();
+  await ensureColumn("ContentBlock", "boardId", "TEXT");
+  await ensureColumn("ContentBlock", "academicYearId", "TEXT");
+  for (const table of [
+    "SubjectMatchingSentencesBlock",
+    "SubjectRearrangeSentenceBlock",
+    "SubjectQuestionFromPoemsBlock",
+    "SubjectQuestionFromStoryBlock",
+  ]) {
+    await ensureColumn(table, "boardId", "TEXT");
+    await ensureColumn(table, "academicYearId", "TEXT");
+  }
+  await ensureColumn("Content", "title", "TEXT NOT NULL DEFAULT ''");
   await ensureSeenPassageTables();
   await ensureColumn("Vocabulary", "passage", "TEXT NOT NULL DEFAULT ''");
   await ensureColumn("Vocabulary", "passageSource", "TEXT NOT NULL DEFAULT 'manual'");
   await ensureColumn("Vocabulary", "paragraphBlockId", "TEXT");
+  await ensureColumn("VocabularyEntry", "imagePath", "TEXT NOT NULL DEFAULT ''");
+  await ensureColumn("VocabularyEntry", "imageUrl", "TEXT NOT NULL DEFAULT ''");
+
+  // Migrate the first Vocabulary image implementation, where imagePath stored
+  // the public URL (for example /uploads/vocabulary/<uuid>.webp). Keep the
+  // browser-facing URL and the server-relative storage path separately.
+  await prisma.$executeRawUnsafe(
+    `UPDATE "VocabularyEntry"
+     SET "imageUrl" = "imagePath"
+     WHERE ("imageUrl" IS NULL OR "imageUrl" = '')
+       AND "imagePath" LIKE '/uploads/vocabulary/%'`,
+  );
+  await prisma.$executeRawUnsafe(
+    `UPDATE "VocabularyEntry"
+     SET "imagePath" = 'public' || "imagePath"
+     WHERE "imagePath" LIKE '/uploads/vocabulary/%'`,
+  );
+  await prisma.$executeRawUnsafe(
+    `UPDATE "VocabularyEntry"
+     SET "imageUrl" = substr("imagePath", 7)
+     WHERE ("imageUrl" IS NULL OR "imageUrl" = '')
+       AND "imagePath" LIKE 'public/uploads/vocabulary/%'`,
+  );
+  await ensureUploadedFileTable();
   await ensureColumn("InformationTransfer", "passage", "TEXT NOT NULL DEFAULT ''");
   await ensureColumn("InformationTransfer", "passageSource", "TEXT NOT NULL DEFAULT 'manual'");
   await ensureColumn("InformationTransfer", "paragraphBlockId", "TEXT");

@@ -12,3 +12,15 @@ export function isEnglishFirstPaperSubject(subject: {
   const hasSecondPaper = /\b2nd\b|\bsecond\b|২য়|২য়|paper\s*2|2\s*paper/.test(value);
   return !hasSecondPaper;
 }
+
+
+export function isEnglishSecondPaperSubject(subject: {
+  name: string;
+  slug?: string | null;
+  code?: string | null;
+}) {
+  const value = `${subject.name} ${subject.slug ?? ""} ${subject.code ?? ""}`.toLowerCase();
+  const hasEnglish = value.includes("english") || value.includes("ইংরেজি");
+  if (!hasEnglish) return false;
+  return /\b2nd\b|\bsecond\b|২য়|২য়|paper\s*2|2\s*paper/.test(value);
+}

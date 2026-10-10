@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import type { Editor } from "@tiptap/react";
 import {
@@ -13,12 +14,16 @@ import {
   FileSpreadsheet,
   FileText,
   GripVertical,
+  ImagePlus,
   Languages,
   ListOrdered,
+  LoaderCircle,
   Plus,
   Rows3,
   SpellCheck2,
   Trash2,
+  X,
+  ZoomIn,
 } from "lucide-react";
 
 import {
@@ -31,6 +36,7 @@ import {
   reorderContentBlocks,
   updateChangingSentence,
   updateConnector,
+  updateContentBlockBoardYear,
   updateGapFillExercise,
   updateGapFillFirstPaper,
   updateGapFillSecondPaper,
@@ -58,6 +64,20 @@ import type {
   TableCompletionDocumentRecord,
   SubstitutionTableDocumentRecord,
 } from "@/app/admin/content/content-types";
+import {
+  crudValidationWouldRegress,
+  firstCrudValidationError,
+  validateInformationTransferRowDraft,
+  validateMcqQuestionDraft,
+  validateQuestionAnswerRowDraft,
+  validateSentenceOrderingDraft,
+  validateSynonymsAntonymsEntryDraft,
+  validateTagQuestionItemDraft,
+  validateTrueFalseRowDraft,
+  validateVocabularyEntryDraft,
+  type CrudValidationErrors,
+} from "@/app/admin/content/content-block-validation";
+import { BlockBoardYearFields } from "@/components/admin/BlockBoardYearFields";
 import { ResponsiveEntityEditor } from "@/components/admin/ResponsiveEntityEditor";
 import { TableCompletionChoiceCombobox } from "@/components/app/TableCompletionChoiceCombobox";
 import { QuestionAnswerPassageCombobox } from "@/components/app/QuestionAnswerPassageCombobox";
@@ -65,8 +85,9 @@ import { TiptapRichTextEditor } from "@/components/admin/TiptapRichTextEditor";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
-import { Field, FieldContent, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Field, FieldContent, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Switch } from "@/components/ui/switch";
@@ -1105,6 +1126,12 @@ export function ContentBlocksEditorClient({
   const [activeVocabularyBlockId, setActiveVocabularyBlockId] = useState<string | null>(null);
   const [newVocabularyWord, setNewVocabularyWord] = useState("");
   const [newVocabularyMeaning, setNewVocabularyMeaning] = useState("");
+  const [newVocabularyImageFile, setNewVocabularyImageFile] = useState<File | null>(null);
+  const [newVocabularyImagePreviewUrl, setNewVocabularyImagePreviewUrl] = useState<string | null>(null);
+  const [isCreatingVocabularyRow, setIsCreatingVocabularyRow] = useState(false);
+  const newVocabularyImageInputRef = useRef<HTMLInputElement | null>(null);
+  const [uploadingVocabularyImageEntryId, setUploadingVocabularyImageEntryId] = useState<string | null>(null);
+  const [previewVocabularyImage, setPreviewVocabularyImage] = useState<{ src: string; alt: string } | null>(null);
   const [isSynonymsModalOpen, setIsSynonymsModalOpen] = useState(false);
   const [activeSynonymsBlockId, setActiveSynonymsBlockId] = useState<string | null>(null);
   const [newSynonymsDraft, setNewSynonymsDraft] = useState<SynonymsAntonymsDraft>({
@@ -1146,6 +1173,7 @@ export function ContentBlocksEditorClient({
     createEmptyInformationTransferRowDraft(),
   );
   const [actionError, setActionError] = useState<string | null>(null);
+  const [createValidationErrors, setCreateValidationErrors] = useState<CrudValidationErrors>({});
   const [isPending, startTransition] = useTransition();
   const saveQueueRef = useRef(new Map<string, Promise<unknown>>());
 
@@ -1238,6 +1266,25 @@ export function ContentBlocksEditorClient({
     setBlocks((current) => current.map((block) => (block.id === blockId ? updater(block) : block)));
   }
 
+  function handleBlockBoardYearChange(
+    blockId: string,
+    value: { boardId: string | null; academicYearId: string | null },
+  ) {
+    patchBlock(blockId, (block) => ({
+      ...block,
+      boardId: value.boardId,
+      academicYearId: value.academicYearId,
+    }));
+
+    saveInBackground(`block-board-year:${blockId}`, () =>
+      updateContentBlockBoardYear({
+        blockId,
+        boardId: value.boardId,
+        academicYearId: value.academicYearId,
+      }),
+    );
+  }
+
   function saveInBackground(
     queueKey: string,
     task: () => Promise<unknown>,
@@ -1292,11 +1339,21 @@ export function ContentBlocksEditorClient({
   }
 
   function resetVocabularyModal() {
+    setCreateValidationErrors({});
     setNewVocabularyWord("");
     setNewVocabularyMeaning("");
+    setNewVocabularyImageFile(null);
+    setNewVocabularyImagePreviewUrl((current) => {
+      if (current) URL.revokeObjectURL(current);
+      return null;
+    });
+    if (newVocabularyImageInputRef.current) {
+      newVocabularyImageInputRef.current.value = "";
+    }
   }
 
   function resetSynonymsModal() {
+    setCreateValidationErrors({});
     setNewSynonymsDraft({
       word: "",
       meanings: "",
@@ -1307,31 +1364,66 @@ export function ContentBlocksEditorClient({
   }
 
   function resetMcqModal() {
+    setCreateValidationErrors({});
     setNewMcqDraft(createEmptyMcqQuestionDraft());
   }
 
   function resetTrueFalseModal() {
+    setCreateValidationErrors({});
     setNewTrueFalseDraft(createEmptyTrueFalseRowDraft());
   }
 
   function resetQuestionAnswerModal() {
+    setCreateValidationErrors({});
     setNewQuestionAnswerDraft(createEmptyQuestionAnswerRowDraft());
   }
 
   function resetChangingSentenceModal() {
+    setCreateValidationErrors({});
     setNewChangingSentenceDraft(createEmptyQuestionAnswerRowDraft());
   }
 
   function resetTagQuestionModal() {
+    setCreateValidationErrors({});
     setNewTagQuestionDraft(createEmptyQuestionAnswerRowDraft());
   }
 
   function resetSentenceOrderingModal() {
+    setCreateValidationErrors({});
     setNewSentenceOrderingDraft(createEmptySentenceOrderingRowDraft());
   }
 
   function resetInformationTransferModal() {
+    setCreateValidationErrors({});
     setNewInformationTransferDraft(createEmptyInformationTransferRowDraft());
+  }
+
+  function rejectInvalidCreateDraft(errors: CrudValidationErrors) {
+    const first = firstCrudValidationError(errors);
+    setCreateValidationErrors(errors);
+    if (!first) return false;
+    setActionError(first);
+    return true;
+  }
+
+  function rejectInvalidInlineUpdate(
+    nextErrors: CrudValidationErrors,
+    previousErrors: CrudValidationErrors = {},
+  ) {
+    const first = firstCrudValidationError(nextErrors);
+    if (!first) return false;
+    if (!crudValidationWouldRegress(previousErrors, nextErrors)) return false;
+    setActionError(first);
+    return true;
+  }
+
+  function clearCreateValidationError(...keys: string[]) {
+    setCreateValidationErrors((current) => {
+      if (!keys.some((key) => current[key])) return current;
+      const next = { ...current };
+      keys.forEach((key) => delete next[key]);
+      return next;
+    });
   }
 
   async function handleAddBlock(kind: ContentBlockKind) {
@@ -2130,6 +2222,9 @@ export function ContentBlocksEditorClient({
     const currentBlock = blocks.find((block) => block.id === activeQuestionAnswerBlockId);
     if (!currentBlock?.questionAnswerExercise) return;
 
+    if (rejectInvalidCreateDraft(validateQuestionAnswerRowDraft(newQuestionAnswerDraft))) return;
+    setActionError(null);
+
     const nextRow: QuestionAnswerRowRecord = {
       id: crypto.randomUUID(),
       sortOrder: currentBlock.questionAnswerExercise.rows.length,
@@ -2159,9 +2254,25 @@ export function ContentBlocksEditorClient({
     const currentBlock = blocks.find((block) => block.id === blockId);
     if (!currentBlock?.questionAnswerExercise) return;
 
+    const currentRow = currentBlock.questionAnswerExercise.rows.find((row) => row.id === rowId);
+    if (!currentRow) return;
+    const nextRow = { ...currentRow, ...patch };
+    const answerRequired = currentBlock.kind !== "rearrange-sentence";
+    const validationOptions = {
+      answerRequired,
+      questionLabel: currentBlock.kind === "rearrange-sentence" ? "Sentence" : "Question",
+    };
+    if (
+      rejectInvalidInlineUpdate(
+        validateQuestionAnswerRowDraft(nextRow, validationOptions),
+        validateQuestionAnswerRowDraft(currentRow, validationOptions),
+      )
+    ) return;
+    setActionError(null);
+
     await handleQuestionAnswerChange(blockId, currentBlock.questionAnswerExercise.id, {
       rows: currentBlock.questionAnswerExercise.rows.map((row) =>
-        row.id === rowId ? { ...row, ...patch } : row,
+        row.id === rowId ? nextRow : row,
       ),
     });
   }
@@ -2229,6 +2340,9 @@ export function ContentBlocksEditorClient({
     const currentBlock = blocks.find((block) => block.id === activeChangingSentenceBlockId);
     if (!currentBlock?.changingSentence) return;
 
+    if (rejectInvalidCreateDraft(validateQuestionAnswerRowDraft(newChangingSentenceDraft))) return;
+    setActionError(null);
+
     const nextRow: ChangingSentenceRowRecord = {
       id: crypto.randomUUID(),
       sortOrder: currentBlock.changingSentence.rows.length,
@@ -2258,9 +2372,20 @@ export function ContentBlocksEditorClient({
     const currentBlock = blocks.find((block) => block.id === blockId);
     if (!currentBlock?.changingSentence) return;
 
+    const currentRow = currentBlock.changingSentence.rows.find((row) => row.id === rowId);
+    if (!currentRow) return;
+    const nextRow = { ...currentRow, ...patch };
+    if (
+      rejectInvalidInlineUpdate(
+        validateQuestionAnswerRowDraft(nextRow),
+        validateQuestionAnswerRowDraft(currentRow),
+      )
+    ) return;
+    setActionError(null);
+
     await handleChangingSentenceChange(blockId, {
       rows: currentBlock.changingSentence.rows.map((row) =>
-        row.id === rowId ? { ...row, ...patch } : row,
+        row.id === rowId ? nextRow : row,
       ),
     });
   }
@@ -2339,6 +2464,9 @@ export function ContentBlocksEditorClient({
     const currentBlock = blocks.find((block) => block.id === activeTagQuestionBlockId);
     if (!currentBlock?.tagQuestion) return;
 
+    if (rejectInvalidCreateDraft(validateTagQuestionItemDraft(newTagQuestionDraft))) return;
+    setActionError(null);
+
     const nextRow: TagQuestionRowRecord = {
       id: crypto.randomUUID(),
       sortOrder: currentBlock.tagQuestion.rows.length,
@@ -2368,9 +2496,20 @@ export function ContentBlocksEditorClient({
     const currentBlock = blocks.find((block) => block.id === blockId);
     if (!currentBlock?.tagQuestion) return;
 
+    const currentRow = currentBlock.tagQuestion.rows.find((row) => row.id === rowId);
+    if (!currentRow) return;
+    const nextRow = { ...currentRow, ...patch };
+    if (
+      rejectInvalidInlineUpdate(
+        validateTagQuestionItemDraft(nextRow),
+        validateTagQuestionItemDraft(currentRow),
+      )
+    ) return;
+    setActionError(null);
+
     await handleTagQuestionChange(blockId, {
       rows: currentBlock.tagQuestion.rows.map((row) =>
-        row.id === rowId ? { ...row, ...patch } : row,
+        row.id === rowId ? nextRow : row,
       ),
     });
   }
@@ -2426,6 +2565,9 @@ export function ContentBlocksEditorClient({
     if (!activeSentenceOrderingBlockId) return;
     const currentBlock = blocks.find((block) => block.id === activeSentenceOrderingBlockId);
     if (!currentBlock?.questionAnswerExercise) return;
+
+    if (rejectInvalidCreateDraft(validateSentenceOrderingDraft(newSentenceOrderingDraft))) return;
+    setActionError(null);
 
     const nextRow: QuestionAnswerRowRecord = {
       id: crypto.randomUUID(),
@@ -2527,6 +2669,12 @@ export function ContentBlocksEditorClient({
     const currentEntry = currentBlock.vocabulary.entries.find((entry) => entry.id === vocabularyEntryId);
     if (!currentEntry) return;
 
+    const fieldErrors: CrudValidationErrors = {};
+    if (patch.word !== undefined && !patch.word.trim()) fieldErrors.word = "Word is required.";
+    if (patch.meaning !== undefined && !patch.meaning.trim()) fieldErrors.meaning = "Meaning is required.";
+    if (rejectInvalidInlineUpdate(fieldErrors)) return;
+    setActionError(null);
+
     const nextEntry = { ...currentEntry, ...patch };
 
     patchBlock(blockId, (block) => ({
@@ -2550,6 +2698,137 @@ export function ContentBlocksEditorClient({
     );
   }
 
+  function getVocabularyImageValidationError(file: File) {
+    if (!file.type || !["image/jpeg", "image/png", "image/webp"].includes(file.type.toLowerCase())) {
+      return "Only JPEG, PNG, and WebP images are allowed.";
+    }
+
+    if (file.size <= 0 || file.size > 5 * 1024 * 1024) {
+      return "Image must be 5 MB or smaller.";
+    }
+
+    return null;
+  }
+
+  async function uploadVocabularyImageAsset(blockId: string, vocabularyEntryId: string, file: File) {
+    const formData = new FormData();
+    formData.set("contentId", content.id);
+    formData.set("blockId", blockId);
+    formData.set("vocabularyEntryId", vocabularyEntryId);
+    formData.set("file", file);
+
+    const response = await fetch("/api/admin/vocabulary-image", {
+      method: "POST",
+      body: formData,
+    });
+    const result = (await response.json()) as { imageUrl?: string; imagePath?: string; error?: string };
+    if (!response.ok || !result.imageUrl || !result.imagePath) {
+      throw new Error(result.error || "Failed to upload vocabulary image.");
+    }
+
+    return { imageUrl: result.imageUrl, imagePath: result.imagePath };
+  }
+
+  function handleNewVocabularyImageSelection(file: File | null) {
+    setActionError(null);
+    setNewVocabularyImageFile(null);
+    setNewVocabularyImagePreviewUrl((current) => {
+      if (current) URL.revokeObjectURL(current);
+      return null;
+    });
+
+    if (!file) return;
+
+    const validationError = getVocabularyImageValidationError(file);
+    if (validationError) {
+      setActionError(validationError);
+      if (newVocabularyImageInputRef.current) {
+        newVocabularyImageInputRef.current.value = "";
+      }
+      return;
+    }
+
+    setNewVocabularyImageFile(file);
+    setNewVocabularyImagePreviewUrl(URL.createObjectURL(file));
+  }
+
+  async function handleVocabularyImageUpload(blockId: string, vocabularyEntryId: string, file: File) {
+    setActionError(null);
+
+    const validationError = getVocabularyImageValidationError(file);
+    if (validationError) {
+      setActionError(validationError);
+      return;
+    }
+
+    setUploadingVocabularyImageEntryId(vocabularyEntryId);
+    try {
+      const result = await uploadVocabularyImageAsset(blockId, vocabularyEntryId, file);
+
+      patchBlock(blockId, (block) => ({
+        ...block,
+        vocabulary: block.vocabulary
+          ? {
+              ...block.vocabulary,
+              entries: block.vocabulary.entries.map((entry) =>
+                entry.id === vocabularyEntryId
+                  ? { ...entry, imageUrl: result.imageUrl!, imagePath: result.imagePath! }
+                  : entry,
+              ),
+            }
+          : null,
+      }));
+    } catch (error) {
+      setActionError(error instanceof Error ? error.message : "Failed to upload vocabulary image.");
+    } finally {
+      setUploadingVocabularyImageEntryId(null);
+    }
+  }
+
+  async function handleRemoveVocabularyImage(blockId: string, vocabularyEntryId: string) {
+    setActionError(null);
+    setUploadingVocabularyImageEntryId(vocabularyEntryId);
+    try {
+      const response = await fetch("/api/admin/vocabulary-image", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contentId: content.id,
+          blockId,
+          vocabularyEntryId,
+        }),
+      });
+      const result = (await response.json()) as { imageUrl?: string; imagePath?: string; error?: string };
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to remove vocabulary image.");
+      }
+
+      patchBlock(blockId, (block) => ({
+        ...block,
+        vocabulary: block.vocabulary
+          ? {
+              ...block.vocabulary,
+              entries: block.vocabulary.entries.map((entry) =>
+                entry.id === vocabularyEntryId ? { ...entry, imageUrl: "", imagePath: "" } : entry,
+              ),
+            }
+          : null,
+      }));
+
+      if (previewVocabularyImage?.src) {
+        const currentBlock = blocks.find((block) => block.id === blockId);
+        const currentEntry = currentBlock?.vocabulary?.entries.find((entry) => entry.id === vocabularyEntryId);
+        if (currentEntry?.imageUrl === previewVocabularyImage.src) {
+          setPreviewVocabularyImage(null);
+        }
+      }
+    } catch (error) {
+      setActionError(error instanceof Error ? error.message : "Failed to remove vocabulary image.");
+    } finally {
+      setUploadingVocabularyImageEntryId(null);
+    }
+  }
+
   function openVocabularyModal(blockId: string) {
     setActiveVocabularyBlockId(blockId);
     resetVocabularyModal();
@@ -2557,45 +2836,80 @@ export function ContentBlocksEditorClient({
   }
 
   async function handleCreateVocabularyRow(keepOpen: boolean) {
-    if (!activeVocabularyBlockId) return;
+    if (!activeVocabularyBlockId || isCreatingVocabularyRow) return;
     const currentBlock = blocks.find((block) => block.id === activeVocabularyBlockId);
     if (!currentBlock?.vocabulary) return;
 
-    const created = await createVocabularyEntry({
-      contentId: content.id,
-      blockId: activeVocabularyBlockId,
-      vocabularyId: currentBlock.vocabulary.id,
-      word: newVocabularyWord,
-      meaning: newVocabularyMeaning,
-    });
+    if (rejectInvalidCreateDraft(validateVocabularyEntryDraft({ word: newVocabularyWord, meaning: newVocabularyMeaning }))) return;
 
-    patchBlock(activeVocabularyBlockId, (block) => ({
-      ...block,
-      vocabulary: block.vocabulary
-        ? {
-            ...block.vocabulary,
-            entries: [
-              ...block.vocabulary.entries,
-              {
-                id: created.id,
-                vocabularyId: created.vocabularyId,
-                word: created.word,
-                meaning: created.meaning,
-                sortOrder: created.sortOrder,
-              },
-            ],
-          }
-        : null,
-    }));
+    const blockId = activeVocabularyBlockId;
+    const vocabularyId = currentBlock.vocabulary.id;
+    const selectedImageFile = newVocabularyImageFile;
 
-    if (keepOpen) {
+    setActionError(null);
+    setIsCreatingVocabularyRow(true);
+
+    try {
+      const created = await createVocabularyEntry({
+        contentId: content.id,
+        blockId,
+        vocabularyId,
+        word: newVocabularyWord,
+        meaning: newVocabularyMeaning,
+      });
+
+      let imageUrl = created.imageUrl || "";
+      let imagePath = created.imagePath || "";
+      let imageUploadError: string | null = null;
+
+      if (selectedImageFile) {
+        try {
+          const uploaded = await uploadVocabularyImageAsset(blockId, created.id, selectedImageFile);
+          imageUrl = uploaded.imageUrl;
+          imagePath = uploaded.imagePath;
+        } catch (error) {
+          imageUploadError = error instanceof Error ? error.message : "Failed to upload vocabulary image.";
+        }
+      }
+
+      patchBlock(blockId, (block) => ({
+        ...block,
+        vocabulary: block.vocabulary
+          ? {
+              ...block.vocabulary,
+              entries: [
+                ...block.vocabulary.entries,
+                {
+                  id: created.id,
+                  vocabularyId: created.vocabularyId,
+                  word: created.word,
+                  meaning: created.meaning,
+                  imageUrl,
+                  imagePath,
+                  sortOrder: created.sortOrder,
+                },
+              ],
+            }
+          : null,
+      }));
+
+      if (imageUploadError) {
+        setActionError(`Vocabulary row was saved, but the image could not be uploaded: ${imageUploadError}`);
+      }
+
+      if (keepOpen) {
+        resetVocabularyModal();
+        return;
+      }
+
       resetVocabularyModal();
-      return;
+      setIsVocabularyModalOpen(false);
+      setActiveVocabularyBlockId(null);
+    } catch (error) {
+      setActionError(error instanceof Error ? error.message : "Failed to create vocabulary row.");
+    } finally {
+      setIsCreatingVocabularyRow(false);
     }
-
-    resetVocabularyModal();
-    setIsVocabularyModalOpen(false);
-    setActiveVocabularyBlockId(null);
   }
 
   async function handleDeleteVocabularyRow(blockId: string, vocabularyId: string, vocabularyEntryId: string) {
@@ -2675,6 +2989,12 @@ export function ContentBlocksEditorClient({
     const currentEntry = currentBlock.synonymsAntonyms.entries.find((entry) => entry.id === entryId);
     if (!currentEntry) return;
 
+    const fieldErrors: CrudValidationErrors = {};
+    if (patch.word !== undefined && !patch.word.trim()) fieldErrors.word = "Word is required.";
+    if (patch.meanings !== undefined && !patch.meanings.trim()) fieldErrors.meanings = "Meaning is required.";
+    if (rejectInvalidInlineUpdate(fieldErrors)) return;
+    setActionError(null);
+
     const nextEntry = { ...currentEntry, ...patch };
 
     patchBlock(blockId, (block) => ({
@@ -2711,6 +3031,9 @@ export function ContentBlocksEditorClient({
     if (!activeSynonymsBlockId) return;
     const currentBlock = blocks.find((block) => block.id === activeSynonymsBlockId);
     if (!currentBlock?.synonymsAntonyms) return;
+
+    if (rejectInvalidCreateDraft(validateSynonymsAntonymsEntryDraft(newSynonymsDraft))) return;
+    setActionError(null);
 
     const created = await createSynonymsAntonymsEntry({
       contentId: content.id,
@@ -2838,6 +3161,7 @@ export function ContentBlocksEditorClient({
   }
 
   function toggleMcqDraftCorrect(index: number) {
+    clearCreateValidationError("correct");
     setNewMcqDraft((current) => ({
       ...current,
       options: current.options.map((option, optionIndex) => {
@@ -2853,6 +3177,9 @@ export function ContentBlocksEditorClient({
     if (!activeMcqBlockId) return;
     const currentBlock = blocks.find((block) => block.id === activeMcqBlockId);
     if (!currentBlock?.mcqSection) return;
+
+    if (rejectInvalidCreateDraft(validateMcqQuestionDraft(newMcqDraft))) return;
+    setActionError(null);
 
     const nextQuestion = {
       id: crypto.randomUUID(),
@@ -2884,9 +3211,20 @@ export function ContentBlocksEditorClient({
     const currentBlock = blocks.find((block) => block.id === blockId);
     if (!currentBlock?.mcqSection) return;
 
+    const currentQuestion = currentBlock.mcqSection.questions.find((question) => question.id === questionId);
+    if (!currentQuestion) return;
+    const nextQuestion = { ...currentQuestion, ...patch };
+    if (
+      rejectInvalidInlineUpdate(
+        validateMcqQuestionDraft(nextQuestion),
+        validateMcqQuestionDraft(currentQuestion),
+      )
+    ) return;
+    setActionError(null);
+
     await handleMcqSectionChange(blockId, {
       questions: currentBlock.mcqSection.questions.map((question) =>
-        question.id === questionId ? { ...question, ...patch } : question,
+        question.id === questionId ? nextQuestion : question,
       ),
     });
   }
@@ -2900,14 +3238,23 @@ export function ContentBlocksEditorClient({
     const currentBlock = blocks.find((block) => block.id === blockId);
     if (!currentBlock?.mcqSection) return;
 
+    const currentQuestion = currentBlock.mcqSection.questions.find((question) => question.id === questionId);
+    if (!currentQuestion) return;
+    const nextQuestion = {
+      ...currentQuestion,
+      options: currentQuestion.options.map((option) => (option.id === optionId ? { ...option, ...patch } : option)),
+    };
+    if (
+      rejectInvalidInlineUpdate(
+        validateMcqQuestionDraft(nextQuestion),
+        validateMcqQuestionDraft(currentQuestion),
+      )
+    ) return;
+    setActionError(null);
+
     await handleMcqSectionChange(blockId, {
       questions: currentBlock.mcqSection.questions.map((question) =>
-        question.id === questionId
-          ? {
-              ...question,
-              options: question.options.map((option) => (option.id === optionId ? { ...option, ...patch } : option)),
-            }
-          : question,
+        question.id === questionId ? nextQuestion : question,
       ),
     });
   }
@@ -2917,19 +3264,27 @@ export function ContentBlocksEditorClient({
     const question = currentBlock?.mcqSection?.questions.find((item) => item.id === questionId);
     if (!question || !currentBlock?.mcqSection) return;
 
-    await handleMcqSectionChange(blockId, {
-      questions: currentBlock.mcqSection.questions.map((item) => {
-        if (item.id !== questionId) return item;
-        return {
-          ...item,
-          options: item.options.map((option) => {
-            if (question.answerMode === "single") {
-              return { ...option, isCorrect: option.id === optionId };
-            }
-            return option.id === optionId ? { ...option, isCorrect: !option.isCorrect } : option;
-          }),
-        };
+    const nextQuestion = {
+      ...question,
+      options: question.options.map((option) => {
+        if (question.answerMode === "single") {
+          return { ...option, isCorrect: option.id === optionId };
+        }
+        return option.id === optionId ? { ...option, isCorrect: !option.isCorrect } : option;
       }),
+    };
+    if (
+      rejectInvalidInlineUpdate(
+        validateMcqQuestionDraft(nextQuestion),
+        validateMcqQuestionDraft(question),
+      )
+    ) return;
+    setActionError(null);
+
+    await handleMcqSectionChange(blockId, {
+      questions: currentBlock.mcqSection.questions.map((item) =>
+        item.id === questionId ? nextQuestion : item,
+      ),
     });
   }
 
@@ -2999,6 +3354,9 @@ export function ContentBlocksEditorClient({
     const currentBlock = blocks.find((block) => block.id === activeTrueFalseBlockId);
     if (!currentBlock?.trueFalseExercise) return;
 
+    if (rejectInvalidCreateDraft(validateTrueFalseRowDraft(newTrueFalseDraft))) return;
+    setActionError(null);
+
     const nextRow = {
       id: crypto.randomUUID(),
       sortOrder: currentBlock.trueFalseExercise.rows.length,
@@ -3029,16 +3387,25 @@ export function ContentBlocksEditorClient({
     const currentBlock = blocks.find((block) => block.id === blockId);
     if (!currentBlock?.trueFalseExercise) return;
 
+    const currentRow = currentBlock.trueFalseExercise.rows.find((row) => row.id === rowId);
+    if (!currentRow) return;
+    const nextRow = {
+      ...currentRow,
+      ...patch,
+      correction:
+        patch.expectedAnswer === true ? "" : patch.correction !== undefined ? patch.correction : currentRow.correction,
+    };
+    if (
+      rejectInvalidInlineUpdate(
+        validateTrueFalseRowDraft(nextRow),
+        validateTrueFalseRowDraft(currentRow),
+      )
+    ) return;
+    setActionError(null);
+
     await handleTrueFalseExerciseChange(blockId, {
       rows: currentBlock.trueFalseExercise.rows.map((row) =>
-        row.id === rowId
-          ? {
-              ...row,
-              ...patch,
-              correction:
-                patch.expectedAnswer === true ? "" : patch.correction !== undefined ? patch.correction : row.correction,
-            }
-          : row,
+        row.id === rowId ? nextRow : row,
       ),
     });
   }
@@ -3147,6 +3514,9 @@ export function ContentBlocksEditorClient({
     const currentBlock = blocks.find((block) => block.id === activeInformationTransferBlockId);
     if (!currentBlock?.informationTransfer) return;
 
+    if (rejectInvalidCreateDraft(validateInformationTransferRowDraft(newInformationTransferDraft))) return;
+    setActionError(null);
+
     const nextRow: InformationTransferRowRecord = {
       id: crypto.randomUUID(),
       sortOrder: currentBlock.informationTransfer.rows.length,
@@ -3180,9 +3550,20 @@ export function ContentBlocksEditorClient({
     const currentBlock = blocks.find((block) => block.id === blockId);
     if (!currentBlock?.informationTransfer) return;
 
+    const currentRow = currentBlock.informationTransfer.rows.find((row) => row.id === rowId);
+    if (!currentRow) return;
+    const nextRow = { ...currentRow, ...patch };
+    if (
+      rejectInvalidInlineUpdate(
+        validateInformationTransferRowDraft(nextRow),
+        validateInformationTransferRowDraft(currentRow),
+      )
+    ) return;
+    setActionError(null);
+
     await handleInformationTransferExerciseChange(blockId, currentBlock.informationTransfer.id, {
       rows: currentBlock.informationTransfer.rows.map((row) =>
-        row.id === rowId ? { ...row, ...patch } : row,
+        row.id === rowId ? nextRow : row,
       ),
     });
   }
@@ -3565,8 +3946,12 @@ export function ContentBlocksEditorClient({
 
       <Card className="shadow-none">
         <CardHeader>
-          <CardTitle>Manage Content Blocks</CardTitle>
-          <CardDescription>{pathLabel}</CardDescription>
+          <CardTitle>
+            {isSeenCompositionMode && content.title?.trim() ? content.title : "Manage Content Blocks"}
+          </CardTitle>
+          <CardDescription>
+            {isSeenCompositionMode ? `Seen Composition · ${pathLabel}` : pathLabel}
+          </CardDescription>
           <CardDescription>Typing stays local for speed. Changes auto-save after a short pause, on blur, or with Ctrl/Cmd+S.</CardDescription>
         </CardHeader>
       </Card>
@@ -3632,6 +4017,15 @@ export function ContentBlocksEditorClient({
                   </Button>
                 </div>
               </CardHeader>
+
+              <CardContent className="border-t pt-5">
+                <BlockBoardYearFields
+                  boardId={block.boardId}
+                  academicYearId={block.academicYearId}
+                  onChange={(value) => handleBlockBoardYearChange(block.id, value)}
+                  disabled={isPending}
+                />
+              </CardContent>
 
               {block.kind === "paragraph" && block.paragraph ? (
                 <CardContent className={BLOCK_CONTENT_CLASS}>
@@ -3756,6 +4150,11 @@ export function ContentBlocksEditorClient({
                   </div>
 
                   <div className="space-y-4">
+                    {block.vocabulary.entries.length === 0 ? (
+                      <div className="rounded-xl border border-dashed p-6 text-center text-sm text-muted-foreground">
+                        No vocabulary words yet. Click <strong>Add word</strong> to create the first validated row.
+                      </div>
+                    ) : null}
                     {block.vocabulary.entries.map((entry, index) => (
                       <Card key={entry.id} className="shadow-none">
                         <CardContent className="pt-6">
@@ -3766,7 +4165,6 @@ export function ContentBlocksEditorClient({
                               variant="outline"
                               size="sm"
                               onClick={() => void handleDeleteVocabularyRow(block.id, block.vocabulary!.id, entry.id)}
-                              disabled={block.vocabulary!.entries.length <= 1}
                             >
                               <Trash2 className="mr-2 h-4 w-4" />
                               Delete
@@ -3793,6 +4191,82 @@ export function ContentBlocksEditorClient({
                                   onCommit={(value) => void handleVocabularyEntryChange(block.id, entry.id, { meaning: value })}
                                   placeholder="Write the meaning..."
                                 />
+                              </FieldContent>
+                            </Field>
+
+                            <Field className="md:col-span-2">
+                              <FieldContent>
+                                <FieldLabel>Image</FieldLabel>
+                                <FieldDescription>
+                                  Optional. JPEG, PNG, or WebP only, maximum 5 MB. The server verifies and re-encodes every upload.
+                                </FieldDescription>
+
+                                <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center">
+                                  {entry.imageUrl ? (
+                                    <button
+                                      type="button"
+                                      className="group relative h-20 w-28 overflow-hidden rounded-lg border bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                      onClick={() =>
+                                        setPreviewVocabularyImage({
+                                          src: entry.imageUrl,
+                                          alt: entry.word || `Vocabulary image ${index + 1}`,
+                                        })
+                                      }
+                                      aria-label="Open large image preview"
+                                    >
+                                      <Image
+                                        src={entry.imageUrl}
+                                        alt={entry.word || `Vocabulary image ${index + 1}`}
+                                        fill
+                                        sizes="112px"
+                                        className="object-cover"
+                                      />
+                                      <span className="absolute inset-0 grid place-items-center bg-black/0 text-white opacity-0 transition group-hover:bg-black/35 group-hover:opacity-100">
+                                        <ZoomIn className="h-5 w-5" />
+                                      </span>
+                                    </button>
+                                  ) : (
+                                    <div className="grid h-20 w-28 place-items-center rounded-lg border border-dashed bg-muted/40 text-muted-foreground">
+                                      <ImagePlus className="h-5 w-5" />
+                                    </div>
+                                  )}
+
+                                  <div className="flex min-w-0 flex-1 flex-col gap-2">
+                                    <Input
+                                      type="file"
+                                      accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
+                                      disabled={uploadingVocabularyImageEntryId === entry.id}
+                                      onChange={(event) => {
+                                        const input = event.currentTarget;
+                                        const file = input.files?.[0];
+                                        if (file) {
+                                          void handleVocabularyImageUpload(block.id, entry.id, file).finally(() => {
+                                            input.value = "";
+                                          });
+                                        }
+                                      }}
+                                    />
+
+                                    <div className="flex flex-wrap items-center gap-2">
+                                      {uploadingVocabularyImageEntryId === entry.id ? (
+                                        <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
+                                          <LoaderCircle className="h-3.5 w-3.5 animate-spin" />
+                                          Optimizing image...
+                                        </span>
+                                      ) : entry.imageUrl ? (
+                                        <Button
+                                          type="button"
+                                          variant="outline"
+                                          size="sm"
+                                          onClick={() => void handleRemoveVocabularyImage(block.id, entry.id)}
+                                        >
+                                          <X className="mr-2 h-4 w-4" />
+                                          Remove image
+                                        </Button>
+                                      ) : null}
+                                    </div>
+                                  </div>
+                                </div>
                               </FieldContent>
                             </Field>
                           </FieldGroup>
@@ -3864,6 +4338,11 @@ export function ContentBlocksEditorClient({
                   </div>
 
                   <div className="space-y-4">
+                    {block.synonymsAntonyms.entries.length === 0 ? (
+                      <div className="rounded-xl border border-dashed p-6 text-center text-sm text-muted-foreground">
+                        No rows yet. Click <strong>Add row</strong> to create the first validated Synonyms / Antonyms item.
+                      </div>
+                    ) : null}
                     {block.synonymsAntonyms.entries.map((entry, index) => (
                       <Card key={entry.id} className="shadow-none">
                         <CardContent className="space-y-5 pt-6">
@@ -3874,7 +4353,6 @@ export function ContentBlocksEditorClient({
                               variant="outline"
                               size="sm"
                               onClick={() => void handleDeleteSynonymsRow(block.id, block.synonymsAntonyms!.id, entry.id)}
-                              disabled={block.synonymsAntonyms!.entries.length <= 1}
                             >
                               <Trash2 className="mr-2 h-4 w-4" />
                               Delete
@@ -6566,13 +7044,15 @@ export function ContentBlocksEditorClient({
               <div className="rounded-xl border bg-background p-3">
                 <TiptapRichTextEditor
                   value={newQuestionAnswerDraft.question}
-                  onChange={(value) =>
-                    setNewQuestionAnswerDraft((current) => ({ ...current, question: value }))
-                  }
+                  onChange={(value) => {
+                    clearCreateValidationError("question");
+                    setNewQuestionAnswerDraft((current) => ({ ...current, question: value }));
+                  }}
                   minHeight={180}
                   placeholder="Write the question here..."
                 />
               </div>
+              <FieldError>{createValidationErrors.question}</FieldError>
             </FieldContent>
           </Field>
 
@@ -6582,13 +7062,15 @@ export function ContentBlocksEditorClient({
               <div className="rounded-xl border bg-background p-3">
                 <TiptapRichTextEditor
                   value={newQuestionAnswerDraft.answer}
-                  onChange={(value) =>
-                    setNewQuestionAnswerDraft((current) => ({ ...current, answer: value }))
-                  }
+                  onChange={(value) => {
+                    clearCreateValidationError("answer");
+                    setNewQuestionAnswerDraft((current) => ({ ...current, answer: value }));
+                  }}
                   minHeight={180}
                   placeholder="Write the answer for this question here..."
                 />
               </div>
+              <FieldError>{createValidationErrors.answer}</FieldError>
             </FieldContent>
           </Field>
         </FieldGroup>
@@ -6635,13 +7117,15 @@ export function ContentBlocksEditorClient({
               <div className="min-w-0 overflow-hidden rounded-xl border bg-background p-3">
                 <TiptapRichTextEditor
                   value={newChangingSentenceDraft.question}
-                  onChange={(value) =>
-                    setNewChangingSentenceDraft((current) => ({ ...current, question: value }))
-                  }
+                  onChange={(value) => {
+                    clearCreateValidationError("question");
+                    setNewChangingSentenceDraft((current) => ({ ...current, question: value }));
+                  }}
                   minHeight={180}
                   placeholder="Write the original sentence or transformation instruction here..."
                 />
               </div>
+              <FieldError>{createValidationErrors.question}</FieldError>
             </FieldContent>
           </Field>
 
@@ -6651,13 +7135,15 @@ export function ContentBlocksEditorClient({
               <div className="min-w-0 overflow-hidden rounded-xl border bg-background p-3">
                 <TiptapRichTextEditor
                   value={newChangingSentenceDraft.answer}
-                  onChange={(value) =>
-                    setNewChangingSentenceDraft((current) => ({ ...current, answer: value }))
-                  }
+                  onChange={(value) => {
+                    clearCreateValidationError("answer");
+                    setNewChangingSentenceDraft((current) => ({ ...current, answer: value }));
+                  }}
                   minHeight={180}
                   placeholder="Write the correctly changed sentence here..."
                 />
               </div>
+              <FieldError>{createValidationErrors.answer}</FieldError>
             </FieldContent>
           </Field>
         </FieldGroup>
@@ -6698,29 +7184,35 @@ export function ContentBlocksEditorClient({
         }
       >
         <FieldGroup className="min-w-0 gap-5">
-          <FillBlankQuestionEditor
-            value={newTagQuestionDraft.question}
-            onCommit={(value) =>
-              setNewTagQuestionDraft((current) => ({ ...current, question: value }))
-            }
-            title="Question"
-            description="Write one sentence and add one blank where the tag question should go."
-            addButtonLabel="Add blank"
-            countLabel="blank"
-            maxBlanks={1}
-            placeholder="Example: She is a teacher, ____"
-          />
+          <div className="space-y-2">
+            <FillBlankQuestionEditor
+              value={newTagQuestionDraft.question}
+              onCommit={(value) => {
+                clearCreateValidationError("question");
+                setNewTagQuestionDraft((current) => ({ ...current, question: value }));
+              }}
+              title="Question"
+              description="Write one sentence and add one blank where the tag question should go."
+              addButtonLabel="Add blank"
+              countLabel="blank"
+              maxBlanks={1}
+              placeholder="Example: She is a teacher, ____"
+            />
+            <FieldError>{createValidationErrors.question}</FieldError>
+          </div>
 
           <Field>
             <FieldContent className="min-w-0">
               <FieldLabel>Answer</FieldLabel>
               <Input
                 value={newTagQuestionDraft.answer}
-                onChange={(event) =>
-                  setNewTagQuestionDraft((current) => ({ ...current, answer: event.target.value }))
-                }
+                onChange={(event) => {
+                  clearCreateValidationError("answer");
+                  setNewTagQuestionDraft((current) => ({ ...current, answer: event.target.value }));
+                }}
                 placeholder="Example: isn't she?"
               />
+              <FieldError>{createValidationErrors.answer}</FieldError>
             </FieldContent>
           </Field>
         </FieldGroup>
@@ -6781,13 +7273,15 @@ export function ContentBlocksEditorClient({
               <TiptapRichTextEditor
                 className="min-w-0 max-w-full"
                 value={newSentenceOrderingDraft.sentence}
-                onChange={(value) =>
-                  setNewSentenceOrderingDraft((current) => ({ ...current, sentence: value }))
-                }
+                onChange={(value) => {
+                  clearCreateValidationError("sentence");
+                  setNewSentenceOrderingDraft((current) => ({ ...current, sentence: value }));
+                }}
                 minHeight={180}
                 placeholder="Write one full sentence here..."
               />
             </div>
+            <FieldError>{createValidationErrors.sentence}</FieldError>
             </FieldContent>
           </Field>
         </div>
@@ -6846,13 +7340,15 @@ export function ContentBlocksEditorClient({
                 <TiptapRichTextEditor
                   className="min-w-0 max-w-full"
                   value={newInformationTransferDraft.term}
-                  onChange={(value) =>
-                    setNewInformationTransferDraft((current) => ({ ...current, term: value }))
-                  }
+                  onChange={(value) => {
+                    clearCreateValidationError("term");
+                    setNewInformationTransferDraft((current) => ({ ...current, term: value }));
+                  }}
                   minHeight={150}
                   placeholder="Write the term or item here..."
                 />
               </div>
+              <FieldError>{createValidationErrors.term}</FieldError>
             </FieldContent>
           </Field>
 
@@ -6864,11 +7360,112 @@ export function ContentBlocksEditorClient({
                 <TiptapRichTextEditor
                   className="min-w-0 max-w-full"
                   value={newInformationTransferDraft.answer}
-                  onChange={(value) =>
-                    setNewInformationTransferDraft((current) => ({ ...current, answer: value }))
-                  }
+                  onChange={(value) => {
+                    clearCreateValidationError("answer");
+                    setNewInformationTransferDraft((current) => ({ ...current, answer: value }));
+                  }}
                   minHeight={150}
                   placeholder="Write the answer for this item..."
+                />
+              </div>
+              <FieldError>{createValidationErrors.answer}</FieldError>
+            </FieldContent>
+          </Field>
+        </FieldGroup>
+      </ResponsiveEntityEditor>
+
+      <ResponsiveEntityEditor
+        open={isSynonymsModalOpen}
+        onOpenChange={(open) => {
+          setIsSynonymsModalOpen(open);
+          if (!open) {
+            setActiveSynonymsBlockId(null);
+            resetSynonymsModal();
+          }
+        }}
+        title="Add Synonyms / Antonyms row"
+        description="Add one complete word row. Word and meaning are required; synonyms, antonyms, and details are optional."
+        className="w-[calc(100vw-1.5rem)] sm:max-w-4xl"
+        footer={
+          <div className="flex w-full min-w-0 flex-col-reverse gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:gap-3">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => {
+                setIsSynonymsModalOpen(false);
+                setActiveSynonymsBlockId(null);
+                resetSynonymsModal();
+              }}
+            >
+              Cancel
+            </Button>
+            <Button type="button" variant="outline" onClick={() => void handleCreateSynonymsRow(false)}>
+              Save row
+            </Button>
+            <Button type="button" onClick={() => void handleCreateSynonymsRow(true)}>
+              Save and add another
+            </Button>
+          </div>
+        }
+      >
+        <FieldGroup className="min-w-0 gap-5">
+          <div className="grid gap-4 md:grid-cols-2">
+            <Field>
+              <FieldContent>
+                <FieldLabel>Word</FieldLabel>
+                <BufferedInput
+                  value={newSynonymsDraft.word}
+                  onCommit={(value) => {
+                    clearCreateValidationError("word");
+                    setNewSynonymsDraft((current) => ({ ...current, word: value }));
+                  }}
+                  placeholder="Target word"
+                />
+                <FieldError>{createValidationErrors.word}</FieldError>
+              </FieldContent>
+            </Field>
+
+            <Field>
+              <FieldContent>
+                <FieldLabel>Meaning</FieldLabel>
+                <BufferedTextarea
+                  value={newSynonymsDraft.meanings}
+                  onCommit={(value) => {
+                    clearCreateValidationError("meanings");
+                    setNewSynonymsDraft((current) => ({ ...current, meanings: value }));
+                  }}
+                  placeholder="Meaning or explanation"
+                  rows={3}
+                />
+                <FieldError>{createValidationErrors.meanings}</FieldError>
+              </FieldContent>
+            </Field>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <TagChipInput
+              label="Synonyms"
+              values={newSynonymsDraft.synonyms}
+              onChange={(values) => setNewSynonymsDraft((current) => ({ ...current, synonyms: values }))}
+              placeholder="Type and press comma or Enter"
+            />
+            <TagChipInput
+              label="Antonyms"
+              values={newSynonymsDraft.antonyms}
+              onChange={(values) => setNewSynonymsDraft((current) => ({ ...current, antonyms: values }))}
+              placeholder="Type and press comma or Enter"
+            />
+          </div>
+
+          <Field>
+            <FieldContent>
+              <FieldLabel>Details</FieldLabel>
+              <div className="min-w-0 overflow-hidden rounded-xl border bg-background p-3">
+                <TiptapRichTextEditor
+                  value={newSynonymsDraft.details}
+                  onChange={(value) => setNewSynonymsDraft((current) => ({ ...current, details: value }))}
+                  minHeight={160}
+                  placeholder="Add optional details here..."
                 />
               </div>
             </FieldContent>
@@ -6915,10 +7512,14 @@ export function ContentBlocksEditorClient({
               <FieldLabel>Statement</FieldLabel>
               <BufferedTextarea
                 value={newTrueFalseDraft.statement}
-                onCommit={(value) => setNewTrueFalseDraft((current) => ({ ...current, statement: value }))}
+                onCommit={(value) => {
+                  clearCreateValidationError("statement");
+                  setNewTrueFalseDraft((current) => ({ ...current, statement: value }));
+                }}
                 placeholder="Type the true/false statement here..."
                 rows={4}
               />
+              <FieldError>{createValidationErrors.statement}</FieldError>
             </FieldContent>
           </Field>
 
@@ -6929,7 +7530,10 @@ export function ContentBlocksEditorClient({
                 <Button
                   type="button"
                   variant={newTrueFalseDraft.expectedAnswer ? "default" : "outline"}
-                  onClick={() => setNewTrueFalseDraft((current) => ({ ...current, expectedAnswer: true, correction: "" }))}
+                  onClick={() => {
+                    clearCreateValidationError("correction");
+                    setNewTrueFalseDraft((current) => ({ ...current, expectedAnswer: true, correction: "" }));
+                  }}
                 >
                   True
                 </Button>
@@ -6950,10 +7554,14 @@ export function ContentBlocksEditorClient({
                 <FieldLabel>Correction</FieldLabel>
                 <BufferedTextarea
                   value={newTrueFalseDraft.correction}
-                  onCommit={(value) => setNewTrueFalseDraft((current) => ({ ...current, correction: value }))}
+                  onCommit={(value) => {
+                    clearCreateValidationError("correction");
+                    setNewTrueFalseDraft((current) => ({ ...current, correction: value }));
+                  }}
                   placeholder="Write the correct statement here..."
                   rows={3}
                 />
+                <FieldError>{createValidationErrors.correction}</FieldError>
               </FieldContent>
             </Field>
           ) : null}
@@ -6999,10 +7607,14 @@ export function ContentBlocksEditorClient({
               <FieldLabel>Question prompt</FieldLabel>
               <BufferedTextarea
                 value={newMcqDraft.prompt}
-                onCommit={(value) => setNewMcqDraft((current) => ({ ...current, prompt: value }))}
+                onCommit={(value) => {
+                  clearCreateValidationError("prompt");
+                  setNewMcqDraft((current) => ({ ...current, prompt: value }));
+                }}
                 placeholder="Write the MCQ prompt..."
                 rows={4}
               />
+              <FieldError>{createValidationErrors.prompt}</FieldError>
             </FieldContent>
           </Field>
 
@@ -7013,7 +7625,8 @@ export function ContentBlocksEditorClient({
                 <Button
                   type="button"
                   variant={newMcqDraft.answerMode === "single" ? "default" : "outline"}
-                  onClick={() =>
+                  onClick={() => {
+                    clearCreateValidationError("correct");
                     setNewMcqDraft((current) => ({
                       ...current,
                       answerMode: "single",
@@ -7021,15 +7634,18 @@ export function ContentBlocksEditorClient({
                         ...option,
                         isCorrect: optionIndex === 0 ? option.isCorrect || true : false,
                       })),
-                    }))
-                  }
+                    }));
+                  }}
                 >
                   Single correct
                 </Button>
                 <Button
                   type="button"
                   variant={newMcqDraft.answerMode === "multiple" ? "default" : "outline"}
-                  onClick={() => setNewMcqDraft((current) => ({ ...current, answerMode: "multiple" }))}
+                  onClick={() => {
+                    clearCreateValidationError("correct");
+                    setNewMcqDraft((current) => ({ ...current, answerMode: "multiple" }));
+                  }}
                 >
                   Multiple correct
                 </Button>
@@ -7054,13 +7670,18 @@ export function ContentBlocksEditorClient({
                   </div>
                   <BufferedInput
                     value={option.text}
-                    onCommit={(value) => setMcqDraftOption(index, { text: value })}
+                    onCommit={(value) => {
+                      clearCreateValidationError(`option:${index}`);
+                      setMcqDraftOption(index, { text: value });
+                    }}
                     placeholder={`Write option ${option.label}...`}
                   />
+                  <FieldError>{createValidationErrors[`option:${index}`]}</FieldError>
                 </CardContent>
               </Card>
             ))}
           </div>
+          <FieldError>{createValidationErrors.options || createValidationErrors.correct}</FieldError>
         </FieldGroup>
       </ResponsiveEntityEditor>
 
@@ -7073,13 +7694,14 @@ export function ContentBlocksEditorClient({
             resetVocabularyModal();
           }
         }}
-        title="Add vocabulary row"
-        description="Create the vocabulary row in this popup, then save it into the vocabulary block."
+        title="Add vocabulary word"
+        description="Add the word, meaning, and an optional image. The image is securely verified, optimized, and saved after the vocabulary row is created."
         footer={
-          <div className="flex w-full items-center justify-end gap-3">
+          <div className="flex w-full flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-end">
             <Button
               type="button"
               variant="outline"
+              disabled={isCreatingVocabularyRow}
               onClick={() => {
                 setIsVocabularyModalOpen(false);
                 setActiveVocabularyBlockId(null);
@@ -7088,10 +7710,21 @@ export function ContentBlocksEditorClient({
             >
               Cancel
             </Button>
-            <Button type="button" variant="outline" onClick={() => void handleCreateVocabularyRow(false)}>
+            <Button
+              type="button"
+              variant="outline"
+              disabled={isCreatingVocabularyRow}
+              onClick={() => void handleCreateVocabularyRow(false)}
+            >
+              {isCreatingVocabularyRow ? <LoaderCircle className="mr-2 h-4 w-4 animate-spin" /> : null}
               Save row
             </Button>
-            <Button type="button" onClick={() => void handleCreateVocabularyRow(true)}>
+            <Button
+              type="button"
+              disabled={isCreatingVocabularyRow}
+              onClick={() => void handleCreateVocabularyRow(true)}
+            >
+              {isCreatingVocabularyRow ? <LoaderCircle className="mr-2 h-4 w-4 animate-spin" /> : null}
               Save and add another
             </Button>
           </div>
@@ -7103,9 +7736,13 @@ export function ContentBlocksEditorClient({
               <FieldLabel>Word</FieldLabel>
               <BufferedInput
                 value={newVocabularyWord}
-                onCommit={setNewVocabularyWord}
+                onCommit={(value) => {
+                  clearCreateValidationError("word");
+                  setNewVocabularyWord(value);
+                }}
                 placeholder="Write the vocabulary word..."
               />
+              <FieldError>{createValidationErrors.word}</FieldError>
             </FieldContent>
           </Field>
 
@@ -7114,13 +7751,102 @@ export function ContentBlocksEditorClient({
               <FieldLabel>Meaning</FieldLabel>
               <BufferedInput
                 value={newVocabularyMeaning}
-                onCommit={setNewVocabularyMeaning}
+                onCommit={(value) => {
+                  clearCreateValidationError("meaning");
+                  setNewVocabularyMeaning(value);
+                }}
                 placeholder="Write the meaning..."
               />
+              <FieldError>{createValidationErrors.meaning}</FieldError>
+            </FieldContent>
+          </Field>
+
+          <Field>
+            <FieldContent>
+              <FieldLabel>Image</FieldLabel>
+              <FieldDescription>
+                Optional. JPEG, PNG, or WebP only, maximum 5 MB. The server verifies and re-encodes every upload.
+              </FieldDescription>
+
+              <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center">
+                {newVocabularyImagePreviewUrl ? (
+                  <div className="relative h-24 w-32 overflow-hidden rounded-lg border bg-muted">
+                    <Image
+                      src={newVocabularyImagePreviewUrl}
+                      alt={newVocabularyWord.trim() || "Selected vocabulary image"}
+                      fill
+                      unoptimized
+                      sizes="128px"
+                      className="object-cover"
+                    />
+                  </div>
+                ) : (
+                  <div className="grid h-24 w-32 place-items-center rounded-lg border border-dashed bg-muted/40 text-muted-foreground">
+                    <ImagePlus className="h-6 w-6" />
+                  </div>
+                )}
+
+                <div className="flex min-w-0 flex-1 flex-col gap-2">
+                  <Input
+                    ref={newVocabularyImageInputRef}
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
+                    disabled={isCreatingVocabularyRow}
+                    onChange={(event) => {
+                      handleNewVocabularyImageSelection(event.currentTarget.files?.[0] ?? null);
+                    }}
+                  />
+
+                  {newVocabularyImageFile ? (
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="max-w-full truncate text-xs text-muted-foreground">
+                        {newVocabularyImageFile.name} · {(newVocabularyImageFile.size / 1024 / 1024).toFixed(2)} MB
+                      </span>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        disabled={isCreatingVocabularyRow}
+                        onClick={() => {
+                          handleNewVocabularyImageSelection(null);
+                          if (newVocabularyImageInputRef.current) {
+                            newVocabularyImageInputRef.current.value = "";
+                          }
+                        }}
+                      >
+                        <X className="mr-2 h-4 w-4" />
+                        Remove image
+                      </Button>
+                    </div>
+                  ) : (
+                    <p className="text-xs text-muted-foreground">Choose an image now, or add/replace it later from the vocabulary row.</p>
+                  )}
+                </div>
+              </div>
             </FieldContent>
           </Field>
         </FieldGroup>
       </ResponsiveEntityEditor>
+
+      <Dialog open={Boolean(previewVocabularyImage)} onOpenChange={(open) => !open && setPreviewVocabularyImage(null)}>
+        <DialogContent className="sm:max-w-4xl">
+          <DialogHeader>
+            <DialogTitle>Vocabulary image preview</DialogTitle>
+            <DialogDescription>{previewVocabularyImage?.alt || "Vocabulary image"}</DialogDescription>
+          </DialogHeader>
+          {previewVocabularyImage ? (
+            <div className="relative min-h-[50vh] w-full overflow-hidden rounded-xl border bg-muted/30">
+              <Image
+                src={previewVocabularyImage.src}
+                alt={previewVocabularyImage.alt}
+                fill
+                sizes="(max-width: 768px) 95vw, 900px"
+                className="object-contain p-2"
+              />
+            </div>
+          ) : null}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
