@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { requireAdmin, assertTrustedMutationOrigin } from "@/lib/app-auth";
+import { isEnglishFirstPaperSubject } from "@/app/admin/content/navigation-helpers";
 import { logAudit } from "@/lib/auditLogger";
 import { prisma } from "@/lib/db";
 import { SEEN_PASSAGE_ONE_REF, SEEN_PASSAGE_TWO_REF, isSeenPassageRef } from "@/lib/seen-composition-passages";
@@ -15,6 +16,8 @@ import {
   markUploadStorageDeleted,
 } from "@/lib/uploaded-file-tracker";
 import { deleteVocabularyImage } from "@/lib/vocabulary-image";
+import { findStorageConfigurationForFile, resolveStorageConfiguration } from "@/lib/storage/configurations";
+import { deleteStoredObject } from "@/lib/storage/object-store";
 import {
   crudValidationWouldRegress,
   firstCrudValidationError,
@@ -59,6 +62,7 @@ type TrackedVocabularyFile = {
   id: string;
   path: string;
   url: string;
+  storageConfigurationId: string | null;
 };
 
 async function deleteTrackedVocabularyStorage(
@@ -76,10 +80,16 @@ async function deleteTrackedVocabularyStorage(
     seenPaths.add(storagePath);
 
     try {
-      await deleteVocabularyImage(storagePath);
+      if (file.storageConfigurationId) {
+        const config = await findStorageConfigurationForFile(file.storageConfigurationId, organizationId);
+        if (!config) throw new Error("Storage configuration not found.");
+        await deleteStoredObject(resolveStorageConfiguration(config), file.path);
+      } else {
+        await deleteVocabularyImage(storagePath);
+      }
       deletedIds.push(file.id);
     } catch {
-      // Keep storageDeletedAt empty so a later cleanup job can retry.
+      // Keep storageDeletedAt empty so a later upload cleanup pass can retry.
     }
   }
 
@@ -106,6 +116,7 @@ const contentSchema = z.object({
   unitId: z.string().trim().min(1),
   lessonId: z.string().trim().min(1),
   topicId: z.string().trim().min(1).optional(),
+  editorMode: z.literal("seen-composition").optional(),
 });
 
 
@@ -530,7 +541,23 @@ export async function saveContent(input: unknown) {
   const parsed = contentSchema.parse(input);
 
   await assertHierarchyPath(parsed, user.organizationId);
-  await assertUniqueContentPath({ ...parsed, organizationId: user.organizationId });
+
+  if (parsed.editorMode === "seen-composition") {
+    const subject = await prisma.subject.findFirst({
+      where: {
+        id: parsed.subjectId,
+        classId: parsed.classId,
+        organizationId: user.organizationId,
+      },
+      select: { name: true, slug: true, code: true },
+    });
+
+    if (!subject || !isEnglishFirstPaperSubject(subject)) {
+      throw new Error("Multiple content records are enabled here only for English First Paper Seen Composition.");
+    }
+  } else {
+    await assertUniqueContentPath({ ...parsed, organizationId: user.organizationId });
+  }
 
   if (parsed.id) {
     await getOwnedContent(parsed.id, user.organizationId);
@@ -677,7 +704,7 @@ export async function deleteContent(id: string) {
           isCurrent: true,
           status: "active",
         },
-        select: { id: true, path: true, url: true },
+        select: { id: true, path: true, url: true, storageConfigurationId: true },
       })
     : [];
 
@@ -1214,7 +1241,7 @@ export async function deleteContentBlock(blockId: string) {
           isCurrent: true,
           status: "active",
         },
-        select: { id: true, path: true, url: true },
+        select: { id: true, path: true, url: true, storageConfigurationId: true },
       })
     : [];
 

@@ -9,7 +9,7 @@ export default async function AdminSettingsPage() {
   });
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-3 py-6 sm:px-4 lg:px-6">
+    <div className="w-full max-w-4xl">
       <SettingsForm
         hasApiKey={Boolean(process.env.RESEND_API_KEY)}
         settings={{

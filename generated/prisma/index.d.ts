@@ -104,6 +104,11 @@ export type Vocabulary = $Result.DefaultSelection<Prisma.$VocabularyPayload>
  */
 export type VocabularyEntry = $Result.DefaultSelection<Prisma.$VocabularyEntryPayload>
 /**
+ * Model StorageConfiguration
+ * 
+ */
+export type StorageConfiguration = $Result.DefaultSelection<Prisma.$StorageConfigurationPayload>
+/**
  * Model UploadedFile
  * 
  */
@@ -306,7 +311,7 @@ export const PublishStatus: typeof $Enums.PublishStatus
  */
 export class PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
-  const U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
+  U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
   ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
 > {
   [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] }
@@ -338,6 +343,13 @@ export class PrismaClient<
    * Disconnect from the database
    */
   $disconnect(): $Utils.JsPromise<void>;
+
+  /**
+   * Add a middleware
+   * @deprecated since 4.16.0. For new code, prefer client extensions instead.
+   * @see https://pris.ly/d/extensions
+   */
+  $use(cb: Prisma.Middleware): void
 
 /**
    * Executes a prepared raw query and returns the number of affected rows.
@@ -587,6 +599,16 @@ export class PrismaClient<
     * ```
     */
   get vocabularyEntry(): Prisma.VocabularyEntryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.storageConfiguration`: Exposes CRUD operations for the **StorageConfiguration** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more StorageConfigurations
+    * const storageConfigurations = await prisma.storageConfiguration.findMany()
+    * ```
+    */
+  get storageConfiguration(): Prisma.StorageConfigurationDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.uploadedFile`: Exposes CRUD operations for the **UploadedFile** model.
@@ -955,8 +977,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.19.3
-   * Query Engine version: c2990dca591cba766e3b7ef5d9e8a84796e47ab7
+   * Prisma Client JS version: 6.12.0
+   * Query Engine version: 8047c96bbd92db98a2abc7c9323ce77c02c89dbc
    */
   export type PrismaVersion = {
     client: string
@@ -969,7 +991,6 @@ export namespace Prisma {
    */
 
 
-  export import Bytes = runtime.Bytes
   export import JsonObject = runtime.JsonObject
   export import JsonArray = runtime.JsonArray
   export import JsonValue = runtime.JsonValue
@@ -1356,6 +1377,7 @@ export namespace Prisma {
     Paragraph: 'Paragraph',
     Vocabulary: 'Vocabulary',
     VocabularyEntry: 'VocabularyEntry',
+    StorageConfiguration: 'StorageConfiguration',
     UploadedFile: 'UploadedFile',
     SynonymsAntonyms: 'SynonymsAntonyms',
     SynonymsAntonymsEntry: 'SynonymsAntonymsEntry',
@@ -1405,7 +1427,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "authSession" | "passwordResetToken" | "authEmailSetting" | "auditLog" | "class" | "subject" | "unit" | "lesson" | "topic" | "content" | "seenPassageOne" | "seenPassageTwo" | "unseenComposition" | "contentBlock" | "paragraph" | "vocabulary" | "vocabularyEntry" | "uploadedFile" | "synonymsAntonyms" | "synonymsAntonymsEntry" | "gapFillExercise" | "gapFillFirstPaper" | "gapFillSecondPaper" | "mcqSection" | "questionAnswerExercise" | "tableCompletionExercise" | "columnMatchingExercise" | "rearrangeSentenceExercise" | "questionFromPoems" | "questionFromStory" | "trueFalseExercise" | "informationTransfer" | "substitutionTable" | "rightFormOfVerb" | "narration" | "changingSentence" | "punctuationAndCapitalization" | "preposition" | "suffixAndPrefix" | "tagQuestion" | "connector" | "subjectMatchingSentencesBlock" | "subjectRearrangeSentenceBlock" | "subjectQuestionFromPoemsBlock" | "subjectQuestionFromStoryBlock" | "subjectEnglishSecondPaperBlock" | "board" | "academicYear"
+      modelProps: "user" | "authSession" | "passwordResetToken" | "authEmailSetting" | "auditLog" | "class" | "subject" | "unit" | "lesson" | "topic" | "content" | "seenPassageOne" | "seenPassageTwo" | "unseenComposition" | "contentBlock" | "paragraph" | "vocabulary" | "vocabularyEntry" | "storageConfiguration" | "uploadedFile" | "synonymsAntonyms" | "synonymsAntonymsEntry" | "gapFillExercise" | "gapFillFirstPaper" | "gapFillSecondPaper" | "mcqSection" | "questionAnswerExercise" | "tableCompletionExercise" | "columnMatchingExercise" | "rearrangeSentenceExercise" | "questionFromPoems" | "questionFromStory" | "trueFalseExercise" | "informationTransfer" | "substitutionTable" | "rightFormOfVerb" | "narration" | "changingSentence" | "punctuationAndCapitalization" | "preposition" | "suffixAndPrefix" | "tagQuestion" | "connector" | "subjectMatchingSentencesBlock" | "subjectRearrangeSentenceBlock" | "subjectQuestionFromPoemsBlock" | "subjectQuestionFromStoryBlock" | "subjectEnglishSecondPaperBlock" | "board" | "academicYear"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2738,6 +2760,80 @@ export namespace Prisma {
           count: {
             args: Prisma.VocabularyEntryCountArgs<ExtArgs>
             result: $Utils.Optional<VocabularyEntryCountAggregateOutputType> | number
+          }
+        }
+      }
+      StorageConfiguration: {
+        payload: Prisma.$StorageConfigurationPayload<ExtArgs>
+        fields: Prisma.StorageConfigurationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StorageConfigurationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageConfigurationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StorageConfigurationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageConfigurationPayload>
+          }
+          findFirst: {
+            args: Prisma.StorageConfigurationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageConfigurationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StorageConfigurationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageConfigurationPayload>
+          }
+          findMany: {
+            args: Prisma.StorageConfigurationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageConfigurationPayload>[]
+          }
+          create: {
+            args: Prisma.StorageConfigurationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageConfigurationPayload>
+          }
+          createMany: {
+            args: Prisma.StorageConfigurationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.StorageConfigurationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageConfigurationPayload>[]
+          }
+          delete: {
+            args: Prisma.StorageConfigurationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageConfigurationPayload>
+          }
+          update: {
+            args: Prisma.StorageConfigurationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageConfigurationPayload>
+          }
+          deleteMany: {
+            args: Prisma.StorageConfigurationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StorageConfigurationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.StorageConfigurationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageConfigurationPayload>[]
+          }
+          upsert: {
+            args: Prisma.StorageConfigurationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StorageConfigurationPayload>
+          }
+          aggregate: {
+            args: Prisma.StorageConfigurationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStorageConfiguration>
+          }
+          groupBy: {
+            args: Prisma.StorageConfigurationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StorageConfigurationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StorageConfigurationCountArgs<ExtArgs>
+            result: $Utils.Optional<StorageConfigurationCountAggregateOutputType> | number
           }
         }
       }
@@ -5078,24 +5174,16 @@ export namespace Prisma {
     /**
      * @example
      * ```
-     * // Shorthand for `emit: 'stdout'`
+     * // Defaults to stdout
      * log: ['query', 'info', 'warn', 'error']
      * 
-     * // Emit as events only
+     * // Emit as events
      * log: [
-     *   { emit: 'event', level: 'query' },
-     *   { emit: 'event', level: 'info' },
-     *   { emit: 'event', level: 'warn' }
-     *   { emit: 'event', level: 'error' }
+     *   { emit: 'stdout', level: 'query' },
+     *   { emit: 'stdout', level: 'info' },
+     *   { emit: 'stdout', level: 'warn' }
+     *   { emit: 'stdout', level: 'error' }
      * ]
-     * 
-     * / Emit as events and log to stdout
-     * og: [
-     *  { emit: 'stdout', level: 'query' },
-     *  { emit: 'stdout', level: 'info' },
-     *  { emit: 'stdout', level: 'warn' }
-     *  { emit: 'stdout', level: 'error' }
-     * 
      * ```
      * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
      */
@@ -5110,10 +5198,6 @@ export namespace Prisma {
       timeout?: number
       isolationLevel?: Prisma.TransactionIsolationLevel
     }
-    /**
-     * Instance of a Driver Adapter, e.g., like one provided by `@prisma/adapter-planetscale`
-     */
-    adapter?: runtime.SqlDriverAdapterFactory | null
     /**
      * Global configuration for omitting model fields by default.
      * 
@@ -5149,6 +5233,7 @@ export namespace Prisma {
     paragraph?: ParagraphOmit
     vocabulary?: VocabularyOmit
     vocabularyEntry?: VocabularyEntryOmit
+    storageConfiguration?: StorageConfigurationOmit
     uploadedFile?: UploadedFileOmit
     synonymsAntonyms?: SynonymsAntonymsOmit
     synonymsAntonymsEntry?: SynonymsAntonymsEntryOmit
@@ -5189,15 +5274,10 @@ export namespace Prisma {
     emit: 'stdout' | 'event'
   }
 
-  export type CheckIsLogLevel<T> = T extends LogLevel ? T : never;
-
-  export type GetLogType<T> = CheckIsLogLevel<
-    T extends LogDefinition ? T['level'] : T
-  >;
-
-  export type GetEvents<T extends any[]> = T extends Array<LogLevel | LogDefinition>
-    ? GetLogType<T[number]>
-    : never;
+  export type GetLogType<T extends LogLevel | LogDefinition> = T extends LogDefinition ? T['emit'] extends 'event' ? T['level'] : never : never
+  export type GetEvents<T extends any> = T extends Array<LogLevel | LogDefinition> ?
+    GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]>
+    : never
 
   export type QueryEvent = {
     timestamp: Date
@@ -5237,6 +5317,25 @@ export namespace Prisma {
     | 'runCommandRaw'
     | 'findRaw'
     | 'groupBy'
+
+  /**
+   * These options are being passed into the middleware as "params"
+   */
+  export type MiddlewareParams = {
+    model?: ModelName
+    action: PrismaAction
+    args: any
+    dataPath: string[]
+    runInTransaction: boolean
+  }
+
+  /**
+   * The `T` type makes sure, that the `return proceed` is not forgotten in the middleware implementation
+   */
+  export type Middleware<T = any> = (
+    params: MiddlewareParams,
+    next: (params: MiddlewareParams) => $Utils.JsPromise<T>,
+  ) => $Utils.JsPromise<T>
 
   // tested in getLogLevel.test.ts
   export function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined;
@@ -5611,6 +5710,37 @@ export namespace Prisma {
    * VocabularyEntryCountOutputType without action
    */
   export type VocabularyEntryCountOutputTypeCountUploadedFilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UploadedFileWhereInput
+  }
+
+
+  /**
+   * Count Type StorageConfigurationCountOutputType
+   */
+
+  export type StorageConfigurationCountOutputType = {
+    uploadedFiles: number
+  }
+
+  export type StorageConfigurationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    uploadedFiles?: boolean | StorageConfigurationCountOutputTypeCountUploadedFilesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * StorageConfigurationCountOutputType without action
+   */
+  export type StorageConfigurationCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageConfigurationCountOutputType
+     */
+    select?: StorageConfigurationCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * StorageConfigurationCountOutputType without action
+   */
+  export type StorageConfigurationCountOutputTypeCountUploadedFilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UploadedFileWhereInput
   }
 
@@ -27922,6 +28052,1282 @@ export namespace Prisma {
 
 
   /**
+   * Model StorageConfiguration
+   */
+
+  export type AggregateStorageConfiguration = {
+    _count: StorageConfigurationCountAggregateOutputType | null
+    _min: StorageConfigurationMinAggregateOutputType | null
+    _max: StorageConfigurationMaxAggregateOutputType | null
+  }
+
+  export type StorageConfigurationMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    provider: string | null
+    endpoint: string | null
+    region: string | null
+    bucket: string | null
+    accessKeyId: string | null
+    secretAccessKeyEncrypted: string | null
+    sessionTokenEncrypted: string | null
+    localRoot: string | null
+    forcePathStyle: boolean | null
+    isActive: boolean | null
+    everActivated: boolean | null
+    lastTestStatus: string | null
+    lastTestMessage: string | null
+    lastTestedAt: Date | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type StorageConfigurationMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    provider: string | null
+    endpoint: string | null
+    region: string | null
+    bucket: string | null
+    accessKeyId: string | null
+    secretAccessKeyEncrypted: string | null
+    sessionTokenEncrypted: string | null
+    localRoot: string | null
+    forcePathStyle: boolean | null
+    isActive: boolean | null
+    everActivated: boolean | null
+    lastTestStatus: string | null
+    lastTestMessage: string | null
+    lastTestedAt: Date | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type StorageConfigurationCountAggregateOutputType = {
+    id: number
+    name: number
+    provider: number
+    endpoint: number
+    region: number
+    bucket: number
+    accessKeyId: number
+    secretAccessKeyEncrypted: number
+    sessionTokenEncrypted: number
+    localRoot: number
+    forcePathStyle: number
+    isActive: number
+    everActivated: number
+    lastTestStatus: number
+    lastTestMessage: number
+    lastTestedAt: number
+    organizationId: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type StorageConfigurationMinAggregateInputType = {
+    id?: true
+    name?: true
+    provider?: true
+    endpoint?: true
+    region?: true
+    bucket?: true
+    accessKeyId?: true
+    secretAccessKeyEncrypted?: true
+    sessionTokenEncrypted?: true
+    localRoot?: true
+    forcePathStyle?: true
+    isActive?: true
+    everActivated?: true
+    lastTestStatus?: true
+    lastTestMessage?: true
+    lastTestedAt?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type StorageConfigurationMaxAggregateInputType = {
+    id?: true
+    name?: true
+    provider?: true
+    endpoint?: true
+    region?: true
+    bucket?: true
+    accessKeyId?: true
+    secretAccessKeyEncrypted?: true
+    sessionTokenEncrypted?: true
+    localRoot?: true
+    forcePathStyle?: true
+    isActive?: true
+    everActivated?: true
+    lastTestStatus?: true
+    lastTestMessage?: true
+    lastTestedAt?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type StorageConfigurationCountAggregateInputType = {
+    id?: true
+    name?: true
+    provider?: true
+    endpoint?: true
+    region?: true
+    bucket?: true
+    accessKeyId?: true
+    secretAccessKeyEncrypted?: true
+    sessionTokenEncrypted?: true
+    localRoot?: true
+    forcePathStyle?: true
+    isActive?: true
+    everActivated?: true
+    lastTestStatus?: true
+    lastTestMessage?: true
+    lastTestedAt?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type StorageConfigurationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StorageConfiguration to aggregate.
+     */
+    where?: StorageConfigurationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StorageConfigurations to fetch.
+     */
+    orderBy?: StorageConfigurationOrderByWithRelationInput | StorageConfigurationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StorageConfigurationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StorageConfigurations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StorageConfigurations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned StorageConfigurations
+    **/
+    _count?: true | StorageConfigurationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StorageConfigurationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StorageConfigurationMaxAggregateInputType
+  }
+
+  export type GetStorageConfigurationAggregateType<T extends StorageConfigurationAggregateArgs> = {
+        [P in keyof T & keyof AggregateStorageConfiguration]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStorageConfiguration[P]>
+      : GetScalarType<T[P], AggregateStorageConfiguration[P]>
+  }
+
+
+
+
+  export type StorageConfigurationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StorageConfigurationWhereInput
+    orderBy?: StorageConfigurationOrderByWithAggregationInput | StorageConfigurationOrderByWithAggregationInput[]
+    by: StorageConfigurationScalarFieldEnum[] | StorageConfigurationScalarFieldEnum
+    having?: StorageConfigurationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StorageConfigurationCountAggregateInputType | true
+    _min?: StorageConfigurationMinAggregateInputType
+    _max?: StorageConfigurationMaxAggregateInputType
+  }
+
+  export type StorageConfigurationGroupByOutputType = {
+    id: string
+    name: string
+    provider: string
+    endpoint: string
+    region: string
+    bucket: string
+    accessKeyId: string
+    secretAccessKeyEncrypted: string
+    sessionTokenEncrypted: string
+    localRoot: string
+    forcePathStyle: boolean
+    isActive: boolean
+    everActivated: boolean
+    lastTestStatus: string
+    lastTestMessage: string
+    lastTestedAt: Date | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: StorageConfigurationCountAggregateOutputType | null
+    _min: StorageConfigurationMinAggregateOutputType | null
+    _max: StorageConfigurationMaxAggregateOutputType | null
+  }
+
+  type GetStorageConfigurationGroupByPayload<T extends StorageConfigurationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StorageConfigurationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StorageConfigurationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StorageConfigurationGroupByOutputType[P]>
+            : GetScalarType<T[P], StorageConfigurationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StorageConfigurationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    provider?: boolean
+    endpoint?: boolean
+    region?: boolean
+    bucket?: boolean
+    accessKeyId?: boolean
+    secretAccessKeyEncrypted?: boolean
+    sessionTokenEncrypted?: boolean
+    localRoot?: boolean
+    forcePathStyle?: boolean
+    isActive?: boolean
+    everActivated?: boolean
+    lastTestStatus?: boolean
+    lastTestMessage?: boolean
+    lastTestedAt?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    uploadedFiles?: boolean | StorageConfiguration$uploadedFilesArgs<ExtArgs>
+    _count?: boolean | StorageConfigurationCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["storageConfiguration"]>
+
+  export type StorageConfigurationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    provider?: boolean
+    endpoint?: boolean
+    region?: boolean
+    bucket?: boolean
+    accessKeyId?: boolean
+    secretAccessKeyEncrypted?: boolean
+    sessionTokenEncrypted?: boolean
+    localRoot?: boolean
+    forcePathStyle?: boolean
+    isActive?: boolean
+    everActivated?: boolean
+    lastTestStatus?: boolean
+    lastTestMessage?: boolean
+    lastTestedAt?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["storageConfiguration"]>
+
+  export type StorageConfigurationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    provider?: boolean
+    endpoint?: boolean
+    region?: boolean
+    bucket?: boolean
+    accessKeyId?: boolean
+    secretAccessKeyEncrypted?: boolean
+    sessionTokenEncrypted?: boolean
+    localRoot?: boolean
+    forcePathStyle?: boolean
+    isActive?: boolean
+    everActivated?: boolean
+    lastTestStatus?: boolean
+    lastTestMessage?: boolean
+    lastTestedAt?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["storageConfiguration"]>
+
+  export type StorageConfigurationSelectScalar = {
+    id?: boolean
+    name?: boolean
+    provider?: boolean
+    endpoint?: boolean
+    region?: boolean
+    bucket?: boolean
+    accessKeyId?: boolean
+    secretAccessKeyEncrypted?: boolean
+    sessionTokenEncrypted?: boolean
+    localRoot?: boolean
+    forcePathStyle?: boolean
+    isActive?: boolean
+    everActivated?: boolean
+    lastTestStatus?: boolean
+    lastTestMessage?: boolean
+    lastTestedAt?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type StorageConfigurationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "provider" | "endpoint" | "region" | "bucket" | "accessKeyId" | "secretAccessKeyEncrypted" | "sessionTokenEncrypted" | "localRoot" | "forcePathStyle" | "isActive" | "everActivated" | "lastTestStatus" | "lastTestMessage" | "lastTestedAt" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["storageConfiguration"]>
+  export type StorageConfigurationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    uploadedFiles?: boolean | StorageConfiguration$uploadedFilesArgs<ExtArgs>
+    _count?: boolean | StorageConfigurationCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type StorageConfigurationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type StorageConfigurationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $StorageConfigurationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "StorageConfiguration"
+    objects: {
+      uploadedFiles: Prisma.$UploadedFilePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      provider: string
+      endpoint: string
+      region: string
+      bucket: string
+      accessKeyId: string
+      secretAccessKeyEncrypted: string
+      sessionTokenEncrypted: string
+      localRoot: string
+      forcePathStyle: boolean
+      isActive: boolean
+      everActivated: boolean
+      lastTestStatus: string
+      lastTestMessage: string
+      lastTestedAt: Date | null
+      organizationId: string
+      createdBy: string
+      updatedBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["storageConfiguration"]>
+    composites: {}
+  }
+
+  type StorageConfigurationGetPayload<S extends boolean | null | undefined | StorageConfigurationDefaultArgs> = $Result.GetResult<Prisma.$StorageConfigurationPayload, S>
+
+  type StorageConfigurationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StorageConfigurationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StorageConfigurationCountAggregateInputType | true
+    }
+
+  export interface StorageConfigurationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StorageConfiguration'], meta: { name: 'StorageConfiguration' } }
+    /**
+     * Find zero or one StorageConfiguration that matches the filter.
+     * @param {StorageConfigurationFindUniqueArgs} args - Arguments to find a StorageConfiguration
+     * @example
+     * // Get one StorageConfiguration
+     * const storageConfiguration = await prisma.storageConfiguration.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StorageConfigurationFindUniqueArgs>(args: SelectSubset<T, StorageConfigurationFindUniqueArgs<ExtArgs>>): Prisma__StorageConfigurationClient<$Result.GetResult<Prisma.$StorageConfigurationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one StorageConfiguration that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {StorageConfigurationFindUniqueOrThrowArgs} args - Arguments to find a StorageConfiguration
+     * @example
+     * // Get one StorageConfiguration
+     * const storageConfiguration = await prisma.storageConfiguration.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StorageConfigurationFindUniqueOrThrowArgs>(args: SelectSubset<T, StorageConfigurationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StorageConfigurationClient<$Result.GetResult<Prisma.$StorageConfigurationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StorageConfiguration that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorageConfigurationFindFirstArgs} args - Arguments to find a StorageConfiguration
+     * @example
+     * // Get one StorageConfiguration
+     * const storageConfiguration = await prisma.storageConfiguration.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StorageConfigurationFindFirstArgs>(args?: SelectSubset<T, StorageConfigurationFindFirstArgs<ExtArgs>>): Prisma__StorageConfigurationClient<$Result.GetResult<Prisma.$StorageConfigurationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StorageConfiguration that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorageConfigurationFindFirstOrThrowArgs} args - Arguments to find a StorageConfiguration
+     * @example
+     * // Get one StorageConfiguration
+     * const storageConfiguration = await prisma.storageConfiguration.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StorageConfigurationFindFirstOrThrowArgs>(args?: SelectSubset<T, StorageConfigurationFindFirstOrThrowArgs<ExtArgs>>): Prisma__StorageConfigurationClient<$Result.GetResult<Prisma.$StorageConfigurationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more StorageConfigurations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorageConfigurationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all StorageConfigurations
+     * const storageConfigurations = await prisma.storageConfiguration.findMany()
+     * 
+     * // Get first 10 StorageConfigurations
+     * const storageConfigurations = await prisma.storageConfiguration.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const storageConfigurationWithIdOnly = await prisma.storageConfiguration.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends StorageConfigurationFindManyArgs>(args?: SelectSubset<T, StorageConfigurationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorageConfigurationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a StorageConfiguration.
+     * @param {StorageConfigurationCreateArgs} args - Arguments to create a StorageConfiguration.
+     * @example
+     * // Create one StorageConfiguration
+     * const StorageConfiguration = await prisma.storageConfiguration.create({
+     *   data: {
+     *     // ... data to create a StorageConfiguration
+     *   }
+     * })
+     * 
+     */
+    create<T extends StorageConfigurationCreateArgs>(args: SelectSubset<T, StorageConfigurationCreateArgs<ExtArgs>>): Prisma__StorageConfigurationClient<$Result.GetResult<Prisma.$StorageConfigurationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many StorageConfigurations.
+     * @param {StorageConfigurationCreateManyArgs} args - Arguments to create many StorageConfigurations.
+     * @example
+     * // Create many StorageConfigurations
+     * const storageConfiguration = await prisma.storageConfiguration.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StorageConfigurationCreateManyArgs>(args?: SelectSubset<T, StorageConfigurationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many StorageConfigurations and returns the data saved in the database.
+     * @param {StorageConfigurationCreateManyAndReturnArgs} args - Arguments to create many StorageConfigurations.
+     * @example
+     * // Create many StorageConfigurations
+     * const storageConfiguration = await prisma.storageConfiguration.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many StorageConfigurations and only return the `id`
+     * const storageConfigurationWithIdOnly = await prisma.storageConfiguration.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StorageConfigurationCreateManyAndReturnArgs>(args?: SelectSubset<T, StorageConfigurationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorageConfigurationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a StorageConfiguration.
+     * @param {StorageConfigurationDeleteArgs} args - Arguments to delete one StorageConfiguration.
+     * @example
+     * // Delete one StorageConfiguration
+     * const StorageConfiguration = await prisma.storageConfiguration.delete({
+     *   where: {
+     *     // ... filter to delete one StorageConfiguration
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StorageConfigurationDeleteArgs>(args: SelectSubset<T, StorageConfigurationDeleteArgs<ExtArgs>>): Prisma__StorageConfigurationClient<$Result.GetResult<Prisma.$StorageConfigurationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one StorageConfiguration.
+     * @param {StorageConfigurationUpdateArgs} args - Arguments to update one StorageConfiguration.
+     * @example
+     * // Update one StorageConfiguration
+     * const storageConfiguration = await prisma.storageConfiguration.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StorageConfigurationUpdateArgs>(args: SelectSubset<T, StorageConfigurationUpdateArgs<ExtArgs>>): Prisma__StorageConfigurationClient<$Result.GetResult<Prisma.$StorageConfigurationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more StorageConfigurations.
+     * @param {StorageConfigurationDeleteManyArgs} args - Arguments to filter StorageConfigurations to delete.
+     * @example
+     * // Delete a few StorageConfigurations
+     * const { count } = await prisma.storageConfiguration.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StorageConfigurationDeleteManyArgs>(args?: SelectSubset<T, StorageConfigurationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StorageConfigurations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorageConfigurationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many StorageConfigurations
+     * const storageConfiguration = await prisma.storageConfiguration.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StorageConfigurationUpdateManyArgs>(args: SelectSubset<T, StorageConfigurationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StorageConfigurations and returns the data updated in the database.
+     * @param {StorageConfigurationUpdateManyAndReturnArgs} args - Arguments to update many StorageConfigurations.
+     * @example
+     * // Update many StorageConfigurations
+     * const storageConfiguration = await prisma.storageConfiguration.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more StorageConfigurations and only return the `id`
+     * const storageConfigurationWithIdOnly = await prisma.storageConfiguration.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends StorageConfigurationUpdateManyAndReturnArgs>(args: SelectSubset<T, StorageConfigurationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorageConfigurationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one StorageConfiguration.
+     * @param {StorageConfigurationUpsertArgs} args - Arguments to update or create a StorageConfiguration.
+     * @example
+     * // Update or create a StorageConfiguration
+     * const storageConfiguration = await prisma.storageConfiguration.upsert({
+     *   create: {
+     *     // ... data to create a StorageConfiguration
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the StorageConfiguration we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StorageConfigurationUpsertArgs>(args: SelectSubset<T, StorageConfigurationUpsertArgs<ExtArgs>>): Prisma__StorageConfigurationClient<$Result.GetResult<Prisma.$StorageConfigurationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of StorageConfigurations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorageConfigurationCountArgs} args - Arguments to filter StorageConfigurations to count.
+     * @example
+     * // Count the number of StorageConfigurations
+     * const count = await prisma.storageConfiguration.count({
+     *   where: {
+     *     // ... the filter for the StorageConfigurations we want to count
+     *   }
+     * })
+    **/
+    count<T extends StorageConfigurationCountArgs>(
+      args?: Subset<T, StorageConfigurationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StorageConfigurationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a StorageConfiguration.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorageConfigurationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StorageConfigurationAggregateArgs>(args: Subset<T, StorageConfigurationAggregateArgs>): Prisma.PrismaPromise<GetStorageConfigurationAggregateType<T>>
+
+    /**
+     * Group by StorageConfiguration.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StorageConfigurationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StorageConfigurationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StorageConfigurationGroupByArgs['orderBy'] }
+        : { orderBy?: StorageConfigurationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StorageConfigurationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStorageConfigurationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the StorageConfiguration model
+   */
+  readonly fields: StorageConfigurationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for StorageConfiguration.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StorageConfigurationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    uploadedFiles<T extends StorageConfiguration$uploadedFilesArgs<ExtArgs> = {}>(args?: Subset<T, StorageConfiguration$uploadedFilesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UploadedFilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the StorageConfiguration model
+   */
+  interface StorageConfigurationFieldRefs {
+    readonly id: FieldRef<"StorageConfiguration", 'String'>
+    readonly name: FieldRef<"StorageConfiguration", 'String'>
+    readonly provider: FieldRef<"StorageConfiguration", 'String'>
+    readonly endpoint: FieldRef<"StorageConfiguration", 'String'>
+    readonly region: FieldRef<"StorageConfiguration", 'String'>
+    readonly bucket: FieldRef<"StorageConfiguration", 'String'>
+    readonly accessKeyId: FieldRef<"StorageConfiguration", 'String'>
+    readonly secretAccessKeyEncrypted: FieldRef<"StorageConfiguration", 'String'>
+    readonly sessionTokenEncrypted: FieldRef<"StorageConfiguration", 'String'>
+    readonly localRoot: FieldRef<"StorageConfiguration", 'String'>
+    readonly forcePathStyle: FieldRef<"StorageConfiguration", 'Boolean'>
+    readonly isActive: FieldRef<"StorageConfiguration", 'Boolean'>
+    readonly everActivated: FieldRef<"StorageConfiguration", 'Boolean'>
+    readonly lastTestStatus: FieldRef<"StorageConfiguration", 'String'>
+    readonly lastTestMessage: FieldRef<"StorageConfiguration", 'String'>
+    readonly lastTestedAt: FieldRef<"StorageConfiguration", 'DateTime'>
+    readonly organizationId: FieldRef<"StorageConfiguration", 'String'>
+    readonly createdBy: FieldRef<"StorageConfiguration", 'String'>
+    readonly updatedBy: FieldRef<"StorageConfiguration", 'String'>
+    readonly createdAt: FieldRef<"StorageConfiguration", 'DateTime'>
+    readonly updatedAt: FieldRef<"StorageConfiguration", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * StorageConfiguration findUnique
+   */
+  export type StorageConfigurationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageConfiguration
+     */
+    select?: StorageConfigurationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageConfiguration
+     */
+    omit?: StorageConfigurationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageConfigurationInclude<ExtArgs> | null
+    /**
+     * Filter, which StorageConfiguration to fetch.
+     */
+    where: StorageConfigurationWhereUniqueInput
+  }
+
+  /**
+   * StorageConfiguration findUniqueOrThrow
+   */
+  export type StorageConfigurationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageConfiguration
+     */
+    select?: StorageConfigurationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageConfiguration
+     */
+    omit?: StorageConfigurationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageConfigurationInclude<ExtArgs> | null
+    /**
+     * Filter, which StorageConfiguration to fetch.
+     */
+    where: StorageConfigurationWhereUniqueInput
+  }
+
+  /**
+   * StorageConfiguration findFirst
+   */
+  export type StorageConfigurationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageConfiguration
+     */
+    select?: StorageConfigurationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageConfiguration
+     */
+    omit?: StorageConfigurationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageConfigurationInclude<ExtArgs> | null
+    /**
+     * Filter, which StorageConfiguration to fetch.
+     */
+    where?: StorageConfigurationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StorageConfigurations to fetch.
+     */
+    orderBy?: StorageConfigurationOrderByWithRelationInput | StorageConfigurationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StorageConfigurations.
+     */
+    cursor?: StorageConfigurationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StorageConfigurations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StorageConfigurations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StorageConfigurations.
+     */
+    distinct?: StorageConfigurationScalarFieldEnum | StorageConfigurationScalarFieldEnum[]
+  }
+
+  /**
+   * StorageConfiguration findFirstOrThrow
+   */
+  export type StorageConfigurationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageConfiguration
+     */
+    select?: StorageConfigurationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageConfiguration
+     */
+    omit?: StorageConfigurationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageConfigurationInclude<ExtArgs> | null
+    /**
+     * Filter, which StorageConfiguration to fetch.
+     */
+    where?: StorageConfigurationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StorageConfigurations to fetch.
+     */
+    orderBy?: StorageConfigurationOrderByWithRelationInput | StorageConfigurationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StorageConfigurations.
+     */
+    cursor?: StorageConfigurationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StorageConfigurations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StorageConfigurations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StorageConfigurations.
+     */
+    distinct?: StorageConfigurationScalarFieldEnum | StorageConfigurationScalarFieldEnum[]
+  }
+
+  /**
+   * StorageConfiguration findMany
+   */
+  export type StorageConfigurationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageConfiguration
+     */
+    select?: StorageConfigurationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageConfiguration
+     */
+    omit?: StorageConfigurationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageConfigurationInclude<ExtArgs> | null
+    /**
+     * Filter, which StorageConfigurations to fetch.
+     */
+    where?: StorageConfigurationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StorageConfigurations to fetch.
+     */
+    orderBy?: StorageConfigurationOrderByWithRelationInput | StorageConfigurationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing StorageConfigurations.
+     */
+    cursor?: StorageConfigurationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StorageConfigurations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StorageConfigurations.
+     */
+    skip?: number
+    distinct?: StorageConfigurationScalarFieldEnum | StorageConfigurationScalarFieldEnum[]
+  }
+
+  /**
+   * StorageConfiguration create
+   */
+  export type StorageConfigurationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageConfiguration
+     */
+    select?: StorageConfigurationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageConfiguration
+     */
+    omit?: StorageConfigurationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageConfigurationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a StorageConfiguration.
+     */
+    data: XOR<StorageConfigurationCreateInput, StorageConfigurationUncheckedCreateInput>
+  }
+
+  /**
+   * StorageConfiguration createMany
+   */
+  export type StorageConfigurationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many StorageConfigurations.
+     */
+    data: StorageConfigurationCreateManyInput | StorageConfigurationCreateManyInput[]
+  }
+
+  /**
+   * StorageConfiguration createManyAndReturn
+   */
+  export type StorageConfigurationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageConfiguration
+     */
+    select?: StorageConfigurationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageConfiguration
+     */
+    omit?: StorageConfigurationOmit<ExtArgs> | null
+    /**
+     * The data used to create many StorageConfigurations.
+     */
+    data: StorageConfigurationCreateManyInput | StorageConfigurationCreateManyInput[]
+  }
+
+  /**
+   * StorageConfiguration update
+   */
+  export type StorageConfigurationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageConfiguration
+     */
+    select?: StorageConfigurationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageConfiguration
+     */
+    omit?: StorageConfigurationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageConfigurationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a StorageConfiguration.
+     */
+    data: XOR<StorageConfigurationUpdateInput, StorageConfigurationUncheckedUpdateInput>
+    /**
+     * Choose, which StorageConfiguration to update.
+     */
+    where: StorageConfigurationWhereUniqueInput
+  }
+
+  /**
+   * StorageConfiguration updateMany
+   */
+  export type StorageConfigurationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update StorageConfigurations.
+     */
+    data: XOR<StorageConfigurationUpdateManyMutationInput, StorageConfigurationUncheckedUpdateManyInput>
+    /**
+     * Filter which StorageConfigurations to update
+     */
+    where?: StorageConfigurationWhereInput
+    /**
+     * Limit how many StorageConfigurations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StorageConfiguration updateManyAndReturn
+   */
+  export type StorageConfigurationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageConfiguration
+     */
+    select?: StorageConfigurationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageConfiguration
+     */
+    omit?: StorageConfigurationOmit<ExtArgs> | null
+    /**
+     * The data used to update StorageConfigurations.
+     */
+    data: XOR<StorageConfigurationUpdateManyMutationInput, StorageConfigurationUncheckedUpdateManyInput>
+    /**
+     * Filter which StorageConfigurations to update
+     */
+    where?: StorageConfigurationWhereInput
+    /**
+     * Limit how many StorageConfigurations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StorageConfiguration upsert
+   */
+  export type StorageConfigurationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageConfiguration
+     */
+    select?: StorageConfigurationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageConfiguration
+     */
+    omit?: StorageConfigurationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageConfigurationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the StorageConfiguration to update in case it exists.
+     */
+    where: StorageConfigurationWhereUniqueInput
+    /**
+     * In case the StorageConfiguration found by the `where` argument doesn't exist, create a new StorageConfiguration with this data.
+     */
+    create: XOR<StorageConfigurationCreateInput, StorageConfigurationUncheckedCreateInput>
+    /**
+     * In case the StorageConfiguration was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StorageConfigurationUpdateInput, StorageConfigurationUncheckedUpdateInput>
+  }
+
+  /**
+   * StorageConfiguration delete
+   */
+  export type StorageConfigurationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageConfiguration
+     */
+    select?: StorageConfigurationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageConfiguration
+     */
+    omit?: StorageConfigurationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageConfigurationInclude<ExtArgs> | null
+    /**
+     * Filter which StorageConfiguration to delete.
+     */
+    where: StorageConfigurationWhereUniqueInput
+  }
+
+  /**
+   * StorageConfiguration deleteMany
+   */
+  export type StorageConfigurationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StorageConfigurations to delete
+     */
+    where?: StorageConfigurationWhereInput
+    /**
+     * Limit how many StorageConfigurations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * StorageConfiguration.uploadedFiles
+   */
+  export type StorageConfiguration$uploadedFilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedFile
+     */
+    select?: UploadedFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedFile
+     */
+    omit?: UploadedFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedFileInclude<ExtArgs> | null
+    where?: UploadedFileWhereInput
+    orderBy?: UploadedFileOrderByWithRelationInput | UploadedFileOrderByWithRelationInput[]
+    cursor?: UploadedFileWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UploadedFileScalarFieldEnum | UploadedFileScalarFieldEnum[]
+  }
+
+  /**
+   * StorageConfiguration without action
+   */
+  export type StorageConfigurationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageConfiguration
+     */
+    select?: StorageConfigurationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageConfiguration
+     */
+    omit?: StorageConfigurationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageConfigurationInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model UploadedFile
    */
 
@@ -27951,6 +29357,7 @@ export namespace Prisma {
     ownerType: string | null
     ownerId: string | null
     vocabularyEntryId: string | null
+    storageConfigurationId: string | null
     url: string | null
     path: string | null
     originalName: string | null
@@ -27979,6 +29386,7 @@ export namespace Prisma {
     ownerType: string | null
     ownerId: string | null
     vocabularyEntryId: string | null
+    storageConfigurationId: string | null
     url: string | null
     path: string | null
     originalName: string | null
@@ -28007,6 +29415,7 @@ export namespace Prisma {
     ownerType: number
     ownerId: number
     vocabularyEntryId: number
+    storageConfigurationId: number
     url: number
     path: number
     originalName: number
@@ -28049,6 +29458,7 @@ export namespace Prisma {
     ownerType?: true
     ownerId?: true
     vocabularyEntryId?: true
+    storageConfigurationId?: true
     url?: true
     path?: true
     originalName?: true
@@ -28077,6 +29487,7 @@ export namespace Prisma {
     ownerType?: true
     ownerId?: true
     vocabularyEntryId?: true
+    storageConfigurationId?: true
     url?: true
     path?: true
     originalName?: true
@@ -28105,6 +29516,7 @@ export namespace Prisma {
     ownerType?: true
     ownerId?: true
     vocabularyEntryId?: true
+    storageConfigurationId?: true
     url?: true
     path?: true
     originalName?: true
@@ -28220,6 +29632,7 @@ export namespace Prisma {
     ownerType: string
     ownerId: string
     vocabularyEntryId: string | null
+    storageConfigurationId: string | null
     url: string
     path: string
     originalName: string
@@ -28267,6 +29680,7 @@ export namespace Prisma {
     ownerType?: boolean
     ownerId?: boolean
     vocabularyEntryId?: boolean
+    storageConfigurationId?: boolean
     url?: boolean
     path?: boolean
     originalName?: boolean
@@ -28288,6 +29702,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     vocabularyEntry?: boolean | UploadedFile$vocabularyEntryArgs<ExtArgs>
+    storageConfiguration?: boolean | UploadedFile$storageConfigurationArgs<ExtArgs>
   }, ExtArgs["result"]["uploadedFile"]>
 
   export type UploadedFileSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -28296,6 +29711,7 @@ export namespace Prisma {
     ownerType?: boolean
     ownerId?: boolean
     vocabularyEntryId?: boolean
+    storageConfigurationId?: boolean
     url?: boolean
     path?: boolean
     originalName?: boolean
@@ -28317,6 +29733,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     vocabularyEntry?: boolean | UploadedFile$vocabularyEntryArgs<ExtArgs>
+    storageConfiguration?: boolean | UploadedFile$storageConfigurationArgs<ExtArgs>
   }, ExtArgs["result"]["uploadedFile"]>
 
   export type UploadedFileSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -28325,6 +29742,7 @@ export namespace Prisma {
     ownerType?: boolean
     ownerId?: boolean
     vocabularyEntryId?: boolean
+    storageConfigurationId?: boolean
     url?: boolean
     path?: boolean
     originalName?: boolean
@@ -28346,6 +29764,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     vocabularyEntry?: boolean | UploadedFile$vocabularyEntryArgs<ExtArgs>
+    storageConfiguration?: boolean | UploadedFile$storageConfigurationArgs<ExtArgs>
   }, ExtArgs["result"]["uploadedFile"]>
 
   export type UploadedFileSelectScalar = {
@@ -28354,6 +29773,7 @@ export namespace Prisma {
     ownerType?: boolean
     ownerId?: boolean
     vocabularyEntryId?: boolean
+    storageConfigurationId?: boolean
     url?: boolean
     path?: boolean
     originalName?: boolean
@@ -28376,21 +29796,25 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UploadedFileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purpose" | "ownerType" | "ownerId" | "vocabularyEntryId" | "url" | "path" | "originalName" | "sourceMimeType" | "mimeType" | "extension" | "sizeBytes" | "width" | "height" | "checksumSha256" | "status" | "isCurrent" | "replacedAt" | "deletedAt" | "storageDeletedAt" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["uploadedFile"]>
+  export type UploadedFileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purpose" | "ownerType" | "ownerId" | "vocabularyEntryId" | "storageConfigurationId" | "url" | "path" | "originalName" | "sourceMimeType" | "mimeType" | "extension" | "sizeBytes" | "width" | "height" | "checksumSha256" | "status" | "isCurrent" | "replacedAt" | "deletedAt" | "storageDeletedAt" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["uploadedFile"]>
   export type UploadedFileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vocabularyEntry?: boolean | UploadedFile$vocabularyEntryArgs<ExtArgs>
+    storageConfiguration?: boolean | UploadedFile$storageConfigurationArgs<ExtArgs>
   }
   export type UploadedFileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vocabularyEntry?: boolean | UploadedFile$vocabularyEntryArgs<ExtArgs>
+    storageConfiguration?: boolean | UploadedFile$storageConfigurationArgs<ExtArgs>
   }
   export type UploadedFileIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vocabularyEntry?: boolean | UploadedFile$vocabularyEntryArgs<ExtArgs>
+    storageConfiguration?: boolean | UploadedFile$storageConfigurationArgs<ExtArgs>
   }
 
   export type $UploadedFilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "UploadedFile"
     objects: {
       vocabularyEntry: Prisma.$VocabularyEntryPayload<ExtArgs> | null
+      storageConfiguration: Prisma.$StorageConfigurationPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -28398,6 +29822,7 @@ export namespace Prisma {
       ownerType: string
       ownerId: string
       vocabularyEntryId: string | null
+      storageConfigurationId: string | null
       url: string
       path: string
       originalName: string
@@ -28813,6 +30238,7 @@ export namespace Prisma {
   export interface Prisma__UploadedFileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     vocabularyEntry<T extends UploadedFile$vocabularyEntryArgs<ExtArgs> = {}>(args?: Subset<T, UploadedFile$vocabularyEntryArgs<ExtArgs>>): Prisma__VocabularyEntryClient<$Result.GetResult<Prisma.$VocabularyEntryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    storageConfiguration<T extends UploadedFile$storageConfigurationArgs<ExtArgs> = {}>(args?: Subset<T, UploadedFile$storageConfigurationArgs<ExtArgs>>): Prisma__StorageConfigurationClient<$Result.GetResult<Prisma.$StorageConfigurationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -28847,6 +30273,7 @@ export namespace Prisma {
     readonly ownerType: FieldRef<"UploadedFile", 'String'>
     readonly ownerId: FieldRef<"UploadedFile", 'String'>
     readonly vocabularyEntryId: FieldRef<"UploadedFile", 'String'>
+    readonly storageConfigurationId: FieldRef<"UploadedFile", 'String'>
     readonly url: FieldRef<"UploadedFile", 'String'>
     readonly path: FieldRef<"UploadedFile", 'String'>
     readonly originalName: FieldRef<"UploadedFile", 'String'>
@@ -29277,6 +30704,25 @@ export namespace Prisma {
      */
     include?: VocabularyEntryInclude<ExtArgs> | null
     where?: VocabularyEntryWhereInput
+  }
+
+  /**
+   * UploadedFile.storageConfiguration
+   */
+  export type UploadedFile$storageConfigurationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StorageConfiguration
+     */
+    select?: StorageConfigurationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StorageConfiguration
+     */
+    omit?: StorageConfigurationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StorageConfigurationInclude<ExtArgs> | null
+    where?: StorageConfigurationWhereInput
   }
 
   /**
@@ -65572,12 +67018,40 @@ export namespace Prisma {
   export type VocabularyEntryScalarFieldEnum = (typeof VocabularyEntryScalarFieldEnum)[keyof typeof VocabularyEntryScalarFieldEnum]
 
 
+  export const StorageConfigurationScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    provider: 'provider',
+    endpoint: 'endpoint',
+    region: 'region',
+    bucket: 'bucket',
+    accessKeyId: 'accessKeyId',
+    secretAccessKeyEncrypted: 'secretAccessKeyEncrypted',
+    sessionTokenEncrypted: 'sessionTokenEncrypted',
+    localRoot: 'localRoot',
+    forcePathStyle: 'forcePathStyle',
+    isActive: 'isActive',
+    everActivated: 'everActivated',
+    lastTestStatus: 'lastTestStatus',
+    lastTestMessage: 'lastTestMessage',
+    lastTestedAt: 'lastTestedAt',
+    organizationId: 'organizationId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type StorageConfigurationScalarFieldEnum = (typeof StorageConfigurationScalarFieldEnum)[keyof typeof StorageConfigurationScalarFieldEnum]
+
+
   export const UploadedFileScalarFieldEnum: {
     id: 'id',
     purpose: 'purpose',
     ownerType: 'ownerType',
     ownerId: 'ownerId',
     vocabularyEntryId: 'vocabularyEntryId',
+    storageConfigurationId: 'storageConfigurationId',
     url: 'url',
     path: 'path',
     originalName: 'originalName',
@@ -68246,6 +69720,142 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"VocabularyEntry"> | Date | string
   }
 
+  export type StorageConfigurationWhereInput = {
+    AND?: StorageConfigurationWhereInput | StorageConfigurationWhereInput[]
+    OR?: StorageConfigurationWhereInput[]
+    NOT?: StorageConfigurationWhereInput | StorageConfigurationWhereInput[]
+    id?: StringFilter<"StorageConfiguration"> | string
+    name?: StringFilter<"StorageConfiguration"> | string
+    provider?: StringFilter<"StorageConfiguration"> | string
+    endpoint?: StringFilter<"StorageConfiguration"> | string
+    region?: StringFilter<"StorageConfiguration"> | string
+    bucket?: StringFilter<"StorageConfiguration"> | string
+    accessKeyId?: StringFilter<"StorageConfiguration"> | string
+    secretAccessKeyEncrypted?: StringFilter<"StorageConfiguration"> | string
+    sessionTokenEncrypted?: StringFilter<"StorageConfiguration"> | string
+    localRoot?: StringFilter<"StorageConfiguration"> | string
+    forcePathStyle?: BoolFilter<"StorageConfiguration"> | boolean
+    isActive?: BoolFilter<"StorageConfiguration"> | boolean
+    everActivated?: BoolFilter<"StorageConfiguration"> | boolean
+    lastTestStatus?: StringFilter<"StorageConfiguration"> | string
+    lastTestMessage?: StringFilter<"StorageConfiguration"> | string
+    lastTestedAt?: DateTimeNullableFilter<"StorageConfiguration"> | Date | string | null
+    organizationId?: StringFilter<"StorageConfiguration"> | string
+    createdBy?: StringFilter<"StorageConfiguration"> | string
+    updatedBy?: StringFilter<"StorageConfiguration"> | string
+    createdAt?: DateTimeFilter<"StorageConfiguration"> | Date | string
+    updatedAt?: DateTimeFilter<"StorageConfiguration"> | Date | string
+    uploadedFiles?: UploadedFileListRelationFilter
+  }
+
+  export type StorageConfigurationOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    provider?: SortOrder
+    endpoint?: SortOrder
+    region?: SortOrder
+    bucket?: SortOrder
+    accessKeyId?: SortOrder
+    secretAccessKeyEncrypted?: SortOrder
+    sessionTokenEncrypted?: SortOrder
+    localRoot?: SortOrder
+    forcePathStyle?: SortOrder
+    isActive?: SortOrder
+    everActivated?: SortOrder
+    lastTestStatus?: SortOrder
+    lastTestMessage?: SortOrder
+    lastTestedAt?: SortOrderInput | SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    uploadedFiles?: UploadedFileOrderByRelationAggregateInput
+  }
+
+  export type StorageConfigurationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    organizationId_name?: StorageConfigurationOrganizationIdNameCompoundUniqueInput
+    AND?: StorageConfigurationWhereInput | StorageConfigurationWhereInput[]
+    OR?: StorageConfigurationWhereInput[]
+    NOT?: StorageConfigurationWhereInput | StorageConfigurationWhereInput[]
+    name?: StringFilter<"StorageConfiguration"> | string
+    provider?: StringFilter<"StorageConfiguration"> | string
+    endpoint?: StringFilter<"StorageConfiguration"> | string
+    region?: StringFilter<"StorageConfiguration"> | string
+    bucket?: StringFilter<"StorageConfiguration"> | string
+    accessKeyId?: StringFilter<"StorageConfiguration"> | string
+    secretAccessKeyEncrypted?: StringFilter<"StorageConfiguration"> | string
+    sessionTokenEncrypted?: StringFilter<"StorageConfiguration"> | string
+    localRoot?: StringFilter<"StorageConfiguration"> | string
+    forcePathStyle?: BoolFilter<"StorageConfiguration"> | boolean
+    isActive?: BoolFilter<"StorageConfiguration"> | boolean
+    everActivated?: BoolFilter<"StorageConfiguration"> | boolean
+    lastTestStatus?: StringFilter<"StorageConfiguration"> | string
+    lastTestMessage?: StringFilter<"StorageConfiguration"> | string
+    lastTestedAt?: DateTimeNullableFilter<"StorageConfiguration"> | Date | string | null
+    organizationId?: StringFilter<"StorageConfiguration"> | string
+    createdBy?: StringFilter<"StorageConfiguration"> | string
+    updatedBy?: StringFilter<"StorageConfiguration"> | string
+    createdAt?: DateTimeFilter<"StorageConfiguration"> | Date | string
+    updatedAt?: DateTimeFilter<"StorageConfiguration"> | Date | string
+    uploadedFiles?: UploadedFileListRelationFilter
+  }, "id" | "organizationId_name">
+
+  export type StorageConfigurationOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    provider?: SortOrder
+    endpoint?: SortOrder
+    region?: SortOrder
+    bucket?: SortOrder
+    accessKeyId?: SortOrder
+    secretAccessKeyEncrypted?: SortOrder
+    sessionTokenEncrypted?: SortOrder
+    localRoot?: SortOrder
+    forcePathStyle?: SortOrder
+    isActive?: SortOrder
+    everActivated?: SortOrder
+    lastTestStatus?: SortOrder
+    lastTestMessage?: SortOrder
+    lastTestedAt?: SortOrderInput | SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: StorageConfigurationCountOrderByAggregateInput
+    _max?: StorageConfigurationMaxOrderByAggregateInput
+    _min?: StorageConfigurationMinOrderByAggregateInput
+  }
+
+  export type StorageConfigurationScalarWhereWithAggregatesInput = {
+    AND?: StorageConfigurationScalarWhereWithAggregatesInput | StorageConfigurationScalarWhereWithAggregatesInput[]
+    OR?: StorageConfigurationScalarWhereWithAggregatesInput[]
+    NOT?: StorageConfigurationScalarWhereWithAggregatesInput | StorageConfigurationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"StorageConfiguration"> | string
+    name?: StringWithAggregatesFilter<"StorageConfiguration"> | string
+    provider?: StringWithAggregatesFilter<"StorageConfiguration"> | string
+    endpoint?: StringWithAggregatesFilter<"StorageConfiguration"> | string
+    region?: StringWithAggregatesFilter<"StorageConfiguration"> | string
+    bucket?: StringWithAggregatesFilter<"StorageConfiguration"> | string
+    accessKeyId?: StringWithAggregatesFilter<"StorageConfiguration"> | string
+    secretAccessKeyEncrypted?: StringWithAggregatesFilter<"StorageConfiguration"> | string
+    sessionTokenEncrypted?: StringWithAggregatesFilter<"StorageConfiguration"> | string
+    localRoot?: StringWithAggregatesFilter<"StorageConfiguration"> | string
+    forcePathStyle?: BoolWithAggregatesFilter<"StorageConfiguration"> | boolean
+    isActive?: BoolWithAggregatesFilter<"StorageConfiguration"> | boolean
+    everActivated?: BoolWithAggregatesFilter<"StorageConfiguration"> | boolean
+    lastTestStatus?: StringWithAggregatesFilter<"StorageConfiguration"> | string
+    lastTestMessage?: StringWithAggregatesFilter<"StorageConfiguration"> | string
+    lastTestedAt?: DateTimeNullableWithAggregatesFilter<"StorageConfiguration"> | Date | string | null
+    organizationId?: StringWithAggregatesFilter<"StorageConfiguration"> | string
+    createdBy?: StringWithAggregatesFilter<"StorageConfiguration"> | string
+    updatedBy?: StringWithAggregatesFilter<"StorageConfiguration"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"StorageConfiguration"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"StorageConfiguration"> | Date | string
+  }
+
   export type UploadedFileWhereInput = {
     AND?: UploadedFileWhereInput | UploadedFileWhereInput[]
     OR?: UploadedFileWhereInput[]
@@ -68255,6 +69865,7 @@ export namespace Prisma {
     ownerType?: StringFilter<"UploadedFile"> | string
     ownerId?: StringFilter<"UploadedFile"> | string
     vocabularyEntryId?: StringNullableFilter<"UploadedFile"> | string | null
+    storageConfigurationId?: StringNullableFilter<"UploadedFile"> | string | null
     url?: StringFilter<"UploadedFile"> | string
     path?: StringFilter<"UploadedFile"> | string
     originalName?: StringFilter<"UploadedFile"> | string
@@ -68276,6 +69887,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"UploadedFile"> | Date | string
     updatedAt?: DateTimeFilter<"UploadedFile"> | Date | string
     vocabularyEntry?: XOR<VocabularyEntryNullableScalarRelationFilter, VocabularyEntryWhereInput> | null
+    storageConfiguration?: XOR<StorageConfigurationNullableScalarRelationFilter, StorageConfigurationWhereInput> | null
   }
 
   export type UploadedFileOrderByWithRelationInput = {
@@ -68284,6 +69896,7 @@ export namespace Prisma {
     ownerType?: SortOrder
     ownerId?: SortOrder
     vocabularyEntryId?: SortOrderInput | SortOrder
+    storageConfigurationId?: SortOrderInput | SortOrder
     url?: SortOrder
     path?: SortOrder
     originalName?: SortOrder
@@ -68305,6 +69918,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     vocabularyEntry?: VocabularyEntryOrderByWithRelationInput
+    storageConfiguration?: StorageConfigurationOrderByWithRelationInput
   }
 
   export type UploadedFileWhereUniqueInput = Prisma.AtLeast<{
@@ -68316,6 +69930,7 @@ export namespace Prisma {
     ownerType?: StringFilter<"UploadedFile"> | string
     ownerId?: StringFilter<"UploadedFile"> | string
     vocabularyEntryId?: StringNullableFilter<"UploadedFile"> | string | null
+    storageConfigurationId?: StringNullableFilter<"UploadedFile"> | string | null
     url?: StringFilter<"UploadedFile"> | string
     path?: StringFilter<"UploadedFile"> | string
     originalName?: StringFilter<"UploadedFile"> | string
@@ -68337,6 +69952,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"UploadedFile"> | Date | string
     updatedAt?: DateTimeFilter<"UploadedFile"> | Date | string
     vocabularyEntry?: XOR<VocabularyEntryNullableScalarRelationFilter, VocabularyEntryWhereInput> | null
+    storageConfiguration?: XOR<StorageConfigurationNullableScalarRelationFilter, StorageConfigurationWhereInput> | null
   }, "id">
 
   export type UploadedFileOrderByWithAggregationInput = {
@@ -68345,6 +69961,7 @@ export namespace Prisma {
     ownerType?: SortOrder
     ownerId?: SortOrder
     vocabularyEntryId?: SortOrderInput | SortOrder
+    storageConfigurationId?: SortOrderInput | SortOrder
     url?: SortOrder
     path?: SortOrder
     originalName?: SortOrder
@@ -68381,6 +69998,7 @@ export namespace Prisma {
     ownerType?: StringWithAggregatesFilter<"UploadedFile"> | string
     ownerId?: StringWithAggregatesFilter<"UploadedFile"> | string
     vocabularyEntryId?: StringNullableWithAggregatesFilter<"UploadedFile"> | string | null
+    storageConfigurationId?: StringNullableWithAggregatesFilter<"UploadedFile"> | string | null
     url?: StringWithAggregatesFilter<"UploadedFile"> | string
     path?: StringWithAggregatesFilter<"UploadedFile"> | string
     originalName?: StringWithAggregatesFilter<"UploadedFile"> | string
@@ -73966,6 +75584,178 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type StorageConfigurationCreateInput = {
+    id?: string
+    name: string
+    provider?: string
+    endpoint?: string
+    region?: string
+    bucket?: string
+    accessKeyId?: string
+    secretAccessKeyEncrypted?: string
+    sessionTokenEncrypted?: string
+    localRoot?: string
+    forcePathStyle?: boolean
+    isActive?: boolean
+    everActivated?: boolean
+    lastTestStatus?: string
+    lastTestMessage?: string
+    lastTestedAt?: Date | string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    uploadedFiles?: UploadedFileCreateNestedManyWithoutStorageConfigurationInput
+  }
+
+  export type StorageConfigurationUncheckedCreateInput = {
+    id?: string
+    name: string
+    provider?: string
+    endpoint?: string
+    region?: string
+    bucket?: string
+    accessKeyId?: string
+    secretAccessKeyEncrypted?: string
+    sessionTokenEncrypted?: string
+    localRoot?: string
+    forcePathStyle?: boolean
+    isActive?: boolean
+    everActivated?: boolean
+    lastTestStatus?: string
+    lastTestMessage?: string
+    lastTestedAt?: Date | string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    uploadedFiles?: UploadedFileUncheckedCreateNestedManyWithoutStorageConfigurationInput
+  }
+
+  export type StorageConfigurationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    endpoint?: StringFieldUpdateOperationsInput | string
+    region?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    accessKeyId?: StringFieldUpdateOperationsInput | string
+    secretAccessKeyEncrypted?: StringFieldUpdateOperationsInput | string
+    sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
+    localRoot?: StringFieldUpdateOperationsInput | string
+    forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    everActivated?: BoolFieldUpdateOperationsInput | boolean
+    lastTestStatus?: StringFieldUpdateOperationsInput | string
+    lastTestMessage?: StringFieldUpdateOperationsInput | string
+    lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    uploadedFiles?: UploadedFileUpdateManyWithoutStorageConfigurationNestedInput
+  }
+
+  export type StorageConfigurationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    endpoint?: StringFieldUpdateOperationsInput | string
+    region?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    accessKeyId?: StringFieldUpdateOperationsInput | string
+    secretAccessKeyEncrypted?: StringFieldUpdateOperationsInput | string
+    sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
+    localRoot?: StringFieldUpdateOperationsInput | string
+    forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    everActivated?: BoolFieldUpdateOperationsInput | boolean
+    lastTestStatus?: StringFieldUpdateOperationsInput | string
+    lastTestMessage?: StringFieldUpdateOperationsInput | string
+    lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    uploadedFiles?: UploadedFileUncheckedUpdateManyWithoutStorageConfigurationNestedInput
+  }
+
+  export type StorageConfigurationCreateManyInput = {
+    id?: string
+    name: string
+    provider?: string
+    endpoint?: string
+    region?: string
+    bucket?: string
+    accessKeyId?: string
+    secretAccessKeyEncrypted?: string
+    sessionTokenEncrypted?: string
+    localRoot?: string
+    forcePathStyle?: boolean
+    isActive?: boolean
+    everActivated?: boolean
+    lastTestStatus?: string
+    lastTestMessage?: string
+    lastTestedAt?: Date | string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StorageConfigurationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    endpoint?: StringFieldUpdateOperationsInput | string
+    region?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    accessKeyId?: StringFieldUpdateOperationsInput | string
+    secretAccessKeyEncrypted?: StringFieldUpdateOperationsInput | string
+    sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
+    localRoot?: StringFieldUpdateOperationsInput | string
+    forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    everActivated?: BoolFieldUpdateOperationsInput | boolean
+    lastTestStatus?: StringFieldUpdateOperationsInput | string
+    lastTestMessage?: StringFieldUpdateOperationsInput | string
+    lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StorageConfigurationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    endpoint?: StringFieldUpdateOperationsInput | string
+    region?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    accessKeyId?: StringFieldUpdateOperationsInput | string
+    secretAccessKeyEncrypted?: StringFieldUpdateOperationsInput | string
+    sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
+    localRoot?: StringFieldUpdateOperationsInput | string
+    forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    everActivated?: BoolFieldUpdateOperationsInput | boolean
+    lastTestStatus?: StringFieldUpdateOperationsInput | string
+    lastTestMessage?: StringFieldUpdateOperationsInput | string
+    lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UploadedFileCreateInput = {
     id?: string
     purpose?: string
@@ -73992,6 +75782,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     vocabularyEntry?: VocabularyEntryCreateNestedOneWithoutUploadedFilesInput
+    storageConfiguration?: StorageConfigurationCreateNestedOneWithoutUploadedFilesInput
   }
 
   export type UploadedFileUncheckedCreateInput = {
@@ -74000,6 +75791,7 @@ export namespace Prisma {
     ownerType?: string
     ownerId?: string
     vocabularyEntryId?: string | null
+    storageConfigurationId?: string | null
     url?: string
     path?: string
     originalName?: string
@@ -74048,6 +75840,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vocabularyEntry?: VocabularyEntryUpdateOneWithoutUploadedFilesNestedInput
+    storageConfiguration?: StorageConfigurationUpdateOneWithoutUploadedFilesNestedInput
   }
 
   export type UploadedFileUncheckedUpdateInput = {
@@ -74056,6 +75849,7 @@ export namespace Prisma {
     ownerType?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     vocabularyEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    storageConfigurationId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: StringFieldUpdateOperationsInput | string
     path?: StringFieldUpdateOperationsInput | string
     originalName?: StringFieldUpdateOperationsInput | string
@@ -74084,6 +75878,7 @@ export namespace Prisma {
     ownerType?: string
     ownerId?: string
     vocabularyEntryId?: string | null
+    storageConfigurationId?: string | null
     url?: string
     path?: string
     originalName?: string
@@ -74139,6 +75934,7 @@ export namespace Prisma {
     ownerType?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     vocabularyEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    storageConfigurationId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: StringFieldUpdateOperationsInput | string
     path?: StringFieldUpdateOperationsInput | string
     originalName?: StringFieldUpdateOperationsInput | string
@@ -79636,9 +81432,91 @@ export namespace Prisma {
     sortOrder?: SortOrder
   }
 
+  export type StorageConfigurationOrganizationIdNameCompoundUniqueInput = {
+    organizationId: string
+    name: string
+  }
+
+  export type StorageConfigurationCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    provider?: SortOrder
+    endpoint?: SortOrder
+    region?: SortOrder
+    bucket?: SortOrder
+    accessKeyId?: SortOrder
+    secretAccessKeyEncrypted?: SortOrder
+    sessionTokenEncrypted?: SortOrder
+    localRoot?: SortOrder
+    forcePathStyle?: SortOrder
+    isActive?: SortOrder
+    everActivated?: SortOrder
+    lastTestStatus?: SortOrder
+    lastTestMessage?: SortOrder
+    lastTestedAt?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StorageConfigurationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    provider?: SortOrder
+    endpoint?: SortOrder
+    region?: SortOrder
+    bucket?: SortOrder
+    accessKeyId?: SortOrder
+    secretAccessKeyEncrypted?: SortOrder
+    sessionTokenEncrypted?: SortOrder
+    localRoot?: SortOrder
+    forcePathStyle?: SortOrder
+    isActive?: SortOrder
+    everActivated?: SortOrder
+    lastTestStatus?: SortOrder
+    lastTestMessage?: SortOrder
+    lastTestedAt?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StorageConfigurationMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    provider?: SortOrder
+    endpoint?: SortOrder
+    region?: SortOrder
+    bucket?: SortOrder
+    accessKeyId?: SortOrder
+    secretAccessKeyEncrypted?: SortOrder
+    sessionTokenEncrypted?: SortOrder
+    localRoot?: SortOrder
+    forcePathStyle?: SortOrder
+    isActive?: SortOrder
+    everActivated?: SortOrder
+    lastTestStatus?: SortOrder
+    lastTestMessage?: SortOrder
+    lastTestedAt?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type VocabularyEntryNullableScalarRelationFilter = {
     is?: VocabularyEntryWhereInput | null
     isNot?: VocabularyEntryWhereInput | null
+  }
+
+  export type StorageConfigurationNullableScalarRelationFilter = {
+    is?: StorageConfigurationWhereInput | null
+    isNot?: StorageConfigurationWhereInput | null
   }
 
   export type UploadedFileCountOrderByAggregateInput = {
@@ -79647,6 +81525,7 @@ export namespace Prisma {
     ownerType?: SortOrder
     ownerId?: SortOrder
     vocabularyEntryId?: SortOrder
+    storageConfigurationId?: SortOrder
     url?: SortOrder
     path?: SortOrder
     originalName?: SortOrder
@@ -79681,6 +81560,7 @@ export namespace Prisma {
     ownerType?: SortOrder
     ownerId?: SortOrder
     vocabularyEntryId?: SortOrder
+    storageConfigurationId?: SortOrder
     url?: SortOrder
     path?: SortOrder
     originalName?: SortOrder
@@ -79709,6 +81589,7 @@ export namespace Prisma {
     ownerType?: SortOrder
     ownerId?: SortOrder
     vocabularyEntryId?: SortOrder
+    storageConfigurationId?: SortOrder
     url?: SortOrder
     path?: SortOrder
     originalName?: SortOrder
@@ -83477,10 +85358,58 @@ export namespace Prisma {
     deleteMany?: UploadedFileScalarWhereInput | UploadedFileScalarWhereInput[]
   }
 
+  export type UploadedFileCreateNestedManyWithoutStorageConfigurationInput = {
+    create?: XOR<UploadedFileCreateWithoutStorageConfigurationInput, UploadedFileUncheckedCreateWithoutStorageConfigurationInput> | UploadedFileCreateWithoutStorageConfigurationInput[] | UploadedFileUncheckedCreateWithoutStorageConfigurationInput[]
+    connectOrCreate?: UploadedFileCreateOrConnectWithoutStorageConfigurationInput | UploadedFileCreateOrConnectWithoutStorageConfigurationInput[]
+    createMany?: UploadedFileCreateManyStorageConfigurationInputEnvelope
+    connect?: UploadedFileWhereUniqueInput | UploadedFileWhereUniqueInput[]
+  }
+
+  export type UploadedFileUncheckedCreateNestedManyWithoutStorageConfigurationInput = {
+    create?: XOR<UploadedFileCreateWithoutStorageConfigurationInput, UploadedFileUncheckedCreateWithoutStorageConfigurationInput> | UploadedFileCreateWithoutStorageConfigurationInput[] | UploadedFileUncheckedCreateWithoutStorageConfigurationInput[]
+    connectOrCreate?: UploadedFileCreateOrConnectWithoutStorageConfigurationInput | UploadedFileCreateOrConnectWithoutStorageConfigurationInput[]
+    createMany?: UploadedFileCreateManyStorageConfigurationInputEnvelope
+    connect?: UploadedFileWhereUniqueInput | UploadedFileWhereUniqueInput[]
+  }
+
+  export type UploadedFileUpdateManyWithoutStorageConfigurationNestedInput = {
+    create?: XOR<UploadedFileCreateWithoutStorageConfigurationInput, UploadedFileUncheckedCreateWithoutStorageConfigurationInput> | UploadedFileCreateWithoutStorageConfigurationInput[] | UploadedFileUncheckedCreateWithoutStorageConfigurationInput[]
+    connectOrCreate?: UploadedFileCreateOrConnectWithoutStorageConfigurationInput | UploadedFileCreateOrConnectWithoutStorageConfigurationInput[]
+    upsert?: UploadedFileUpsertWithWhereUniqueWithoutStorageConfigurationInput | UploadedFileUpsertWithWhereUniqueWithoutStorageConfigurationInput[]
+    createMany?: UploadedFileCreateManyStorageConfigurationInputEnvelope
+    set?: UploadedFileWhereUniqueInput | UploadedFileWhereUniqueInput[]
+    disconnect?: UploadedFileWhereUniqueInput | UploadedFileWhereUniqueInput[]
+    delete?: UploadedFileWhereUniqueInput | UploadedFileWhereUniqueInput[]
+    connect?: UploadedFileWhereUniqueInput | UploadedFileWhereUniqueInput[]
+    update?: UploadedFileUpdateWithWhereUniqueWithoutStorageConfigurationInput | UploadedFileUpdateWithWhereUniqueWithoutStorageConfigurationInput[]
+    updateMany?: UploadedFileUpdateManyWithWhereWithoutStorageConfigurationInput | UploadedFileUpdateManyWithWhereWithoutStorageConfigurationInput[]
+    deleteMany?: UploadedFileScalarWhereInput | UploadedFileScalarWhereInput[]
+  }
+
+  export type UploadedFileUncheckedUpdateManyWithoutStorageConfigurationNestedInput = {
+    create?: XOR<UploadedFileCreateWithoutStorageConfigurationInput, UploadedFileUncheckedCreateWithoutStorageConfigurationInput> | UploadedFileCreateWithoutStorageConfigurationInput[] | UploadedFileUncheckedCreateWithoutStorageConfigurationInput[]
+    connectOrCreate?: UploadedFileCreateOrConnectWithoutStorageConfigurationInput | UploadedFileCreateOrConnectWithoutStorageConfigurationInput[]
+    upsert?: UploadedFileUpsertWithWhereUniqueWithoutStorageConfigurationInput | UploadedFileUpsertWithWhereUniqueWithoutStorageConfigurationInput[]
+    createMany?: UploadedFileCreateManyStorageConfigurationInputEnvelope
+    set?: UploadedFileWhereUniqueInput | UploadedFileWhereUniqueInput[]
+    disconnect?: UploadedFileWhereUniqueInput | UploadedFileWhereUniqueInput[]
+    delete?: UploadedFileWhereUniqueInput | UploadedFileWhereUniqueInput[]
+    connect?: UploadedFileWhereUniqueInput | UploadedFileWhereUniqueInput[]
+    update?: UploadedFileUpdateWithWhereUniqueWithoutStorageConfigurationInput | UploadedFileUpdateWithWhereUniqueWithoutStorageConfigurationInput[]
+    updateMany?: UploadedFileUpdateManyWithWhereWithoutStorageConfigurationInput | UploadedFileUpdateManyWithWhereWithoutStorageConfigurationInput[]
+    deleteMany?: UploadedFileScalarWhereInput | UploadedFileScalarWhereInput[]
+  }
+
   export type VocabularyEntryCreateNestedOneWithoutUploadedFilesInput = {
     create?: XOR<VocabularyEntryCreateWithoutUploadedFilesInput, VocabularyEntryUncheckedCreateWithoutUploadedFilesInput>
     connectOrCreate?: VocabularyEntryCreateOrConnectWithoutUploadedFilesInput
     connect?: VocabularyEntryWhereUniqueInput
+  }
+
+  export type StorageConfigurationCreateNestedOneWithoutUploadedFilesInput = {
+    create?: XOR<StorageConfigurationCreateWithoutUploadedFilesInput, StorageConfigurationUncheckedCreateWithoutUploadedFilesInput>
+    connectOrCreate?: StorageConfigurationCreateOrConnectWithoutUploadedFilesInput
+    connect?: StorageConfigurationWhereUniqueInput
   }
 
   export type VocabularyEntryUpdateOneWithoutUploadedFilesNestedInput = {
@@ -83491,6 +85420,16 @@ export namespace Prisma {
     delete?: VocabularyEntryWhereInput | boolean
     connect?: VocabularyEntryWhereUniqueInput
     update?: XOR<XOR<VocabularyEntryUpdateToOneWithWhereWithoutUploadedFilesInput, VocabularyEntryUpdateWithoutUploadedFilesInput>, VocabularyEntryUncheckedUpdateWithoutUploadedFilesInput>
+  }
+
+  export type StorageConfigurationUpdateOneWithoutUploadedFilesNestedInput = {
+    create?: XOR<StorageConfigurationCreateWithoutUploadedFilesInput, StorageConfigurationUncheckedCreateWithoutUploadedFilesInput>
+    connectOrCreate?: StorageConfigurationCreateOrConnectWithoutUploadedFilesInput
+    upsert?: StorageConfigurationUpsertWithoutUploadedFilesInput
+    disconnect?: StorageConfigurationWhereInput | boolean
+    delete?: StorageConfigurationWhereInput | boolean
+    connect?: StorageConfigurationWhereUniqueInput
+    update?: XOR<XOR<StorageConfigurationUpdateToOneWithWhereWithoutUploadedFilesInput, StorageConfigurationUpdateWithoutUploadedFilesInput>, StorageConfigurationUncheckedUpdateWithoutUploadedFilesInput>
   }
 
   export type ContentBlockCreateNestedOneWithoutSynonymsAntonymsInput = {
@@ -90134,6 +92073,7 @@ export namespace Prisma {
     updatedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    storageConfiguration?: StorageConfigurationCreateNestedOneWithoutUploadedFilesInput
   }
 
   export type UploadedFileUncheckedCreateWithoutVocabularyEntryInput = {
@@ -90141,6 +92081,7 @@ export namespace Prisma {
     purpose?: string
     ownerType?: string
     ownerId?: string
+    storageConfigurationId?: string | null
     url?: string
     path?: string
     originalName?: string
@@ -90246,6 +92187,7 @@ export namespace Prisma {
     ownerType?: StringFilter<"UploadedFile"> | string
     ownerId?: StringFilter<"UploadedFile"> | string
     vocabularyEntryId?: StringNullableFilter<"UploadedFile"> | string | null
+    storageConfigurationId?: StringNullableFilter<"UploadedFile"> | string | null
     url?: StringFilter<"UploadedFile"> | string
     path?: StringFilter<"UploadedFile"> | string
     originalName?: StringFilter<"UploadedFile"> | string
@@ -90266,6 +92208,87 @@ export namespace Prisma {
     updatedBy?: StringFilter<"UploadedFile"> | string
     createdAt?: DateTimeFilter<"UploadedFile"> | Date | string
     updatedAt?: DateTimeFilter<"UploadedFile"> | Date | string
+  }
+
+  export type UploadedFileCreateWithoutStorageConfigurationInput = {
+    id?: string
+    purpose?: string
+    ownerType?: string
+    ownerId?: string
+    url?: string
+    path?: string
+    originalName?: string
+    sourceMimeType?: string
+    mimeType?: string
+    extension?: string
+    sizeBytes?: number
+    width?: number
+    height?: number
+    checksumSha256?: string
+    status?: string
+    isCurrent?: boolean
+    replacedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    storageDeletedAt?: Date | string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vocabularyEntry?: VocabularyEntryCreateNestedOneWithoutUploadedFilesInput
+  }
+
+  export type UploadedFileUncheckedCreateWithoutStorageConfigurationInput = {
+    id?: string
+    purpose?: string
+    ownerType?: string
+    ownerId?: string
+    vocabularyEntryId?: string | null
+    url?: string
+    path?: string
+    originalName?: string
+    sourceMimeType?: string
+    mimeType?: string
+    extension?: string
+    sizeBytes?: number
+    width?: number
+    height?: number
+    checksumSha256?: string
+    status?: string
+    isCurrent?: boolean
+    replacedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    storageDeletedAt?: Date | string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UploadedFileCreateOrConnectWithoutStorageConfigurationInput = {
+    where: UploadedFileWhereUniqueInput
+    create: XOR<UploadedFileCreateWithoutStorageConfigurationInput, UploadedFileUncheckedCreateWithoutStorageConfigurationInput>
+  }
+
+  export type UploadedFileCreateManyStorageConfigurationInputEnvelope = {
+    data: UploadedFileCreateManyStorageConfigurationInput | UploadedFileCreateManyStorageConfigurationInput[]
+  }
+
+  export type UploadedFileUpsertWithWhereUniqueWithoutStorageConfigurationInput = {
+    where: UploadedFileWhereUniqueInput
+    update: XOR<UploadedFileUpdateWithoutStorageConfigurationInput, UploadedFileUncheckedUpdateWithoutStorageConfigurationInput>
+    create: XOR<UploadedFileCreateWithoutStorageConfigurationInput, UploadedFileUncheckedCreateWithoutStorageConfigurationInput>
+  }
+
+  export type UploadedFileUpdateWithWhereUniqueWithoutStorageConfigurationInput = {
+    where: UploadedFileWhereUniqueInput
+    data: XOR<UploadedFileUpdateWithoutStorageConfigurationInput, UploadedFileUncheckedUpdateWithoutStorageConfigurationInput>
+  }
+
+  export type UploadedFileUpdateManyWithWhereWithoutStorageConfigurationInput = {
+    where: UploadedFileScalarWhereInput
+    data: XOR<UploadedFileUpdateManyMutationInput, UploadedFileUncheckedUpdateManyWithoutStorageConfigurationInput>
   }
 
   export type VocabularyEntryCreateWithoutUploadedFilesInput = {
@@ -90303,6 +92326,59 @@ export namespace Prisma {
     create: XOR<VocabularyEntryCreateWithoutUploadedFilesInput, VocabularyEntryUncheckedCreateWithoutUploadedFilesInput>
   }
 
+  export type StorageConfigurationCreateWithoutUploadedFilesInput = {
+    id?: string
+    name: string
+    provider?: string
+    endpoint?: string
+    region?: string
+    bucket?: string
+    accessKeyId?: string
+    secretAccessKeyEncrypted?: string
+    sessionTokenEncrypted?: string
+    localRoot?: string
+    forcePathStyle?: boolean
+    isActive?: boolean
+    everActivated?: boolean
+    lastTestStatus?: string
+    lastTestMessage?: string
+    lastTestedAt?: Date | string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StorageConfigurationUncheckedCreateWithoutUploadedFilesInput = {
+    id?: string
+    name: string
+    provider?: string
+    endpoint?: string
+    region?: string
+    bucket?: string
+    accessKeyId?: string
+    secretAccessKeyEncrypted?: string
+    sessionTokenEncrypted?: string
+    localRoot?: string
+    forcePathStyle?: boolean
+    isActive?: boolean
+    everActivated?: boolean
+    lastTestStatus?: string
+    lastTestMessage?: string
+    lastTestedAt?: Date | string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StorageConfigurationCreateOrConnectWithoutUploadedFilesInput = {
+    where: StorageConfigurationWhereUniqueInput
+    create: XOR<StorageConfigurationCreateWithoutUploadedFilesInput, StorageConfigurationUncheckedCreateWithoutUploadedFilesInput>
+  }
+
   export type VocabularyEntryUpsertWithoutUploadedFilesInput = {
     update: XOR<VocabularyEntryUpdateWithoutUploadedFilesInput, VocabularyEntryUncheckedUpdateWithoutUploadedFilesInput>
     create: XOR<VocabularyEntryCreateWithoutUploadedFilesInput, VocabularyEntryUncheckedCreateWithoutUploadedFilesInput>
@@ -90337,6 +92413,65 @@ export namespace Prisma {
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StorageConfigurationUpsertWithoutUploadedFilesInput = {
+    update: XOR<StorageConfigurationUpdateWithoutUploadedFilesInput, StorageConfigurationUncheckedUpdateWithoutUploadedFilesInput>
+    create: XOR<StorageConfigurationCreateWithoutUploadedFilesInput, StorageConfigurationUncheckedCreateWithoutUploadedFilesInput>
+    where?: StorageConfigurationWhereInput
+  }
+
+  export type StorageConfigurationUpdateToOneWithWhereWithoutUploadedFilesInput = {
+    where?: StorageConfigurationWhereInput
+    data: XOR<StorageConfigurationUpdateWithoutUploadedFilesInput, StorageConfigurationUncheckedUpdateWithoutUploadedFilesInput>
+  }
+
+  export type StorageConfigurationUpdateWithoutUploadedFilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    endpoint?: StringFieldUpdateOperationsInput | string
+    region?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    accessKeyId?: StringFieldUpdateOperationsInput | string
+    secretAccessKeyEncrypted?: StringFieldUpdateOperationsInput | string
+    sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
+    localRoot?: StringFieldUpdateOperationsInput | string
+    forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    everActivated?: BoolFieldUpdateOperationsInput | boolean
+    lastTestStatus?: StringFieldUpdateOperationsInput | string
+    lastTestMessage?: StringFieldUpdateOperationsInput | string
+    lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StorageConfigurationUncheckedUpdateWithoutUploadedFilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    provider?: StringFieldUpdateOperationsInput | string
+    endpoint?: StringFieldUpdateOperationsInput | string
+    region?: StringFieldUpdateOperationsInput | string
+    bucket?: StringFieldUpdateOperationsInput | string
+    accessKeyId?: StringFieldUpdateOperationsInput | string
+    secretAccessKeyEncrypted?: StringFieldUpdateOperationsInput | string
+    sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
+    localRoot?: StringFieldUpdateOperationsInput | string
+    forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    everActivated?: BoolFieldUpdateOperationsInput | boolean
+    lastTestStatus?: StringFieldUpdateOperationsInput | string
+    lastTestMessage?: StringFieldUpdateOperationsInput | string
+    lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -95159,6 +97294,7 @@ export namespace Prisma {
     purpose?: string
     ownerType?: string
     ownerId?: string
+    storageConfigurationId?: string | null
     url?: string
     path?: string
     originalName?: string
@@ -95206,6 +97342,7 @@ export namespace Prisma {
     updatedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    storageConfiguration?: StorageConfigurationUpdateOneWithoutUploadedFilesNestedInput
   }
 
   export type UploadedFileUncheckedUpdateWithoutVocabularyEntryInput = {
@@ -95213,6 +97350,7 @@ export namespace Prisma {
     purpose?: StringFieldUpdateOperationsInput | string
     ownerType?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
+    storageConfigurationId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: StringFieldUpdateOperationsInput | string
     path?: StringFieldUpdateOperationsInput | string
     originalName?: StringFieldUpdateOperationsInput | string
@@ -95240,6 +97378,119 @@ export namespace Prisma {
     purpose?: StringFieldUpdateOperationsInput | string
     ownerType?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
+    storageConfigurationId?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: StringFieldUpdateOperationsInput | string
+    path?: StringFieldUpdateOperationsInput | string
+    originalName?: StringFieldUpdateOperationsInput | string
+    sourceMimeType?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    extension?: StringFieldUpdateOperationsInput | string
+    sizeBytes?: IntFieldUpdateOperationsInput | number
+    width?: IntFieldUpdateOperationsInput | number
+    height?: IntFieldUpdateOperationsInput | number
+    checksumSha256?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UploadedFileCreateManyStorageConfigurationInput = {
+    id?: string
+    purpose?: string
+    ownerType?: string
+    ownerId?: string
+    vocabularyEntryId?: string | null
+    url?: string
+    path?: string
+    originalName?: string
+    sourceMimeType?: string
+    mimeType?: string
+    extension?: string
+    sizeBytes?: number
+    width?: number
+    height?: number
+    checksumSha256?: string
+    status?: string
+    isCurrent?: boolean
+    replacedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    storageDeletedAt?: Date | string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UploadedFileUpdateWithoutStorageConfigurationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    purpose?: StringFieldUpdateOperationsInput | string
+    ownerType?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    path?: StringFieldUpdateOperationsInput | string
+    originalName?: StringFieldUpdateOperationsInput | string
+    sourceMimeType?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    extension?: StringFieldUpdateOperationsInput | string
+    sizeBytes?: IntFieldUpdateOperationsInput | number
+    width?: IntFieldUpdateOperationsInput | number
+    height?: IntFieldUpdateOperationsInput | number
+    checksumSha256?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vocabularyEntry?: VocabularyEntryUpdateOneWithoutUploadedFilesNestedInput
+  }
+
+  export type UploadedFileUncheckedUpdateWithoutStorageConfigurationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    purpose?: StringFieldUpdateOperationsInput | string
+    ownerType?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    vocabularyEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: StringFieldUpdateOperationsInput | string
+    path?: StringFieldUpdateOperationsInput | string
+    originalName?: StringFieldUpdateOperationsInput | string
+    sourceMimeType?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    extension?: StringFieldUpdateOperationsInput | string
+    sizeBytes?: IntFieldUpdateOperationsInput | number
+    width?: IntFieldUpdateOperationsInput | number
+    height?: IntFieldUpdateOperationsInput | number
+    checksumSha256?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UploadedFileUncheckedUpdateManyWithoutStorageConfigurationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    purpose?: StringFieldUpdateOperationsInput | string
+    ownerType?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    vocabularyEntryId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: StringFieldUpdateOperationsInput | string
     path?: StringFieldUpdateOperationsInput | string
     originalName?: StringFieldUpdateOperationsInput | string

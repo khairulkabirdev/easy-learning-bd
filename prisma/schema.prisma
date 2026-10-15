@@ -264,8 +264,9 @@ model Content {
   topic          Topic?   @relation(fields: [topicId], references: [id], onDelete: Cascade)
   blocks         ContentBlock[]
 
-  @@unique([classId, subjectId, unitId, lessonId, topicId, organizationId])
-
+  // A unit/lesson/topic can contain multiple content records, especially Seen Composition.
+  // Keep a normal index for path lookups; uniqueness is enforced by the relevant server workflow.
+  @@index([classId, subjectId, unitId, lessonId, topicId, organizationId])
   @@index([organizationId, classId, subjectId, unitId, lessonId])
   @@index([topicId])
 }
@@ -439,12 +440,43 @@ model VocabularyEntry {
   @@index([organizationId])
 }
 
+model StorageConfiguration {
+  id                      String   @id @default(cuid())
+  name                    String
+  provider                String   @default("local-private")
+  endpoint                String   @default("")
+  region                  String   @default("auto")
+  bucket                  String   @default("")
+  accessKeyId             String   @default("")
+  secretAccessKeyEncrypted String  @default("")
+  sessionTokenEncrypted   String   @default("")
+  localRoot               String   @default("storage/private")
+  forcePathStyle          Boolean  @default(false)
+  isActive                Boolean  @default(false)
+  everActivated           Boolean  @default(false)
+  lastTestStatus          String   @default("unknown")
+  lastTestMessage         String   @default("")
+  lastTestedAt            DateTime?
+  organizationId          String
+  createdBy               String
+  updatedBy               String
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  uploadedFiles UploadedFile[]
+
+  @@unique([organizationId, name])
+  @@index([organizationId, isActive])
+  @@index([organizationId, provider])
+}
+
 model UploadedFile {
   id                 String   @id @default(cuid())
   purpose            String   @default("")
   ownerType          String   @default("")
   ownerId            String   @default("")
   vocabularyEntryId  String?
+  storageConfigurationId String?
   url                String   @default("")
   path               String   @default("")
   originalName       String   @default("")
@@ -467,11 +499,13 @@ model UploadedFile {
   updatedAt          DateTime @updatedAt
 
   vocabularyEntry    VocabularyEntry? @relation(fields: [vocabularyEntryId], references: [id], onDelete: SetNull)
+  storageConfiguration StorageConfiguration? @relation(fields: [storageConfigurationId], references: [id], onDelete: SetNull)
 
   @@index([vocabularyEntryId, isCurrent, status])
   @@index([organizationId, status, createdAt])
   @@index([organizationId, ownerType, ownerId])
   @@index([path])
+  @@index([storageConfigurationId])
 }
 
 model SynonymsAntonyms {

@@ -68,7 +68,7 @@ export function EntityMediaField({
         const formData = new FormData();
         formData.set("domain", domain);
         formData.set("file", file);
-        if (value.imagePath.startsWith("/uploads/temp/")) {
+        if (value.imagePath.startsWith("/api/media/") || value.imagePath.startsWith("/uploads/temp/")) {
           formData.set("previousTempPath", value.imagePath);
         }
         const uploaded = await uploadEntityImageTemp(formData);
@@ -225,7 +225,7 @@ export function EntityMediaField({
                     <input
                       ref={fileInputRef}
                       type="file"
-                      accept="image/png,image/jpeg,image/webp,image/gif"
+                      accept="image/jpeg,image/png,image/webp"
                       className="hidden"
                       onChange={(event) => handleUpload(event.target.files?.[0] ?? null)}
                     />

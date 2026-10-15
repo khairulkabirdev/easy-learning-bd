@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -11,7 +12,11 @@ import {
   markCurrentVocabularyUploadsReplaced,
   markUploadStorageDeleted,
 } from "@/lib/uploaded-file-tracker";
-import { deleteVocabularyImage, optimizeAndStoreVocabularyImage } from "@/lib/vocabulary-image";
+import { deleteVocabularyImage } from "@/lib/vocabulary-image";
+import { getActiveStorageConfiguration, findStorageConfigurationForFile, resolveStorageConfiguration } from "@/lib/storage/configurations";
+import { createStorageObjectKey, deleteStoredObject, putStoredObject } from "@/lib/storage/object-store";
+import { optimizeImageFile } from "@/lib/storage/image-processing";
+import { prunePendingStorageDeletes } from "@/lib/storage/upload-management";
 
 export const runtime = "nodejs";
 
@@ -56,7 +61,7 @@ function jsonError(message: string, status: number) {
 }
 
 async function removeTrackedPhysicalFiles(
-  files: Array<{ id: string; path: string; url: string }>,
+  files: Array<{ id: string; path: string; url: string; storageConfigurationId: string | null }>,
   fallbackPath: string,
   organizationId: string,
   userId: string,
@@ -70,10 +75,16 @@ async function removeTrackedPhysicalFiles(
     seenPaths.add(storedPath);
 
     try {
-      await deleteVocabularyImage(storedPath);
+      if (file.storageConfigurationId) {
+        const configRecord = await findStorageConfigurationForFile(file.storageConfigurationId, organizationId);
+        if (!configRecord) throw new Error("Storage configuration not found.");
+        await deleteStoredObject(resolveStorageConfiguration(configRecord), file.path);
+      } else {
+        await deleteVocabularyImage(storedPath);
+      }
       deletedIds.push(file.id);
     } catch {
-      // Keep storageDeletedAt empty so an operations/cleanup job can retry later.
+      // Keep storageDeletedAt empty so a later upload cleanup pass can retry.
     }
   }
 
@@ -117,8 +128,34 @@ export async function POST(request: Request) {
       return jsonError("Vocabulary row not found.", 404);
     }
 
+    await prunePendingStorageDeletes(user.organizationId, user.id);
     const oldTrackedFiles = await getCurrentVocabularyUploadFiles(prisma, entry.id, user.organizationId);
-    const stored = await optimizeAndStoreVocabularyImage(file);
+    const optimized = await optimizeImageFile(file);
+    const storageRecord = await getActiveStorageConfiguration(user.organizationId, user.id);
+    const storage = resolveStorageConfiguration(storageRecord);
+    const uploadedFileId = crypto.randomUUID();
+    const objectKey = createStorageObjectKey(user.organizationId, "vocabulary", uploadedFileId, optimized.extension);
+    const imageUrl = `/api/media/${uploadedFileId}`;
+    const stored = {
+      id: uploadedFileId,
+      storageConfigurationId: storageRecord.id,
+      imageUrl,
+      imagePath: objectKey,
+      originalName: optimized.originalName,
+      sourceMimeType: optimized.sourceMimeType,
+      mime: optimized.mimeType,
+      extension: optimized.extension,
+      size: optimized.sizeBytes,
+      width: optimized.width,
+      height: optimized.height,
+      checksumSha256: optimized.checksumSha256,
+    };
+    try {
+      await putStoredObject(storage, objectKey, optimized.buffer, optimized.mimeType);
+    } catch (error) {
+      await deleteStoredObject(storage, objectKey).catch(() => undefined);
+      throw error;
+    }
 
     let result;
     try {
@@ -152,7 +189,7 @@ export async function POST(request: Request) {
         return { uploadedFile, updatedEntry };
       });
     } catch (error) {
-      await deleteVocabularyImage(stored.imagePath).catch(() => undefined);
+      await deleteStoredObject(storage, stored.imagePath).catch(() => undefined);
       throw error;
     }
 

@@ -6,7 +6,7 @@ import { z } from "zod";
 import { assertTrustedMutationOrigin, requireAdmin } from "@/lib/app-auth";
 import { logAudit } from "@/lib/auditLogger";
 import { prisma } from "@/lib/db";
-import { entityMediaSchema, resolveEntityMedia } from "@/lib/entity-media";
+import { commitEntityMediaChange, entityMediaSchema, resolveEntityMedia } from "@/lib/entity-media";
 
 const topicSchema = z.object({
   id: z.string().optional(),
@@ -164,6 +164,8 @@ export async function saveTopic(input: unknown) {
     input: parsed,
     domain: "topics",
     previousImagePath: existing?.imagePath || "",
+    organizationId: user.organizationId,
+    userId: user.id,
   });
 
   if (parsed.id) {
@@ -179,6 +181,15 @@ export async function saveTopic(input: unknown) {
         ...media,
         updatedBy: user.id,
       },
+    });
+
+    await commitEntityMediaChange({
+      previousImagePath: existing?.imagePath || "",
+      nextImagePath: updated.imagePath,
+      organizationId: user.organizationId,
+      userId: user.id,
+      ownerType: "Topic",
+      ownerId: updated.id,
     });
 
     await logAudit({
@@ -206,6 +217,15 @@ export async function saveTopic(input: unknown) {
       },
     });
 
+    await commitEntityMediaChange({
+      previousImagePath: "",
+      nextImagePath: created.imagePath,
+      organizationId: user.organizationId,
+      userId: user.id,
+      ownerType: "Topic",
+      ownerId: created.id,
+    });
+
     await logAudit({
       userId: user.id,
       userName: user.name,
@@ -229,7 +249,7 @@ export async function deleteTopic(id: string) {
       id,
       organizationId: user.organizationId,
     },
-    select: { id: true },
+    select: { id: true, imagePath: true },
   });
 
   if (!ownedTopic) {
@@ -238,6 +258,15 @@ export async function deleteTopic(id: string) {
 
   const deleted = await prisma.topic.delete({
     where: { id, organizationId: user.organizationId },
+  });
+
+  await commitEntityMediaChange({
+    previousImagePath: ownedTopic.imagePath || "",
+    nextImagePath: "",
+    organizationId: user.organizationId,
+    userId: user.id,
+    ownerType: "Topic",
+    ownerId: ownedTopic.id,
   });
 
   await logAudit({

@@ -107,6 +107,7 @@ export function AdminCurriculumContentManager({
       try {
         await saveContent({
           title: editorMode === "seen-composition" ? form.title.trim() : undefined,
+          ...(editorMode === "seen-composition" ? { editorMode } : {}),
           classId: classItem.id,
           subjectId: subject.id,
           unitId: form.unitId,

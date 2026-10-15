@@ -1,11 +1,13 @@
 import "server-only";
 
-import type { Prisma } from "@prisma/client";
+import type { Prisma } from "@/generated/prisma/client";
 
 export const VOCABULARY_IMAGE_PURPOSE = "vocabulary-item-image";
 export const VOCABULARY_ENTRY_OWNER_TYPE = "VocabularyEntry";
 
 export type StoredUploadMetadata = {
+  id: string;
+  storageConfigurationId: string;
   imageUrl: string;
   imagePath: string;
   originalName: string;
@@ -37,6 +39,7 @@ export async function getCurrentVocabularyUploadFiles(
       id: true,
       url: true,
       path: true,
+      storageConfigurationId: true,
       status: true,
       storageDeletedAt: true,
     },
@@ -55,6 +58,8 @@ export async function createVocabularyUploadedFile(
 ) {
   return client.uploadedFile.create({
     data: {
+      id: input.stored.id,
+      storageConfigurationId: input.stored.storageConfigurationId,
       purpose: VOCABULARY_IMAGE_PURPOSE,
       ownerType: VOCABULARY_ENTRY_OWNER_TYPE,
       ownerId: input.vocabularyEntryId,

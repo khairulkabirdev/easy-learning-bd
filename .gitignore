@@ -53,3 +53,5 @@ prisma/*.bk
 !.env.example
 /README
 *.zip
+# Private local uploads (outside public web root)
+/storage/private/

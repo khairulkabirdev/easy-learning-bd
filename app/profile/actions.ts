@@ -5,7 +5,8 @@ import { z } from "zod";
 
 import { assertTrustedMutationOrigin, requireUser } from "@/lib/app-auth";
 import { prisma } from "@/lib/db";
-import { deleteLocalImage, replaceDomainImage, saveImageToTemp } from "@/lib/upload";
+import { deleteLocalImage, saveImageToTemp, deleteTemporaryImageUpload } from "@/lib/upload";
+import { assertOwnedTemporaryImage, finalizeManagedImageChange, isManagedMediaUrl } from "@/lib/storage/upload-management";
 
 const bdPhoneSchema = z
   .string()
@@ -38,25 +39,27 @@ export type ProfileActionState = {
 
 export async function uploadProfileImageTemp(formData: FormData) {
   await assertTrustedMutationOrigin();
-  await requireUser();
+  const user = await requireUser();
 
   const file = formData.get("file");
   if (!(file instanceof File)) {
     throw new Error("Image file is required.");
   }
 
-  if (file.size > 4.8 * 1024 * 1024) {
-    throw new Error("Image must be 4.8 MB or smaller.");
+  if (file.size > 5 * 1024 * 1024) {
+    throw new Error("Image must be 5 MB or smaller.");
   }
 
-  if (!file.type.startsWith("image/")) {
-    throw new Error("Only image files are allowed.");
+  if (!["image/jpeg", "image/png", "image/webp"].includes(file.type.toLowerCase())) {
+    throw new Error("Only JPEG, PNG, and WebP images are allowed.");
   }
 
   const previousTempPath = String(formData.get("previousTempPath") ?? "").trim();
-  const saved = await saveImageToTemp(file);
+  const saved = await saveImageToTemp(file, { organizationId: user.organizationId, userId: user.id });
 
-  if (previousTempPath.startsWith("/uploads/temp/") && previousTempPath !== saved.publicPath) {
+  if (previousTempPath.startsWith("/api/media/") && previousTempPath !== saved.publicPath) {
+    await deleteTemporaryImageUpload(previousTempPath, { organizationId: user.organizationId, userId: user.id });
+  } else if (previousTempPath.startsWith("/uploads/temp/") && previousTempPath !== saved.publicPath) {
     await deleteLocalImage(previousTempPath);
   }
 
@@ -116,21 +119,24 @@ export async function updateProfileAction(_: ProfileActionState, formData: FormD
   }
 
   const requestedProfileImage = parsed.data.profileImage?.trim() || "";
-  let profileImage = user.profileImage;
+  let profileImage: string | null = user.profileImage;
 
   if (!requestedProfileImage) {
-    if (user.profileImage) await deleteLocalImage(user.profileImage);
     profileImage = null;
   } else if (requestedProfileImage !== user.profileImage) {
-    if (!requestedProfileImage.startsWith("/uploads/temp/")) {
-      return { error: "Invalid profile image path.", success: "" };
+    if (!isManagedMediaUrl(requestedProfileImage)) {
+      return { error: "Invalid profile image reference. Please upload the image again.", success: "" };
     }
 
-    profileImage = await replaceDomainImage({
-      domain: "profiles",
-      previousImagePath: user.profileImage,
-      nextTempPublicPath: requestedProfileImage,
-    });
+    try {
+      await assertOwnedTemporaryImage(requestedProfileImage, {
+        organizationId: user.organizationId,
+        userId: user.id,
+      });
+    } catch {
+      return { error: "This temporary profile image is no longer available. Please upload it again.", success: "" };
+    }
+    profileImage = requestedProfileImage;
   }
 
   const roleData =
@@ -172,6 +178,16 @@ export async function updateProfileAction(_: ProfileActionState, formData: FormD
       profileImage: profileImage || null,
       ...roleData,
     },
+  });
+
+  await finalizeManagedImageChange({
+    previousImagePath: user.profileImage,
+    nextImagePath: profileImage || "",
+    organizationId: user.organizationId,
+    userId: user.id,
+    ownerType: "User",
+    ownerId: user.id,
+    purpose: "profile-image",
   });
 
   revalidatePath("/admin/profile");

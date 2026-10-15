@@ -6,7 +6,7 @@ import { z } from "zod";
 import { assertTrustedMutationOrigin, requireAdmin } from "@/lib/app-auth";
 import { logAudit } from "@/lib/auditLogger";
 import { prisma } from "@/lib/db";
-import { entityMediaSchema, resolveEntityMedia } from "@/lib/entity-media";
+import { commitEntityMediaChange, entityMediaSchema, resolveEntityMedia } from "@/lib/entity-media";
 
 const unitSchema = z.object({
   id: z.string().optional(),
@@ -129,6 +129,8 @@ export async function saveUnit(input: unknown) {
     input: parsed,
     domain: "units",
     previousImagePath: existing?.imagePath || "",
+    organizationId: user.organizationId,
+    userId: user.id,
   });
 
   if (parsed.id) {
@@ -145,6 +147,15 @@ export async function saveUnit(input: unknown) {
         ...media,
         updatedBy: user.id,
       },
+    });
+
+    await commitEntityMediaChange({
+      previousImagePath: existing?.imagePath || "",
+      nextImagePath: updated.imagePath,
+      organizationId: user.organizationId,
+      userId: user.id,
+      ownerType: "Unit",
+      ownerId: updated.id,
     });
 
     await logAudit({
@@ -173,6 +184,15 @@ export async function saveUnit(input: unknown) {
       },
     });
 
+    await commitEntityMediaChange({
+      previousImagePath: "",
+      nextImagePath: created.imagePath,
+      organizationId: user.organizationId,
+      userId: user.id,
+      ownerType: "Unit",
+      ownerId: created.id,
+    });
+
     await logAudit({
       userId: user.id,
       userName: user.name,
@@ -196,7 +216,7 @@ export async function deleteUnit(id: string) {
       id,
       organizationId: user.organizationId,
     },
-    select: { id: true },
+    select: { id: true, imagePath: true },
   });
 
   if (!ownedUnit) {
@@ -205,6 +225,15 @@ export async function deleteUnit(id: string) {
 
   const deleted = await prisma.unit.delete({
     where: { id, organizationId: user.organizationId },
+  });
+
+  await commitEntityMediaChange({
+    previousImagePath: ownedUnit.imagePath || "",
+    nextImagePath: "",
+    organizationId: user.organizationId,
+    userId: user.id,
+    ownerType: "Unit",
+    ownerId: ownedUnit.id,
   });
 
   await logAudit({

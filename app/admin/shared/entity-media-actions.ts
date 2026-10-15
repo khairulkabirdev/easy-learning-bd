@@ -3,7 +3,7 @@
 import { z } from "zod";
 
 import { assertTrustedMutationOrigin, requireAdmin } from "@/lib/app-auth";
-import { deleteLocalImage, saveImageToTemp } from "@/lib/upload";
+import { deleteLocalImage, saveImageToTemp, deleteTemporaryImageUpload } from "@/lib/upload";
 
 const uploadSchema = z.object({
   domain: z.enum(["classes", "subjects", "units", "lessons", "topics"]),
@@ -11,7 +11,7 @@ const uploadSchema = z.object({
 
 export async function uploadEntityImageTemp(formData: FormData) {
   await assertTrustedMutationOrigin();
-  await requireAdmin();
+  const user = await requireAdmin();
 
   const domain = formData.get("domain");
   const file = formData.get("file");
@@ -22,9 +22,11 @@ export async function uploadEntityImageTemp(formData: FormData) {
   }
 
   const previousTempPath = String(formData.get("previousTempPath") ?? "").trim();
-  const saved = await saveImageToTemp(file);
+  const saved = await saveImageToTemp(file, { organizationId: user.organizationId, userId: user.id });
 
-  if (previousTempPath.startsWith("/uploads/temp/") && previousTempPath !== saved.publicPath) {
+  if (previousTempPath.startsWith("/api/media/") && previousTempPath !== saved.publicPath) {
+    await deleteTemporaryImageUpload(previousTempPath, { organizationId: user.organizationId, userId: user.id });
+  } else if (previousTempPath.startsWith("/uploads/temp/") && previousTempPath !== saved.publicPath) {
     await deleteLocalImage(previousTempPath);
   }
 

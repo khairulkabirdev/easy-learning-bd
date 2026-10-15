@@ -1,4 +1,4 @@
-﻿-- CreateTable
+-- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "name" TEXT NOT NULL,
@@ -239,6 +239,39 @@ CREATE TABLE "VocabularyEntry" (
     CONSTRAINT "VocabularyEntry_vocabularyId_fkey" FOREIGN KEY ("vocabularyId") REFERENCES "Vocabulary" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- Storage provider configurations are organization-scoped. Secret values are encrypted by the application.
+CREATE TABLE "StorageConfiguration" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "name" TEXT NOT NULL,
+    "provider" TEXT NOT NULL DEFAULT 'local-private',
+    "endpoint" TEXT NOT NULL DEFAULT '',
+    "region" TEXT NOT NULL DEFAULT 'auto',
+    "bucket" TEXT NOT NULL DEFAULT '',
+    "accessKeyId" TEXT NOT NULL DEFAULT '',
+    "secretAccessKeyEncrypted" TEXT NOT NULL DEFAULT '',
+    "sessionTokenEncrypted" TEXT NOT NULL DEFAULT '',
+    "localRoot" TEXT NOT NULL DEFAULT 'storage/private',
+    "forcePathStyle" BOOLEAN NOT NULL DEFAULT false,
+    "isActive" BOOLEAN NOT NULL DEFAULT false,
+    "everActivated" BOOLEAN NOT NULL DEFAULT false,
+    "lastTestStatus" TEXT NOT NULL DEFAULT 'unknown',
+    "lastTestMessage" TEXT NOT NULL DEFAULT '',
+    "lastTestedAt" DATETIME,
+    "organizationId" TEXT NOT NULL,
+    "createdBy" TEXT NOT NULL,
+    "updatedBy" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
+CREATE UNIQUE INDEX "StorageConfiguration_organizationId_name_key"
+ON "StorageConfiguration"("organizationId", "name");
+CREATE INDEX "StorageConfiguration_organizationId_isActive_idx"
+ON "StorageConfiguration"("organizationId", "isActive");
+CREATE INDEX "StorageConfiguration_organizationId_provider_idx"
+ON "StorageConfiguration"("organizationId", "provider");
+CREATE UNIQUE INDEX "StorageConfiguration_one_active_per_org_key"
+ON "StorageConfiguration"("organizationId") WHERE "isActive" = true;
+
 -- Generic upload/file lifecycle tracker. Vocabulary item images are the first
 -- relation using it; future uploads should attach to this same table.
 CREATE TABLE "UploadedFile" (
@@ -247,6 +280,7 @@ CREATE TABLE "UploadedFile" (
     "ownerType" TEXT NOT NULL DEFAULT '',
     "ownerId" TEXT NOT NULL DEFAULT '',
     "vocabularyEntryId" TEXT,
+    "storageConfigurationId" TEXT,
     "url" TEXT NOT NULL DEFAULT '',
     "path" TEXT NOT NULL DEFAULT '',
     "originalName" TEXT NOT NULL DEFAULT '',
@@ -267,7 +301,8 @@ CREATE TABLE "UploadedFile" (
     "updatedBy" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
-    CONSTRAINT "UploadedFile_vocabularyEntryId_fkey" FOREIGN KEY ("vocabularyEntryId") REFERENCES "VocabularyEntry" ("id") ON DELETE SET NULL ON UPDATE CASCADE
+    CONSTRAINT "UploadedFile_vocabularyEntryId_fkey" FOREIGN KEY ("vocabularyEntryId") REFERENCES "VocabularyEntry" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT "UploadedFile_storageConfigurationId_fkey" FOREIGN KEY ("storageConfigurationId") REFERENCES "StorageConfiguration" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 CREATE INDEX "UploadedFile_vocabularyEntryId_isCurrent_status_idx"
 ON "UploadedFile"("vocabularyEntryId", "isCurrent", "status");
@@ -277,6 +312,8 @@ CREATE INDEX "UploadedFile_organizationId_ownerType_ownerId_idx"
 ON "UploadedFile"("organizationId", "ownerType", "ownerId");
 CREATE INDEX "UploadedFile_path_idx"
 ON "UploadedFile"("path");
+CREATE INDEX "UploadedFile_storageConfigurationId_idx"
+ON "UploadedFile"("storageConfigurationId");
 CREATE UNIQUE INDEX "UploadedFile_vocabulary_current_active_key"
 ON "UploadedFile"("vocabularyEntryId")
 WHERE "vocabularyEntryId" IS NOT NULL
@@ -761,7 +798,7 @@ CREATE UNIQUE INDEX "Lesson_slug_key" ON "Lesson"("slug");
 CREATE UNIQUE INDEX "Topic_slug_key" ON "Topic"("slug");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Content_classId_subjectId_unitId_lessonId_topicId_organizationId_key" ON "Content"("classId", "subjectId", "unitId", "lessonId", "topicId", "organizationId");
+CREATE INDEX "Content_classId_subjectId_unitId_lessonId_topicId_organizationId_idx" ON "Content"("classId", "subjectId", "unitId", "lessonId", "topicId", "organizationId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Paragraph_contentBlockId_key" ON "Paragraph"("contentBlockId");

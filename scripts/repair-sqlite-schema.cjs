@@ -104,6 +104,20 @@ async function sqliteTableExists(name) {
 }
 
 
+async function ensureContentPathIndex() {
+  if (!(await sqliteTableExists("Content"))) return;
+
+  // Older schemas enforced one Content row per hierarchy path. Seen Composition
+  // now needs multiple rows for the same unit/lesson/topic, so drop that unique
+  // index non-destructively (all existing Content rows and blocks remain intact).
+  await prisma.$executeRawUnsafe(
+    'DROP INDEX IF EXISTS "Content_classId_subjectId_unitId_lessonId_topicId_organizationId_key"',
+  );
+  await prisma.$executeRawUnsafe(
+    'CREATE INDEX IF NOT EXISTS "Content_classId_subjectId_unitId_lessonId_topicId_organizationId_idx" ON "Content"("classId", "subjectId", "unitId", "lessonId", "topicId", "organizationId")',
+  );
+}
+
 async function ensureBoardAndYearTables() {
   await prisma.$executeRawUnsafe(`CREATE TABLE IF NOT EXISTS "Board" (
     "id" TEXT NOT NULL PRIMARY KEY,
@@ -132,6 +146,38 @@ async function ensureBoardAndYearTables() {
   await prisma.$executeRawUnsafe('CREATE INDEX IF NOT EXISTS "AcademicYear_organizationId_isActive_year_idx" ON "AcademicYear"("organizationId", "isActive", "year")');
 }
 
+
+async function ensureStorageConfigurationTable() {
+  await prisma.$executeRawUnsafe(`CREATE TABLE IF NOT EXISTS "StorageConfiguration" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "name" TEXT NOT NULL,
+    "provider" TEXT NOT NULL DEFAULT 'local-private',
+    "endpoint" TEXT NOT NULL DEFAULT '',
+    "region" TEXT NOT NULL DEFAULT 'auto',
+    "bucket" TEXT NOT NULL DEFAULT '',
+    "accessKeyId" TEXT NOT NULL DEFAULT '',
+    "secretAccessKeyEncrypted" TEXT NOT NULL DEFAULT '',
+    "sessionTokenEncrypted" TEXT NOT NULL DEFAULT '',
+    "localRoot" TEXT NOT NULL DEFAULT 'storage/private',
+    "forcePathStyle" BOOLEAN NOT NULL DEFAULT false,
+    "isActive" BOOLEAN NOT NULL DEFAULT false,
+    "everActivated" BOOLEAN NOT NULL DEFAULT false,
+    "lastTestStatus" TEXT NOT NULL DEFAULT 'unknown',
+    "lastTestMessage" TEXT NOT NULL DEFAULT '',
+    "lastTestedAt" DATETIME,
+    "organizationId" TEXT NOT NULL,
+    "createdBy" TEXT NOT NULL,
+    "updatedBy" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+  )`);
+  await ensureColumn("StorageConfiguration", "everActivated", "BOOLEAN NOT NULL DEFAULT false");
+  await prisma.$executeRawUnsafe('CREATE UNIQUE INDEX IF NOT EXISTS "StorageConfiguration_organizationId_name_key" ON "StorageConfiguration"("organizationId", "name")');
+  await prisma.$executeRawUnsafe('CREATE INDEX IF NOT EXISTS "StorageConfiguration_organizationId_isActive_idx" ON "StorageConfiguration"("organizationId", "isActive")');
+  await prisma.$executeRawUnsafe('CREATE INDEX IF NOT EXISTS "StorageConfiguration_organizationId_provider_idx" ON "StorageConfiguration"("organizationId", "provider")');
+  await prisma.$executeRawUnsafe('CREATE UNIQUE INDEX IF NOT EXISTS "StorageConfiguration_one_active_per_org_key" ON "StorageConfiguration"("organizationId") WHERE "isActive" = true');
+}
+
 async function ensureUploadedFileTable() {
   await prisma.$executeRawUnsafe(`CREATE TABLE IF NOT EXISTS "UploadedFile" (
     "id" TEXT NOT NULL PRIMARY KEY,
@@ -139,6 +185,7 @@ async function ensureUploadedFileTable() {
     "ownerType" TEXT NOT NULL DEFAULT '',
     "ownerId" TEXT NOT NULL DEFAULT '',
     "vocabularyEntryId" TEXT,
+    "storageConfigurationId" TEXT,
     "url" TEXT NOT NULL DEFAULT '',
     "path" TEXT NOT NULL DEFAULT '',
     "originalName" TEXT NOT NULL DEFAULT '',
@@ -161,9 +208,16 @@ async function ensureUploadedFileTable() {
     "updatedAt" DATETIME NOT NULL,
     CONSTRAINT "UploadedFile_vocabularyEntryId_fkey"
       FOREIGN KEY ("vocabularyEntryId") REFERENCES "VocabularyEntry" ("id")
+      ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT "UploadedFile_storageConfigurationId_fkey"
+      FOREIGN KEY ("storageConfigurationId") REFERENCES "StorageConfiguration" ("id")
       ON DELETE SET NULL ON UPDATE CASCADE
   )`);
 
+  await ensureColumn("UploadedFile", "storageConfigurationId", "TEXT REFERENCES StorageConfiguration(id) ON DELETE SET NULL ON UPDATE CASCADE");
+  await prisma.$executeRawUnsafe(
+    'CREATE INDEX IF NOT EXISTS "UploadedFile_storageConfigurationId_idx" ON "UploadedFile"("storageConfigurationId")',
+  );
   await prisma.$executeRawUnsafe(
     'CREATE INDEX IF NOT EXISTS "UploadedFile_vocabularyEntryId_isCurrent_status_idx" ON "UploadedFile"("vocabularyEntryId", "isCurrent", "status")',
   );
@@ -617,6 +671,7 @@ async function migrateProfileTempImages() {
 }
 
 async function main() {
+  await ensureContentPathIndex();
   await ensureBoardAndYearTables();
   await ensureEnglishFirstPaperSectionTables();
   await ensureSubjectLevelFirstPaperSectionTables();
@@ -660,6 +715,7 @@ async function main() {
      WHERE ("imageUrl" IS NULL OR "imageUrl" = '')
        AND "imagePath" LIKE 'public/uploads/vocabulary/%'`,
   );
+  await ensureStorageConfigurationTable();
   await ensureUploadedFileTable();
   await ensureColumn("InformationTransfer", "passage", "TEXT NOT NULL DEFAULT ''");
   await ensureColumn("InformationTransfer", "passageSource", "TEXT NOT NULL DEFAULT 'manual'");

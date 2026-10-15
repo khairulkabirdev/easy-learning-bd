@@ -436,39 +436,72 @@ model VocabularyEntry {
   @@index([organizationId])
 }
 
-model UploadedFile {
-  id                String    @id @default(cuid())
-  purpose           String    @default("")
-  ownerType         String    @default("")
-  ownerId           String    @default("")
-  vocabularyEntryId String?
-  url               String    @default("")
-  path              String    @default("")
-  originalName      String    @default("")
-  sourceMimeType    String    @default("")
-  mimeType          String    @default("")
-  extension         String    @default("")
-  sizeBytes         Int       @default(0)
-  width             Int       @default(0)
-  height            Int       @default(0)
-  checksumSha256    String    @default("")
-  status            String    @default("active")
-  isCurrent         Boolean   @default(true)
-  replacedAt        DateTime?
-  deletedAt         DateTime?
-  storageDeletedAt  DateTime?
-  organizationId    String
-  createdBy         String
-  updatedBy         String
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+model StorageConfiguration {
+  id                       String    @id @default(cuid())
+  name                     String
+  provider                 String    @default("local-private")
+  endpoint                 String    @default("")
+  region                   String    @default("auto")
+  bucket                   String    @default("")
+  accessKeyId              String    @default("")
+  secretAccessKeyEncrypted String    @default("")
+  sessionTokenEncrypted    String    @default("")
+  localRoot                String    @default("storage/private")
+  forcePathStyle           Boolean   @default(false)
+  isActive                 Boolean   @default(false)
+  everActivated            Boolean   @default(false)
+  lastTestStatus           String    @default("unknown")
+  lastTestMessage          String    @default("")
+  lastTestedAt             DateTime?
+  organizationId           String
+  createdBy                String
+  updatedBy                String
+  createdAt                DateTime  @default(now())
+  updatedAt                DateTime  @updatedAt
 
-  vocabularyEntry VocabularyEntry? @relation(fields: [vocabularyEntryId], references: [id], onDelete: SetNull)
+  uploadedFiles UploadedFile[]
+
+  @@unique([organizationId, name])
+  @@index([organizationId, isActive])
+  @@index([organizationId, provider])
+}
+
+model UploadedFile {
+  id                     String    @id @default(cuid())
+  purpose                String    @default("")
+  ownerType              String    @default("")
+  ownerId                String    @default("")
+  vocabularyEntryId      String?
+  storageConfigurationId String?
+  url                    String    @default("")
+  path                   String    @default("")
+  originalName           String    @default("")
+  sourceMimeType         String    @default("")
+  mimeType               String    @default("")
+  extension              String    @default("")
+  sizeBytes              Int       @default(0)
+  width                  Int       @default(0)
+  height                 Int       @default(0)
+  checksumSha256         String    @default("")
+  status                 String    @default("active")
+  isCurrent              Boolean   @default(true)
+  replacedAt             DateTime?
+  deletedAt              DateTime?
+  storageDeletedAt       DateTime?
+  organizationId         String
+  createdBy              String
+  updatedBy              String
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+
+  vocabularyEntry      VocabularyEntry?      @relation(fields: [vocabularyEntryId], references: [id], onDelete: SetNull)
+  storageConfiguration StorageConfiguration? @relation(fields: [storageConfigurationId], references: [id], onDelete: SetNull)
 
   @@index([vocabularyEntryId, isCurrent, status])
   @@index([organizationId, status, createdAt])
   @@index([organizationId, ownerType, ownerId])
   @@index([path])
+  @@index([storageConfigurationId])
 }
 
 model SynonymsAntonyms {

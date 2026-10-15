@@ -51,6 +51,8 @@ const STATIC_LABELS: Record<string, string> = {
   topics: "Topics",
   profile: "Profile",
   settings: "Settings",
+  storage: "Storage",
+  configuration: "Configuration",
   "audit-logs": "Audit Logs",
   "chapter-preparation": "অধ্যায়ভিত্তিক প্রস্তুতি",
   "matching-sentences": "Matching Sentences",

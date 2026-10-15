@@ -227,31 +227,37 @@ async function main() {
               },
             });
 
-            await prisma.content.upsert({
+            const existingTopicContent = await prisma.content.findFirst({
               where: {
-                classId_subjectId_unitId_lessonId_topicId_organizationId: {
-                  classId: classRecord.id,
-                  subjectId: subjectRecord.id,
-                  unitId: unitRecord.id,
-                  lessonId: lessonRecord.id,
-                  topicId: topicRecord.id,
-                  organizationId: ORG_ID,
-                },
-              },
-              update: {
-                updatedBy: admin.id,
-              },
-              create: {
                 classId: classRecord.id,
                 subjectId: subjectRecord.id,
                 unitId: unitRecord.id,
                 lessonId: lessonRecord.id,
                 topicId: topicRecord.id,
                 organizationId: ORG_ID,
-                createdBy: admin.id,
-                updatedBy: admin.id,
               },
+              select: { id: true },
             });
+
+            if (existingTopicContent) {
+              await prisma.content.update({
+                where: { id: existingTopicContent.id },
+                data: { updatedBy: admin.id },
+              });
+            } else {
+              await prisma.content.create({
+                data: {
+                  classId: classRecord.id,
+                  subjectId: subjectRecord.id,
+                  unitId: unitRecord.id,
+                  lessonId: lessonRecord.id,
+                  topicId: topicRecord.id,
+                  organizationId: ORG_ID,
+                  createdBy: admin.id,
+                  updatedBy: admin.id,
+                },
+              });
+            }
           }
 
           if (className === "Class 6" && subjectName === "English" && unitIndex === 1 && lessonIndex === 1) {
