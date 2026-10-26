@@ -13,9 +13,11 @@ import {
   SUBJECT_SECTION_META,
   parseMatchingDocument,
   parseQuestionAnswerDocument,
+  parseRearrangeSentenceDocument,
   validateSubjectSectionDraft,
   type MatchingDocument,
   type QuestionAnswerDocument,
+  type RearrangeSentenceDocument,
   type SubjectSectionKind,
   type SubjectSectionRecord,
   type SubjectSectionValidationErrors,
@@ -42,7 +44,7 @@ type EditorState = {
   title: string;
   instruction: string;
   details: string;
-  document: MatchingDocument | QuestionAnswerDocument;
+  document: MatchingDocument | QuestionAnswerDocument | RearrangeSentenceDocument;
 };
 
 type Props = {
@@ -58,6 +60,18 @@ function normalizeQuestionRows(document: QuestionAnswerDocument): QuestionAnswer
     version: 1,
     rows: document.rows.map((row, index) => ({ ...row, sortOrder: index })),
   };
+}
+
+function normalizeRearrangeDocument(document: RearrangeSentenceDocument): RearrangeSentenceDocument {
+  const rows = document.rows.map((row, index) => ({ ...row, sortOrder: index }));
+  const validIds = new Set(rows.map((row) => row.id));
+  const correctOrder = document.correctOrder.filter(
+    (id, index) => validIds.has(id) && document.correctOrder.indexOf(id) === index,
+  );
+  for (const row of rows) {
+    if (!correctOrder.includes(row.id)) correctOrder.push(row.id);
+  }
+  return { version: 2, rows, correctOrder };
 }
 
 function normalizeMatching(document: MatchingDocument): MatchingDocument {
@@ -106,7 +120,9 @@ export function SubjectSectionBlockEditorClient({
     document:
       kind === "matching-sentences"
         ? parseMatchingDocument(record.documentJson, record.id)
-        : parseQuestionAnswerDocument(record.documentJson, record.id),
+        : kind === "rearrange-sentence"
+          ? parseRearrangeSentenceDocument(record.documentJson, record.id)
+          : parseQuestionAnswerDocument(record.documentJson, record.id),
   }));
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -137,7 +153,9 @@ export function SubjectSectionBlockEditorClient({
       document:
         kind === "matching-sentences"
           ? normalizeMatching(value.document as MatchingDocument)
-          : normalizeQuestionRows(value.document as QuestionAnswerDocument),
+          : kind === "rearrange-sentence"
+            ? normalizeRearrangeDocument(value.document as RearrangeSentenceDocument)
+            : normalizeQuestionRows(value.document as QuestionAnswerDocument),
     };
   }
 
@@ -234,7 +252,10 @@ export function SubjectSectionBlockEditorClient({
     scheduleAutosave();
   }
 
-  function patchDocument(document: MatchingDocument | QuestionAnswerDocument, immediate = false) {
+  function patchDocument(
+    document: MatchingDocument | QuestionAnswerDocument | RearrangeSentenceDocument,
+    immediate = false,
+  ) {
     const previous = stateRef.current;
     const next = { ...previous, document };
     const revision = ++mutationRevisionRef.current;
@@ -405,7 +426,7 @@ export function SubjectSectionBlockEditorClient({
             />
           ) : kind === "rearrange-sentence" ? (
             <RearrangeSentenceEditor
-              document={state.document as QuestionAnswerDocument}
+              document={state.document as RearrangeSentenceDocument}
               onChange={patchDocument}
               validationErrors={validationErrors}
             />
@@ -725,20 +746,40 @@ function RearrangeSentenceEditor({
   onChange,
   validationErrors,
 }: {
-  document: QuestionAnswerDocument;
-  onChange: (document: QuestionAnswerDocument, immediate?: boolean) => void;
+  document: RearrangeSentenceDocument;
+  onChange: (document: RearrangeSentenceDocument, immediate?: boolean) => void;
   validationErrors: SubjectSectionValidationErrors;
 }) {
-  const normalized = normalizeQuestionRows(document);
+  const normalized = normalizeRearrangeDocument(document);
+
+  function itemLabel(index: number) {
+    let value = index + 1;
+    let label = "";
+    while (value > 0) {
+      value -= 1;
+      label = String.fromCharCode(97 + (value % 26)) + label;
+      value = Math.floor(value / 26);
+    }
+    return label;
+  }
+
+  const labelById = new Map(normalized.rows.map((row, index) => [row.id, itemLabel(index)]));
+  const rowById = new Map(normalized.rows.map((row) => [row.id, row]));
+  const correctOrderText = normalized.correctOrder
+    .map((id) => labelById.get(id))
+    .filter(Boolean)
+    .join(", ");
 
   function addRow() {
+    const id = crypto.randomUUID();
     onChange(
-      normalizeQuestionRows({
+      normalizeRearrangeDocument({
         ...normalized,
         rows: [
           ...normalized.rows,
-          { id: crypto.randomUUID(), sortOrder: normalized.rows.length, question: "", answer: "" },
+          { id, sortOrder: normalized.rows.length, question: "", answer: "" },
         ],
+        correctOrder: [...normalized.correctOrder, id],
       }),
       true,
     );
@@ -752,57 +793,177 @@ function RearrangeSentenceEditor({
   }
 
   function deleteRow(id: string) {
-    onChange(normalizeQuestionRows({ ...normalized, rows: normalized.rows.filter((row) => row.id !== id) }), true);
+    onChange(
+      normalizeRearrangeDocument({
+        ...normalized,
+        rows: normalized.rows.filter((row) => row.id !== id),
+        correctOrder: normalized.correctOrder.filter((rowId) => rowId !== id),
+      }),
+      true,
+    );
   }
 
-  function moveRow(id: string, direction: "up" | "down") {
+  function moveQuestionRow(id: string, direction: "up" | "down") {
     const index = normalized.rows.findIndex((row) => row.id === id);
     const target = direction === "up" ? index - 1 : index + 1;
     if (index < 0 || target < 0 || target >= normalized.rows.length) return;
     const rows = [...normalized.rows];
     const [moved] = rows.splice(index, 1);
     rows.splice(target, 0, moved);
-    onChange(normalizeQuestionRows({ ...normalized, rows }), true);
+    onChange(normalizeRearrangeDocument({ ...normalized, rows }), true);
+  }
+
+  function moveCorrectOrder(id: string, direction: "up" | "down") {
+    const index = normalized.correctOrder.indexOf(id);
+    const target = direction === "up" ? index - 1 : index + 1;
+    if (index < 0 || target < 0 || target >= normalized.correctOrder.length) return;
+    const correctOrder = [...normalized.correctOrder];
+    const [moved] = correctOrder.splice(index, 1);
+    correctOrder.splice(target, 0, moved);
+    onChange({ ...normalized, correctOrder }, true);
+  }
+
+  function sentencePreview(value: string) {
+    return value
+      .replace(/<[^>]*>/g, " ")
+      .replace(/&nbsp;|&#160;/gi, " ")
+      .replace(/&amp;/gi, "&")
+      .replace(/\s+/g, " ")
+      .trim();
   }
 
   return (
-    <div className="space-y-4 border-t pt-5">
+    <div className="space-y-6 border-t pt-5">
       {validationErrors.document ? <FieldError>{validationErrors.document}</FieldError> : null}
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h3 className="font-semibold">Sentences in the correct order</h3>
-          <p className="text-sm text-muted-foreground">Add one sentence at a time. Students can later rearrange them into this saved order.</p>
+
+      <div className="space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h3 className="font-semibold">Question sentences</h3>
+            <p className="text-sm text-muted-foreground">
+              Add the sentences exactly in the order shown to students. Labels (a), (b), (c)... are generated automatically.
+            </p>
+          </div>
+          <Button type="button" onClick={addRow}>
+            <Plus className="mr-2 h-4 w-4" />Add Sentence
+          </Button>
         </div>
-        <Button type="button" onClick={addRow}><Plus className="mr-2 h-4 w-4" />Add Rearrange Item</Button>
+
+        {normalized.rows.length === 0 ? (
+          <div className="rounded-xl border border-dashed p-8 text-center text-sm text-muted-foreground">
+            No sentence items yet.
+          </div>
+        ) : (
+          normalized.rows.map((row, index) => (
+            <Card key={row.id} className="shadow-none">
+              <CardContent className="space-y-4 pt-6">
+                <div className="flex items-center justify-between gap-3">
+                  <Badge variant="secondary">({itemLabel(index)}) Question item</Badge>
+                  <div className="flex gap-2">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      disabled={index === 0}
+                      onClick={() => moveQuestionRow(row.id, "up")}
+                      aria-label={`Move sentence ${itemLabel(index)} up`}
+                    >
+                      <ArrowUp className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      disabled={index === normalized.rows.length - 1}
+                      onClick={() => moveQuestionRow(row.id, "down")}
+                      aria-label={`Move sentence ${itemLabel(index)} down`}
+                    >
+                      <ArrowDown className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="text-destructive"
+                      onClick={() => deleteRow(row.id)}
+                    >
+                      <Trash2 className="mr-2 h-4 w-4" />Delete
+                    </Button>
+                  </div>
+                </div>
+                <div className="rounded-xl border bg-background p-3">
+                  <TiptapRichTextEditor
+                    value={row.question}
+                    onChange={(value) => patchRow(row.id, value)}
+                    minHeight={100}
+                    placeholder={`Write sentence (${itemLabel(index)})...`}
+                  />
+                </div>
+                <FieldError>{validationErrors[`row:${row.id}:question`]}</FieldError>
+              </CardContent>
+            </Card>
+          ))
+        )}
       </div>
 
-      {normalized.rows.length === 0 ? (
-        <div className="rounded-xl border border-dashed p-8 text-center text-sm text-muted-foreground">No sentence items yet.</div>
-      ) : (
-        normalized.rows.map((row, index) => (
-          <Card key={row.id} className="shadow-none">
-            <CardContent className="space-y-4 pt-6">
-              <div className="flex items-center justify-between gap-3">
-                <Badge variant="secondary">Correct order #{index + 1}</Badge>
-                <div className="flex gap-2">
-                  <Button type="button" variant="outline" size="icon" disabled={index === 0} onClick={() => moveRow(row.id, "up")}><ArrowUp className="h-4 w-4" /></Button>
-                  <Button type="button" variant="outline" size="icon" disabled={index === normalized.rows.length - 1} onClick={() => moveRow(row.id, "down")}><ArrowDown className="h-4 w-4" /></Button>
-                  <Button type="button" variant="outline" size="sm" className="text-destructive" onClick={() => deleteRow(row.id)}><Trash2 className="mr-2 h-4 w-4" />Delete</Button>
+      {normalized.rows.length > 0 ? (
+        <div className="space-y-4 rounded-xl border bg-muted/10 p-4 sm:p-5">
+          <div className="space-y-1">
+            <h3 className="font-semibold">Correct order</h3>
+            <p className="text-sm text-muted-foreground">
+              Arrange the answer independently from the printed question order. The saved answer is shown as letters.
+            </p>
+          </div>
+
+          <Field data-invalid={Boolean(validationErrors.correctOrder)}>
+            <FieldLabel>Saved correct order</FieldLabel>
+            <Input value={correctOrderText} readOnly placeholder="h, f, e, g, c, d, b, a" />
+            <FieldError>{validationErrors.correctOrder}</FieldError>
+          </Field>
+
+          <div className="space-y-2">
+            {normalized.correctOrder.map((id, index) => {
+              const row = rowById.get(id);
+              const label = labelById.get(id) || "?";
+              return (
+                <div key={id} className="flex items-start gap-3 rounded-xl border bg-background p-3">
+                  <Badge variant="outline" className="mt-0.5 shrink-0">
+                    #{index + 1}
+                  </Badge>
+                  <Badge variant="secondary" className="mt-0.5 shrink-0">
+                    ({label})
+                  </Badge>
+                  <div className="min-w-0 flex-1 text-sm leading-6">
+                    {row ? sentencePreview(row.question) || `Sentence (${label})` : `Sentence (${label})`}
+                  </div>
+                  <div className="flex shrink-0 gap-2">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      disabled={index === 0}
+                      onClick={() => moveCorrectOrder(id, "up")}
+                      aria-label={`Move answer ${index + 1} up`}
+                    >
+                      <ArrowUp className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      disabled={index === normalized.correctOrder.length - 1}
+                      onClick={() => moveCorrectOrder(id, "down")}
+                      aria-label={`Move answer ${index + 1} down`}
+                    >
+                      <ArrowDown className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
-              </div>
-              <div className="rounded-xl border bg-background p-3">
-                <TiptapRichTextEditor
-                  value={row.question}
-                  onChange={(value) => patchRow(row.id, value)}
-                  minHeight={120}
-                  placeholder={`Write sentence ${index + 1}...`}
-                />
-              </div>
-              <FieldError>{validationErrors[`row:${row.id}:question`]}</FieldError>
-            </CardContent>
-          </Card>
-        ))
-      )}
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

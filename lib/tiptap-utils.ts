@@ -11,7 +11,10 @@ import { cn as baseCn } from "@/lib/utils"
 
 export const cn = baseCn
 
-export const MAX_FILE_SIZE = 5 * 1024 * 1024
+// The exact image limit is enforced by the active Storage Settings on the server.
+// Keep the editor-side ceiling aligned with the maximum value accepted by the
+// storage settings form so a valid configured limit is never blocked in the UI.
+export const MAX_FILE_SIZE = 512 * 1024 * 1024
 
 export function parseShortcutKeys({
   shortcutKeys,
@@ -240,17 +243,29 @@ export async function handleImageUpload(
   onProgress: (event: { progress: number }) => void,
   signal?: AbortSignal
 ) {
-  onProgress({ progress: 5 })
-  const dataUrl = await new Promise<string>((resolve, reject) => {
-    const reader = new FileReader()
-    signal?.addEventListener("abort", () => {
-      reader.abort()
-      reject(new Error("Image upload aborted"))
-    })
-    reader.onload = () => resolve(String(reader.result || ""))
-    reader.onerror = () => reject(reader.error ?? new Error("Image upload failed"))
-    reader.readAsDataURL(file)
+  if (signal?.aborted) throw new Error("Image upload aborted")
+
+  const formData = new FormData()
+  formData.set("file", file)
+  onProgress({ progress: 10 })
+
+  const response = await fetch("/api/admin/rich-text-image", {
+    method: "POST",
+    body: formData,
+    credentials: "same-origin",
+    cache: "no-store",
+    signal,
   })
+
+  onProgress({ progress: 90 })
+  const result = (await response.json().catch(() => ({}))) as {
+    url?: string
+    error?: string
+  }
+  if (!response.ok || !result.url) {
+    throw new Error(result.error || "Image upload failed")
+  }
+
   onProgress({ progress: 100 })
-  return dataUrl
+  return result.url
 }

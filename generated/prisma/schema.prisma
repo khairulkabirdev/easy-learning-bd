@@ -263,7 +263,9 @@ model Content {
   topic   Topic?         @relation(fields: [topicId], references: [id], onDelete: Cascade)
   blocks  ContentBlock[]
 
-  @@unique([classId, subjectId, unitId, lessonId, topicId, organizationId])
+  // A unit/lesson/topic can contain multiple content records, especially Seen Composition.
+  // Keep a normal index for path lookups; uniqueness is enforced by the relevant server workflow.
+  @@index([classId, subjectId, unitId, lessonId, topicId, organizationId])
   @@index([organizationId, classId, subjectId, unitId, lessonId])
   @@index([topicId])
 }
@@ -448,6 +450,12 @@ model StorageConfiguration {
   sessionTokenEncrypted    String    @default("")
   localRoot                String    @default("storage/private")
   forcePathStyle           Boolean   @default(false)
+  publicBaseUrl            String    @default("")
+  privateBucket            String    @default("")
+  maxImageSizeMb           Int       @default(20)
+  maxVideoSizeMb           Int       @default(1024)
+  maxModelSizeMb           Int       @default(500)
+  pathPrefix               String    @default("uploads")
   isActive                 Boolean   @default(false)
   everActivated            Boolean   @default(false)
   lastTestStatus           String    @default("unknown")

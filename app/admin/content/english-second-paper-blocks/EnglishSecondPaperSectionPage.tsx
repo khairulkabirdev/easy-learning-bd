@@ -1,5 +1,6 @@
 import { EnglishSecondPaperBlockListClient } from "@/components/admin/EnglishSecondPaperBlockListClient";
-import { getEnglishSecondPaperContext, listEnglishSecondPaperRecords } from "./data";
+import { getAdminPagedRecords } from "@/lib/admin/paged-records";
+import { getEnglishSecondPaperContext } from "./data";
 import type { EnglishSecondPaperKind } from "./types";
 
 export async function EnglishSecondPaperSectionPage({
@@ -12,7 +13,12 @@ export async function EnglishSecondPaperSectionPage({
   subjectId: string;
 }) {
   const { user, subject } = await getEnglishSecondPaperContext(classId, subjectId);
-  const records = await listEnglishSecondPaperRecords(kind, classId, subjectId, user.organizationId);
+  const result = await getAdminPagedRecords(user.organizationId, {
+    resource: "english-second-paper",
+    page: 1,
+    pageSize: 10,
+    filters: { kind, classId, subjectId },
+  });
 
   return (
     <div className="mx-auto w-full max-w-7xl space-y-5">
@@ -20,12 +26,8 @@ export async function EnglishSecondPaperSectionPage({
         kind={kind}
         classItem={subject.class}
         subject={{ id: subject.id, name: subject.name }}
-        records={records.map((item) => ({
-          id: item.id,
-          title: item.title,
-          sortOrder: item.sortOrder,
-          updatedAt: item.updatedAt.toISOString(),
-        }))}
+        records={result.rows}
+        total={result.total}
       />
     </div>
   );

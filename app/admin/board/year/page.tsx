@@ -1,32 +1,15 @@
 import { AdminBoardYearManager } from "@/components/admin/AdminBoardYearManager";
+import { getAdminPagedRecords } from "@/lib/admin/paged-records";
 import { requireAdmin } from "@/lib/app-auth";
-import { prisma } from "@/lib/db";
 
 export default async function AdminAcademicYearPage() {
   const user = await requireAdmin();
-  const records = await prisma.academicYear.findMany({
-    where: { organizationId: user.organizationId },
-    orderBy: [{ year: "desc" }, { createdAt: "desc" }],
-    select: {
-      id: true,
-      year: true,
-      isActive: true,
-      createdAt: true,
-      updatedAt: true,
-    },
+  const result = await getAdminPagedRecords(user.organizationId, {
+    resource: "year",
+    page: 1,
+    pageSize: 10,
+    sort: "label",
+    direction: "desc",
   });
-
-  return (
-    <AdminBoardYearManager
-      kind="year"
-      records={records.map((record) => ({
-        id: record.id,
-        label: String(record.year),
-        numericValue: record.year,
-        isActive: record.isActive,
-        createdAt: record.createdAt.toISOString(),
-        updatedAt: record.updatedAt.toISOString(),
-      }))}
-    />
-  );
+  return <AdminBoardYearManager kind="year" records={result.rows} total={result.total} />;
 }

@@ -1,23 +1,19 @@
-import { SettingsForm } from "@/app/admin/settings/SettingsForm";
+import { StorageSettingsClient } from "@/components/admin/settings/StorageSettingsClient";
+import { StorageWorkspaceNav } from "@/components/admin/settings/StorageWorkspaceNav";
 import { requireAdmin } from "@/lib/app-auth";
-import { prisma } from "@/lib/db";
+import { listStorageConfigurationViews } from "@/lib/storage/configurations";
+import { hasValidStorageEncryptionKey } from "@/lib/storage/secrets";
 
 export default async function AdminSettingsPage() {
   const user = await requireAdmin();
-  const settings = await prisma.authEmailSetting.findUnique({
-    where: { organizationId: user.organizationId },
-  });
+  const configurations = await listStorageConfigurationViews(user.organizationId, user.id);
 
   return (
-    <div className="w-full max-w-4xl">
-      <SettingsForm
-        hasApiKey={Boolean(process.env.RESEND_API_KEY)}
-        settings={{
-          senderName: settings?.senderName || "",
-          senderEmail: settings?.senderEmail || "",
-          appBaseUrl: settings?.appBaseUrl || "",
-          resetEmailEnabled: settings?.resetEmailEnabled || false,
-        }}
+    <div className="w-full min-w-0 space-y-4">
+      <StorageWorkspaceNav />
+      <StorageSettingsClient
+        configurations={configurations}
+        hasDedicatedEncryptionKey={hasValidStorageEncryptionKey()}
       />
     </div>
   );

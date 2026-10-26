@@ -16,6 +16,12 @@ export type QuestionAnswerDocument = {
   rows: QuestionAnswerRow[];
 };
 
+export type RearrangeSentenceDocument = {
+  version: 2;
+  rows: QuestionAnswerRow[];
+  correctOrder: string[];
+};
+
 export type MatchingColumn = {
   id: string;
   label: string;
@@ -110,6 +116,10 @@ export function createDefaultQuestionAnswerDocument(): QuestionAnswerDocument {
   return { version: 1, rows: [] };
 }
 
+export function createDefaultRearrangeSentenceDocument(): RearrangeSentenceDocument {
+  return { version: 2, rows: [], correctOrder: [] };
+}
+
 function safeParse(value: string): unknown {
   try {
     return JSON.parse(value);
@@ -179,6 +189,31 @@ export function parseQuestionAnswerDocument(value: string, recordId: string): Qu
   };
 }
 
+export function parseRearrangeSentenceDocument(value: string, recordId: string): RearrangeSentenceDocument {
+  const parsed = safeParse(value) as {
+    rows?: Array<Partial<QuestionAnswerRow>>;
+    correctOrder?: string[];
+  } | null;
+  const sourceRows = Array.isArray(parsed?.rows) ? parsed!.rows! : [];
+  const rows = sourceRows.map((row, index) => ({
+    id: row.id || `${recordId}-row-${index + 1}`,
+    sortOrder: index,
+    question: row.question || "",
+    answer: row.answer || "",
+  }));
+  const validIds = new Set(rows.map((row) => row.id));
+  const sourceOrder = Array.isArray(parsed?.correctOrder) ? parsed!.correctOrder! : [];
+  const correctOrder = sourceOrder.filter((id, index) => validIds.has(id) && sourceOrder.indexOf(id) === index);
+
+  // Legacy rearrange records stored rows in their answer order. Preserve that
+  // meaning when upgrading them to the explicit question-order + answer-order model.
+  if (correctOrder.length !== rows.length) {
+    return { version: 2, rows, correctOrder: rows.map((row) => row.id) };
+  }
+
+  return { version: 2, rows, correctOrder };
+}
+
 
 export type SubjectSectionValidationErrors = Record<string, string>;
 
@@ -186,15 +221,15 @@ export type SubjectSectionDraft = {
   title: string;
   instruction: string;
   details: string;
-  document: MatchingDocument | QuestionAnswerDocument;
+  document: MatchingDocument | QuestionAnswerDocument | RearrangeSentenceDocument;
 };
 
 export function createDefaultDocumentForKind(
   kind: SubjectSectionKind,
-): MatchingDocument | QuestionAnswerDocument {
-  return kind === "matching-sentences"
-    ? createDefaultMatchingDocument()
-    : createDefaultQuestionAnswerDocument();
+): MatchingDocument | QuestionAnswerDocument | RearrangeSentenceDocument {
+  if (kind === "matching-sentences") return createDefaultMatchingDocument();
+  if (kind === "rearrange-sentence") return createDefaultRearrangeSentenceDocument();
+  return createDefaultQuestionAnswerDocument();
 }
 
 function richTextHasContent(value: string) {
@@ -288,13 +323,12 @@ export function validateSubjectSectionDraft(
     return errors;
   }
 
-  const document = draft.document as QuestionAnswerDocument;
-  if (!Array.isArray(document.rows)) {
-    errors.document = "Exercise items are invalid.";
-    return errors;
-  }
-
   if (kind === "rearrange-sentence") {
+    const document = draft.document as RearrangeSentenceDocument;
+    if (!Array.isArray(document.rows)) {
+      errors.document = "Exercise items are invalid.";
+      return errors;
+    }
     if (document.rows.length < 2) {
       errors.document = "Add at least two sentences for a rearrange exercise.";
     }
@@ -303,6 +337,22 @@ export function validateSubjectSectionDraft(
         errors[`row:${row.id}:question`] = `Sentence ${index + 1} is required.`;
       }
     });
+    const validIds = new Set(document.rows.map((row) => row.id));
+    const answerIds = Array.isArray(document.correctOrder) ? document.correctOrder : [];
+    const uniqueAnswerIds = new Set(answerIds);
+    if (
+      answerIds.length !== document.rows.length ||
+      uniqueAnswerIds.size !== document.rows.length ||
+      answerIds.some((id) => !validIds.has(id))
+    ) {
+      errors.correctOrder = "Correct order must include every sentence exactly once.";
+    }
+    return errors;
+  }
+
+  const document = draft.document as QuestionAnswerDocument;
+  if (!Array.isArray(document.rows)) {
+    errors.document = "Exercise items are invalid.";
     return errors;
   }
 

@@ -311,7 +311,7 @@ export const PublishStatus: typeof $Enums.PublishStatus
  */
 export class PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
-  U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
+  const U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
   ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
 > {
   [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] }
@@ -343,13 +343,6 @@ export class PrismaClient<
    * Disconnect from the database
    */
   $disconnect(): $Utils.JsPromise<void>;
-
-  /**
-   * Add a middleware
-   * @deprecated since 4.16.0. For new code, prefer client extensions instead.
-   * @see https://pris.ly/d/extensions
-   */
-  $use(cb: Prisma.Middleware): void
 
 /**
    * Executes a prepared raw query and returns the number of affected rows.
@@ -977,8 +970,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.12.0
-   * Query Engine version: 8047c96bbd92db98a2abc7c9323ce77c02c89dbc
+   * Prisma Client JS version: 6.19.3
+   * Query Engine version: c2990dca591cba766e3b7ef5d9e8a84796e47ab7
    */
   export type PrismaVersion = {
     client: string
@@ -991,6 +984,7 @@ export namespace Prisma {
    */
 
 
+  export import Bytes = runtime.Bytes
   export import JsonObject = runtime.JsonObject
   export import JsonArray = runtime.JsonArray
   export import JsonValue = runtime.JsonValue
@@ -5174,16 +5168,24 @@ export namespace Prisma {
     /**
      * @example
      * ```
-     * // Defaults to stdout
+     * // Shorthand for `emit: 'stdout'`
      * log: ['query', 'info', 'warn', 'error']
      * 
-     * // Emit as events
+     * // Emit as events only
      * log: [
-     *   { emit: 'stdout', level: 'query' },
-     *   { emit: 'stdout', level: 'info' },
-     *   { emit: 'stdout', level: 'warn' }
-     *   { emit: 'stdout', level: 'error' }
+     *   { emit: 'event', level: 'query' },
+     *   { emit: 'event', level: 'info' },
+     *   { emit: 'event', level: 'warn' }
+     *   { emit: 'event', level: 'error' }
      * ]
+     * 
+     * / Emit as events and log to stdout
+     * og: [
+     *  { emit: 'stdout', level: 'query' },
+     *  { emit: 'stdout', level: 'info' },
+     *  { emit: 'stdout', level: 'warn' }
+     *  { emit: 'stdout', level: 'error' }
+     * 
      * ```
      * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
      */
@@ -5198,6 +5200,10 @@ export namespace Prisma {
       timeout?: number
       isolationLevel?: Prisma.TransactionIsolationLevel
     }
+    /**
+     * Instance of a Driver Adapter, e.g., like one provided by `@prisma/adapter-planetscale`
+     */
+    adapter?: runtime.SqlDriverAdapterFactory | null
     /**
      * Global configuration for omitting model fields by default.
      * 
@@ -5274,10 +5280,15 @@ export namespace Prisma {
     emit: 'stdout' | 'event'
   }
 
-  export type GetLogType<T extends LogLevel | LogDefinition> = T extends LogDefinition ? T['emit'] extends 'event' ? T['level'] : never : never
-  export type GetEvents<T extends any> = T extends Array<LogLevel | LogDefinition> ?
-    GetLogType<T[0]> | GetLogType<T[1]> | GetLogType<T[2]> | GetLogType<T[3]>
-    : never
+  export type CheckIsLogLevel<T> = T extends LogLevel ? T : never;
+
+  export type GetLogType<T> = CheckIsLogLevel<
+    T extends LogDefinition ? T['level'] : T
+  >;
+
+  export type GetEvents<T extends any[]> = T extends Array<LogLevel | LogDefinition>
+    ? GetLogType<T[number]>
+    : never;
 
   export type QueryEvent = {
     timestamp: Date
@@ -5317,25 +5328,6 @@ export namespace Prisma {
     | 'runCommandRaw'
     | 'findRaw'
     | 'groupBy'
-
-  /**
-   * These options are being passed into the middleware as "params"
-   */
-  export type MiddlewareParams = {
-    model?: ModelName
-    action: PrismaAction
-    args: any
-    dataPath: string[]
-    runInTransaction: boolean
-  }
-
-  /**
-   * The `T` type makes sure, that the `return proceed` is not forgotten in the middleware implementation
-   */
-  export type Middleware<T = any> = (
-    params: MiddlewareParams,
-    next: (params: MiddlewareParams) => $Utils.JsPromise<T>,
-  ) => $Utils.JsPromise<T>
 
   // tested in getLogLevel.test.ts
   export function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined;
@@ -28057,8 +28049,22 @@ export namespace Prisma {
 
   export type AggregateStorageConfiguration = {
     _count: StorageConfigurationCountAggregateOutputType | null
+    _avg: StorageConfigurationAvgAggregateOutputType | null
+    _sum: StorageConfigurationSumAggregateOutputType | null
     _min: StorageConfigurationMinAggregateOutputType | null
     _max: StorageConfigurationMaxAggregateOutputType | null
+  }
+
+  export type StorageConfigurationAvgAggregateOutputType = {
+    maxImageSizeMb: number | null
+    maxVideoSizeMb: number | null
+    maxModelSizeMb: number | null
+  }
+
+  export type StorageConfigurationSumAggregateOutputType = {
+    maxImageSizeMb: number | null
+    maxVideoSizeMb: number | null
+    maxModelSizeMb: number | null
   }
 
   export type StorageConfigurationMinAggregateOutputType = {
@@ -28073,6 +28079,12 @@ export namespace Prisma {
     sessionTokenEncrypted: string | null
     localRoot: string | null
     forcePathStyle: boolean | null
+    publicBaseUrl: string | null
+    privateBucket: string | null
+    maxImageSizeMb: number | null
+    maxVideoSizeMb: number | null
+    maxModelSizeMb: number | null
+    pathPrefix: string | null
     isActive: boolean | null
     everActivated: boolean | null
     lastTestStatus: string | null
@@ -28097,6 +28109,12 @@ export namespace Prisma {
     sessionTokenEncrypted: string | null
     localRoot: string | null
     forcePathStyle: boolean | null
+    publicBaseUrl: string | null
+    privateBucket: string | null
+    maxImageSizeMb: number | null
+    maxVideoSizeMb: number | null
+    maxModelSizeMb: number | null
+    pathPrefix: string | null
     isActive: boolean | null
     everActivated: boolean | null
     lastTestStatus: string | null
@@ -28121,6 +28139,12 @@ export namespace Prisma {
     sessionTokenEncrypted: number
     localRoot: number
     forcePathStyle: number
+    publicBaseUrl: number
+    privateBucket: number
+    maxImageSizeMb: number
+    maxVideoSizeMb: number
+    maxModelSizeMb: number
+    pathPrefix: number
     isActive: number
     everActivated: number
     lastTestStatus: number
@@ -28135,6 +28159,18 @@ export namespace Prisma {
   }
 
 
+  export type StorageConfigurationAvgAggregateInputType = {
+    maxImageSizeMb?: true
+    maxVideoSizeMb?: true
+    maxModelSizeMb?: true
+  }
+
+  export type StorageConfigurationSumAggregateInputType = {
+    maxImageSizeMb?: true
+    maxVideoSizeMb?: true
+    maxModelSizeMb?: true
+  }
+
   export type StorageConfigurationMinAggregateInputType = {
     id?: true
     name?: true
@@ -28147,6 +28183,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: true
     localRoot?: true
     forcePathStyle?: true
+    publicBaseUrl?: true
+    privateBucket?: true
+    maxImageSizeMb?: true
+    maxVideoSizeMb?: true
+    maxModelSizeMb?: true
+    pathPrefix?: true
     isActive?: true
     everActivated?: true
     lastTestStatus?: true
@@ -28171,6 +28213,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: true
     localRoot?: true
     forcePathStyle?: true
+    publicBaseUrl?: true
+    privateBucket?: true
+    maxImageSizeMb?: true
+    maxVideoSizeMb?: true
+    maxModelSizeMb?: true
+    pathPrefix?: true
     isActive?: true
     everActivated?: true
     lastTestStatus?: true
@@ -28195,6 +28243,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: true
     localRoot?: true
     forcePathStyle?: true
+    publicBaseUrl?: true
+    privateBucket?: true
+    maxImageSizeMb?: true
+    maxVideoSizeMb?: true
+    maxModelSizeMb?: true
+    pathPrefix?: true
     isActive?: true
     everActivated?: true
     lastTestStatus?: true
@@ -28246,6 +28300,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: StorageConfigurationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: StorageConfigurationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: StorageConfigurationMinAggregateInputType
@@ -28276,6 +28342,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: StorageConfigurationCountAggregateInputType | true
+    _avg?: StorageConfigurationAvgAggregateInputType
+    _sum?: StorageConfigurationSumAggregateInputType
     _min?: StorageConfigurationMinAggregateInputType
     _max?: StorageConfigurationMaxAggregateInputType
   }
@@ -28292,6 +28360,12 @@ export namespace Prisma {
     sessionTokenEncrypted: string
     localRoot: string
     forcePathStyle: boolean
+    publicBaseUrl: string
+    privateBucket: string
+    maxImageSizeMb: number
+    maxVideoSizeMb: number
+    maxModelSizeMb: number
+    pathPrefix: string
     isActive: boolean
     everActivated: boolean
     lastTestStatus: string
@@ -28303,6 +28377,8 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     _count: StorageConfigurationCountAggregateOutputType | null
+    _avg: StorageConfigurationAvgAggregateOutputType | null
+    _sum: StorageConfigurationSumAggregateOutputType | null
     _min: StorageConfigurationMinAggregateOutputType | null
     _max: StorageConfigurationMaxAggregateOutputType | null
   }
@@ -28333,6 +28409,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: boolean
     localRoot?: boolean
     forcePathStyle?: boolean
+    publicBaseUrl?: boolean
+    privateBucket?: boolean
+    maxImageSizeMb?: boolean
+    maxVideoSizeMb?: boolean
+    maxModelSizeMb?: boolean
+    pathPrefix?: boolean
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: boolean
@@ -28359,6 +28441,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: boolean
     localRoot?: boolean
     forcePathStyle?: boolean
+    publicBaseUrl?: boolean
+    privateBucket?: boolean
+    maxImageSizeMb?: boolean
+    maxVideoSizeMb?: boolean
+    maxModelSizeMb?: boolean
+    pathPrefix?: boolean
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: boolean
@@ -28383,6 +28471,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: boolean
     localRoot?: boolean
     forcePathStyle?: boolean
+    publicBaseUrl?: boolean
+    privateBucket?: boolean
+    maxImageSizeMb?: boolean
+    maxVideoSizeMb?: boolean
+    maxModelSizeMb?: boolean
+    pathPrefix?: boolean
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: boolean
@@ -28407,6 +28501,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: boolean
     localRoot?: boolean
     forcePathStyle?: boolean
+    publicBaseUrl?: boolean
+    privateBucket?: boolean
+    maxImageSizeMb?: boolean
+    maxVideoSizeMb?: boolean
+    maxModelSizeMb?: boolean
+    pathPrefix?: boolean
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: boolean
@@ -28419,7 +28519,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type StorageConfigurationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "provider" | "endpoint" | "region" | "bucket" | "accessKeyId" | "secretAccessKeyEncrypted" | "sessionTokenEncrypted" | "localRoot" | "forcePathStyle" | "isActive" | "everActivated" | "lastTestStatus" | "lastTestMessage" | "lastTestedAt" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["storageConfiguration"]>
+  export type StorageConfigurationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "provider" | "endpoint" | "region" | "bucket" | "accessKeyId" | "secretAccessKeyEncrypted" | "sessionTokenEncrypted" | "localRoot" | "forcePathStyle" | "publicBaseUrl" | "privateBucket" | "maxImageSizeMb" | "maxVideoSizeMb" | "maxModelSizeMb" | "pathPrefix" | "isActive" | "everActivated" | "lastTestStatus" | "lastTestMessage" | "lastTestedAt" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["storageConfiguration"]>
   export type StorageConfigurationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     uploadedFiles?: boolean | StorageConfiguration$uploadedFilesArgs<ExtArgs>
     _count?: boolean | StorageConfigurationCountOutputTypeDefaultArgs<ExtArgs>
@@ -28444,6 +28544,12 @@ export namespace Prisma {
       sessionTokenEncrypted: string
       localRoot: string
       forcePathStyle: boolean
+      publicBaseUrl: string
+      privateBucket: string
+      maxImageSizeMb: number
+      maxVideoSizeMb: number
+      maxModelSizeMb: number
+      pathPrefix: string
       isActive: boolean
       everActivated: boolean
       lastTestStatus: string
@@ -28889,6 +28995,12 @@ export namespace Prisma {
     readonly sessionTokenEncrypted: FieldRef<"StorageConfiguration", 'String'>
     readonly localRoot: FieldRef<"StorageConfiguration", 'String'>
     readonly forcePathStyle: FieldRef<"StorageConfiguration", 'Boolean'>
+    readonly publicBaseUrl: FieldRef<"StorageConfiguration", 'String'>
+    readonly privateBucket: FieldRef<"StorageConfiguration", 'String'>
+    readonly maxImageSizeMb: FieldRef<"StorageConfiguration", 'Int'>
+    readonly maxVideoSizeMb: FieldRef<"StorageConfiguration", 'Int'>
+    readonly maxModelSizeMb: FieldRef<"StorageConfiguration", 'Int'>
+    readonly pathPrefix: FieldRef<"StorageConfiguration", 'String'>
     readonly isActive: FieldRef<"StorageConfiguration", 'Boolean'>
     readonly everActivated: FieldRef<"StorageConfiguration", 'Boolean'>
     readonly lastTestStatus: FieldRef<"StorageConfiguration", 'String'>
@@ -67030,6 +67142,12 @@ export namespace Prisma {
     sessionTokenEncrypted: 'sessionTokenEncrypted',
     localRoot: 'localRoot',
     forcePathStyle: 'forcePathStyle',
+    publicBaseUrl: 'publicBaseUrl',
+    privateBucket: 'privateBucket',
+    maxImageSizeMb: 'maxImageSizeMb',
+    maxVideoSizeMb: 'maxVideoSizeMb',
+    maxModelSizeMb: 'maxModelSizeMb',
+    pathPrefix: 'pathPrefix',
     isActive: 'isActive',
     everActivated: 'everActivated',
     lastTestStatus: 'lastTestStatus',
@@ -68920,7 +69038,6 @@ export namespace Prisma {
 
   export type ContentWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    classId_subjectId_unitId_lessonId_topicId_organizationId?: ContentClassIdSubjectIdUnitIdLessonIdTopicIdOrganizationIdCompoundUniqueInput
     AND?: ContentWhereInput | ContentWhereInput[]
     OR?: ContentWhereInput[]
     NOT?: ContentWhereInput | ContentWhereInput[]
@@ -68941,7 +69058,7 @@ export namespace Prisma {
     lesson?: XOR<LessonScalarRelationFilter, LessonWhereInput>
     topic?: XOR<TopicNullableScalarRelationFilter, TopicWhereInput> | null
     blocks?: ContentBlockListRelationFilter
-  }, "id" | "classId_subjectId_unitId_lessonId_topicId_organizationId">
+  }, "id">
 
   export type ContentOrderByWithAggregationInput = {
     id?: SortOrder
@@ -69735,6 +69852,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFilter<"StorageConfiguration"> | string
     localRoot?: StringFilter<"StorageConfiguration"> | string
     forcePathStyle?: BoolFilter<"StorageConfiguration"> | boolean
+    publicBaseUrl?: StringFilter<"StorageConfiguration"> | string
+    privateBucket?: StringFilter<"StorageConfiguration"> | string
+    maxImageSizeMb?: IntFilter<"StorageConfiguration"> | number
+    maxVideoSizeMb?: IntFilter<"StorageConfiguration"> | number
+    maxModelSizeMb?: IntFilter<"StorageConfiguration"> | number
+    pathPrefix?: StringFilter<"StorageConfiguration"> | string
     isActive?: BoolFilter<"StorageConfiguration"> | boolean
     everActivated?: BoolFilter<"StorageConfiguration"> | boolean
     lastTestStatus?: StringFilter<"StorageConfiguration"> | string
@@ -69760,6 +69883,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: SortOrder
     localRoot?: SortOrder
     forcePathStyle?: SortOrder
+    publicBaseUrl?: SortOrder
+    privateBucket?: SortOrder
+    maxImageSizeMb?: SortOrder
+    maxVideoSizeMb?: SortOrder
+    maxModelSizeMb?: SortOrder
+    pathPrefix?: SortOrder
     isActive?: SortOrder
     everActivated?: SortOrder
     lastTestStatus?: SortOrder
@@ -69789,6 +69918,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFilter<"StorageConfiguration"> | string
     localRoot?: StringFilter<"StorageConfiguration"> | string
     forcePathStyle?: BoolFilter<"StorageConfiguration"> | boolean
+    publicBaseUrl?: StringFilter<"StorageConfiguration"> | string
+    privateBucket?: StringFilter<"StorageConfiguration"> | string
+    maxImageSizeMb?: IntFilter<"StorageConfiguration"> | number
+    maxVideoSizeMb?: IntFilter<"StorageConfiguration"> | number
+    maxModelSizeMb?: IntFilter<"StorageConfiguration"> | number
+    pathPrefix?: StringFilter<"StorageConfiguration"> | string
     isActive?: BoolFilter<"StorageConfiguration"> | boolean
     everActivated?: BoolFilter<"StorageConfiguration"> | boolean
     lastTestStatus?: StringFilter<"StorageConfiguration"> | string
@@ -69814,6 +69949,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: SortOrder
     localRoot?: SortOrder
     forcePathStyle?: SortOrder
+    publicBaseUrl?: SortOrder
+    privateBucket?: SortOrder
+    maxImageSizeMb?: SortOrder
+    maxVideoSizeMb?: SortOrder
+    maxModelSizeMb?: SortOrder
+    pathPrefix?: SortOrder
     isActive?: SortOrder
     everActivated?: SortOrder
     lastTestStatus?: SortOrder
@@ -69825,8 +69966,10 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: StorageConfigurationCountOrderByAggregateInput
+    _avg?: StorageConfigurationAvgOrderByAggregateInput
     _max?: StorageConfigurationMaxOrderByAggregateInput
     _min?: StorageConfigurationMinOrderByAggregateInput
+    _sum?: StorageConfigurationSumOrderByAggregateInput
   }
 
   export type StorageConfigurationScalarWhereWithAggregatesInput = {
@@ -69844,6 +69987,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringWithAggregatesFilter<"StorageConfiguration"> | string
     localRoot?: StringWithAggregatesFilter<"StorageConfiguration"> | string
     forcePathStyle?: BoolWithAggregatesFilter<"StorageConfiguration"> | boolean
+    publicBaseUrl?: StringWithAggregatesFilter<"StorageConfiguration"> | string
+    privateBucket?: StringWithAggregatesFilter<"StorageConfiguration"> | string
+    maxImageSizeMb?: IntWithAggregatesFilter<"StorageConfiguration"> | number
+    maxVideoSizeMb?: IntWithAggregatesFilter<"StorageConfiguration"> | number
+    maxModelSizeMb?: IntWithAggregatesFilter<"StorageConfiguration"> | number
+    pathPrefix?: StringWithAggregatesFilter<"StorageConfiguration"> | string
     isActive?: BoolWithAggregatesFilter<"StorageConfiguration"> | boolean
     everActivated?: BoolWithAggregatesFilter<"StorageConfiguration"> | boolean
     lastTestStatus?: StringWithAggregatesFilter<"StorageConfiguration"> | string
@@ -75596,6 +75745,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: string
     localRoot?: string
     forcePathStyle?: boolean
+    publicBaseUrl?: string
+    privateBucket?: string
+    maxImageSizeMb?: number
+    maxVideoSizeMb?: number
+    maxModelSizeMb?: number
+    pathPrefix?: string
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: string
@@ -75621,6 +75776,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: string
     localRoot?: string
     forcePathStyle?: boolean
+    publicBaseUrl?: string
+    privateBucket?: string
+    maxImageSizeMb?: number
+    maxVideoSizeMb?: number
+    maxModelSizeMb?: number
+    pathPrefix?: string
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: string
@@ -75646,6 +75807,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
     localRoot?: StringFieldUpdateOperationsInput | string
     forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
+    publicBaseUrl?: StringFieldUpdateOperationsInput | string
+    privateBucket?: StringFieldUpdateOperationsInput | string
+    maxImageSizeMb?: IntFieldUpdateOperationsInput | number
+    maxVideoSizeMb?: IntFieldUpdateOperationsInput | number
+    maxModelSizeMb?: IntFieldUpdateOperationsInput | number
+    pathPrefix?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     everActivated?: BoolFieldUpdateOperationsInput | boolean
     lastTestStatus?: StringFieldUpdateOperationsInput | string
@@ -75671,6 +75838,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
     localRoot?: StringFieldUpdateOperationsInput | string
     forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
+    publicBaseUrl?: StringFieldUpdateOperationsInput | string
+    privateBucket?: StringFieldUpdateOperationsInput | string
+    maxImageSizeMb?: IntFieldUpdateOperationsInput | number
+    maxVideoSizeMb?: IntFieldUpdateOperationsInput | number
+    maxModelSizeMb?: IntFieldUpdateOperationsInput | number
+    pathPrefix?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     everActivated?: BoolFieldUpdateOperationsInput | boolean
     lastTestStatus?: StringFieldUpdateOperationsInput | string
@@ -75696,6 +75869,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: string
     localRoot?: string
     forcePathStyle?: boolean
+    publicBaseUrl?: string
+    privateBucket?: string
+    maxImageSizeMb?: number
+    maxVideoSizeMb?: number
+    maxModelSizeMb?: number
+    pathPrefix?: string
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: string
@@ -75720,6 +75899,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
     localRoot?: StringFieldUpdateOperationsInput | string
     forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
+    publicBaseUrl?: StringFieldUpdateOperationsInput | string
+    privateBucket?: StringFieldUpdateOperationsInput | string
+    maxImageSizeMb?: IntFieldUpdateOperationsInput | number
+    maxVideoSizeMb?: IntFieldUpdateOperationsInput | number
+    maxModelSizeMb?: IntFieldUpdateOperationsInput | number
+    pathPrefix?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     everActivated?: BoolFieldUpdateOperationsInput | boolean
     lastTestStatus?: StringFieldUpdateOperationsInput | string
@@ -75744,6 +75929,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
     localRoot?: StringFieldUpdateOperationsInput | string
     forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
+    publicBaseUrl?: StringFieldUpdateOperationsInput | string
+    privateBucket?: StringFieldUpdateOperationsInput | string
+    maxImageSizeMb?: IntFieldUpdateOperationsInput | number
+    maxVideoSizeMb?: IntFieldUpdateOperationsInput | number
+    maxModelSizeMb?: IntFieldUpdateOperationsInput | number
+    pathPrefix?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     everActivated?: BoolFieldUpdateOperationsInput | boolean
     lastTestStatus?: StringFieldUpdateOperationsInput | string
@@ -80870,15 +81061,6 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type ContentClassIdSubjectIdUnitIdLessonIdTopicIdOrganizationIdCompoundUniqueInput = {
-    classId: string
-    subjectId: string
-    unitId: string
-    lessonId: string
-    topicId: string
-    organizationId: string
-  }
-
   export type ContentCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
@@ -81449,6 +81631,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: SortOrder
     localRoot?: SortOrder
     forcePathStyle?: SortOrder
+    publicBaseUrl?: SortOrder
+    privateBucket?: SortOrder
+    maxImageSizeMb?: SortOrder
+    maxVideoSizeMb?: SortOrder
+    maxModelSizeMb?: SortOrder
+    pathPrefix?: SortOrder
     isActive?: SortOrder
     everActivated?: SortOrder
     lastTestStatus?: SortOrder
@@ -81459,6 +81647,12 @@ export namespace Prisma {
     updatedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type StorageConfigurationAvgOrderByAggregateInput = {
+    maxImageSizeMb?: SortOrder
+    maxVideoSizeMb?: SortOrder
+    maxModelSizeMb?: SortOrder
   }
 
   export type StorageConfigurationMaxOrderByAggregateInput = {
@@ -81473,6 +81667,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: SortOrder
     localRoot?: SortOrder
     forcePathStyle?: SortOrder
+    publicBaseUrl?: SortOrder
+    privateBucket?: SortOrder
+    maxImageSizeMb?: SortOrder
+    maxVideoSizeMb?: SortOrder
+    maxModelSizeMb?: SortOrder
+    pathPrefix?: SortOrder
     isActive?: SortOrder
     everActivated?: SortOrder
     lastTestStatus?: SortOrder
@@ -81497,6 +81697,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: SortOrder
     localRoot?: SortOrder
     forcePathStyle?: SortOrder
+    publicBaseUrl?: SortOrder
+    privateBucket?: SortOrder
+    maxImageSizeMb?: SortOrder
+    maxVideoSizeMb?: SortOrder
+    maxModelSizeMb?: SortOrder
+    pathPrefix?: SortOrder
     isActive?: SortOrder
     everActivated?: SortOrder
     lastTestStatus?: SortOrder
@@ -81507,6 +81713,12 @@ export namespace Prisma {
     updatedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type StorageConfigurationSumOrderByAggregateInput = {
+    maxImageSizeMb?: SortOrder
+    maxVideoSizeMb?: SortOrder
+    maxModelSizeMb?: SortOrder
   }
 
   export type VocabularyEntryNullableScalarRelationFilter = {
@@ -92338,6 +92550,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: string
     localRoot?: string
     forcePathStyle?: boolean
+    publicBaseUrl?: string
+    privateBucket?: string
+    maxImageSizeMb?: number
+    maxVideoSizeMb?: number
+    maxModelSizeMb?: number
+    pathPrefix?: string
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: string
@@ -92362,6 +92580,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: string
     localRoot?: string
     forcePathStyle?: boolean
+    publicBaseUrl?: string
+    privateBucket?: string
+    maxImageSizeMb?: number
+    maxVideoSizeMb?: number
+    maxModelSizeMb?: number
+    pathPrefix?: string
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: string
@@ -92443,6 +92667,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
     localRoot?: StringFieldUpdateOperationsInput | string
     forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
+    publicBaseUrl?: StringFieldUpdateOperationsInput | string
+    privateBucket?: StringFieldUpdateOperationsInput | string
+    maxImageSizeMb?: IntFieldUpdateOperationsInput | number
+    maxVideoSizeMb?: IntFieldUpdateOperationsInput | number
+    maxModelSizeMb?: IntFieldUpdateOperationsInput | number
+    pathPrefix?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     everActivated?: BoolFieldUpdateOperationsInput | boolean
     lastTestStatus?: StringFieldUpdateOperationsInput | string
@@ -92467,6 +92697,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
     localRoot?: StringFieldUpdateOperationsInput | string
     forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
+    publicBaseUrl?: StringFieldUpdateOperationsInput | string
+    privateBucket?: StringFieldUpdateOperationsInput | string
+    maxImageSizeMb?: IntFieldUpdateOperationsInput | number
+    maxVideoSizeMb?: IntFieldUpdateOperationsInput | number
+    maxModelSizeMb?: IntFieldUpdateOperationsInput | number
+    pathPrefix?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     everActivated?: BoolFieldUpdateOperationsInput | boolean
     lastTestStatus?: StringFieldUpdateOperationsInput | string

@@ -13,6 +13,79 @@ import {
 import type { ResolvedStorageConfiguration } from "@/lib/storage/types";
 
 const DEFAULT_LOCAL_ROOT = "storage/private";
+const CUSTOM_BACKEND_TIMEOUT_MS = 20_000;
+
+function validateCustomHeaderName(value: string) {
+  const name = value.trim();
+  if (!name || !/^[!#$%&'*+\-.^_`|~0-9A-Za-z]+$/.test(name)) {
+    throw new Error("Custom backend auth header name is invalid.");
+  }
+  const blocked = new Set(["host", "content-length", "transfer-encoding", "connection", "content-type", "x-storage-namespace"]);
+  if (blocked.has(name.toLowerCase())) {
+    throw new Error("Choose a different custom backend auth header name.");
+  }
+  return name;
+}
+
+function buildCustomBackendObjectUrl(config: ResolvedStorageConfiguration, key: string) {
+  const endpoint = config.endpoint.trim().replace(/\/+$/, "");
+  if (!endpoint) throw new Error("Custom backend API URL is required.");
+  const safeKey = normalizeObjectKey(key);
+  const encodedKey = safeKey.split("/").map(encodeURIComponent).join("/");
+  return `${endpoint}/objects/${encodedKey}`;
+}
+
+function buildCustomBackendHeaders(
+  config: ResolvedStorageConfiguration,
+  contentType?: string,
+) {
+  const headerName = validateCustomHeaderName(config.accessKeyId);
+  const headerValue = config.secretAccessKey;
+  if (!headerValue || /[\r\n]/.test(headerValue)) {
+    throw new Error("Custom backend auth header value is required and must be a single line.");
+  }
+
+  const headers = new Headers({
+    [headerName]: headerValue,
+    "X-Storage-Namespace": config.bucket,
+    Accept: "application/octet-stream, */*",
+  });
+  if (contentType) headers.set("Content-Type", contentType);
+  return headers;
+}
+
+async function customBackendRequest(
+  config: ResolvedStorageConfiguration,
+  key: string,
+  method: "PUT" | "GET" | "DELETE",
+  options: { body?: Buffer; contentType?: string; allowNotFound?: boolean } = {},
+) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), CUSTOM_BACKEND_TIMEOUT_MS);
+  try {
+    const response = await fetch(buildCustomBackendObjectUrl(config, key), {
+      method,
+      headers: buildCustomBackendHeaders(config, options.contentType),
+      body: options.body ? new Uint8Array(options.body) : undefined,
+      redirect: "error",
+      cache: "no-store",
+      signal: controller.signal,
+    });
+    if (options.allowNotFound && response.status === 404) return response;
+    if (!response.ok) {
+      const detail = (await response.text().catch(() => "")).trim().replace(/\s+/g, " ").slice(0, 240);
+      throw new Error(`Custom backend ${method} failed (${response.status})${detail ? `: ${detail}` : "."}`);
+    }
+    return response;
+  } catch (error) {
+    if (error instanceof Error && error.name === "AbortError") {
+      throw new Error("Custom backend request timed out.");
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
 
 function normalizeObjectKey(key: string) {
   const segments = key.split("/");
@@ -80,9 +153,27 @@ function createS3Client(config: ResolvedStorageConfiguration) {
   });
 }
 
-export function createStorageObjectKey(organizationId: string, folder: string, fileId: string, extension = "webp") {
+function normalizePathPrefix(value: string | null | undefined) {
+  const trimmed = (value || "").trim().replace(/^\/+|\/+$/g, "");
+  if (!trimmed) return "";
+  const segments = trimmed.split("/");
+  if (segments.some((segment) => !segment || segment === "." || segment === ".." || !/^[A-Za-z0-9._-]+$/.test(segment))) {
+    throw new Error("Invalid storage path prefix.");
+  }
+  return segments.join("/");
+}
+
+export function createStorageObjectKey(
+  organizationId: string,
+  folder: string,
+  fileId: string,
+  extension = "webp",
+  pathPrefix = "",
+) {
   const organizationHash = crypto.createHash("sha256").update(organizationId).digest("hex").slice(0, 24);
-  return `organizations/${organizationHash}/${folder}/${fileId}.${extension}`;
+  const baseKey = `organizations/${organizationHash}/${folder}/${fileId}.${extension}`;
+  const prefix = normalizePathPrefix(pathPrefix);
+  return prefix ? `${prefix}/${baseKey}` : baseKey;
 }
 
 export async function putStoredObject(
@@ -96,6 +187,11 @@ export async function putStoredObject(
     await fs.mkdir(path.dirname(absolutePath), { recursive: true, mode: 0o700 });
     await fs.chmod(root, 0o700).catch(() => undefined);
     await fs.writeFile(absolutePath, body, { flag: "wx", mode: 0o600 });
+    return;
+  }
+
+  if (config.provider === "custom-backend") {
+    await customBackendRequest(config, key, "PUT", { body, contentType });
     return;
   }
 
@@ -119,6 +215,12 @@ export async function getStoredObject(config: ResolvedStorageConfiguration, key:
     return { body, contentType: "application/octet-stream" };
   }
 
+  if (config.provider === "custom-backend") {
+    const response = await customBackendRequest(config, key, "GET");
+    const body = Buffer.from(await response.arrayBuffer());
+    return { body, contentType: response.headers.get("content-type") || "application/octet-stream" };
+  }
+
   const client = createS3Client(config);
   const result = await client.send(
     new GetObjectCommand({ Bucket: config.bucket, Key: normalizeObjectKey(key) }),
@@ -139,32 +241,47 @@ export async function deleteStoredObject(config: ResolvedStorageConfiguration, k
     return;
   }
 
+  if (config.provider === "custom-backend") {
+    await customBackendRequest(config, key, "DELETE", { allowNotFound: true });
+    return;
+  }
+
   const client = createS3Client(config);
   await client.send(new DeleteObjectCommand({ Bucket: config.bucket, Key: normalizeObjectKey(key) }));
 }
 
-export async function testStorageConnection(config: ResolvedStorageConfiguration) {
-  if (config.provider === "local-private") {
+export async function testStorageConnection(
+  config: ResolvedStorageConfiguration,
+  options: { bucket?: string } = {},
+) {
+  const target = options.bucket && config.provider !== "local-private"
+    ? { ...config, bucket: options.bucket }
+    : config;
+
+  if (target.provider === "local-private") {
     const key = `_health/${crypto.randomUUID()}.txt`;
     const payload = Buffer.from("easy-learning-bd-storage-check", "utf8");
-    await putStoredObject(config, key, payload, "text/plain; charset=utf-8");
+    await putStoredObject(target, key, payload, "text/plain; charset=utf-8");
     try {
-      const stored = await getStoredObject(config, key);
+      const stored = await getStoredObject(target, key);
       if (!stored.body.equals(payload)) throw new Error("Local storage verification failed.");
     } finally {
-      await deleteStoredObject(config, key);
+      await deleteStoredObject(target, key);
     }
     return "Local private storage is writable and readable.";
   }
 
   const key = `_storage-health/${crypto.randomUUID()}.txt`;
   const payload = Buffer.from("easy-learning-bd-storage-check", "utf8");
-  await putStoredObject(config, key, payload, "text/plain; charset=utf-8");
+  await putStoredObject(target, key, payload, "text/plain; charset=utf-8");
   try {
-    const stored = await getStoredObject(config, key);
+    const stored = await getStoredObject(target, key);
     if (!stored.body.equals(payload)) throw new Error("Object storage verification failed.");
   } finally {
-    await deleteStoredObject(config, key);
+    await deleteStoredObject(target, key);
+  }
+  if (target.provider === "custom-backend") {
+    return "Custom backend read/write/delete access verified.";
   }
   return "Bucket read/write/delete access verified.";
 }

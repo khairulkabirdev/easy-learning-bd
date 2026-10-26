@@ -1,50 +1,14 @@
 import AdminClassesClient from "@/app/admin/classes/AdminClassesClient";
+import { getAdminPagedRecords } from "@/lib/admin/paged-records";
 import { requireAdmin } from "@/lib/app-auth";
-import { prisma } from "@/lib/db";
 
 export default async function AdminClassesPage() {
   const user = await requireAdmin();
-  const classes = await prisma.class.findMany({
-    where: { organizationId: user.organizationId },
-    orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      code: true,
-      description: true,
-      sortOrder: true,
-      iconType: true,
-      iconLibrary: true,
-      iconName: true,
-      iconColor: true,
-      imagePath: true,
-      _count: {
-        select: {
-          subjects: true,
-          units: true,
-        },
-      },
-    },
+  const result = await getAdminPagedRecords(user.organizationId, {
+    resource: "classes",
+    page: 1,
+    pageSize: 12,
   });
 
-  return (
-    <AdminClassesClient
-      classes={classes.map((item) => ({
-        id: item.id,
-        name: item.name,
-        slug: item.slug,
-        code: item.code,
-        description: item.description,
-        sortOrder: item.sortOrder,
-        iconType: item.iconType,
-        iconLibrary: item.iconLibrary,
-        iconName: item.iconName,
-        iconColor: item.iconColor,
-        imagePath: item.imagePath,
-        subjectsCount: item._count.subjects,
-        unitsCount: item._count.units,
-      }))}
-    />
-  );
+  return <AdminClassesClient classes={result.rows} total={result.total} />;
 }

@@ -58,7 +58,7 @@ export default async function AdminContentSubjectPage({
     );
   }
 
-  const [units, lessons, topics, contents] = await Promise.all([
+  const [units, lessons, topics] = await Promise.all([
     prisma.unit.findMany({
       where: { organizationId: user.organizationId, classId, subjectId },
       orderBy: [{ sortOrder: "asc" }, { title: "asc" }],
@@ -74,18 +74,7 @@ export default async function AdminContentSubjectPage({
       orderBy: [{ sortOrder: "asc" }, { title: "asc" }],
       select: { id: true, lessonId: true, title: true },
     }),
-    prisma.content.findMany({
-      where: { organizationId: user.organizationId, classId, subjectId },
-      orderBy: [{ createdAt: "desc" }],
-      select: {
-        id: true,
-        createdAt: true,
-        unit: { select: { id: true, title: true } },
-        lesson: { select: { id: true, title: true } },
-        topic: { select: { id: true, title: true } },
-        _count: { select: { blocks: true } },
-      },
-    }),
+
   ]);
 
   return (
@@ -95,14 +84,7 @@ export default async function AdminContentSubjectPage({
       units={units}
       lessons={lessons}
       topics={topics}
-      contents={contents.map((item) => ({
-        id: item.id,
-        createdAt: item.createdAt.toISOString(),
-        unit: item.unit,
-        lesson: item.lesson,
-        topic: item.topic,
-        blocksCount: item._count.blocks,
-      }))}
+      contents={[]}
     />
   );
 }

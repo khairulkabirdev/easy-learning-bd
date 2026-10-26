@@ -52,6 +52,7 @@ export async function saveEmailSettingsAction(
     },
   });
 
+  revalidatePath("/admin/email-settings");
   revalidatePath("/admin/settings");
   return { error: "", success: "Email settings saved." };
 }

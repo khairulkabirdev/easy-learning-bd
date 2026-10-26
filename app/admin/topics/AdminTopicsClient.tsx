@@ -9,6 +9,8 @@ import { deleteTopic, saveTopic } from "@/app/admin/topics/actions";
 import { EntityVisual } from "@/components/app/EntityVisual";
 import { EntityMediaField } from "@/components/admin/EntityMediaField";
 import { AdminSelectField as SelectField } from "@/components/admin/AdminSelectField";
+import { AdminPagedListControls } from "@/components/admin/AdminPagedListControls";
+import { useAdminPagedRecords } from "@/components/admin/useAdminPagedRecords";
 import { ResponsiveEntityEditor } from "@/components/admin/ResponsiveEntityEditor";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -90,6 +92,7 @@ type AdminTopicsClientProps = {
   units: UnitOption[];
   lessons: LessonOption[];
   topics: TopicRow[];
+  total: number;
 };
 
 const initialForm = {
@@ -126,7 +129,7 @@ const initialLessonForm = {
   persistedImagePath: "",
 };
 
-export default function AdminTopicsClient({ classes, subjects, units, lessons, topics }: AdminTopicsClientProps) {
+export default function AdminTopicsClient({ classes, subjects, units, lessons, topics, total }: AdminTopicsClientProps) {
   const router = useRouter();
   const [isSaving, startSaveTransition] = useTransition();
   const [isDeleting, startDeleteTransition] = useTransition();
@@ -171,36 +174,22 @@ export default function AdminTopicsClient({ classes, subjects, units, lessons, t
     [lessons, draftFilterUnitId],
   );
 
-  const filteredTopics = useMemo(() => {
-    if (!appliedFilterClassId || !appliedFilterSubjectId || !appliedFilterUnitId || !appliedFilterLessonId) {
-      return [];
-    }
-    const normalizedQuery = query.trim().toLowerCase();
-
-    return topics.filter((item) => {
-      if (
-        item.classId !== appliedFilterClassId ||
-        item.subjectId !== appliedFilterSubjectId ||
-        item.unitId !== appliedFilterUnitId ||
-        item.lessonId !== appliedFilterLessonId
-      ) {
-        return false;
-      }
-
-      if (!normalizedQuery) return true;
-
-      return [
-        item.title,
-        item.slug,
-        item.topicNumber,
-        item.shortDescription,
-        item.className,
-        item.subjectName,
-        item.unitTitle,
-        item.lessonTitle,
-      ].some((value) => value.toLowerCase().includes(normalizedQuery));
-    });
-  }, [topics, appliedFilterClassId, appliedFilterSubjectId, appliedFilterUnitId, appliedFilterLessonId, query]);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const list = useAdminPagedRecords<TopicRow>({
+    resource: "topics",
+    initialRows: topics,
+    initialTotal: total,
+    filters: {
+      classId: appliedFilterClassId || undefined,
+      subjectId: appliedFilterSubjectId || undefined,
+      unitId: appliedFilterUnitId || undefined,
+      lessonId: appliedFilterLessonId || undefined,
+    },
+    search: query,
+    enabled: Boolean(appliedFilterClassId && appliedFilterSubjectId && appliedFilterUnitId && appliedFilterLessonId),
+    initialPageSize: 12,
+    refreshKey,
+  });
 
   function resetForm() {
     setForm(initialForm);
@@ -239,6 +228,7 @@ export default function AdminTopicsClient({ classes, subjects, units, lessons, t
     setAppliedFilterSubjectId(draftFilterSubjectId);
     setAppliedFilterUnitId(draftFilterUnitId);
     setAppliedFilterLessonId(draftFilterLessonId);
+    list.setPage(1);
   }
 
   function clearFilters() {
@@ -251,6 +241,7 @@ export default function AdminTopicsClient({ classes, subjects, units, lessons, t
     setAppliedFilterUnitId("");
     setAppliedFilterLessonId("");
     setQuery("");
+    list.setPage(1);
   }
 
   function handleSave() {
@@ -277,6 +268,7 @@ export default function AdminTopicsClient({ classes, subjects, units, lessons, t
         });
         resetForm();
         setIsEditorOpen(false);
+        setRefreshKey((value) => value + 1);
         router.refresh();
       } catch (saveError) {
         setError(saveError instanceof Error ? saveError.message : "Failed to save topic.");
@@ -292,6 +284,7 @@ export default function AdminTopicsClient({ classes, subjects, units, lessons, t
         await saveLesson(lessonForm);
         setLessonForm(initialLessonForm);
         setIsLessonModalOpen(false);
+        setRefreshKey((value) => value + 1);
         router.refresh();
       } catch (saveError) {
         setError(saveError instanceof Error ? saveError.message : "Failed to save lesson.");
@@ -308,6 +301,7 @@ export default function AdminTopicsClient({ classes, subjects, units, lessons, t
         if (form.id === id) {
           resetForm();
         }
+        setRefreshKey((value) => value + 1);
         router.refresh();
       } catch (deleteError) {
         setError(deleteError instanceof Error ? deleteError.message : "Failed to delete topic.");
@@ -387,7 +381,11 @@ export default function AdminTopicsClient({ classes, subjects, units, lessons, t
             />
             <Field>
               <FieldLabel>Search</FieldLabel>
-              <Input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search topics..." />
+              <Input
+                value={query}
+                onChange={(event) => { setQuery(event.target.value); list.setPage(1); }}
+                placeholder="Search topics..."
+              />
             </Field>
             <div className="flex items-end gap-3">
               <Button
@@ -404,7 +402,7 @@ export default function AdminTopicsClient({ classes, subjects, units, lessons, t
             <div className="flex items-end">
               <Badge variant="outline">
                 {appliedFilterClassId && appliedFilterSubjectId && appliedFilterUnitId && appliedFilterLessonId
-                  ? `${filteredTopics.length} shown`
+                  ? `${list.total} shown`
                   : "Not applied"}
               </Badge>
             </div>
@@ -422,12 +420,12 @@ export default function AdminTopicsClient({ classes, subjects, units, lessons, t
             <div className="rounded-xl border border-dashed p-8 text-sm text-muted-foreground">
               Apply class, subject, unit, and lesson filters to view topics.
             </div>
-          ) : filteredTopics.length === 0 ? (
+          ) : list.rows.length === 0 ? (
             <div className="rounded-xl border border-dashed p-8 text-sm text-muted-foreground">
               No topics matched the applied filters.
             </div>
           ) : (
-            filteredTopics.map((item) => (
+            list.rows.map((item) => (
               <div
                 key={item.id}
                 className="flex flex-col gap-4 rounded-xl border bg-card p-4 lg:flex-row lg:items-start lg:justify-between"
@@ -477,6 +475,20 @@ export default function AdminTopicsClient({ classes, subjects, units, lessons, t
               </div>
             ))
           )}
+          {appliedFilterClassId && appliedFilterSubjectId && appliedFilterUnitId && appliedFilterLessonId ? (
+            <AdminPagedListControls
+              page={list.page}
+              totalPages={list.totalPages}
+              pageSize={list.pageSize}
+              total={list.total}
+              firstShown={list.firstShown}
+              lastShown={list.lastShown}
+              loading={list.loading}
+              onPageChange={list.setPage}
+              onPageSizeChange={(size) => { list.setPageSize(size); list.setPage(1); }}
+            />
+          ) : null}
+          {list.error ? <p className="text-sm text-destructive">{list.error}</p> : null}
         </CardContent>
       </Card>
 

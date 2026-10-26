@@ -41,25 +41,22 @@ export default async function UserQuestionAnswerChapterPage({
     notFound();
   }
 
-  const questionAnswerBlocks = content.blocks.filter(
-    (item: ContentBlockRecord) =>
-      item.kind === "question-answer" && Boolean(item.questionAnswerExercise),
+  const contentBlocks = content.blocks as ContentBlockRecord[];
+  const questionAnswerBlocks = contentBlocks.filter(
+    (item) => item.kind === "question-answer" && Boolean(item.questionAnswerExercise),
   );
 
   if (questionAnswerBlocks.length === 0) {
     notFound();
   }
 
-  const sections: QuestionAnswerSection[] = questionAnswerBlocks.flatMap<QuestionAnswerSection>(
-    (block: ContentBlockRecord) => {
+  const sections: QuestionAnswerSection[] = questionAnswerBlocks.flatMap((block) => {
     const exercise = block.questionAnswerExercise;
     if (!exercise) return [];
 
     const linkedParagraph =
       exercise.passageSource === "paragraph" && exercise.paragraphBlockId
-        ? content.blocks.find(
-            (item: ContentBlockRecord) => item.id === exercise.paragraphBlockId,
-          )?.paragraph
+        ? contentBlocks.find((item) => item.id === exercise.paragraphBlockId)?.paragraph
         : null;
 
     const passage =
@@ -67,16 +64,15 @@ export default async function UserQuestionAnswerChapterPage({
         ? linkedParagraph?.body || ""
         : exercise.details || exercise.instruction || "";
 
-      return [
-        {
-          blockId: block.id,
-          title: exercise.title || "Question Answer",
-          passage,
-          rows: exercise.rows,
-        },
-      ];
-    },
-  );
+    return [
+      {
+        blockId: block.id,
+        title: exercise.title || "Question Answer",
+        passage,
+        rows: exercise.rows,
+      },
+    ];
+  });
 
   const hasMultipleBlocks = sections.length > 1;
 

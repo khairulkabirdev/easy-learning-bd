@@ -4,157 +4,28 @@ import { prisma } from "@/lib/db";
 
 export default async function AdminTopicsPage() {
   const user = await requireAdmin();
-  const [classes, subjects, units, lessons, topics] = await Promise.all([
+  const [classes, subjects, units, lessons] = await Promise.all([
     prisma.class.findMany({
       where: { organizationId: user.organizationId },
       orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
-      select: {
-        id: true,
-        name: true,
-        iconType: true,
-        iconLibrary: true,
-        iconName: true,
-        iconColor: true,
-        imagePath: true,
-      },
+      select: { id: true, name: true, iconType: true, iconLibrary: true, iconName: true, iconColor: true, imagePath: true },
     }),
     prisma.subject.findMany({
       where: { organizationId: user.organizationId },
       orderBy: [{ class: { sortOrder: "asc" } }, { sortOrder: "asc" }, { name: "asc" }],
-      select: {
-        id: true,
-        classId: true,
-        name: true,
-        iconType: true,
-        iconLibrary: true,
-        iconName: true,
-        iconColor: true,
-        imagePath: true,
-      },
+      select: { id: true, classId: true, name: true, iconType: true, iconLibrary: true, iconName: true, iconColor: true, imagePath: true },
     }),
     prisma.unit.findMany({
       where: { organizationId: user.organizationId },
-      orderBy: [
-        { class: { sortOrder: "asc" } },
-        { subject: { sortOrder: "asc" } },
-        { sortOrder: "asc" },
-        { title: "asc" },
-      ],
-      select: {
-        id: true,
-        classId: true,
-        subjectId: true,
-        title: true,
-        iconType: true,
-        iconLibrary: true,
-        iconName: true,
-        iconColor: true,
-        imagePath: true,
-      },
+      orderBy: [{ class: { sortOrder: "asc" } }, { subject: { sortOrder: "asc" } }, { sortOrder: "asc" }, { title: "asc" }],
+      select: { id: true, classId: true, subjectId: true, title: true, iconType: true, iconLibrary: true, iconName: true, iconColor: true, imagePath: true },
     }),
     prisma.lesson.findMany({
       where: { organizationId: user.organizationId },
-      orderBy: [
-        { unit: { class: { sortOrder: "asc" } } },
-        { unit: { subject: { sortOrder: "asc" } } },
-        { unit: { sortOrder: "asc" } },
-        { sortOrder: "asc" },
-        { title: "asc" },
-      ],
-      select: {
-        id: true,
-        unitId: true,
-        title: true,
-        iconType: true,
-        iconLibrary: true,
-        iconName: true,
-        iconColor: true,
-        imagePath: true,
-      },
-    }),
-    prisma.topic.findMany({
-      where: { organizationId: user.organizationId },
-      orderBy: [
-        { lesson: { unit: { class: { sortOrder: "asc" } } } },
-        { lesson: { unit: { subject: { sortOrder: "asc" } } } },
-        { lesson: { unit: { sortOrder: "asc" } } },
-        { lesson: { sortOrder: "asc" } },
-        { sortOrder: "asc" },
-        { title: "asc" },
-      ],
-      select: {
-        id: true,
-        title: true,
-        slug: true,
-        topicNumber: true,
-        shortDescription: true,
-        sortOrder: true,
-        lessonId: true,
-        iconType: true,
-        iconLibrary: true,
-        iconName: true,
-        iconColor: true,
-        imagePath: true,
-        lesson: {
-          select: {
-            title: true,
-            unitId: true,
-            unit: {
-              select: {
-                title: true,
-                classId: true,
-                subjectId: true,
-                class: {
-                  select: {
-                    name: true,
-                  },
-                },
-                subject: {
-                  select: {
-                    name: true,
-                  },
-                },
-              },
-            },
-          },
-        },
-        _count: {
-          select: {
-            contents: true,
-          },
-        },
-      },
+      orderBy: [{ unit: { class: { sortOrder: "asc" } } }, { unit: { subject: { sortOrder: "asc" } } }, { unit: { sortOrder: "asc" } }, { sortOrder: "asc" }, { title: "asc" }],
+      select: { id: true, unitId: true, title: true, iconType: true, iconLibrary: true, iconName: true, iconColor: true, imagePath: true },
     }),
   ]);
 
-  return (
-    <AdminTopicsClient
-      classes={classes}
-      subjects={subjects}
-      units={units}
-      lessons={lessons}
-      topics={topics.map((item) => ({
-        id: item.id,
-        classId: item.lesson.unit.classId,
-        className: item.lesson.unit.class.name,
-        subjectId: item.lesson.unit.subjectId,
-        subjectName: item.lesson.unit.subject.name,
-        unitId: item.lesson.unitId,
-        unitTitle: item.lesson.unit.title,
-        lessonId: item.lessonId,
-        lessonTitle: item.lesson.title,
-        title: item.title,
-        slug: item.slug,
-        topicNumber: item.topicNumber,
-        shortDescription: item.shortDescription,
-        sortOrder: item.sortOrder,
-        iconType: item.iconType,
-        iconLibrary: item.iconLibrary,
-        iconName: item.iconName,
-        iconColor: item.iconColor,
-        imagePath: item.imagePath,
-        contentsCount: item._count.contents,
-      }))}
-    />
-  );
+  return <AdminTopicsClient classes={classes} subjects={subjects} units={units} lessons={lessons} topics={[]} total={0} />;
 }

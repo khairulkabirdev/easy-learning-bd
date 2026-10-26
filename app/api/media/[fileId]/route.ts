@@ -7,14 +7,41 @@ import { getStoredObjectForUpload, readManagedImageFile } from "@/lib/storage/up
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const SAFE_IMAGE_TYPES = new Set(["image/webp", "image/jpeg", "image/png"]);
+const SAFE_INLINE_TYPES = new Set([
+  "image/webp",
+  "image/jpeg",
+  "image/png",
+  "image/gif",
+  "video/mp4",
+  "video/webm",
+  "video/quicktime",
+  "application/pdf",
+  "text/plain",
+  "text/plain; charset=utf-8",
+  "text/csv",
+  "text/csv; charset=utf-8",
+  "model/gltf-binary",
+  "model/gltf+json",
+  "model/stl",
+]);
+
+const SAFE_DOWNLOAD_TYPES = new Set([
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "application/vnd.ms-excel",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "application/vnd.ms-powerpoint",
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "application/zip",
+  "application/octet-stream",
+]);
 
 async function canStudentViewFile(file: {
   ownerType: string;
   ownerId: string;
   vocabularyEntry?: { vocabulary: { classId: string } } | null;
 }, organizationId: string) {
-  if (file.ownerType === "User") return true;
+  if (file.ownerType === "User" || file.ownerType === "RichTextAsset") return true;
 
   let classId: string | null = null;
   if (file.ownerType === "VocabularyEntry") {
@@ -49,6 +76,31 @@ async function canStudentViewFile(file: {
   return Boolean(publishedClass);
 }
 
+function safeContentType(value: string) {
+  const normalized = value.toLowerCase().trim();
+  if (SAFE_INLINE_TYPES.has(normalized) || SAFE_DOWNLOAD_TYPES.has(normalized)) return normalized;
+  return "application/octet-stream";
+}
+
+
+function servedFileName(originalName: string, extension: string) {
+  const clean = (originalName || "file").replace(/[\\/]/g, "-").trim() || "file";
+  if (!extension) return clean;
+  const dot = clean.lastIndexOf(".");
+  const stem = dot > 0 ? clean.slice(0, dot) : clean;
+  return `${stem}.${extension}`;
+}
+
+function contentDisposition(fileName: string, inline: boolean) {
+  const clean = (fileName || "file")
+    .replace(/[\r\n"]/g, "")
+    .replace(/[\\/]/g, "-")
+    .trim()
+    .slice(0, 180) || "file";
+  const ascii = clean.replace(/[^\x20-\x7E]/g, "_");
+  return `${inline ? "inline" : "attachment"}; filename="${ascii}"; filename*=UTF-8''${encodeURIComponent(clean)}`;
+}
+
 export async function GET(
   _request: Request,
   context: { params: Promise<{ fileId: string }> },
@@ -72,19 +124,20 @@ export async function GET(
     return new NextResponse("Not found", { status: 404 });
   }
 
-  const contentType = SAFE_IMAGE_TYPES.has(file.mimeType) ? file.mimeType : "image/webp";
+  const contentType = safeContentType(file.mimeType || "application/octet-stream");
+  const inline = SAFE_INLINE_TYPES.has(contentType);
   try {
     const stored = await getStoredObjectForUpload(file);
     const headers = new Headers({
       "Content-Type": contentType,
       "X-Content-Type-Options": "nosniff",
-      "Content-Disposition": 'inline; filename="image.webp"',
+      "Content-Disposition": contentDisposition(servedFileName(file.originalName, file.extension || "bin"), inline),
       "Cross-Origin-Resource-Policy": "same-site",
       Vary: "Cookie",
       "Cache-Control": "private, no-store",
     });
     return new Response(new Uint8Array(stored.body), { status: 200, headers });
   } catch {
-    return NextResponse.json({ error: "Stored image is temporarily unavailable." }, { status: 503 });
+    return NextResponse.json({ error: "Stored file is temporarily unavailable." }, { status: 503 });
   }
 }

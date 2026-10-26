@@ -10,6 +10,7 @@ import { prisma } from "@/lib/db";
 import {
   parseMatchingDocument,
   parseQuestionAnswerDocument,
+  parseRearrangeSentenceDocument,
   validateSubjectSectionDraft,
   type SubjectSectionKind,
 } from "./types";
@@ -179,7 +180,9 @@ export async function createSubjectSectionBlock(input: unknown) {
   const document =
     parsed.kind === "matching-sentences"
       ? parseMatchingDocument(parsed.documentJson, "new")
-      : parseQuestionAnswerDocument(parsed.documentJson, "new");
+      : parsed.kind === "rearrange-sentence"
+        ? parseRearrangeSentenceDocument(parsed.documentJson, "new")
+        : parseQuestionAnswerDocument(parsed.documentJson, "new");
   const validationErrors = validateSubjectSectionDraft(parsed.kind, {
     title: parsed.title,
     instruction: parsed.instruction,
@@ -266,7 +269,9 @@ export async function updateSubjectSectionBlock(input: unknown) {
   const document =
     parsed.kind === "matching-sentences"
       ? parseMatchingDocument(parsed.documentJson, parsed.id)
-      : parseQuestionAnswerDocument(parsed.documentJson, parsed.id);
+      : parsed.kind === "rearrange-sentence"
+        ? parseRearrangeSentenceDocument(parsed.documentJson, parsed.id)
+        : parseQuestionAnswerDocument(parsed.documentJson, parsed.id);
   if (parsed.validationMode === "final") {
     const validationErrors = validateSubjectSectionDraft(parsed.kind, {
       title: parsed.title,

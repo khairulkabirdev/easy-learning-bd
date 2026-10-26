@@ -4,6 +4,7 @@ export const STORAGE_PROVIDERS = [
   "cloudflare-r2",
   "minio",
   "s3-compatible",
+  "custom-backend",
 ] as const;
 
 export type StorageProvider = (typeof STORAGE_PROVIDERS)[number];
@@ -20,6 +21,12 @@ export type StorageConfigurationRecord = {
   sessionTokenEncrypted: string;
   localRoot: string;
   forcePathStyle: boolean;
+  publicBaseUrl: string;
+  privateBucket: string;
+  maxImageSizeMb: number;
+  maxVideoSizeMb: number;
+  maxModelSizeMb: number;
+  pathPrefix: string;
   isActive: boolean;
   everActivated: boolean;
   lastTestStatus: string;
@@ -61,6 +68,12 @@ export type StorageConfigurationClientView = {
   hasSessionToken: boolean;
   localRoot: string;
   forcePathStyle: boolean;
+  publicBaseUrl: string;
+  privateBucket: string;
+  maxImageSizeMb: number;
+  maxVideoSizeMb: number;
+  maxModelSizeMb: number;
+  pathPrefix: string;
   isActive: boolean;
   isLocked: boolean;
   lastTestStatus: string;

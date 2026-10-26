@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
   ArrowDown,
@@ -32,6 +32,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { AdminTableSearchInput } from "@/components/admin/AdminTableSearchInput";
+import { useAdminPagedRecords } from "@/components/admin/useAdminPagedRecords";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -79,6 +80,7 @@ export type AdminBoardYearRecord = {
 type Props = {
   kind: "board" | "year";
   records: AdminBoardYearRecord[];
+  total: number;
 };
 
 type SortKey = "label" | "status" | "createdAt" | "updatedAt";
@@ -108,19 +110,13 @@ function formatDate(value: string) {
   }).format(date);
 }
 
-function compareValues(left: string | number, right: string | number) {
-  if (typeof left === "number" && typeof right === "number") return left - right;
-  return String(left).localeCompare(String(right), undefined, { numeric: true, sensitivity: "base" });
-}
-
-export function AdminBoardYearManager({ kind, records }: Props) {
+export function AdminBoardYearManager({ kind, records, total }: Props) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [sort, setSort] = useState<SortState>({ key: "label", direction: kind === "year" ? "desc" : "asc" });
-  const [pageSize, setPageSize] = useState(10);
-  const [currentPage, setCurrentPage] = useState(1);
+
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [editorOpen, setEditorOpen] = useState(false);
   const [editing, setEditing] = useState<AdminBoardYearRecord | null>(null);
@@ -132,57 +128,23 @@ export function AdminBoardYearManager({ kind, records }: Props) {
   const entityLabel = kind === "board" ? "Board" : "Year";
   const pageTitle = kind === "board" ? "Boards" : "Years";
 
-  const filteredRows = useMemo(() => {
-    const normalizedQuery = query.trim().toLocaleLowerCase();
-    let rows = records.filter((record) => {
-      if (statusFilter === "active" && !record.isActive) return false;
-      if (statusFilter === "inactive" && record.isActive) return false;
-      if (!normalizedQuery) return true;
-      return record.label.toLocaleLowerCase().includes(normalizedQuery);
-    });
-
-    if (sort) {
-      rows = [...rows].sort((left, right) => {
-        let leftValue: string | number;
-        let rightValue: string | number;
-        if (sort.key === "status") {
-          leftValue = left.isActive ? 1 : 0;
-          rightValue = right.isActive ? 1 : 0;
-        } else if (sort.key === "createdAt" || sort.key === "updatedAt") {
-          leftValue = new Date(left[sort.key]).getTime();
-          rightValue = new Date(right[sort.key]).getTime();
-        } else {
-          leftValue = kind === "year" ? left.numericValue ?? Number(left.label) : left.label;
-          rightValue = kind === "year" ? right.numericValue ?? Number(right.label) : right.label;
-        }
-        const result = compareValues(leftValue, rightValue);
-        return sort.direction === "asc" ? result : -result;
-      });
-    }
-
-    return rows;
-  }, [kind, query, records, sort, statusFilter]);
-
-  const totalPages = Math.max(1, Math.ceil(filteredRows.length / pageSize));
-  const safeCurrentPage = Math.min(currentPage, totalPages);
-  const startIndex = (safeCurrentPage - 1) * pageSize;
-  const pagedRows = filteredRows.slice(startIndex, startIndex + pageSize);
-  const visiblePages = buildVisiblePages(safeCurrentPage, totalPages);
-  const firstShown = filteredRows.length ? startIndex + 1 : 0;
-  const lastShown = Math.min(startIndex + pageSize, filteredRows.length);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const list = useAdminPagedRecords<AdminBoardYearRecord>({
+    resource: kind,
+    initialRows: records,
+    initialTotal: total,
+    filters: { status: statusFilter },
+    search: query,
+    sort: sort?.key,
+    direction: sort?.direction,
+    initialPageSize: 10,
+    refreshKey,
+  });
+  const startIndex = (list.page - 1) * list.pageSize;
+  const pagedRows = list.rows;
+  const visiblePages = buildVisiblePages(list.page, list.totalPages);
   const selectedVisibleCount = pagedRows.filter((row) => selectedIds.has(row.id)).length;
   const allVisibleSelected = pagedRows.length > 0 && selectedVisibleCount === pagedRows.length;
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [query, statusFilter, pageSize, records]);
-
-  useEffect(() => {
-    setSelectedIds((current) => {
-      const validIds = new Set(records.map((record) => record.id));
-      return new Set([...current].filter((id) => validIds.has(id)));
-    });
-  }, [records]);
 
   function openCreate() {
     setEditing(null);
@@ -231,6 +193,7 @@ export function AdminBoardYearManager({ kind, records }: Props) {
           title: `${entityLabel} ${editing ? "updated" : "created"}`,
           type: "success",
         });
+        setRefreshKey((value) => value + 1);
         router.refresh();
       } catch (error) {
         const message = error instanceof Error ? error.message : `Unable to save ${entityLabel.toLowerCase()}.`;
@@ -252,6 +215,7 @@ export function AdminBoardYearManager({ kind, records }: Props) {
         });
         setPendingDelete(null);
         toast.add({ title: `${entityLabel} deleted`, type: "success" });
+        setRefreshKey((value) => value + 1);
         router.refresh();
       } catch (error) {
         const message = error instanceof Error ? error.message : `Unable to delete ${entityLabel.toLowerCase()}.`;
@@ -276,6 +240,7 @@ export function AdminBoardYearManager({ kind, records }: Props) {
               : `${ids.length} record${ids.length === 1 ? "" : "s"} ${action === "activate" ? "activated" : "deactivated"}`,
           type: "success",
         });
+        setRefreshKey((value) => value + 1);
         router.refresh();
       } catch (error) {
         const message = error instanceof Error ? error.message : "Bulk action failed.";
@@ -290,7 +255,7 @@ export function AdminBoardYearManager({ kind, records }: Props) {
       if (current.direction === "asc") return { key, direction: "desc" };
       return null;
     });
-    setCurrentPage(1);
+    list.setPage(1);
   }
 
   function SortIcon({ column }: { column: SortKey }) {
@@ -329,12 +294,15 @@ export function AdminBoardYearManager({ kind, records }: Props) {
           <div className="flex flex-1 flex-col gap-2 sm:flex-row sm:items-center">
             <AdminTableSearchInput
               value={query}
-              onChange={setQuery}
+              onChange={(value) => { setQuery(value); list.setPage(1); }}
               placeholder={kind === "board" ? "Search board name..." : "Search year..."}
               ariaLabel={`Search ${pageTitle.toLowerCase()}`}
               className="sm:max-w-sm"
             />
-            <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as StatusFilter)}>
+            <Select
+              value={statusFilter}
+              onValueChange={(value) => { setStatusFilter(value as StatusFilter); list.setPage(1); }}
+            >
               <SelectTrigger className="w-full sm:w-40">
                 <SelectValue />
               </SelectTrigger>
@@ -366,8 +334,8 @@ export function AdminBoardYearManager({ kind, records }: Props) {
             ) : null}
             <span className="text-sm text-muted-foreground">Rows per page</span>
             <NativeSelect
-              value={String(pageSize)}
-              onChange={(event) => setPageSize(Number(event.target.value))}
+              value={String(list.pageSize)}
+              onChange={(event) => { list.setPageSize(Number(event.target.value)); list.setPage(1); }}
               size="sm"
               aria-label="Rows per page"
             >
@@ -473,20 +441,19 @@ export function AdminBoardYearManager({ kind, records }: Props) {
 
         <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-muted-foreground">
-            Showing {firstShown}-{lastShown} of {filteredRows.length} record{filteredRows.length === 1 ? "" : "s"}
-            {query.trim() || statusFilter !== "all" ? ` (${records.length} total)` : ""}.
+            Showing {list.firstShown}-{list.lastShown} of {list.total} record{list.total === 1 ? "" : "s"}.
           </p>
-          {totalPages > 1 ? (
+          {list.totalPages > 1 ? (
             <Pagination className="mx-0 w-auto justify-start sm:justify-end">
               <PaginationContent>
                 <PaginationItem>
                   <PaginationPrevious
                     href="#"
-                    aria-disabled={safeCurrentPage === 1}
-                    className={safeCurrentPage === 1 ? "pointer-events-none opacity-50" : undefined}
+                    aria-disabled={list.page === 1}
+                    className={list.page === 1 ? "pointer-events-none opacity-50" : undefined}
                     onClick={(event) => {
                       event.preventDefault();
-                      setCurrentPage((page) => Math.max(1, page - 1));
+                      list.setPage(Math.max(1, list.page - 1));
                     }}
                   />
                 </PaginationItem>
@@ -495,10 +462,10 @@ export function AdminBoardYearManager({ kind, records }: Props) {
                     <PaginationItem key={page}>
                       <PaginationLink
                         href="#"
-                        isActive={page === safeCurrentPage}
+                        isActive={page === list.page}
                         onClick={(event) => {
                           event.preventDefault();
-                          setCurrentPage(page);
+                          list.setPage(page);
                         }}
                       >
                         {page}
@@ -513,11 +480,11 @@ export function AdminBoardYearManager({ kind, records }: Props) {
                 <PaginationItem>
                   <PaginationNext
                     href="#"
-                    aria-disabled={safeCurrentPage === totalPages}
-                    className={safeCurrentPage === totalPages ? "pointer-events-none opacity-50" : undefined}
+                    aria-disabled={list.page === list.totalPages}
+                    className={list.page === list.totalPages ? "pointer-events-none opacity-50" : undefined}
                     onClick={(event) => {
                       event.preventDefault();
-                      setCurrentPage((page) => Math.min(totalPages, page + 1));
+                      list.setPage(Math.min(list.totalPages, list.page + 1));
                     }}
                   />
                 </PaginationItem>

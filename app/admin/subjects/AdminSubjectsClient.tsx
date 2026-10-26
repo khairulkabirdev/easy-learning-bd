@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -8,6 +8,8 @@ import { saveClass } from "@/app/admin/classes/actions";
 import { deleteSubject, saveSubject } from "@/app/admin/subjects/actions";
 import { EntityVisual } from "@/components/app/EntityVisual";
 import { EntityMediaField } from "@/components/admin/EntityMediaField";
+import { AdminPagedListControls } from "@/components/admin/AdminPagedListControls";
+import { useAdminPagedRecords } from "@/components/admin/useAdminPagedRecords";
 import { ResponsiveEntityEditor } from "@/components/admin/ResponsiveEntityEditor";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -47,6 +49,7 @@ type SubjectRow = {
 type AdminSubjectsClientProps = {
   classes: ClassOption[];
   subjects: SubjectRow[];
+  total: number;
 };
 
 const initialForm = {
@@ -78,7 +81,7 @@ const initialClassForm = {
 };
 
 
-export default function AdminSubjectsClient({ classes, subjects }: AdminSubjectsClientProps) {
+export default function AdminSubjectsClient({ classes, subjects, total }: AdminSubjectsClientProps) {
   const router = useRouter();
   const [isSaving, startSaveTransition] = useTransition();
   const [isDeleting, startDeleteTransition] = useTransition();
@@ -92,21 +95,17 @@ export default function AdminSubjectsClient({ classes, subjects }: AdminSubjects
   const [classForm, setClassForm] = useState(initialClassForm);
   const [form, setForm] = useState(initialForm);
 
-  const filteredSubjects = useMemo(() => {
-    if (!appliedFilterClassId) return [];
-    const normalizedQuery = query.trim().toLowerCase();
-
-    return subjects.filter((item) => {
-      const matchesClass = item.classId === appliedFilterClassId;
-      if (!matchesClass) return false;
-
-      if (!normalizedQuery) return true;
-
-      return [item.name, item.slug, item.code, item.description, item.className].some((value) =>
-        value.toLowerCase().includes(normalizedQuery),
-      );
-    });
-  }, [subjects, appliedFilterClassId, query]);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const list = useAdminPagedRecords<SubjectRow>({
+    resource: "subjects",
+    initialRows: subjects,
+    initialTotal: total,
+    filters: { classId: appliedFilterClassId || undefined },
+    search: query,
+    enabled: Boolean(appliedFilterClassId),
+    initialPageSize: 12,
+    refreshKey,
+  });
 
   function resetForm() {
     setForm(initialForm);
@@ -158,6 +157,7 @@ export default function AdminSubjectsClient({ classes, subjects }: AdminSubjects
         });
         resetForm();
         setIsEditorOpen(false);
+        setRefreshKey((value) => value + 1);
         router.refresh();
       } catch (saveError) {
         setError(saveError instanceof Error ? saveError.message : "Failed to save subject.");
@@ -167,6 +167,7 @@ export default function AdminSubjectsClient({ classes, subjects }: AdminSubjects
 
   function applyFilters() {
     setAppliedFilterClassId(draftFilterClassId);
+    list.setPage(1);
   }
 
   function clearFilters() {
@@ -183,6 +184,7 @@ export default function AdminSubjectsClient({ classes, subjects }: AdminSubjects
         await saveClass(classForm);
         setClassForm(initialClassForm);
         setIsClassModalOpen(false);
+        setRefreshKey((value) => value + 1);
         router.refresh();
       } catch (saveError) {
         setError(saveError instanceof Error ? saveError.message : "Failed to save class.");
@@ -199,6 +201,7 @@ export default function AdminSubjectsClient({ classes, subjects }: AdminSubjects
         if (form.id === id) {
           resetForm();
         }
+        setRefreshKey((value) => value + 1);
         router.refresh();
       } catch (deleteError) {
         setError(deleteError instanceof Error ? deleteError.message : "Failed to delete subject.");
@@ -241,7 +244,11 @@ export default function AdminSubjectsClient({ classes, subjects }: AdminSubjects
             />
             <Field>
               <FieldLabel>Search</FieldLabel>
-              <Input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search subjects..." />
+              <Input
+                value={query}
+                onChange={(event) => { setQuery(event.target.value); list.setPage(1); }}
+                placeholder="Search subjects..."
+              />
             </Field>
             <div className="flex items-end gap-3">
               <Button type="button" onClick={applyFilters} disabled={!draftFilterClassId}>
@@ -252,7 +259,7 @@ export default function AdminSubjectsClient({ classes, subjects }: AdminSubjects
               </Button>
             </div>
             <div className="flex items-end">
-              <Badge variant="outline">{appliedFilterClassId ? `${filteredSubjects.length} shown` : "Not applied"}</Badge>
+              <Badge variant="outline">{appliedFilterClassId ? `${list.total} shown` : "Not applied"}</Badge>
             </div>
           </div>
         </CardContent>
@@ -268,12 +275,12 @@ export default function AdminSubjectsClient({ classes, subjects }: AdminSubjects
             <div className="rounded-xl border border-dashed p-8 text-sm text-muted-foreground">
               Apply a class filter to view subjects.
             </div>
-          ) : filteredSubjects.length === 0 ? (
+          ) : list.rows.length === 0 ? (
             <div className="rounded-xl border border-dashed p-8 text-sm text-muted-foreground">
               No subjects matched the applied filters.
             </div>
           ) : (
-            filteredSubjects.map((item) => (
+            list.rows.map((item) => (
               <div
                 key={item.id}
                 className="flex flex-col gap-4 rounded-xl border bg-card p-4 lg:flex-row lg:items-start lg:justify-between"
@@ -318,6 +325,20 @@ export default function AdminSubjectsClient({ classes, subjects }: AdminSubjects
               </div>
             ))
           )}
+          {appliedFilterClassId ? (
+            <AdminPagedListControls
+              page={list.page}
+              totalPages={list.totalPages}
+              pageSize={list.pageSize}
+              total={list.total}
+              firstShown={list.firstShown}
+              lastShown={list.lastShown}
+              loading={list.loading}
+              onPageChange={list.setPage}
+              onPageSizeChange={(size) => { list.setPageSize(size); list.setPage(1); }}
+            />
+          ) : null}
+          {list.error ? <p className="text-sm text-destructive">{list.error}</p> : null}
         </CardContent>
       </Card>
 

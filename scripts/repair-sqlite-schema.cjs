@@ -160,6 +160,12 @@ async function ensureStorageConfigurationTable() {
     "sessionTokenEncrypted" TEXT NOT NULL DEFAULT '',
     "localRoot" TEXT NOT NULL DEFAULT 'storage/private',
     "forcePathStyle" BOOLEAN NOT NULL DEFAULT false,
+    "publicBaseUrl" TEXT NOT NULL DEFAULT '',
+    "privateBucket" TEXT NOT NULL DEFAULT '',
+    "maxImageSizeMb" INTEGER NOT NULL DEFAULT 20,
+    "maxVideoSizeMb" INTEGER NOT NULL DEFAULT 1024,
+    "maxModelSizeMb" INTEGER NOT NULL DEFAULT 500,
+    "pathPrefix" TEXT NOT NULL DEFAULT 'uploads',
     "isActive" BOOLEAN NOT NULL DEFAULT false,
     "everActivated" BOOLEAN NOT NULL DEFAULT false,
     "lastTestStatus" TEXT NOT NULL DEFAULT 'unknown',
@@ -172,6 +178,12 @@ async function ensureStorageConfigurationTable() {
     "updatedAt" DATETIME NOT NULL
   )`);
   await ensureColumn("StorageConfiguration", "everActivated", "BOOLEAN NOT NULL DEFAULT false");
+  await ensureColumn("StorageConfiguration", "publicBaseUrl", "TEXT NOT NULL DEFAULT ''");
+  await ensureColumn("StorageConfiguration", "privateBucket", "TEXT NOT NULL DEFAULT ''");
+  await ensureColumn("StorageConfiguration", "maxImageSizeMb", "INTEGER NOT NULL DEFAULT 20");
+  await ensureColumn("StorageConfiguration", "maxVideoSizeMb", "INTEGER NOT NULL DEFAULT 1024");
+  await ensureColumn("StorageConfiguration", "maxModelSizeMb", "INTEGER NOT NULL DEFAULT 500");
+  await ensureColumn("StorageConfiguration", "pathPrefix", "TEXT NOT NULL DEFAULT 'uploads'");
   await prisma.$executeRawUnsafe('CREATE UNIQUE INDEX IF NOT EXISTS "StorageConfiguration_organizationId_name_key" ON "StorageConfiguration"("organizationId", "name")');
   await prisma.$executeRawUnsafe('CREATE INDEX IF NOT EXISTS "StorageConfiguration_organizationId_isActive_idx" ON "StorageConfiguration"("organizationId", "isActive")');
   await prisma.$executeRawUnsafe('CREATE INDEX IF NOT EXISTS "StorageConfiguration_organizationId_provider_idx" ON "StorageConfiguration"("organizationId", "provider")');

@@ -124,11 +124,11 @@ async function pruneExpiredTemporaryUploads(actor: UploadActor) {
 export async function saveImageToManagedTemp(file: File, actor: UploadActor) {
   await pruneExpiredTemporaryUploads(actor);
   await prunePendingStorageDeletes(actor.organizationId, actor.userId);
-  const optimized = await optimizeImageFile(file);
   const configRecord = await ensureDefaultStorageConfiguration(actor.organizationId, actor.userId);
   const config = resolveStorageConfiguration(configRecord);
+  const optimized = await optimizeImageFile(file, { maxInputBytes: config.maxImageSizeMb * 1024 * 1024 });
   const id = crypto.randomUUID();
-  const key = createStorageObjectKey(actor.organizationId, "temp", id, optimized.extension);
+  const key = createStorageObjectKey(actor.organizationId, "temp", id, optimized.extension, config.pathPrefix);
   const url = `${MEDIA_URL_PREFIX}${id}`;
 
   await putStoredObject(config, key, optimized.buffer, optimized.mimeType);

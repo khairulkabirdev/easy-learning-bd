@@ -46,10 +46,6 @@ export async function uploadProfileImageTemp(formData: FormData) {
     throw new Error("Image file is required.");
   }
 
-  if (file.size > 5 * 1024 * 1024) {
-    throw new Error("Image must be 5 MB or smaller.");
-  }
-
   if (!["image/jpeg", "image/png", "image/webp"].includes(file.type.toLowerCase())) {
     throw new Error("Only JPEG, PNG, and WebP images are allowed.");
   }

@@ -42,21 +42,18 @@ type Props = {
   classItem: { id: string; name: string };
   subject: { id: string; name: string };
   records: UnseenRow[];
+  total: number;
 };
 
-export function UnseenCompositionListClient({ classItem, subject, records }: Props) {
+export function UnseenCompositionListClient({ classItem, subject, records, total }: Props) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<UnseenRow | null>(null);
+  const [refreshKey, setRefreshKey] = useState(0);
   const [isCreating, startCreateTransition] = useTransition();
   const [isDeleting, startDeleteTransition] = useTransition();
-
-  const pendingDelete = useMemo(
-    () => records.find((record) => record.id === pendingDeleteId) ?? null,
-    [pendingDeleteId, records],
-  );
 
   function createRecord() {
     setError(null);
@@ -79,13 +76,14 @@ export function UnseenCompositionListClient({ classItem, subject, records }: Pro
   }
 
   function confirmDeleteRecord() {
-    if (!pendingDeleteId) return;
-    const id = pendingDeleteId;
-    setPendingDeleteId(null);
+    if (!pendingDelete) return;
+    const id = pendingDelete.id;
+    setPendingDelete(null);
     setError(null);
     startDeleteTransition(async () => {
       try {
         await deleteUnseenComposition(id);
+        setRefreshKey((value) => value + 1);
         router.refresh();
       } catch (cause) {
         setError(cause instanceof Error ? cause.message : "Failed to delete Unseen Composition.");
@@ -141,7 +139,7 @@ export function UnseenCompositionListClient({ classItem, subject, records }: Pro
               variant="destructive"
               size="sm"
               disabled={isDeleting}
-              onClick={() => setPendingDeleteId(row.id)}
+              onClick={() => setPendingDelete(row)}
             >
               <Trash2 data-icon="inline-start" />
               Delete
@@ -186,7 +184,7 @@ export function UnseenCompositionListClient({ classItem, subject, records }: Pro
             <CardTitle>Unseen records</CardTitle>
             <CardDescription>Search, sort, paginate, edit, or delete Unseen Composition records.</CardDescription>
           </div>
-          <Badge variant="outline">{records.length} records</Badge>
+          <Badge variant="outline">{total} records</Badge>
         </CardHeader>
         <CardContent>
           <AdminRecordDataTable
@@ -197,6 +195,12 @@ export function UnseenCompositionListClient({ classItem, subject, records }: Pro
             emptyMessage="No Unseen Composition records yet."
             initialPageSize={10}
             defaultSort={{ columnId: "updated", direction: "desc" }}
+            server={{
+              resource: "unseen-composition",
+              filters: { classId: classItem.id, subjectId: subject.id },
+              total,
+              refreshKey,
+            }}
           />
         </CardContent>
       </Card>
@@ -236,7 +240,7 @@ export function UnseenCompositionListClient({ classItem, subject, records }: Pro
         </div>
       </ResponsiveEntityEditor>
 
-      <AlertDialog open={Boolean(pendingDeleteId)} onOpenChange={(nextOpen) => !nextOpen && setPendingDeleteId(null)}>
+      <AlertDialog open={Boolean(pendingDelete)} onOpenChange={(nextOpen) => !nextOpen && setPendingDelete(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete this Unseen Composition?</AlertDialogTitle>

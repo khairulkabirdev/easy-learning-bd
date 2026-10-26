@@ -2703,8 +2703,8 @@ export function ContentBlocksEditorClient({
       return "Only JPEG, PNG, and WebP images are allowed.";
     }
 
-    if (file.size <= 0 || file.size > 5 * 1024 * 1024) {
-      return "Image must be 5 MB or smaller.";
+    if (file.size <= 0) {
+      return "Choose a non-empty image file.";
     }
 
     return null;
@@ -4198,7 +4198,7 @@ export function ContentBlocksEditorClient({
                               <FieldContent>
                                 <FieldLabel>Image</FieldLabel>
                                 <FieldDescription>
-                                  Optional. JPEG, PNG, or WebP only, maximum 5 MB. The server verifies and re-encodes every upload.
+                                  Optional. JPEG, PNG, or WebP only. Maximum size follows the active Storage Settings. The server verifies and re-encodes every upload.
                                 </FieldDescription>
 
                                 <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -7765,7 +7765,7 @@ export function ContentBlocksEditorClient({
             <FieldContent>
               <FieldLabel>Image</FieldLabel>
               <FieldDescription>
-                Optional. JPEG, PNG, or WebP only, maximum 5 MB. The server verifies and re-encodes every upload.
+                Optional. JPEG, PNG, or WebP only. Maximum size follows the active Storage Settings. The server verifies and re-encodes every upload.
               </FieldDescription>
 
               <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center">

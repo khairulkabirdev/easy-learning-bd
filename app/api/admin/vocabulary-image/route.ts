@@ -20,7 +20,7 @@ import { prunePendingStorageDeletes } from "@/lib/storage/upload-management";
 
 export const runtime = "nodejs";
 
-const MAX_REQUEST_BYTES = 6 * 1024 * 1024;
+const MULTIPART_OVERHEAD_BYTES = 1024 * 1024;
 
 const entrySchema = z.object({
   contentId: z.string().min(1),
@@ -105,10 +105,13 @@ export async function POST(request: Request) {
   try {
     await assertTrustedMutationOrigin();
     const user = await requireAdmin();
+    const storageRecord = await getActiveStorageConfiguration(user.organizationId, user.id);
+    const storage = resolveStorageConfiguration(storageRecord);
+    const maxImageBytes = storage.maxImageSizeMb * 1024 * 1024;
 
     const contentLength = Number(request.headers.get("content-length") || "0");
-    if (Number.isFinite(contentLength) && contentLength > MAX_REQUEST_BYTES) {
-      return jsonError("Image upload is too large.", 413);
+    if (Number.isFinite(contentLength) && contentLength > maxImageBytes + MULTIPART_OVERHEAD_BYTES) {
+      return jsonError(`Image upload is larger than the configured ${storage.maxImageSizeMb} MB limit.`, 413);
     }
 
     const formData = await request.formData();
@@ -130,11 +133,15 @@ export async function POST(request: Request) {
 
     await prunePendingStorageDeletes(user.organizationId, user.id);
     const oldTrackedFiles = await getCurrentVocabularyUploadFiles(prisma, entry.id, user.organizationId);
-    const optimized = await optimizeImageFile(file);
-    const storageRecord = await getActiveStorageConfiguration(user.organizationId, user.id);
-    const storage = resolveStorageConfiguration(storageRecord);
+    const optimized = await optimizeImageFile(file, { maxInputBytes: maxImageBytes });
     const uploadedFileId = crypto.randomUUID();
-    const objectKey = createStorageObjectKey(user.organizationId, "vocabulary", uploadedFileId, optimized.extension);
+    const objectKey = createStorageObjectKey(
+      user.organizationId,
+      "vocabulary",
+      uploadedFileId,
+      optimized.extension,
+      storage.pathPrefix,
+    );
     const imageUrl = `/api/media/${uploadedFileId}`;
     const stored = {
       id: uploadedFileId,

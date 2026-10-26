@@ -1,5 +1,6 @@
 import { SubjectSectionBlockListClient } from "@/components/admin/SubjectSectionBlockListClient";
-import { getSubjectSectionContext, listSubjectSectionRecords } from "./data";
+import { getAdminPagedRecords } from "@/lib/admin/paged-records";
+import { getSubjectSectionContext } from "./data";
 import { type SubjectSectionKind } from "./types";
 
 export async function SubjectSectionPage({
@@ -12,19 +13,21 @@ export async function SubjectSectionPage({
   subjectId: string;
 }) {
   const { user, subject } = await getSubjectSectionContext(classId, subjectId);
-  const records = await listSubjectSectionRecords(kind, classId, subjectId, user.organizationId);
+  const result = await getAdminPagedRecords(user.organizationId, {
+    resource: "subject-section",
+    page: 1,
+    pageSize: 10,
+    filters: { kind, classId, subjectId },
+  });
+
   return (
     <div className="mx-auto w-full max-w-7xl space-y-5">
       <SubjectSectionBlockListClient
         kind={kind}
         classItem={subject.class}
         subject={{ id: subject.id, name: subject.name }}
-        records={records.map((item) => ({
-          id: item.id,
-          title: item.title,
-          sortOrder: item.sortOrder,
-          updatedAt: item.updatedAt.toISOString(),
-        }))}
+        records={result.rows}
+        total={result.total}
       />
     </div>
   );

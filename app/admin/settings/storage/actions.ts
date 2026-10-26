@@ -8,13 +8,13 @@ import { logAudit } from "@/lib/auditLogger";
 import { prisma } from "@/lib/db";
 import { decryptStorageSecret, encryptStorageSecret } from "@/lib/storage/secrets";
 import { findStorageConfigurationForOrganization, resolveStorageConfiguration } from "@/lib/storage/configurations";
-import { testStorageConnection, validateLocalStorageRoot } from "@/lib/storage/object-store";
+import { deleteStoredObject, getStoredObject, putStoredObject, testStorageConnection, validateLocalStorageRoot } from "@/lib/storage/object-store";
 import type { ResolvedStorageConfiguration, StorageProvider } from "@/lib/storage/types";
 
 const formSchema = z.object({
   configurationId: z.string().trim().max(100).default(""),
   name: z.string().trim().min(2, "Configuration name must be at least 2 characters.").max(80, "Configuration name is too long."),
-  provider: z.enum(["local-private", "s3", "cloudflare-r2", "minio", "s3-compatible"]),
+  provider: z.enum(["local-private", "s3", "cloudflare-r2", "minio", "s3-compatible", "custom-backend"]),
   endpoint: z.string().trim().max(500).default(""),
   region: z.string().trim().max(100).default("auto"),
   bucket: z.string().trim().max(255).default(""),
@@ -23,6 +23,12 @@ const formSchema = z.object({
   sessionToken: z.string().max(4096).default(""),
   localRoot: z.string().trim().max(300).default("storage/private"),
   forcePathStyle: z.boolean().default(false),
+  publicBaseUrl: z.string().trim().max(500).default(""),
+  privateBucket: z.string().trim().max(255).default(""),
+  maxImageSizeMb: z.coerce.number().int().min(1).max(512).default(20),
+  maxVideoSizeMb: z.coerce.number().int().min(1).max(1024).default(1024),
+  maxModelSizeMb: z.coerce.number().int().min(1).max(1024).default(500),
+  pathPrefix: z.string().trim().max(180).default("uploads"),
   intent: z.enum(["save", "activate", "test"]).default("save"),
 });
 
@@ -45,6 +51,12 @@ function parseForm(formData: FormData) {
     sessionToken: String(formData.get("sessionToken") || ""),
     localRoot: String(formData.get("localRoot") || "storage/private"),
     forcePathStyle: formData.get("forcePathStyle") === "on" || formData.get("forcePathStyle") === "true",
+    publicBaseUrl: String(formData.get("publicBaseUrl") || ""),
+    privateBucket: String(formData.get("privateBucket") || ""),
+    maxImageSizeMb: String(formData.get("maxImageSizeMb") || "20"),
+    maxVideoSizeMb: String(formData.get("maxVideoSizeMb") || "1024"),
+    maxModelSizeMb: String(formData.get("maxModelSizeMb") || "500"),
+    pathPrefix: String(formData.get("pathPrefix") || "uploads"),
     intent: String(formData.get("intent") || "save"),
   });
   if (!raw.success) throw new Error(raw.error.issues[0]?.message || "Check the storage configuration fields.");
@@ -97,6 +109,46 @@ function validateBucketName(value: string) {
   return bucket;
 }
 
+function validateCustomAuthHeaderName(value: string) {
+  const name = value.trim();
+  if (!name || !/^[!#$%&'*+\-.^_`|~0-9A-Za-z]+$/.test(name)) {
+    throw new Error("Enter a valid custom backend authentication header name, such as Authorization or X-API-Key.");
+  }
+  const blocked = new Set(["host", "content-length", "transfer-encoding", "connection", "content-type", "x-storage-namespace"]);
+  if (blocked.has(name.toLowerCase())) {
+    throw new Error("That authentication header name is reserved. Use Authorization, X-API-Key, or another custom header.");
+  }
+  return name;
+}
+
+function validateOptionalPublicBaseUrl(value: string) {
+  const trimmed = value.trim().replace(/\/+$/, "");
+  if (!trimmed) return "";
+  let url: URL;
+  try {
+    url = new URL(trimmed);
+  } catch {
+    throw new Error("Enter a valid Public URL / CDN address.");
+  }
+  if (!['https:', 'http:'].includes(url.protocol) || url.username || url.password || url.search || url.hash) {
+    throw new Error("Public URL / CDN must be a clean http(s) URL without credentials, query strings, or fragments.");
+  }
+  if (process.env.NODE_ENV === "production" && url.protocol !== "https:") {
+    throw new Error("Public URL / CDN must use HTTPS in production.");
+  }
+  return url.toString().replace(/\/$/, "");
+}
+
+function validatePathPrefix(value: string) {
+  const trimmed = value.trim().replace(/^\/+|\/+$/g, "");
+  if (!trimmed) return "uploads";
+  const parts = trimmed.split("/");
+  if (parts.some((part) => !part || part === "." || part === ".." || !/^[A-Za-z0-9._-]+$/.test(part))) {
+    throw new Error("Path prefix may contain only letters, numbers, dots, underscores, hyphens, and forward slashes.");
+  }
+  return parts.join("/");
+}
+
 async function buildCandidate(form: ReturnType<typeof parseForm>, organizationId: string) {
   const existing = form.configurationId
     ? await findStorageConfigurationForOrganization(form.configurationId, organizationId)
@@ -108,19 +160,36 @@ async function buildCandidate(form: ReturnType<typeof parseForm>, organizationId
   const requestedRegion = form.region.trim();
   const region = provider === "cloudflare-r2"
     ? "auto"
-    : !requestedRegion || requestedRegion === "auto"
-      ? "us-east-1"
-      : requestedRegion;
+    : provider === "custom-backend"
+      ? "custom"
+      : !requestedRegion || requestedRegion === "auto"
+        ? "us-east-1"
+        : requestedRegion;
   let bucket = "";
   let accessKeyId = "";
   let secretAccessKey = "";
   let sessionToken = "";
   let localRoot = "storage/private";
   let forcePathStyle = false;
+  const publicBaseUrl = provider === "local-private" ? "" : validateOptionalPublicBaseUrl(form.publicBaseUrl);
+  const privateBucket = provider === "local-private" || !form.privateBucket ? "" : validateBucketName(form.privateBucket);
+  const maxImageSizeMb = form.maxImageSizeMb;
+  const maxVideoSizeMb = form.maxVideoSizeMb;
+  const maxModelSizeMb = form.maxModelSizeMb;
+  const pathPrefix = validatePathPrefix(form.pathPrefix);
 
   if (provider === "local-private") {
     localRoot = form.localRoot || "storage/private";
     validateLocalStorageRoot(localRoot);
+  } else if (provider === "custom-backend") {
+    bucket = validateBucketName(form.bucket);
+    accessKeyId = validateCustomAuthHeaderName(form.accessKeyId.trim() || existing?.accessKeyId || "Authorization");
+    secretAccessKey = form.secretAccessKey || (existing?.secretAccessKeyEncrypted ? decryptStorageSecret(existing.secretAccessKeyEncrypted) : "");
+    if (!secretAccessKey || /[\r\n]/.test(secretAccessKey)) {
+      throw new Error("Custom backend authentication header value is required and must be a single line. Leave it blank only when keeping a previously saved value.");
+    }
+    sessionToken = "";
+    forcePathStyle = false;
   } else {
     bucket = validateBucketName(form.bucket);
     accessKeyId = form.accessKeyId.trim() || existing?.accessKeyId || "";
@@ -144,6 +213,12 @@ async function buildCandidate(form: ReturnType<typeof parseForm>, organizationId
     sessionTokenEncrypted: existing?.sessionTokenEncrypted || "",
     localRoot,
     forcePathStyle,
+    publicBaseUrl,
+    privateBucket,
+    maxImageSizeMb,
+    maxVideoSizeMb,
+    maxModelSizeMb,
+    pathPrefix,
     isActive: existing?.isActive || false,
     everActivated: existing?.everActivated || false,
     lastTestStatus: existing?.lastTestStatus || "unknown",
@@ -163,14 +238,17 @@ async function buildCandidate(form: ReturnType<typeof parseForm>, organizationId
     sessionToken,
   };
 
-  return { existing, candidate: resolved, provider, endpoint, region, bucket, accessKeyId, secretAccessKey, sessionToken, localRoot, forcePathStyle };
+  return {
+    existing, candidate: resolved, provider, endpoint, region, bucket, accessKeyId, secretAccessKey, sessionToken,
+    localRoot, forcePathStyle, publicBaseUrl, privateBucket, maxImageSizeMb, maxVideoSizeMb, maxModelSizeMb, pathPrefix,
+  };
 }
 
 function safeStorageError(error: unknown) {
   if (error instanceof Error && /STORAGE_ENCRYPTION_KEY|SESSION_SECRET|encryption is not configured/i.test(error.message)) {
     return "Storage credential encryption is unavailable. Configure a stable STORAGE_ENCRYPTION_KEY on the server before saving cloud credentials.";
   }
-  return "Storage connection failed. Check the endpoint, bucket, credentials, region, and bucket permissions.";
+  return "Storage connection failed. Check the endpoint, namespace or bucket, credentials, region, and storage permissions.";
 }
 
 export async function testStorageConfigurationAction(formData: FormData): Promise<StorageActionState> {
@@ -178,11 +256,16 @@ export async function testStorageConfigurationAction(formData: FormData): Promis
   const user = await requireAdmin();
   try {
     const form = parseForm(formData);
-    const { candidate } = await buildCandidate(form, user.organizationId);
+    const { candidate, privateBucket } = await buildCandidate(form, user.organizationId);
     const success = await testStorageConnection(candidate);
-    return { error: "", success };
+    const privateSuccess = privateBucket ? await testStorageConnection(candidate, { bucket: privateBucket }) : "";
+    const privateLabel = candidate.provider === "custom-backend" ? "Private namespace" : "Private bucket";
+    return {
+      error: "",
+      success: privateSuccess ? `${success} ${privateLabel} also verified.` : success,
+    };
   } catch (error) {
-    const message = error instanceof Error && /required|valid|HTTPS|endpoint|bucket|path|name|credentials|not found|encryption/i.test(error.message)
+    const message = error instanceof Error && /required|valid|HTTPS|endpoint|bucket|namespace|header|path|name|credentials|not found|encryption|custom backend/i.test(error.message)
       ? error.message
       : safeStorageError(error);
     return { error: message, success: "" };
@@ -197,19 +280,27 @@ export async function saveStorageConfigurationAction(
   const user = await requireAdmin();
   try {
     const form = parseForm(formData);
-    const { existing, candidate, provider, endpoint, region, bucket, accessKeyId, secretAccessKey, sessionToken, localRoot, forcePathStyle } = await buildCandidate(form, user.organizationId);
+    const {
+      existing, candidate, provider, endpoint, region, bucket, accessKeyId, secretAccessKey, sessionToken,
+      localRoot, forcePathStyle, publicBaseUrl, privateBucket, maxImageSizeMb, maxVideoSizeMb, maxModelSizeMb, pathPrefix,
+    } = await buildCandidate(form, user.organizationId);
     if (existing) {
       const usedFileCount = await prisma.uploadedFile.count({ where: { storageConfigurationId: existing.id, storageDeletedAt: null } });
-      const storageDetailsChanged =
-        provider !== existing.provider ||
-        endpoint !== existing.endpoint ||
-        region !== existing.region ||
-        bucket !== existing.bucket ||
-        accessKeyId !== existing.accessKeyId ||
-        localRoot !== existing.localRoot ||
-        forcePathStyle !== existing.forcePathStyle ||
-        Boolean(form.secretAccessKey) ||
-        Boolean(form.sessionToken);
+      // Only compare immutable fields that are meaningful for the selected provider.
+      // Legacy local-storage rows can contain cloud-only defaults (for example
+      // region = "auto"). Comparing those fields made an unchanged Local Storage
+      // form look modified and incorrectly triggered the used-configuration guard.
+      const storageDetailsChanged = provider !== existing.provider || (
+        provider === "local-private"
+          ? localRoot !== existing.localRoot
+          : endpoint !== existing.endpoint ||
+            region !== existing.region ||
+            bucket !== existing.bucket ||
+            accessKeyId !== existing.accessKeyId ||
+            forcePathStyle !== existing.forcePathStyle ||
+            Boolean(form.secretAccessKey) ||
+            Boolean(form.sessionToken)
+      );
       if ((existing.everActivated || usedFileCount > 0) && storageDetailsChanged) {
         throw new Error("This configuration has been activated or used by uploads. Create a new configuration for changed endpoints, buckets, paths, or credentials so existing files remain accessible.");
       }
@@ -221,6 +312,10 @@ export async function saveStorageConfigurationAction(
 
     if (shouldActivate) {
       testMessage = await testStorageConnection(candidate);
+      if (privateBucket) {
+        await testStorageConnection(candidate, { bucket: privateBucket });
+        testMessage = `${testMessage} ${provider === "custom-backend" ? "Private namespace" : "Private bucket"} also verified.`;
+      }
       testStatus = "success";
       testedAt = new Date();
     }
@@ -255,6 +350,12 @@ export async function saveStorageConfigurationAction(
         sessionTokenEncrypted: encryptedSessionToken,
         localRoot,
         forcePathStyle,
+        publicBaseUrl,
+        privateBucket,
+        maxImageSizeMb,
+        maxVideoSizeMb,
+        maxModelSizeMb,
+        pathPrefix,
         isActive: shouldActivate,
         everActivated: Boolean(existing?.everActivated || shouldActivate),
         lastTestStatus: testStatus,
@@ -304,6 +405,7 @@ export async function saveStorageConfigurationAction(
 
     revalidatePath("/admin/settings/storage");
     revalidatePath("/admin/settings");
+    revalidatePath("/admin/settings/media-library");
     return {
       error: "",
       success: shouldActivate ? "Configuration saved and activated." : "Configuration saved.",
@@ -313,7 +415,7 @@ export async function saveStorageConfigurationAction(
     if (typeof error === "object" && error !== null && "code" in error && (error as { code?: string }).code === "P2002") {
       return { error: "A storage configuration with this name already exists.", success: "" };
     }
-    return { error: error instanceof Error && /required|valid|HTTPS|endpoint|bucket|path|name|credentials|not found|encryption|activated|referenced|existing uploads/i.test(error.message) ? error.message : safeStorageError(error), success: "" };
+    return { error: error instanceof Error && /required|valid|HTTPS|endpoint|bucket|namespace|header|path|name|credentials|not found|encryption|activated|referenced|existing uploads|custom backend/i.test(error.message) ? error.message : safeStorageError(error), success: "" };
   }
 }
 
@@ -326,7 +428,11 @@ export async function activateStorageConfigurationAction(configurationId: string
     if (!record) return { error: "Storage configuration not found.", success: "" };
 
     const resolved = resolveStorageConfiguration(record);
-    const testMessage = await testStorageConnection(resolved);
+    let testMessage = await testStorageConnection(resolved);
+    if (record.privateBucket) {
+      await testStorageConnection(resolved, { bucket: record.privateBucket });
+      testMessage = `${testMessage} ${record.provider === "custom-backend" ? "Private namespace" : "Private bucket"} also verified.`;
+    }
     await prisma.$transaction(async (tx) => {
       await tx.storageConfiguration.updateMany({
         where: { organizationId: user.organizationId },
@@ -357,9 +463,119 @@ export async function activateStorageConfigurationAction(configurationId: string
 
     revalidatePath("/admin/settings/storage");
     revalidatePath("/admin/settings");
+    revalidatePath("/admin/settings/media-library");
     return { error: "", success: "Storage configuration activated." };
   } catch (error) {
     return { error: safeStorageError(error), success: "" };
+  }
+}
+
+function publicObjectUrl(baseUrl: string, objectKey: string) {
+  const base = baseUrl.trim().replace(/\/+$/, "");
+  return base ? `${base}/${objectKey}` : "";
+}
+
+export async function migrateStorageFilesAction(configurationId: string): Promise<StorageActionState> {
+  await assertTrustedMutationOrigin();
+  const user = await requireAdmin();
+  try {
+    const id = z.string().min(8).max(100).parse(configurationId);
+    const destinationRecord = await findStorageConfigurationForOrganization(id, user.organizationId);
+    if (!destinationRecord) return { error: "Destination storage configuration not found.", success: "" };
+
+    const destination = resolveStorageConfiguration(destinationRecord);
+    await testStorageConnection(destination);
+
+    const files = await prisma.uploadedFile.findMany({
+      where: {
+        organizationId: user.organizationId,
+        storageConfigurationId: { not: destinationRecord.id },
+        storageDeletedAt: null,
+        status: "active",
+        isCurrent: true,
+      },
+      orderBy: { createdAt: "asc" },
+      take: 25,
+    });
+
+    if (files.length === 0) {
+      return { error: "", success: "All active managed files are already on this storage provider." };
+    }
+
+    const sourceCache = new Map<string, ReturnType<typeof resolveStorageConfiguration>>();
+    let moved = 0;
+    let failed = 0;
+
+    for (const file of files) {
+      try {
+        if (!file.storageConfigurationId) {
+          failed += 1;
+          continue;
+        }
+        let source = sourceCache.get(file.storageConfigurationId);
+        if (!source) {
+          const sourceRecord = await findStorageConfigurationForOrganization(file.storageConfigurationId, user.organizationId);
+          if (!sourceRecord) {
+            failed += 1;
+            continue;
+          }
+          source = resolveStorageConfiguration(sourceRecord);
+          sourceCache.set(file.storageConfigurationId, source);
+        }
+
+        const stored = await getStoredObject(source, file.path);
+        await putStoredObject(destination, file.path, stored.body, file.mimeType || stored.contentType);
+
+        const isMediaLibrary = file.ownerType === "MediaLibrary" && file.purpose === "media-library";
+        const directUrl = destination.provider === "local-private" ? "" : publicObjectUrl(destination.publicBaseUrl, file.path);
+        await prisma.uploadedFile.update({
+          where: { id: file.id },
+          data: {
+            storageConfigurationId: destinationRecord.id,
+            ...(isMediaLibrary ? { url: directUrl || `/api/media/${file.id}` } : {}),
+            updatedBy: user.id,
+          },
+        });
+
+        await deleteStoredObject(source, file.path).catch(() => undefined);
+        moved += 1;
+      } catch {
+        failed += 1;
+      }
+    }
+
+    const remaining = await prisma.uploadedFile.count({
+      where: {
+        organizationId: user.organizationId,
+        storageConfigurationId: { not: destinationRecord.id },
+        storageDeletedAt: null,
+        status: "active",
+        isCurrent: true,
+      },
+    });
+
+    await logAudit({
+      userId: user.id,
+      userName: user.name,
+      action: "UPDATE",
+      entityName: "StorageMigration",
+      entityId: destinationRecord.id,
+      changes: { moved, failed, remaining, destinationProvider: destinationRecord.provider },
+      organizationId: user.organizationId,
+    });
+
+    revalidatePath("/admin/settings");
+    revalidatePath("/admin/settings/media-library");
+    const retry = remaining > 0 ? ` ${remaining} file${remaining === 1 ? "" : "s"} remain; run Move files again to continue.` : " Migration is complete.";
+    return {
+      error: failed > 0 && moved === 0 ? "No files were moved. Check the old and new storage connections." : "",
+      success: moved > 0 ? `Moved ${moved} file${moved === 1 ? "" : "s"}.${retry}${failed ? ` ${failed} file${failed === 1 ? "" : "s"} could not be moved in this batch.` : ""}` : "",
+    };
+  } catch (error) {
+    const message = error instanceof Error && /not found|already|invalid|required/i.test(error.message)
+      ? error.message
+      : safeStorageError(error);
+    return { error: message, success: "" };
   }
 }
 

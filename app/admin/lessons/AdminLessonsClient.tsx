@@ -9,6 +9,8 @@ import { saveUnit } from "@/app/admin/units/actions";
 import { EntityVisual } from "@/components/app/EntityVisual";
 import { EntityMediaField } from "@/components/admin/EntityMediaField";
 import { AdminSelectField as SelectField } from "@/components/admin/AdminSelectField";
+import { AdminPagedListControls } from "@/components/admin/AdminPagedListControls";
+import { useAdminPagedRecords } from "@/components/admin/useAdminPagedRecords";
 import { ResponsiveEntityEditor } from "@/components/admin/ResponsiveEntityEditor";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -76,6 +78,7 @@ type AdminLessonsClientProps = {
   subjects: SubjectOption[];
   units: UnitOption[];
   lessons: LessonRow[];
+  total: number;
 };
 
 const initialForm = {
@@ -110,7 +113,7 @@ const initialUnitForm = {
   persistedImagePath: "",
 };
 
-export default function AdminLessonsClient({ classes, subjects, units, lessons }: AdminLessonsClientProps) {
+export default function AdminLessonsClient({ classes, subjects, units, lessons, total }: AdminLessonsClientProps) {
   const router = useRouter();
   const [isSaving, startSaveTransition] = useTransition();
   const [isDeleting, startDeleteTransition] = useTransition();
@@ -145,32 +148,21 @@ export default function AdminLessonsClient({ classes, subjects, units, lessons }
     [units, draftFilterClassId, draftFilterSubjectId],
   );
 
-  const filteredLessons = useMemo(() => {
-    if (!appliedFilterClassId || !appliedFilterSubjectId || !appliedFilterUnitId) return [];
-    const normalizedQuery = query.trim().toLowerCase();
-
-    return lessons.filter((item) => {
-      if (
-        item.classId !== appliedFilterClassId ||
-        item.subjectId !== appliedFilterSubjectId ||
-        item.unitId !== appliedFilterUnitId
-      ) {
-        return false;
-      }
-
-      if (!normalizedQuery) return true;
-
-      return [
-        item.title,
-        item.slug,
-        item.lessonNumber,
-        item.shortDescription,
-        item.className,
-        item.subjectName,
-        item.unitTitle,
-      ].some((value) => value.toLowerCase().includes(normalizedQuery));
-    });
-  }, [lessons, appliedFilterClassId, appliedFilterSubjectId, appliedFilterUnitId, query]);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const list = useAdminPagedRecords<LessonRow>({
+    resource: "lessons",
+    initialRows: lessons,
+    initialTotal: total,
+    filters: {
+      classId: appliedFilterClassId || undefined,
+      subjectId: appliedFilterSubjectId || undefined,
+      unitId: appliedFilterUnitId || undefined,
+    },
+    search: query,
+    enabled: Boolean(appliedFilterClassId && appliedFilterSubjectId && appliedFilterUnitId),
+    initialPageSize: 12,
+    refreshKey,
+  });
 
   function resetForm() {
     setForm(initialForm);
@@ -207,6 +199,7 @@ export default function AdminLessonsClient({ classes, subjects, units, lessons }
     setAppliedFilterClassId(draftFilterClassId);
     setAppliedFilterSubjectId(draftFilterSubjectId);
     setAppliedFilterUnitId(draftFilterUnitId);
+    list.setPage(1);
   }
 
   function clearFilters() {
@@ -217,6 +210,7 @@ export default function AdminLessonsClient({ classes, subjects, units, lessons }
     setAppliedFilterSubjectId("");
     setAppliedFilterUnitId("");
     setQuery("");
+    list.setPage(1);
   }
 
   function handleSave() {
@@ -242,6 +236,7 @@ export default function AdminLessonsClient({ classes, subjects, units, lessons }
         });
         resetForm();
         setIsEditorOpen(false);
+        setRefreshKey((value) => value + 1);
         router.refresh();
       } catch (saveError) {
         setError(saveError instanceof Error ? saveError.message : "Failed to save lesson.");
@@ -257,6 +252,7 @@ export default function AdminLessonsClient({ classes, subjects, units, lessons }
         await saveUnit(unitForm);
         setUnitForm(initialUnitForm);
         setIsUnitModalOpen(false);
+        setRefreshKey((value) => value + 1);
         router.refresh();
       } catch (saveError) {
         setError(saveError instanceof Error ? saveError.message : "Failed to save unit.");
@@ -273,6 +269,7 @@ export default function AdminLessonsClient({ classes, subjects, units, lessons }
         if (form.id === id) {
           resetForm();
         }
+        setRefreshKey((value) => value + 1);
         router.refresh();
       } catch (deleteError) {
         setError(deleteError instanceof Error ? deleteError.message : "Failed to delete lesson.");
@@ -338,7 +335,11 @@ export default function AdminLessonsClient({ classes, subjects, units, lessons }
             />
             <Field>
               <FieldLabel>Search</FieldLabel>
-              <Input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search lessons..." />
+              <Input
+                value={query}
+                onChange={(event) => { setQuery(event.target.value); list.setPage(1); }}
+                placeholder="Search lessons..."
+              />
             </Field>
             <div className="flex items-end gap-3">
               <Button
@@ -355,7 +356,7 @@ export default function AdminLessonsClient({ classes, subjects, units, lessons }
             <div className="flex items-end">
               <Badge variant="outline">
                 {appliedFilterClassId && appliedFilterSubjectId && appliedFilterUnitId
-                  ? `${filteredLessons.length} shown`
+                  ? `${list.total} shown`
                   : "Not applied"}
               </Badge>
             </div>
@@ -373,12 +374,12 @@ export default function AdminLessonsClient({ classes, subjects, units, lessons }
             <div className="rounded-xl border border-dashed p-8 text-sm text-muted-foreground">
               Apply class, subject, and unit filters to view lessons.
             </div>
-          ) : filteredLessons.length === 0 ? (
+          ) : list.rows.length === 0 ? (
             <div className="rounded-xl border border-dashed p-8 text-sm text-muted-foreground">
               No lessons matched the applied filters.
             </div>
           ) : (
-            filteredLessons.map((item) => (
+            list.rows.map((item) => (
               <div
                 key={item.id}
                 className="flex flex-col gap-4 rounded-xl border bg-card p-4 lg:flex-row lg:items-start lg:justify-between"
@@ -427,6 +428,20 @@ export default function AdminLessonsClient({ classes, subjects, units, lessons }
               </div>
             ))
           )}
+          {appliedFilterClassId && appliedFilterSubjectId && appliedFilterUnitId ? (
+            <AdminPagedListControls
+              page={list.page}
+              totalPages={list.totalPages}
+              pageSize={list.pageSize}
+              total={list.total}
+              firstShown={list.firstShown}
+              lastShown={list.lastShown}
+              loading={list.loading}
+              onPageChange={list.setPage}
+              onPageSizeChange={(size) => { list.setPageSize(size); list.setPage(1); }}
+            />
+          ) : null}
+          {list.error ? <p className="text-sm text-destructive">{list.error}</p> : null}
         </CardContent>
       </Card>
 

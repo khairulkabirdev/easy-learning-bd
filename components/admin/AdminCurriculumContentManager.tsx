@@ -70,7 +70,8 @@ export function AdminCurriculumContentManager({
   const [isDeleting, startDeleteTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [isEditorOpen, setIsEditorOpen] = useState(false);
-  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<ContentRow | null>(null);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const [form, setForm] = useState({ title: "", unitId: "", lessonId: "", topicId: "" });
   const [filter, setFilter] = useState({ unitId: "", lessonId: "", topicId: "" });
@@ -80,20 +81,6 @@ export function AdminCurriculumContentManager({
   const formTopics = useMemo(() => topics.filter((item) => item.lessonId === form.lessonId), [topics, form.lessonId]);
   const filterLessons = useMemo(() => lessons.filter((item) => item.unitId === filter.unitId), [lessons, filter.unitId]);
   const filterTopics = useMemo(() => topics.filter((item) => item.lessonId === filter.lessonId), [topics, filter.lessonId]);
-
-  const filteredContents = useMemo(() => {
-    if (!appliedFilter.unitId || !appliedFilter.lessonId) return [];
-    return contents.filter((item) => {
-      if (item.unit.id !== appliedFilter.unitId || item.lesson.id !== appliedFilter.lessonId) return false;
-      if (!appliedFilter.topicId) return true;
-      return item.topic?.id === appliedFilter.topicId;
-    });
-  }, [contents, appliedFilter]);
-
-  const pendingDelete = useMemo(
-    () => contents.find((item) => item.id === pendingDeleteId) ?? null,
-    [contents, pendingDeleteId],
-  );
 
   function beginCreate() {
     setError(null);
@@ -117,6 +104,7 @@ export function AdminCurriculumContentManager({
         setIsEditorOpen(false);
         setAppliedFilter({ unitId: form.unitId, lessonId: form.lessonId, topicId: form.topicId });
         setFilter({ unitId: form.unitId, lessonId: form.lessonId, topicId: form.topicId });
+        setRefreshKey((value) => value + 1);
         router.refresh();
       } catch (cause) {
         setError(cause instanceof Error ? cause.message : "Failed to create content.");
@@ -125,13 +113,14 @@ export function AdminCurriculumContentManager({
   }
 
   function confirmDeleteContent() {
-    if (!pendingDeleteId) return;
-    const id = pendingDeleteId;
-    setPendingDeleteId(null);
+    if (!pendingDelete) return;
+    const id = pendingDelete.id;
+    setPendingDelete(null);
     setError(null);
     startDeleteTransition(async () => {
       try {
         await deleteContent(id);
+        setRefreshKey((value) => value + 1);
         router.refresh();
       } catch (cause) {
         setError(cause instanceof Error ? cause.message : "Failed to delete content.");
@@ -206,7 +195,7 @@ export function AdminCurriculumContentManager({
               variant="destructive"
               size="sm"
               disabled={isDeleting}
-              onClick={() => setPendingDeleteId(row.id)}
+              onClick={() => setPendingDelete(row)}
             >
               <Trash2 data-icon="inline-start" />
               Delete
@@ -283,7 +272,7 @@ export function AdminCurriculumContentManager({
               Clear
             </Button>
             <Badge variant="outline">
-              {appliedFilter.unitId && appliedFilter.lessonId ? `${filteredContents.length} shown` : "Not applied"}
+              {appliedFilter.unitId && appliedFilter.lessonId ? "Filter applied" : "Not applied"}
             </Badge>
           </div>
         </CardContent>
@@ -308,7 +297,7 @@ export function AdminCurriculumContentManager({
             <CardTitle>Content records</CardTitle>
             <CardDescription>Search, sort, paginate, edit, or delete content records.</CardDescription>
           </div>
-          <Badge variant="outline">{contents.length} records</Badge>
+          <Badge variant="outline">Server paged</Badge>
         </CardHeader>
         <CardContent>
           {!appliedFilter.unitId || !appliedFilter.lessonId ? (
@@ -317,7 +306,7 @@ export function AdminCurriculumContentManager({
             </div>
           ) : (
             <AdminRecordDataTable
-              rows={filteredContents}
+              rows={contents}
               columns={columns}
               searchValue={(row) =>
                 [row.title, row.unit.title, row.lesson.title, row.topic?.title ?? ""].join(" ")
@@ -326,6 +315,19 @@ export function AdminCurriculumContentManager({
               emptyMessage="No content records found."
               initialPageSize={10}
               defaultSort={{ columnId: "created", direction: "desc" }}
+              server={{
+                resource: "content",
+                filters: {
+                  classId: classItem.id,
+                  subjectId: subject.id,
+                  unitId: appliedFilter.unitId,
+                  lessonId: appliedFilter.lessonId,
+                  topicId: appliedFilter.topicId || undefined,
+                },
+                total: 0,
+                enabled: Boolean(appliedFilter.unitId && appliedFilter.lessonId),
+                refreshKey,
+              }}
             />
           )}
         </CardContent>
@@ -396,7 +398,7 @@ export function AdminCurriculumContentManager({
         </div>
       </ResponsiveEntityEditor>
 
-      <AlertDialog open={Boolean(pendingDeleteId)} onOpenChange={(open) => !open && setPendingDeleteId(null)}>
+      <AlertDialog open={Boolean(pendingDelete)} onOpenChange={(open) => !open && setPendingDelete(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete this content record?</AlertDialogTitle>

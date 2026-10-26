@@ -80,11 +80,6 @@ function ProfileImageUpload({ name, value, onChange }: { name: string; value: st
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
-      toast.add({ title: "Image too large", description: "Maximum upload size is 5 MB.", type: "error" });
-      return;
-    }
-
     const formData = new FormData();
     formData.append("file", file);
     if (value.startsWith("/api/media/") || value.startsWith("/uploads/temp/")) {
@@ -148,7 +143,7 @@ function ProfileImageUpload({ name, value, onChange }: { name: string; value: st
             className="hidden"
             onChange={(event) => void handleSelectedFile(event.target.files?.[0] ?? null)}
           />
-          <p className="text-xs text-muted-foreground">JPEG, PNG, or WebP · Max: 5 MB</p>
+          <p className="text-xs text-muted-foreground">JPEG, PNG, or WebP · Size limit follows Storage Settings</p>
         </div>
       </div>
       <input type="hidden" name={name} value={value} />

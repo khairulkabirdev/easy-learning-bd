@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 
 import { isEnglishFirstPaperSubject } from "@/app/admin/content/navigation-helpers";
 import { UnseenCompositionListClient } from "@/components/admin/UnseenCompositionListClient";
+import { getAdminPagedRecords } from "@/lib/admin/paged-records";
 import { requireAdmin } from "@/lib/app-auth";
 import { prisma } from "@/lib/db";
 
@@ -30,14 +31,13 @@ export default async function UnseenCompositionPage({
 
   if (!subject || !isEnglishFirstPaperSubject(subject)) notFound();
 
-  const records = await prisma.unseenComposition.findMany({
-    where: {
-      classId,
-      subjectId,
-      organizationId: user.organizationId,
-    },
-    orderBy: [{ updatedAt: "desc" }],
-    select: { id: true, title: true, createdAt: true, updatedAt: true },
+  const result = await getAdminPagedRecords(user.organizationId, {
+    resource: "unseen-composition",
+    page: 1,
+    pageSize: 10,
+    sort: "updated",
+    direction: "desc",
+    filters: { classId, subjectId },
   });
 
   return (
@@ -45,12 +45,8 @@ export default async function UnseenCompositionPage({
       <UnseenCompositionListClient
         classItem={subject.class}
         subject={{ id: subject.id, name: subject.name }}
-        records={records.map((record) => ({
-          id: record.id,
-          title: record.title,
-          createdAt: record.createdAt.toISOString(),
-          updatedAt: record.updatedAt.toISOString(),
-        }))}
+        records={result.rows}
+        total={result.total}
       />
     </div>
   );

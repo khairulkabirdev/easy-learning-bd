@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
@@ -6,6 +6,8 @@ import { ArrowRight, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { deleteContent, saveContent } from "@/app/admin/content/actions";
+import { AdminPagedListControls } from "@/components/admin/AdminPagedListControls";
+import { useAdminPagedRecords } from "@/components/admin/useAdminPagedRecords";
 import { ResponsiveEntityEditor } from "@/components/admin/ResponsiveEntityEditor";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -94,6 +96,7 @@ export default function AdminContentListClient({
   const [appliedFilterUnitId, setAppliedFilterUnitId] = useState("");
   const [appliedFilterLessonId, setAppliedFilterLessonId] = useState("");
   const [appliedFilterTopicId, setAppliedFilterTopicId] = useState("");
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const availableSubjects = useMemo(
     () => subjects.filter((item) => item.classId === form.classId),
@@ -127,35 +130,24 @@ export default function AdminContentListClient({
     () => topics.filter((item) => item.lessonId === draftFilterLessonId),
     [topics, draftFilterLessonId],
   );
-  const filteredContents = useMemo(() => {
-    if (!appliedFilterClassId || !appliedFilterSubjectId || !appliedFilterUnitId || !appliedFilterLessonId) {
-      return [];
-    }
-
-    return contents.filter((item) => {
-      if (
-        item.class.id !== appliedFilterClassId ||
-        item.subject.id !== appliedFilterSubjectId ||
-        item.unit.id !== appliedFilterUnitId ||
-        item.lesson.id !== appliedFilterLessonId
-      ) {
-        return false;
-      }
-
-      if (!appliedFilterTopicId) {
-        return true;
-      }
-
-      return item.topic?.id === appliedFilterTopicId;
-    });
-  }, [
-    contents,
-    appliedFilterClassId,
-    appliedFilterSubjectId,
-    appliedFilterUnitId,
-    appliedFilterLessonId,
-    appliedFilterTopicId,
-  ]);
+  const hasAppliedFilter = Boolean(
+    appliedFilterClassId && appliedFilterSubjectId && appliedFilterUnitId && appliedFilterLessonId,
+  );
+  const contentList = useAdminPagedRecords<ContentRow>({
+    resource: "content",
+    initialRows: [],
+    initialTotal: 0,
+    filters: {
+      classId: appliedFilterClassId || undefined,
+      subjectId: appliedFilterSubjectId || undefined,
+      unitId: appliedFilterUnitId || undefined,
+      lessonId: appliedFilterLessonId || undefined,
+      topicId: appliedFilterTopicId || undefined,
+    },
+    enabled: hasAppliedFilter,
+    initialPageSize: 10,
+    refreshKey,
+  });
 
   function resetForm() {
     setForm({
@@ -174,6 +166,7 @@ export default function AdminContentListClient({
   }
 
   function applyFilters() {
+    contentList.setPage(1);
     setAppliedFilterClassId(draftFilterClassId);
     setAppliedFilterSubjectId(draftFilterSubjectId);
     setAppliedFilterUnitId(draftFilterUnitId);
@@ -182,6 +175,7 @@ export default function AdminContentListClient({
   }
 
   function clearFilters() {
+    contentList.setPage(1);
     setDraftFilterClassId("");
     setDraftFilterSubjectId("");
     setDraftFilterUnitId("");
@@ -208,6 +202,7 @@ export default function AdminContentListClient({
         });
         resetForm();
         setIsEditorOpen(false);
+        setRefreshKey((value) => value + 1);
         router.refresh();
       } catch (createError) {
         setError(createError instanceof Error ? createError.message : "Failed to create content.");
@@ -221,6 +216,7 @@ export default function AdminContentListClient({
     startDeleteTransition(async () => {
       try {
         await deleteContent(id);
+        setRefreshKey((value) => value + 1);
         router.refresh();
       } catch (deleteError) {
         setError(deleteError instanceof Error ? deleteError.message : "Failed to delete content.");
@@ -320,7 +316,7 @@ export default function AdminContentListClient({
               </Button>
               <Badge variant="outline">
                 {appliedFilterClassId && appliedFilterSubjectId && appliedFilterUnitId && appliedFilterLessonId
-                  ? `${filteredContents.length} shown`
+                  ? `${contentList.total} shown`
                   : "Not applied"}
               </Badge>
             </div>
@@ -350,20 +346,20 @@ export default function AdminContentListClient({
             <CardTitle>Content records</CardTitle>
             <CardDescription>Open a record to manage its content blocks or delete it if the hierarchy path is wrong.</CardDescription>
           </div>
-          <Badge variant="outline">{contents.length} records</Badge>
+          <Badge variant="outline">{hasAppliedFilter ? `${contentList.total} records` : "Server paged"}</Badge>
         </CardHeader>
         <CardContent className="space-y-4">
           {!appliedFilterClassId || !appliedFilterSubjectId || !appliedFilterUnitId || !appliedFilterLessonId ? (
             <div className="rounded-xl border border-dashed p-8 text-sm text-muted-foreground">
               Apply class, subject, unit, and lesson filters to view content records.
             </div>
-          ) : filteredContents.length === 0 ? (
+          ) : contentList.rows.length === 0 ? (
             <div className="rounded-xl border border-dashed p-8 text-sm text-muted-foreground">
               No content records matched the applied filters.
             </div>
           ) : (
             <div className="space-y-3">
-              {filteredContents.map((item) => (
+              {contentList.rows.map((item) => (
                 <div
                   key={item.id}
                   className="flex flex-col gap-4 rounded-xl border bg-card p-4 lg:flex-row lg:items-center lg:justify-between"
@@ -409,6 +405,18 @@ export default function AdminContentListClient({
                   </div>
                 </div>
               ))}
+              <AdminPagedListControls
+                page={contentList.page}
+                totalPages={contentList.totalPages}
+                pageSize={contentList.pageSize}
+                total={contentList.total}
+                firstShown={contentList.firstShown}
+                lastShown={contentList.lastShown}
+                loading={contentList.loading}
+                onPageChange={contentList.setPage}
+                onPageSizeChange={(size) => { contentList.setPageSize(size); contentList.setPage(1); }}
+              />
+              {contentList.error ? <p className="text-sm text-destructive">{contentList.error}</p> : null}
             </div>
           )}
         </CardContent>

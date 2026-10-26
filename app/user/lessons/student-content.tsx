@@ -1797,7 +1797,7 @@ function StudentBlockCard({
         question={threeFieldBlock.question}
         answer={threeFieldBlock.answer}
         details={threeFieldBlock.details}
-        passage={block.kind === "gap-fill" ? resolvePassage(threeFieldBlock) : ""}
+        passage={block.kind === "gap-fill" ? resolvePassage(block.gapFill) : ""}
       />
     );
   }

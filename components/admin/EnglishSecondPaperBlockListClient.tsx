@@ -43,28 +43,27 @@ export function EnglishSecondPaperBlockListClient({
   classItem,
   subject,
   records,
+  total,
 }: {
   kind: EnglishSecondPaperKind;
   classItem: { id: string; name: string };
   subject: { id: string; name: string };
   records: EnglishSecondPaperListItem[];
+  total: number;
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<EnglishSecondPaperListItem | null>(null);
+  const [refreshKey, setRefreshKey] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const meta = ENGLISH_SECOND_PAPER_META[kind];
   const basePath = `/admin/content/class/${classItem.id}/subject/${subject.id}/${kind}`;
-  const pendingDelete = useMemo(
-    () => records.find((item) => item.id === pendingDeleteId) ?? null,
-    [pendingDeleteId, records],
-  );
-
   function handleMove(id: string, direction: "up" | "down") {
     setError(null);
     startTransition(async () => {
       try {
         await moveEnglishSecondPaperBlock({ kind, id, direction, classId: classItem.id, subjectId: subject.id });
+        setRefreshKey((value) => value + 1);
         router.refresh();
       } catch (cause) {
         setError(cause instanceof Error ? cause.message : "Failed to move block.");
@@ -73,13 +72,14 @@ export function EnglishSecondPaperBlockListClient({
   }
 
   function confirmDelete() {
-    if (!pendingDeleteId) return;
-    const id = pendingDeleteId;
-    setPendingDeleteId(null);
+    if (!pendingDelete) return;
+    const id = pendingDelete.id;
+    setPendingDelete(null);
     setError(null);
     startTransition(async () => {
       try {
         await deleteEnglishSecondPaperBlock({ kind, id, classId: classItem.id, subjectId: subject.id });
+        setRefreshKey((value) => value + 1);
         router.refresh();
       } catch (cause) {
         setError(cause instanceof Error ? cause.message : "Failed to delete block.");
@@ -131,7 +131,7 @@ export function EnglishSecondPaperBlockListClient({
               size="icon-sm"
               aria-label="Move down"
               title="Move down"
-              disabled={isPending || originalIndex === records.length - 1}
+              disabled={isPending}
               onClick={() => handleMove(row.id, "down")}
             >
               <ArrowDown />
@@ -145,7 +145,7 @@ export function EnglishSecondPaperBlockListClient({
               variant="destructive"
               size="sm"
               disabled={isPending}
-              onClick={() => setPendingDeleteId(row.id)}
+              onClick={() => setPendingDelete(row)}
             >
               <Trash2 data-icon="inline-start" />
               Delete
@@ -154,7 +154,7 @@ export function EnglishSecondPaperBlockListClient({
         ),
       },
     ],
-    [basePath, isPending, meta.title, records.length],
+    [basePath, isPending, meta.title],
   );
 
   return (
@@ -194,11 +194,17 @@ export function EnglishSecondPaperBlockListClient({
             searchPlaceholder={`Search ${meta.title.toLowerCase()} title...`}
             emptyMessage={`No ${meta.title} records yet.`}
             initialPageSize={10}
+            server={{
+              resource: "english-second-paper",
+              filters: { kind, classId: classItem.id, subjectId: subject.id },
+              total,
+              refreshKey,
+            }}
           />
         </CardContent>
       </Card>
 
-      <AlertDialog open={Boolean(pendingDeleteId)} onOpenChange={(open) => !open && setPendingDeleteId(null)}>
+      <AlertDialog open={Boolean(pendingDelete)} onOpenChange={(open) => !open && setPendingDelete(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete this record?</AlertDialogTitle>

@@ -24,10 +24,15 @@ export type ProcessedImage = {
   checksumSha256: string;
 };
 
-export async function optimizeImageFile(file: File): Promise<ProcessedImage> {
+export async function optimizeImageFile(
+  file: File,
+  options: { maxInputBytes?: number } = {},
+): Promise<ProcessedImage> {
   if (!(file instanceof File)) throw new Error("Image file is required.");
-  if (file.size <= 0 || file.size > MAX_MANAGED_IMAGE_BYTES) {
-    throw new Error("Image must be greater than 0 bytes and no larger than 5 MB.");
+  const maxInputBytes = Math.max(1, Math.floor(options.maxInputBytes ?? MAX_MANAGED_IMAGE_BYTES));
+  if (file.size <= 0 || file.size > maxInputBytes) {
+    const maxMb = Math.max(1, Math.floor(maxInputBytes / (1024 * 1024)));
+    throw new Error(`Image must be greater than 0 bytes and no larger than ${maxMb} MB.`);
   }
 
   const declaredMime = file.type.toLowerCase();

@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 import Link from "next/link";
-import { BookOpen, CalendarDays, ChevronDown, FolderOpen, HardDrive, Landmark, LayoutDashboard, LogOut, Settings, Settings2, Shapes, User2 } from "lucide-react";
+import { BookOpen, CalendarDays, ChevronDown, FolderOpen, HardDrive, Landmark, LayoutDashboard, LogOut, Mail, Shapes, User2 } from "lucide-react";
 
 import { SidebarNavLinks } from "@/components/app/SidebarNavLinks";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
@@ -58,20 +58,14 @@ export const adminNavGroups: ShellNavGroup[] = [
   {
     label: "Storage",
     items: [
-      {
-        title: "Storage",
-        icon: <HardDrive className="h-4 w-4" />,
-        children: [
-          { title: "Configuration", href: "/admin/settings/storage", icon: <Settings2 className="h-4 w-4" /> },
-        ],
-      },
+      { title: "Storage Setting", href: "/admin/settings", icon: <HardDrive className="h-4 w-4" /> },
     ],
   },
   {
     label: "Account",
     items: [
       { title: "Audit Logs", href: "/admin/audit-logs", icon: <BookOpen className="h-4 w-4" /> },
-      { title: "Settings", href: "/admin/settings", icon: <Settings className="h-4 w-4" /> },
+      { title: "Email Settings", href: "/admin/email-settings", icon: <Mail className="h-4 w-4" /> },
       { title: "Profile", href: "/admin/profile", icon: <User2 className="h-4 w-4" /> },
     ],
   },

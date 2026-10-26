@@ -51,10 +51,13 @@ const TYPES = [
 export function EnglishFirstPaperTypeGrid({
   classId,
   subjectId,
+  hrefBase,
 }: {
-  classId: string;
+  classId?: string;
   subjectId: string;
+  hrefBase?: string;
 }) {
+  const baseHref = hrefBase ?? `/admin/content/class/${classId}/subject/${subjectId}`;
   return (
     <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
       {TYPES.map((item) => {
@@ -62,7 +65,7 @@ export function EnglishFirstPaperTypeGrid({
         return (
           <Link
             key={item.slug}
-            href={`/admin/content/class/${classId}/subject/${subjectId}/${item.slug}`}
+            href={`${baseHref}/${item.slug}`}
             className="group flex min-h-32 flex-col justify-between rounded-2xl border border-border bg-background p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10 dark:hover:border-primary/50 dark:hover:shadow-primary/20"
           >
             <div className="flex items-start gap-3">
