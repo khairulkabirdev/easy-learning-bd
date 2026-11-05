@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import type { Editor } from "@tiptap/react";
 import {
@@ -9,12 +8,12 @@ import {
   ArrowUp,
   BookText,
   CheckSquare,
+  ClipboardPaste,
   FileOutput,
   FileQuestion,
   FileSpreadsheet,
   FileText,
   GripVertical,
-  ImagePlus,
   Languages,
   ListOrdered,
   LoaderCircle,
@@ -23,11 +22,11 @@ import {
   SpellCheck2,
   Trash2,
   X,
-  ZoomIn,
 } from "lucide-react";
 
 import {
   createSynonymsAntonymsEntry,
+  createVocabularyEntries,
   createVocabularyEntry,
   createContentBlock,
   deleteSynonymsAntonymsEntry,
@@ -82,6 +81,8 @@ import { ResponsiveEntityEditor } from "@/components/admin/ResponsiveEntityEdito
 import { TableCompletionChoiceCombobox } from "@/components/app/TableCompletionChoiceCombobox";
 import { QuestionAnswerPassageCombobox } from "@/components/app/QuestionAnswerPassageCombobox";
 import { TiptapRichTextEditor } from "@/components/admin/TiptapRichTextEditor";
+import type { VocabularyGalleryImage } from "@/components/app/VocabularyImageGallery";
+import { VocabularyGlobalGalleryEditor } from "@/components/admin/VocabularyGlobalGalleryEditor";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -92,6 +93,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { parseVocabularyImport } from "@/lib/vocabulary-import";
 
 type BlockDraft = ContentRecordWithBlocks["blocks"][number];
 
@@ -828,7 +830,7 @@ const BLOCK_META: Array<{
   { kind: "paragraph", title: "Paragraph", description: "Add a paragraph block.", icon: <BookText className="h-4 w-4" /> },
   { kind: "seen-passage-one", title: "Passage", description: "Add a repeatable Seen Composition Passage block.", icon: <BookText className="h-4 w-4" /> },
   { kind: "seen-passage-two", title: "Passage 2", description: "Add a repeatable Seen Composition Passage 2 block.", icon: <BookText className="h-4 w-4" /> },
-  { kind: "vocabulary", title: "Vocabulary", description: "Add vocabulary words and meanings.", icon: <SpellCheck2 className="h-4 w-4" /> },
+  { kind: "vocabulary", title: "Vocabulary", description: "Add words, pronunciation, meanings, synonyms, and antonyms.", icon: <SpellCheck2 className="h-4 w-4" /> },
   { kind: "synonyms-antonyms", title: "Synonyms / Antonyms", description: "Add synonyms and antonyms rows.", icon: <Languages className="h-4 w-4" /> },
   { kind: "gap-fill", title: "Gap Fill (Legacy)", description: "Legacy gap fill block.", icon: <FileQuestion className="h-4 w-4" /> },
   { kind: "gap-fill-first-paper", title: "Fill in the Blanks", description: "Add question, answer, and details for English 1st paper.", icon: <FileQuestion className="h-4 w-4" /> },
@@ -1125,13 +1127,23 @@ export function ContentBlocksEditorClient({
   const [isVocabularyModalOpen, setIsVocabularyModalOpen] = useState(false);
   const [activeVocabularyBlockId, setActiveVocabularyBlockId] = useState<string | null>(null);
   const [newVocabularyWord, setNewVocabularyWord] = useState("");
+  const [newVocabularyPartOfSpeech, setNewVocabularyPartOfSpeech] = useState("");
+  const [newVocabularyPronunciation, setNewVocabularyPronunciation] = useState("");
   const [newVocabularyMeaning, setNewVocabularyMeaning] = useState("");
-  const [newVocabularyImageFile, setNewVocabularyImageFile] = useState<File | null>(null);
-  const [newVocabularyImagePreviewUrl, setNewVocabularyImagePreviewUrl] = useState<string | null>(null);
+  const [newVocabularySynonyms, setNewVocabularySynonyms] = useState("");
+  const [newVocabularyAntonyms, setNewVocabularyAntonyms] = useState("");
+  const [isVocabularyQuickImportOpen, setIsVocabularyQuickImportOpen] = useState(false);
+  const [quickVocabularyImportText, setQuickVocabularyImportText] = useState("");
+  const [isImportingVocabulary, setIsImportingVocabulary] = useState(false);
+  const [newVocabularyImageFiles, setNewVocabularyImageFiles] = useState<Array<{ file: File; previewUrl: string }>>([]);
   const [isCreatingVocabularyRow, setIsCreatingVocabularyRow] = useState(false);
   const newVocabularyImageInputRef = useRef<HTMLInputElement | null>(null);
   const [uploadingVocabularyImageEntryId, setUploadingVocabularyImageEntryId] = useState<string | null>(null);
-  const [previewVocabularyImage, setPreviewVocabularyImage] = useState<{ src: string; alt: string } | null>(null);
+  const [uploadingVocabularyGalleryBlockId, setUploadingVocabularyGalleryBlockId] = useState<string | null>(null);
+  const vocabularyQuickImportPreview = useMemo(
+    () => parseVocabularyImport(quickVocabularyImportText),
+    [quickVocabularyImportText],
+  );
   const [isSynonymsModalOpen, setIsSynonymsModalOpen] = useState(false);
   const [activeSynonymsBlockId, setActiveSynonymsBlockId] = useState<string | null>(null);
   const [newSynonymsDraft, setNewSynonymsDraft] = useState<SynonymsAntonymsDraft>({
@@ -1341,11 +1353,14 @@ export function ContentBlocksEditorClient({
   function resetVocabularyModal() {
     setCreateValidationErrors({});
     setNewVocabularyWord("");
+    setNewVocabularyPartOfSpeech("");
+    setNewVocabularyPronunciation("");
     setNewVocabularyMeaning("");
-    setNewVocabularyImageFile(null);
-    setNewVocabularyImagePreviewUrl((current) => {
-      if (current) URL.revokeObjectURL(current);
-      return null;
+    setNewVocabularySynonyms("");
+    setNewVocabularyAntonyms("");
+    setNewVocabularyImageFiles((current) => {
+      for (const item of current) URL.revokeObjectURL(item.previewUrl);
+      return [];
     });
     if (newVocabularyImageInputRef.current) {
       newVocabularyImageInputRef.current.value = "";
@@ -2661,7 +2676,7 @@ export function ContentBlocksEditorClient({
   async function handleVocabularyEntryChange(
     blockId: string,
     vocabularyEntryId: string,
-    patch: { word?: string; meaning?: string },
+    patch: Partial<Pick<NonNullable<BlockDraft["vocabulary"]>["entries"][number], "word" | "partOfSpeech" | "pronunciation" | "meaning" | "synonyms" | "antonyms">>,
   ) {
     const currentBlock = blocks.find((block) => block.id === blockId);
     if (!currentBlock?.vocabulary) return;
@@ -2693,7 +2708,11 @@ export function ContentBlocksEditorClient({
         blockId,
         vocabularyEntryId,
         word: nextEntry.word,
+        partOfSpeech: nextEntry.partOfSpeech,
+        pronunciation: nextEntry.pronunciation,
         meaning: nextEntry.meaning,
+        synonyms: nextEntry.synonyms,
+        antonyms: nextEntry.antonyms,
       }),
     );
   }
@@ -2710,79 +2729,62 @@ export function ContentBlocksEditorClient({
     return null;
   }
 
-  async function uploadVocabularyImageAsset(blockId: string, vocabularyEntryId: string, file: File) {
+  type VocabularyImageResult = {
+    imageUrl: string;
+    imagePath: string;
+    images: VocabularyGalleryImage[];
+    error?: string;
+  };
+
+  function updateVocabularyWordImage(blockId: string, vocabularyEntryId: string, result: VocabularyImageResult) {
+    patchBlock(blockId, (block) => ({
+      ...block,
+      vocabulary: block.vocabulary ? {
+        ...block.vocabulary,
+        entries: block.vocabulary.entries.map((entry) => entry.id === vocabularyEntryId
+          ? { ...entry, imageUrl: result.imageUrl, imagePath: result.imagePath, uploadedFiles: result.images }
+          : entry),
+      } : null,
+    }));
+  }
+
+  async function uploadVocabularyImageAsset(blockId: string, vocabularyEntryId: string, files: File[]) {
+    if (files.length !== 1) throw new Error("Choose exactly one image for this word.");
     const formData = new FormData();
     formData.set("contentId", content.id);
     formData.set("blockId", blockId);
     formData.set("vocabularyEntryId", vocabularyEntryId);
-    formData.set("file", file);
-
-    const response = await fetch("/api/admin/vocabulary-image", {
-      method: "POST",
-      body: formData,
-    });
-    const result = (await response.json()) as { imageUrl?: string; imagePath?: string; error?: string };
-    if (!response.ok || !result.imageUrl || !result.imagePath) {
-      throw new Error(result.error || "Failed to upload vocabulary image.");
-    }
-
-    return { imageUrl: result.imageUrl, imagePath: result.imagePath };
+    formData.set("file", files[0]);
+    const response = await fetch("/api/admin/vocabulary-image", { method: "POST", body: formData });
+    const result = (await response.json()) as VocabularyImageResult;
+    if (!response.ok) throw new Error(result.error || "Could not upload word image.");
+    return result;
   }
 
-  function handleNewVocabularyImageSelection(file: File | null) {
+  function handleNewVocabularyImageSelection(files: File[] | null) {
     setActionError(null);
-    setNewVocabularyImageFile(null);
-    setNewVocabularyImagePreviewUrl((current) => {
-      if (current) URL.revokeObjectURL(current);
-      return null;
+    const selection = files || [];
+    if (selection.length > 1) { setActionError("Only one image is allowed for each word."); return; }
+    const validationError = selection.map(getVocabularyImageValidationError).find(Boolean);
+    if (validationError) { setActionError(validationError); return; }
+    setNewVocabularyImageFiles((current) => {
+      for (const item of current) URL.revokeObjectURL(item.previewUrl);
+      return selection.map((file) => ({ file, previewUrl: URL.createObjectURL(file) }));
     });
-
-    if (!file) return;
-
-    const validationError = getVocabularyImageValidationError(file);
-    if (validationError) {
-      setActionError(validationError);
-      if (newVocabularyImageInputRef.current) {
-        newVocabularyImageInputRef.current.value = "";
-      }
-      return;
-    }
-
-    setNewVocabularyImageFile(file);
-    setNewVocabularyImagePreviewUrl(URL.createObjectURL(file));
   }
 
-  async function handleVocabularyImageUpload(blockId: string, vocabularyEntryId: string, file: File) {
+  async function handleVocabularyImageUpload(blockId: string, vocabularyEntryId: string, files: File[]) {
     setActionError(null);
-
-    const validationError = getVocabularyImageValidationError(file);
-    if (validationError) {
-      setActionError(validationError);
-      return;
-    }
-
+    if (!files.length) return;
+    const error = files.map(getVocabularyImageValidationError).find(Boolean);
+    if (error) { setActionError(error); return; }
     setUploadingVocabularyImageEntryId(vocabularyEntryId);
     try {
-      const result = await uploadVocabularyImageAsset(blockId, vocabularyEntryId, file);
-
-      patchBlock(blockId, (block) => ({
-        ...block,
-        vocabulary: block.vocabulary
-          ? {
-              ...block.vocabulary,
-              entries: block.vocabulary.entries.map((entry) =>
-                entry.id === vocabularyEntryId
-                  ? { ...entry, imageUrl: result.imageUrl!, imagePath: result.imagePath! }
-                  : entry,
-              ),
-            }
-          : null,
-      }));
+      const result = await uploadVocabularyImageAsset(blockId, vocabularyEntryId, files);
+      updateVocabularyWordImage(blockId, vocabularyEntryId, result);
     } catch (error) {
-      setActionError(error instanceof Error ? error.message : "Failed to upload vocabulary image.");
-    } finally {
-      setUploadingVocabularyImageEntryId(null);
-    }
+      setActionError(error instanceof Error ? error.message : "Failed to upload word image.");
+    } finally { setUploadingVocabularyImageEntryId(null); }
   }
 
   async function handleRemoveVocabularyImage(blockId: string, vocabularyEntryId: string) {
@@ -2790,49 +2792,114 @@ export function ContentBlocksEditorClient({
     setUploadingVocabularyImageEntryId(vocabularyEntryId);
     try {
       const response = await fetch("/api/admin/vocabulary-image", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contentId: content.id,
-          blockId,
-          vocabularyEntryId,
-        }),
+        method: "DELETE", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contentId: content.id, blockId, vocabularyEntryId }),
       });
-      const result = (await response.json()) as { imageUrl?: string; imagePath?: string; error?: string };
-      if (!response.ok) {
-        throw new Error(result.error || "Failed to remove vocabulary image.");
-      }
-
-      patchBlock(blockId, (block) => ({
-        ...block,
-        vocabulary: block.vocabulary
-          ? {
-              ...block.vocabulary,
-              entries: block.vocabulary.entries.map((entry) =>
-                entry.id === vocabularyEntryId ? { ...entry, imageUrl: "", imagePath: "" } : entry,
-              ),
-            }
-          : null,
-      }));
-
-      if (previewVocabularyImage?.src) {
-        const currentBlock = blocks.find((block) => block.id === blockId);
-        const currentEntry = currentBlock?.vocabulary?.entries.find((entry) => entry.id === vocabularyEntryId);
-        if (currentEntry?.imageUrl === previewVocabularyImage.src) {
-          setPreviewVocabularyImage(null);
-        }
-      }
+      const result = (await response.json()) as VocabularyImageResult;
+      if (!response.ok) throw new Error(result.error || "Failed to remove word image.");
+      updateVocabularyWordImage(blockId, vocabularyEntryId, result);
     } catch (error) {
-      setActionError(error instanceof Error ? error.message : "Failed to remove vocabulary image.");
-    } finally {
-      setUploadingVocabularyImageEntryId(null);
-    }
+      setActionError(error instanceof Error ? error.message : "Failed to remove word image.");
+    } finally { setUploadingVocabularyImageEntryId(null); }
+  }
+
+  function updateVocabularyBlockGallery(blockId: string, images: VocabularyGalleryImage[]) {
+    patchBlock(blockId, (block) => ({
+      ...block,
+      vocabulary: block.vocabulary ? { ...block.vocabulary, galleryImages: images } : null,
+    }));
+  }
+
+  async function mutateVocabularyBlockGallery(blockId: string, method: "POST" | "PATCH" | "DELETE", payload: File[] | { imageId?: string; imageIds?: string[] }) {
+    setActionError(null);
+    setUploadingVocabularyGalleryBlockId(blockId);
+    try {
+      const body = method === "POST" ? (() => {
+        const formData = new FormData();
+        formData.set("contentId", content.id);
+        formData.set("blockId", blockId);
+        for (const file of payload as File[]) formData.append("files", file);
+        return formData;
+      })() : JSON.stringify({ contentId: content.id, blockId, ...payload });
+      const response = await fetch("/api/admin/vocabulary-gallery", {
+        method, body,
+        ...(method === "POST" ? {} : { headers: { "Content-Type": "application/json" } }),
+      });
+      const result = (await response.json()) as { images?: VocabularyGalleryImage[]; error?: string };
+      if (!response.ok || !Array.isArray(result.images)) throw new Error(result.error || "Could not update vocabulary gallery.");
+      updateVocabularyBlockGallery(blockId, result.images);
+      return true;
+    } catch (error) {
+      setActionError(error instanceof Error ? error.message : "Could not update vocabulary gallery.");
+      return false;
+    } finally { setUploadingVocabularyGalleryBlockId(null); }
   }
 
   function openVocabularyModal(blockId: string) {
     setActiveVocabularyBlockId(blockId);
     resetVocabularyModal();
     setIsVocabularyModalOpen(true);
+  }
+
+  function openVocabularyQuickImport(blockId: string) {
+    setActiveVocabularyBlockId(blockId);
+    setQuickVocabularyImportText("");
+    setActionError(null);
+    setIsVocabularyQuickImportOpen(true);
+  }
+
+  async function handleQuickImportVocabulary() {
+    if (!activeVocabularyBlockId || isImportingVocabulary) return;
+    const currentBlock = blocks.find((block) => block.id === activeVocabularyBlockId);
+    if (!currentBlock?.vocabulary) return;
+
+    const parsedImport = parseVocabularyImport(quickVocabularyImportText);
+    if (parsedImport.errors.length > 0 || parsedImport.entries.length === 0) {
+      setActionError(parsedImport.errors[0] || "No valid vocabulary entries found.");
+      return;
+    }
+
+    setActionError(null);
+    setIsImportingVocabulary(true);
+    const blockId = activeVocabularyBlockId;
+    const vocabularyId = currentBlock.vocabulary.id;
+
+    try {
+      const created = await createVocabularyEntries({
+        contentId: content.id,
+        blockId,
+        vocabularyId,
+        entries: parsedImport.entries,
+      });
+      const createdRows: NonNullable<BlockDraft["vocabulary"]>["entries"] = created.map((entry) => ({
+        id: entry.id,
+        vocabularyId: entry.vocabularyId,
+        word: entry.word,
+        partOfSpeech: entry.partOfSpeech,
+        pronunciation: entry.pronunciation,
+        meaning: entry.meaning,
+        synonyms: entry.synonyms,
+        antonyms: entry.antonyms,
+        imageUrl: entry.imageUrl || "",
+        imagePath: entry.imagePath || "",
+        uploadedFiles: [],
+        sortOrder: entry.sortOrder,
+      }));
+
+      patchBlock(blockId, (block) => ({
+        ...block,
+        vocabulary: block.vocabulary
+          ? { ...block.vocabulary, entries: [...block.vocabulary.entries, ...createdRows] }
+          : null,
+      }));
+      setQuickVocabularyImportText("");
+      setIsVocabularyQuickImportOpen(false);
+      setActiveVocabularyBlockId(null);
+    } catch (error) {
+      setActionError(error instanceof Error ? error.message : "Failed to import vocabulary entries.");
+    } finally {
+      setIsImportingVocabulary(false);
+    }
   }
 
   async function handleCreateVocabularyRow(keepOpen: boolean) {
@@ -2844,7 +2911,7 @@ export function ContentBlocksEditorClient({
 
     const blockId = activeVocabularyBlockId;
     const vocabularyId = currentBlock.vocabulary.id;
-    const selectedImageFile = newVocabularyImageFile;
+    const selectedImageFiles = newVocabularyImageFiles.map((item) => item.file);
 
     setActionError(null);
     setIsCreatingVocabularyRow(true);
@@ -2855,20 +2922,25 @@ export function ContentBlocksEditorClient({
         blockId,
         vocabularyId,
         word: newVocabularyWord,
+        partOfSpeech: newVocabularyPartOfSpeech,
+        pronunciation: newVocabularyPronunciation,
         meaning: newVocabularyMeaning,
+        synonyms: newVocabularySynonyms,
+        antonyms: newVocabularyAntonyms,
       });
 
       let imageUrl = created.imageUrl || "";
       let imagePath = created.imagePath || "";
+      let images: VocabularyGalleryImage[] = [];
       let imageUploadError: string | null = null;
-
-      if (selectedImageFile) {
+      if (selectedImageFiles.length) {
         try {
-          const uploaded = await uploadVocabularyImageAsset(blockId, created.id, selectedImageFile);
+          const uploaded = await uploadVocabularyImageAsset(blockId, created.id, selectedImageFiles);
           imageUrl = uploaded.imageUrl;
           imagePath = uploaded.imagePath;
+          images = uploaded.images;
         } catch (error) {
-          imageUploadError = error instanceof Error ? error.message : "Failed to upload vocabulary image.";
+          imageUploadError = error instanceof Error ? error.message : "Failed to upload vocabulary images.";
         }
       }
 
@@ -2883,9 +2955,14 @@ export function ContentBlocksEditorClient({
                   id: created.id,
                   vocabularyId: created.vocabularyId,
                   word: created.word,
+                  partOfSpeech: created.partOfSpeech,
+                  pronunciation: created.pronunciation,
                   meaning: created.meaning,
+                  synonyms: created.synonyms,
+                  antonyms: created.antonyms,
                   imageUrl,
                   imagePath,
+                  uploadedFiles: images,
                   sortOrder: created.sortOrder,
                 },
               ],
@@ -4091,6 +4168,14 @@ export function ContentBlocksEditorClient({
 
               {block.kind === "vocabulary" && block.vocabulary ? (
                 <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-5`}>
+                  <VocabularyGlobalGalleryEditor
+                    images={block.vocabulary.galleryImages || []}
+                    busy={uploadingVocabularyGalleryBlockId === block.id}
+                    onUpload={async (files) => mutateVocabularyBlockGallery(block.id, "POST", files)}
+                    onReorder={async (imageIds) => mutateVocabularyBlockGallery(block.id, "PATCH", { imageIds })}
+                    onDelete={async (imageId) => mutateVocabularyBlockGallery(block.id, "DELETE", { imageId })}
+                  />
+
                   <FieldGroup>
                     <Field>
                       <FieldContent>
@@ -4141,12 +4226,18 @@ export function ContentBlocksEditorClient({
                   <div className="flex items-center justify-between gap-4">
                     <div className="space-y-1">
                       <h3 className="text-sm font-medium">Vocabulary rows</h3>
-                      <p className="text-sm text-muted-foreground">Manage word and meaning pairs for this content block.</p>
+                      <p className="text-sm text-muted-foreground">Manage word details manually or paste formatted vocabulary with Quick import.</p>
                     </div>
-                    <Button type="button" onClick={() => openVocabularyModal(block.id)}>
-                      <Plus className="mr-2 h-4 w-4" />
-                      Add word
-                    </Button>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Button type="button" variant="outline" onClick={() => openVocabularyQuickImport(block.id)}>
+                        <ClipboardPaste className="mr-2 h-4 w-4" />
+                        Quick import
+                      </Button>
+                      <Button type="button" onClick={() => openVocabularyModal(block.id)}>
+                        <Plus className="mr-2 h-4 w-4" />
+                        Add word
+                      </Button>
+                    </div>
                   </div>
 
                   <div className="space-y-4">
@@ -4178,7 +4269,29 @@ export function ContentBlocksEditorClient({
                                 <BufferedInput
                                   value={entry.word}
                                   onCommit={(value) => void handleVocabularyEntryChange(block.id, entry.id, { word: value })}
-                                  placeholder="Write the vocabulary word..."
+                                  placeholder="e.g. little"
+                                />
+                              </FieldContent>
+                            </Field>
+
+                            <Field>
+                              <FieldContent>
+                                <FieldLabel>Part of speech</FieldLabel>
+                                <BufferedInput
+                                  value={entry.partOfSpeech}
+                                  onCommit={(value) => void handleVocabularyEntryChange(block.id, entry.id, { partOfSpeech: value })}
+                                  placeholder="e.g. Adj"
+                                />
+                              </FieldContent>
+                            </Field>
+
+                            <Field>
+                              <FieldContent>
+                                <FieldLabel>Pronunciation</FieldLabel>
+                                <BufferedInput
+                                  value={entry.pronunciation}
+                                  onCommit={(value) => void handleVocabularyEntryChange(block.id, entry.id, { pronunciation: value })}
+                                  placeholder="e.g. লিটল"
                                 />
                               </FieldContent>
                             </Field>
@@ -4189,84 +4302,57 @@ export function ContentBlocksEditorClient({
                                 <BufferedInput
                                   value={entry.meaning}
                                   onCommit={(value) => void handleVocabularyEntryChange(block.id, entry.id, { meaning: value })}
-                                  placeholder="Write the meaning..."
+                                  placeholder="e.g. ছোট"
+                                />
+                              </FieldContent>
+                            </Field>
+
+                            <Field>
+                              <FieldContent>
+                                <FieldLabel>Synonyms</FieldLabel>
+                                <BufferedInput
+                                  value={entry.synonyms}
+                                  onCommit={(value) => void handleVocabularyEntryChange(block.id, entry.id, { synonyms: value })}
+                                  placeholder="small, tiny, young"
+                                />
+                              </FieldContent>
+                            </Field>
+
+                            <Field>
+                              <FieldContent>
+                                <FieldLabel>Antonyms</FieldLabel>
+                                <BufferedInput
+                                  value={entry.antonyms}
+                                  onCommit={(value) => void handleVocabularyEntryChange(block.id, entry.id, { antonyms: value })}
+                                  placeholder="big, large"
                                 />
                               </FieldContent>
                             </Field>
 
                             <Field className="md:col-span-2">
                               <FieldContent>
-                                <FieldLabel>Image</FieldLabel>
-                                <FieldDescription>
-                                  Optional. JPEG, PNG, or WebP only. Maximum size follows the active Storage Settings. The server verifies and re-encodes every upload.
-                                </FieldDescription>
-
-                                <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center">
-                                  {entry.imageUrl ? (
-                                    <button
-                                      type="button"
-                                      className="group relative h-20 w-28 overflow-hidden rounded-lg border bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                                      onClick={() =>
-                                        setPreviewVocabularyImage({
-                                          src: entry.imageUrl,
-                                          alt: entry.word || `Vocabulary image ${index + 1}`,
-                                        })
-                                      }
-                                      aria-label="Open large image preview"
-                                    >
-                                      <Image
-                                        src={entry.imageUrl}
-                                        alt={entry.word || `Vocabulary image ${index + 1}`}
-                                        fill
-                                        sizes="112px"
-                                        className="object-cover"
-                                      />
-                                      <span className="absolute inset-0 grid place-items-center bg-black/0 text-white opacity-0 transition group-hover:bg-black/35 group-hover:opacity-100">
-                                        <ZoomIn className="h-5 w-5" />
-                                      </span>
-                                    </button>
-                                  ) : (
-                                    <div className="grid h-20 w-28 place-items-center rounded-lg border border-dashed bg-muted/40 text-muted-foreground">
-                                      <ImagePlus className="h-5 w-5" />
-                                    </div>
-                                  )}
-
-                                  <div className="flex min-w-0 flex-1 flex-col gap-2">
-                                    <Input
-                                      type="file"
-                                      accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
-                                      disabled={uploadingVocabularyImageEntryId === entry.id}
-                                      onChange={(event) => {
-                                        const input = event.currentTarget;
-                                        const file = input.files?.[0];
-                                        if (file) {
-                                          void handleVocabularyImageUpload(block.id, entry.id, file).finally(() => {
-                                            input.value = "";
-                                          });
-                                        }
-                                      }}
-                                    />
-
-                                    <div className="flex flex-wrap items-center gap-2">
-                                      {uploadingVocabularyImageEntryId === entry.id ? (
-                                        <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
-                                          <LoaderCircle className="h-3.5 w-3.5 animate-spin" />
-                                          Optimizing image...
-                                        </span>
-                                      ) : entry.imageUrl ? (
-                                        <Button
-                                          type="button"
-                                          variant="outline"
-                                          size="sm"
-                                          onClick={() => void handleRemoveVocabularyImage(block.id, entry.id)}
-                                        >
-                                          <X className="mr-2 h-4 w-4" />
-                                          Remove image
-                                        </Button>
-                                      ) : null}
-                                    </div>
+                                <FieldLabel>Word image (one image)</FieldLabel>
+                                <FieldDescription>Each vocabulary word has one optional image. Uploading a new one replaces the previous image.</FieldDescription>
+                                {entry.imageUrl ? (
+                                  <div className="mt-3 flex flex-wrap items-center gap-3 rounded-xl border bg-muted/15 p-3">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img src={entry.imageUrl} alt={entry.word} className="size-24 rounded-lg object-contain" />
+                                    <Button type="button" variant="outline" size="sm" disabled={uploadingVocabularyImageEntryId === entry.id}
+                                      onClick={() => void handleRemoveVocabularyImage(block.id, entry.id)}>
+                                      <Trash2 className="mr-2 size-4" />Remove word image
+                                    </Button>
                                   </div>
-                                </div>
+                                ) : null}
+                                <Input
+                                  className="mt-3" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
+                                  disabled={uploadingVocabularyImageEntryId === entry.id}
+                                  onChange={(event) => {
+                                    const input = event.currentTarget;
+                                    const files = Array.from(input.files || []);
+                                    if (files.length) void handleVocabularyImageUpload(block.id, entry.id, files).finally(() => { input.value = ""; });
+                                  }}
+                                />
+                                {uploadingVocabularyImageEntryId === entry.id ? <span className="inline-flex items-center gap-2 text-xs text-muted-foreground"><LoaderCircle className="size-4 animate-spin" />Uploading image...</span> : null}
                               </FieldContent>
                             </Field>
                           </FieldGroup>
@@ -4274,6 +4360,8 @@ export function ContentBlocksEditorClient({
                       </Card>
                     ))}
                   </div>
+
+
                 </CardContent>
               ) : null}
 
@@ -7695,7 +7783,7 @@ export function ContentBlocksEditorClient({
           }
         }}
         title="Add vocabulary word"
-        description="Add the word, meaning, and an optional image. The image is securely verified, optimized, and saved after the vocabulary row is created."
+        description="Add the word, part of speech, pronunciation, meaning, synonyms, antonyms, and an optional image."
         footer={
           <div className="flex w-full flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-end">
             <Button
@@ -7731,122 +7819,194 @@ export function ContentBlocksEditorClient({
         }
       >
         <FieldGroup className="gap-5">
+          <div className="grid gap-4 md:grid-cols-2">
+            <Field>
+              <FieldContent>
+                <FieldLabel>Word</FieldLabel>
+                <BufferedInput
+                  value={newVocabularyWord}
+                  onCommit={(value) => {
+                    clearCreateValidationError("word");
+                    setNewVocabularyWord(value);
+                  }}
+                  placeholder="e.g. little"
+                />
+                <FieldError>{createValidationErrors.word}</FieldError>
+              </FieldContent>
+            </Field>
+
+            <Field>
+              <FieldContent>
+                <FieldLabel>Part of speech</FieldLabel>
+                <BufferedInput value={newVocabularyPartOfSpeech} onCommit={setNewVocabularyPartOfSpeech} placeholder="e.g. Adj" />
+              </FieldContent>
+            </Field>
+
+            <Field>
+              <FieldContent>
+                <FieldLabel>Pronunciation</FieldLabel>
+                <BufferedInput value={newVocabularyPronunciation} onCommit={setNewVocabularyPronunciation} placeholder="e.g. লিটল" />
+              </FieldContent>
+            </Field>
+
+            <Field>
+              <FieldContent>
+                <FieldLabel>Meaning</FieldLabel>
+                <BufferedInput
+                  value={newVocabularyMeaning}
+                  onCommit={(value) => {
+                    clearCreateValidationError("meaning");
+                    setNewVocabularyMeaning(value);
+                  }}
+                  placeholder="e.g. ছোট"
+                />
+                <FieldError>{createValidationErrors.meaning}</FieldError>
+              </FieldContent>
+            </Field>
+
+            <Field>
+              <FieldContent>
+                <FieldLabel>Synonyms</FieldLabel>
+                <BufferedInput value={newVocabularySynonyms} onCommit={setNewVocabularySynonyms} placeholder="small, tiny, young" />
+              </FieldContent>
+            </Field>
+
+            <Field>
+              <FieldContent>
+                <FieldLabel>Antonyms</FieldLabel>
+                <BufferedInput value={newVocabularyAntonyms} onCommit={setNewVocabularyAntonyms} placeholder="big, large" />
+              </FieldContent>
+            </Field>
+          </div>
+
           <Field>
             <FieldContent>
-              <FieldLabel>Word</FieldLabel>
-              <BufferedInput
-                value={newVocabularyWord}
-                onCommit={(value) => {
-                  clearCreateValidationError("word");
-                  setNewVocabularyWord(value);
-                }}
-                placeholder="Write the vocabulary word..."
+              <FieldLabel>Word image (optional, one only)</FieldLabel>
+              <FieldDescription>Choose one image for this word. Multi-image uploads belong in the Vocabulary Global Gallery after you save the word.</FieldDescription>
+              <Input
+                ref={newVocabularyImageInputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
+                disabled={isCreatingVocabularyRow}
+                onChange={(event) => handleNewVocabularyImageSelection(Array.from(event.currentTarget.files || []))}
               />
-              <FieldError>{createValidationErrors.word}</FieldError>
-            </FieldContent>
-          </Field>
-
-          <Field>
-            <FieldContent>
-              <FieldLabel>Meaning</FieldLabel>
-              <BufferedInput
-                value={newVocabularyMeaning}
-                onCommit={(value) => {
-                  clearCreateValidationError("meaning");
-                  setNewVocabularyMeaning(value);
-                }}
-                placeholder="Write the meaning..."
-              />
-              <FieldError>{createValidationErrors.meaning}</FieldError>
-            </FieldContent>
-          </Field>
-
-          <Field>
-            <FieldContent>
-              <FieldLabel>Image</FieldLabel>
-              <FieldDescription>
-                Optional. JPEG, PNG, or WebP only. Maximum size follows the active Storage Settings. The server verifies and re-encodes every upload.
-              </FieldDescription>
-
-              <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center">
-                {newVocabularyImagePreviewUrl ? (
-                  <div className="relative h-24 w-32 overflow-hidden rounded-lg border bg-muted">
-                    <Image
-                      src={newVocabularyImagePreviewUrl}
-                      alt={newVocabularyWord.trim() || "Selected vocabulary image"}
-                      fill
-                      unoptimized
-                      sizes="128px"
-                      className="object-cover"
-                    />
-                  </div>
-                ) : (
-                  <div className="grid h-24 w-32 place-items-center rounded-lg border border-dashed bg-muted/40 text-muted-foreground">
-                    <ImagePlus className="h-6 w-6" />
-                  </div>
-                )}
-
-                <div className="flex min-w-0 flex-1 flex-col gap-2">
-                  <Input
-                    ref={newVocabularyImageInputRef}
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
-                    disabled={isCreatingVocabularyRow}
-                    onChange={(event) => {
-                      handleNewVocabularyImageSelection(event.currentTarget.files?.[0] ?? null);
-                    }}
-                  />
-
-                  {newVocabularyImageFile ? (
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="max-w-full truncate text-xs text-muted-foreground">
-                        {newVocabularyImageFile.name} · {(newVocabularyImageFile.size / 1024 / 1024).toFixed(2)} MB
-                      </span>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        disabled={isCreatingVocabularyRow}
-                        onClick={() => {
-                          handleNewVocabularyImageSelection(null);
-                          if (newVocabularyImageInputRef.current) {
-                            newVocabularyImageInputRef.current.value = "";
-                          }
-                        }}
-                      >
-                        <X className="mr-2 h-4 w-4" />
-                        Remove image
-                      </Button>
+              {newVocabularyImageFiles.length ? (
+                <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                  {newVocabularyImageFiles.map((item, index) => (
+                    <div key={item.previewUrl} className="relative overflow-hidden rounded-lg border bg-muted/30 p-1">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={item.previewUrl} alt={`Selected image ${index + 1}`} className="h-24 w-full rounded-md object-contain" />
+                      <div className="flex items-center gap-1 p-1">
+                        <span className="min-w-0 flex-1 truncate text-xs">{item.file.name}</span>
+                        <Button type="button" variant="outline" size="icon-sm" aria-label={`Remove selected image ${index + 1}`} disabled={isCreatingVocabularyRow} onClick={() => {
+                          URL.revokeObjectURL(item.previewUrl);
+                          setNewVocabularyImageFiles((current) => current.filter((image) => image.previewUrl !== item.previewUrl));
+                        }}><X className="h-4 w-4" /></Button>
+                      </div>
                     </div>
-                  ) : (
-                    <p className="text-xs text-muted-foreground">Choose an image now, or add/replace it later from the vocabulary row.</p>
-                  )}
+                  ))}
                 </div>
-              </div>
+              ) : null}
             </FieldContent>
           </Field>
         </FieldGroup>
       </ResponsiveEntityEditor>
 
-      <Dialog open={Boolean(previewVocabularyImage)} onOpenChange={(open) => !open && setPreviewVocabularyImage(null)}>
-        <DialogContent className="sm:max-w-4xl">
-          <DialogHeader>
-            <DialogTitle>Vocabulary image preview</DialogTitle>
-            <DialogDescription>{previewVocabularyImage?.alt || "Vocabulary image"}</DialogDescription>
-          </DialogHeader>
-          {previewVocabularyImage ? (
-            <div className="relative min-h-[50vh] w-full overflow-hidden rounded-xl border bg-muted/30">
-              <Image
-                src={previewVocabularyImage.src}
-                alt={previewVocabularyImage.alt}
-                fill
-                sizes="(max-width: 768px) 95vw, 900px"
-                className="object-contain p-2"
+      <ResponsiveEntityEditor
+        open={isVocabularyQuickImportOpen}
+        onOpenChange={(open) => {
+          setIsVocabularyQuickImportOpen(open);
+          if (!open) {
+            setQuickVocabularyImportText("");
+            setActiveVocabularyBlockId(null);
+          }
+        }}
+        title="Quick import vocabulary"
+        description="Paste one or more vocabulary entries. The importer detects word, part of speech, pronunciation, meaning, synonyms, and antonyms."
+        footer={
+          <div className="flex w-full flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-end">
+            <Button
+              type="button"
+              variant="outline"
+              disabled={isImportingVocabulary}
+              onClick={() => {
+                setIsVocabularyQuickImportOpen(false);
+                setQuickVocabularyImportText("");
+                setActiveVocabularyBlockId(null);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              disabled={
+                isImportingVocabulary ||
+                vocabularyQuickImportPreview.entries.length === 0 ||
+                vocabularyQuickImportPreview.errors.length > 0
+              }
+              onClick={() => void handleQuickImportVocabulary()}
+            >
+              {isImportingVocabulary ? <LoaderCircle className="mr-2 h-4 w-4 animate-spin" /> : <ClipboardPaste className="mr-2 h-4 w-4" />}
+              Import {vocabularyQuickImportPreview.entries.length || ""} {vocabularyQuickImportPreview.entries.length === 1 ? "word" : "words"}
+            </Button>
+          </div>
+        }
+      >
+        <div className="space-y-5">
+          <Field>
+            <FieldContent>
+              <FieldLabel>Paste vocabulary data</FieldLabel>
+              <FieldDescription>
+                Start every entry with <code>Word:</code>. You can paste several entries separated by blank lines.
+              </FieldDescription>
+              <Textarea
+                value={quickVocabularyImportText}
+                onChange={(event) => {
+                  setActionError(null);
+                  setQuickVocabularyImportText(event.currentTarget.value);
+                }}
+                className="min-h-44 font-mono text-sm"
+                placeholder={`Word: little (Adj) (লিটল) – ছোট।\nSynonym: small, tiny, young.\nAntonyms: big, large.`}
               />
+            </FieldContent>
+          </Field>
+
+          {vocabularyQuickImportPreview.errors.length > 0 ? (
+            <div className="rounded-xl border border-destructive/30 bg-destructive/5 p-4 text-sm text-destructive">
+              {vocabularyQuickImportPreview.errors.map((error) => (
+                <div key={error}>{error}</div>
+              ))}
             </div>
           ) : null}
-        </DialogContent>
-      </Dialog>
+
+          {vocabularyQuickImportPreview.entries.length > 0 ? (
+            <div className="space-y-2">
+              <div className="flex items-center justify-between gap-3">
+                <div className="text-sm font-medium">Import preview</div>
+                <Badge variant="secondary">{vocabularyQuickImportPreview.entries.length} parsed</Badge>
+              </div>
+              <ScrollArea className="max-h-80 rounded-xl border">
+                <div className="space-y-2 p-3">
+                  {vocabularyQuickImportPreview.entries.map((entry, index) => (
+                    <div key={`${entry.word}-${index}`} className="rounded-lg border bg-muted/15 p-3">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="font-medium">{entry.word}</span>
+                        {entry.partOfSpeech ? <Badge variant="outline">{entry.partOfSpeech}</Badge> : null}
+                        {entry.pronunciation ? <span className="text-sm text-muted-foreground">({entry.pronunciation})</span> : null}
+                      </div>
+                      <div className="mt-1 text-sm">{entry.meaning}</div>
+                      {entry.synonyms ? <div className="mt-2 text-xs text-muted-foreground"><span className="font-medium text-foreground">Synonyms:</span> {entry.synonyms}</div> : null}
+                      {entry.antonyms ? <div className="mt-1 text-xs text-muted-foreground"><span className="font-medium text-foreground">Antonyms:</span> {entry.antonyms}</div> : null}
+                    </div>
+                  ))}
+                </div>
+              </ScrollArea>
+            </div>
+          ) : null}
+        </div>
+      </ResponsiveEntityEditor>
+
+
     </div>
   );
 }

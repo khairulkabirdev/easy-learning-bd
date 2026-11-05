@@ -4,12 +4,12 @@ import { useMemo, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 
 import {
-  parseMatchingDocument,
   parseQuestionAnswerDocument,
   parseRearrangeSentenceDocument,
   type SubjectSectionKind,
 } from "@/app/admin/content/subject-section-blocks/types";
-import { parseUnseenCompositionDocument } from "@/app/admin/content/unseen-composition/types";
+import { UserUnseenCompositionViewer } from "@/components/app/UserUnseenCompositionViewer";
+import { UserMatchingSentencesViewer } from "@/components/app/UserMatchingSentencesViewer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -73,54 +73,6 @@ function QuestionAnswerViewer({ record }: { record: RecordData }) {
   );
 }
 
-function MatchingViewer({ record }: { record: RecordData }) {
-  const [showAnswers, setShowAnswers] = useState(false);
-  const document = useMemo(() => parseMatchingDocument(record.documentJson, record.id), [record]);
-  const cellText = useMemo(() => {
-    const map = new Map<string, string>();
-    document.rows.forEach((row) => row.cells.forEach((cell) => map.set(cell.id, cell.text)));
-    return map;
-  }, [document]);
-
-  return (
-    <div className="space-y-4">
-      {record.instruction ? <RichText value={record.instruction} /> : null}
-      {record.details ? <RichText value={record.details} /> : null}
-      <div className="overflow-x-auto rounded-xl border">
-        <table className="w-full min-w-[520px] border-collapse text-sm">
-          <thead className="bg-muted/50">
-            <tr>{document.columns.map((column) => <th key={column.id} className="border-b p-3 text-left font-semibold">{column.label}</th>)}</tr>
-          </thead>
-          <tbody>
-            {document.rows.map((row) => (
-              <tr key={row.id} className="border-b last:border-b-0">
-                {document.columns.map((column) => {
-                  const cell = row.cells.find((item) => item.columnId === column.id);
-                  return <td key={column.id} className="p-3 align-top">{cell?.text || "—"}</td>;
-                })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="flex justify-end"><AnswerToggle open={showAnswers} onClick={() => setShowAnswers((value) => !value)} /></div>
-      {showAnswers ? (
-        <Card>
-          <CardHeader><CardTitle className="text-base">Correct matching</CardTitle></CardHeader>
-          <CardContent className="space-y-2">
-            {document.answers.map((answer, index) => (
-              <div key={answer.id} className="rounded-lg border bg-muted/20 px-3 py-2 text-sm">
-                <span className="mr-2 font-semibold">{index + 1}.</span>
-                {answer.selections.map((selection) => cellText.get(selection.cellId) || "—").join(" → ")}
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-      ) : null}
-    </div>
-  );
-}
-
 function RearrangeViewer({ record }: { record: RecordData }) {
   const [showAnswers, setShowAnswers] = useState(false);
   const document = useMemo(() => parseRearrangeSentenceDocument(record.documentJson, record.id), [record]);
@@ -165,51 +117,6 @@ function RearrangeViewer({ record }: { record: RecordData }) {
   );
 }
 
-function UnseenViewer({ record }: { record: RecordData }) {
-  const [showAnswers, setShowAnswers] = useState(false);
-  const document = useMemo(() => parseUnseenCompositionDocument(record.documentJson), [record]);
-
-  return (
-    <div className="space-y-4">
-      <div className="flex justify-end"><AnswerToggle open={showAnswers} onClick={() => setShowAnswers((value) => !value)} /></div>
-      {document.blocks.map((block, index) => (
-        <Card key={block.id}>
-          <CardHeader className="pb-3"><CardTitle className="text-base">{index + 1}. {block.kind.replaceAll("-", " ")}</CardTitle></CardHeader>
-          <CardContent className="space-y-3">
-            {block.kind === "unseen-passage" ? <RichText value={block.body} /> : null}
-            {block.kind === "writing-summary" ? (
-              <>
-                <RichText value={block.instruction} />
-                {showAnswers ? <div className="rounded-xl border border-primary/15 bg-primary/5 p-3"><RichText value={block.modelAnswer} /></div> : null}
-              </>
-            ) : null}
-            {block.kind === "information-transfer" ? (
-              <>
-                <RichText value={block.question} />
-                <RichText value={block.details} />
-                {showAnswers ? (
-                  <div className="flex flex-wrap gap-2">{block.blanks.map((blank, blankIndex) => <Badge key={blank.id} variant="secondary">{blankIndex + 1}. {blank.answer}</Badge>)}</div>
-                ) : null}
-              </>
-            ) : null}
-            {block.kind === "true-false" ? (
-              <div className="space-y-3">
-                <RichText value={block.instruction} />
-                {block.rows.map((row, rowIndex) => (
-                  <div key={row.id} className="rounded-xl border p-3 text-sm">
-                    <div><span className="mr-2 font-semibold">{rowIndex + 1}.</span>{row.statement}</div>
-                    {showAnswers ? <div className="mt-2 text-muted-foreground"><span className="font-medium text-foreground">{row.expectedAnswer ? "True" : "False"}</span>{row.correction ? ` — ${row.correction}` : ""}</div> : null}
-                  </div>
-                ))}
-              </div>
-            ) : null}
-          </CardContent>
-        </Card>
-      ))}
-    </div>
-  );
-}
-
 export function UserFirstPaperPracticeViewer({
   kind,
   record,
@@ -217,8 +124,8 @@ export function UserFirstPaperPracticeViewer({
   kind: SubjectSectionKind | "unseen-composition";
   record: RecordData;
 }) {
-  if (kind === "unseen-composition") return <UnseenViewer record={record} />;
-  if (kind === "matching-sentences") return <MatchingViewer record={record} />;
+  if (kind === "unseen-composition") return <UserUnseenCompositionViewer key={record.id} documentJson={record.documentJson} />;
+  if (kind === "matching-sentences") return <UserMatchingSentencesViewer key={record.id} record={record} />;
   if (kind === "rearrange-sentence") return <RearrangeViewer record={record} />;
   return <QuestionAnswerViewer record={record} />;
 }

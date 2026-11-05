@@ -454,7 +454,7 @@ const contentSelect = {
         select: {
           id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true,
           passage: true, passageSource: true, paragraphBlockId: true,
-          entries: { orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }], select: { id: true, vocabularyId: true, word: true, meaning: true, sortOrder: true } },
+          entries: { orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }], select: { id: true, vocabularyId: true, word: true, partOfSpeech: true, pronunciation: true, meaning: true, synonyms: true, antonyms: true, imageUrl: true, imagePath: true, sortOrder: true, uploadedFiles: { where: { purpose: "vocabulary-item-image", isCurrent: true, status: "active" }, orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }], select: { id: true, url: true, path: true, sortOrder: true } } } },
         },
       },
       synonymsAntonyms: {
@@ -512,8 +512,8 @@ function resolveLinkedPassage(content: any, record: any) {
   return record.passage || "";
 }
 
-function serializeContents(contents: Array<any>) {
-  return contents.map((content) => ({
+async function serializeContents(contents: Array<any>, organizationId: string) {
+  const serialized = contents.map((content) => ({
     ...content,
     createdAt: content.createdAt.toISOString(),
     blocks: content.blocks.map((block: any) => ({
@@ -702,6 +702,38 @@ function serializeContents(contents: Array<any>) {
         : null,
     })),
   }));
+
+  const vocabularyBlockIds = contents.flatMap((content: any) =>
+    content.blocks.filter((block: any) => block.kind === "vocabulary").map((block: any) => block.id as string),
+  );
+  if (vocabularyBlockIds.length) {
+    const galleryFiles = await prisma.uploadedFile.findMany({
+      where: {
+        organizationId,
+        ownerType: "VocabularyBlock",
+        ownerId: { in: vocabularyBlockIds },
+        purpose: "vocabulary-block-gallery",
+        isCurrent: true,
+        status: "active",
+      },
+      select: { id: true, ownerId: true, url: true, path: true, sortOrder: true },
+      orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
+    });
+    const galleryByBlock = new Map<string, typeof galleryFiles>();
+    for (const image of galleryFiles) {
+      const items = galleryByBlock.get(image.ownerId) ?? [];
+      items.push(image);
+      galleryByBlock.set(image.ownerId, items);
+    }
+    for (const content of serialized) {
+      for (const block of content.blocks) {
+        if (!block.vocabulary) continue;
+        block.vocabulary.galleryImages = (galleryByBlock.get(block.id) ?? [])
+          .map(({ id, url, path, sortOrder }) => ({ id, url, path, sortOrder }));
+      }
+    }
+  }
+  return serialized;
 }
 
 export async function getPublishedSubjectCards(organizationId: string) {
@@ -853,7 +885,7 @@ export async function getPublishedSubjectDetail(organizationId: string, classId:
     (content: any) => publishedLessonIds.has(content.lessonId) && (!content.topicId || publishedTopicIds.has(content.topicId)),
   );
 
-  return { subject, units, lessons, topics, contents: serializeContents(filteredContents) };
+  return { subject, units, lessons, topics, contents: await serializeContents(filteredContents, organizationId) };
 }
 
 
@@ -881,7 +913,7 @@ export async function getPublishedContentByBlockKind(
 
   if (!content) return null;
 
-  return serializeContents([content])[0] ?? null;
+  return (await serializeContents([content], organizationId))[0] ?? null;
 }
 
 export async function getPublishedContentById(
@@ -907,7 +939,7 @@ export async function getPublishedContentById(
 
   if (!content) return null;
 
-  return serializeContents([content])[0] ?? null;
+  return (await serializeContents([content], organizationId))[0] ?? null;
 }
 
 export async function getPublishedQuestionAnswerContentById(
@@ -933,6 +965,6 @@ export async function getPublishedQuestionAnswerContentById(
 
   if (!content) return null;
 
-  return serializeContents([content])[0] ?? null;
+  return (await serializeContents([content], organizationId))[0] ?? null;
 }
 

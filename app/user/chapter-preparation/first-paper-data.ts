@@ -146,7 +146,7 @@ export async function getSeenCompositionPage(input: SeenListInput) {
     prisma.content.count({ where }),
     prisma.content.findMany({
       where,
-      orderBy: [{ createdAt: "desc" }],
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
       skip: (page - 1) * pageSize,
       take: pageSize,
       select: {
@@ -176,6 +176,73 @@ export async function getSeenCompositionPage(input: SeenListInput) {
     pageSize,
     totalPages: Math.max(1, Math.ceil(total / pageSize)),
   };
+}
+
+export type SeenCompositionNextStep =
+  | { type: "content"; contentId: string }
+  | { type: "lesson"; lessonId: string; lessonTitle: string }
+  | { type: "end" };
+
+export async function getSeenCompositionNextStep(input: {
+  organizationId: string;
+  classId: string;
+  subjectId: string;
+  unitId: string;
+  lessonId: string;
+  passageKind: SeenPassageKind;
+  currentContentId: string;
+}): Promise<SeenCompositionNextStep> {
+  const current = await prisma.content.findFirst({
+    where: {
+      id: input.currentContentId,
+      organizationId: input.organizationId,
+      classId: input.classId,
+      subjectId: input.subjectId,
+      unitId: input.unitId,
+      lessonId: input.lessonId,
+      blocks: { some: { kind: input.passageKind } },
+    },
+    select: { id: true, createdAt: true },
+  });
+
+  if (!current) return { type: "end" };
+
+  const nextContent = await prisma.content.findFirst({
+    where: {
+      organizationId: input.organizationId,
+      classId: input.classId,
+      subjectId: input.subjectId,
+      unitId: input.unitId,
+      lessonId: input.lessonId,
+      blocks: { some: { kind: input.passageKind } },
+      OR: [
+        { createdAt: { lt: current.createdAt } },
+        { createdAt: current.createdAt, id: { lt: current.id } },
+      ],
+    },
+    orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+    select: { id: true },
+  });
+
+  if (nextContent) {
+    return { type: "content", contentId: nextContent.id };
+  }
+
+  const lessons = await getSeenCompositionLessons(
+    input.organizationId,
+    input.classId,
+    input.subjectId,
+    input.unitId,
+    input.passageKind,
+  );
+  const currentLessonIndex = lessons.findIndex((lesson) => lesson.id === input.lessonId);
+  const nextLesson = currentLessonIndex >= 0 ? lessons[currentLessonIndex + 1] : undefined;
+
+  if (nextLesson) {
+    return { type: "lesson", lessonId: nextLesson.id, lessonTitle: nextLesson.title };
+  }
+
+  return { type: "end" };
 }
 
 export type SubjectPracticeListItem = {
@@ -213,7 +280,7 @@ export async function getSubjectPracticePage(input: SubjectPracticePageInput) {
       prisma.unseenComposition.count({ where: commonWhere }),
       prisma.unseenComposition.findMany({
         where: commonWhere,
-        orderBy: [{ createdAt: "desc" }],
+        orderBy: [{ createdAt: "desc" }, { id: "desc" }],
         skip: (page - 1) * pageSize,
         take: pageSize,
         select: { id: true, title: true, updatedAt: true },

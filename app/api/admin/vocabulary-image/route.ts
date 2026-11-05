@@ -20,8 +20,6 @@ import { prunePendingStorageDeletes } from "@/lib/storage/upload-management";
 
 export const runtime = "nodejs";
 
-const MULTIPART_OVERHEAD_BYTES = 1024 * 1024;
-
 const entrySchema = z.object({
   contentId: z.string().min(1),
   blockId: z.string().min(1),
@@ -105,14 +103,6 @@ export async function POST(request: Request) {
   try {
     await assertTrustedMutationOrigin();
     const user = await requireAdmin();
-    const storageRecord = await getActiveStorageConfiguration(user.organizationId, user.id);
-    const storage = resolveStorageConfiguration(storageRecord);
-    const maxImageBytes = storage.maxImageSizeMb * 1024 * 1024;
-
-    const contentLength = Number(request.headers.get("content-length") || "0");
-    if (Number.isFinite(contentLength) && contentLength > maxImageBytes + MULTIPART_OVERHEAD_BYTES) {
-      return jsonError(`Image upload is larger than the configured ${storage.maxImageSizeMb} MB limit.`, 413);
-    }
 
     const formData = await request.formData();
     const parsed = entrySchema.parse({
@@ -133,15 +123,12 @@ export async function POST(request: Request) {
 
     await prunePendingStorageDeletes(user.organizationId, user.id);
     const oldTrackedFiles = await getCurrentVocabularyUploadFiles(prisma, entry.id, user.organizationId);
-    const optimized = await optimizeImageFile(file, { maxInputBytes: maxImageBytes });
+    const storageRecord = await getActiveStorageConfiguration(user.organizationId, user.id);
+    const storage = resolveStorageConfiguration(storageRecord);
+    if (file.size > storage.maxImageSizeMb * 1024 * 1024) return jsonError(`Image exceeds ${storage.maxImageSizeMb} MB.`, 413);
+    const optimized = await optimizeImageFile(file, { maxInputBytes: storage.maxImageSizeMb * 1024 * 1024 });
     const uploadedFileId = crypto.randomUUID();
-    const objectKey = createStorageObjectKey(
-      user.organizationId,
-      "vocabulary",
-      uploadedFileId,
-      optimized.extension,
-      storage.pathPrefix,
-    );
+    const objectKey = createStorageObjectKey(user.organizationId, "vocabulary", uploadedFileId, optimized.extension, storage.pathPrefix);
     const imageUrl = `/api/media/${uploadedFileId}`;
     const stored = {
       id: uploadedFileId,
@@ -217,6 +204,7 @@ export async function POST(request: Request) {
         imageUrl: result.updatedEntry.imageUrl,
         imagePath: result.updatedEntry.imagePath,
         uploadedFileId: result.uploadedFile.id,
+      images: [{ id: result.uploadedFile.id, url: result.updatedEntry.imageUrl, path: result.updatedEntry.imagePath, sortOrder: 0 }],
       },
       organizationId: user.organizationId,
     });
@@ -241,6 +229,7 @@ export async function POST(request: Request) {
       imageUrl: result.updatedEntry.imageUrl,
       imagePath: result.updatedEntry.imagePath,
       uploadedFileId: result.uploadedFile.id,
+      images: [{ id: result.uploadedFile.id, url: result.updatedEntry.imageUrl, path: result.updatedEntry.imagePath, sortOrder: 0 }],
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Image upload failed.";
@@ -299,7 +288,7 @@ export async function DELETE(request: Request) {
       organizationId: user.organizationId,
     });
 
-    return NextResponse.json({ imageUrl: "", imagePath: "" });
+    return NextResponse.json({ imageUrl: "", imagePath: "", images: [] });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Failed to remove image.";
     return jsonError(message, 400);

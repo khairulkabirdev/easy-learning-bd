@@ -160,12 +160,6 @@ async function ensureStorageConfigurationTable() {
     "sessionTokenEncrypted" TEXT NOT NULL DEFAULT '',
     "localRoot" TEXT NOT NULL DEFAULT 'storage/private',
     "forcePathStyle" BOOLEAN NOT NULL DEFAULT false,
-    "publicBaseUrl" TEXT NOT NULL DEFAULT '',
-    "privateBucket" TEXT NOT NULL DEFAULT '',
-    "maxImageSizeMb" INTEGER NOT NULL DEFAULT 20,
-    "maxVideoSizeMb" INTEGER NOT NULL DEFAULT 1024,
-    "maxModelSizeMb" INTEGER NOT NULL DEFAULT 500,
-    "pathPrefix" TEXT NOT NULL DEFAULT 'uploads',
     "isActive" BOOLEAN NOT NULL DEFAULT false,
     "everActivated" BOOLEAN NOT NULL DEFAULT false,
     "lastTestStatus" TEXT NOT NULL DEFAULT 'unknown',
@@ -178,12 +172,6 @@ async function ensureStorageConfigurationTable() {
     "updatedAt" DATETIME NOT NULL
   )`);
   await ensureColumn("StorageConfiguration", "everActivated", "BOOLEAN NOT NULL DEFAULT false");
-  await ensureColumn("StorageConfiguration", "publicBaseUrl", "TEXT NOT NULL DEFAULT ''");
-  await ensureColumn("StorageConfiguration", "privateBucket", "TEXT NOT NULL DEFAULT ''");
-  await ensureColumn("StorageConfiguration", "maxImageSizeMb", "INTEGER NOT NULL DEFAULT 20");
-  await ensureColumn("StorageConfiguration", "maxVideoSizeMb", "INTEGER NOT NULL DEFAULT 1024");
-  await ensureColumn("StorageConfiguration", "maxModelSizeMb", "INTEGER NOT NULL DEFAULT 500");
-  await ensureColumn("StorageConfiguration", "pathPrefix", "TEXT NOT NULL DEFAULT 'uploads'");
   await prisma.$executeRawUnsafe('CREATE UNIQUE INDEX IF NOT EXISTS "StorageConfiguration_organizationId_name_key" ON "StorageConfiguration"("organizationId", "name")');
   await prisma.$executeRawUnsafe('CREATE INDEX IF NOT EXISTS "StorageConfiguration_organizationId_isActive_idx" ON "StorageConfiguration"("organizationId", "isActive")');
   await prisma.$executeRawUnsafe('CREATE INDEX IF NOT EXISTS "StorageConfiguration_organizationId_provider_idx" ON "StorageConfiguration"("organizationId", "provider")');
@@ -205,6 +193,7 @@ async function ensureUploadedFileTable() {
     "mimeType" TEXT NOT NULL DEFAULT '',
     "extension" TEXT NOT NULL DEFAULT '',
     "sizeBytes" INTEGER NOT NULL DEFAULT 0,
+    "sortOrder" INTEGER NOT NULL DEFAULT 0,
     "width" INTEGER NOT NULL DEFAULT 0,
     "height" INTEGER NOT NULL DEFAULT 0,
     "checksumSha256" TEXT NOT NULL DEFAULT '',
@@ -242,14 +231,44 @@ async function ensureUploadedFileTable() {
   await prisma.$executeRawUnsafe(
     'CREATE INDEX IF NOT EXISTS "UploadedFile_path_idx" ON "UploadedFile"("path")',
   );
+  await ensureColumn("UploadedFile", "sortOrder", "INTEGER NOT NULL DEFAULT 0");
+  // Drop the older index and rebuild a consistent one after normalizing legacy galleries.
+  await prisma.$executeRawUnsafe('DROP INDEX IF EXISTS "UploadedFile_vocabulary_current_active_key"');
   await prisma.$executeRawUnsafe(
-    `CREATE UNIQUE INDEX IF NOT EXISTS "UploadedFile_vocabulary_current_active_key"
-     ON "UploadedFile"("vocabularyEntryId")
-     WHERE "vocabularyEntryId" IS NOT NULL
-       AND "purpose" = 'vocabulary-item-image'
-       AND "isCurrent" = true
-       AND "status" = 'active'`,
+    'CREATE INDEX IF NOT EXISTS "UploadedFile_vocabulary_gallery_order_idx" ON "UploadedFile"("vocabularyEntryId", "sortOrder")',
   );
+
+  // Correct the legacy per-word multi-image gallery model without losing any images.
+  // Keep the first uploaded image with its word; transfer additional active images
+  // into the independent gallery owned by its Vocabulary content block.
+  await prisma.$executeRawUnsafe(`
+    WITH ranked AS (
+      SELECT uf."id", v."contentBlockId" AS "blockId",
+        ROW_NUMBER() OVER (
+          PARTITION BY uf."vocabularyEntryId"
+          ORDER BY uf."sortOrder", uf."createdAt", uf."id"
+        ) AS "rank"
+      FROM "UploadedFile" uf
+      JOIN "VocabularyEntry" ve ON ve."id" = uf."vocabularyEntryId"
+      JOIN "Vocabulary" v ON v."id" = ve."vocabularyId"
+      WHERE uf."purpose" = 'vocabulary-item-image'
+        AND uf."isCurrent" = true AND uf."status" = 'active'
+    )
+    UPDATE "UploadedFile"
+    SET "purpose" = 'vocabulary-block-gallery',
+      "ownerType" = 'VocabularyBlock',
+      "ownerId" = (SELECT r."blockId" FROM ranked r WHERE r."id" = "UploadedFile"."id"),
+      "vocabularyEntryId" = NULL
+    WHERE "id" IN (SELECT "id" FROM ranked WHERE "rank" > 1)
+  `);
+  // The data is normalized before enforcing one active image per word.
+  await prisma.$executeRawUnsafe(`
+    CREATE UNIQUE INDEX IF NOT EXISTS "UploadedFile_one_current_word_image_idx"
+    ON "UploadedFile"("vocabularyEntryId")
+    WHERE "vocabularyEntryId" IS NOT NULL
+      AND "purpose" = 'vocabulary-item-image'
+      AND "status" = 'active' AND "isCurrent" = true
+  `);
 
   // Backfill existing VocabularyEntry images into the file tracker once.
   // Keep the immutable ownerId even if the VocabularyEntry is deleted later.
@@ -704,6 +723,10 @@ async function main() {
   await ensureColumn("Vocabulary", "passage", "TEXT NOT NULL DEFAULT ''");
   await ensureColumn("Vocabulary", "passageSource", "TEXT NOT NULL DEFAULT 'manual'");
   await ensureColumn("Vocabulary", "paragraphBlockId", "TEXT");
+  await ensureColumn("VocabularyEntry", "partOfSpeech", "TEXT NOT NULL DEFAULT ''");
+  await ensureColumn("VocabularyEntry", "pronunciation", "TEXT NOT NULL DEFAULT ''");
+  await ensureColumn("VocabularyEntry", "synonyms", "TEXT NOT NULL DEFAULT ''");
+  await ensureColumn("VocabularyEntry", "antonyms", "TEXT NOT NULL DEFAULT ''");
   await ensureColumn("VocabularyEntry", "imagePath", "TEXT NOT NULL DEFAULT ''");
   await ensureColumn("VocabularyEntry", "imageUrl", "TEXT NOT NULL DEFAULT ''");
 

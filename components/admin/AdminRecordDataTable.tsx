@@ -5,6 +5,7 @@ import { ArrowDown, ArrowUp, ArrowUpDown, Loader2 } from "lucide-react";
 
 import { loadAdminPagedRecords } from "@/app/admin/pagination/actions";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { AdminTableSearchInput } from "@/components/admin/AdminTableSearchInput";
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select";
 import {
@@ -54,6 +55,12 @@ type ServerMode = {
   refreshKey?: string | number;
 };
 
+type RowSelection = {
+  selectedIds: ReadonlySet<string>;
+  onSelectionChange: (next: Set<string>) => void;
+  disabled?: boolean;
+};
+
 type Props<T extends { id: string }> = {
   rows: T[];
   columns: AdminRecordDataTableColumn<T>[];
@@ -67,6 +74,7 @@ type Props<T extends { id: string }> = {
   showRowNumber?: boolean;
   rowNumberHeader?: string;
   server?: ServerMode;
+  selection?: RowSelection;
 };
 
 function compareValues(a: unknown, b: unknown) {
@@ -108,6 +116,7 @@ export function AdminRecordDataTable<T extends { id: string }>({
   showRowNumber = true,
   rowNumberHeader = "#",
   server,
+  selection,
 }: Props<T>) {
   const [query, setQuery] = useState("");
   const [pageSize, setPageSize] = useState(initialPageSize);
@@ -117,7 +126,7 @@ export function AdminRecordDataTable<T extends { id: string }>({
   const [serverTotal, setServerTotal] = useState(server?.total ?? rows.length);
   const [serverLoading, setServerLoading] = useState(false);
   const [serverError, setServerError] = useState("");
-  const skipInitialServerFetch = useRef(Boolean(server && server.enabled !== false));
+  const skipInitialServerFetch = useRef(Boolean(server && server.enabled !== false && rows.length > 0));
   const filtersKey = JSON.stringify(server?.filters ?? {});
   const serverFilters = useMemo(
     () => JSON.parse(filtersKey) as Record<string, string | undefined>,
@@ -164,6 +173,13 @@ export function AdminRecordDataTable<T extends { id: string }>({
   const firstShown = totalRecords === 0 ? 0 : startIndex + 1;
   const lastShown = Math.min(startIndex + displayedRows.length, totalRecords);
   const visiblePages = buildVisiblePages(safeCurrentPage, totalPages);
+  const visibleRowIds = displayedRows.map(({ row }) => row.id);
+  const selectedVisibleCount = selection
+    ? visibleRowIds.filter((id) => selection.selectedIds.has(id)).length
+    : 0;
+  const allVisibleSelected = Boolean(
+    selection && visibleRowIds.length > 0 && selectedVisibleCount === visibleRowIds.length,
+  );
 
   useEffect(() => {
     if (!isServerMode) setCurrentPage(1);
@@ -233,6 +249,24 @@ export function AdminRecordDataTable<T extends { id: string }>({
     sort,
   ]);
 
+  function updateSelection(rowId: string, checked: boolean) {
+    if (!selection || selection.disabled) return;
+    const next = new Set(selection.selectedIds);
+    if (checked) next.add(rowId);
+    else next.delete(rowId);
+    selection.onSelectionChange(next);
+  }
+
+  function toggleVisibleSelection(checked: boolean) {
+    if (!selection || selection.disabled) return;
+    const next = new Set(selection.selectedIds);
+    for (const id of visibleRowIds) {
+      if (checked) next.add(id);
+      else next.delete(id);
+    }
+    selection.onSelectionChange(next);
+  }
+
   function toggleSort(column: AdminRecordDataTableColumn<T>) {
     if (!column.sortValue) return;
     setSort((current) => {
@@ -296,6 +330,16 @@ export function AdminRecordDataTable<T extends { id: string }>({
         <Table>
           <TableHeader>
             <TableRow>
+              {selection ? (
+                <TableHead className="w-12 text-center">
+                  <Checkbox
+                    checked={allVisibleSelected}
+                    disabled={selection.disabled || displayedRows.length === 0 || serverLoading}
+                    onCheckedChange={(checked) => toggleVisibleSelection(Boolean(checked))}
+                    aria-label="Select all records on this page"
+                  />
+                </TableHead>
+              ) : null}
               {showRowNumber ? (
                 <TableHead className="w-14 text-center">{rowNumberHeader}</TableHead>
               ) : null}
@@ -332,7 +376,7 @@ export function AdminRecordDataTable<T extends { id: string }>({
             {displayedRows.length === 0 ? (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length + (showRowNumber ? 1 : 0)}
+                  colSpan={columns.length + (showRowNumber ? 1 : 0) + (selection ? 1 : 0)}
                   className="h-28 text-center text-muted-foreground"
                 >
                   {serverLoading ? "Loading records..." : emptyMessage}
@@ -340,7 +384,17 @@ export function AdminRecordDataTable<T extends { id: string }>({
               </TableRow>
             ) : (
               displayedRows.map(({ row, originalIndex }, pageIndex) => (
-                <TableRow key={row.id}>
+                <TableRow key={row.id} data-state={selection?.selectedIds.has(row.id) ? "selected" : undefined}>
+                  {selection ? (
+                    <TableCell className="w-12 text-center">
+                      <Checkbox
+                        checked={selection.selectedIds.has(row.id)}
+                        disabled={selection.disabled}
+                        onCheckedChange={(checked) => updateSelection(row.id, Boolean(checked))}
+                        aria-label={`Select record ${startIndex + pageIndex + 1}`}
+                      />
+                    </TableCell>
+                  ) : null}
                   {showRowNumber ? (
                     <TableCell className="w-14 text-center font-medium tabular-nums text-muted-foreground">
                       {startIndex + pageIndex + 1}

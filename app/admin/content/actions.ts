@@ -108,6 +108,23 @@ async function deleteTrackedVocabularyStorage(
   }
 }
 
+// Vocabulary galleries are owned by the block rather than by an individual word.
+// Include their files in the existing safe deletion lifecycle when a block/content is removed.
+async function getTrackedVocabularyBlockGalleryFiles(blockIds: string[], organizationId: string) {
+  if (!blockIds.length) return [];
+  return prisma.uploadedFile.findMany({
+    where: {
+      organizationId,
+      purpose: "vocabulary-block-gallery",
+      ownerType: "VocabularyBlock",
+      ownerId: { in: blockIds },
+      isCurrent: true,
+      status: "active",
+    },
+    select: { id: true, path: true, url: true, storageConfigurationId: true },
+  });
+}
+
 const contentSchema = z.object({
   id: z.string().trim().min(1).optional(),
   title: z.string().trim().min(1, "Title is required.").max(200, "Title is too long.").optional(),
@@ -255,13 +272,19 @@ const vocabularyWordSchema = z.string().trim().min(1, "Word is required.").max(3
 const vocabularyMeaningSchema = z.string().trim().min(1, "Meaning is required.").max(4000, "Meaning is too long.");
 const vocabularyWordUpdateSchema = z.string().trim().max(300, "Word is too long.");
 const vocabularyMeaningUpdateSchema = z.string().trim().max(4000, "Meaning is too long.");
+const vocabularyMetaSchema = z.string().trim().max(500, "Vocabulary field is too long.");
+const vocabularyListSchema = z.string().trim().max(2000, "Vocabulary list is too long.");
 
 const createVocabularyEntrySchema = z.object({
   contentId: z.string().min(1),
   blockId: z.string().min(1),
   vocabularyId: z.string().min(1),
   word: vocabularyWordSchema,
+  partOfSpeech: vocabularyMetaSchema.default(""),
+  pronunciation: vocabularyMetaSchema.default(""),
   meaning: vocabularyMeaningSchema,
+  synonyms: vocabularyListSchema.default(""),
+  antonyms: vocabularyListSchema.default(""),
 });
 
 const updateVocabularyEntrySchema = z.object({
@@ -269,7 +292,27 @@ const updateVocabularyEntrySchema = z.object({
   blockId: z.string().min(1),
   vocabularyEntryId: z.string().min(1),
   word: vocabularyWordUpdateSchema,
+  partOfSpeech: vocabularyMetaSchema.default(""),
+  pronunciation: vocabularyMetaSchema.default(""),
   meaning: vocabularyMeaningUpdateSchema,
+  synonyms: vocabularyListSchema.default(""),
+  antonyms: vocabularyListSchema.default(""),
+});
+
+const createVocabularyEntriesSchema = z.object({
+  contentId: z.string().min(1),
+  blockId: z.string().min(1),
+  vocabularyId: z.string().min(1),
+  entries: z.array(
+    z.object({
+      word: vocabularyWordSchema,
+      partOfSpeech: vocabularyMetaSchema.default(""),
+      pronunciation: vocabularyMetaSchema.default(""),
+      meaning: vocabularyMeaningSchema,
+      synonyms: vocabularyListSchema.default(""),
+      antonyms: vocabularyListSchema.default(""),
+    }),
+  ).min(1).max(200),
 });
 
 const updateVocabularyPassageSchema = z.object({
@@ -707,6 +750,8 @@ export async function deleteContent(id: string) {
         select: { id: true, path: true, url: true, storageConfigurationId: true },
       })
     : [];
+  const ownedGalleryBlocks = await prisma.contentBlock.findMany({ where: { contentId: id, kind: "vocabulary" }, select: { id: true } });
+  trackedVocabularyFiles.push(...await getTrackedVocabularyBlockGalleryFiles(ownedGalleryBlocks.map((block) => block.id), user.organizationId));
 
   // Delete every block payload explicitly inside the same transaction before
   // deleting ContentBlock and Content. The Prisma schema also uses ON DELETE
@@ -790,6 +835,160 @@ export async function deleteContent(id: string) {
   revalidatePath("/admin/content");
   revalidatePath(`/admin/content/class/${owned.classId}/subject/${owned.subjectId}`);
   revalidatePath(`/admin/content/class/${owned.classId}/subject/${owned.subjectId}/seen-composition`);
+}
+
+
+const bulkDeleteContentSchema = z.object({
+  ids: z.array(z.string().trim().min(1)).min(1, "Select at least one record.").max(100),
+});
+
+export async function bulkDeleteContent(input: unknown) {
+  await assertTrustedMutationOrigin();
+  const user = await requireAdmin();
+  const parsed = bulkDeleteContentSchema.parse(input);
+  const ids = Array.from(new Set(parsed.ids));
+
+  const ownedRecords = await prisma.content.findMany({
+    where: {
+      id: { in: ids },
+      organizationId: user.organizationId,
+    },
+    select: {
+      id: true,
+      title: true,
+      classId: true,
+      subjectId: true,
+    },
+  });
+
+  if (ownedRecords.length !== ids.length) {
+    throw new Error("One or more selected content records were not found.");
+  }
+
+  const vocabularyEntries = await prisma.vocabularyEntry.findMany({
+    where: {
+      organizationId: user.organizationId,
+      vocabulary: {
+        contentId: { in: ids },
+        organizationId: user.organizationId,
+      },
+    },
+    select: { id: true, imageUrl: true, imagePath: true },
+  });
+  const vocabularyEntryIds = vocabularyEntries.map((entry) => entry.id);
+  const trackedVocabularyFiles = vocabularyEntryIds.length > 0
+    ? await prisma.uploadedFile.findMany({
+        where: {
+          organizationId: user.organizationId,
+          purpose: VOCABULARY_IMAGE_PURPOSE,
+          vocabularyEntryId: { in: vocabularyEntryIds },
+          isCurrent: true,
+          status: "active",
+        },
+        select: { id: true, path: true, url: true, storageConfigurationId: true },
+      })
+    : [];
+  const ownedGalleryBlocks = await prisma.contentBlock.findMany({ where: { contentId: { in: ids }, kind: "vocabulary" }, select: { id: true } });
+  trackedVocabularyFiles.push(...await getTrackedVocabularyBlockGalleryFiles(ownedGalleryBlocks.map((block) => block.id), user.organizationId));
+
+  const deletedAt = new Date();
+  await prisma.$transaction(async (tx) => {
+    const where = {
+      contentId: { in: ids },
+      organizationId: user.organizationId,
+    };
+
+    await tx.paragraph.deleteMany({ where });
+    await tx.seenPassageOne.deleteMany({ where });
+    await tx.seenPassageTwo.deleteMany({ where });
+
+    if (trackedVocabularyFiles.length > 0) {
+      await tx.uploadedFile.updateMany({
+        where: {
+          id: { in: trackedVocabularyFiles.map((file) => file.id) },
+          organizationId: user.organizationId,
+        },
+        data: {
+          status: "deleted",
+          isCurrent: false,
+          deletedAt,
+          updatedBy: user.id,
+        },
+      });
+    }
+
+    await tx.vocabularyEntry.deleteMany({
+      where: {
+        organizationId: user.organizationId,
+        vocabulary: {
+          contentId: { in: ids },
+          organizationId: user.organizationId,
+        },
+      },
+    });
+    await tx.vocabulary.deleteMany({ where });
+    await tx.synonymsAntonyms.deleteMany({ where });
+    await tx.gapFillExercise.deleteMany({ where });
+    await tx.gapFillFirstPaper.deleteMany({ where });
+    await tx.gapFillSecondPaper.deleteMany({ where });
+    await tx.mcqSection.deleteMany({ where });
+    await tx.questionAnswerExercise.deleteMany({ where });
+    await tx.tableCompletionExercise.deleteMany({ where });
+    await tx.columnMatchingExercise.deleteMany({ where });
+    await tx.rearrangeSentenceExercise.deleteMany({ where });
+    await tx.questionFromPoems.deleteMany({ where });
+    await tx.questionFromStory.deleteMany({ where });
+    await tx.trueFalseExercise.deleteMany({ where });
+    await tx.informationTransfer.deleteMany({ where });
+    await tx.substitutionTable.deleteMany({ where });
+    await tx.rightFormOfVerb.deleteMany({ where });
+    await tx.narration.deleteMany({ where });
+    await tx.changingSentence.deleteMany({ where });
+    await tx.punctuationAndCapitalization.deleteMany({ where });
+    await tx.preposition.deleteMany({ where });
+    await tx.suffixAndPrefix.deleteMany({ where });
+    await tx.tagQuestion.deleteMany({ where });
+    await tx.connector.deleteMany({ where });
+    await tx.contentBlock.deleteMany({ where: { contentId: { in: ids } } });
+
+    const result = await tx.content.deleteMany({
+      where: {
+        id: { in: ids },
+        organizationId: user.organizationId,
+      },
+    });
+    if (result.count !== ids.length) {
+      throw new Error("Could not delete every selected content record.");
+    }
+  });
+
+  await deleteTrackedVocabularyStorage(
+    trackedVocabularyFiles,
+    vocabularyEntries.map((entry) => entry.imagePath || entry.imageUrl).filter(Boolean),
+    user.organizationId,
+    user.id,
+  );
+
+  for (const record of ownedRecords) {
+    await logAudit({
+      userId: user.id,
+      userName: user.name,
+      action: "DELETE",
+      entityName: "Content",
+      entityId: record.id,
+      changes: { title: record.title, bulk: true },
+      organizationId: user.organizationId,
+    });
+  }
+
+  revalidatePath("/admin/content");
+  for (const key of new Set(ownedRecords.map((record) => `${record.classId}:${record.subjectId}`))) {
+    const [classId, subjectId] = key.split(":");
+    revalidatePath(`/admin/content/class/${classId}/subject/${subjectId}`);
+    revalidatePath(`/admin/content/class/${classId}/subject/${subjectId}/seen-composition`);
+  }
+
+  return { deleted: ids.length };
 }
 
 export async function createContentBlock(input: unknown) {
@@ -1244,6 +1443,9 @@ export async function deleteContentBlock(blockId: string) {
         select: { id: true, path: true, url: true, storageConfigurationId: true },
       })
     : [];
+  if (ownedBlock.kind === "vocabulary") {
+    trackedVocabularyFiles.push(...await getTrackedVocabularyBlockGalleryFiles([blockId], user.organizationId));
+  }
 
   const deleted = await prisma.$transaction(async (tx) => {
     const isPassageBlock = ["paragraph", "seen-passage-one", "seen-passage-two"].includes(ownedBlock.kind);
@@ -1863,7 +2065,11 @@ export async function createVocabularyEntry(input: unknown) {
     data: {
       vocabularyId: parsed.vocabularyId,
       word: parsed.word,
+      partOfSpeech: parsed.partOfSpeech,
+      pronunciation: parsed.pronunciation,
       meaning: parsed.meaning,
+      synonyms: parsed.synonyms,
+      antonyms: parsed.antonyms,
       sortOrder,
       organizationId: user.organizationId,
       createdBy: user.id,
@@ -1883,6 +2089,65 @@ export async function createVocabularyEntry(input: unknown) {
 
   revalidatePath(`/admin/content/${parsed.contentId}`);
 
+  return created;
+}
+
+export async function createVocabularyEntries(input: unknown) {
+  await assertTrustedMutationOrigin();
+  const user = await requireAdmin();
+  const parsed = createVocabularyEntriesSchema.parse(input);
+
+  const ownedBlock = await getOwnedContentBlock(parsed.blockId, user.organizationId);
+  if (ownedBlock.contentId !== parsed.contentId || ownedBlock.kind !== "vocabulary") {
+    throw new Error("Vocabulary block does not belong to content.");
+  }
+
+  const vocabulary = await prisma.vocabulary.findFirst({
+    where: {
+      id: parsed.vocabularyId,
+      contentBlockId: parsed.blockId,
+      contentId: parsed.contentId,
+      organizationId: user.organizationId,
+    },
+    select: { id: true },
+  });
+  if (!vocabulary) throw new Error("Vocabulary block not found.");
+
+  const startSortOrder = await prisma.vocabularyEntry.count({
+    where: { vocabularyId: parsed.vocabularyId, organizationId: user.organizationId },
+  });
+
+  const created = await prisma.$transaction(
+    parsed.entries.map((entry, index) =>
+      prisma.vocabularyEntry.create({
+        data: {
+          vocabularyId: parsed.vocabularyId,
+          word: entry.word,
+          partOfSpeech: entry.partOfSpeech,
+          pronunciation: entry.pronunciation,
+          meaning: entry.meaning,
+          synonyms: entry.synonyms,
+          antonyms: entry.antonyms,
+          sortOrder: startSortOrder + index,
+          organizationId: user.organizationId,
+          createdBy: user.id,
+          updatedBy: user.id,
+        },
+      }),
+    ),
+  );
+
+  await logAudit({
+    userId: user.id,
+    userName: user.name,
+    action: "CREATE",
+    entityName: "VocabularyEntryBulkImport",
+    entityId: parsed.vocabularyId,
+    changes: { count: created.length, entryIds: created.map((entry) => entry.id) },
+    organizationId: user.organizationId,
+  });
+
+  revalidatePath(`/admin/content/${parsed.contentId}`);
   return created;
 }
 
@@ -1929,7 +2194,11 @@ export async function updateVocabularyEntry(input: unknown) {
     },
     data: {
       word: parsed.word,
+      partOfSpeech: parsed.partOfSpeech,
+      pronunciation: parsed.pronunciation,
       meaning: parsed.meaning,
+      synonyms: parsed.synonyms,
+      antonyms: parsed.antonyms,
       updatedBy: user.id,
     },
   });

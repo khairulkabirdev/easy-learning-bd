@@ -552,10 +552,19 @@ export default async function AdminContentBlocksPage({
                   id: true,
                   vocabularyId: true,
                   word: true,
+                  partOfSpeech: true,
+                  pronunciation: true,
                   meaning: true,
+                  synonyms: true,
+                  antonyms: true,
                   imageUrl: true,
                   imagePath: true,
                   sortOrder: true,
+                  uploadedFiles: {
+                    where: { purpose: "vocabulary-item-image", isCurrent: true, status: "active" },
+                    orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
+                    select: { id: true, url: true, path: true, sortOrder: true },
+                  },
                 },
               },
             },
@@ -968,6 +977,23 @@ export default async function AdminContentBlocksPage({
     return paragraphBlockId;
   };
 
+  const vocabularyBlockIds = content.blocks.filter((block) => block.kind === "vocabulary").map((block) => block.id);
+  const galleryRows = vocabularyBlockIds.length ? await prisma.uploadedFile.findMany({
+    where: {
+      organizationId: user.organizationId,
+      ownerType: "VocabularyBlock",
+      ownerId: { in: vocabularyBlockIds },
+      purpose: "vocabulary-block-gallery",
+      status: "active",
+      isCurrent: true,
+    },
+    select: { id: true, ownerId: true, url: true, path: true, sortOrder: true },
+    orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
+  }) : [];
+  const galleryForBlock = (blockId: string) => galleryRows
+    .filter((row) => row.ownerId === blockId)
+    .map(({ id, url, path, sortOrder }) => ({ id, url, path, sortOrder }));
+
   const typedContent: ContentRecordWithBlocks = {
     ...content,
     blocks: content.blocks.map((block) => ({
@@ -976,6 +1002,7 @@ export default async function AdminContentBlocksPage({
       vocabulary: block.vocabulary
         ? {
             ...block.vocabulary,
+            galleryImages: galleryForBlock(block.id),
             passageSource: block.vocabulary.passageSource === "paragraph" ? "paragraph" as const : "manual" as const,
             paragraphBlockId: normalizeSeenPassageLink(block.vocabulary.paragraphBlockId || null),
           }

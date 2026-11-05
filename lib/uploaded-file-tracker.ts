@@ -39,11 +39,12 @@ export async function getCurrentVocabularyUploadFiles(
       id: true,
       url: true,
       path: true,
+      sortOrder: true,
       storageConfigurationId: true,
       status: true,
       storageDeletedAt: true,
     },
-    orderBy: { createdAt: "desc" },
+    orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
   });
 }
 
@@ -54,6 +55,7 @@ export async function createVocabularyUploadedFile(
     organizationId: string;
     userId: string;
     stored: StoredUploadMetadata;
+    sortOrder?: number;
   },
 ) {
   return client.uploadedFile.create({
@@ -71,6 +73,7 @@ export async function createVocabularyUploadedFile(
       mimeType: input.stored.mime,
       extension: input.stored.extension,
       sizeBytes: input.stored.size,
+      sortOrder: input.sortOrder ?? 0,
       width: input.stored.width,
       height: input.stored.height,
       checksumSha256: input.stored.checksumSha256,

@@ -7,6 +7,7 @@ import { Edit3, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import {
+  bulkDeleteUnseenCompositions,
   createUnseenComposition,
   deleteUnseenComposition,
 } from "@/app/admin/content/unseen-composition/actions";
@@ -51,6 +52,8 @@ export function UnseenCompositionListClient({ classItem, subject, records, total
   const [title, setTitle] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [pendingDelete, setPendingDelete] = useState<UnseenRow | null>(null);
+  const [bulkDeleteOpen, setBulkDeleteOpen] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [refreshKey, setRefreshKey] = useState(0);
   const [isCreating, startCreateTransition] = useTransition();
   const [isDeleting, startDeleteTransition] = useTransition();
@@ -83,10 +86,32 @@ export function UnseenCompositionListClient({ classItem, subject, records, total
     startDeleteTransition(async () => {
       try {
         await deleteUnseenComposition(id);
+        setSelectedIds((current) => {
+          const next = new Set(current);
+          next.delete(id);
+          return next;
+        });
         setRefreshKey((value) => value + 1);
         router.refresh();
       } catch (cause) {
         setError(cause instanceof Error ? cause.message : "Failed to delete Unseen Composition.");
+      }
+    });
+  }
+
+  function confirmBulkDeleteRecords() {
+    const ids = [...selectedIds];
+    if (ids.length === 0) return;
+    setBulkDeleteOpen(false);
+    setError(null);
+    startDeleteTransition(async () => {
+      try {
+        await bulkDeleteUnseenCompositions({ ids });
+        setSelectedIds(new Set());
+        setRefreshKey((value) => value + 1);
+        router.refresh();
+      } catch (cause) {
+        setError(cause instanceof Error ? cause.message : "Failed to delete selected Unseen Composition records.");
       }
     });
   }
@@ -186,7 +211,36 @@ export function UnseenCompositionListClient({ classItem, subject, records, total
           </div>
           <Badge variant="outline">{total} records</Badge>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-3">
+          {selectedIds.size > 0 ? (
+            <div className="flex flex-col gap-2 rounded-xl border bg-muted/30 p-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge variant="secondary">{selectedIds.size} selected</Badge>
+                <span className="text-sm text-muted-foreground">Bulk actions apply to selected records across pages.</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  disabled={isDeleting}
+                  onClick={() => setSelectedIds(new Set())}
+                >
+                  Clear selection
+                </Button>
+                <Button
+                  type="button"
+                  variant="destructive"
+                  size="sm"
+                  disabled={isDeleting}
+                  onClick={() => setBulkDeleteOpen(true)}
+                >
+                  <Trash2 data-icon="inline-start" />
+                  Delete selected
+                </Button>
+              </div>
+            </div>
+          ) : null}
           <AdminRecordDataTable
             rows={records}
             columns={columns}
@@ -195,6 +249,11 @@ export function UnseenCompositionListClient({ classItem, subject, records, total
             emptyMessage="No Unseen Composition records yet."
             initialPageSize={10}
             defaultSort={{ columnId: "updated", direction: "desc" }}
+            selection={{
+              selectedIds,
+              onSelectionChange: setSelectedIds,
+              disabled: isDeleting,
+            }}
             server={{
               resource: "unseen-composition",
               filters: { classId: classItem.id, subjectId: subject.id },
@@ -257,6 +316,26 @@ export function UnseenCompositionListClient({ classItem, subject, records, total
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
               Delete record
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={bulkDeleteOpen} onOpenChange={setBulkDeleteOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete {selectedIds.size} selected record{selectedIds.size === 1 ? "" : "s"}?</AlertDialogTitle>
+            <AlertDialogDescription>
+              The selected Unseen Composition records and every block stored inside their documents will be permanently deleted. This cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmBulkDeleteRecords}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Delete selected
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

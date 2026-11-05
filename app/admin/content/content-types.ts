@@ -84,9 +84,14 @@ export type VocabularyEntryRecord = {
   id: string;
   vocabularyId: string;
   word: string;
+  partOfSpeech: string;
+  pronunciation: string;
   meaning: string;
+  synonyms: string;
+  antonyms: string;
   imageUrl: string;
   imagePath: string;
+  uploadedFiles?: Array<{ id: string; url: string; path: string; sortOrder: number }>;
   sortOrder: number;
 };
 
@@ -104,6 +109,7 @@ export type VocabularyRecord = {
   paragraphBlockId: string | null;
   resolvedPassage?: string;
   entries: VocabularyEntryRecord[];
+  galleryImages?: Array<{ id: string; url: string; path: string; sortOrder: number }>;
 };
 
 export type SynonymsAntonymsEntryRecord = {

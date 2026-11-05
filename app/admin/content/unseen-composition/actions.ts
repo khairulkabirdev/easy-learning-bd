@@ -170,3 +170,61 @@ export async function deleteUnseenComposition(id: string) {
 
   revalidatePath(`/admin/content/class/${owned.classId}/subject/${owned.subjectId}/unseen-composition`);
 }
+
+const bulkDeleteSchema = z.object({
+  ids: z.array(z.string().trim().min(1)).min(1, "Select at least one record.").max(100),
+});
+
+export async function bulkDeleteUnseenCompositions(input: unknown) {
+  await assertTrustedMutationOrigin();
+  const user = await requireAdmin();
+  const parsed = bulkDeleteSchema.parse(input);
+  const ids = Array.from(new Set(parsed.ids));
+
+  const records = await prisma.unseenComposition.findMany({
+    where: {
+      id: { in: ids },
+      organizationId: user.organizationId,
+    },
+    select: {
+      id: true,
+      title: true,
+      classId: true,
+      subjectId: true,
+    },
+  });
+
+  if (records.length !== ids.length) {
+    throw new Error("One or more selected Unseen Composition records were not found.");
+  }
+
+  const deleted = await prisma.unseenComposition.deleteMany({
+    where: {
+      id: { in: ids },
+      organizationId: user.organizationId,
+    },
+  });
+
+  if (deleted.count !== ids.length) {
+    throw new Error("Could not delete every selected Unseen Composition record.");
+  }
+
+  for (const record of records) {
+    await logAudit({
+      userId: user.id,
+      userName: user.name,
+      action: "DELETE",
+      entityName: "UnseenComposition",
+      entityId: record.id,
+      changes: { title: record.title, bulk: true },
+      organizationId: user.organizationId,
+    });
+  }
+
+  for (const key of new Set(records.map((record) => `${record.classId}:${record.subjectId}`))) {
+    const [classId, subjectId] = key.split(":");
+    revalidatePath(`/admin/content/class/${classId}/subject/${subjectId}/unseen-composition`);
+  }
+
+  return { deleted: ids.length };
+}

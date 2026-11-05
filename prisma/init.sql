@@ -227,7 +227,11 @@ CREATE TABLE "VocabularyEntry" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "vocabularyId" TEXT NOT NULL,
     "word" TEXT NOT NULL DEFAULT '',
+    "partOfSpeech" TEXT NOT NULL DEFAULT '',
+    "pronunciation" TEXT NOT NULL DEFAULT '',
     "meaning" TEXT NOT NULL DEFAULT '',
+    "synonyms" TEXT NOT NULL DEFAULT '',
+    "antonyms" TEXT NOT NULL DEFAULT '',
     "imageUrl" TEXT NOT NULL DEFAULT '',
     "imagePath" TEXT NOT NULL DEFAULT '',
     "sortOrder" INTEGER NOT NULL DEFAULT 0,
@@ -252,12 +256,6 @@ CREATE TABLE "StorageConfiguration" (
     "sessionTokenEncrypted" TEXT NOT NULL DEFAULT '',
     "localRoot" TEXT NOT NULL DEFAULT 'storage/private',
     "forcePathStyle" BOOLEAN NOT NULL DEFAULT false,
-    "publicBaseUrl" TEXT NOT NULL DEFAULT '',
-    "privateBucket" TEXT NOT NULL DEFAULT '',
-    "maxImageSizeMb" INTEGER NOT NULL DEFAULT 20,
-    "maxVideoSizeMb" INTEGER NOT NULL DEFAULT 1024,
-    "maxModelSizeMb" INTEGER NOT NULL DEFAULT 500,
-    "pathPrefix" TEXT NOT NULL DEFAULT 'uploads',
     "isActive" BOOLEAN NOT NULL DEFAULT false,
     "everActivated" BOOLEAN NOT NULL DEFAULT false,
     "lastTestStatus" TEXT NOT NULL DEFAULT 'unknown',
@@ -294,6 +292,7 @@ CREATE TABLE "UploadedFile" (
     "mimeType" TEXT NOT NULL DEFAULT '',
     "extension" TEXT NOT NULL DEFAULT '',
     "sizeBytes" INTEGER NOT NULL DEFAULT 0,
+    "sortOrder" INTEGER NOT NULL DEFAULT 0,
     "width" INTEGER NOT NULL DEFAULT 0,
     "height" INTEGER NOT NULL DEFAULT 0,
     "checksumSha256" TEXT NOT NULL DEFAULT '',
@@ -320,12 +319,9 @@ CREATE INDEX "UploadedFile_path_idx"
 ON "UploadedFile"("path");
 CREATE INDEX "UploadedFile_storageConfigurationId_idx"
 ON "UploadedFile"("storageConfigurationId");
-CREATE UNIQUE INDEX "UploadedFile_vocabulary_current_active_key"
-ON "UploadedFile"("vocabularyEntryId")
-WHERE "vocabularyEntryId" IS NOT NULL
-  AND "purpose" = 'vocabulary-item-image'
-  AND "isCurrent" = true
-  AND "status" = 'active';
+-- Multiple active images are allowed for a VocabularyEntry gallery.
+CREATE INDEX "UploadedFile_vocabulary_gallery_order_idx"
+ON "UploadedFile"("vocabularyEntryId", "sortOrder");
 
 -- CreateTable
 CREATE TABLE "SynonymsAntonyms" (

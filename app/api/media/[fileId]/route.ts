@@ -46,6 +46,18 @@ async function canStudentViewFile(file: {
   let classId: string | null = null;
   if (file.ownerType === "VocabularyEntry") {
     classId = file.vocabularyEntry?.vocabulary.classId ?? null;
+  } else if (file.ownerType === "VocabularyBlock") {
+    // Block-level gallery images are independent of individual vocabulary words.
+    // Resolve access through the owning published curriculum, never by file URL alone.
+    const block = await prisma.contentBlock.findFirst({
+      where: {
+        id: file.ownerId,
+        kind: "vocabulary",
+        content: { organizationId },
+      },
+      select: { vocabulary: { select: { classId: true } } },
+    });
+    classId = block?.vocabulary?.classId ?? null;
   } else if (file.ownerType === "Class") {
     classId = file.ownerId;
   } else if (file.ownerType === "Subject") {

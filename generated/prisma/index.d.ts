@@ -26856,7 +26856,11 @@ export namespace Prisma {
     id: string | null
     vocabularyId: string | null
     word: string | null
+    partOfSpeech: string | null
+    pronunciation: string | null
     meaning: string | null
+    synonyms: string | null
+    antonyms: string | null
     imageUrl: string | null
     imagePath: string | null
     sortOrder: number | null
@@ -26871,7 +26875,11 @@ export namespace Prisma {
     id: string | null
     vocabularyId: string | null
     word: string | null
+    partOfSpeech: string | null
+    pronunciation: string | null
     meaning: string | null
+    synonyms: string | null
+    antonyms: string | null
     imageUrl: string | null
     imagePath: string | null
     sortOrder: number | null
@@ -26886,7 +26894,11 @@ export namespace Prisma {
     id: number
     vocabularyId: number
     word: number
+    partOfSpeech: number
+    pronunciation: number
     meaning: number
+    synonyms: number
+    antonyms: number
     imageUrl: number
     imagePath: number
     sortOrder: number
@@ -26911,7 +26923,11 @@ export namespace Prisma {
     id?: true
     vocabularyId?: true
     word?: true
+    partOfSpeech?: true
+    pronunciation?: true
     meaning?: true
+    synonyms?: true
+    antonyms?: true
     imageUrl?: true
     imagePath?: true
     sortOrder?: true
@@ -26926,7 +26942,11 @@ export namespace Prisma {
     id?: true
     vocabularyId?: true
     word?: true
+    partOfSpeech?: true
+    pronunciation?: true
     meaning?: true
+    synonyms?: true
+    antonyms?: true
     imageUrl?: true
     imagePath?: true
     sortOrder?: true
@@ -26941,7 +26961,11 @@ export namespace Prisma {
     id?: true
     vocabularyId?: true
     word?: true
+    partOfSpeech?: true
+    pronunciation?: true
     meaning?: true
+    synonyms?: true
+    antonyms?: true
     imageUrl?: true
     imagePath?: true
     sortOrder?: true
@@ -27043,7 +27067,11 @@ export namespace Prisma {
     id: string
     vocabularyId: string
     word: string
+    partOfSpeech: string
+    pronunciation: string
     meaning: string
+    synonyms: string
+    antonyms: string
     imageUrl: string
     imagePath: string
     sortOrder: number
@@ -27077,7 +27105,11 @@ export namespace Prisma {
     id?: boolean
     vocabularyId?: boolean
     word?: boolean
+    partOfSpeech?: boolean
+    pronunciation?: boolean
     meaning?: boolean
+    synonyms?: boolean
+    antonyms?: boolean
     imageUrl?: boolean
     imagePath?: boolean
     sortOrder?: boolean
@@ -27095,7 +27127,11 @@ export namespace Prisma {
     id?: boolean
     vocabularyId?: boolean
     word?: boolean
+    partOfSpeech?: boolean
+    pronunciation?: boolean
     meaning?: boolean
+    synonyms?: boolean
+    antonyms?: boolean
     imageUrl?: boolean
     imagePath?: boolean
     sortOrder?: boolean
@@ -27111,7 +27147,11 @@ export namespace Prisma {
     id?: boolean
     vocabularyId?: boolean
     word?: boolean
+    partOfSpeech?: boolean
+    pronunciation?: boolean
     meaning?: boolean
+    synonyms?: boolean
+    antonyms?: boolean
     imageUrl?: boolean
     imagePath?: boolean
     sortOrder?: boolean
@@ -27127,7 +27167,11 @@ export namespace Prisma {
     id?: boolean
     vocabularyId?: boolean
     word?: boolean
+    partOfSpeech?: boolean
+    pronunciation?: boolean
     meaning?: boolean
+    synonyms?: boolean
+    antonyms?: boolean
     imageUrl?: boolean
     imagePath?: boolean
     sortOrder?: boolean
@@ -27138,7 +27182,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type VocabularyEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vocabularyId" | "word" | "meaning" | "imageUrl" | "imagePath" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["vocabularyEntry"]>
+  export type VocabularyEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vocabularyId" | "word" | "partOfSpeech" | "pronunciation" | "meaning" | "synonyms" | "antonyms" | "imageUrl" | "imagePath" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["vocabularyEntry"]>
   export type VocabularyEntryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vocabulary?: boolean | VocabularyDefaultArgs<ExtArgs>
     uploadedFiles?: boolean | VocabularyEntry$uploadedFilesArgs<ExtArgs>
@@ -27161,7 +27205,11 @@ export namespace Prisma {
       id: string
       vocabularyId: string
       word: string
+      partOfSpeech: string
+      pronunciation: string
       meaning: string
+      synonyms: string
+      antonyms: string
       imageUrl: string
       imagePath: string
       sortOrder: number
@@ -27598,7 +27646,11 @@ export namespace Prisma {
     readonly id: FieldRef<"VocabularyEntry", 'String'>
     readonly vocabularyId: FieldRef<"VocabularyEntry", 'String'>
     readonly word: FieldRef<"VocabularyEntry", 'String'>
+    readonly partOfSpeech: FieldRef<"VocabularyEntry", 'String'>
+    readonly pronunciation: FieldRef<"VocabularyEntry", 'String'>
     readonly meaning: FieldRef<"VocabularyEntry", 'String'>
+    readonly synonyms: FieldRef<"VocabularyEntry", 'String'>
+    readonly antonyms: FieldRef<"VocabularyEntry", 'String'>
     readonly imageUrl: FieldRef<"VocabularyEntry", 'String'>
     readonly imagePath: FieldRef<"VocabularyEntry", 'String'>
     readonly sortOrder: FieldRef<"VocabularyEntry", 'Int'>
@@ -28049,22 +28101,8 @@ export namespace Prisma {
 
   export type AggregateStorageConfiguration = {
     _count: StorageConfigurationCountAggregateOutputType | null
-    _avg: StorageConfigurationAvgAggregateOutputType | null
-    _sum: StorageConfigurationSumAggregateOutputType | null
     _min: StorageConfigurationMinAggregateOutputType | null
     _max: StorageConfigurationMaxAggregateOutputType | null
-  }
-
-  export type StorageConfigurationAvgAggregateOutputType = {
-    maxImageSizeMb: number | null
-    maxVideoSizeMb: number | null
-    maxModelSizeMb: number | null
-  }
-
-  export type StorageConfigurationSumAggregateOutputType = {
-    maxImageSizeMb: number | null
-    maxVideoSizeMb: number | null
-    maxModelSizeMb: number | null
   }
 
   export type StorageConfigurationMinAggregateOutputType = {
@@ -28079,12 +28117,6 @@ export namespace Prisma {
     sessionTokenEncrypted: string | null
     localRoot: string | null
     forcePathStyle: boolean | null
-    publicBaseUrl: string | null
-    privateBucket: string | null
-    maxImageSizeMb: number | null
-    maxVideoSizeMb: number | null
-    maxModelSizeMb: number | null
-    pathPrefix: string | null
     isActive: boolean | null
     everActivated: boolean | null
     lastTestStatus: string | null
@@ -28109,12 +28141,6 @@ export namespace Prisma {
     sessionTokenEncrypted: string | null
     localRoot: string | null
     forcePathStyle: boolean | null
-    publicBaseUrl: string | null
-    privateBucket: string | null
-    maxImageSizeMb: number | null
-    maxVideoSizeMb: number | null
-    maxModelSizeMb: number | null
-    pathPrefix: string | null
     isActive: boolean | null
     everActivated: boolean | null
     lastTestStatus: string | null
@@ -28139,12 +28165,6 @@ export namespace Prisma {
     sessionTokenEncrypted: number
     localRoot: number
     forcePathStyle: number
-    publicBaseUrl: number
-    privateBucket: number
-    maxImageSizeMb: number
-    maxVideoSizeMb: number
-    maxModelSizeMb: number
-    pathPrefix: number
     isActive: number
     everActivated: number
     lastTestStatus: number
@@ -28159,18 +28179,6 @@ export namespace Prisma {
   }
 
 
-  export type StorageConfigurationAvgAggregateInputType = {
-    maxImageSizeMb?: true
-    maxVideoSizeMb?: true
-    maxModelSizeMb?: true
-  }
-
-  export type StorageConfigurationSumAggregateInputType = {
-    maxImageSizeMb?: true
-    maxVideoSizeMb?: true
-    maxModelSizeMb?: true
-  }
-
   export type StorageConfigurationMinAggregateInputType = {
     id?: true
     name?: true
@@ -28183,12 +28191,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: true
     localRoot?: true
     forcePathStyle?: true
-    publicBaseUrl?: true
-    privateBucket?: true
-    maxImageSizeMb?: true
-    maxVideoSizeMb?: true
-    maxModelSizeMb?: true
-    pathPrefix?: true
     isActive?: true
     everActivated?: true
     lastTestStatus?: true
@@ -28213,12 +28215,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: true
     localRoot?: true
     forcePathStyle?: true
-    publicBaseUrl?: true
-    privateBucket?: true
-    maxImageSizeMb?: true
-    maxVideoSizeMb?: true
-    maxModelSizeMb?: true
-    pathPrefix?: true
     isActive?: true
     everActivated?: true
     lastTestStatus?: true
@@ -28243,12 +28239,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: true
     localRoot?: true
     forcePathStyle?: true
-    publicBaseUrl?: true
-    privateBucket?: true
-    maxImageSizeMb?: true
-    maxVideoSizeMb?: true
-    maxModelSizeMb?: true
-    pathPrefix?: true
     isActive?: true
     everActivated?: true
     lastTestStatus?: true
@@ -28300,18 +28290,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: StorageConfigurationAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: StorageConfigurationSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: StorageConfigurationMinAggregateInputType
@@ -28342,8 +28320,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: StorageConfigurationCountAggregateInputType | true
-    _avg?: StorageConfigurationAvgAggregateInputType
-    _sum?: StorageConfigurationSumAggregateInputType
     _min?: StorageConfigurationMinAggregateInputType
     _max?: StorageConfigurationMaxAggregateInputType
   }
@@ -28360,12 +28336,6 @@ export namespace Prisma {
     sessionTokenEncrypted: string
     localRoot: string
     forcePathStyle: boolean
-    publicBaseUrl: string
-    privateBucket: string
-    maxImageSizeMb: number
-    maxVideoSizeMb: number
-    maxModelSizeMb: number
-    pathPrefix: string
     isActive: boolean
     everActivated: boolean
     lastTestStatus: string
@@ -28377,8 +28347,6 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     _count: StorageConfigurationCountAggregateOutputType | null
-    _avg: StorageConfigurationAvgAggregateOutputType | null
-    _sum: StorageConfigurationSumAggregateOutputType | null
     _min: StorageConfigurationMinAggregateOutputType | null
     _max: StorageConfigurationMaxAggregateOutputType | null
   }
@@ -28409,12 +28377,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: boolean
     localRoot?: boolean
     forcePathStyle?: boolean
-    publicBaseUrl?: boolean
-    privateBucket?: boolean
-    maxImageSizeMb?: boolean
-    maxVideoSizeMb?: boolean
-    maxModelSizeMb?: boolean
-    pathPrefix?: boolean
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: boolean
@@ -28441,12 +28403,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: boolean
     localRoot?: boolean
     forcePathStyle?: boolean
-    publicBaseUrl?: boolean
-    privateBucket?: boolean
-    maxImageSizeMb?: boolean
-    maxVideoSizeMb?: boolean
-    maxModelSizeMb?: boolean
-    pathPrefix?: boolean
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: boolean
@@ -28471,12 +28427,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: boolean
     localRoot?: boolean
     forcePathStyle?: boolean
-    publicBaseUrl?: boolean
-    privateBucket?: boolean
-    maxImageSizeMb?: boolean
-    maxVideoSizeMb?: boolean
-    maxModelSizeMb?: boolean
-    pathPrefix?: boolean
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: boolean
@@ -28501,12 +28451,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: boolean
     localRoot?: boolean
     forcePathStyle?: boolean
-    publicBaseUrl?: boolean
-    privateBucket?: boolean
-    maxImageSizeMb?: boolean
-    maxVideoSizeMb?: boolean
-    maxModelSizeMb?: boolean
-    pathPrefix?: boolean
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: boolean
@@ -28519,7 +28463,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type StorageConfigurationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "provider" | "endpoint" | "region" | "bucket" | "accessKeyId" | "secretAccessKeyEncrypted" | "sessionTokenEncrypted" | "localRoot" | "forcePathStyle" | "publicBaseUrl" | "privateBucket" | "maxImageSizeMb" | "maxVideoSizeMb" | "maxModelSizeMb" | "pathPrefix" | "isActive" | "everActivated" | "lastTestStatus" | "lastTestMessage" | "lastTestedAt" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["storageConfiguration"]>
+  export type StorageConfigurationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "provider" | "endpoint" | "region" | "bucket" | "accessKeyId" | "secretAccessKeyEncrypted" | "sessionTokenEncrypted" | "localRoot" | "forcePathStyle" | "isActive" | "everActivated" | "lastTestStatus" | "lastTestMessage" | "lastTestedAt" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["storageConfiguration"]>
   export type StorageConfigurationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     uploadedFiles?: boolean | StorageConfiguration$uploadedFilesArgs<ExtArgs>
     _count?: boolean | StorageConfigurationCountOutputTypeDefaultArgs<ExtArgs>
@@ -28544,12 +28488,6 @@ export namespace Prisma {
       sessionTokenEncrypted: string
       localRoot: string
       forcePathStyle: boolean
-      publicBaseUrl: string
-      privateBucket: string
-      maxImageSizeMb: number
-      maxVideoSizeMb: number
-      maxModelSizeMb: number
-      pathPrefix: string
       isActive: boolean
       everActivated: boolean
       lastTestStatus: string
@@ -28995,12 +28933,6 @@ export namespace Prisma {
     readonly sessionTokenEncrypted: FieldRef<"StorageConfiguration", 'String'>
     readonly localRoot: FieldRef<"StorageConfiguration", 'String'>
     readonly forcePathStyle: FieldRef<"StorageConfiguration", 'Boolean'>
-    readonly publicBaseUrl: FieldRef<"StorageConfiguration", 'String'>
-    readonly privateBucket: FieldRef<"StorageConfiguration", 'String'>
-    readonly maxImageSizeMb: FieldRef<"StorageConfiguration", 'Int'>
-    readonly maxVideoSizeMb: FieldRef<"StorageConfiguration", 'Int'>
-    readonly maxModelSizeMb: FieldRef<"StorageConfiguration", 'Int'>
-    readonly pathPrefix: FieldRef<"StorageConfiguration", 'String'>
     readonly isActive: FieldRef<"StorageConfiguration", 'Boolean'>
     readonly everActivated: FieldRef<"StorageConfiguration", 'Boolean'>
     readonly lastTestStatus: FieldRef<"StorageConfiguration", 'String'>
@@ -29453,12 +29385,14 @@ export namespace Prisma {
 
   export type UploadedFileAvgAggregateOutputType = {
     sizeBytes: number | null
+    sortOrder: number | null
     width: number | null
     height: number | null
   }
 
   export type UploadedFileSumAggregateOutputType = {
     sizeBytes: number | null
+    sortOrder: number | null
     width: number | null
     height: number | null
   }
@@ -29477,6 +29411,7 @@ export namespace Prisma {
     mimeType: string | null
     extension: string | null
     sizeBytes: number | null
+    sortOrder: number | null
     width: number | null
     height: number | null
     checksumSha256: string | null
@@ -29506,6 +29441,7 @@ export namespace Prisma {
     mimeType: string | null
     extension: string | null
     sizeBytes: number | null
+    sortOrder: number | null
     width: number | null
     height: number | null
     checksumSha256: string | null
@@ -29535,6 +29471,7 @@ export namespace Prisma {
     mimeType: number
     extension: number
     sizeBytes: number
+    sortOrder: number
     width: number
     height: number
     checksumSha256: number
@@ -29554,12 +29491,14 @@ export namespace Prisma {
 
   export type UploadedFileAvgAggregateInputType = {
     sizeBytes?: true
+    sortOrder?: true
     width?: true
     height?: true
   }
 
   export type UploadedFileSumAggregateInputType = {
     sizeBytes?: true
+    sortOrder?: true
     width?: true
     height?: true
   }
@@ -29578,6 +29517,7 @@ export namespace Prisma {
     mimeType?: true
     extension?: true
     sizeBytes?: true
+    sortOrder?: true
     width?: true
     height?: true
     checksumSha256?: true
@@ -29607,6 +29547,7 @@ export namespace Prisma {
     mimeType?: true
     extension?: true
     sizeBytes?: true
+    sortOrder?: true
     width?: true
     height?: true
     checksumSha256?: true
@@ -29636,6 +29577,7 @@ export namespace Prisma {
     mimeType?: true
     extension?: true
     sizeBytes?: true
+    sortOrder?: true
     width?: true
     height?: true
     checksumSha256?: true
@@ -29752,6 +29694,7 @@ export namespace Prisma {
     mimeType: string
     extension: string
     sizeBytes: number
+    sortOrder: number
     width: number
     height: number
     checksumSha256: string
@@ -29800,6 +29743,7 @@ export namespace Prisma {
     mimeType?: boolean
     extension?: boolean
     sizeBytes?: boolean
+    sortOrder?: boolean
     width?: boolean
     height?: boolean
     checksumSha256?: boolean
@@ -29831,6 +29775,7 @@ export namespace Prisma {
     mimeType?: boolean
     extension?: boolean
     sizeBytes?: boolean
+    sortOrder?: boolean
     width?: boolean
     height?: boolean
     checksumSha256?: boolean
@@ -29862,6 +29807,7 @@ export namespace Prisma {
     mimeType?: boolean
     extension?: boolean
     sizeBytes?: boolean
+    sortOrder?: boolean
     width?: boolean
     height?: boolean
     checksumSha256?: boolean
@@ -29893,6 +29839,7 @@ export namespace Prisma {
     mimeType?: boolean
     extension?: boolean
     sizeBytes?: boolean
+    sortOrder?: boolean
     width?: boolean
     height?: boolean
     checksumSha256?: boolean
@@ -29908,7 +29855,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UploadedFileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purpose" | "ownerType" | "ownerId" | "vocabularyEntryId" | "storageConfigurationId" | "url" | "path" | "originalName" | "sourceMimeType" | "mimeType" | "extension" | "sizeBytes" | "width" | "height" | "checksumSha256" | "status" | "isCurrent" | "replacedAt" | "deletedAt" | "storageDeletedAt" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["uploadedFile"]>
+  export type UploadedFileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purpose" | "ownerType" | "ownerId" | "vocabularyEntryId" | "storageConfigurationId" | "url" | "path" | "originalName" | "sourceMimeType" | "mimeType" | "extension" | "sizeBytes" | "sortOrder" | "width" | "height" | "checksumSha256" | "status" | "isCurrent" | "replacedAt" | "deletedAt" | "storageDeletedAt" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["uploadedFile"]>
   export type UploadedFileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vocabularyEntry?: boolean | UploadedFile$vocabularyEntryArgs<ExtArgs>
     storageConfiguration?: boolean | UploadedFile$storageConfigurationArgs<ExtArgs>
@@ -29942,6 +29889,7 @@ export namespace Prisma {
       mimeType: string
       extension: string
       sizeBytes: number
+      sortOrder: number
       width: number
       height: number
       checksumSha256: string
@@ -30393,6 +30341,7 @@ export namespace Prisma {
     readonly mimeType: FieldRef<"UploadedFile", 'String'>
     readonly extension: FieldRef<"UploadedFile", 'String'>
     readonly sizeBytes: FieldRef<"UploadedFile", 'Int'>
+    readonly sortOrder: FieldRef<"UploadedFile", 'Int'>
     readonly width: FieldRef<"UploadedFile", 'Int'>
     readonly height: FieldRef<"UploadedFile", 'Int'>
     readonly checksumSha256: FieldRef<"UploadedFile", 'String'>
@@ -67116,7 +67065,11 @@ export namespace Prisma {
     id: 'id',
     vocabularyId: 'vocabularyId',
     word: 'word',
+    partOfSpeech: 'partOfSpeech',
+    pronunciation: 'pronunciation',
     meaning: 'meaning',
+    synonyms: 'synonyms',
+    antonyms: 'antonyms',
     imageUrl: 'imageUrl',
     imagePath: 'imagePath',
     sortOrder: 'sortOrder',
@@ -67142,12 +67095,6 @@ export namespace Prisma {
     sessionTokenEncrypted: 'sessionTokenEncrypted',
     localRoot: 'localRoot',
     forcePathStyle: 'forcePathStyle',
-    publicBaseUrl: 'publicBaseUrl',
-    privateBucket: 'privateBucket',
-    maxImageSizeMb: 'maxImageSizeMb',
-    maxVideoSizeMb: 'maxVideoSizeMb',
-    maxModelSizeMb: 'maxModelSizeMb',
-    pathPrefix: 'pathPrefix',
     isActive: 'isActive',
     everActivated: 'everActivated',
     lastTestStatus: 'lastTestStatus',
@@ -67177,6 +67124,7 @@ export namespace Prisma {
     mimeType: 'mimeType',
     extension: 'extension',
     sizeBytes: 'sizeBytes',
+    sortOrder: 'sortOrder',
     width: 'width',
     height: 'height',
     checksumSha256: 'checksumSha256',
@@ -69749,7 +69697,11 @@ export namespace Prisma {
     id?: StringFilter<"VocabularyEntry"> | string
     vocabularyId?: StringFilter<"VocabularyEntry"> | string
     word?: StringFilter<"VocabularyEntry"> | string
+    partOfSpeech?: StringFilter<"VocabularyEntry"> | string
+    pronunciation?: StringFilter<"VocabularyEntry"> | string
     meaning?: StringFilter<"VocabularyEntry"> | string
+    synonyms?: StringFilter<"VocabularyEntry"> | string
+    antonyms?: StringFilter<"VocabularyEntry"> | string
     imageUrl?: StringFilter<"VocabularyEntry"> | string
     imagePath?: StringFilter<"VocabularyEntry"> | string
     sortOrder?: IntFilter<"VocabularyEntry"> | number
@@ -69766,7 +69718,11 @@ export namespace Prisma {
     id?: SortOrder
     vocabularyId?: SortOrder
     word?: SortOrder
+    partOfSpeech?: SortOrder
+    pronunciation?: SortOrder
     meaning?: SortOrder
+    synonyms?: SortOrder
+    antonyms?: SortOrder
     imageUrl?: SortOrder
     imagePath?: SortOrder
     sortOrder?: SortOrder
@@ -69786,7 +69742,11 @@ export namespace Prisma {
     NOT?: VocabularyEntryWhereInput | VocabularyEntryWhereInput[]
     vocabularyId?: StringFilter<"VocabularyEntry"> | string
     word?: StringFilter<"VocabularyEntry"> | string
+    partOfSpeech?: StringFilter<"VocabularyEntry"> | string
+    pronunciation?: StringFilter<"VocabularyEntry"> | string
     meaning?: StringFilter<"VocabularyEntry"> | string
+    synonyms?: StringFilter<"VocabularyEntry"> | string
+    antonyms?: StringFilter<"VocabularyEntry"> | string
     imageUrl?: StringFilter<"VocabularyEntry"> | string
     imagePath?: StringFilter<"VocabularyEntry"> | string
     sortOrder?: IntFilter<"VocabularyEntry"> | number
@@ -69803,7 +69763,11 @@ export namespace Prisma {
     id?: SortOrder
     vocabularyId?: SortOrder
     word?: SortOrder
+    partOfSpeech?: SortOrder
+    pronunciation?: SortOrder
     meaning?: SortOrder
+    synonyms?: SortOrder
+    antonyms?: SortOrder
     imageUrl?: SortOrder
     imagePath?: SortOrder
     sortOrder?: SortOrder
@@ -69826,7 +69790,11 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     vocabularyId?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     word?: StringWithAggregatesFilter<"VocabularyEntry"> | string
+    partOfSpeech?: StringWithAggregatesFilter<"VocabularyEntry"> | string
+    pronunciation?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     meaning?: StringWithAggregatesFilter<"VocabularyEntry"> | string
+    synonyms?: StringWithAggregatesFilter<"VocabularyEntry"> | string
+    antonyms?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     imageUrl?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     imagePath?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     sortOrder?: IntWithAggregatesFilter<"VocabularyEntry"> | number
@@ -69852,12 +69820,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFilter<"StorageConfiguration"> | string
     localRoot?: StringFilter<"StorageConfiguration"> | string
     forcePathStyle?: BoolFilter<"StorageConfiguration"> | boolean
-    publicBaseUrl?: StringFilter<"StorageConfiguration"> | string
-    privateBucket?: StringFilter<"StorageConfiguration"> | string
-    maxImageSizeMb?: IntFilter<"StorageConfiguration"> | number
-    maxVideoSizeMb?: IntFilter<"StorageConfiguration"> | number
-    maxModelSizeMb?: IntFilter<"StorageConfiguration"> | number
-    pathPrefix?: StringFilter<"StorageConfiguration"> | string
     isActive?: BoolFilter<"StorageConfiguration"> | boolean
     everActivated?: BoolFilter<"StorageConfiguration"> | boolean
     lastTestStatus?: StringFilter<"StorageConfiguration"> | string
@@ -69883,12 +69845,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: SortOrder
     localRoot?: SortOrder
     forcePathStyle?: SortOrder
-    publicBaseUrl?: SortOrder
-    privateBucket?: SortOrder
-    maxImageSizeMb?: SortOrder
-    maxVideoSizeMb?: SortOrder
-    maxModelSizeMb?: SortOrder
-    pathPrefix?: SortOrder
     isActive?: SortOrder
     everActivated?: SortOrder
     lastTestStatus?: SortOrder
@@ -69918,12 +69874,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFilter<"StorageConfiguration"> | string
     localRoot?: StringFilter<"StorageConfiguration"> | string
     forcePathStyle?: BoolFilter<"StorageConfiguration"> | boolean
-    publicBaseUrl?: StringFilter<"StorageConfiguration"> | string
-    privateBucket?: StringFilter<"StorageConfiguration"> | string
-    maxImageSizeMb?: IntFilter<"StorageConfiguration"> | number
-    maxVideoSizeMb?: IntFilter<"StorageConfiguration"> | number
-    maxModelSizeMb?: IntFilter<"StorageConfiguration"> | number
-    pathPrefix?: StringFilter<"StorageConfiguration"> | string
     isActive?: BoolFilter<"StorageConfiguration"> | boolean
     everActivated?: BoolFilter<"StorageConfiguration"> | boolean
     lastTestStatus?: StringFilter<"StorageConfiguration"> | string
@@ -69949,12 +69899,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: SortOrder
     localRoot?: SortOrder
     forcePathStyle?: SortOrder
-    publicBaseUrl?: SortOrder
-    privateBucket?: SortOrder
-    maxImageSizeMb?: SortOrder
-    maxVideoSizeMb?: SortOrder
-    maxModelSizeMb?: SortOrder
-    pathPrefix?: SortOrder
     isActive?: SortOrder
     everActivated?: SortOrder
     lastTestStatus?: SortOrder
@@ -69966,10 +69910,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: StorageConfigurationCountOrderByAggregateInput
-    _avg?: StorageConfigurationAvgOrderByAggregateInput
     _max?: StorageConfigurationMaxOrderByAggregateInput
     _min?: StorageConfigurationMinOrderByAggregateInput
-    _sum?: StorageConfigurationSumOrderByAggregateInput
   }
 
   export type StorageConfigurationScalarWhereWithAggregatesInput = {
@@ -69987,12 +69929,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringWithAggregatesFilter<"StorageConfiguration"> | string
     localRoot?: StringWithAggregatesFilter<"StorageConfiguration"> | string
     forcePathStyle?: BoolWithAggregatesFilter<"StorageConfiguration"> | boolean
-    publicBaseUrl?: StringWithAggregatesFilter<"StorageConfiguration"> | string
-    privateBucket?: StringWithAggregatesFilter<"StorageConfiguration"> | string
-    maxImageSizeMb?: IntWithAggregatesFilter<"StorageConfiguration"> | number
-    maxVideoSizeMb?: IntWithAggregatesFilter<"StorageConfiguration"> | number
-    maxModelSizeMb?: IntWithAggregatesFilter<"StorageConfiguration"> | number
-    pathPrefix?: StringWithAggregatesFilter<"StorageConfiguration"> | string
     isActive?: BoolWithAggregatesFilter<"StorageConfiguration"> | boolean
     everActivated?: BoolWithAggregatesFilter<"StorageConfiguration"> | boolean
     lastTestStatus?: StringWithAggregatesFilter<"StorageConfiguration"> | string
@@ -70022,6 +69958,7 @@ export namespace Prisma {
     mimeType?: StringFilter<"UploadedFile"> | string
     extension?: StringFilter<"UploadedFile"> | string
     sizeBytes?: IntFilter<"UploadedFile"> | number
+    sortOrder?: IntFilter<"UploadedFile"> | number
     width?: IntFilter<"UploadedFile"> | number
     height?: IntFilter<"UploadedFile"> | number
     checksumSha256?: StringFilter<"UploadedFile"> | string
@@ -70053,6 +69990,7 @@ export namespace Prisma {
     mimeType?: SortOrder
     extension?: SortOrder
     sizeBytes?: SortOrder
+    sortOrder?: SortOrder
     width?: SortOrder
     height?: SortOrder
     checksumSha256?: SortOrder
@@ -70087,6 +70025,7 @@ export namespace Prisma {
     mimeType?: StringFilter<"UploadedFile"> | string
     extension?: StringFilter<"UploadedFile"> | string
     sizeBytes?: IntFilter<"UploadedFile"> | number
+    sortOrder?: IntFilter<"UploadedFile"> | number
     width?: IntFilter<"UploadedFile"> | number
     height?: IntFilter<"UploadedFile"> | number
     checksumSha256?: StringFilter<"UploadedFile"> | string
@@ -70118,6 +70057,7 @@ export namespace Prisma {
     mimeType?: SortOrder
     extension?: SortOrder
     sizeBytes?: SortOrder
+    sortOrder?: SortOrder
     width?: SortOrder
     height?: SortOrder
     checksumSha256?: SortOrder
@@ -70155,6 +70095,7 @@ export namespace Prisma {
     mimeType?: StringWithAggregatesFilter<"UploadedFile"> | string
     extension?: StringWithAggregatesFilter<"UploadedFile"> | string
     sizeBytes?: IntWithAggregatesFilter<"UploadedFile"> | number
+    sortOrder?: IntWithAggregatesFilter<"UploadedFile"> | number
     width?: IntWithAggregatesFilter<"UploadedFile"> | number
     height?: IntWithAggregatesFilter<"UploadedFile"> | number
     checksumSha256?: StringWithAggregatesFilter<"UploadedFile"> | string
@@ -75628,7 +75569,11 @@ export namespace Prisma {
   export type VocabularyEntryCreateInput = {
     id?: string
     word?: string
+    partOfSpeech?: string
+    pronunciation?: string
     meaning?: string
+    synonyms?: string
+    antonyms?: string
     imageUrl?: string
     imagePath?: string
     sortOrder?: number
@@ -75645,7 +75590,11 @@ export namespace Prisma {
     id?: string
     vocabularyId: string
     word?: string
+    partOfSpeech?: string
+    pronunciation?: string
     meaning?: string
+    synonyms?: string
+    antonyms?: string
     imageUrl?: string
     imagePath?: string
     sortOrder?: number
@@ -75660,7 +75609,11 @@ export namespace Prisma {
   export type VocabularyEntryUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
+    partOfSpeech?: StringFieldUpdateOperationsInput | string
+    pronunciation?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
+    synonyms?: StringFieldUpdateOperationsInput | string
+    antonyms?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -75677,7 +75630,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     vocabularyId?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
+    partOfSpeech?: StringFieldUpdateOperationsInput | string
+    pronunciation?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
+    synonyms?: StringFieldUpdateOperationsInput | string
+    antonyms?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -75693,7 +75650,11 @@ export namespace Prisma {
     id?: string
     vocabularyId: string
     word?: string
+    partOfSpeech?: string
+    pronunciation?: string
     meaning?: string
+    synonyms?: string
+    antonyms?: string
     imageUrl?: string
     imagePath?: string
     sortOrder?: number
@@ -75707,7 +75668,11 @@ export namespace Prisma {
   export type VocabularyEntryUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
+    partOfSpeech?: StringFieldUpdateOperationsInput | string
+    pronunciation?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
+    synonyms?: StringFieldUpdateOperationsInput | string
+    antonyms?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -75722,7 +75687,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     vocabularyId?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
+    partOfSpeech?: StringFieldUpdateOperationsInput | string
+    pronunciation?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
+    synonyms?: StringFieldUpdateOperationsInput | string
+    antonyms?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -75745,12 +75714,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: string
     localRoot?: string
     forcePathStyle?: boolean
-    publicBaseUrl?: string
-    privateBucket?: string
-    maxImageSizeMb?: number
-    maxVideoSizeMb?: number
-    maxModelSizeMb?: number
-    pathPrefix?: string
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: string
@@ -75776,12 +75739,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: string
     localRoot?: string
     forcePathStyle?: boolean
-    publicBaseUrl?: string
-    privateBucket?: string
-    maxImageSizeMb?: number
-    maxVideoSizeMb?: number
-    maxModelSizeMb?: number
-    pathPrefix?: string
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: string
@@ -75807,12 +75764,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
     localRoot?: StringFieldUpdateOperationsInput | string
     forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
-    publicBaseUrl?: StringFieldUpdateOperationsInput | string
-    privateBucket?: StringFieldUpdateOperationsInput | string
-    maxImageSizeMb?: IntFieldUpdateOperationsInput | number
-    maxVideoSizeMb?: IntFieldUpdateOperationsInput | number
-    maxModelSizeMb?: IntFieldUpdateOperationsInput | number
-    pathPrefix?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     everActivated?: BoolFieldUpdateOperationsInput | boolean
     lastTestStatus?: StringFieldUpdateOperationsInput | string
@@ -75838,12 +75789,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
     localRoot?: StringFieldUpdateOperationsInput | string
     forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
-    publicBaseUrl?: StringFieldUpdateOperationsInput | string
-    privateBucket?: StringFieldUpdateOperationsInput | string
-    maxImageSizeMb?: IntFieldUpdateOperationsInput | number
-    maxVideoSizeMb?: IntFieldUpdateOperationsInput | number
-    maxModelSizeMb?: IntFieldUpdateOperationsInput | number
-    pathPrefix?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     everActivated?: BoolFieldUpdateOperationsInput | boolean
     lastTestStatus?: StringFieldUpdateOperationsInput | string
@@ -75869,12 +75814,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: string
     localRoot?: string
     forcePathStyle?: boolean
-    publicBaseUrl?: string
-    privateBucket?: string
-    maxImageSizeMb?: number
-    maxVideoSizeMb?: number
-    maxModelSizeMb?: number
-    pathPrefix?: string
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: string
@@ -75899,12 +75838,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
     localRoot?: StringFieldUpdateOperationsInput | string
     forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
-    publicBaseUrl?: StringFieldUpdateOperationsInput | string
-    privateBucket?: StringFieldUpdateOperationsInput | string
-    maxImageSizeMb?: IntFieldUpdateOperationsInput | number
-    maxVideoSizeMb?: IntFieldUpdateOperationsInput | number
-    maxModelSizeMb?: IntFieldUpdateOperationsInput | number
-    pathPrefix?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     everActivated?: BoolFieldUpdateOperationsInput | boolean
     lastTestStatus?: StringFieldUpdateOperationsInput | string
@@ -75929,12 +75862,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
     localRoot?: StringFieldUpdateOperationsInput | string
     forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
-    publicBaseUrl?: StringFieldUpdateOperationsInput | string
-    privateBucket?: StringFieldUpdateOperationsInput | string
-    maxImageSizeMb?: IntFieldUpdateOperationsInput | number
-    maxVideoSizeMb?: IntFieldUpdateOperationsInput | number
-    maxModelSizeMb?: IntFieldUpdateOperationsInput | number
-    pathPrefix?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     everActivated?: BoolFieldUpdateOperationsInput | boolean
     lastTestStatus?: StringFieldUpdateOperationsInput | string
@@ -75959,6 +75886,7 @@ export namespace Prisma {
     mimeType?: string
     extension?: string
     sizeBytes?: number
+    sortOrder?: number
     width?: number
     height?: number
     checksumSha256?: string
@@ -75990,6 +75918,7 @@ export namespace Prisma {
     mimeType?: string
     extension?: string
     sizeBytes?: number
+    sortOrder?: number
     width?: number
     height?: number
     checksumSha256?: string
@@ -76017,6 +75946,7 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     extension?: StringFieldUpdateOperationsInput | string
     sizeBytes?: IntFieldUpdateOperationsInput | number
+    sortOrder?: IntFieldUpdateOperationsInput | number
     width?: IntFieldUpdateOperationsInput | number
     height?: IntFieldUpdateOperationsInput | number
     checksumSha256?: StringFieldUpdateOperationsInput | string
@@ -76048,6 +75978,7 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     extension?: StringFieldUpdateOperationsInput | string
     sizeBytes?: IntFieldUpdateOperationsInput | number
+    sortOrder?: IntFieldUpdateOperationsInput | number
     width?: IntFieldUpdateOperationsInput | number
     height?: IntFieldUpdateOperationsInput | number
     checksumSha256?: StringFieldUpdateOperationsInput | string
@@ -76077,6 +76008,7 @@ export namespace Prisma {
     mimeType?: string
     extension?: string
     sizeBytes?: number
+    sortOrder?: number
     width?: number
     height?: number
     checksumSha256?: string
@@ -76104,6 +76036,7 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     extension?: StringFieldUpdateOperationsInput | string
     sizeBytes?: IntFieldUpdateOperationsInput | number
+    sortOrder?: IntFieldUpdateOperationsInput | number
     width?: IntFieldUpdateOperationsInput | number
     height?: IntFieldUpdateOperationsInput | number
     checksumSha256?: StringFieldUpdateOperationsInput | string
@@ -76133,6 +76066,7 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     extension?: StringFieldUpdateOperationsInput | string
     sizeBytes?: IntFieldUpdateOperationsInput | number
+    sortOrder?: IntFieldUpdateOperationsInput | number
     width?: IntFieldUpdateOperationsInput | number
     height?: IntFieldUpdateOperationsInput | number
     checksumSha256?: StringFieldUpdateOperationsInput | string
@@ -81565,7 +81499,11 @@ export namespace Prisma {
     id?: SortOrder
     vocabularyId?: SortOrder
     word?: SortOrder
+    partOfSpeech?: SortOrder
+    pronunciation?: SortOrder
     meaning?: SortOrder
+    synonyms?: SortOrder
+    antonyms?: SortOrder
     imageUrl?: SortOrder
     imagePath?: SortOrder
     sortOrder?: SortOrder
@@ -81584,7 +81522,11 @@ export namespace Prisma {
     id?: SortOrder
     vocabularyId?: SortOrder
     word?: SortOrder
+    partOfSpeech?: SortOrder
+    pronunciation?: SortOrder
     meaning?: SortOrder
+    synonyms?: SortOrder
+    antonyms?: SortOrder
     imageUrl?: SortOrder
     imagePath?: SortOrder
     sortOrder?: SortOrder
@@ -81599,7 +81541,11 @@ export namespace Prisma {
     id?: SortOrder
     vocabularyId?: SortOrder
     word?: SortOrder
+    partOfSpeech?: SortOrder
+    pronunciation?: SortOrder
     meaning?: SortOrder
+    synonyms?: SortOrder
+    antonyms?: SortOrder
     imageUrl?: SortOrder
     imagePath?: SortOrder
     sortOrder?: SortOrder
@@ -81631,12 +81577,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: SortOrder
     localRoot?: SortOrder
     forcePathStyle?: SortOrder
-    publicBaseUrl?: SortOrder
-    privateBucket?: SortOrder
-    maxImageSizeMb?: SortOrder
-    maxVideoSizeMb?: SortOrder
-    maxModelSizeMb?: SortOrder
-    pathPrefix?: SortOrder
     isActive?: SortOrder
     everActivated?: SortOrder
     lastTestStatus?: SortOrder
@@ -81647,12 +81587,6 @@ export namespace Prisma {
     updatedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type StorageConfigurationAvgOrderByAggregateInput = {
-    maxImageSizeMb?: SortOrder
-    maxVideoSizeMb?: SortOrder
-    maxModelSizeMb?: SortOrder
   }
 
   export type StorageConfigurationMaxOrderByAggregateInput = {
@@ -81667,12 +81601,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: SortOrder
     localRoot?: SortOrder
     forcePathStyle?: SortOrder
-    publicBaseUrl?: SortOrder
-    privateBucket?: SortOrder
-    maxImageSizeMb?: SortOrder
-    maxVideoSizeMb?: SortOrder
-    maxModelSizeMb?: SortOrder
-    pathPrefix?: SortOrder
     isActive?: SortOrder
     everActivated?: SortOrder
     lastTestStatus?: SortOrder
@@ -81697,12 +81625,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: SortOrder
     localRoot?: SortOrder
     forcePathStyle?: SortOrder
-    publicBaseUrl?: SortOrder
-    privateBucket?: SortOrder
-    maxImageSizeMb?: SortOrder
-    maxVideoSizeMb?: SortOrder
-    maxModelSizeMb?: SortOrder
-    pathPrefix?: SortOrder
     isActive?: SortOrder
     everActivated?: SortOrder
     lastTestStatus?: SortOrder
@@ -81713,12 +81635,6 @@ export namespace Prisma {
     updatedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type StorageConfigurationSumOrderByAggregateInput = {
-    maxImageSizeMb?: SortOrder
-    maxVideoSizeMb?: SortOrder
-    maxModelSizeMb?: SortOrder
   }
 
   export type VocabularyEntryNullableScalarRelationFilter = {
@@ -81745,6 +81661,7 @@ export namespace Prisma {
     mimeType?: SortOrder
     extension?: SortOrder
     sizeBytes?: SortOrder
+    sortOrder?: SortOrder
     width?: SortOrder
     height?: SortOrder
     checksumSha256?: SortOrder
@@ -81762,6 +81679,7 @@ export namespace Prisma {
 
   export type UploadedFileAvgOrderByAggregateInput = {
     sizeBytes?: SortOrder
+    sortOrder?: SortOrder
     width?: SortOrder
     height?: SortOrder
   }
@@ -81780,6 +81698,7 @@ export namespace Prisma {
     mimeType?: SortOrder
     extension?: SortOrder
     sizeBytes?: SortOrder
+    sortOrder?: SortOrder
     width?: SortOrder
     height?: SortOrder
     checksumSha256?: SortOrder
@@ -81809,6 +81728,7 @@ export namespace Prisma {
     mimeType?: SortOrder
     extension?: SortOrder
     sizeBytes?: SortOrder
+    sortOrder?: SortOrder
     width?: SortOrder
     height?: SortOrder
     checksumSha256?: SortOrder
@@ -81826,6 +81746,7 @@ export namespace Prisma {
 
   export type UploadedFileSumOrderByAggregateInput = {
     sizeBytes?: SortOrder
+    sortOrder?: SortOrder
     width?: SortOrder
     height?: SortOrder
   }
@@ -92064,7 +91985,11 @@ export namespace Prisma {
   export type VocabularyEntryCreateWithoutVocabularyInput = {
     id?: string
     word?: string
+    partOfSpeech?: string
+    pronunciation?: string
     meaning?: string
+    synonyms?: string
+    antonyms?: string
     imageUrl?: string
     imagePath?: string
     sortOrder?: number
@@ -92079,7 +92004,11 @@ export namespace Prisma {
   export type VocabularyEntryUncheckedCreateWithoutVocabularyInput = {
     id?: string
     word?: string
+    partOfSpeech?: string
+    pronunciation?: string
     meaning?: string
+    synonyms?: string
+    antonyms?: string
     imageUrl?: string
     imagePath?: string
     sortOrder?: number
@@ -92206,7 +92135,11 @@ export namespace Prisma {
     id?: StringFilter<"VocabularyEntry"> | string
     vocabularyId?: StringFilter<"VocabularyEntry"> | string
     word?: StringFilter<"VocabularyEntry"> | string
+    partOfSpeech?: StringFilter<"VocabularyEntry"> | string
+    pronunciation?: StringFilter<"VocabularyEntry"> | string
     meaning?: StringFilter<"VocabularyEntry"> | string
+    synonyms?: StringFilter<"VocabularyEntry"> | string
+    antonyms?: StringFilter<"VocabularyEntry"> | string
     imageUrl?: StringFilter<"VocabularyEntry"> | string
     imagePath?: StringFilter<"VocabularyEntry"> | string
     sortOrder?: IntFilter<"VocabularyEntry"> | number
@@ -92272,6 +92205,7 @@ export namespace Prisma {
     mimeType?: string
     extension?: string
     sizeBytes?: number
+    sortOrder?: number
     width?: number
     height?: number
     checksumSha256?: string
@@ -92301,6 +92235,7 @@ export namespace Prisma {
     mimeType?: string
     extension?: string
     sizeBytes?: number
+    sortOrder?: number
     width?: number
     height?: number
     checksumSha256?: string
@@ -92407,6 +92342,7 @@ export namespace Prisma {
     mimeType?: StringFilter<"UploadedFile"> | string
     extension?: StringFilter<"UploadedFile"> | string
     sizeBytes?: IntFilter<"UploadedFile"> | number
+    sortOrder?: IntFilter<"UploadedFile"> | number
     width?: IntFilter<"UploadedFile"> | number
     height?: IntFilter<"UploadedFile"> | number
     checksumSha256?: StringFilter<"UploadedFile"> | string
@@ -92434,6 +92370,7 @@ export namespace Prisma {
     mimeType?: string
     extension?: string
     sizeBytes?: number
+    sortOrder?: number
     width?: number
     height?: number
     checksumSha256?: string
@@ -92463,6 +92400,7 @@ export namespace Prisma {
     mimeType?: string
     extension?: string
     sizeBytes?: number
+    sortOrder?: number
     width?: number
     height?: number
     checksumSha256?: string
@@ -92506,7 +92444,11 @@ export namespace Prisma {
   export type VocabularyEntryCreateWithoutUploadedFilesInput = {
     id?: string
     word?: string
+    partOfSpeech?: string
+    pronunciation?: string
     meaning?: string
+    synonyms?: string
+    antonyms?: string
     imageUrl?: string
     imagePath?: string
     sortOrder?: number
@@ -92522,7 +92464,11 @@ export namespace Prisma {
     id?: string
     vocabularyId: string
     word?: string
+    partOfSpeech?: string
+    pronunciation?: string
     meaning?: string
+    synonyms?: string
+    antonyms?: string
     imageUrl?: string
     imagePath?: string
     sortOrder?: number
@@ -92550,12 +92496,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: string
     localRoot?: string
     forcePathStyle?: boolean
-    publicBaseUrl?: string
-    privateBucket?: string
-    maxImageSizeMb?: number
-    maxVideoSizeMb?: number
-    maxModelSizeMb?: number
-    pathPrefix?: string
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: string
@@ -92580,12 +92520,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: string
     localRoot?: string
     forcePathStyle?: boolean
-    publicBaseUrl?: string
-    privateBucket?: string
-    maxImageSizeMb?: number
-    maxVideoSizeMb?: number
-    maxModelSizeMb?: number
-    pathPrefix?: string
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: string
@@ -92617,7 +92551,11 @@ export namespace Prisma {
   export type VocabularyEntryUpdateWithoutUploadedFilesInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
+    partOfSpeech?: StringFieldUpdateOperationsInput | string
+    pronunciation?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
+    synonyms?: StringFieldUpdateOperationsInput | string
+    antonyms?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -92633,7 +92571,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     vocabularyId?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
+    partOfSpeech?: StringFieldUpdateOperationsInput | string
+    pronunciation?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
+    synonyms?: StringFieldUpdateOperationsInput | string
+    antonyms?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -92667,12 +92609,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
     localRoot?: StringFieldUpdateOperationsInput | string
     forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
-    publicBaseUrl?: StringFieldUpdateOperationsInput | string
-    privateBucket?: StringFieldUpdateOperationsInput | string
-    maxImageSizeMb?: IntFieldUpdateOperationsInput | number
-    maxVideoSizeMb?: IntFieldUpdateOperationsInput | number
-    maxModelSizeMb?: IntFieldUpdateOperationsInput | number
-    pathPrefix?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     everActivated?: BoolFieldUpdateOperationsInput | boolean
     lastTestStatus?: StringFieldUpdateOperationsInput | string
@@ -92697,12 +92633,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
     localRoot?: StringFieldUpdateOperationsInput | string
     forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
-    publicBaseUrl?: StringFieldUpdateOperationsInput | string
-    privateBucket?: StringFieldUpdateOperationsInput | string
-    maxImageSizeMb?: IntFieldUpdateOperationsInput | number
-    maxVideoSizeMb?: IntFieldUpdateOperationsInput | number
-    maxModelSizeMb?: IntFieldUpdateOperationsInput | number
-    pathPrefix?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     everActivated?: BoolFieldUpdateOperationsInput | boolean
     lastTestStatus?: StringFieldUpdateOperationsInput | string
@@ -97470,7 +97400,11 @@ export namespace Prisma {
   export type VocabularyEntryCreateManyVocabularyInput = {
     id?: string
     word?: string
+    partOfSpeech?: string
+    pronunciation?: string
     meaning?: string
+    synonyms?: string
+    antonyms?: string
     imageUrl?: string
     imagePath?: string
     sortOrder?: number
@@ -97484,7 +97418,11 @@ export namespace Prisma {
   export type VocabularyEntryUpdateWithoutVocabularyInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
+    partOfSpeech?: StringFieldUpdateOperationsInput | string
+    pronunciation?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
+    synonyms?: StringFieldUpdateOperationsInput | string
+    antonyms?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -97499,7 +97437,11 @@ export namespace Prisma {
   export type VocabularyEntryUncheckedUpdateWithoutVocabularyInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
+    partOfSpeech?: StringFieldUpdateOperationsInput | string
+    pronunciation?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
+    synonyms?: StringFieldUpdateOperationsInput | string
+    antonyms?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -97514,7 +97456,11 @@ export namespace Prisma {
   export type VocabularyEntryUncheckedUpdateManyWithoutVocabularyInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
+    partOfSpeech?: StringFieldUpdateOperationsInput | string
+    pronunciation?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
+    synonyms?: StringFieldUpdateOperationsInput | string
+    antonyms?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -97538,6 +97484,7 @@ export namespace Prisma {
     mimeType?: string
     extension?: string
     sizeBytes?: number
+    sortOrder?: number
     width?: number
     height?: number
     checksumSha256?: string
@@ -97565,6 +97512,7 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     extension?: StringFieldUpdateOperationsInput | string
     sizeBytes?: IntFieldUpdateOperationsInput | number
+    sortOrder?: IntFieldUpdateOperationsInput | number
     width?: IntFieldUpdateOperationsInput | number
     height?: IntFieldUpdateOperationsInput | number
     checksumSha256?: StringFieldUpdateOperationsInput | string
@@ -97594,6 +97542,7 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     extension?: StringFieldUpdateOperationsInput | string
     sizeBytes?: IntFieldUpdateOperationsInput | number
+    sortOrder?: IntFieldUpdateOperationsInput | number
     width?: IntFieldUpdateOperationsInput | number
     height?: IntFieldUpdateOperationsInput | number
     checksumSha256?: StringFieldUpdateOperationsInput | string
@@ -97622,6 +97571,7 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     extension?: StringFieldUpdateOperationsInput | string
     sizeBytes?: IntFieldUpdateOperationsInput | number
+    sortOrder?: IntFieldUpdateOperationsInput | number
     width?: IntFieldUpdateOperationsInput | number
     height?: IntFieldUpdateOperationsInput | number
     checksumSha256?: StringFieldUpdateOperationsInput | string
@@ -97650,6 +97600,7 @@ export namespace Prisma {
     mimeType?: string
     extension?: string
     sizeBytes?: number
+    sortOrder?: number
     width?: number
     height?: number
     checksumSha256?: string
@@ -97677,6 +97628,7 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     extension?: StringFieldUpdateOperationsInput | string
     sizeBytes?: IntFieldUpdateOperationsInput | number
+    sortOrder?: IntFieldUpdateOperationsInput | number
     width?: IntFieldUpdateOperationsInput | number
     height?: IntFieldUpdateOperationsInput | number
     checksumSha256?: StringFieldUpdateOperationsInput | string
@@ -97706,6 +97658,7 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     extension?: StringFieldUpdateOperationsInput | string
     sizeBytes?: IntFieldUpdateOperationsInput | number
+    sortOrder?: IntFieldUpdateOperationsInput | number
     width?: IntFieldUpdateOperationsInput | number
     height?: IntFieldUpdateOperationsInput | number
     checksumSha256?: StringFieldUpdateOperationsInput | string
@@ -97734,6 +97687,7 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     extension?: StringFieldUpdateOperationsInput | string
     sizeBytes?: IntFieldUpdateOperationsInput | number
+    sortOrder?: IntFieldUpdateOperationsInput | number
     width?: IntFieldUpdateOperationsInput | number
     height?: IntFieldUpdateOperationsInput | number
     checksumSha256?: StringFieldUpdateOperationsInput | string

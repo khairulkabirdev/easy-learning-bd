@@ -1,10 +1,13 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 import { isEnglishFirstPaperSubject } from "@/app/admin/content/navigation-helpers";
 import {
   getPublishedSubjectMeta,
   getSeenCompositionLessons,
+  getSeenCompositionNextStep,
   getSeenCompositionPage,
   getSeenCompositionUnits,
   getSubjectPracticePage,
@@ -18,13 +21,16 @@ import { getPublishedContentByBlockKind } from "@/app/user/lessons/data";
 import { StudentContentViewer } from "@/app/user/lessons/student-content";
 import { UserFirstPaperPracticeViewer } from "@/components/app/UserFirstPaperPracticeViewer";
 import { UserFirstPaperSectionList } from "@/components/app/UserFirstPaperSectionList";
+import { UserSeenCompositionInfiniteList } from "@/components/app/UserSeenCompositionInfiniteList";
 import {
   SeenLessonGrid,
   SeenPassageTypeGrid,
   SeenUnitGrid,
 } from "@/components/app/UserSeenCompositionNavigator";
 import { Badge } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button";
 import { requireStudent } from "@/lib/app-auth";
+import { cn } from "@/lib/utils";
 
 const META: Record<FirstPaperSectionSlug, { title: string; description: string }> = {
   "seen-composition": {
@@ -67,6 +73,15 @@ function positiveInt(value: string | string[] | undefined, fallback = 1) {
 function stripSeenPassagePrefix(title: string | null | undefined) {
   const value = title?.trim() || "";
   return value.replace(/^Seen\s+Passage\s+[12]\s*[—–-]\s*/i, "").trim();
+}
+
+function seenHref(basePath: string, values: Record<string, string>) {
+  const params = new URLSearchParams();
+  Object.entries(values).forEach(([key, value]) => {
+    if (value) params.set(key, value);
+  });
+  const query = params.toString();
+  return query ? `${basePath}?${query}` : basePath;
 }
 
 
@@ -149,6 +164,16 @@ export default async function UserEnglishFirstPaperSectionPage({
           notFound();
         }
 
+        const nextStep = await getSeenCompositionNextStep({
+          organizationId: user.organizationId,
+          classId: user.classId,
+          subjectId,
+          unitId,
+          lessonId,
+          passageKind,
+          currentContentId: content.id,
+        });
+
         pageTitle = stripSeenPassagePrefix(content.title) || passageLabel;
         pageDescription = "Read the passage and complete the available exercises.";
         pageBadges = (
@@ -160,11 +185,62 @@ export default async function UserEnglishFirstPaperSectionPage({
           </div>
         );
         body = (
-          <StudentContentViewer
-            content={content}
-            title={`${passageLabel} practice`}
-            description="Read the passage and complete the available exercises."
-          />
+          <div className="space-y-8">
+            <StudentContentViewer
+              content={content}
+              showHeader={false}
+              suppressRepeatedPassages
+            />
+
+            <div className="border-t border-border/70 pt-6">
+              {nextStep.type === "content" ? (
+                <div className="flex flex-col gap-3 rounded-2xl border bg-muted/20 p-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="min-w-0">
+                    <p className="font-medium">Continue this lesson</p>
+                    <p className="mt-1 text-sm text-muted-foreground">Open the next {passageLabel.toLowerCase()} content.</p>
+                  </div>
+                  <Link
+                    href={seenHref(basePath, {
+                      passage,
+                      unitId,
+                      lessonId,
+                      contentId: nextStep.contentId,
+                    })}
+                    className={cn(buttonVariants({ size: "lg" }), "min-h-11 px-4 sm:min-w-28")}
+                  >
+                    Next <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </div>
+              ) : nextStep.type === "lesson" ? (
+                <div className="flex flex-col gap-3 rounded-2xl border border-primary/20 bg-primary/5 p-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="min-w-0">
+                    <p className="font-medium">Lesson complete</p>
+                    <p className="mt-1 text-sm text-muted-foreground">Next: {nextStep.lessonTitle}</p>
+                  </div>
+                  <Link
+                    href={seenHref(basePath, {
+                      passage,
+                      unitId,
+                      lessonId: nextStep.lessonId,
+                    })}
+                    className={cn(buttonVariants({ size: "lg" }), "min-h-11 px-4 sm:min-w-36")}
+                  >
+                    Next Lesson <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </div>
+              ) : (
+                <div className="flex items-center gap-3 rounded-2xl border border-primary/20 bg-primary/5 p-4 text-sm">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <CheckCircle2 className="h-5 w-5" />
+                  </span>
+                  <div>
+                    <p className="font-medium text-foreground">Lesson complete</p>
+                    <p className="mt-0.5 text-muted-foreground">You reached the end of the available {passageLabel.toLowerCase()} content.</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         );
       } else if (!unitId) {
         pageTitle = `${passageLabel} · Choose Unit`;
@@ -201,7 +277,7 @@ export default async function UserEnglishFirstPaperSectionPage({
           lessonId,
           passageKind,
           query: q,
-          page,
+          page: 1,
           pageSize: 10,
         });
 
@@ -215,23 +291,19 @@ export default async function UserEnglishFirstPaperSectionPage({
           </div>
         );
         body = (
-          <UserFirstPaperSectionList
-              basePath={basePath}
-              rows={result.rows.map((row) => ({
-                id: row.id,
-                title: stripSeenPassagePrefix(row.title) || `Untitled ${passageLabel}`,
-                meta: `${row.unit.title} · ${row.lesson.title}`,
-                secondaryMeta: row.topic?.title || passageLabel,
-                count: row.blocksCount,
-              }))}
-              total={result.total}
-              page={result.page}
-              totalPages={result.totalPages}
-              query={q}
-              emptyMessage={`No ${passageLabel} records found for this Lesson.`}
-              recordParam="contentId"
-              preserve={{ passage, unitId, lessonId }}
-            />
+          <UserSeenCompositionInfiniteList
+            basePath={basePath}
+            subjectId={subjectId}
+            passage={passage}
+            unitId={unitId}
+            lessonId={lessonId}
+            query={q}
+            initialRows={result.rows}
+            total={result.total}
+            initialPage={result.page}
+            totalPages={result.totalPages}
+            emptyMessage={`No ${passageLabel} records found for this Lesson.`}
+          />
         );
       }
     }
@@ -249,7 +321,9 @@ export default async function UserEnglishFirstPaperSectionPage({
       if (!record) notFound();
 
       pageTitle = record.title?.trim() || meta.title;
-      pageDescription = meta.description;
+      pageDescription = section === "unseen-composition"
+        ? "Read the passage and complete its exercises."
+        : meta.description;
       pageBadges = <Badge variant="outline">{meta.title}</Badge>;
       body = <UserFirstPaperPracticeViewer kind={section} record={record} />;
     } else {
@@ -281,15 +355,23 @@ export default async function UserEnglishFirstPaperSectionPage({
     }
   }
 
-  return (
-    <div className="space-y-6 pt-2 sm:pt-4">
-      <div className="space-y-1">
-        <h1 className="text-2xl font-semibold tracking-tight">{pageTitle}</h1>
-        <p className="max-w-3xl text-sm text-muted-foreground">{pageDescription}</p>
-        {pageBadges}
-      </div>
+  const isSeenContentDetail = section === "seen-composition" && Boolean(one(queryParams.contentId));
+  const isUnseenContentDetail = section === "unseen-composition" && Boolean(one(queryParams.recordId));
+  const isMatchingContentDetail = section === "matching-sentences" && Boolean(one(queryParams.recordId));
 
-      {body}
+  return (
+    <div
+      className={`mx-auto w-full ${isSeenContentDetail || isUnseenContentDetail || isMatchingContentDetail ? "max-w-2xl" : "max-w-6xl"} space-y-6 pb-10 pt-2 sm:space-y-8 sm:pb-14 sm:pt-4`}
+    >
+      <header className="space-y-3 border-b border-border/70 pb-5 sm:pb-6">
+        <div className="space-y-1.5">
+          <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">{pageTitle}</h1>
+          <p className="max-w-3xl text-sm leading-6 text-muted-foreground sm:text-base">{pageDescription}</p>
+        </div>
+        {pageBadges}
+      </header>
+
+      <div className="min-w-0">{body}</div>
     </div>
   );
 }

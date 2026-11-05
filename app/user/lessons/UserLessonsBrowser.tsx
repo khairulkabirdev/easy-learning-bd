@@ -28,6 +28,9 @@ import type {
 import { EntityVisual } from "@/components/app/EntityVisual";
 import { TableCompletionChoiceCombobox } from "@/components/app/TableCompletionChoiceCombobox";
 import { SubstitutionTableExercise } from "@/components/app/SubstitutionTableExercise";
+import { VocabularyImageGallery, type VocabularyGalleryImage } from "@/components/app/VocabularyImageGallery";
+import { PracticeAnswerActions } from "@/components/app/PracticeAnswerActions";
+import { SynonymsAntonymsStudyCards } from "@/components/app/SynonymsAntonymsStudyCards";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -215,7 +218,7 @@ function ActionButtons({
       </Button>
       <Button type="button" variant="outline" size="sm" className="cursor-pointer" onClick={onReveal}>
         <Eye className="mr-2 h-4 w-4" />
-        Review Answer
+        Preview Answer
       </Button>
     </div>
   );
@@ -260,23 +263,31 @@ function ThreeFieldExerciseBlock({
             onChange={(event) => {
               setStudentAnswer(event.target.value);
               setStatus("idle");
+              setShowAnswer(false);
             }}
             className="min-h-24"
             placeholder="Write your answer here..."
           />
         </div>
 
-        <ActionButtons
-          onCheck={() => {
-            setStatus(normalizeAnswer(studentAnswer) === normalizeAnswer(answer) ? "correct" : "incorrect");
-            setShowAnswer(true);
-          }}
-          onReveal={() => setShowAnswer(true)}
-        />
+        <div className="rounded-xl border border-border/70 bg-muted/20 p-3">
+          <PracticeAnswerActions
+            ariaLabel="Short-answer actions"
+            onCheck={() => setStatus(normalizeAnswer(studentAnswer) === normalizeAnswer(answer) ? "correct" : "incorrect")}
+            checkDisabled={!studentAnswer.trim()}
+            onPreview={() => setShowAnswer(true)}
+            onReset={() => {
+              setStudentAnswer("");
+              setShowAnswer(false);
+              setStatus("idle");
+            }}
+          />
+          <p className="mt-2 text-xs text-muted-foreground">Compare your own wording with the model response after checking.</p>
+        </div>
 
         {showAnswer ? (
           <div className="space-y-2 rounded-xl border border-dashed p-4">
-            <div className="text-sm font-medium">Answer review</div>
+            <div className="text-sm font-medium">Model answer</div>
             <RichContent value={answer} />
           </div>
         ) : null}
@@ -343,27 +354,37 @@ function FillInTheBlanksBlock({
         {stripHtml(details) ? <CardDescription>{stripHtml(details)}</CardDescription> : null}
       </CardHeader>
       <CardContent className="space-y-5">
-        <div className="rounded-xl border bg-muted/10 p-4 text-base leading-9 whitespace-pre-wrap">
+        <div className="rounded-xl border border-border/60 bg-muted/15 px-3 py-4 text-[15px] leading-[2.9rem] whitespace-pre-wrap sm:px-4 sm:text-base sm:leading-[3rem]">
           {segments.map((segment, index) => {
             const blank = blanks[index];
+            const letter = String.fromCharCode(97 + index);
+            // The source may already contain (a), (b), etc. before each blank.
+            // Show the label once, inside the inline input, rather than twice.
+            const visibleText = blank
+              ? segment.replace(new RegExp(`\\s*\\(${letter}\\)\\s*$`, "i"), " ")
+              : segment;
             return (
               <span key={`${index}-${blank?.id || "tail"}`}>
-                {segment}
+                {visibleText}
                 {blank ? (
-                  <span className="mx-1 inline-flex align-middle">
+                  <span
+                    className={cn(
+                      "mx-1 my-1 inline-flex max-w-full items-center gap-1 rounded-lg border border-border/80 bg-background px-1.5 py-1 align-middle shadow-xs transition-colors focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/15",
+                      statusByBlank[blank.id] === "correct" && "border-emerald-500 bg-emerald-50/60 dark:bg-emerald-950/20",
+                      statusByBlank[blank.id] === "incorrect" && "border-red-500 bg-red-50/60 dark:bg-red-950/20",
+                    )}
+                  >
+                    <span aria-hidden="true" className="flex size-6 shrink-0 items-center justify-center rounded-md bg-primary/10 text-xs font-semibold text-primary">{letter}</span>
                     <Input
                       value={studentAnswers[blank.id] || ""}
                       onChange={(event) => {
                         setStudentAnswers((current) => ({ ...current, [blank.id]: event.target.value }));
                         setStatusByBlank((current) => ({ ...current, [blank.id]: "idle" }));
                       }}
-                      aria-label={`Answer for blank ${index + 1}`}
-                      placeholder={`${index + 1}`}
-                      className={cn(
-                        "h-9 min-w-28 w-36 bg-background px-2 text-center sm:w-44",
-                        statusByBlank[blank.id] === "correct" && "border-emerald-500 bg-emerald-50",
-                        statusByBlank[blank.id] === "incorrect" && "border-red-500 bg-red-50",
-                      )}
+                      aria-label={`Answer for blank ${letter}`}
+                      placeholder="Answer"
+                      autoComplete="off"
+                      className="h-8 w-24 min-w-0 border-0 bg-transparent px-1 text-center text-sm shadow-none outline-none focus-visible:border-0 focus-visible:ring-0 sm:w-28"
                     />
                   </span>
                 ) : null}
@@ -505,25 +526,63 @@ function ParagraphBlock({ body }: { body: string }) {
 
 function VocabularyBlock({
   entries,
+  galleryImages = [],
 }: {
   entries: VocabularyEntryRecord[];
+  galleryImages?: VocabularyGalleryImage[];
 }) {
+  const splitList = (value: string) =>
+    value
+      .split(",")
+      .map((item) => item.trim())
+      .filter(Boolean);
+
   return (
     <Card className="rounded-xl">
       <CardHeader>
         <CardTitle className="text-lg">Vocabulary</CardTitle>
-        <CardDescription>Study the word list and meanings for this lesson.</CardDescription>
+        <CardDescription>Study meaning, pronunciation, part of speech, synonyms, and antonyms.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
-        {entries.map((entry, index) => (
-          <div key={entry.id} className="rounded-xl border p-4">
-            <div className="mb-2 flex items-center gap-2">
-              <Badge variant="outline">Word {index + 1}</Badge>
-              <span className="font-medium">{entry.word || "Untitled word"}</span>
+        {entries.map((entry, index) => {
+          const synonyms = splitList(entry.synonyms);
+          const antonyms = splitList(entry.antonyms);
+          return (
+            <div key={entry.id} className="rounded-xl border p-4">
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge variant="outline">{String(index + 1).padStart(2, "0")}</Badge>
+                <span className="font-medium">{entry.word || "Untitled word"}</span>
+                {entry.partOfSpeech ? <Badge variant="secondary">{entry.partOfSpeech}</Badge> : null}
+                {entry.pronunciation ? <span className="text-sm text-muted-foreground">({entry.pronunciation})</span> : null}
+              </div>
+              <div className="mt-2 text-sm"><span className="font-medium">Meaning:</span> {entry.meaning || "No meaning added."}</div>
+              {synonyms.length > 0 ? (
+                <div className="mt-3 flex flex-wrap items-center gap-2">
+                  <span className="text-xs font-medium text-muted-foreground">Synonyms</span>
+                  {synonyms.map((item) => <Badge key={item} variant="secondary">{item}</Badge>)}
+                </div>
+              ) : null}
+              {antonyms.length > 0 ? (
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  <span className="text-xs font-medium text-muted-foreground">Antonyms</span>
+                  {antonyms.map((item) => <Badge key={item} variant="outline">{item}</Badge>)}
+                </div>
+              ) : null}
+              {entry.imageUrl ? (
+                <div className="mt-4 overflow-hidden rounded-xl border bg-muted/20 p-2">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={entry.imageUrl} alt={`Illustration for ${entry.word}`} loading="lazy" className="max-h-64 w-full rounded-lg object-contain" />
+                </div>
+              ) : null}
             </div>
-            <div className="text-sm text-muted-foreground">{entry.meaning || "No meaning added."}</div>
-          </div>
-        ))}
+          );
+        })}
+        {galleryImages.length > 0 ? (
+          <section className="mt-6 space-y-3 border-t pt-5" aria-label="Vocabulary image gallery">
+            <h3 className="text-base font-semibold">Vocabulary image gallery</h3>
+            <VocabularyImageGallery title="Vocabulary gallery" images={galleryImages} />
+          </section>
+        ) : null}
       </CardContent>
     </Card>
   );
@@ -534,162 +593,102 @@ function SynonymsAntonymsBlock({
 }: {
   entries: SynonymsAntonymsEntryRecord[];
 }) {
-  const splitTags = (value: string) =>
-    value
-      .split(",")
-      .map((item) => item.trim())
-      .filter(Boolean);
-
-  return (
-    <Card className="rounded-xl">
-      <CardHeader>
-        <CardTitle className="text-lg">Synonyms / Antonyms</CardTitle>
-        <CardDescription>Review each word with meanings, synonyms, antonyms, and notes.</CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {entries.map((entry, index) => (
-          <div key={entry.id} className="rounded-xl border p-4">
-            <div className="mb-3 flex items-center gap-2">
-              <Badge variant="outline">Entry {index + 1}</Badge>
-              <span className="font-medium">{entry.word || "Untitled word"}</span>
-            </div>
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="space-y-1">
-                <div className="text-sm font-medium">Meanings</div>
-                <div className="text-sm text-muted-foreground">{entry.meanings || "No meanings added."}</div>
-              </div>
-              <div className="space-y-1">
-                <div className="text-sm font-medium">Synonyms</div>
-                <div className="flex flex-wrap gap-2">
-                  {splitTags(entry.synonyms).length > 0 ? (
-                    splitTags(entry.synonyms).map((item) => (
-                      <Badge key={item} variant="secondary">
-                        {item}
-                      </Badge>
-                    ))
-                  ) : (
-                    <span className="text-sm text-muted-foreground">No synonyms added.</span>
-                  )}
-                </div>
-              </div>
-              <div className="space-y-1">
-                <div className="text-sm font-medium">Antonyms</div>
-                <div className="flex flex-wrap gap-2">
-                  {splitTags(entry.antonyms).length > 0 ? (
-                    splitTags(entry.antonyms).map((item) => (
-                      <Badge key={item} variant="outline">
-                        {item}
-                      </Badge>
-                    ))
-                  ) : (
-                    <span className="text-sm text-muted-foreground">No antonyms added.</span>
-                  )}
-                </div>
-              </div>
-              {stripHtml(entry.details) ? (
-                <div className="space-y-1 md:col-span-2">
-                  <div className="text-sm font-medium">Details</div>
-                  <div className="rounded-xl border p-3">
-                    <RichContent value={entry.details} />
-                  </div>
-                </div>
-              ) : null}
-            </div>
-          </div>
-        ))}
-      </CardContent>
-    </Card>
-  );
+  return <SynonymsAntonymsStudyCards entries={entries} />;
 }
 
 function McqBlock({ title, description, questions }: { title: string; description: string; questions: McqQuestionRecord[] }) {
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string[]>>({});
   const [statusByQuestion, setStatusByQuestion] = useState<Record<string, CheckStatus>>({});
-  const [showAnswers, setShowAnswers] = useState(false);
+  const [previewedQuestions, setPreviewedQuestions] = useState<Record<string, boolean>>({});
+
+  function answerStatus(question: McqQuestionRecord, selected: string[]): CheckStatus {
+    if (selected.length === 0) return "idle";
+    const correct = question.options.filter((option) => option.isCorrect).map((option) => option.id).sort();
+    return JSON.stringify([...selected].sort()) === JSON.stringify(correct) ? "correct" : "incorrect";
+  }
 
   function toggleOption(question: McqQuestionRecord, optionId: string, checked: boolean) {
-    setSelectedAnswers((current) => {
-      const previous = current[question.id] || [];
-
-      if (question.answerMode === "single") {
-        return { ...current, [question.id]: checked ? [optionId] : [] };
-      }
-
-      const next = checked ? [...previous, optionId] : previous.filter((value) => value !== optionId);
-      return { ...current, [question.id]: Array.from(new Set(next)) };
-    });
+    const previous = selectedAnswers[question.id] || [];
+    const next = question.answerMode === "single"
+      ? (checked ? [optionId] : [])
+      : Array.from(new Set(checked ? [...previous, optionId] : previous.filter((value) => value !== optionId)));
+    setSelectedAnswers((current) => ({ ...current, [question.id]: next }));
+    setStatusByQuestion((current) => ({ ...current, [question.id]: "idle" }));
+    setPreviewedQuestions((current) => ({ ...current, [question.id]: false }));
   }
 
   function checkAnswers() {
-    const nextStatus: Record<string, CheckStatus> = {};
-
-    for (const question of questions) {
-      const selected = [...(selectedAnswers[question.id] || [])].sort();
-      const correct = question.options
-        .filter((option) => option.isCorrect)
-        .map((option) => option.id)
-        .sort();
-
-      nextStatus[question.id] =
-        JSON.stringify(selected) === JSON.stringify(correct) ? "correct" : "incorrect";
-    }
-
-    setStatusByQuestion(nextStatus);
-    setShowAnswers(true);
+    const next: Record<string, CheckStatus> = {};
+    for (const question of questions) next[question.id] = answerStatus(question, selectedAnswers[question.id] || []);
+    setStatusByQuestion(next);
   }
 
+  function resetAnswers() {
+    setSelectedAnswers({});
+    setStatusByQuestion({});
+    setPreviewedQuestions({});
+  }
+
+  const answeredCount = questions.filter((question) => (selectedAnswers[question.id] || []).length > 0).length;
+  const checkedCount = Object.values(statusByQuestion).filter((status) => status !== "idle").length;
+  const actionControls = (label: string) => (
+    <PracticeAnswerActions
+      ariaLabel={label}
+      onCheck={checkAnswers}
+      checkDisabled={answeredCount === 0}
+      checkLabel="Check Answers"
+      onPreview={() => setPreviewedQuestions(Object.fromEntries(questions.map((question) => [question.id, true])))}
+      previewLabel="Preview Answers"
+      onReset={resetAnswers}
+      resetLabel="Reset Answers"
+    />
+  );
+
   return (
-    <Card className="rounded-xl">
+    <Card className="rounded-2xl border-border/70 shadow-sm">
       <CardHeader className="space-y-3">
         <CardTitle className="text-lg">{title || "MCQ Section"}</CardTitle>
         {description ? <CardDescription>{description}</CardDescription> : null}
+        {actionControls("MCQ set actions")}
       </CardHeader>
-      <CardContent className="space-y-5">
-        {questions.map((question, index) => (
-          <div key={question.id} className="rounded-xl border p-4">
-            <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
+      <CardContent className="space-y-4">
+        {questions.map((question, index) => {
+          const selected = selectedAnswers[question.id] || [];
+          const status = statusByQuestion[question.id] || "idle";
+          const previewed = Boolean(previewedQuestions[question.id]);
+          return (
+            <div key={question.id} className="space-y-3 rounded-2xl border border-border/80 bg-muted/20 p-4 shadow-sm sm:p-5">
+              <div className="flex flex-wrap items-center justify-between gap-2">
                 <Badge variant="outline">Question {index + 1}</Badge>
-                <span className="text-sm text-muted-foreground">
-                  {question.answerMode === "multiple" ? "Multiple correct" : "Single correct"}
-                </span>
+                <ResultBadge status={status} />
               </div>
-              <ResultBadge status={statusByQuestion[question.id] || "idle"} />
-            </div>
-            <div className="mb-4 rounded-xl border p-4">
               <RichContent value={question.prompt} />
+              <div className="space-y-2">
+                {question.options.map((option) => {
+                  const checked = selected.includes(option.id);
+                  const correctOption = (previewed && option.isCorrect) || (status === "correct" && checked && option.isCorrect);
+                  const wrongSelection = status === "incorrect" && checked && !option.isCorrect;
+                  return (
+                    <label key={option.id} className={cn(
+                      "flex min-h-11 cursor-pointer items-center gap-3 rounded-xl border px-3 py-2.5 text-sm transition-colors",
+                      correctOption ? "border-emerald-300 bg-emerald-50" : wrongSelection ? "border-red-300 bg-red-50" : checked ? "border-primary/60 bg-primary/5" : "border-border/70 bg-muted/20 hover:border-primary/40",
+                    )}>
+                      <Checkbox checked={checked} className="sr-only" onCheckedChange={(value) => toggleOption(question, option.id, Boolean(value))} />
+                      <span className={cn("flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-xs font-semibold", correctOption ? "border-emerald-500 bg-emerald-500 text-white" : wrongSelection ? "border-red-500 bg-red-500 text-white" : checked ? "border-primary bg-primary text-primary-foreground" : "bg-background text-muted-foreground")}>{option.label}</span>
+                      <span className="min-w-0 flex-1">{option.text || "Empty option"}</span>
+                      {correctOption ? <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" /> : null}
+                      {wrongSelection ? <XCircle className="h-4 w-4 shrink-0 text-red-600" /> : null}
+                    </label>
+                  );
+                })}
+              </div>
             </div>
-            <div className="space-y-3">
-              {question.options.map((option) => {
-                const checked = (selectedAnswers[question.id] || []).includes(option.id);
-
-                return (
-                  <label
-                    key={option.id}
-                    className="flex cursor-pointer items-start gap-3 rounded-xl border p-3"
-                  >
-                    <Checkbox
-                      checked={checked}
-                      onCheckedChange={(next) => {
-                        toggleOption(question, option.id, Boolean(next));
-                        setStatusByQuestion((current) => ({ ...current, [question.id]: "idle" }));
-                      }}
-                    />
-                    <div className="min-w-0 space-y-1">
-                      <div className="font-medium">{option.label}</div>
-                      <div className="text-sm text-muted-foreground">{option.text || "Empty option"}</div>
-                      {showAnswers && option.isCorrect ? (
-                        <Badge variant="secondary">Correct option</Badge>
-                      ) : null}
-                    </div>
-                  </label>
-                );
-              })}
-            </div>
-          </div>
-        ))}
-
-        <ActionButtons onCheck={checkAnswers} onReveal={() => setShowAnswers(true)} />
+          );
+        })}
+        <div className="space-y-3 rounded-xl border border-border/70 bg-muted/20 p-3 sm:p-4">
+          <p className="text-sm text-muted-foreground" aria-live="polite" role="status">Answered {answeredCount} of {questions.length} · Checked {checkedCount}</p>
+          {actionControls("MCQ actions after the last question")}
+        </div>
       </CardContent>
     </Card>
   );
@@ -1188,59 +1187,86 @@ function QuestionAnswerRowsBlock({
 }) {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [statusByRow, setStatusByRow] = useState<Record<string, CheckStatus>>({});
-  const [showAnswers, setShowAnswers] = useState(false);
+  const [previewedRows, setPreviewedRows] = useState<Record<string, boolean>>({});
+
+  function checkAll() {
+    const next: Record<string, CheckStatus> = {};
+    for (const row of rows) {
+      const submitted = answers[row.id] || "";
+      if (submitted.trim()) next[row.id] = normalizeAnswer(submitted) === normalizeAnswer(row.answer) ? "correct" : "incorrect";
+    }
+    setStatusByRow(next);
+  }
+
+  function previewAll() {
+    // Reveals model answers without marking answers correct or incorrect.
+    setPreviewedRows(Object.fromEntries(rows.map((row) => [row.id, true])));
+  }
+
+  function resetAll() {
+    setAnswers({});
+    setStatusByRow({});
+    setPreviewedRows({});
+  }
+
+  const answeredCount = rows.filter((row) => (answers[row.id] || "").trim()).length;
+
+  const sectionActions = (label: string) => (
+    <PracticeAnswerActions
+      ariaLabel={label}
+      onCheck={checkAll}
+      checkDisabled={answeredCount === 0}
+      checkLabel="Check Answers"
+      onPreview={previewAll}
+      previewLabel="Preview All Answers"
+      onReset={resetAll}
+      resetLabel="Reset Answers"
+    />
+  );
 
   return (
-    <Card className="rounded-xl">
+    <Card className="rounded-2xl border-border/70 shadow-sm">
       <CardHeader className="space-y-3">
         <CardTitle className="text-lg">{title}</CardTitle>
         {stripHtml(details) ? <CardDescription>{stripHtml(details)}</CardDescription> : null}
+        {sectionActions("Short-answer section actions")}
       </CardHeader>
       <CardContent className="space-y-4">
         {rows.map((row, index) => (
-          <div key={row.id} className="rounded-xl border p-4">
-            <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-              <Badge variant="outline">Item {index + 1}</Badge>
-              <ResultBadge status={statusByRow[row.id] || "idle"} />
-            </div>
-            <div className="mb-3 rounded-xl border p-4">
-              <RichContent value={row.question} />
-            </div>
-            <Input
-              value={answers[row.id] || ""}
-              onChange={(event) => {
-                setAnswers((current) => ({ ...current, [row.id]: event.target.value }));
-                setStatusByRow((current) => ({ ...current, [row.id]: "idle" }));
-              }}
-              placeholder="Write your answer..."
-            />
-            {showAnswers ? (
-              <div className="mt-3 rounded-xl border border-dashed p-3">
-                <div className="mb-2 text-sm font-medium">Answer review</div>
-                <RichContent value={row.answer} />
+          <div key={row.id} className="space-y-3 overflow-hidden rounded-xl border border-border/80 bg-muted/20 shadow-sm">
+            <div className="space-y-3 p-4">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <Badge variant="outline">Question {index + 1}</Badge>
+                <ResultBadge status={statusByRow[row.id] || "idle"} />
               </div>
-            ) : null}
+              <RichContent value={row.question} />
+              <Input
+                value={answers[row.id] || ""}
+                onChange={(event) => {
+                  setAnswers((current) => ({ ...current, [row.id]: event.target.value }));
+                  setStatusByRow((current) => ({ ...current, [row.id]: "idle" }));
+                  setPreviewedRows((current) => ({ ...current, [row.id]: false }));
+                }}
+                placeholder="Write your answer..."
+                aria-label={`Your answer for question ${index + 1}`}
+              />
+              {previewedRows[row.id] ? (
+                <div className="rounded-xl border border-emerald-200 bg-emerald-50/40 p-3">
+                  <div className="mb-2 text-sm font-medium text-emerald-700">Model answer</div>
+                  <RichContent value={row.answer} />
+                </div>
+              ) : null}
+            </div>
           </div>
         ))}
-
-        <ActionButtons
-          onCheck={() => {
-            const next: Record<string, CheckStatus> = {};
-            for (const row of rows) {
-              next[row.id] =
-                normalizeAnswer(answers[row.id] || "") === normalizeAnswer(row.answer) ? "correct" : "incorrect";
-            }
-            setStatusByRow(next);
-            setShowAnswers(true);
-          }}
-          onReveal={() => setShowAnswers(true)}
-        />
+        <div className="space-y-2 rounded-xl border border-border/70 bg-muted/20 p-3">
+          <p className="text-xs text-muted-foreground">Short answers may have more than one valid wording. Check uses an exact-text comparison; Preview shows the model answer.</p>
+          {sectionActions("Short-answer actions after the last question")}
+        </div>
       </CardContent>
     </Card>
   );
 }
-
-
 
 function TagQuestionItemsBlock({
   rows,
@@ -1487,7 +1513,7 @@ function StudentBlockCard({
   }
 
   if (block.kind === "vocabulary" && block.vocabulary) {
-    return <VocabularyBlock entries={block.vocabulary.entries} />;
+    return <VocabularyBlock entries={block.vocabulary.entries} galleryImages={block.vocabulary.galleryImages} />;
   }
 
   if (block.kind === "synonyms-antonyms" && block.synonymsAntonyms) {

@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import { Edit3, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import { deleteContent, saveContent } from "@/app/admin/content/actions";
+import { bulkDeleteContent, deleteContent, saveContent } from "@/app/admin/content/actions";
 import { AdminSelectField as SelectField } from "@/components/admin/AdminSelectField";
 import {
   AdminRecordDataTable,
@@ -71,6 +71,8 @@ export function AdminCurriculumContentManager({
   const [error, setError] = useState<string | null>(null);
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [pendingDelete, setPendingDelete] = useState<ContentRow | null>(null);
+  const [bulkDeleteOpen, setBulkDeleteOpen] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [refreshKey, setRefreshKey] = useState(0);
 
   const [form, setForm] = useState({ title: "", unitId: "", lessonId: "", topicId: "" });
@@ -120,10 +122,32 @@ export function AdminCurriculumContentManager({
     startDeleteTransition(async () => {
       try {
         await deleteContent(id);
+        setSelectedIds((current) => {
+          const next = new Set(current);
+          next.delete(id);
+          return next;
+        });
         setRefreshKey((value) => value + 1);
         router.refresh();
       } catch (cause) {
         setError(cause instanceof Error ? cause.message : "Failed to delete content.");
+      }
+    });
+  }
+
+  function confirmBulkDeleteContent() {
+    const ids = [...selectedIds];
+    if (ids.length === 0) return;
+    setBulkDeleteOpen(false);
+    setError(null);
+    startDeleteTransition(async () => {
+      try {
+        await bulkDeleteContent({ ids });
+        setSelectedIds(new Set());
+        setRefreshKey((value) => value + 1);
+        router.refresh();
+      } catch (cause) {
+        setError(cause instanceof Error ? cause.message : "Failed to delete selected content records.");
       }
     });
   }
@@ -256,7 +280,10 @@ export function AdminCurriculumContentManager({
           <div className="flex flex-wrap items-center justify-end gap-3">
             <Button
               type="button"
-              onClick={() => setAppliedFilter(filter)}
+              onClick={() => {
+                setSelectedIds(new Set());
+                setAppliedFilter(filter);
+              }}
               disabled={!filter.unitId || !filter.lessonId}
             >
               Apply filter
@@ -267,6 +294,7 @@ export function AdminCurriculumContentManager({
               onClick={() => {
                 setFilter({ unitId: "", lessonId: "", topicId: "" });
                 setAppliedFilter({ unitId: "", lessonId: "", topicId: "" });
+                setSelectedIds(new Set());
               }}
             >
               Clear
@@ -305,7 +333,37 @@ export function AdminCurriculumContentManager({
               Select unit and lesson, then apply the filter.
             </div>
           ) : (
-            <AdminRecordDataTable
+            <div className="space-y-3">
+              {selectedIds.size > 0 ? (
+                <div className="flex flex-col gap-2 rounded-xl border bg-muted/30 p-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Badge variant="secondary">{selectedIds.size} selected</Badge>
+                    <span className="text-sm text-muted-foreground">Bulk actions apply to selected records across pages.</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      disabled={isDeleting}
+                      onClick={() => setSelectedIds(new Set())}
+                    >
+                      Clear selection
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      disabled={isDeleting}
+                      onClick={() => setBulkDeleteOpen(true)}
+                    >
+                      <Trash2 data-icon="inline-start" />
+                      Delete selected
+                    </Button>
+                  </div>
+                </div>
+              ) : null}
+              <AdminRecordDataTable
               rows={contents}
               columns={columns}
               searchValue={(row) =>
@@ -315,6 +373,11 @@ export function AdminCurriculumContentManager({
               emptyMessage="No content records found."
               initialPageSize={10}
               defaultSort={{ columnId: "created", direction: "desc" }}
+              selection={{
+                selectedIds,
+                onSelectionChange: setSelectedIds,
+                disabled: isDeleting,
+              }}
               server={{
                 resource: "content",
                 filters: {
@@ -329,6 +392,7 @@ export function AdminCurriculumContentManager({
                 refreshKey,
               }}
             />
+            </div>
           )}
         </CardContent>
       </Card>
@@ -415,6 +479,26 @@ export function AdminCurriculumContentManager({
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
               Delete content
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={bulkDeleteOpen} onOpenChange={setBulkDeleteOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete {selectedIds.size} selected record{selectedIds.size === 1 ? "" : "s"}?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Every selected content record and all of its stored blocks, exercises, vocabulary entries, and related block data will be permanently deleted. This cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmBulkDeleteContent}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Delete selected
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
