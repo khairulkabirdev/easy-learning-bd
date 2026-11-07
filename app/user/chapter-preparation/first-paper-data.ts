@@ -305,28 +305,41 @@ export async function getSubjectPracticePage(input: SubjectPracticePageInput) {
     if (input.kind === "matching-sentences") {
       const [count, records] = await Promise.all([
         prisma.subjectMatchingSentencesBlock.count({ where: commonWhere }),
-        prisma.subjectMatchingSentencesBlock.findMany(args),
+        prisma.subjectMatchingSentencesBlock.findMany({
+          ...args,
+          // A stable tie-breaker keeps "Next" in exactly the list's order.
+          orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }, { id: "asc" }],
+        }),
       ]);
       total = count;
       rows = records.map((record) => ({ ...record, updatedAt: record.updatedAt.toISOString() }));
     } else if (input.kind === "rearrange-sentence") {
       const [count, records] = await Promise.all([
         prisma.subjectRearrangeSentenceBlock.count({ where: commonWhere }),
-        prisma.subjectRearrangeSentenceBlock.findMany(args),
+        prisma.subjectRearrangeSentenceBlock.findMany({
+          ...args,
+          orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }, { id: "asc" }],
+        }),
       ]);
       total = count;
       rows = records.map((record) => ({ ...record, updatedAt: record.updatedAt.toISOString() }));
     } else if (input.kind === "question-from-poems") {
       const [count, records] = await Promise.all([
         prisma.subjectQuestionFromPoemsBlock.count({ where: commonWhere }),
-        prisma.subjectQuestionFromPoemsBlock.findMany(args),
+        prisma.subjectQuestionFromPoemsBlock.findMany({
+          ...args,
+          orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }, { id: "asc" }],
+        }),
       ]);
       total = count;
       rows = records.map((record) => ({ ...record, updatedAt: record.updatedAt.toISOString() }));
     } else {
       const [count, records] = await Promise.all([
         prisma.subjectQuestionFromStoryBlock.count({ where: commonWhere }),
-        prisma.subjectQuestionFromStoryBlock.findMany(args),
+        prisma.subjectQuestionFromStoryBlock.findMany({
+          ...args,
+          orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }, { id: "asc" }],
+        }),
       ]);
       total = count;
       rows = records.map((record) => ({ ...record, updatedAt: record.updatedAt.toISOString() }));
@@ -364,4 +377,223 @@ export async function getSubjectPracticeRecord(
     return prisma.subjectQuestionFromPoemsBlock.findFirst({ where });
   }
   return prisma.subjectQuestionFromStoryBlock.findFirst({ where });
+}
+
+/** Return the next Matching Sentences record in the same order as the student list. */
+export async function getMatchingSentencesNextStep(input: {
+  organizationId: string;
+  classId: string;
+  subjectId: string;
+  currentRecordId: string;
+  query?: string;
+  pageSize?: number;
+}): Promise<{ type: "record"; recordId: string; page: number } | { type: "end" }> {
+  const search = input.query?.trim();
+  const scope = {
+    organizationId: input.organizationId,
+    classId: input.classId,
+    subjectId: input.subjectId,
+    ...(search ? { title: { contains: search } } : {}),
+  };
+
+  const current = await prisma.subjectMatchingSentencesBlock.findFirst({
+    where: { ...scope, id: input.currentRecordId },
+    select: { id: true, sortOrder: true, updatedAt: true },
+  });
+  if (!current) return { type: "end" };
+
+  // List order: sortOrder ASC, updatedAt DESC, id ASC.
+  const next = await prisma.subjectMatchingSentencesBlock.findFirst({
+    where: {
+      ...scope,
+      OR: [
+        { sortOrder: { gt: current.sortOrder } },
+        { sortOrder: current.sortOrder, updatedAt: { lt: current.updatedAt } },
+        {
+          sortOrder: current.sortOrder,
+          updatedAt: current.updatedAt,
+          id: { gt: current.id },
+        },
+      ],
+    },
+    orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }, { id: "asc" }],
+    select: { id: true, sortOrder: true, updatedAt: true },
+  });
+
+  if (!next) return { type: "end" };
+
+  // Update ?page= when Next crosses the boundary between list pages.
+  const beforeNext = await prisma.subjectMatchingSentencesBlock.count({
+    where: {
+      ...scope,
+      OR: [
+        { sortOrder: { lt: next.sortOrder } },
+        { sortOrder: next.sortOrder, updatedAt: { gt: next.updatedAt } },
+        { sortOrder: next.sortOrder, updatedAt: next.updatedAt, id: { lt: next.id } },
+      ],
+    },
+  });
+  const pageSize = Math.min(Math.max(input.pageSize ?? 10, 1), 50);
+  return { type: "record", recordId: next.id, page: Math.floor(beforeNext / pageSize) + 1 };
+}
+
+
+/** Next Rearrange Sentence follows the same stable order as its student list. */
+export async function getRearrangeSentenceNextStep(input: {
+  organizationId: string;
+  classId: string;
+  subjectId: string;
+  currentRecordId: string;
+  query?: string;
+  pageSize?: number;
+}): Promise<{ type: "record"; recordId: string; page: number } | { type: "end" }> {
+  const search = input.query?.trim();
+  const scope = {
+    organizationId: input.organizationId,
+    classId: input.classId,
+    subjectId: input.subjectId,
+    ...(search ? { title: { contains: search } } : {}),
+  };
+
+  const current = await prisma.subjectRearrangeSentenceBlock.findFirst({
+    where: { ...scope, id: input.currentRecordId },
+    select: { id: true, sortOrder: true, updatedAt: true },
+  });
+  if (!current) return { type: "end" };
+
+  const next = await prisma.subjectRearrangeSentenceBlock.findFirst({
+    where: {
+      ...scope,
+      OR: [
+        { sortOrder: { gt: current.sortOrder } },
+        { sortOrder: current.sortOrder, updatedAt: { lt: current.updatedAt } },
+        { sortOrder: current.sortOrder, updatedAt: current.updatedAt, id: { gt: current.id } },
+      ],
+    },
+    orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }, { id: "asc" }],
+    select: { id: true, sortOrder: true, updatedAt: true },
+  });
+  if (!next) return { type: "end" };
+
+  const beforeNext = await prisma.subjectRearrangeSentenceBlock.count({
+    where: {
+      ...scope,
+      OR: [
+        { sortOrder: { lt: next.sortOrder } },
+        { sortOrder: next.sortOrder, updatedAt: { gt: next.updatedAt } },
+        { sortOrder: next.sortOrder, updatedAt: next.updatedAt, id: { lt: next.id } },
+      ],
+    },
+  });
+  const pageSize = Math.min(Math.max(input.pageSize ?? 10, 1), 50);
+  return { type: "record", recordId: next.id, page: Math.floor(beforeNext / pageSize) + 1 };
+}
+
+/**
+ * Next published poem practice record, following the same stable ordering as
+ * the student list. We fetch only the next row and count its position.
+ */
+export async function getPoemQuestionsNextStep(input: {
+  organizationId: string;
+  classId: string;
+  subjectId: string;
+  currentRecordId: string;
+  query?: string;
+  pageSize?: number;
+}): Promise<{ type: "record"; recordId: string; page: number } | { type: "end" }> {
+  const search = input.query?.trim();
+  const scope = {
+    organizationId: input.organizationId,
+    classId: input.classId,
+    subjectId: input.subjectId,
+    ...(search ? { title: { contains: search } } : {}),
+  };
+  const model = prisma.subjectQuestionFromPoemsBlock;
+  const current = await model.findFirst({
+    where: { ...scope, id: input.currentRecordId },
+    select: { sortOrder: true, updatedAt: true, id: true },
+  });
+  if (!current) return { type: "end" };
+
+  const next = await model.findFirst({
+    where: {
+      ...scope,
+      OR: [
+        { sortOrder: { gt: current.sortOrder } },
+        { sortOrder: current.sortOrder, updatedAt: { lt: current.updatedAt } },
+        { sortOrder: current.sortOrder, updatedAt: current.updatedAt, id: { gt: current.id } },
+      ],
+    },
+    orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }, { id: "asc" }],
+    select: { id: true, sortOrder: true, updatedAt: true },
+  });
+  if (!next) return { type: "end" };
+
+  const beforeNext = await model.count({
+    where: {
+      ...scope,
+      OR: [
+        { sortOrder: { lt: next.sortOrder } },
+        { sortOrder: next.sortOrder, updatedAt: { gt: next.updatedAt } },
+        { sortOrder: next.sortOrder, updatedAt: next.updatedAt, id: { lt: next.id } },
+      ],
+    },
+  });
+  const pageSize = Math.min(Math.max(input.pageSize ?? 10, 1), 50);
+  return { type: "record", recordId: next.id, page: Math.floor(beforeNext / pageSize) + 1 };
+}
+
+/**
+ * Navigate to the next story-question set using the same stable sorting and
+ * search filters as the student list. Only the next record and its position
+ * are queried; the entire set is never loaded into the browser.
+ */
+export async function getStoryQuestionsNextStep(input: {
+  organizationId: string;
+  classId: string;
+  subjectId: string;
+  currentRecordId: string;
+  query?: string;
+  pageSize?: number;
+}): Promise<{ type: "record"; recordId: string; page: number } | { type: "end" }> {
+  const search = input.query?.trim();
+  const scope = {
+    organizationId: input.organizationId,
+    classId: input.classId,
+    subjectId: input.subjectId,
+    ...(search ? { title: { contains: search } } : {}),
+  };
+  const model = prisma.subjectQuestionFromStoryBlock;
+  const current = await model.findFirst({
+    where: { ...scope, id: input.currentRecordId },
+    select: { sortOrder: true, updatedAt: true, id: true },
+  });
+  if (!current) return { type: "end" };
+
+  const next = await model.findFirst({
+    where: {
+      ...scope,
+      OR: [
+        { sortOrder: { gt: current.sortOrder } },
+        { sortOrder: current.sortOrder, updatedAt: { lt: current.updatedAt } },
+        { sortOrder: current.sortOrder, updatedAt: current.updatedAt, id: { gt: current.id } },
+      ],
+    },
+    orderBy: [{ sortOrder: "asc" }, { updatedAt: "desc" }, { id: "asc" }],
+    select: { id: true, sortOrder: true, updatedAt: true },
+  });
+  if (!next) return { type: "end" };
+
+  const beforeNext = await model.count({
+    where: {
+      ...scope,
+      OR: [
+        { sortOrder: { lt: next.sortOrder } },
+        { sortOrder: next.sortOrder, updatedAt: { gt: next.updatedAt } },
+        { sortOrder: next.sortOrder, updatedAt: next.updatedAt, id: { lt: next.id } },
+      ],
+    },
+  });
+  const pageSize = Math.min(Math.max(input.pageSize ?? 10, 1), 50);
+  return { type: "record", recordId: next.id, page: Math.floor(beforeNext / pageSize) + 1 };
 }

@@ -6,6 +6,10 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { isEnglishFirstPaperSubject } from "@/app/admin/content/navigation-helpers";
 import {
   getPublishedSubjectMeta,
+  getMatchingSentencesNextStep,
+  getRearrangeSentenceNextStep,
+  getPoemQuestionsNextStep,
+  getStoryQuestionsNextStep,
   getSeenCompositionLessons,
   getSeenCompositionNextStep,
   getSeenCompositionPage,
@@ -325,7 +329,82 @@ export default async function UserEnglishFirstPaperSectionPage({
         ? "Read the passage and complete its exercises."
         : meta.description;
       pageBadges = <Badge variant="outline">{meta.title}</Badge>;
-      body = <UserFirstPaperPracticeViewer kind={section} record={record} />;
+
+      if (section === "matching-sentences" || section === "rearrange-sentence" || section === "question-from-poems" || section === "question-from-story") {
+        const nextStep = await (section === "matching-sentences"
+          ? getMatchingSentencesNextStep({
+              organizationId: user.organizationId,
+              classId: user.classId,
+              subjectId,
+              currentRecordId: record.id,
+              query: q,
+              pageSize: 10,
+            })
+          : section === "rearrange-sentence"
+          ? getRearrangeSentenceNextStep({
+              organizationId: user.organizationId,
+              classId: user.classId,
+              subjectId,
+              currentRecordId: record.id,
+              query: q,
+              pageSize: 10,
+            })
+          : section === "question-from-poems"
+          ? getPoemQuestionsNextStep({
+              organizationId: user.organizationId,
+              classId: user.classId,
+              subjectId,
+              currentRecordId: record.id,
+              query: q,
+              pageSize: 10,
+            })
+          : getStoryQuestionsNextStep({
+              organizationId: user.organizationId,
+              classId: user.classId,
+              subjectId,
+              currentRecordId: record.id,
+              query: q,
+              pageSize: 10,
+            }));
+
+        body = (
+          <div className="space-y-7">
+            <UserFirstPaperPracticeViewer kind={section} record={record} />
+            <div className="border-t border-border/70 pt-6">
+              {nextStep.type === "record" ? (
+                <div className="flex flex-col gap-3 rounded-2xl border bg-muted/20 p-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="min-w-0">
+                    <p className="font-medium">Continue practicing</p>
+                    <p className="mt-1 text-sm text-muted-foreground">Open the next {meta.title} exercise.</p>
+                  </div>
+                  <Link
+                    href={seenHref(basePath, {
+                      recordId: nextStep.recordId,
+                      page: String(nextStep.page),
+                      q,
+                    })}
+                    className={cn(buttonVariants({ size: "lg" }), "min-h-11 px-4 sm:min-w-28")}
+                  >
+                    Next <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </div>
+              ) : (
+                <div className="flex items-center gap-3 rounded-2xl border border-primary/20 bg-primary/5 p-4">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <CheckCircle2 className="h-5 w-5" />
+                  </span>
+                  <div>
+                    <p className="font-medium">Practice complete</p>
+                    <p className="mt-0.5 text-sm text-muted-foreground">You reached the end of the available {meta.title} exercises.</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      } else {
+        body = <UserFirstPaperPracticeViewer kind={section} record={record} />;
+      }
     } else {
       const result = await getSubjectPracticePage({
         kind: section,
@@ -357,7 +436,7 @@ export default async function UserEnglishFirstPaperSectionPage({
 
   const isSeenContentDetail = section === "seen-composition" && Boolean(one(queryParams.contentId));
   const isUnseenContentDetail = section === "unseen-composition" && Boolean(one(queryParams.recordId));
-  const isMatchingContentDetail = section === "matching-sentences" && Boolean(one(queryParams.recordId));
+  const isMatchingContentDetail = (section === "matching-sentences" || section === "rearrange-sentence" || section === "question-from-poems" || section === "question-from-story") && Boolean(one(queryParams.recordId));
 
   return (
     <div

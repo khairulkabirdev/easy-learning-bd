@@ -5,14 +5,15 @@ import { Eye, EyeOff } from "lucide-react";
 
 import {
   parseQuestionAnswerDocument,
-  parseRearrangeSentenceDocument,
   type SubjectSectionKind,
 } from "@/app/admin/content/subject-section-blocks/types";
 import { UserUnseenCompositionViewer } from "@/components/app/UserUnseenCompositionViewer";
 import { UserMatchingSentencesViewer } from "@/components/app/UserMatchingSentencesViewer";
+import { UserRearrangeSentenceViewer } from "@/components/app/UserRearrangeSentenceViewer";
+import { UserPoemQuestionsViewer } from "@/components/app/UserPoemQuestionsViewer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { sanitizeRichHtml } from "@/lib/sanitize-rich-html";
 
 type RecordData = {
@@ -73,49 +74,6 @@ function QuestionAnswerViewer({ record }: { record: RecordData }) {
   );
 }
 
-function RearrangeViewer({ record }: { record: RecordData }) {
-  const [showAnswers, setShowAnswers] = useState(false);
-  const document = useMemo(() => parseRearrangeSentenceDocument(record.documentJson, record.id), [record]);
-  const rowMap = useMemo(() => new Map(document.rows.map((row) => [row.id, row])), [document]);
-  const labelFor = (index: number) => String.fromCharCode(97 + index);
-
-  return (
-    <div className="space-y-4">
-      {record.instruction ? <RichText value={record.instruction} /> : null}
-      {record.details ? <RichText value={record.details} /> : null}
-      <Card>
-        <CardContent className="space-y-3 p-4 sm:p-5">
-          {document.rows.map((row, index) => (
-            <div key={row.id} className="grid grid-cols-[2rem_1fr] gap-2 text-sm leading-7">
-              <span className="font-semibold">({labelFor(index)})</span>
-              <RichText value={row.question} />
-            </div>
-          ))}
-        </CardContent>
-      </Card>
-      <div className="flex justify-end"><AnswerToggle open={showAnswers} onClick={() => setShowAnswers((value) => !value)} /></div>
-      {showAnswers ? (
-        <Card className="border-primary/20 bg-primary/5">
-          <CardContent className="space-y-3 p-4 sm:p-5">
-            <div className="text-sm font-semibold text-primary">Correct order</div>
-            <div className="flex flex-wrap gap-2">
-              {document.correctOrder.map((id, index) => {
-                const originalIndex = document.rows.findIndex((row) => row.id === id);
-                return <Badge key={`${id}-${index}`} variant="secondary">{originalIndex >= 0 ? labelFor(originalIndex) : "?"}</Badge>;
-              })}
-            </div>
-            <div className="space-y-2 pt-2">
-              {document.correctOrder.map((id, index) => {
-                const row = rowMap.get(id);
-                return row ? <div key={id} className="text-sm leading-7"><span className="mr-2 font-semibold">{index + 1}.</span><span dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(row.question) }} /></div> : null;
-              })}
-            </div>
-          </CardContent>
-        </Card>
-      ) : null}
-    </div>
-  );
-}
 
 export function UserFirstPaperPracticeViewer({
   kind,
@@ -126,6 +84,15 @@ export function UserFirstPaperPracticeViewer({
 }) {
   if (kind === "unseen-composition") return <UserUnseenCompositionViewer key={record.id} documentJson={record.documentJson} />;
   if (kind === "matching-sentences") return <UserMatchingSentencesViewer key={record.id} record={record} />;
-  if (kind === "rearrange-sentence") return <RearrangeViewer record={record} />;
+  if (kind === "rearrange-sentence") return <UserRearrangeSentenceViewer key={record.id} record={record} />;
+  if (kind === "question-from-poems" || kind === "question-from-story") {
+    return (
+      <UserPoemQuestionsViewer
+        key={record.id}
+        record={record}
+        kind={kind === "question-from-story" ? "story" : "poems"}
+      />
+    );
+  }
   return <QuestionAnswerViewer record={record} />;
 }
