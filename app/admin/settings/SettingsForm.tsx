@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldContent, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { APP_NAME } from "@/lib/app-branding";
 
 type SettingsFormProps = {
   settings: {
@@ -37,7 +38,7 @@ export function SettingsForm({ settings, hasApiKey }: SettingsFormProps) {
           <Field>
             <FieldContent>
               <FieldLabel>Sender name</FieldLabel>
-              <Input name="senderName" defaultValue={settings.senderName} placeholder="EasyLearningBD" />
+              <Input name="senderName" defaultValue={settings.senderName} placeholder={APP_NAME} />
             </FieldContent>
           </Field>
 

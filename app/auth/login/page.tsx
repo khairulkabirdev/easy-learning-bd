@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldContent, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { APP_NAME } from "@/lib/app-branding";
 
 const initialState: LoginActionState = {
   error: "",
@@ -21,7 +22,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>Sign in</CardTitle>
-          <CardDescription>Use your admin, student, or teacher credentials to enter EasyLearningBD.</CardDescription>
+          <CardDescription>Use your admin, student, or teacher credentials to enter {APP_NAME}.</CardDescription>
         </CardHeader>
         <CardContent>
           <form action={formAction} className="space-y-4">

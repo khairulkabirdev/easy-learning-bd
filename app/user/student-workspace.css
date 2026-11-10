@@ -1,0 +1,101 @@
+/* Student-only visual system. Accent is ALWAYS the existing global --primary token.
+   Update --primary in app/globals.css to recolor dashboard actions and highlights. */
+.student-workspace {
+  --student-page: oklch(0.975 0.008 155);
+  --student-surface: oklch(1 0 0);
+  --student-sidebar: oklch(0.994 0.002 155);
+  --student-divider: oklch(0.913 0.009 155);
+  --student-hero-ink: oklch(0.2 0.04 205);
+  --student-shadow: 0 12px 38px -26px oklch(0.28 0.04 160 / 0.34);
+  background: var(--student-page);
+  color: var(--foreground);
+}
+
+.dark .student-workspace {
+  --background: oklch(0.133 0.027 241);
+  --foreground: oklch(0.956 0.012 232);
+  --card: oklch(0.18 0.027 240);
+  --card-foreground: oklch(0.956 0.012 232);
+  --popover: oklch(0.18 0.027 240);
+  --popover-foreground: oklch(0.956 0.012 232);
+  --secondary: oklch(0.244 0.025 239);
+  --secondary-foreground: oklch(0.956 0.012 232);
+  --muted: oklch(0.243 0.023 241);
+  --muted-foreground: oklch(0.726 0.016 230);
+  --accent: oklch(0.255 0.029 236);
+  --accent-foreground: oklch(0.956 0.012 232);
+  --border: oklch(0.33 0.022 239 / 0.65);
+  --input: oklch(0.33 0.022 239 / 0.65);
+  --student-page: oklch(0.127 0.024 241);
+  --student-surface: oklch(0.18 0.027 240);
+  --student-sidebar: oklch(0.115 0.026 241);
+  --student-divider: oklch(0.27 0.022 240);
+  --student-hero-ink: oklch(0.985 0.005 155);
+  --student-shadow: 0 15px 44px -25px oklch(0.05 0.02 235 / 0.85);
+}
+
+.student-workspace .student-panel {
+  background: var(--student-surface);
+  border: 1px solid var(--student-divider);
+  box-shadow: var(--student-shadow);
+}
+
+.student-workspace .student-hero {
+  color: var(--student-hero-ink);
+  background:
+    radial-gradient(circle at 85% 15%, color-mix(in oklch, var(--primary) 22%, white) 0%, transparent 40%),
+    radial-gradient(circle at 90% 100%, color-mix(in oklch, var(--primary) 38%, white) 0%, transparent 48%),
+    linear-gradient(110deg, oklch(0.98 0.008 160), oklch(0.91 0.032 160) 72%, color-mix(in oklch, var(--primary) 42%, white));
+}
+
+.dark .student-workspace .student-hero {
+  background:
+    radial-gradient(circle at 82% 14%, color-mix(in oklch, var(--primary) 80%, white) 0%, transparent 35%),
+    radial-gradient(circle at 94% 100%, var(--primary) 0%, transparent 37%),
+    linear-gradient(110deg, oklch(0.115 0.031 230), oklch(0.21 0.064 205) 74%, var(--primary));
+}
+
+.student-workspace .student-hero::after {
+  content: '';
+  position: absolute;
+  inset: auto -8% -145px 37%;
+  height: 220px;
+  transform: rotate(-13deg);
+  border-top: 2px solid var(--primary);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.student-workspace .student-subject:hover,
+.student-workspace .student-nav-card:hover {
+  border-color: var(--primary);
+  box-shadow: 0 8px 27px -18px var(--primary);
+  transform: translateY(-2px);
+}
+
+.student-workspace .student-search-popover {
+  background: var(--student-surface);
+  border: 1px solid var(--student-divider);
+  box-shadow: var(--student-shadow);
+}
+
+.student-workspace .student-sidebar {
+  background: var(--student-sidebar);
+  border-color: var(--student-divider);
+}
+
+.student-workspace .student-topbar,
+.student-workspace .student-bottom-nav {
+  background: var(--student-sidebar);
+  border-color: var(--student-divider);
+}
+
+.student-workspace :focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .student-workspace .student-subject,
+  .student-workspace .student-nav-card { transition: none !important; }
+}

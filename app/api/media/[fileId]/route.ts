@@ -131,6 +131,10 @@ export async function GET(
   if (file.ownerType === "TempUpload" && file.createdBy !== user.id) {
     return new NextResponse("Not found", { status: 404 });
   }
+  // Unpublished model-question source files are private to administrators.
+  if (file.ownerType === "ModelQuestionImport" && user.role !== "admin") {
+    return new NextResponse("Not found", { status: 404 });
+  }
   const hasPrivilegedContentAccess = user.role === "admin" || user.role === "teacher";
   if (!hasPrivilegedContentAccess && file.ownerType !== "TempUpload" && !(await canStudentViewFile(file, user.organizationId))) {
     return new NextResponse("Not found", { status: 404 });

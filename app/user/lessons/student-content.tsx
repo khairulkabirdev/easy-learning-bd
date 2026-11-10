@@ -665,7 +665,7 @@ function McqBlock({
           const isPreviewed = Boolean(previewedQuestions[question.id]);
 
           return (
-            <Card key={question.id} className="overflow-hidden rounded-2xl border border-border/80 bg-muted/20 shadow-sm">
+            <Card key={question.id} className="overflow-hidden rounded-2xl border border-border/80 bg-card shadow-sm">
               <CardHeader className="space-y-3 p-4 pb-3 sm:p-5 sm:pb-3">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex min-w-0 flex-1 items-start gap-3">
@@ -713,7 +713,7 @@ function McqBlock({
                       key={option.id}
                       className={cn(
                         "group flex min-h-11 cursor-pointer items-center gap-3 rounded-xl border px-3 py-2.5 transition-all",
-                        !isCorrectOption && !isWrongSelection && !checked && "border-border/70 bg-muted/25 hover:border-primary/35 hover:bg-primary/[0.03]",
+                        !isCorrectOption && !isWrongSelection && !checked && "border-border/70 bg-card hover:border-primary/35 hover:bg-muted/20",
                         checked && !isCorrectOption && !isWrongSelection && "border-primary/50 bg-primary/[0.05]",
                         isCorrectOption && "border-emerald-300 bg-emerald-50 text-emerald-900",
                         isWrongSelection && "border-red-300 bg-red-50 text-red-900",
@@ -751,7 +751,7 @@ function McqBlock({
         })}
       </div>
 
-      <div className="space-y-3 rounded-2xl border border-border/70 bg-muted/20 p-4 sm:p-5">
+      <div className="space-y-3 rounded-2xl border border-border/70 bg-card p-4 shadow-sm sm:p-5">
         <p className="text-sm text-muted-foreground" role="status" aria-live="polite">
           Answered {answeredCount} of {questions.length} · Checked {checkedCount} · Correct {correctCount}
         </p>
@@ -1259,7 +1259,7 @@ function QuestionAnswerRowsBlock({
   const cleanDetails = stripHtml(details);
   const hasContextParagraph = Boolean(stripHtml(contextParagraph));
   const sectionActions = (
-    <div className="mt-3 rounded-xl border border-border/70 bg-muted/20 p-3" >
+    <div className="mt-3 rounded-xl border border-border/70 bg-card p-3" >
       <PracticeAnswerActions
         ariaLabel="Short-answer section actions"
         onPreview={() => setOpenRowIds(Object.fromEntries(rows.map((row) => [row.id, true])))}
@@ -1279,7 +1279,7 @@ function QuestionAnswerRowsBlock({
         key={row.id}
         className={cn(
           "overflow-hidden rounded-xl border transition-colors",
-          isOpen ? "border-emerald-300 bg-emerald-50/55" : "border-border/80 bg-muted/20 hover:border-emerald-200",
+          isOpen ? "border-primary/35 bg-card shadow-sm" : "border-border/80 bg-card shadow-sm hover:border-primary/30",
         )}
       >
         <div className="flex min-w-0 items-stretch">

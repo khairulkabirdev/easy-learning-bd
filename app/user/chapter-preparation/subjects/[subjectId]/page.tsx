@@ -1,9 +1,10 @@
 import { notFound } from "next/navigation";
 
-import { isEnglishFirstPaperSubject } from "@/app/admin/content/navigation-helpers";
+import { isEnglishFirstPaperSubject, isEnglishSecondPaperSubject } from "@/app/admin/content/navigation-helpers";
 import { getPublishedSubjectMeta } from "@/app/user/chapter-preparation/first-paper-data";
 import { getPublishedSubjectDetail } from "@/app/user/lessons/data";
 import { EnglishFirstPaperTypeGrid } from "@/components/app/EnglishFirstPaperTypeGrid";
+import { EnglishSecondPaperTypeGrid } from "@/components/app/EnglishSecondPaperTypeGrid";
 import { UnitTileGrid } from "@/components/app/UnitsTileGrid";
 import { requireStudent } from "@/lib/app-auth";
 
@@ -29,6 +30,21 @@ export default async function UserChapterPreparationSubjectPage({
         </div>
 
         <EnglishFirstPaperTypeGrid
+          subjectId={subjectId}
+          hrefBase={`/user/chapter-preparation/subjects/${subjectId}`}
+        />
+      </div>
+    );
+  }
+
+  if (isEnglishSecondPaperSubject(subject)) {
+    return (
+      <div className="space-y-6 pt-2 sm:pt-4">
+        <div className="space-y-1">
+          <h1 className="text-2xl font-semibold tracking-tight">{subject.name}</h1>
+          <p className="text-sm text-muted-foreground">Choose a grammar section to start practicing. No Units or Lessons required.</p>
+        </div>
+        <EnglishSecondPaperTypeGrid
           subjectId={subjectId}
           hrefBase={`/user/chapter-preparation/subjects/${subjectId}`}
         />

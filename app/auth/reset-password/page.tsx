@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldContent, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { APP_NAME } from "@/lib/app-branding";
 
 const initialState: ResetPasswordActionState = {
   error: "",
@@ -23,7 +24,7 @@ function ResetPasswordForm() {
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>Choose a new password</CardTitle>
-          <CardDescription>Enter a new password for your EasyLearningBD account.</CardDescription>
+          <CardDescription>Enter a new password for your {APP_NAME} account.</CardDescription>
         </CardHeader>
         <CardContent>
           <form action={formAction} className="space-y-4">

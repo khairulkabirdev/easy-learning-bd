@@ -1,0 +1,22 @@
+eLesson — Model Question Import changes only
+
+This folder contains ONLY modified/new files, in their original relative directory structure.
+
+1) Back up your SQLite database (prisma/dev.db).
+2) Copy these files into your eLesson project root (overwrite matching paths).
+3) In PowerShell, from the eLesson project root, run:
+
+   npm run prepare:sqlite
+   npm run build
+   npm run dev
+
+4) Open your existing class/subject admin URL:
+   /admin/model-question-import/<classId>/<subjectId>
+
+5) Click "Upload / Import Model Questions" → "Import Questions".
+
+Supports TXT/JSON/numbered pasted questions as admin-only drafts.
+PDF/Word/image papers can be uploaded; automatic OCR/extraction is NOT implemented.
+
+Full production compilation couldn't be run here because npm dependencies aren't present.
+See docs/MODEL_QUESTION_IMPORT.md for formats and restrictions.

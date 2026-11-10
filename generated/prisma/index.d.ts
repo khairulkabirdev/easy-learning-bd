@@ -263,6 +263,11 @@ export type Board = $Result.DefaultSelection<Prisma.$BoardPayload>
  * 
  */
 export type AcademicYear = $Result.DefaultSelection<Prisma.$AcademicYearPayload>
+/**
+ * Model ModelQuestionImport
+ * 
+ */
+export type ModelQuestionImport = $Result.DefaultSelection<Prisma.$ModelQuestionImportPayload>
 
 /**
  * Enums
@@ -912,6 +917,16 @@ export class PrismaClient<
     * ```
     */
   get academicYear(): Prisma.AcademicYearDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.modelQuestionImport`: Exposes CRUD operations for the **ModelQuestionImport** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ModelQuestionImports
+    * const modelQuestionImports = await prisma.modelQuestionImport.findMany()
+    * ```
+    */
+  get modelQuestionImport(): Prisma.ModelQuestionImportDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1402,7 +1417,8 @@ export namespace Prisma {
     SubjectQuestionFromStoryBlock: 'SubjectQuestionFromStoryBlock',
     SubjectEnglishSecondPaperBlock: 'SubjectEnglishSecondPaperBlock',
     Board: 'Board',
-    AcademicYear: 'AcademicYear'
+    AcademicYear: 'AcademicYear',
+    ModelQuestionImport: 'ModelQuestionImport'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1421,7 +1437,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "authSession" | "passwordResetToken" | "authEmailSetting" | "auditLog" | "class" | "subject" | "unit" | "lesson" | "topic" | "content" | "seenPassageOne" | "seenPassageTwo" | "unseenComposition" | "contentBlock" | "paragraph" | "vocabulary" | "vocabularyEntry" | "storageConfiguration" | "uploadedFile" | "synonymsAntonyms" | "synonymsAntonymsEntry" | "gapFillExercise" | "gapFillFirstPaper" | "gapFillSecondPaper" | "mcqSection" | "questionAnswerExercise" | "tableCompletionExercise" | "columnMatchingExercise" | "rearrangeSentenceExercise" | "questionFromPoems" | "questionFromStory" | "trueFalseExercise" | "informationTransfer" | "substitutionTable" | "rightFormOfVerb" | "narration" | "changingSentence" | "punctuationAndCapitalization" | "preposition" | "suffixAndPrefix" | "tagQuestion" | "connector" | "subjectMatchingSentencesBlock" | "subjectRearrangeSentenceBlock" | "subjectQuestionFromPoemsBlock" | "subjectQuestionFromStoryBlock" | "subjectEnglishSecondPaperBlock" | "board" | "academicYear"
+      modelProps: "user" | "authSession" | "passwordResetToken" | "authEmailSetting" | "auditLog" | "class" | "subject" | "unit" | "lesson" | "topic" | "content" | "seenPassageOne" | "seenPassageTwo" | "unseenComposition" | "contentBlock" | "paragraph" | "vocabulary" | "vocabularyEntry" | "storageConfiguration" | "uploadedFile" | "synonymsAntonyms" | "synonymsAntonymsEntry" | "gapFillExercise" | "gapFillFirstPaper" | "gapFillSecondPaper" | "mcqSection" | "questionAnswerExercise" | "tableCompletionExercise" | "columnMatchingExercise" | "rearrangeSentenceExercise" | "questionFromPoems" | "questionFromStory" | "trueFalseExercise" | "informationTransfer" | "substitutionTable" | "rightFormOfVerb" | "narration" | "changingSentence" | "punctuationAndCapitalization" | "preposition" | "suffixAndPrefix" | "tagQuestion" | "connector" | "subjectMatchingSentencesBlock" | "subjectRearrangeSentenceBlock" | "subjectQuestionFromPoemsBlock" | "subjectQuestionFromStoryBlock" | "subjectEnglishSecondPaperBlock" | "board" | "academicYear" | "modelQuestionImport"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5125,6 +5141,80 @@ export namespace Prisma {
           }
         }
       }
+      ModelQuestionImport: {
+        payload: Prisma.$ModelQuestionImportPayload<ExtArgs>
+        fields: Prisma.ModelQuestionImportFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ModelQuestionImportFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionImportPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ModelQuestionImportFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionImportPayload>
+          }
+          findFirst: {
+            args: Prisma.ModelQuestionImportFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionImportPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ModelQuestionImportFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionImportPayload>
+          }
+          findMany: {
+            args: Prisma.ModelQuestionImportFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionImportPayload>[]
+          }
+          create: {
+            args: Prisma.ModelQuestionImportCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionImportPayload>
+          }
+          createMany: {
+            args: Prisma.ModelQuestionImportCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ModelQuestionImportCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionImportPayload>[]
+          }
+          delete: {
+            args: Prisma.ModelQuestionImportDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionImportPayload>
+          }
+          update: {
+            args: Prisma.ModelQuestionImportUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionImportPayload>
+          }
+          deleteMany: {
+            args: Prisma.ModelQuestionImportDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ModelQuestionImportUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ModelQuestionImportUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionImportPayload>[]
+          }
+          upsert: {
+            args: Prisma.ModelQuestionImportUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionImportPayload>
+          }
+          aggregate: {
+            args: Prisma.ModelQuestionImportAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateModelQuestionImport>
+          }
+          groupBy: {
+            args: Prisma.ModelQuestionImportGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ModelQuestionImportGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ModelQuestionImportCountArgs<ExtArgs>
+            result: $Utils.Optional<ModelQuestionImportCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -5271,6 +5361,7 @@ export namespace Prisma {
     subjectEnglishSecondPaperBlock?: SubjectEnglishSecondPaperBlockOmit
     board?: BoardOmit
     academicYear?: AcademicYearOmit
+    modelQuestionImport?: ModelQuestionImportOmit
   }
 
   /* Types for Logging */
@@ -5396,6 +5487,7 @@ export namespace Prisma {
     contents: number
     unseenCompositions: number
     students: number
+    modelQuestionImports: number
   }
 
   export type ClassCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5404,6 +5496,7 @@ export namespace Prisma {
     contents?: boolean | ClassCountOutputTypeCountContentsArgs
     unseenCompositions?: boolean | ClassCountOutputTypeCountUnseenCompositionsArgs
     students?: boolean | ClassCountOutputTypeCountStudentsArgs
+    modelQuestionImports?: boolean | ClassCountOutputTypeCountModelQuestionImportsArgs
   }
 
   // Custom InputTypes
@@ -5452,6 +5545,13 @@ export namespace Prisma {
     where?: UserWhereInput
   }
 
+  /**
+   * ClassCountOutputType without action
+   */
+  export type ClassCountOutputTypeCountModelQuestionImportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ModelQuestionImportWhereInput
+  }
+
 
   /**
    * Count Type SubjectCountOutputType
@@ -5461,12 +5561,14 @@ export namespace Prisma {
     units: number
     contents: number
     unseenCompositions: number
+    modelQuestionImports: number
   }
 
   export type SubjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     units?: boolean | SubjectCountOutputTypeCountUnitsArgs
     contents?: boolean | SubjectCountOutputTypeCountContentsArgs
     unseenCompositions?: boolean | SubjectCountOutputTypeCountUnseenCompositionsArgs
+    modelQuestionImports?: boolean | SubjectCountOutputTypeCountModelQuestionImportsArgs
   }
 
   // Custom InputTypes
@@ -5499,6 +5601,13 @@ export namespace Prisma {
    */
   export type SubjectCountOutputTypeCountUnseenCompositionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UnseenCompositionWhereInput
+  }
+
+  /**
+   * SubjectCountOutputType without action
+   */
+  export type SubjectCountOutputTypeCountModelQuestionImportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ModelQuestionImportWhereInput
   }
 
 
@@ -5765,6 +5874,68 @@ export namespace Prisma {
    */
   export type SynonymsAntonymsCountOutputTypeCountEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SynonymsAntonymsEntryWhereInput
+  }
+
+
+  /**
+   * Count Type BoardCountOutputType
+   */
+
+  export type BoardCountOutputType = {
+    modelQuestionImports: number
+  }
+
+  export type BoardCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    modelQuestionImports?: boolean | BoardCountOutputTypeCountModelQuestionImportsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * BoardCountOutputType without action
+   */
+  export type BoardCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BoardCountOutputType
+     */
+    select?: BoardCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * BoardCountOutputType without action
+   */
+  export type BoardCountOutputTypeCountModelQuestionImportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ModelQuestionImportWhereInput
+  }
+
+
+  /**
+   * Count Type AcademicYearCountOutputType
+   */
+
+  export type AcademicYearCountOutputType = {
+    modelQuestionImports: number
+  }
+
+  export type AcademicYearCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    modelQuestionImports?: boolean | AcademicYearCountOutputTypeCountModelQuestionImportsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AcademicYearCountOutputType without action
+   */
+  export type AcademicYearCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYearCountOutputType
+     */
+    select?: AcademicYearCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AcademicYearCountOutputType without action
+   */
+  export type AcademicYearCountOutputTypeCountModelQuestionImportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ModelQuestionImportWhereInput
   }
 
 
@@ -11640,6 +11811,7 @@ export namespace Prisma {
     contents?: boolean | Class$contentsArgs<ExtArgs>
     unseenCompositions?: boolean | Class$unseenCompositionsArgs<ExtArgs>
     students?: boolean | Class$studentsArgs<ExtArgs>
+    modelQuestionImports?: boolean | Class$modelQuestionImportsArgs<ExtArgs>
     _count?: boolean | ClassCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["class"]>
 
@@ -11710,6 +11882,7 @@ export namespace Prisma {
     contents?: boolean | Class$contentsArgs<ExtArgs>
     unseenCompositions?: boolean | Class$unseenCompositionsArgs<ExtArgs>
     students?: boolean | Class$studentsArgs<ExtArgs>
+    modelQuestionImports?: boolean | Class$modelQuestionImportsArgs<ExtArgs>
     _count?: boolean | ClassCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ClassIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -11723,6 +11896,7 @@ export namespace Prisma {
       contents: Prisma.$ContentPayload<ExtArgs>[]
       unseenCompositions: Prisma.$UnseenCompositionPayload<ExtArgs>[]
       students: Prisma.$UserPayload<ExtArgs>[]
+      modelQuestionImports: Prisma.$ModelQuestionImportPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -12141,6 +12315,7 @@ export namespace Prisma {
     contents<T extends Class$contentsArgs<ExtArgs> = {}>(args?: Subset<T, Class$contentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     unseenCompositions<T extends Class$unseenCompositionsArgs<ExtArgs> = {}>(args?: Subset<T, Class$unseenCompositionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnseenCompositionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     students<T extends Class$studentsArgs<ExtArgs> = {}>(args?: Subset<T, Class$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    modelQuestionImports<T extends Class$modelQuestionImportsArgs<ExtArgs> = {}>(args?: Subset<T, Class$modelQuestionImportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelQuestionImportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12693,6 +12868,30 @@ export namespace Prisma {
   }
 
   /**
+   * Class.modelQuestionImports
+   */
+  export type Class$modelQuestionImportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionImport
+     */
+    select?: ModelQuestionImportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionImport
+     */
+    omit?: ModelQuestionImportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionImportInclude<ExtArgs> | null
+    where?: ModelQuestionImportWhereInput
+    orderBy?: ModelQuestionImportOrderByWithRelationInput | ModelQuestionImportOrderByWithRelationInput[]
+    cursor?: ModelQuestionImportWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ModelQuestionImportScalarFieldEnum | ModelQuestionImportScalarFieldEnum[]
+  }
+
+  /**
    * Class without action
    */
   export type ClassDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13017,6 +13216,7 @@ export namespace Prisma {
     units?: boolean | Subject$unitsArgs<ExtArgs>
     contents?: boolean | Subject$contentsArgs<ExtArgs>
     unseenCompositions?: boolean | Subject$unseenCompositionsArgs<ExtArgs>
+    modelQuestionImports?: boolean | Subject$modelQuestionImportsArgs<ExtArgs>
     _count?: boolean | SubjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["subject"]>
 
@@ -13091,6 +13291,7 @@ export namespace Prisma {
     units?: boolean | Subject$unitsArgs<ExtArgs>
     contents?: boolean | Subject$contentsArgs<ExtArgs>
     unseenCompositions?: boolean | Subject$unseenCompositionsArgs<ExtArgs>
+    modelQuestionImports?: boolean | Subject$modelQuestionImportsArgs<ExtArgs>
     _count?: boolean | SubjectCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SubjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13107,6 +13308,7 @@ export namespace Prisma {
       units: Prisma.$UnitPayload<ExtArgs>[]
       contents: Prisma.$ContentPayload<ExtArgs>[]
       unseenCompositions: Prisma.$UnseenCompositionPayload<ExtArgs>[]
+      modelQuestionImports: Prisma.$ModelQuestionImportPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -13525,6 +13727,7 @@ export namespace Prisma {
     units<T extends Subject$unitsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$unitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     contents<T extends Subject$contentsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$contentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     unseenCompositions<T extends Subject$unseenCompositionsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$unseenCompositionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnseenCompositionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    modelQuestionImports<T extends Subject$modelQuestionImportsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$modelQuestionImportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelQuestionImportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14035,6 +14238,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: UnseenCompositionScalarFieldEnum | UnseenCompositionScalarFieldEnum[]
+  }
+
+  /**
+   * Subject.modelQuestionImports
+   */
+  export type Subject$modelQuestionImportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionImport
+     */
+    select?: ModelQuestionImportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionImport
+     */
+    omit?: ModelQuestionImportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionImportInclude<ExtArgs> | null
+    where?: ModelQuestionImportWhereInput
+    orderBy?: ModelQuestionImportOrderByWithRelationInput | ModelQuestionImportOrderByWithRelationInput[]
+    cursor?: ModelQuestionImportWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ModelQuestionImportScalarFieldEnum | ModelQuestionImportScalarFieldEnum[]
   }
 
   /**
@@ -26856,11 +27083,7 @@ export namespace Prisma {
     id: string | null
     vocabularyId: string | null
     word: string | null
-    partOfSpeech: string | null
-    pronunciation: string | null
     meaning: string | null
-    synonyms: string | null
-    antonyms: string | null
     imageUrl: string | null
     imagePath: string | null
     sortOrder: number | null
@@ -26875,11 +27098,7 @@ export namespace Prisma {
     id: string | null
     vocabularyId: string | null
     word: string | null
-    partOfSpeech: string | null
-    pronunciation: string | null
     meaning: string | null
-    synonyms: string | null
-    antonyms: string | null
     imageUrl: string | null
     imagePath: string | null
     sortOrder: number | null
@@ -26894,11 +27113,7 @@ export namespace Prisma {
     id: number
     vocabularyId: number
     word: number
-    partOfSpeech: number
-    pronunciation: number
     meaning: number
-    synonyms: number
-    antonyms: number
     imageUrl: number
     imagePath: number
     sortOrder: number
@@ -26923,11 +27138,7 @@ export namespace Prisma {
     id?: true
     vocabularyId?: true
     word?: true
-    partOfSpeech?: true
-    pronunciation?: true
     meaning?: true
-    synonyms?: true
-    antonyms?: true
     imageUrl?: true
     imagePath?: true
     sortOrder?: true
@@ -26942,11 +27153,7 @@ export namespace Prisma {
     id?: true
     vocabularyId?: true
     word?: true
-    partOfSpeech?: true
-    pronunciation?: true
     meaning?: true
-    synonyms?: true
-    antonyms?: true
     imageUrl?: true
     imagePath?: true
     sortOrder?: true
@@ -26961,11 +27168,7 @@ export namespace Prisma {
     id?: true
     vocabularyId?: true
     word?: true
-    partOfSpeech?: true
-    pronunciation?: true
     meaning?: true
-    synonyms?: true
-    antonyms?: true
     imageUrl?: true
     imagePath?: true
     sortOrder?: true
@@ -27067,11 +27270,7 @@ export namespace Prisma {
     id: string
     vocabularyId: string
     word: string
-    partOfSpeech: string
-    pronunciation: string
     meaning: string
-    synonyms: string
-    antonyms: string
     imageUrl: string
     imagePath: string
     sortOrder: number
@@ -27105,11 +27304,7 @@ export namespace Prisma {
     id?: boolean
     vocabularyId?: boolean
     word?: boolean
-    partOfSpeech?: boolean
-    pronunciation?: boolean
     meaning?: boolean
-    synonyms?: boolean
-    antonyms?: boolean
     imageUrl?: boolean
     imagePath?: boolean
     sortOrder?: boolean
@@ -27127,11 +27322,7 @@ export namespace Prisma {
     id?: boolean
     vocabularyId?: boolean
     word?: boolean
-    partOfSpeech?: boolean
-    pronunciation?: boolean
     meaning?: boolean
-    synonyms?: boolean
-    antonyms?: boolean
     imageUrl?: boolean
     imagePath?: boolean
     sortOrder?: boolean
@@ -27147,11 +27338,7 @@ export namespace Prisma {
     id?: boolean
     vocabularyId?: boolean
     word?: boolean
-    partOfSpeech?: boolean
-    pronunciation?: boolean
     meaning?: boolean
-    synonyms?: boolean
-    antonyms?: boolean
     imageUrl?: boolean
     imagePath?: boolean
     sortOrder?: boolean
@@ -27167,11 +27354,7 @@ export namespace Prisma {
     id?: boolean
     vocabularyId?: boolean
     word?: boolean
-    partOfSpeech?: boolean
-    pronunciation?: boolean
     meaning?: boolean
-    synonyms?: boolean
-    antonyms?: boolean
     imageUrl?: boolean
     imagePath?: boolean
     sortOrder?: boolean
@@ -27182,7 +27365,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type VocabularyEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vocabularyId" | "word" | "partOfSpeech" | "pronunciation" | "meaning" | "synonyms" | "antonyms" | "imageUrl" | "imagePath" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["vocabularyEntry"]>
+  export type VocabularyEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vocabularyId" | "word" | "meaning" | "imageUrl" | "imagePath" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["vocabularyEntry"]>
   export type VocabularyEntryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vocabulary?: boolean | VocabularyDefaultArgs<ExtArgs>
     uploadedFiles?: boolean | VocabularyEntry$uploadedFilesArgs<ExtArgs>
@@ -27205,11 +27388,7 @@ export namespace Prisma {
       id: string
       vocabularyId: string
       word: string
-      partOfSpeech: string
-      pronunciation: string
       meaning: string
-      synonyms: string
-      antonyms: string
       imageUrl: string
       imagePath: string
       sortOrder: number
@@ -27646,11 +27825,7 @@ export namespace Prisma {
     readonly id: FieldRef<"VocabularyEntry", 'String'>
     readonly vocabularyId: FieldRef<"VocabularyEntry", 'String'>
     readonly word: FieldRef<"VocabularyEntry", 'String'>
-    readonly partOfSpeech: FieldRef<"VocabularyEntry", 'String'>
-    readonly pronunciation: FieldRef<"VocabularyEntry", 'String'>
     readonly meaning: FieldRef<"VocabularyEntry", 'String'>
-    readonly synonyms: FieldRef<"VocabularyEntry", 'String'>
-    readonly antonyms: FieldRef<"VocabularyEntry", 'String'>
     readonly imageUrl: FieldRef<"VocabularyEntry", 'String'>
     readonly imagePath: FieldRef<"VocabularyEntry", 'String'>
     readonly sortOrder: FieldRef<"VocabularyEntry", 'Int'>
@@ -28101,8 +28276,22 @@ export namespace Prisma {
 
   export type AggregateStorageConfiguration = {
     _count: StorageConfigurationCountAggregateOutputType | null
+    _avg: StorageConfigurationAvgAggregateOutputType | null
+    _sum: StorageConfigurationSumAggregateOutputType | null
     _min: StorageConfigurationMinAggregateOutputType | null
     _max: StorageConfigurationMaxAggregateOutputType | null
+  }
+
+  export type StorageConfigurationAvgAggregateOutputType = {
+    maxImageSizeMb: number | null
+    maxVideoSizeMb: number | null
+    maxModelSizeMb: number | null
+  }
+
+  export type StorageConfigurationSumAggregateOutputType = {
+    maxImageSizeMb: number | null
+    maxVideoSizeMb: number | null
+    maxModelSizeMb: number | null
   }
 
   export type StorageConfigurationMinAggregateOutputType = {
@@ -28117,6 +28306,12 @@ export namespace Prisma {
     sessionTokenEncrypted: string | null
     localRoot: string | null
     forcePathStyle: boolean | null
+    publicBaseUrl: string | null
+    privateBucket: string | null
+    maxImageSizeMb: number | null
+    maxVideoSizeMb: number | null
+    maxModelSizeMb: number | null
+    pathPrefix: string | null
     isActive: boolean | null
     everActivated: boolean | null
     lastTestStatus: string | null
@@ -28141,6 +28336,12 @@ export namespace Prisma {
     sessionTokenEncrypted: string | null
     localRoot: string | null
     forcePathStyle: boolean | null
+    publicBaseUrl: string | null
+    privateBucket: string | null
+    maxImageSizeMb: number | null
+    maxVideoSizeMb: number | null
+    maxModelSizeMb: number | null
+    pathPrefix: string | null
     isActive: boolean | null
     everActivated: boolean | null
     lastTestStatus: string | null
@@ -28165,6 +28366,12 @@ export namespace Prisma {
     sessionTokenEncrypted: number
     localRoot: number
     forcePathStyle: number
+    publicBaseUrl: number
+    privateBucket: number
+    maxImageSizeMb: number
+    maxVideoSizeMb: number
+    maxModelSizeMb: number
+    pathPrefix: number
     isActive: number
     everActivated: number
     lastTestStatus: number
@@ -28179,6 +28386,18 @@ export namespace Prisma {
   }
 
 
+  export type StorageConfigurationAvgAggregateInputType = {
+    maxImageSizeMb?: true
+    maxVideoSizeMb?: true
+    maxModelSizeMb?: true
+  }
+
+  export type StorageConfigurationSumAggregateInputType = {
+    maxImageSizeMb?: true
+    maxVideoSizeMb?: true
+    maxModelSizeMb?: true
+  }
+
   export type StorageConfigurationMinAggregateInputType = {
     id?: true
     name?: true
@@ -28191,6 +28410,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: true
     localRoot?: true
     forcePathStyle?: true
+    publicBaseUrl?: true
+    privateBucket?: true
+    maxImageSizeMb?: true
+    maxVideoSizeMb?: true
+    maxModelSizeMb?: true
+    pathPrefix?: true
     isActive?: true
     everActivated?: true
     lastTestStatus?: true
@@ -28215,6 +28440,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: true
     localRoot?: true
     forcePathStyle?: true
+    publicBaseUrl?: true
+    privateBucket?: true
+    maxImageSizeMb?: true
+    maxVideoSizeMb?: true
+    maxModelSizeMb?: true
+    pathPrefix?: true
     isActive?: true
     everActivated?: true
     lastTestStatus?: true
@@ -28239,6 +28470,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: true
     localRoot?: true
     forcePathStyle?: true
+    publicBaseUrl?: true
+    privateBucket?: true
+    maxImageSizeMb?: true
+    maxVideoSizeMb?: true
+    maxModelSizeMb?: true
+    pathPrefix?: true
     isActive?: true
     everActivated?: true
     lastTestStatus?: true
@@ -28290,6 +28527,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: StorageConfigurationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: StorageConfigurationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: StorageConfigurationMinAggregateInputType
@@ -28320,6 +28569,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: StorageConfigurationCountAggregateInputType | true
+    _avg?: StorageConfigurationAvgAggregateInputType
+    _sum?: StorageConfigurationSumAggregateInputType
     _min?: StorageConfigurationMinAggregateInputType
     _max?: StorageConfigurationMaxAggregateInputType
   }
@@ -28336,6 +28587,12 @@ export namespace Prisma {
     sessionTokenEncrypted: string
     localRoot: string
     forcePathStyle: boolean
+    publicBaseUrl: string
+    privateBucket: string
+    maxImageSizeMb: number
+    maxVideoSizeMb: number
+    maxModelSizeMb: number
+    pathPrefix: string
     isActive: boolean
     everActivated: boolean
     lastTestStatus: string
@@ -28347,6 +28604,8 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     _count: StorageConfigurationCountAggregateOutputType | null
+    _avg: StorageConfigurationAvgAggregateOutputType | null
+    _sum: StorageConfigurationSumAggregateOutputType | null
     _min: StorageConfigurationMinAggregateOutputType | null
     _max: StorageConfigurationMaxAggregateOutputType | null
   }
@@ -28377,6 +28636,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: boolean
     localRoot?: boolean
     forcePathStyle?: boolean
+    publicBaseUrl?: boolean
+    privateBucket?: boolean
+    maxImageSizeMb?: boolean
+    maxVideoSizeMb?: boolean
+    maxModelSizeMb?: boolean
+    pathPrefix?: boolean
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: boolean
@@ -28403,6 +28668,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: boolean
     localRoot?: boolean
     forcePathStyle?: boolean
+    publicBaseUrl?: boolean
+    privateBucket?: boolean
+    maxImageSizeMb?: boolean
+    maxVideoSizeMb?: boolean
+    maxModelSizeMb?: boolean
+    pathPrefix?: boolean
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: boolean
@@ -28427,6 +28698,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: boolean
     localRoot?: boolean
     forcePathStyle?: boolean
+    publicBaseUrl?: boolean
+    privateBucket?: boolean
+    maxImageSizeMb?: boolean
+    maxVideoSizeMb?: boolean
+    maxModelSizeMb?: boolean
+    pathPrefix?: boolean
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: boolean
@@ -28451,6 +28728,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: boolean
     localRoot?: boolean
     forcePathStyle?: boolean
+    publicBaseUrl?: boolean
+    privateBucket?: boolean
+    maxImageSizeMb?: boolean
+    maxVideoSizeMb?: boolean
+    maxModelSizeMb?: boolean
+    pathPrefix?: boolean
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: boolean
@@ -28463,7 +28746,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type StorageConfigurationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "provider" | "endpoint" | "region" | "bucket" | "accessKeyId" | "secretAccessKeyEncrypted" | "sessionTokenEncrypted" | "localRoot" | "forcePathStyle" | "isActive" | "everActivated" | "lastTestStatus" | "lastTestMessage" | "lastTestedAt" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["storageConfiguration"]>
+  export type StorageConfigurationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "provider" | "endpoint" | "region" | "bucket" | "accessKeyId" | "secretAccessKeyEncrypted" | "sessionTokenEncrypted" | "localRoot" | "forcePathStyle" | "publicBaseUrl" | "privateBucket" | "maxImageSizeMb" | "maxVideoSizeMb" | "maxModelSizeMb" | "pathPrefix" | "isActive" | "everActivated" | "lastTestStatus" | "lastTestMessage" | "lastTestedAt" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["storageConfiguration"]>
   export type StorageConfigurationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     uploadedFiles?: boolean | StorageConfiguration$uploadedFilesArgs<ExtArgs>
     _count?: boolean | StorageConfigurationCountOutputTypeDefaultArgs<ExtArgs>
@@ -28488,6 +28771,12 @@ export namespace Prisma {
       sessionTokenEncrypted: string
       localRoot: string
       forcePathStyle: boolean
+      publicBaseUrl: string
+      privateBucket: string
+      maxImageSizeMb: number
+      maxVideoSizeMb: number
+      maxModelSizeMb: number
+      pathPrefix: string
       isActive: boolean
       everActivated: boolean
       lastTestStatus: string
@@ -28933,6 +29222,12 @@ export namespace Prisma {
     readonly sessionTokenEncrypted: FieldRef<"StorageConfiguration", 'String'>
     readonly localRoot: FieldRef<"StorageConfiguration", 'String'>
     readonly forcePathStyle: FieldRef<"StorageConfiguration", 'Boolean'>
+    readonly publicBaseUrl: FieldRef<"StorageConfiguration", 'String'>
+    readonly privateBucket: FieldRef<"StorageConfiguration", 'String'>
+    readonly maxImageSizeMb: FieldRef<"StorageConfiguration", 'Int'>
+    readonly maxVideoSizeMb: FieldRef<"StorageConfiguration", 'Int'>
+    readonly maxModelSizeMb: FieldRef<"StorageConfiguration", 'Int'>
+    readonly pathPrefix: FieldRef<"StorageConfiguration", 'String'>
     readonly isActive: FieldRef<"StorageConfiguration", 'Boolean'>
     readonly everActivated: FieldRef<"StorageConfiguration", 'Boolean'>
     readonly lastTestStatus: FieldRef<"StorageConfiguration", 'String'>
@@ -29385,14 +29680,12 @@ export namespace Prisma {
 
   export type UploadedFileAvgAggregateOutputType = {
     sizeBytes: number | null
-    sortOrder: number | null
     width: number | null
     height: number | null
   }
 
   export type UploadedFileSumAggregateOutputType = {
     sizeBytes: number | null
-    sortOrder: number | null
     width: number | null
     height: number | null
   }
@@ -29411,7 +29704,6 @@ export namespace Prisma {
     mimeType: string | null
     extension: string | null
     sizeBytes: number | null
-    sortOrder: number | null
     width: number | null
     height: number | null
     checksumSha256: string | null
@@ -29441,7 +29733,6 @@ export namespace Prisma {
     mimeType: string | null
     extension: string | null
     sizeBytes: number | null
-    sortOrder: number | null
     width: number | null
     height: number | null
     checksumSha256: string | null
@@ -29471,7 +29762,6 @@ export namespace Prisma {
     mimeType: number
     extension: number
     sizeBytes: number
-    sortOrder: number
     width: number
     height: number
     checksumSha256: number
@@ -29491,14 +29781,12 @@ export namespace Prisma {
 
   export type UploadedFileAvgAggregateInputType = {
     sizeBytes?: true
-    sortOrder?: true
     width?: true
     height?: true
   }
 
   export type UploadedFileSumAggregateInputType = {
     sizeBytes?: true
-    sortOrder?: true
     width?: true
     height?: true
   }
@@ -29517,7 +29805,6 @@ export namespace Prisma {
     mimeType?: true
     extension?: true
     sizeBytes?: true
-    sortOrder?: true
     width?: true
     height?: true
     checksumSha256?: true
@@ -29547,7 +29834,6 @@ export namespace Prisma {
     mimeType?: true
     extension?: true
     sizeBytes?: true
-    sortOrder?: true
     width?: true
     height?: true
     checksumSha256?: true
@@ -29577,7 +29863,6 @@ export namespace Prisma {
     mimeType?: true
     extension?: true
     sizeBytes?: true
-    sortOrder?: true
     width?: true
     height?: true
     checksumSha256?: true
@@ -29694,7 +29979,6 @@ export namespace Prisma {
     mimeType: string
     extension: string
     sizeBytes: number
-    sortOrder: number
     width: number
     height: number
     checksumSha256: string
@@ -29743,7 +30027,6 @@ export namespace Prisma {
     mimeType?: boolean
     extension?: boolean
     sizeBytes?: boolean
-    sortOrder?: boolean
     width?: boolean
     height?: boolean
     checksumSha256?: boolean
@@ -29759,6 +30042,7 @@ export namespace Prisma {
     updatedAt?: boolean
     vocabularyEntry?: boolean | UploadedFile$vocabularyEntryArgs<ExtArgs>
     storageConfiguration?: boolean | UploadedFile$storageConfigurationArgs<ExtArgs>
+    modelQuestionImport?: boolean | UploadedFile$modelQuestionImportArgs<ExtArgs>
   }, ExtArgs["result"]["uploadedFile"]>
 
   export type UploadedFileSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -29775,7 +30059,6 @@ export namespace Prisma {
     mimeType?: boolean
     extension?: boolean
     sizeBytes?: boolean
-    sortOrder?: boolean
     width?: boolean
     height?: boolean
     checksumSha256?: boolean
@@ -29807,7 +30090,6 @@ export namespace Prisma {
     mimeType?: boolean
     extension?: boolean
     sizeBytes?: boolean
-    sortOrder?: boolean
     width?: boolean
     height?: boolean
     checksumSha256?: boolean
@@ -29839,7 +30121,6 @@ export namespace Prisma {
     mimeType?: boolean
     extension?: boolean
     sizeBytes?: boolean
-    sortOrder?: boolean
     width?: boolean
     height?: boolean
     checksumSha256?: boolean
@@ -29855,10 +30136,11 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UploadedFileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purpose" | "ownerType" | "ownerId" | "vocabularyEntryId" | "storageConfigurationId" | "url" | "path" | "originalName" | "sourceMimeType" | "mimeType" | "extension" | "sizeBytes" | "sortOrder" | "width" | "height" | "checksumSha256" | "status" | "isCurrent" | "replacedAt" | "deletedAt" | "storageDeletedAt" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["uploadedFile"]>
+  export type UploadedFileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purpose" | "ownerType" | "ownerId" | "vocabularyEntryId" | "storageConfigurationId" | "url" | "path" | "originalName" | "sourceMimeType" | "mimeType" | "extension" | "sizeBytes" | "width" | "height" | "checksumSha256" | "status" | "isCurrent" | "replacedAt" | "deletedAt" | "storageDeletedAt" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["uploadedFile"]>
   export type UploadedFileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vocabularyEntry?: boolean | UploadedFile$vocabularyEntryArgs<ExtArgs>
     storageConfiguration?: boolean | UploadedFile$storageConfigurationArgs<ExtArgs>
+    modelQuestionImport?: boolean | UploadedFile$modelQuestionImportArgs<ExtArgs>
   }
   export type UploadedFileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vocabularyEntry?: boolean | UploadedFile$vocabularyEntryArgs<ExtArgs>
@@ -29874,6 +30156,7 @@ export namespace Prisma {
     objects: {
       vocabularyEntry: Prisma.$VocabularyEntryPayload<ExtArgs> | null
       storageConfiguration: Prisma.$StorageConfigurationPayload<ExtArgs> | null
+      modelQuestionImport: Prisma.$ModelQuestionImportPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -29889,7 +30172,6 @@ export namespace Prisma {
       mimeType: string
       extension: string
       sizeBytes: number
-      sortOrder: number
       width: number
       height: number
       checksumSha256: string
@@ -30299,6 +30581,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     vocabularyEntry<T extends UploadedFile$vocabularyEntryArgs<ExtArgs> = {}>(args?: Subset<T, UploadedFile$vocabularyEntryArgs<ExtArgs>>): Prisma__VocabularyEntryClient<$Result.GetResult<Prisma.$VocabularyEntryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     storageConfiguration<T extends UploadedFile$storageConfigurationArgs<ExtArgs> = {}>(args?: Subset<T, UploadedFile$storageConfigurationArgs<ExtArgs>>): Prisma__StorageConfigurationClient<$Result.GetResult<Prisma.$StorageConfigurationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    modelQuestionImport<T extends UploadedFile$modelQuestionImportArgs<ExtArgs> = {}>(args?: Subset<T, UploadedFile$modelQuestionImportArgs<ExtArgs>>): Prisma__ModelQuestionImportClient<$Result.GetResult<Prisma.$ModelQuestionImportPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -30341,7 +30624,6 @@ export namespace Prisma {
     readonly mimeType: FieldRef<"UploadedFile", 'String'>
     readonly extension: FieldRef<"UploadedFile", 'String'>
     readonly sizeBytes: FieldRef<"UploadedFile", 'Int'>
-    readonly sortOrder: FieldRef<"UploadedFile", 'Int'>
     readonly width: FieldRef<"UploadedFile", 'Int'>
     readonly height: FieldRef<"UploadedFile", 'Int'>
     readonly checksumSha256: FieldRef<"UploadedFile", 'String'>
@@ -30784,6 +31066,25 @@ export namespace Prisma {
      */
     include?: StorageConfigurationInclude<ExtArgs> | null
     where?: StorageConfigurationWhereInput
+  }
+
+  /**
+   * UploadedFile.modelQuestionImport
+   */
+  export type UploadedFile$modelQuestionImportArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionImport
+     */
+    select?: ModelQuestionImportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionImport
+     */
+    omit?: ModelQuestionImportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionImportInclude<ExtArgs> | null
+    where?: ModelQuestionImportWhereInput
   }
 
   /**
@@ -64809,6 +65110,8 @@ export namespace Prisma {
     updatedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    modelQuestionImports?: boolean | Board$modelQuestionImportsArgs<ExtArgs>
+    _count?: boolean | BoardCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["board"]>
 
   export type BoardSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -64845,10 +65148,18 @@ export namespace Prisma {
   }
 
   export type BoardOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "isActive" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["board"]>
+  export type BoardInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    modelQuestionImports?: boolean | Board$modelQuestionImportsArgs<ExtArgs>
+    _count?: boolean | BoardCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type BoardIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type BoardIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $BoardPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Board"
-    objects: {}
+    objects: {
+      modelQuestionImports: Prisma.$ModelQuestionImportPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
@@ -65252,6 +65563,7 @@ export namespace Prisma {
    */
   export interface Prisma__BoardClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    modelQuestionImports<T extends Board$modelQuestionImportsArgs<ExtArgs> = {}>(args?: Subset<T, Board$modelQuestionImportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelQuestionImportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -65306,6 +65618,10 @@ export namespace Prisma {
      */
     omit?: BoardOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoardInclude<ExtArgs> | null
+    /**
      * Filter, which Board to fetch.
      */
     where: BoardWhereUniqueInput
@@ -65324,6 +65640,10 @@ export namespace Prisma {
      */
     omit?: BoardOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoardInclude<ExtArgs> | null
+    /**
      * Filter, which Board to fetch.
      */
     where: BoardWhereUniqueInput
@@ -65341,6 +65661,10 @@ export namespace Prisma {
      * Omit specific fields from the Board
      */
     omit?: BoardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoardInclude<ExtArgs> | null
     /**
      * Filter, which Board to fetch.
      */
@@ -65390,6 +65714,10 @@ export namespace Prisma {
      */
     omit?: BoardOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoardInclude<ExtArgs> | null
+    /**
      * Filter, which Board to fetch.
      */
     where?: BoardWhereInput
@@ -65438,6 +65766,10 @@ export namespace Prisma {
      */
     omit?: BoardOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoardInclude<ExtArgs> | null
+    /**
      * Filter, which Boards to fetch.
      */
     where?: BoardWhereInput
@@ -65480,6 +65812,10 @@ export namespace Prisma {
      * Omit specific fields from the Board
      */
     omit?: BoardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoardInclude<ExtArgs> | null
     /**
      * The data needed to create a Board.
      */
@@ -65526,6 +65862,10 @@ export namespace Prisma {
      * Omit specific fields from the Board
      */
     omit?: BoardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoardInclude<ExtArgs> | null
     /**
      * The data needed to update a Board.
      */
@@ -65593,6 +65933,10 @@ export namespace Prisma {
      */
     omit?: BoardOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoardInclude<ExtArgs> | null
+    /**
      * The filter to search for the Board to update in case it exists.
      */
     where: BoardWhereUniqueInput
@@ -65619,6 +65963,10 @@ export namespace Prisma {
      */
     omit?: BoardOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoardInclude<ExtArgs> | null
+    /**
      * Filter which Board to delete.
      */
     where: BoardWhereUniqueInput
@@ -65639,6 +65987,30 @@ export namespace Prisma {
   }
 
   /**
+   * Board.modelQuestionImports
+   */
+  export type Board$modelQuestionImportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionImport
+     */
+    select?: ModelQuestionImportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionImport
+     */
+    omit?: ModelQuestionImportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionImportInclude<ExtArgs> | null
+    where?: ModelQuestionImportWhereInput
+    orderBy?: ModelQuestionImportOrderByWithRelationInput | ModelQuestionImportOrderByWithRelationInput[]
+    cursor?: ModelQuestionImportWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ModelQuestionImportScalarFieldEnum | ModelQuestionImportScalarFieldEnum[]
+  }
+
+  /**
    * Board without action
    */
   export type BoardDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -65650,6 +66022,10 @@ export namespace Prisma {
      * Omit specific fields from the Board
      */
     omit?: BoardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoardInclude<ExtArgs> | null
   }
 
 
@@ -65875,6 +66251,8 @@ export namespace Prisma {
     updatedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    modelQuestionImports?: boolean | AcademicYear$modelQuestionImportsArgs<ExtArgs>
+    _count?: boolean | AcademicYearCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["academicYear"]>
 
   export type AcademicYearSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -65911,10 +66289,18 @@ export namespace Prisma {
   }
 
   export type AcademicYearOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "year" | "isActive" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["academicYear"]>
+  export type AcademicYearInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    modelQuestionImports?: boolean | AcademicYear$modelQuestionImportsArgs<ExtArgs>
+    _count?: boolean | AcademicYearCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type AcademicYearIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type AcademicYearIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $AcademicYearPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "AcademicYear"
-    objects: {}
+    objects: {
+      modelQuestionImports: Prisma.$ModelQuestionImportPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       year: number
@@ -66318,6 +66704,7 @@ export namespace Prisma {
    */
   export interface Prisma__AcademicYearClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    modelQuestionImports<T extends AcademicYear$modelQuestionImportsArgs<ExtArgs> = {}>(args?: Subset<T, AcademicYear$modelQuestionImportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelQuestionImportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -66372,6 +66759,10 @@ export namespace Prisma {
      */
     omit?: AcademicYearOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicYearInclude<ExtArgs> | null
+    /**
      * Filter, which AcademicYear to fetch.
      */
     where: AcademicYearWhereUniqueInput
@@ -66390,6 +66781,10 @@ export namespace Prisma {
      */
     omit?: AcademicYearOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicYearInclude<ExtArgs> | null
+    /**
      * Filter, which AcademicYear to fetch.
      */
     where: AcademicYearWhereUniqueInput
@@ -66407,6 +66802,10 @@ export namespace Prisma {
      * Omit specific fields from the AcademicYear
      */
     omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicYearInclude<ExtArgs> | null
     /**
      * Filter, which AcademicYear to fetch.
      */
@@ -66456,6 +66855,10 @@ export namespace Prisma {
      */
     omit?: AcademicYearOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicYearInclude<ExtArgs> | null
+    /**
      * Filter, which AcademicYear to fetch.
      */
     where?: AcademicYearWhereInput
@@ -66504,6 +66907,10 @@ export namespace Prisma {
      */
     omit?: AcademicYearOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicYearInclude<ExtArgs> | null
+    /**
      * Filter, which AcademicYears to fetch.
      */
     where?: AcademicYearWhereInput
@@ -66546,6 +66953,10 @@ export namespace Prisma {
      * Omit specific fields from the AcademicYear
      */
     omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicYearInclude<ExtArgs> | null
     /**
      * The data needed to create a AcademicYear.
      */
@@ -66592,6 +67003,10 @@ export namespace Prisma {
      * Omit specific fields from the AcademicYear
      */
     omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicYearInclude<ExtArgs> | null
     /**
      * The data needed to update a AcademicYear.
      */
@@ -66659,6 +67074,10 @@ export namespace Prisma {
      */
     omit?: AcademicYearOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicYearInclude<ExtArgs> | null
+    /**
      * The filter to search for the AcademicYear to update in case it exists.
      */
     where: AcademicYearWhereUniqueInput
@@ -66685,6 +67104,10 @@ export namespace Prisma {
      */
     omit?: AcademicYearOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicYearInclude<ExtArgs> | null
+    /**
      * Filter which AcademicYear to delete.
      */
     where: AcademicYearWhereUniqueInput
@@ -66705,6 +67128,30 @@ export namespace Prisma {
   }
 
   /**
+   * AcademicYear.modelQuestionImports
+   */
+  export type AcademicYear$modelQuestionImportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionImport
+     */
+    select?: ModelQuestionImportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionImport
+     */
+    omit?: ModelQuestionImportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionImportInclude<ExtArgs> | null
+    where?: ModelQuestionImportWhereInput
+    orderBy?: ModelQuestionImportOrderByWithRelationInput | ModelQuestionImportOrderByWithRelationInput[]
+    cursor?: ModelQuestionImportWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ModelQuestionImportScalarFieldEnum | ModelQuestionImportScalarFieldEnum[]
+  }
+
+  /**
    * AcademicYear without action
    */
   export type AcademicYearDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -66716,6 +67163,1240 @@ export namespace Prisma {
      * Omit specific fields from the AcademicYear
      */
     omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicYearInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ModelQuestionImport
+   */
+
+  export type AggregateModelQuestionImport = {
+    _count: ModelQuestionImportCountAggregateOutputType | null
+    _min: ModelQuestionImportMinAggregateOutputType | null
+    _max: ModelQuestionImportMaxAggregateOutputType | null
+  }
+
+  export type ModelQuestionImportMinAggregateOutputType = {
+    id: string | null
+    classId: string | null
+    subjectId: string | null
+    boardId: string | null
+    academicYearId: string | null
+    fileId: string | null
+    title: string | null
+    status: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ModelQuestionImportMaxAggregateOutputType = {
+    id: string | null
+    classId: string | null
+    subjectId: string | null
+    boardId: string | null
+    academicYearId: string | null
+    fileId: string | null
+    title: string | null
+    status: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ModelQuestionImportCountAggregateOutputType = {
+    id: number
+    classId: number
+    subjectId: number
+    boardId: number
+    academicYearId: number
+    fileId: number
+    title: number
+    status: number
+    organizationId: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ModelQuestionImportMinAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    boardId?: true
+    academicYearId?: true
+    fileId?: true
+    title?: true
+    status?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ModelQuestionImportMaxAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    boardId?: true
+    academicYearId?: true
+    fileId?: true
+    title?: true
+    status?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ModelQuestionImportCountAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    boardId?: true
+    academicYearId?: true
+    fileId?: true
+    title?: true
+    status?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ModelQuestionImportAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ModelQuestionImport to aggregate.
+     */
+    where?: ModelQuestionImportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ModelQuestionImports to fetch.
+     */
+    orderBy?: ModelQuestionImportOrderByWithRelationInput | ModelQuestionImportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ModelQuestionImportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ModelQuestionImports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ModelQuestionImports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ModelQuestionImports
+    **/
+    _count?: true | ModelQuestionImportCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ModelQuestionImportMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ModelQuestionImportMaxAggregateInputType
+  }
+
+  export type GetModelQuestionImportAggregateType<T extends ModelQuestionImportAggregateArgs> = {
+        [P in keyof T & keyof AggregateModelQuestionImport]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateModelQuestionImport[P]>
+      : GetScalarType<T[P], AggregateModelQuestionImport[P]>
+  }
+
+
+
+
+  export type ModelQuestionImportGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ModelQuestionImportWhereInput
+    orderBy?: ModelQuestionImportOrderByWithAggregationInput | ModelQuestionImportOrderByWithAggregationInput[]
+    by: ModelQuestionImportScalarFieldEnum[] | ModelQuestionImportScalarFieldEnum
+    having?: ModelQuestionImportScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ModelQuestionImportCountAggregateInputType | true
+    _min?: ModelQuestionImportMinAggregateInputType
+    _max?: ModelQuestionImportMaxAggregateInputType
+  }
+
+  export type ModelQuestionImportGroupByOutputType = {
+    id: string
+    classId: string
+    subjectId: string
+    boardId: string | null
+    academicYearId: string | null
+    fileId: string
+    title: string
+    status: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: ModelQuestionImportCountAggregateOutputType | null
+    _min: ModelQuestionImportMinAggregateOutputType | null
+    _max: ModelQuestionImportMaxAggregateOutputType | null
+  }
+
+  type GetModelQuestionImportGroupByPayload<T extends ModelQuestionImportGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ModelQuestionImportGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ModelQuestionImportGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ModelQuestionImportGroupByOutputType[P]>
+            : GetScalarType<T[P], ModelQuestionImportGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ModelQuestionImportSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
+    fileId?: boolean
+    title?: boolean
+    status?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    board?: boolean | ModelQuestionImport$boardArgs<ExtArgs>
+    academicYear?: boolean | ModelQuestionImport$academicYearArgs<ExtArgs>
+    file?: boolean | UploadedFileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["modelQuestionImport"]>
+
+  export type ModelQuestionImportSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
+    fileId?: boolean
+    title?: boolean
+    status?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    board?: boolean | ModelQuestionImport$boardArgs<ExtArgs>
+    academicYear?: boolean | ModelQuestionImport$academicYearArgs<ExtArgs>
+    file?: boolean | UploadedFileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["modelQuestionImport"]>
+
+  export type ModelQuestionImportSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
+    fileId?: boolean
+    title?: boolean
+    status?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    board?: boolean | ModelQuestionImport$boardArgs<ExtArgs>
+    academicYear?: boolean | ModelQuestionImport$academicYearArgs<ExtArgs>
+    file?: boolean | UploadedFileDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["modelQuestionImport"]>
+
+  export type ModelQuestionImportSelectScalar = {
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
+    fileId?: boolean
+    title?: boolean
+    status?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ModelQuestionImportOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "subjectId" | "boardId" | "academicYearId" | "fileId" | "title" | "status" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["modelQuestionImport"]>
+  export type ModelQuestionImportInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    board?: boolean | ModelQuestionImport$boardArgs<ExtArgs>
+    academicYear?: boolean | ModelQuestionImport$academicYearArgs<ExtArgs>
+    file?: boolean | UploadedFileDefaultArgs<ExtArgs>
+  }
+  export type ModelQuestionImportIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    board?: boolean | ModelQuestionImport$boardArgs<ExtArgs>
+    academicYear?: boolean | ModelQuestionImport$academicYearArgs<ExtArgs>
+    file?: boolean | UploadedFileDefaultArgs<ExtArgs>
+  }
+  export type ModelQuestionImportIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    board?: boolean | ModelQuestionImport$boardArgs<ExtArgs>
+    academicYear?: boolean | ModelQuestionImport$academicYearArgs<ExtArgs>
+    file?: boolean | UploadedFileDefaultArgs<ExtArgs>
+  }
+
+  export type $ModelQuestionImportPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ModelQuestionImport"
+    objects: {
+      class: Prisma.$ClassPayload<ExtArgs>
+      subject: Prisma.$SubjectPayload<ExtArgs>
+      board: Prisma.$BoardPayload<ExtArgs> | null
+      academicYear: Prisma.$AcademicYearPayload<ExtArgs> | null
+      file: Prisma.$UploadedFilePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      classId: string
+      subjectId: string
+      boardId: string | null
+      academicYearId: string | null
+      fileId: string
+      title: string
+      status: string
+      organizationId: string
+      createdBy: string
+      updatedBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["modelQuestionImport"]>
+    composites: {}
+  }
+
+  type ModelQuestionImportGetPayload<S extends boolean | null | undefined | ModelQuestionImportDefaultArgs> = $Result.GetResult<Prisma.$ModelQuestionImportPayload, S>
+
+  type ModelQuestionImportCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ModelQuestionImportFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ModelQuestionImportCountAggregateInputType | true
+    }
+
+  export interface ModelQuestionImportDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ModelQuestionImport'], meta: { name: 'ModelQuestionImport' } }
+    /**
+     * Find zero or one ModelQuestionImport that matches the filter.
+     * @param {ModelQuestionImportFindUniqueArgs} args - Arguments to find a ModelQuestionImport
+     * @example
+     * // Get one ModelQuestionImport
+     * const modelQuestionImport = await prisma.modelQuestionImport.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ModelQuestionImportFindUniqueArgs>(args: SelectSubset<T, ModelQuestionImportFindUniqueArgs<ExtArgs>>): Prisma__ModelQuestionImportClient<$Result.GetResult<Prisma.$ModelQuestionImportPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ModelQuestionImport that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ModelQuestionImportFindUniqueOrThrowArgs} args - Arguments to find a ModelQuestionImport
+     * @example
+     * // Get one ModelQuestionImport
+     * const modelQuestionImport = await prisma.modelQuestionImport.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ModelQuestionImportFindUniqueOrThrowArgs>(args: SelectSubset<T, ModelQuestionImportFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ModelQuestionImportClient<$Result.GetResult<Prisma.$ModelQuestionImportPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ModelQuestionImport that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelQuestionImportFindFirstArgs} args - Arguments to find a ModelQuestionImport
+     * @example
+     * // Get one ModelQuestionImport
+     * const modelQuestionImport = await prisma.modelQuestionImport.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ModelQuestionImportFindFirstArgs>(args?: SelectSubset<T, ModelQuestionImportFindFirstArgs<ExtArgs>>): Prisma__ModelQuestionImportClient<$Result.GetResult<Prisma.$ModelQuestionImportPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ModelQuestionImport that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelQuestionImportFindFirstOrThrowArgs} args - Arguments to find a ModelQuestionImport
+     * @example
+     * // Get one ModelQuestionImport
+     * const modelQuestionImport = await prisma.modelQuestionImport.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ModelQuestionImportFindFirstOrThrowArgs>(args?: SelectSubset<T, ModelQuestionImportFindFirstOrThrowArgs<ExtArgs>>): Prisma__ModelQuestionImportClient<$Result.GetResult<Prisma.$ModelQuestionImportPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ModelQuestionImports that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelQuestionImportFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ModelQuestionImports
+     * const modelQuestionImports = await prisma.modelQuestionImport.findMany()
+     * 
+     * // Get first 10 ModelQuestionImports
+     * const modelQuestionImports = await prisma.modelQuestionImport.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const modelQuestionImportWithIdOnly = await prisma.modelQuestionImport.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ModelQuestionImportFindManyArgs>(args?: SelectSubset<T, ModelQuestionImportFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelQuestionImportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ModelQuestionImport.
+     * @param {ModelQuestionImportCreateArgs} args - Arguments to create a ModelQuestionImport.
+     * @example
+     * // Create one ModelQuestionImport
+     * const ModelQuestionImport = await prisma.modelQuestionImport.create({
+     *   data: {
+     *     // ... data to create a ModelQuestionImport
+     *   }
+     * })
+     * 
+     */
+    create<T extends ModelQuestionImportCreateArgs>(args: SelectSubset<T, ModelQuestionImportCreateArgs<ExtArgs>>): Prisma__ModelQuestionImportClient<$Result.GetResult<Prisma.$ModelQuestionImportPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ModelQuestionImports.
+     * @param {ModelQuestionImportCreateManyArgs} args - Arguments to create many ModelQuestionImports.
+     * @example
+     * // Create many ModelQuestionImports
+     * const modelQuestionImport = await prisma.modelQuestionImport.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ModelQuestionImportCreateManyArgs>(args?: SelectSubset<T, ModelQuestionImportCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ModelQuestionImports and returns the data saved in the database.
+     * @param {ModelQuestionImportCreateManyAndReturnArgs} args - Arguments to create many ModelQuestionImports.
+     * @example
+     * // Create many ModelQuestionImports
+     * const modelQuestionImport = await prisma.modelQuestionImport.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ModelQuestionImports and only return the `id`
+     * const modelQuestionImportWithIdOnly = await prisma.modelQuestionImport.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ModelQuestionImportCreateManyAndReturnArgs>(args?: SelectSubset<T, ModelQuestionImportCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelQuestionImportPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ModelQuestionImport.
+     * @param {ModelQuestionImportDeleteArgs} args - Arguments to delete one ModelQuestionImport.
+     * @example
+     * // Delete one ModelQuestionImport
+     * const ModelQuestionImport = await prisma.modelQuestionImport.delete({
+     *   where: {
+     *     // ... filter to delete one ModelQuestionImport
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ModelQuestionImportDeleteArgs>(args: SelectSubset<T, ModelQuestionImportDeleteArgs<ExtArgs>>): Prisma__ModelQuestionImportClient<$Result.GetResult<Prisma.$ModelQuestionImportPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ModelQuestionImport.
+     * @param {ModelQuestionImportUpdateArgs} args - Arguments to update one ModelQuestionImport.
+     * @example
+     * // Update one ModelQuestionImport
+     * const modelQuestionImport = await prisma.modelQuestionImport.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ModelQuestionImportUpdateArgs>(args: SelectSubset<T, ModelQuestionImportUpdateArgs<ExtArgs>>): Prisma__ModelQuestionImportClient<$Result.GetResult<Prisma.$ModelQuestionImportPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ModelQuestionImports.
+     * @param {ModelQuestionImportDeleteManyArgs} args - Arguments to filter ModelQuestionImports to delete.
+     * @example
+     * // Delete a few ModelQuestionImports
+     * const { count } = await prisma.modelQuestionImport.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ModelQuestionImportDeleteManyArgs>(args?: SelectSubset<T, ModelQuestionImportDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ModelQuestionImports.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelQuestionImportUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ModelQuestionImports
+     * const modelQuestionImport = await prisma.modelQuestionImport.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ModelQuestionImportUpdateManyArgs>(args: SelectSubset<T, ModelQuestionImportUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ModelQuestionImports and returns the data updated in the database.
+     * @param {ModelQuestionImportUpdateManyAndReturnArgs} args - Arguments to update many ModelQuestionImports.
+     * @example
+     * // Update many ModelQuestionImports
+     * const modelQuestionImport = await prisma.modelQuestionImport.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ModelQuestionImports and only return the `id`
+     * const modelQuestionImportWithIdOnly = await prisma.modelQuestionImport.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ModelQuestionImportUpdateManyAndReturnArgs>(args: SelectSubset<T, ModelQuestionImportUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelQuestionImportPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ModelQuestionImport.
+     * @param {ModelQuestionImportUpsertArgs} args - Arguments to update or create a ModelQuestionImport.
+     * @example
+     * // Update or create a ModelQuestionImport
+     * const modelQuestionImport = await prisma.modelQuestionImport.upsert({
+     *   create: {
+     *     // ... data to create a ModelQuestionImport
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ModelQuestionImport we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ModelQuestionImportUpsertArgs>(args: SelectSubset<T, ModelQuestionImportUpsertArgs<ExtArgs>>): Prisma__ModelQuestionImportClient<$Result.GetResult<Prisma.$ModelQuestionImportPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ModelQuestionImports.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelQuestionImportCountArgs} args - Arguments to filter ModelQuestionImports to count.
+     * @example
+     * // Count the number of ModelQuestionImports
+     * const count = await prisma.modelQuestionImport.count({
+     *   where: {
+     *     // ... the filter for the ModelQuestionImports we want to count
+     *   }
+     * })
+    **/
+    count<T extends ModelQuestionImportCountArgs>(
+      args?: Subset<T, ModelQuestionImportCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ModelQuestionImportCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ModelQuestionImport.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelQuestionImportAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ModelQuestionImportAggregateArgs>(args: Subset<T, ModelQuestionImportAggregateArgs>): Prisma.PrismaPromise<GetModelQuestionImportAggregateType<T>>
+
+    /**
+     * Group by ModelQuestionImport.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelQuestionImportGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ModelQuestionImportGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ModelQuestionImportGroupByArgs['orderBy'] }
+        : { orderBy?: ModelQuestionImportGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ModelQuestionImportGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetModelQuestionImportGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ModelQuestionImport model
+   */
+  readonly fields: ModelQuestionImportFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ModelQuestionImport.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ModelQuestionImportClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    class<T extends ClassDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClassDefaultArgs<ExtArgs>>): Prisma__ClassClient<$Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    subject<T extends SubjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SubjectDefaultArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    board<T extends ModelQuestionImport$boardArgs<ExtArgs> = {}>(args?: Subset<T, ModelQuestionImport$boardArgs<ExtArgs>>): Prisma__BoardClient<$Result.GetResult<Prisma.$BoardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    academicYear<T extends ModelQuestionImport$academicYearArgs<ExtArgs> = {}>(args?: Subset<T, ModelQuestionImport$academicYearArgs<ExtArgs>>): Prisma__AcademicYearClient<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    file<T extends UploadedFileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UploadedFileDefaultArgs<ExtArgs>>): Prisma__UploadedFileClient<$Result.GetResult<Prisma.$UploadedFilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ModelQuestionImport model
+   */
+  interface ModelQuestionImportFieldRefs {
+    readonly id: FieldRef<"ModelQuestionImport", 'String'>
+    readonly classId: FieldRef<"ModelQuestionImport", 'String'>
+    readonly subjectId: FieldRef<"ModelQuestionImport", 'String'>
+    readonly boardId: FieldRef<"ModelQuestionImport", 'String'>
+    readonly academicYearId: FieldRef<"ModelQuestionImport", 'String'>
+    readonly fileId: FieldRef<"ModelQuestionImport", 'String'>
+    readonly title: FieldRef<"ModelQuestionImport", 'String'>
+    readonly status: FieldRef<"ModelQuestionImport", 'String'>
+    readonly organizationId: FieldRef<"ModelQuestionImport", 'String'>
+    readonly createdBy: FieldRef<"ModelQuestionImport", 'String'>
+    readonly updatedBy: FieldRef<"ModelQuestionImport", 'String'>
+    readonly createdAt: FieldRef<"ModelQuestionImport", 'DateTime'>
+    readonly updatedAt: FieldRef<"ModelQuestionImport", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ModelQuestionImport findUnique
+   */
+  export type ModelQuestionImportFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionImport
+     */
+    select?: ModelQuestionImportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionImport
+     */
+    omit?: ModelQuestionImportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionImportInclude<ExtArgs> | null
+    /**
+     * Filter, which ModelQuestionImport to fetch.
+     */
+    where: ModelQuestionImportWhereUniqueInput
+  }
+
+  /**
+   * ModelQuestionImport findUniqueOrThrow
+   */
+  export type ModelQuestionImportFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionImport
+     */
+    select?: ModelQuestionImportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionImport
+     */
+    omit?: ModelQuestionImportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionImportInclude<ExtArgs> | null
+    /**
+     * Filter, which ModelQuestionImport to fetch.
+     */
+    where: ModelQuestionImportWhereUniqueInput
+  }
+
+  /**
+   * ModelQuestionImport findFirst
+   */
+  export type ModelQuestionImportFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionImport
+     */
+    select?: ModelQuestionImportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionImport
+     */
+    omit?: ModelQuestionImportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionImportInclude<ExtArgs> | null
+    /**
+     * Filter, which ModelQuestionImport to fetch.
+     */
+    where?: ModelQuestionImportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ModelQuestionImports to fetch.
+     */
+    orderBy?: ModelQuestionImportOrderByWithRelationInput | ModelQuestionImportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ModelQuestionImports.
+     */
+    cursor?: ModelQuestionImportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ModelQuestionImports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ModelQuestionImports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ModelQuestionImports.
+     */
+    distinct?: ModelQuestionImportScalarFieldEnum | ModelQuestionImportScalarFieldEnum[]
+  }
+
+  /**
+   * ModelQuestionImport findFirstOrThrow
+   */
+  export type ModelQuestionImportFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionImport
+     */
+    select?: ModelQuestionImportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionImport
+     */
+    omit?: ModelQuestionImportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionImportInclude<ExtArgs> | null
+    /**
+     * Filter, which ModelQuestionImport to fetch.
+     */
+    where?: ModelQuestionImportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ModelQuestionImports to fetch.
+     */
+    orderBy?: ModelQuestionImportOrderByWithRelationInput | ModelQuestionImportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ModelQuestionImports.
+     */
+    cursor?: ModelQuestionImportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ModelQuestionImports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ModelQuestionImports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ModelQuestionImports.
+     */
+    distinct?: ModelQuestionImportScalarFieldEnum | ModelQuestionImportScalarFieldEnum[]
+  }
+
+  /**
+   * ModelQuestionImport findMany
+   */
+  export type ModelQuestionImportFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionImport
+     */
+    select?: ModelQuestionImportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionImport
+     */
+    omit?: ModelQuestionImportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionImportInclude<ExtArgs> | null
+    /**
+     * Filter, which ModelQuestionImports to fetch.
+     */
+    where?: ModelQuestionImportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ModelQuestionImports to fetch.
+     */
+    orderBy?: ModelQuestionImportOrderByWithRelationInput | ModelQuestionImportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ModelQuestionImports.
+     */
+    cursor?: ModelQuestionImportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ModelQuestionImports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ModelQuestionImports.
+     */
+    skip?: number
+    distinct?: ModelQuestionImportScalarFieldEnum | ModelQuestionImportScalarFieldEnum[]
+  }
+
+  /**
+   * ModelQuestionImport create
+   */
+  export type ModelQuestionImportCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionImport
+     */
+    select?: ModelQuestionImportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionImport
+     */
+    omit?: ModelQuestionImportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionImportInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ModelQuestionImport.
+     */
+    data: XOR<ModelQuestionImportCreateInput, ModelQuestionImportUncheckedCreateInput>
+  }
+
+  /**
+   * ModelQuestionImport createMany
+   */
+  export type ModelQuestionImportCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ModelQuestionImports.
+     */
+    data: ModelQuestionImportCreateManyInput | ModelQuestionImportCreateManyInput[]
+  }
+
+  /**
+   * ModelQuestionImport createManyAndReturn
+   */
+  export type ModelQuestionImportCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionImport
+     */
+    select?: ModelQuestionImportSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionImport
+     */
+    omit?: ModelQuestionImportOmit<ExtArgs> | null
+    /**
+     * The data used to create many ModelQuestionImports.
+     */
+    data: ModelQuestionImportCreateManyInput | ModelQuestionImportCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionImportIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ModelQuestionImport update
+   */
+  export type ModelQuestionImportUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionImport
+     */
+    select?: ModelQuestionImportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionImport
+     */
+    omit?: ModelQuestionImportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionImportInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ModelQuestionImport.
+     */
+    data: XOR<ModelQuestionImportUpdateInput, ModelQuestionImportUncheckedUpdateInput>
+    /**
+     * Choose, which ModelQuestionImport to update.
+     */
+    where: ModelQuestionImportWhereUniqueInput
+  }
+
+  /**
+   * ModelQuestionImport updateMany
+   */
+  export type ModelQuestionImportUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ModelQuestionImports.
+     */
+    data: XOR<ModelQuestionImportUpdateManyMutationInput, ModelQuestionImportUncheckedUpdateManyInput>
+    /**
+     * Filter which ModelQuestionImports to update
+     */
+    where?: ModelQuestionImportWhereInput
+    /**
+     * Limit how many ModelQuestionImports to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ModelQuestionImport updateManyAndReturn
+   */
+  export type ModelQuestionImportUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionImport
+     */
+    select?: ModelQuestionImportSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionImport
+     */
+    omit?: ModelQuestionImportOmit<ExtArgs> | null
+    /**
+     * The data used to update ModelQuestionImports.
+     */
+    data: XOR<ModelQuestionImportUpdateManyMutationInput, ModelQuestionImportUncheckedUpdateManyInput>
+    /**
+     * Filter which ModelQuestionImports to update
+     */
+    where?: ModelQuestionImportWhereInput
+    /**
+     * Limit how many ModelQuestionImports to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionImportIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ModelQuestionImport upsert
+   */
+  export type ModelQuestionImportUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionImport
+     */
+    select?: ModelQuestionImportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionImport
+     */
+    omit?: ModelQuestionImportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionImportInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ModelQuestionImport to update in case it exists.
+     */
+    where: ModelQuestionImportWhereUniqueInput
+    /**
+     * In case the ModelQuestionImport found by the `where` argument doesn't exist, create a new ModelQuestionImport with this data.
+     */
+    create: XOR<ModelQuestionImportCreateInput, ModelQuestionImportUncheckedCreateInput>
+    /**
+     * In case the ModelQuestionImport was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ModelQuestionImportUpdateInput, ModelQuestionImportUncheckedUpdateInput>
+  }
+
+  /**
+   * ModelQuestionImport delete
+   */
+  export type ModelQuestionImportDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionImport
+     */
+    select?: ModelQuestionImportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionImport
+     */
+    omit?: ModelQuestionImportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionImportInclude<ExtArgs> | null
+    /**
+     * Filter which ModelQuestionImport to delete.
+     */
+    where: ModelQuestionImportWhereUniqueInput
+  }
+
+  /**
+   * ModelQuestionImport deleteMany
+   */
+  export type ModelQuestionImportDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ModelQuestionImports to delete
+     */
+    where?: ModelQuestionImportWhereInput
+    /**
+     * Limit how many ModelQuestionImports to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ModelQuestionImport.board
+   */
+  export type ModelQuestionImport$boardArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Board
+     */
+    select?: BoardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Board
+     */
+    omit?: BoardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoardInclude<ExtArgs> | null
+    where?: BoardWhereInput
+  }
+
+  /**
+   * ModelQuestionImport.academicYear
+   */
+  export type ModelQuestionImport$academicYearArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicYearInclude<ExtArgs> | null
+    where?: AcademicYearWhereInput
+  }
+
+  /**
+   * ModelQuestionImport without action
+   */
+  export type ModelQuestionImportDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionImport
+     */
+    select?: ModelQuestionImportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionImport
+     */
+    omit?: ModelQuestionImportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionImportInclude<ExtArgs> | null
   }
 
 
@@ -67065,11 +68746,7 @@ export namespace Prisma {
     id: 'id',
     vocabularyId: 'vocabularyId',
     word: 'word',
-    partOfSpeech: 'partOfSpeech',
-    pronunciation: 'pronunciation',
     meaning: 'meaning',
-    synonyms: 'synonyms',
-    antonyms: 'antonyms',
     imageUrl: 'imageUrl',
     imagePath: 'imagePath',
     sortOrder: 'sortOrder',
@@ -67095,6 +68772,12 @@ export namespace Prisma {
     sessionTokenEncrypted: 'sessionTokenEncrypted',
     localRoot: 'localRoot',
     forcePathStyle: 'forcePathStyle',
+    publicBaseUrl: 'publicBaseUrl',
+    privateBucket: 'privateBucket',
+    maxImageSizeMb: 'maxImageSizeMb',
+    maxVideoSizeMb: 'maxVideoSizeMb',
+    maxModelSizeMb: 'maxModelSizeMb',
+    pathPrefix: 'pathPrefix',
     isActive: 'isActive',
     everActivated: 'everActivated',
     lastTestStatus: 'lastTestStatus',
@@ -67124,7 +68807,6 @@ export namespace Prisma {
     mimeType: 'mimeType',
     extension: 'extension',
     sizeBytes: 'sizeBytes',
-    sortOrder: 'sortOrder',
     width: 'width',
     height: 'height',
     checksumSha256: 'checksumSha256',
@@ -67812,6 +69494,25 @@ export namespace Prisma {
   export type AcademicYearScalarFieldEnum = (typeof AcademicYearScalarFieldEnum)[keyof typeof AcademicYearScalarFieldEnum]
 
 
+  export const ModelQuestionImportScalarFieldEnum: {
+    id: 'id',
+    classId: 'classId',
+    subjectId: 'subjectId',
+    boardId: 'boardId',
+    academicYearId: 'academicYearId',
+    fileId: 'fileId',
+    title: 'title',
+    status: 'status',
+    organizationId: 'organizationId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ModelQuestionImportScalarFieldEnum = (typeof ModelQuestionImportScalarFieldEnum)[keyof typeof ModelQuestionImportScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -68316,6 +70017,7 @@ export namespace Prisma {
     contents?: ContentListRelationFilter
     unseenCompositions?: UnseenCompositionListRelationFilter
     students?: UserListRelationFilter
+    modelQuestionImports?: ModelQuestionImportListRelationFilter
   }
 
   export type ClassOrderByWithRelationInput = {
@@ -68341,6 +70043,7 @@ export namespace Prisma {
     contents?: ContentOrderByRelationAggregateInput
     unseenCompositions?: UnseenCompositionOrderByRelationAggregateInput
     students?: UserOrderByRelationAggregateInput
+    modelQuestionImports?: ModelQuestionImportOrderByRelationAggregateInput
   }
 
   export type ClassWhereUniqueInput = Prisma.AtLeast<{
@@ -68369,6 +70072,7 @@ export namespace Prisma {
     contents?: ContentListRelationFilter
     unseenCompositions?: UnseenCompositionListRelationFilter
     students?: UserListRelationFilter
+    modelQuestionImports?: ModelQuestionImportListRelationFilter
   }, "id" | "slug">
 
   export type ClassOrderByWithAggregationInput = {
@@ -68445,6 +70149,7 @@ export namespace Prisma {
     units?: UnitListRelationFilter
     contents?: ContentListRelationFilter
     unseenCompositions?: UnseenCompositionListRelationFilter
+    modelQuestionImports?: ModelQuestionImportListRelationFilter
   }
 
   export type SubjectOrderByWithRelationInput = {
@@ -68470,6 +70175,7 @@ export namespace Prisma {
     units?: UnitOrderByRelationAggregateInput
     contents?: ContentOrderByRelationAggregateInput
     unseenCompositions?: UnseenCompositionOrderByRelationAggregateInput
+    modelQuestionImports?: ModelQuestionImportOrderByRelationAggregateInput
   }
 
   export type SubjectWhereUniqueInput = Prisma.AtLeast<{
@@ -68498,6 +70204,7 @@ export namespace Prisma {
     units?: UnitListRelationFilter
     contents?: ContentListRelationFilter
     unseenCompositions?: UnseenCompositionListRelationFilter
+    modelQuestionImports?: ModelQuestionImportListRelationFilter
   }, "id" | "slug">
 
   export type SubjectOrderByWithAggregationInput = {
@@ -69697,11 +71404,7 @@ export namespace Prisma {
     id?: StringFilter<"VocabularyEntry"> | string
     vocabularyId?: StringFilter<"VocabularyEntry"> | string
     word?: StringFilter<"VocabularyEntry"> | string
-    partOfSpeech?: StringFilter<"VocabularyEntry"> | string
-    pronunciation?: StringFilter<"VocabularyEntry"> | string
     meaning?: StringFilter<"VocabularyEntry"> | string
-    synonyms?: StringFilter<"VocabularyEntry"> | string
-    antonyms?: StringFilter<"VocabularyEntry"> | string
     imageUrl?: StringFilter<"VocabularyEntry"> | string
     imagePath?: StringFilter<"VocabularyEntry"> | string
     sortOrder?: IntFilter<"VocabularyEntry"> | number
@@ -69718,11 +71421,7 @@ export namespace Prisma {
     id?: SortOrder
     vocabularyId?: SortOrder
     word?: SortOrder
-    partOfSpeech?: SortOrder
-    pronunciation?: SortOrder
     meaning?: SortOrder
-    synonyms?: SortOrder
-    antonyms?: SortOrder
     imageUrl?: SortOrder
     imagePath?: SortOrder
     sortOrder?: SortOrder
@@ -69742,11 +71441,7 @@ export namespace Prisma {
     NOT?: VocabularyEntryWhereInput | VocabularyEntryWhereInput[]
     vocabularyId?: StringFilter<"VocabularyEntry"> | string
     word?: StringFilter<"VocabularyEntry"> | string
-    partOfSpeech?: StringFilter<"VocabularyEntry"> | string
-    pronunciation?: StringFilter<"VocabularyEntry"> | string
     meaning?: StringFilter<"VocabularyEntry"> | string
-    synonyms?: StringFilter<"VocabularyEntry"> | string
-    antonyms?: StringFilter<"VocabularyEntry"> | string
     imageUrl?: StringFilter<"VocabularyEntry"> | string
     imagePath?: StringFilter<"VocabularyEntry"> | string
     sortOrder?: IntFilter<"VocabularyEntry"> | number
@@ -69763,11 +71458,7 @@ export namespace Prisma {
     id?: SortOrder
     vocabularyId?: SortOrder
     word?: SortOrder
-    partOfSpeech?: SortOrder
-    pronunciation?: SortOrder
     meaning?: SortOrder
-    synonyms?: SortOrder
-    antonyms?: SortOrder
     imageUrl?: SortOrder
     imagePath?: SortOrder
     sortOrder?: SortOrder
@@ -69790,11 +71481,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     vocabularyId?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     word?: StringWithAggregatesFilter<"VocabularyEntry"> | string
-    partOfSpeech?: StringWithAggregatesFilter<"VocabularyEntry"> | string
-    pronunciation?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     meaning?: StringWithAggregatesFilter<"VocabularyEntry"> | string
-    synonyms?: StringWithAggregatesFilter<"VocabularyEntry"> | string
-    antonyms?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     imageUrl?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     imagePath?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     sortOrder?: IntWithAggregatesFilter<"VocabularyEntry"> | number
@@ -69820,6 +71507,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFilter<"StorageConfiguration"> | string
     localRoot?: StringFilter<"StorageConfiguration"> | string
     forcePathStyle?: BoolFilter<"StorageConfiguration"> | boolean
+    publicBaseUrl?: StringFilter<"StorageConfiguration"> | string
+    privateBucket?: StringFilter<"StorageConfiguration"> | string
+    maxImageSizeMb?: IntFilter<"StorageConfiguration"> | number
+    maxVideoSizeMb?: IntFilter<"StorageConfiguration"> | number
+    maxModelSizeMb?: IntFilter<"StorageConfiguration"> | number
+    pathPrefix?: StringFilter<"StorageConfiguration"> | string
     isActive?: BoolFilter<"StorageConfiguration"> | boolean
     everActivated?: BoolFilter<"StorageConfiguration"> | boolean
     lastTestStatus?: StringFilter<"StorageConfiguration"> | string
@@ -69845,6 +71538,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: SortOrder
     localRoot?: SortOrder
     forcePathStyle?: SortOrder
+    publicBaseUrl?: SortOrder
+    privateBucket?: SortOrder
+    maxImageSizeMb?: SortOrder
+    maxVideoSizeMb?: SortOrder
+    maxModelSizeMb?: SortOrder
+    pathPrefix?: SortOrder
     isActive?: SortOrder
     everActivated?: SortOrder
     lastTestStatus?: SortOrder
@@ -69874,6 +71573,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFilter<"StorageConfiguration"> | string
     localRoot?: StringFilter<"StorageConfiguration"> | string
     forcePathStyle?: BoolFilter<"StorageConfiguration"> | boolean
+    publicBaseUrl?: StringFilter<"StorageConfiguration"> | string
+    privateBucket?: StringFilter<"StorageConfiguration"> | string
+    maxImageSizeMb?: IntFilter<"StorageConfiguration"> | number
+    maxVideoSizeMb?: IntFilter<"StorageConfiguration"> | number
+    maxModelSizeMb?: IntFilter<"StorageConfiguration"> | number
+    pathPrefix?: StringFilter<"StorageConfiguration"> | string
     isActive?: BoolFilter<"StorageConfiguration"> | boolean
     everActivated?: BoolFilter<"StorageConfiguration"> | boolean
     lastTestStatus?: StringFilter<"StorageConfiguration"> | string
@@ -69899,6 +71604,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: SortOrder
     localRoot?: SortOrder
     forcePathStyle?: SortOrder
+    publicBaseUrl?: SortOrder
+    privateBucket?: SortOrder
+    maxImageSizeMb?: SortOrder
+    maxVideoSizeMb?: SortOrder
+    maxModelSizeMb?: SortOrder
+    pathPrefix?: SortOrder
     isActive?: SortOrder
     everActivated?: SortOrder
     lastTestStatus?: SortOrder
@@ -69910,8 +71621,10 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: StorageConfigurationCountOrderByAggregateInput
+    _avg?: StorageConfigurationAvgOrderByAggregateInput
     _max?: StorageConfigurationMaxOrderByAggregateInput
     _min?: StorageConfigurationMinOrderByAggregateInput
+    _sum?: StorageConfigurationSumOrderByAggregateInput
   }
 
   export type StorageConfigurationScalarWhereWithAggregatesInput = {
@@ -69929,6 +71642,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringWithAggregatesFilter<"StorageConfiguration"> | string
     localRoot?: StringWithAggregatesFilter<"StorageConfiguration"> | string
     forcePathStyle?: BoolWithAggregatesFilter<"StorageConfiguration"> | boolean
+    publicBaseUrl?: StringWithAggregatesFilter<"StorageConfiguration"> | string
+    privateBucket?: StringWithAggregatesFilter<"StorageConfiguration"> | string
+    maxImageSizeMb?: IntWithAggregatesFilter<"StorageConfiguration"> | number
+    maxVideoSizeMb?: IntWithAggregatesFilter<"StorageConfiguration"> | number
+    maxModelSizeMb?: IntWithAggregatesFilter<"StorageConfiguration"> | number
+    pathPrefix?: StringWithAggregatesFilter<"StorageConfiguration"> | string
     isActive?: BoolWithAggregatesFilter<"StorageConfiguration"> | boolean
     everActivated?: BoolWithAggregatesFilter<"StorageConfiguration"> | boolean
     lastTestStatus?: StringWithAggregatesFilter<"StorageConfiguration"> | string
@@ -69958,7 +71677,6 @@ export namespace Prisma {
     mimeType?: StringFilter<"UploadedFile"> | string
     extension?: StringFilter<"UploadedFile"> | string
     sizeBytes?: IntFilter<"UploadedFile"> | number
-    sortOrder?: IntFilter<"UploadedFile"> | number
     width?: IntFilter<"UploadedFile"> | number
     height?: IntFilter<"UploadedFile"> | number
     checksumSha256?: StringFilter<"UploadedFile"> | string
@@ -69974,6 +71692,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"UploadedFile"> | Date | string
     vocabularyEntry?: XOR<VocabularyEntryNullableScalarRelationFilter, VocabularyEntryWhereInput> | null
     storageConfiguration?: XOR<StorageConfigurationNullableScalarRelationFilter, StorageConfigurationWhereInput> | null
+    modelQuestionImport?: XOR<ModelQuestionImportNullableScalarRelationFilter, ModelQuestionImportWhereInput> | null
   }
 
   export type UploadedFileOrderByWithRelationInput = {
@@ -69990,7 +71709,6 @@ export namespace Prisma {
     mimeType?: SortOrder
     extension?: SortOrder
     sizeBytes?: SortOrder
-    sortOrder?: SortOrder
     width?: SortOrder
     height?: SortOrder
     checksumSha256?: SortOrder
@@ -70006,6 +71724,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     vocabularyEntry?: VocabularyEntryOrderByWithRelationInput
     storageConfiguration?: StorageConfigurationOrderByWithRelationInput
+    modelQuestionImport?: ModelQuestionImportOrderByWithRelationInput
   }
 
   export type UploadedFileWhereUniqueInput = Prisma.AtLeast<{
@@ -70025,7 +71744,6 @@ export namespace Prisma {
     mimeType?: StringFilter<"UploadedFile"> | string
     extension?: StringFilter<"UploadedFile"> | string
     sizeBytes?: IntFilter<"UploadedFile"> | number
-    sortOrder?: IntFilter<"UploadedFile"> | number
     width?: IntFilter<"UploadedFile"> | number
     height?: IntFilter<"UploadedFile"> | number
     checksumSha256?: StringFilter<"UploadedFile"> | string
@@ -70041,6 +71759,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"UploadedFile"> | Date | string
     vocabularyEntry?: XOR<VocabularyEntryNullableScalarRelationFilter, VocabularyEntryWhereInput> | null
     storageConfiguration?: XOR<StorageConfigurationNullableScalarRelationFilter, StorageConfigurationWhereInput> | null
+    modelQuestionImport?: XOR<ModelQuestionImportNullableScalarRelationFilter, ModelQuestionImportWhereInput> | null
   }, "id">
 
   export type UploadedFileOrderByWithAggregationInput = {
@@ -70057,7 +71776,6 @@ export namespace Prisma {
     mimeType?: SortOrder
     extension?: SortOrder
     sizeBytes?: SortOrder
-    sortOrder?: SortOrder
     width?: SortOrder
     height?: SortOrder
     checksumSha256?: SortOrder
@@ -70095,7 +71813,6 @@ export namespace Prisma {
     mimeType?: StringWithAggregatesFilter<"UploadedFile"> | string
     extension?: StringWithAggregatesFilter<"UploadedFile"> | string
     sizeBytes?: IntWithAggregatesFilter<"UploadedFile"> | number
-    sortOrder?: IntWithAggregatesFilter<"UploadedFile"> | number
     width?: IntWithAggregatesFilter<"UploadedFile"> | number
     height?: IntWithAggregatesFilter<"UploadedFile"> | number
     checksumSha256?: StringWithAggregatesFilter<"UploadedFile"> | string
@@ -73328,6 +75045,7 @@ export namespace Prisma {
     updatedBy?: StringFilter<"Board"> | string
     createdAt?: DateTimeFilter<"Board"> | Date | string
     updatedAt?: DateTimeFilter<"Board"> | Date | string
+    modelQuestionImports?: ModelQuestionImportListRelationFilter
   }
 
   export type BoardOrderByWithRelationInput = {
@@ -73339,6 +75057,7 @@ export namespace Prisma {
     updatedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    modelQuestionImports?: ModelQuestionImportOrderByRelationAggregateInput
   }
 
   export type BoardWhereUniqueInput = Prisma.AtLeast<{
@@ -73354,6 +75073,7 @@ export namespace Prisma {
     updatedBy?: StringFilter<"Board"> | string
     createdAt?: DateTimeFilter<"Board"> | Date | string
     updatedAt?: DateTimeFilter<"Board"> | Date | string
+    modelQuestionImports?: ModelQuestionImportListRelationFilter
   }, "id" | "organizationId_name">
 
   export type BoardOrderByWithAggregationInput = {
@@ -73396,6 +75116,7 @@ export namespace Prisma {
     updatedBy?: StringFilter<"AcademicYear"> | string
     createdAt?: DateTimeFilter<"AcademicYear"> | Date | string
     updatedAt?: DateTimeFilter<"AcademicYear"> | Date | string
+    modelQuestionImports?: ModelQuestionImportListRelationFilter
   }
 
   export type AcademicYearOrderByWithRelationInput = {
@@ -73407,6 +75128,7 @@ export namespace Prisma {
     updatedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    modelQuestionImports?: ModelQuestionImportOrderByRelationAggregateInput
   }
 
   export type AcademicYearWhereUniqueInput = Prisma.AtLeast<{
@@ -73422,6 +75144,7 @@ export namespace Prisma {
     updatedBy?: StringFilter<"AcademicYear"> | string
     createdAt?: DateTimeFilter<"AcademicYear"> | Date | string
     updatedAt?: DateTimeFilter<"AcademicYear"> | Date | string
+    modelQuestionImports?: ModelQuestionImportListRelationFilter
   }, "id" | "organizationId_year">
 
   export type AcademicYearOrderByWithAggregationInput = {
@@ -73452,6 +75175,113 @@ export namespace Prisma {
     updatedBy?: StringWithAggregatesFilter<"AcademicYear"> | string
     createdAt?: DateTimeWithAggregatesFilter<"AcademicYear"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"AcademicYear"> | Date | string
+  }
+
+  export type ModelQuestionImportWhereInput = {
+    AND?: ModelQuestionImportWhereInput | ModelQuestionImportWhereInput[]
+    OR?: ModelQuestionImportWhereInput[]
+    NOT?: ModelQuestionImportWhereInput | ModelQuestionImportWhereInput[]
+    id?: StringFilter<"ModelQuestionImport"> | string
+    classId?: StringFilter<"ModelQuestionImport"> | string
+    subjectId?: StringFilter<"ModelQuestionImport"> | string
+    boardId?: StringNullableFilter<"ModelQuestionImport"> | string | null
+    academicYearId?: StringNullableFilter<"ModelQuestionImport"> | string | null
+    fileId?: StringFilter<"ModelQuestionImport"> | string
+    title?: StringFilter<"ModelQuestionImport"> | string
+    status?: StringFilter<"ModelQuestionImport"> | string
+    organizationId?: StringFilter<"ModelQuestionImport"> | string
+    createdBy?: StringFilter<"ModelQuestionImport"> | string
+    updatedBy?: StringFilter<"ModelQuestionImport"> | string
+    createdAt?: DateTimeFilter<"ModelQuestionImport"> | Date | string
+    updatedAt?: DateTimeFilter<"ModelQuestionImport"> | Date | string
+    class?: XOR<ClassScalarRelationFilter, ClassWhereInput>
+    subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
+    board?: XOR<BoardNullableScalarRelationFilter, BoardWhereInput> | null
+    academicYear?: XOR<AcademicYearNullableScalarRelationFilter, AcademicYearWhereInput> | null
+    file?: XOR<UploadedFileScalarRelationFilter, UploadedFileWhereInput>
+  }
+
+  export type ModelQuestionImportOrderByWithRelationInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    boardId?: SortOrderInput | SortOrder
+    academicYearId?: SortOrderInput | SortOrder
+    fileId?: SortOrder
+    title?: SortOrder
+    status?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    class?: ClassOrderByWithRelationInput
+    subject?: SubjectOrderByWithRelationInput
+    board?: BoardOrderByWithRelationInput
+    academicYear?: AcademicYearOrderByWithRelationInput
+    file?: UploadedFileOrderByWithRelationInput
+  }
+
+  export type ModelQuestionImportWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    fileId?: string
+    AND?: ModelQuestionImportWhereInput | ModelQuestionImportWhereInput[]
+    OR?: ModelQuestionImportWhereInput[]
+    NOT?: ModelQuestionImportWhereInput | ModelQuestionImportWhereInput[]
+    classId?: StringFilter<"ModelQuestionImport"> | string
+    subjectId?: StringFilter<"ModelQuestionImport"> | string
+    boardId?: StringNullableFilter<"ModelQuestionImport"> | string | null
+    academicYearId?: StringNullableFilter<"ModelQuestionImport"> | string | null
+    title?: StringFilter<"ModelQuestionImport"> | string
+    status?: StringFilter<"ModelQuestionImport"> | string
+    organizationId?: StringFilter<"ModelQuestionImport"> | string
+    createdBy?: StringFilter<"ModelQuestionImport"> | string
+    updatedBy?: StringFilter<"ModelQuestionImport"> | string
+    createdAt?: DateTimeFilter<"ModelQuestionImport"> | Date | string
+    updatedAt?: DateTimeFilter<"ModelQuestionImport"> | Date | string
+    class?: XOR<ClassScalarRelationFilter, ClassWhereInput>
+    subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
+    board?: XOR<BoardNullableScalarRelationFilter, BoardWhereInput> | null
+    academicYear?: XOR<AcademicYearNullableScalarRelationFilter, AcademicYearWhereInput> | null
+    file?: XOR<UploadedFileScalarRelationFilter, UploadedFileWhereInput>
+  }, "id" | "fileId">
+
+  export type ModelQuestionImportOrderByWithAggregationInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    boardId?: SortOrderInput | SortOrder
+    academicYearId?: SortOrderInput | SortOrder
+    fileId?: SortOrder
+    title?: SortOrder
+    status?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ModelQuestionImportCountOrderByAggregateInput
+    _max?: ModelQuestionImportMaxOrderByAggregateInput
+    _min?: ModelQuestionImportMinOrderByAggregateInput
+  }
+
+  export type ModelQuestionImportScalarWhereWithAggregatesInput = {
+    AND?: ModelQuestionImportScalarWhereWithAggregatesInput | ModelQuestionImportScalarWhereWithAggregatesInput[]
+    OR?: ModelQuestionImportScalarWhereWithAggregatesInput[]
+    NOT?: ModelQuestionImportScalarWhereWithAggregatesInput | ModelQuestionImportScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ModelQuestionImport"> | string
+    classId?: StringWithAggregatesFilter<"ModelQuestionImport"> | string
+    subjectId?: StringWithAggregatesFilter<"ModelQuestionImport"> | string
+    boardId?: StringNullableWithAggregatesFilter<"ModelQuestionImport"> | string | null
+    academicYearId?: StringNullableWithAggregatesFilter<"ModelQuestionImport"> | string | null
+    fileId?: StringWithAggregatesFilter<"ModelQuestionImport"> | string
+    title?: StringWithAggregatesFilter<"ModelQuestionImport"> | string
+    status?: StringWithAggregatesFilter<"ModelQuestionImport"> | string
+    organizationId?: StringWithAggregatesFilter<"ModelQuestionImport"> | string
+    createdBy?: StringWithAggregatesFilter<"ModelQuestionImport"> | string
+    updatedBy?: StringWithAggregatesFilter<"ModelQuestionImport"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ModelQuestionImport"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ModelQuestionImport"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -73944,6 +75774,7 @@ export namespace Prisma {
     contents?: ContentCreateNestedManyWithoutClassInput
     unseenCompositions?: UnseenCompositionCreateNestedManyWithoutClassInput
     students?: UserCreateNestedManyWithoutClassInput
+    modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateInput = {
@@ -73969,6 +75800,7 @@ export namespace Prisma {
     contents?: ContentUncheckedCreateNestedManyWithoutClassInput
     unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutClassInput
     students?: UserUncheckedCreateNestedManyWithoutClassInput
+    modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassUpdateInput = {
@@ -73994,6 +75826,7 @@ export namespace Prisma {
     contents?: ContentUpdateManyWithoutClassNestedInput
     unseenCompositions?: UnseenCompositionUpdateManyWithoutClassNestedInput
     students?: UserUpdateManyWithoutClassNestedInput
+    modelQuestionImports?: ModelQuestionImportUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateInput = {
@@ -74019,6 +75852,7 @@ export namespace Prisma {
     contents?: ContentUncheckedUpdateManyWithoutClassNestedInput
     unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutClassNestedInput
     students?: UserUncheckedUpdateManyWithoutClassNestedInput
+    modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type ClassCreateManyInput = {
@@ -74103,6 +75937,7 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutSubjectInput
     contents?: ContentCreateNestedManyWithoutSubjectInput
     unseenCompositions?: UnseenCompositionCreateNestedManyWithoutSubjectInput
+    modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateInput = {
@@ -74127,6 +75962,7 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutSubjectInput
     contents?: ContentUncheckedCreateNestedManyWithoutSubjectInput
     unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutSubjectInput
+    modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUpdateInput = {
@@ -74151,6 +75987,7 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutSubjectNestedInput
     contents?: ContentUpdateManyWithoutSubjectNestedInput
     unseenCompositions?: UnseenCompositionUpdateManyWithoutSubjectNestedInput
+    modelQuestionImports?: ModelQuestionImportUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateInput = {
@@ -74175,6 +76012,7 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutSubjectNestedInput
     contents?: ContentUncheckedUpdateManyWithoutSubjectNestedInput
     unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutSubjectNestedInput
+    modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectCreateManyInput = {
@@ -75569,11 +77407,7 @@ export namespace Prisma {
   export type VocabularyEntryCreateInput = {
     id?: string
     word?: string
-    partOfSpeech?: string
-    pronunciation?: string
     meaning?: string
-    synonyms?: string
-    antonyms?: string
     imageUrl?: string
     imagePath?: string
     sortOrder?: number
@@ -75590,11 +77424,7 @@ export namespace Prisma {
     id?: string
     vocabularyId: string
     word?: string
-    partOfSpeech?: string
-    pronunciation?: string
     meaning?: string
-    synonyms?: string
-    antonyms?: string
     imageUrl?: string
     imagePath?: string
     sortOrder?: number
@@ -75609,11 +77439,7 @@ export namespace Prisma {
   export type VocabularyEntryUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
-    partOfSpeech?: StringFieldUpdateOperationsInput | string
-    pronunciation?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
-    synonyms?: StringFieldUpdateOperationsInput | string
-    antonyms?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -75630,11 +77456,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     vocabularyId?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
-    partOfSpeech?: StringFieldUpdateOperationsInput | string
-    pronunciation?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
-    synonyms?: StringFieldUpdateOperationsInput | string
-    antonyms?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -75650,11 +77472,7 @@ export namespace Prisma {
     id?: string
     vocabularyId: string
     word?: string
-    partOfSpeech?: string
-    pronunciation?: string
     meaning?: string
-    synonyms?: string
-    antonyms?: string
     imageUrl?: string
     imagePath?: string
     sortOrder?: number
@@ -75668,11 +77486,7 @@ export namespace Prisma {
   export type VocabularyEntryUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
-    partOfSpeech?: StringFieldUpdateOperationsInput | string
-    pronunciation?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
-    synonyms?: StringFieldUpdateOperationsInput | string
-    antonyms?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -75687,11 +77501,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     vocabularyId?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
-    partOfSpeech?: StringFieldUpdateOperationsInput | string
-    pronunciation?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
-    synonyms?: StringFieldUpdateOperationsInput | string
-    antonyms?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -75714,6 +77524,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: string
     localRoot?: string
     forcePathStyle?: boolean
+    publicBaseUrl?: string
+    privateBucket?: string
+    maxImageSizeMb?: number
+    maxVideoSizeMb?: number
+    maxModelSizeMb?: number
+    pathPrefix?: string
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: string
@@ -75739,6 +77555,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: string
     localRoot?: string
     forcePathStyle?: boolean
+    publicBaseUrl?: string
+    privateBucket?: string
+    maxImageSizeMb?: number
+    maxVideoSizeMb?: number
+    maxModelSizeMb?: number
+    pathPrefix?: string
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: string
@@ -75764,6 +77586,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
     localRoot?: StringFieldUpdateOperationsInput | string
     forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
+    publicBaseUrl?: StringFieldUpdateOperationsInput | string
+    privateBucket?: StringFieldUpdateOperationsInput | string
+    maxImageSizeMb?: IntFieldUpdateOperationsInput | number
+    maxVideoSizeMb?: IntFieldUpdateOperationsInput | number
+    maxModelSizeMb?: IntFieldUpdateOperationsInput | number
+    pathPrefix?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     everActivated?: BoolFieldUpdateOperationsInput | boolean
     lastTestStatus?: StringFieldUpdateOperationsInput | string
@@ -75789,6 +77617,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
     localRoot?: StringFieldUpdateOperationsInput | string
     forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
+    publicBaseUrl?: StringFieldUpdateOperationsInput | string
+    privateBucket?: StringFieldUpdateOperationsInput | string
+    maxImageSizeMb?: IntFieldUpdateOperationsInput | number
+    maxVideoSizeMb?: IntFieldUpdateOperationsInput | number
+    maxModelSizeMb?: IntFieldUpdateOperationsInput | number
+    pathPrefix?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     everActivated?: BoolFieldUpdateOperationsInput | boolean
     lastTestStatus?: StringFieldUpdateOperationsInput | string
@@ -75814,6 +77648,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: string
     localRoot?: string
     forcePathStyle?: boolean
+    publicBaseUrl?: string
+    privateBucket?: string
+    maxImageSizeMb?: number
+    maxVideoSizeMb?: number
+    maxModelSizeMb?: number
+    pathPrefix?: string
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: string
@@ -75838,6 +77678,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
     localRoot?: StringFieldUpdateOperationsInput | string
     forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
+    publicBaseUrl?: StringFieldUpdateOperationsInput | string
+    privateBucket?: StringFieldUpdateOperationsInput | string
+    maxImageSizeMb?: IntFieldUpdateOperationsInput | number
+    maxVideoSizeMb?: IntFieldUpdateOperationsInput | number
+    maxModelSizeMb?: IntFieldUpdateOperationsInput | number
+    pathPrefix?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     everActivated?: BoolFieldUpdateOperationsInput | boolean
     lastTestStatus?: StringFieldUpdateOperationsInput | string
@@ -75862,6 +77708,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
     localRoot?: StringFieldUpdateOperationsInput | string
     forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
+    publicBaseUrl?: StringFieldUpdateOperationsInput | string
+    privateBucket?: StringFieldUpdateOperationsInput | string
+    maxImageSizeMb?: IntFieldUpdateOperationsInput | number
+    maxVideoSizeMb?: IntFieldUpdateOperationsInput | number
+    maxModelSizeMb?: IntFieldUpdateOperationsInput | number
+    pathPrefix?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     everActivated?: BoolFieldUpdateOperationsInput | boolean
     lastTestStatus?: StringFieldUpdateOperationsInput | string
@@ -75886,7 +77738,6 @@ export namespace Prisma {
     mimeType?: string
     extension?: string
     sizeBytes?: number
-    sortOrder?: number
     width?: number
     height?: number
     checksumSha256?: string
@@ -75902,6 +77753,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     vocabularyEntry?: VocabularyEntryCreateNestedOneWithoutUploadedFilesInput
     storageConfiguration?: StorageConfigurationCreateNestedOneWithoutUploadedFilesInput
+    modelQuestionImport?: ModelQuestionImportCreateNestedOneWithoutFileInput
   }
 
   export type UploadedFileUncheckedCreateInput = {
@@ -75918,7 +77770,6 @@ export namespace Prisma {
     mimeType?: string
     extension?: string
     sizeBytes?: number
-    sortOrder?: number
     width?: number
     height?: number
     checksumSha256?: string
@@ -75932,6 +77783,7 @@ export namespace Prisma {
     updatedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    modelQuestionImport?: ModelQuestionImportUncheckedCreateNestedOneWithoutFileInput
   }
 
   export type UploadedFileUpdateInput = {
@@ -75946,7 +77798,6 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     extension?: StringFieldUpdateOperationsInput | string
     sizeBytes?: IntFieldUpdateOperationsInput | number
-    sortOrder?: IntFieldUpdateOperationsInput | number
     width?: IntFieldUpdateOperationsInput | number
     height?: IntFieldUpdateOperationsInput | number
     checksumSha256?: StringFieldUpdateOperationsInput | string
@@ -75962,6 +77813,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vocabularyEntry?: VocabularyEntryUpdateOneWithoutUploadedFilesNestedInput
     storageConfiguration?: StorageConfigurationUpdateOneWithoutUploadedFilesNestedInput
+    modelQuestionImport?: ModelQuestionImportUpdateOneWithoutFileNestedInput
   }
 
   export type UploadedFileUncheckedUpdateInput = {
@@ -75978,7 +77830,6 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     extension?: StringFieldUpdateOperationsInput | string
     sizeBytes?: IntFieldUpdateOperationsInput | number
-    sortOrder?: IntFieldUpdateOperationsInput | number
     width?: IntFieldUpdateOperationsInput | number
     height?: IntFieldUpdateOperationsInput | number
     checksumSha256?: StringFieldUpdateOperationsInput | string
@@ -75992,6 +77843,7 @@ export namespace Prisma {
     updatedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    modelQuestionImport?: ModelQuestionImportUncheckedUpdateOneWithoutFileNestedInput
   }
 
   export type UploadedFileCreateManyInput = {
@@ -76008,7 +77860,6 @@ export namespace Prisma {
     mimeType?: string
     extension?: string
     sizeBytes?: number
-    sortOrder?: number
     width?: number
     height?: number
     checksumSha256?: string
@@ -76036,7 +77887,6 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     extension?: StringFieldUpdateOperationsInput | string
     sizeBytes?: IntFieldUpdateOperationsInput | number
-    sortOrder?: IntFieldUpdateOperationsInput | number
     width?: IntFieldUpdateOperationsInput | number
     height?: IntFieldUpdateOperationsInput | number
     checksumSha256?: StringFieldUpdateOperationsInput | string
@@ -76066,7 +77916,6 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     extension?: StringFieldUpdateOperationsInput | string
     sizeBytes?: IntFieldUpdateOperationsInput | number
-    sortOrder?: IntFieldUpdateOperationsInput | number
     width?: IntFieldUpdateOperationsInput | number
     height?: IntFieldUpdateOperationsInput | number
     checksumSha256?: StringFieldUpdateOperationsInput | string
@@ -79971,6 +81820,7 @@ export namespace Prisma {
     updatedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutBoardInput
   }
 
   export type BoardUncheckedCreateInput = {
@@ -79982,6 +81832,7 @@ export namespace Prisma {
     updatedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutBoardInput
   }
 
   export type BoardUpdateInput = {
@@ -79993,6 +81844,7 @@ export namespace Prisma {
     updatedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    modelQuestionImports?: ModelQuestionImportUpdateManyWithoutBoardNestedInput
   }
 
   export type BoardUncheckedUpdateInput = {
@@ -80004,6 +81856,7 @@ export namespace Prisma {
     updatedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutBoardNestedInput
   }
 
   export type BoardCreateManyInput = {
@@ -80048,6 +81901,7 @@ export namespace Prisma {
     updatedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutAcademicYearInput
   }
 
   export type AcademicYearUncheckedCreateInput = {
@@ -80059,6 +81913,7 @@ export namespace Prisma {
     updatedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutAcademicYearInput
   }
 
   export type AcademicYearUpdateInput = {
@@ -80070,6 +81925,7 @@ export namespace Prisma {
     updatedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    modelQuestionImports?: ModelQuestionImportUpdateManyWithoutAcademicYearNestedInput
   }
 
   export type AcademicYearUncheckedUpdateInput = {
@@ -80081,6 +81937,7 @@ export namespace Prisma {
     updatedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutAcademicYearNestedInput
   }
 
   export type AcademicYearCreateManyInput = {
@@ -80109,6 +81966,113 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     year?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelQuestionImportCreateInput = {
+    id?: string
+    title: string
+    status?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    class: ClassCreateNestedOneWithoutModelQuestionImportsInput
+    subject: SubjectCreateNestedOneWithoutModelQuestionImportsInput
+    board?: BoardCreateNestedOneWithoutModelQuestionImportsInput
+    academicYear?: AcademicYearCreateNestedOneWithoutModelQuestionImportsInput
+    file: UploadedFileCreateNestedOneWithoutModelQuestionImportInput
+  }
+
+  export type ModelQuestionImportUncheckedCreateInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    boardId?: string | null
+    academicYearId?: string | null
+    fileId: string
+    title: string
+    status?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ModelQuestionImportUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    class?: ClassUpdateOneRequiredWithoutModelQuestionImportsNestedInput
+    subject?: SubjectUpdateOneRequiredWithoutModelQuestionImportsNestedInput
+    board?: BoardUpdateOneWithoutModelQuestionImportsNestedInput
+    academicYear?: AcademicYearUpdateOneWithoutModelQuestionImportsNestedInput
+    file?: UploadedFileUpdateOneRequiredWithoutModelQuestionImportNestedInput
+  }
+
+  export type ModelQuestionImportUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    fileId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelQuestionImportCreateManyInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    boardId?: string | null
+    academicYearId?: string | null
+    fileId: string
+    title: string
+    status?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ModelQuestionImportUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelQuestionImportUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    fileId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -80539,6 +82503,12 @@ export namespace Prisma {
     none?: UserWhereInput
   }
 
+  export type ModelQuestionImportListRelationFilter = {
+    every?: ModelQuestionImportWhereInput
+    some?: ModelQuestionImportWhereInput
+    none?: ModelQuestionImportWhereInput
+  }
+
   export type SubjectOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -80556,6 +82526,10 @@ export namespace Prisma {
   }
 
   export type UserOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ModelQuestionImportOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -81499,11 +83473,7 @@ export namespace Prisma {
     id?: SortOrder
     vocabularyId?: SortOrder
     word?: SortOrder
-    partOfSpeech?: SortOrder
-    pronunciation?: SortOrder
     meaning?: SortOrder
-    synonyms?: SortOrder
-    antonyms?: SortOrder
     imageUrl?: SortOrder
     imagePath?: SortOrder
     sortOrder?: SortOrder
@@ -81522,11 +83492,7 @@ export namespace Prisma {
     id?: SortOrder
     vocabularyId?: SortOrder
     word?: SortOrder
-    partOfSpeech?: SortOrder
-    pronunciation?: SortOrder
     meaning?: SortOrder
-    synonyms?: SortOrder
-    antonyms?: SortOrder
     imageUrl?: SortOrder
     imagePath?: SortOrder
     sortOrder?: SortOrder
@@ -81541,11 +83507,7 @@ export namespace Prisma {
     id?: SortOrder
     vocabularyId?: SortOrder
     word?: SortOrder
-    partOfSpeech?: SortOrder
-    pronunciation?: SortOrder
     meaning?: SortOrder
-    synonyms?: SortOrder
-    antonyms?: SortOrder
     imageUrl?: SortOrder
     imagePath?: SortOrder
     sortOrder?: SortOrder
@@ -81577,6 +83539,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: SortOrder
     localRoot?: SortOrder
     forcePathStyle?: SortOrder
+    publicBaseUrl?: SortOrder
+    privateBucket?: SortOrder
+    maxImageSizeMb?: SortOrder
+    maxVideoSizeMb?: SortOrder
+    maxModelSizeMb?: SortOrder
+    pathPrefix?: SortOrder
     isActive?: SortOrder
     everActivated?: SortOrder
     lastTestStatus?: SortOrder
@@ -81587,6 +83555,12 @@ export namespace Prisma {
     updatedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type StorageConfigurationAvgOrderByAggregateInput = {
+    maxImageSizeMb?: SortOrder
+    maxVideoSizeMb?: SortOrder
+    maxModelSizeMb?: SortOrder
   }
 
   export type StorageConfigurationMaxOrderByAggregateInput = {
@@ -81601,6 +83575,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: SortOrder
     localRoot?: SortOrder
     forcePathStyle?: SortOrder
+    publicBaseUrl?: SortOrder
+    privateBucket?: SortOrder
+    maxImageSizeMb?: SortOrder
+    maxVideoSizeMb?: SortOrder
+    maxModelSizeMb?: SortOrder
+    pathPrefix?: SortOrder
     isActive?: SortOrder
     everActivated?: SortOrder
     lastTestStatus?: SortOrder
@@ -81625,6 +83605,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: SortOrder
     localRoot?: SortOrder
     forcePathStyle?: SortOrder
+    publicBaseUrl?: SortOrder
+    privateBucket?: SortOrder
+    maxImageSizeMb?: SortOrder
+    maxVideoSizeMb?: SortOrder
+    maxModelSizeMb?: SortOrder
+    pathPrefix?: SortOrder
     isActive?: SortOrder
     everActivated?: SortOrder
     lastTestStatus?: SortOrder
@@ -81637,6 +83623,12 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type StorageConfigurationSumOrderByAggregateInput = {
+    maxImageSizeMb?: SortOrder
+    maxVideoSizeMb?: SortOrder
+    maxModelSizeMb?: SortOrder
+  }
+
   export type VocabularyEntryNullableScalarRelationFilter = {
     is?: VocabularyEntryWhereInput | null
     isNot?: VocabularyEntryWhereInput | null
@@ -81645,6 +83637,11 @@ export namespace Prisma {
   export type StorageConfigurationNullableScalarRelationFilter = {
     is?: StorageConfigurationWhereInput | null
     isNot?: StorageConfigurationWhereInput | null
+  }
+
+  export type ModelQuestionImportNullableScalarRelationFilter = {
+    is?: ModelQuestionImportWhereInput | null
+    isNot?: ModelQuestionImportWhereInput | null
   }
 
   export type UploadedFileCountOrderByAggregateInput = {
@@ -81661,7 +83658,6 @@ export namespace Prisma {
     mimeType?: SortOrder
     extension?: SortOrder
     sizeBytes?: SortOrder
-    sortOrder?: SortOrder
     width?: SortOrder
     height?: SortOrder
     checksumSha256?: SortOrder
@@ -81679,7 +83675,6 @@ export namespace Prisma {
 
   export type UploadedFileAvgOrderByAggregateInput = {
     sizeBytes?: SortOrder
-    sortOrder?: SortOrder
     width?: SortOrder
     height?: SortOrder
   }
@@ -81698,7 +83693,6 @@ export namespace Prisma {
     mimeType?: SortOrder
     extension?: SortOrder
     sizeBytes?: SortOrder
-    sortOrder?: SortOrder
     width?: SortOrder
     height?: SortOrder
     checksumSha256?: SortOrder
@@ -81728,7 +83722,6 @@ export namespace Prisma {
     mimeType?: SortOrder
     extension?: SortOrder
     sizeBytes?: SortOrder
-    sortOrder?: SortOrder
     width?: SortOrder
     height?: SortOrder
     checksumSha256?: SortOrder
@@ -81746,7 +83739,6 @@ export namespace Prisma {
 
   export type UploadedFileSumOrderByAggregateInput = {
     sizeBytes?: SortOrder
-    sortOrder?: SortOrder
     width?: SortOrder
     height?: SortOrder
   }
@@ -83569,6 +85561,69 @@ export namespace Prisma {
     year?: SortOrder
   }
 
+  export type BoardNullableScalarRelationFilter = {
+    is?: BoardWhereInput | null
+    isNot?: BoardWhereInput | null
+  }
+
+  export type AcademicYearNullableScalarRelationFilter = {
+    is?: AcademicYearWhereInput | null
+    isNot?: AcademicYearWhereInput | null
+  }
+
+  export type UploadedFileScalarRelationFilter = {
+    is?: UploadedFileWhereInput
+    isNot?: UploadedFileWhereInput
+  }
+
+  export type ModelQuestionImportCountOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
+    fileId?: SortOrder
+    title?: SortOrder
+    status?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ModelQuestionImportMaxOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
+    fileId?: SortOrder
+    title?: SortOrder
+    status?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ModelQuestionImportMinOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
+    fileId?: SortOrder
+    title?: SortOrder
+    status?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type ClassCreateNestedOneWithoutStudentsInput = {
     create?: XOR<ClassCreateWithoutStudentsInput, ClassUncheckedCreateWithoutStudentsInput>
     connectOrCreate?: ClassCreateOrConnectWithoutStudentsInput
@@ -83756,6 +85811,13 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
   }
 
+  export type ModelQuestionImportCreateNestedManyWithoutClassInput = {
+    create?: XOR<ModelQuestionImportCreateWithoutClassInput, ModelQuestionImportUncheckedCreateWithoutClassInput> | ModelQuestionImportCreateWithoutClassInput[] | ModelQuestionImportUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutClassInput | ModelQuestionImportCreateOrConnectWithoutClassInput[]
+    createMany?: ModelQuestionImportCreateManyClassInputEnvelope
+    connect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+  }
+
   export type SubjectUncheckedCreateNestedManyWithoutClassInput = {
     create?: XOR<SubjectCreateWithoutClassInput, SubjectUncheckedCreateWithoutClassInput> | SubjectCreateWithoutClassInput[] | SubjectUncheckedCreateWithoutClassInput[]
     connectOrCreate?: SubjectCreateOrConnectWithoutClassInput | SubjectCreateOrConnectWithoutClassInput[]
@@ -83789,6 +85851,13 @@ export namespace Prisma {
     connectOrCreate?: UserCreateOrConnectWithoutClassInput | UserCreateOrConnectWithoutClassInput[]
     createMany?: UserCreateManyClassInputEnvelope
     connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type ModelQuestionImportUncheckedCreateNestedManyWithoutClassInput = {
+    create?: XOR<ModelQuestionImportCreateWithoutClassInput, ModelQuestionImportUncheckedCreateWithoutClassInput> | ModelQuestionImportCreateWithoutClassInput[] | ModelQuestionImportUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutClassInput | ModelQuestionImportCreateOrConnectWithoutClassInput[]
+    createMany?: ModelQuestionImportCreateManyClassInputEnvelope
+    connect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
   }
 
   export type EnumPublishStatusFieldUpdateOperationsInput = {
@@ -83873,6 +85942,20 @@ export namespace Prisma {
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
+  export type ModelQuestionImportUpdateManyWithoutClassNestedInput = {
+    create?: XOR<ModelQuestionImportCreateWithoutClassInput, ModelQuestionImportUncheckedCreateWithoutClassInput> | ModelQuestionImportCreateWithoutClassInput[] | ModelQuestionImportUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutClassInput | ModelQuestionImportCreateOrConnectWithoutClassInput[]
+    upsert?: ModelQuestionImportUpsertWithWhereUniqueWithoutClassInput | ModelQuestionImportUpsertWithWhereUniqueWithoutClassInput[]
+    createMany?: ModelQuestionImportCreateManyClassInputEnvelope
+    set?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    disconnect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    delete?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    connect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    update?: ModelQuestionImportUpdateWithWhereUniqueWithoutClassInput | ModelQuestionImportUpdateWithWhereUniqueWithoutClassInput[]
+    updateMany?: ModelQuestionImportUpdateManyWithWhereWithoutClassInput | ModelQuestionImportUpdateManyWithWhereWithoutClassInput[]
+    deleteMany?: ModelQuestionImportScalarWhereInput | ModelQuestionImportScalarWhereInput[]
+  }
+
   export type SubjectUncheckedUpdateManyWithoutClassNestedInput = {
     create?: XOR<SubjectCreateWithoutClassInput, SubjectUncheckedCreateWithoutClassInput> | SubjectCreateWithoutClassInput[] | SubjectUncheckedCreateWithoutClassInput[]
     connectOrCreate?: SubjectCreateOrConnectWithoutClassInput | SubjectCreateOrConnectWithoutClassInput[]
@@ -83943,6 +86026,20 @@ export namespace Prisma {
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
+  export type ModelQuestionImportUncheckedUpdateManyWithoutClassNestedInput = {
+    create?: XOR<ModelQuestionImportCreateWithoutClassInput, ModelQuestionImportUncheckedCreateWithoutClassInput> | ModelQuestionImportCreateWithoutClassInput[] | ModelQuestionImportUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutClassInput | ModelQuestionImportCreateOrConnectWithoutClassInput[]
+    upsert?: ModelQuestionImportUpsertWithWhereUniqueWithoutClassInput | ModelQuestionImportUpsertWithWhereUniqueWithoutClassInput[]
+    createMany?: ModelQuestionImportCreateManyClassInputEnvelope
+    set?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    disconnect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    delete?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    connect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    update?: ModelQuestionImportUpdateWithWhereUniqueWithoutClassInput | ModelQuestionImportUpdateWithWhereUniqueWithoutClassInput[]
+    updateMany?: ModelQuestionImportUpdateManyWithWhereWithoutClassInput | ModelQuestionImportUpdateManyWithWhereWithoutClassInput[]
+    deleteMany?: ModelQuestionImportScalarWhereInput | ModelQuestionImportScalarWhereInput[]
+  }
+
   export type ClassCreateNestedOneWithoutSubjectsInput = {
     create?: XOR<ClassCreateWithoutSubjectsInput, ClassUncheckedCreateWithoutSubjectsInput>
     connectOrCreate?: ClassCreateOrConnectWithoutSubjectsInput
@@ -83970,6 +86067,13 @@ export namespace Prisma {
     connect?: UnseenCompositionWhereUniqueInput | UnseenCompositionWhereUniqueInput[]
   }
 
+  export type ModelQuestionImportCreateNestedManyWithoutSubjectInput = {
+    create?: XOR<ModelQuestionImportCreateWithoutSubjectInput, ModelQuestionImportUncheckedCreateWithoutSubjectInput> | ModelQuestionImportCreateWithoutSubjectInput[] | ModelQuestionImportUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutSubjectInput | ModelQuestionImportCreateOrConnectWithoutSubjectInput[]
+    createMany?: ModelQuestionImportCreateManySubjectInputEnvelope
+    connect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+  }
+
   export type UnitUncheckedCreateNestedManyWithoutSubjectInput = {
     create?: XOR<UnitCreateWithoutSubjectInput, UnitUncheckedCreateWithoutSubjectInput> | UnitCreateWithoutSubjectInput[] | UnitUncheckedCreateWithoutSubjectInput[]
     connectOrCreate?: UnitCreateOrConnectWithoutSubjectInput | UnitCreateOrConnectWithoutSubjectInput[]
@@ -83989,6 +86093,13 @@ export namespace Prisma {
     connectOrCreate?: UnseenCompositionCreateOrConnectWithoutSubjectInput | UnseenCompositionCreateOrConnectWithoutSubjectInput[]
     createMany?: UnseenCompositionCreateManySubjectInputEnvelope
     connect?: UnseenCompositionWhereUniqueInput | UnseenCompositionWhereUniqueInput[]
+  }
+
+  export type ModelQuestionImportUncheckedCreateNestedManyWithoutSubjectInput = {
+    create?: XOR<ModelQuestionImportCreateWithoutSubjectInput, ModelQuestionImportUncheckedCreateWithoutSubjectInput> | ModelQuestionImportCreateWithoutSubjectInput[] | ModelQuestionImportUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutSubjectInput | ModelQuestionImportCreateOrConnectWithoutSubjectInput[]
+    createMany?: ModelQuestionImportCreateManySubjectInputEnvelope
+    connect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
   }
 
   export type ClassUpdateOneRequiredWithoutSubjectsNestedInput = {
@@ -84041,6 +86152,20 @@ export namespace Prisma {
     deleteMany?: UnseenCompositionScalarWhereInput | UnseenCompositionScalarWhereInput[]
   }
 
+  export type ModelQuestionImportUpdateManyWithoutSubjectNestedInput = {
+    create?: XOR<ModelQuestionImportCreateWithoutSubjectInput, ModelQuestionImportUncheckedCreateWithoutSubjectInput> | ModelQuestionImportCreateWithoutSubjectInput[] | ModelQuestionImportUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutSubjectInput | ModelQuestionImportCreateOrConnectWithoutSubjectInput[]
+    upsert?: ModelQuestionImportUpsertWithWhereUniqueWithoutSubjectInput | ModelQuestionImportUpsertWithWhereUniqueWithoutSubjectInput[]
+    createMany?: ModelQuestionImportCreateManySubjectInputEnvelope
+    set?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    disconnect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    delete?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    connect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    update?: ModelQuestionImportUpdateWithWhereUniqueWithoutSubjectInput | ModelQuestionImportUpdateWithWhereUniqueWithoutSubjectInput[]
+    updateMany?: ModelQuestionImportUpdateManyWithWhereWithoutSubjectInput | ModelQuestionImportUpdateManyWithWhereWithoutSubjectInput[]
+    deleteMany?: ModelQuestionImportScalarWhereInput | ModelQuestionImportScalarWhereInput[]
+  }
+
   export type UnitUncheckedUpdateManyWithoutSubjectNestedInput = {
     create?: XOR<UnitCreateWithoutSubjectInput, UnitUncheckedCreateWithoutSubjectInput> | UnitCreateWithoutSubjectInput[] | UnitUncheckedCreateWithoutSubjectInput[]
     connectOrCreate?: UnitCreateOrConnectWithoutSubjectInput | UnitCreateOrConnectWithoutSubjectInput[]
@@ -84081,6 +86206,20 @@ export namespace Prisma {
     update?: UnseenCompositionUpdateWithWhereUniqueWithoutSubjectInput | UnseenCompositionUpdateWithWhereUniqueWithoutSubjectInput[]
     updateMany?: UnseenCompositionUpdateManyWithWhereWithoutSubjectInput | UnseenCompositionUpdateManyWithWhereWithoutSubjectInput[]
     deleteMany?: UnseenCompositionScalarWhereInput | UnseenCompositionScalarWhereInput[]
+  }
+
+  export type ModelQuestionImportUncheckedUpdateManyWithoutSubjectNestedInput = {
+    create?: XOR<ModelQuestionImportCreateWithoutSubjectInput, ModelQuestionImportUncheckedCreateWithoutSubjectInput> | ModelQuestionImportCreateWithoutSubjectInput[] | ModelQuestionImportUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutSubjectInput | ModelQuestionImportCreateOrConnectWithoutSubjectInput[]
+    upsert?: ModelQuestionImportUpsertWithWhereUniqueWithoutSubjectInput | ModelQuestionImportUpsertWithWhereUniqueWithoutSubjectInput[]
+    createMany?: ModelQuestionImportCreateManySubjectInputEnvelope
+    set?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    disconnect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    delete?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    connect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    update?: ModelQuestionImportUpdateWithWhereUniqueWithoutSubjectInput | ModelQuestionImportUpdateWithWhereUniqueWithoutSubjectInput[]
+    updateMany?: ModelQuestionImportUpdateManyWithWhereWithoutSubjectInput | ModelQuestionImportUpdateManyWithWhereWithoutSubjectInput[]
+    deleteMany?: ModelQuestionImportScalarWhereInput | ModelQuestionImportScalarWhereInput[]
   }
 
   export type ClassCreateNestedOneWithoutUnitsInput = {
@@ -85545,6 +87684,18 @@ export namespace Prisma {
     connect?: StorageConfigurationWhereUniqueInput
   }
 
+  export type ModelQuestionImportCreateNestedOneWithoutFileInput = {
+    create?: XOR<ModelQuestionImportCreateWithoutFileInput, ModelQuestionImportUncheckedCreateWithoutFileInput>
+    connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutFileInput
+    connect?: ModelQuestionImportWhereUniqueInput
+  }
+
+  export type ModelQuestionImportUncheckedCreateNestedOneWithoutFileInput = {
+    create?: XOR<ModelQuestionImportCreateWithoutFileInput, ModelQuestionImportUncheckedCreateWithoutFileInput>
+    connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutFileInput
+    connect?: ModelQuestionImportWhereUniqueInput
+  }
+
   export type VocabularyEntryUpdateOneWithoutUploadedFilesNestedInput = {
     create?: XOR<VocabularyEntryCreateWithoutUploadedFilesInput, VocabularyEntryUncheckedCreateWithoutUploadedFilesInput>
     connectOrCreate?: VocabularyEntryCreateOrConnectWithoutUploadedFilesInput
@@ -85563,6 +87714,26 @@ export namespace Prisma {
     delete?: StorageConfigurationWhereInput | boolean
     connect?: StorageConfigurationWhereUniqueInput
     update?: XOR<XOR<StorageConfigurationUpdateToOneWithWhereWithoutUploadedFilesInput, StorageConfigurationUpdateWithoutUploadedFilesInput>, StorageConfigurationUncheckedUpdateWithoutUploadedFilesInput>
+  }
+
+  export type ModelQuestionImportUpdateOneWithoutFileNestedInput = {
+    create?: XOR<ModelQuestionImportCreateWithoutFileInput, ModelQuestionImportUncheckedCreateWithoutFileInput>
+    connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutFileInput
+    upsert?: ModelQuestionImportUpsertWithoutFileInput
+    disconnect?: ModelQuestionImportWhereInput | boolean
+    delete?: ModelQuestionImportWhereInput | boolean
+    connect?: ModelQuestionImportWhereUniqueInput
+    update?: XOR<XOR<ModelQuestionImportUpdateToOneWithWhereWithoutFileInput, ModelQuestionImportUpdateWithoutFileInput>, ModelQuestionImportUncheckedUpdateWithoutFileInput>
+  }
+
+  export type ModelQuestionImportUncheckedUpdateOneWithoutFileNestedInput = {
+    create?: XOR<ModelQuestionImportCreateWithoutFileInput, ModelQuestionImportUncheckedCreateWithoutFileInput>
+    connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutFileInput
+    upsert?: ModelQuestionImportUpsertWithoutFileInput
+    disconnect?: ModelQuestionImportWhereInput | boolean
+    delete?: ModelQuestionImportWhereInput | boolean
+    connect?: ModelQuestionImportWhereUniqueInput
+    update?: XOR<XOR<ModelQuestionImportUpdateToOneWithWhereWithoutFileInput, ModelQuestionImportUpdateWithoutFileInput>, ModelQuestionImportUncheckedUpdateWithoutFileInput>
   }
 
   export type ContentBlockCreateNestedOneWithoutSynonymsAntonymsInput = {
@@ -85929,6 +88100,164 @@ export namespace Prisma {
     update?: XOR<XOR<ContentBlockUpdateToOneWithWhereWithoutConnectorInput, ContentBlockUpdateWithoutConnectorInput>, ContentBlockUncheckedUpdateWithoutConnectorInput>
   }
 
+  export type ModelQuestionImportCreateNestedManyWithoutBoardInput = {
+    create?: XOR<ModelQuestionImportCreateWithoutBoardInput, ModelQuestionImportUncheckedCreateWithoutBoardInput> | ModelQuestionImportCreateWithoutBoardInput[] | ModelQuestionImportUncheckedCreateWithoutBoardInput[]
+    connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutBoardInput | ModelQuestionImportCreateOrConnectWithoutBoardInput[]
+    createMany?: ModelQuestionImportCreateManyBoardInputEnvelope
+    connect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+  }
+
+  export type ModelQuestionImportUncheckedCreateNestedManyWithoutBoardInput = {
+    create?: XOR<ModelQuestionImportCreateWithoutBoardInput, ModelQuestionImportUncheckedCreateWithoutBoardInput> | ModelQuestionImportCreateWithoutBoardInput[] | ModelQuestionImportUncheckedCreateWithoutBoardInput[]
+    connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutBoardInput | ModelQuestionImportCreateOrConnectWithoutBoardInput[]
+    createMany?: ModelQuestionImportCreateManyBoardInputEnvelope
+    connect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+  }
+
+  export type ModelQuestionImportUpdateManyWithoutBoardNestedInput = {
+    create?: XOR<ModelQuestionImportCreateWithoutBoardInput, ModelQuestionImportUncheckedCreateWithoutBoardInput> | ModelQuestionImportCreateWithoutBoardInput[] | ModelQuestionImportUncheckedCreateWithoutBoardInput[]
+    connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutBoardInput | ModelQuestionImportCreateOrConnectWithoutBoardInput[]
+    upsert?: ModelQuestionImportUpsertWithWhereUniqueWithoutBoardInput | ModelQuestionImportUpsertWithWhereUniqueWithoutBoardInput[]
+    createMany?: ModelQuestionImportCreateManyBoardInputEnvelope
+    set?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    disconnect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    delete?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    connect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    update?: ModelQuestionImportUpdateWithWhereUniqueWithoutBoardInput | ModelQuestionImportUpdateWithWhereUniqueWithoutBoardInput[]
+    updateMany?: ModelQuestionImportUpdateManyWithWhereWithoutBoardInput | ModelQuestionImportUpdateManyWithWhereWithoutBoardInput[]
+    deleteMany?: ModelQuestionImportScalarWhereInput | ModelQuestionImportScalarWhereInput[]
+  }
+
+  export type ModelQuestionImportUncheckedUpdateManyWithoutBoardNestedInput = {
+    create?: XOR<ModelQuestionImportCreateWithoutBoardInput, ModelQuestionImportUncheckedCreateWithoutBoardInput> | ModelQuestionImportCreateWithoutBoardInput[] | ModelQuestionImportUncheckedCreateWithoutBoardInput[]
+    connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutBoardInput | ModelQuestionImportCreateOrConnectWithoutBoardInput[]
+    upsert?: ModelQuestionImportUpsertWithWhereUniqueWithoutBoardInput | ModelQuestionImportUpsertWithWhereUniqueWithoutBoardInput[]
+    createMany?: ModelQuestionImportCreateManyBoardInputEnvelope
+    set?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    disconnect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    delete?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    connect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    update?: ModelQuestionImportUpdateWithWhereUniqueWithoutBoardInput | ModelQuestionImportUpdateWithWhereUniqueWithoutBoardInput[]
+    updateMany?: ModelQuestionImportUpdateManyWithWhereWithoutBoardInput | ModelQuestionImportUpdateManyWithWhereWithoutBoardInput[]
+    deleteMany?: ModelQuestionImportScalarWhereInput | ModelQuestionImportScalarWhereInput[]
+  }
+
+  export type ModelQuestionImportCreateNestedManyWithoutAcademicYearInput = {
+    create?: XOR<ModelQuestionImportCreateWithoutAcademicYearInput, ModelQuestionImportUncheckedCreateWithoutAcademicYearInput> | ModelQuestionImportCreateWithoutAcademicYearInput[] | ModelQuestionImportUncheckedCreateWithoutAcademicYearInput[]
+    connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutAcademicYearInput | ModelQuestionImportCreateOrConnectWithoutAcademicYearInput[]
+    createMany?: ModelQuestionImportCreateManyAcademicYearInputEnvelope
+    connect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+  }
+
+  export type ModelQuestionImportUncheckedCreateNestedManyWithoutAcademicYearInput = {
+    create?: XOR<ModelQuestionImportCreateWithoutAcademicYearInput, ModelQuestionImportUncheckedCreateWithoutAcademicYearInput> | ModelQuestionImportCreateWithoutAcademicYearInput[] | ModelQuestionImportUncheckedCreateWithoutAcademicYearInput[]
+    connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutAcademicYearInput | ModelQuestionImportCreateOrConnectWithoutAcademicYearInput[]
+    createMany?: ModelQuestionImportCreateManyAcademicYearInputEnvelope
+    connect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+  }
+
+  export type ModelQuestionImportUpdateManyWithoutAcademicYearNestedInput = {
+    create?: XOR<ModelQuestionImportCreateWithoutAcademicYearInput, ModelQuestionImportUncheckedCreateWithoutAcademicYearInput> | ModelQuestionImportCreateWithoutAcademicYearInput[] | ModelQuestionImportUncheckedCreateWithoutAcademicYearInput[]
+    connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutAcademicYearInput | ModelQuestionImportCreateOrConnectWithoutAcademicYearInput[]
+    upsert?: ModelQuestionImportUpsertWithWhereUniqueWithoutAcademicYearInput | ModelQuestionImportUpsertWithWhereUniqueWithoutAcademicYearInput[]
+    createMany?: ModelQuestionImportCreateManyAcademicYearInputEnvelope
+    set?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    disconnect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    delete?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    connect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    update?: ModelQuestionImportUpdateWithWhereUniqueWithoutAcademicYearInput | ModelQuestionImportUpdateWithWhereUniqueWithoutAcademicYearInput[]
+    updateMany?: ModelQuestionImportUpdateManyWithWhereWithoutAcademicYearInput | ModelQuestionImportUpdateManyWithWhereWithoutAcademicYearInput[]
+    deleteMany?: ModelQuestionImportScalarWhereInput | ModelQuestionImportScalarWhereInput[]
+  }
+
+  export type ModelQuestionImportUncheckedUpdateManyWithoutAcademicYearNestedInput = {
+    create?: XOR<ModelQuestionImportCreateWithoutAcademicYearInput, ModelQuestionImportUncheckedCreateWithoutAcademicYearInput> | ModelQuestionImportCreateWithoutAcademicYearInput[] | ModelQuestionImportUncheckedCreateWithoutAcademicYearInput[]
+    connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutAcademicYearInput | ModelQuestionImportCreateOrConnectWithoutAcademicYearInput[]
+    upsert?: ModelQuestionImportUpsertWithWhereUniqueWithoutAcademicYearInput | ModelQuestionImportUpsertWithWhereUniqueWithoutAcademicYearInput[]
+    createMany?: ModelQuestionImportCreateManyAcademicYearInputEnvelope
+    set?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    disconnect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    delete?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    connect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+    update?: ModelQuestionImportUpdateWithWhereUniqueWithoutAcademicYearInput | ModelQuestionImportUpdateWithWhereUniqueWithoutAcademicYearInput[]
+    updateMany?: ModelQuestionImportUpdateManyWithWhereWithoutAcademicYearInput | ModelQuestionImportUpdateManyWithWhereWithoutAcademicYearInput[]
+    deleteMany?: ModelQuestionImportScalarWhereInput | ModelQuestionImportScalarWhereInput[]
+  }
+
+  export type ClassCreateNestedOneWithoutModelQuestionImportsInput = {
+    create?: XOR<ClassCreateWithoutModelQuestionImportsInput, ClassUncheckedCreateWithoutModelQuestionImportsInput>
+    connectOrCreate?: ClassCreateOrConnectWithoutModelQuestionImportsInput
+    connect?: ClassWhereUniqueInput
+  }
+
+  export type SubjectCreateNestedOneWithoutModelQuestionImportsInput = {
+    create?: XOR<SubjectCreateWithoutModelQuestionImportsInput, SubjectUncheckedCreateWithoutModelQuestionImportsInput>
+    connectOrCreate?: SubjectCreateOrConnectWithoutModelQuestionImportsInput
+    connect?: SubjectWhereUniqueInput
+  }
+
+  export type BoardCreateNestedOneWithoutModelQuestionImportsInput = {
+    create?: XOR<BoardCreateWithoutModelQuestionImportsInput, BoardUncheckedCreateWithoutModelQuestionImportsInput>
+    connectOrCreate?: BoardCreateOrConnectWithoutModelQuestionImportsInput
+    connect?: BoardWhereUniqueInput
+  }
+
+  export type AcademicYearCreateNestedOneWithoutModelQuestionImportsInput = {
+    create?: XOR<AcademicYearCreateWithoutModelQuestionImportsInput, AcademicYearUncheckedCreateWithoutModelQuestionImportsInput>
+    connectOrCreate?: AcademicYearCreateOrConnectWithoutModelQuestionImportsInput
+    connect?: AcademicYearWhereUniqueInput
+  }
+
+  export type UploadedFileCreateNestedOneWithoutModelQuestionImportInput = {
+    create?: XOR<UploadedFileCreateWithoutModelQuestionImportInput, UploadedFileUncheckedCreateWithoutModelQuestionImportInput>
+    connectOrCreate?: UploadedFileCreateOrConnectWithoutModelQuestionImportInput
+    connect?: UploadedFileWhereUniqueInput
+  }
+
+  export type ClassUpdateOneRequiredWithoutModelQuestionImportsNestedInput = {
+    create?: XOR<ClassCreateWithoutModelQuestionImportsInput, ClassUncheckedCreateWithoutModelQuestionImportsInput>
+    connectOrCreate?: ClassCreateOrConnectWithoutModelQuestionImportsInput
+    upsert?: ClassUpsertWithoutModelQuestionImportsInput
+    connect?: ClassWhereUniqueInput
+    update?: XOR<XOR<ClassUpdateToOneWithWhereWithoutModelQuestionImportsInput, ClassUpdateWithoutModelQuestionImportsInput>, ClassUncheckedUpdateWithoutModelQuestionImportsInput>
+  }
+
+  export type SubjectUpdateOneRequiredWithoutModelQuestionImportsNestedInput = {
+    create?: XOR<SubjectCreateWithoutModelQuestionImportsInput, SubjectUncheckedCreateWithoutModelQuestionImportsInput>
+    connectOrCreate?: SubjectCreateOrConnectWithoutModelQuestionImportsInput
+    upsert?: SubjectUpsertWithoutModelQuestionImportsInput
+    connect?: SubjectWhereUniqueInput
+    update?: XOR<XOR<SubjectUpdateToOneWithWhereWithoutModelQuestionImportsInput, SubjectUpdateWithoutModelQuestionImportsInput>, SubjectUncheckedUpdateWithoutModelQuestionImportsInput>
+  }
+
+  export type BoardUpdateOneWithoutModelQuestionImportsNestedInput = {
+    create?: XOR<BoardCreateWithoutModelQuestionImportsInput, BoardUncheckedCreateWithoutModelQuestionImportsInput>
+    connectOrCreate?: BoardCreateOrConnectWithoutModelQuestionImportsInput
+    upsert?: BoardUpsertWithoutModelQuestionImportsInput
+    disconnect?: BoardWhereInput | boolean
+    delete?: BoardWhereInput | boolean
+    connect?: BoardWhereUniqueInput
+    update?: XOR<XOR<BoardUpdateToOneWithWhereWithoutModelQuestionImportsInput, BoardUpdateWithoutModelQuestionImportsInput>, BoardUncheckedUpdateWithoutModelQuestionImportsInput>
+  }
+
+  export type AcademicYearUpdateOneWithoutModelQuestionImportsNestedInput = {
+    create?: XOR<AcademicYearCreateWithoutModelQuestionImportsInput, AcademicYearUncheckedCreateWithoutModelQuestionImportsInput>
+    connectOrCreate?: AcademicYearCreateOrConnectWithoutModelQuestionImportsInput
+    upsert?: AcademicYearUpsertWithoutModelQuestionImportsInput
+    disconnect?: AcademicYearWhereInput | boolean
+    delete?: AcademicYearWhereInput | boolean
+    connect?: AcademicYearWhereUniqueInput
+    update?: XOR<XOR<AcademicYearUpdateToOneWithWhereWithoutModelQuestionImportsInput, AcademicYearUpdateWithoutModelQuestionImportsInput>, AcademicYearUncheckedUpdateWithoutModelQuestionImportsInput>
+  }
+
+  export type UploadedFileUpdateOneRequiredWithoutModelQuestionImportNestedInput = {
+    create?: XOR<UploadedFileCreateWithoutModelQuestionImportInput, UploadedFileUncheckedCreateWithoutModelQuestionImportInput>
+    connectOrCreate?: UploadedFileCreateOrConnectWithoutModelQuestionImportInput
+    upsert?: UploadedFileUpsertWithoutModelQuestionImportInput
+    connect?: UploadedFileWhereUniqueInput
+    update?: XOR<XOR<UploadedFileUpdateToOneWithWhereWithoutModelQuestionImportInput, UploadedFileUpdateWithoutModelQuestionImportInput>, UploadedFileUncheckedUpdateWithoutModelQuestionImportInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -86159,6 +88488,7 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutClassInput
     contents?: ContentCreateNestedManyWithoutClassInput
     unseenCompositions?: UnseenCompositionCreateNestedManyWithoutClassInput
+    modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutStudentsInput = {
@@ -86183,6 +88513,7 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutClassInput
     contents?: ContentUncheckedCreateNestedManyWithoutClassInput
     unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutClassInput
+    modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutStudentsInput = {
@@ -86273,6 +88604,7 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutClassNestedInput
     contents?: ContentUpdateManyWithoutClassNestedInput
     unseenCompositions?: UnseenCompositionUpdateManyWithoutClassNestedInput
+    modelQuestionImports?: ModelQuestionImportUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutStudentsInput = {
@@ -86297,6 +88629,7 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutClassNestedInput
     contents?: ContentUncheckedUpdateManyWithoutClassNestedInput
     unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutClassNestedInput
+    modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type AuthSessionUpsertWithWhereUniqueWithoutUserInput = {
@@ -86608,6 +88941,7 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutSubjectInput
     contents?: ContentCreateNestedManyWithoutSubjectInput
     unseenCompositions?: UnseenCompositionCreateNestedManyWithoutSubjectInput
+    modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateWithoutClassInput = {
@@ -86631,6 +88965,7 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutSubjectInput
     contents?: ContentUncheckedCreateNestedManyWithoutSubjectInput
     unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutSubjectInput
+    modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectCreateOrConnectWithoutClassInput = {
@@ -86828,6 +89163,45 @@ export namespace Prisma {
     data: UserCreateManyClassInput | UserCreateManyClassInput[]
   }
 
+  export type ModelQuestionImportCreateWithoutClassInput = {
+    id?: string
+    title: string
+    status?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    subject: SubjectCreateNestedOneWithoutModelQuestionImportsInput
+    board?: BoardCreateNestedOneWithoutModelQuestionImportsInput
+    academicYear?: AcademicYearCreateNestedOneWithoutModelQuestionImportsInput
+    file: UploadedFileCreateNestedOneWithoutModelQuestionImportInput
+  }
+
+  export type ModelQuestionImportUncheckedCreateWithoutClassInput = {
+    id?: string
+    subjectId: string
+    boardId?: string | null
+    academicYearId?: string | null
+    fileId: string
+    title: string
+    status?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ModelQuestionImportCreateOrConnectWithoutClassInput = {
+    where: ModelQuestionImportWhereUniqueInput
+    create: XOR<ModelQuestionImportCreateWithoutClassInput, ModelQuestionImportUncheckedCreateWithoutClassInput>
+  }
+
+  export type ModelQuestionImportCreateManyClassInputEnvelope = {
+    data: ModelQuestionImportCreateManyClassInput | ModelQuestionImportCreateManyClassInput[]
+  }
+
   export type SubjectUpsertWithWhereUniqueWithoutClassInput = {
     where: SubjectWhereUniqueInput
     update: XOR<SubjectUpdateWithoutClassInput, SubjectUncheckedUpdateWithoutClassInput>
@@ -87018,6 +89392,41 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
   }
 
+  export type ModelQuestionImportUpsertWithWhereUniqueWithoutClassInput = {
+    where: ModelQuestionImportWhereUniqueInput
+    update: XOR<ModelQuestionImportUpdateWithoutClassInput, ModelQuestionImportUncheckedUpdateWithoutClassInput>
+    create: XOR<ModelQuestionImportCreateWithoutClassInput, ModelQuestionImportUncheckedCreateWithoutClassInput>
+  }
+
+  export type ModelQuestionImportUpdateWithWhereUniqueWithoutClassInput = {
+    where: ModelQuestionImportWhereUniqueInput
+    data: XOR<ModelQuestionImportUpdateWithoutClassInput, ModelQuestionImportUncheckedUpdateWithoutClassInput>
+  }
+
+  export type ModelQuestionImportUpdateManyWithWhereWithoutClassInput = {
+    where: ModelQuestionImportScalarWhereInput
+    data: XOR<ModelQuestionImportUpdateManyMutationInput, ModelQuestionImportUncheckedUpdateManyWithoutClassInput>
+  }
+
+  export type ModelQuestionImportScalarWhereInput = {
+    AND?: ModelQuestionImportScalarWhereInput | ModelQuestionImportScalarWhereInput[]
+    OR?: ModelQuestionImportScalarWhereInput[]
+    NOT?: ModelQuestionImportScalarWhereInput | ModelQuestionImportScalarWhereInput[]
+    id?: StringFilter<"ModelQuestionImport"> | string
+    classId?: StringFilter<"ModelQuestionImport"> | string
+    subjectId?: StringFilter<"ModelQuestionImport"> | string
+    boardId?: StringNullableFilter<"ModelQuestionImport"> | string | null
+    academicYearId?: StringNullableFilter<"ModelQuestionImport"> | string | null
+    fileId?: StringFilter<"ModelQuestionImport"> | string
+    title?: StringFilter<"ModelQuestionImport"> | string
+    status?: StringFilter<"ModelQuestionImport"> | string
+    organizationId?: StringFilter<"ModelQuestionImport"> | string
+    createdBy?: StringFilter<"ModelQuestionImport"> | string
+    updatedBy?: StringFilter<"ModelQuestionImport"> | string
+    createdAt?: DateTimeFilter<"ModelQuestionImport"> | Date | string
+    updatedAt?: DateTimeFilter<"ModelQuestionImport"> | Date | string
+  }
+
   export type ClassCreateWithoutSubjectsInput = {
     id?: string
     name: string
@@ -87040,6 +89449,7 @@ export namespace Prisma {
     contents?: ContentCreateNestedManyWithoutClassInput
     unseenCompositions?: UnseenCompositionCreateNestedManyWithoutClassInput
     students?: UserCreateNestedManyWithoutClassInput
+    modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutSubjectsInput = {
@@ -87064,6 +89474,7 @@ export namespace Prisma {
     contents?: ContentUncheckedCreateNestedManyWithoutClassInput
     unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutClassInput
     students?: UserUncheckedCreateNestedManyWithoutClassInput
+    modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutSubjectsInput = {
@@ -87198,6 +89609,45 @@ export namespace Prisma {
     data: UnseenCompositionCreateManySubjectInput | UnseenCompositionCreateManySubjectInput[]
   }
 
+  export type ModelQuestionImportCreateWithoutSubjectInput = {
+    id?: string
+    title: string
+    status?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    class: ClassCreateNestedOneWithoutModelQuestionImportsInput
+    board?: BoardCreateNestedOneWithoutModelQuestionImportsInput
+    academicYear?: AcademicYearCreateNestedOneWithoutModelQuestionImportsInput
+    file: UploadedFileCreateNestedOneWithoutModelQuestionImportInput
+  }
+
+  export type ModelQuestionImportUncheckedCreateWithoutSubjectInput = {
+    id?: string
+    classId: string
+    boardId?: string | null
+    academicYearId?: string | null
+    fileId: string
+    title: string
+    status?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ModelQuestionImportCreateOrConnectWithoutSubjectInput = {
+    where: ModelQuestionImportWhereUniqueInput
+    create: XOR<ModelQuestionImportCreateWithoutSubjectInput, ModelQuestionImportUncheckedCreateWithoutSubjectInput>
+  }
+
+  export type ModelQuestionImportCreateManySubjectInputEnvelope = {
+    data: ModelQuestionImportCreateManySubjectInput | ModelQuestionImportCreateManySubjectInput[]
+  }
+
   export type ClassUpsertWithoutSubjectsInput = {
     update: XOR<ClassUpdateWithoutSubjectsInput, ClassUncheckedUpdateWithoutSubjectsInput>
     create: XOR<ClassCreateWithoutSubjectsInput, ClassUncheckedCreateWithoutSubjectsInput>
@@ -87231,6 +89681,7 @@ export namespace Prisma {
     contents?: ContentUpdateManyWithoutClassNestedInput
     unseenCompositions?: UnseenCompositionUpdateManyWithoutClassNestedInput
     students?: UserUpdateManyWithoutClassNestedInput
+    modelQuestionImports?: ModelQuestionImportUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutSubjectsInput = {
@@ -87255,6 +89706,7 @@ export namespace Prisma {
     contents?: ContentUncheckedUpdateManyWithoutClassNestedInput
     unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutClassNestedInput
     students?: UserUncheckedUpdateManyWithoutClassNestedInput
+    modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type UnitUpsertWithWhereUniqueWithoutSubjectInput = {
@@ -87305,6 +89757,22 @@ export namespace Prisma {
     data: XOR<UnseenCompositionUpdateManyMutationInput, UnseenCompositionUncheckedUpdateManyWithoutSubjectInput>
   }
 
+  export type ModelQuestionImportUpsertWithWhereUniqueWithoutSubjectInput = {
+    where: ModelQuestionImportWhereUniqueInput
+    update: XOR<ModelQuestionImportUpdateWithoutSubjectInput, ModelQuestionImportUncheckedUpdateWithoutSubjectInput>
+    create: XOR<ModelQuestionImportCreateWithoutSubjectInput, ModelQuestionImportUncheckedCreateWithoutSubjectInput>
+  }
+
+  export type ModelQuestionImportUpdateWithWhereUniqueWithoutSubjectInput = {
+    where: ModelQuestionImportWhereUniqueInput
+    data: XOR<ModelQuestionImportUpdateWithoutSubjectInput, ModelQuestionImportUncheckedUpdateWithoutSubjectInput>
+  }
+
+  export type ModelQuestionImportUpdateManyWithWhereWithoutSubjectInput = {
+    where: ModelQuestionImportScalarWhereInput
+    data: XOR<ModelQuestionImportUpdateManyMutationInput, ModelQuestionImportUncheckedUpdateManyWithoutSubjectInput>
+  }
+
   export type ClassCreateWithoutUnitsInput = {
     id?: string
     name: string
@@ -87327,6 +89795,7 @@ export namespace Prisma {
     contents?: ContentCreateNestedManyWithoutClassInput
     unseenCompositions?: UnseenCompositionCreateNestedManyWithoutClassInput
     students?: UserCreateNestedManyWithoutClassInput
+    modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutUnitsInput = {
@@ -87351,6 +89820,7 @@ export namespace Prisma {
     contents?: ContentUncheckedCreateNestedManyWithoutClassInput
     unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutClassInput
     students?: UserUncheckedCreateNestedManyWithoutClassInput
+    modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutUnitsInput = {
@@ -87379,6 +89849,7 @@ export namespace Prisma {
     class: ClassCreateNestedOneWithoutSubjectsInput
     contents?: ContentCreateNestedManyWithoutSubjectInput
     unseenCompositions?: UnseenCompositionCreateNestedManyWithoutSubjectInput
+    modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateWithoutUnitsInput = {
@@ -87402,6 +89873,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     contents?: ContentUncheckedCreateNestedManyWithoutSubjectInput
     unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutSubjectInput
+    modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectCreateOrConnectWithoutUnitsInput = {
@@ -87534,6 +90006,7 @@ export namespace Prisma {
     contents?: ContentUpdateManyWithoutClassNestedInput
     unseenCompositions?: UnseenCompositionUpdateManyWithoutClassNestedInput
     students?: UserUpdateManyWithoutClassNestedInput
+    modelQuestionImports?: ModelQuestionImportUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutUnitsInput = {
@@ -87558,6 +90031,7 @@ export namespace Prisma {
     contents?: ContentUncheckedUpdateManyWithoutClassNestedInput
     unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutClassNestedInput
     students?: UserUncheckedUpdateManyWithoutClassNestedInput
+    modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type SubjectUpsertWithoutUnitsInput = {
@@ -87592,6 +90066,7 @@ export namespace Prisma {
     class?: ClassUpdateOneRequiredWithoutSubjectsNestedInput
     contents?: ContentUpdateManyWithoutSubjectNestedInput
     unseenCompositions?: UnseenCompositionUpdateManyWithoutSubjectNestedInput
+    modelQuestionImports?: ModelQuestionImportUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutUnitsInput = {
@@ -87615,6 +90090,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     contents?: ContentUncheckedUpdateManyWithoutSubjectNestedInput
     unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutSubjectNestedInput
+    modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type LessonUpsertWithWhereUniqueWithoutUnitInput = {
@@ -88108,6 +90584,7 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutClassInput
     unseenCompositions?: UnseenCompositionCreateNestedManyWithoutClassInput
     students?: UserCreateNestedManyWithoutClassInput
+    modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutContentsInput = {
@@ -88132,6 +90609,7 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutClassInput
     unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutClassInput
     students?: UserUncheckedCreateNestedManyWithoutClassInput
+    modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutContentsInput = {
@@ -88160,6 +90638,7 @@ export namespace Prisma {
     class: ClassCreateNestedOneWithoutSubjectsInput
     units?: UnitCreateNestedManyWithoutSubjectInput
     unseenCompositions?: UnseenCompositionCreateNestedManyWithoutSubjectInput
+    modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateWithoutContentsInput = {
@@ -88183,6 +90662,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     units?: UnitUncheckedCreateNestedManyWithoutSubjectInput
     unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutSubjectInput
+    modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectCreateOrConnectWithoutContentsInput = {
@@ -88451,6 +90931,7 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutClassNestedInput
     unseenCompositions?: UnseenCompositionUpdateManyWithoutClassNestedInput
     students?: UserUpdateManyWithoutClassNestedInput
+    modelQuestionImports?: ModelQuestionImportUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutContentsInput = {
@@ -88475,6 +90956,7 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutClassNestedInput
     unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutClassNestedInput
     students?: UserUncheckedUpdateManyWithoutClassNestedInput
+    modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type SubjectUpsertWithoutContentsInput = {
@@ -88509,6 +90991,7 @@ export namespace Prisma {
     class?: ClassUpdateOneRequiredWithoutSubjectsNestedInput
     units?: UnitUpdateManyWithoutSubjectNestedInput
     unseenCompositions?: UnseenCompositionUpdateManyWithoutSubjectNestedInput
+    modelQuestionImports?: ModelQuestionImportUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutContentsInput = {
@@ -88532,6 +91015,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     units?: UnitUncheckedUpdateManyWithoutSubjectNestedInput
     unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutSubjectNestedInput
+    modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type UnitUpsertWithoutContentsInput = {
@@ -89071,6 +91555,7 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutClassInput
     contents?: ContentCreateNestedManyWithoutClassInput
     students?: UserCreateNestedManyWithoutClassInput
+    modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutUnseenCompositionsInput = {
@@ -89095,6 +91580,7 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutClassInput
     contents?: ContentUncheckedCreateNestedManyWithoutClassInput
     students?: UserUncheckedCreateNestedManyWithoutClassInput
+    modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutUnseenCompositionsInput = {
@@ -89123,6 +91609,7 @@ export namespace Prisma {
     class: ClassCreateNestedOneWithoutSubjectsInput
     units?: UnitCreateNestedManyWithoutSubjectInput
     contents?: ContentCreateNestedManyWithoutSubjectInput
+    modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateWithoutUnseenCompositionsInput = {
@@ -89146,6 +91633,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     units?: UnitUncheckedCreateNestedManyWithoutSubjectInput
     contents?: ContentUncheckedCreateNestedManyWithoutSubjectInput
+    modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectCreateOrConnectWithoutUnseenCompositionsInput = {
@@ -89186,6 +91674,7 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutClassNestedInput
     contents?: ContentUpdateManyWithoutClassNestedInput
     students?: UserUpdateManyWithoutClassNestedInput
+    modelQuestionImports?: ModelQuestionImportUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutUnseenCompositionsInput = {
@@ -89210,6 +91699,7 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutClassNestedInput
     contents?: ContentUncheckedUpdateManyWithoutClassNestedInput
     students?: UserUncheckedUpdateManyWithoutClassNestedInput
+    modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type SubjectUpsertWithoutUnseenCompositionsInput = {
@@ -89244,6 +91734,7 @@ export namespace Prisma {
     class?: ClassUpdateOneRequiredWithoutSubjectsNestedInput
     units?: UnitUpdateManyWithoutSubjectNestedInput
     contents?: ContentUpdateManyWithoutSubjectNestedInput
+    modelQuestionImports?: ModelQuestionImportUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutUnseenCompositionsInput = {
@@ -89267,6 +91758,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     units?: UnitUncheckedUpdateManyWithoutSubjectNestedInput
     contents?: ContentUncheckedUpdateManyWithoutSubjectNestedInput
+    modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type ContentCreateWithoutBlocksInput = {
@@ -91985,11 +94477,7 @@ export namespace Prisma {
   export type VocabularyEntryCreateWithoutVocabularyInput = {
     id?: string
     word?: string
-    partOfSpeech?: string
-    pronunciation?: string
     meaning?: string
-    synonyms?: string
-    antonyms?: string
     imageUrl?: string
     imagePath?: string
     sortOrder?: number
@@ -92004,11 +94492,7 @@ export namespace Prisma {
   export type VocabularyEntryUncheckedCreateWithoutVocabularyInput = {
     id?: string
     word?: string
-    partOfSpeech?: string
-    pronunciation?: string
     meaning?: string
-    synonyms?: string
-    antonyms?: string
     imageUrl?: string
     imagePath?: string
     sortOrder?: number
@@ -92135,11 +94619,7 @@ export namespace Prisma {
     id?: StringFilter<"VocabularyEntry"> | string
     vocabularyId?: StringFilter<"VocabularyEntry"> | string
     word?: StringFilter<"VocabularyEntry"> | string
-    partOfSpeech?: StringFilter<"VocabularyEntry"> | string
-    pronunciation?: StringFilter<"VocabularyEntry"> | string
     meaning?: StringFilter<"VocabularyEntry"> | string
-    synonyms?: StringFilter<"VocabularyEntry"> | string
-    antonyms?: StringFilter<"VocabularyEntry"> | string
     imageUrl?: StringFilter<"VocabularyEntry"> | string
     imagePath?: StringFilter<"VocabularyEntry"> | string
     sortOrder?: IntFilter<"VocabularyEntry"> | number
@@ -92205,7 +94685,6 @@ export namespace Prisma {
     mimeType?: string
     extension?: string
     sizeBytes?: number
-    sortOrder?: number
     width?: number
     height?: number
     checksumSha256?: string
@@ -92220,6 +94699,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     storageConfiguration?: StorageConfigurationCreateNestedOneWithoutUploadedFilesInput
+    modelQuestionImport?: ModelQuestionImportCreateNestedOneWithoutFileInput
   }
 
   export type UploadedFileUncheckedCreateWithoutVocabularyEntryInput = {
@@ -92235,7 +94715,6 @@ export namespace Prisma {
     mimeType?: string
     extension?: string
     sizeBytes?: number
-    sortOrder?: number
     width?: number
     height?: number
     checksumSha256?: string
@@ -92249,6 +94728,7 @@ export namespace Prisma {
     updatedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    modelQuestionImport?: ModelQuestionImportUncheckedCreateNestedOneWithoutFileInput
   }
 
   export type UploadedFileCreateOrConnectWithoutVocabularyEntryInput = {
@@ -92342,7 +94822,6 @@ export namespace Prisma {
     mimeType?: StringFilter<"UploadedFile"> | string
     extension?: StringFilter<"UploadedFile"> | string
     sizeBytes?: IntFilter<"UploadedFile"> | number
-    sortOrder?: IntFilter<"UploadedFile"> | number
     width?: IntFilter<"UploadedFile"> | number
     height?: IntFilter<"UploadedFile"> | number
     checksumSha256?: StringFilter<"UploadedFile"> | string
@@ -92370,7 +94849,6 @@ export namespace Prisma {
     mimeType?: string
     extension?: string
     sizeBytes?: number
-    sortOrder?: number
     width?: number
     height?: number
     checksumSha256?: string
@@ -92385,6 +94863,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     vocabularyEntry?: VocabularyEntryCreateNestedOneWithoutUploadedFilesInput
+    modelQuestionImport?: ModelQuestionImportCreateNestedOneWithoutFileInput
   }
 
   export type UploadedFileUncheckedCreateWithoutStorageConfigurationInput = {
@@ -92400,7 +94879,6 @@ export namespace Prisma {
     mimeType?: string
     extension?: string
     sizeBytes?: number
-    sortOrder?: number
     width?: number
     height?: number
     checksumSha256?: string
@@ -92414,6 +94892,7 @@ export namespace Prisma {
     updatedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    modelQuestionImport?: ModelQuestionImportUncheckedCreateNestedOneWithoutFileInput
   }
 
   export type UploadedFileCreateOrConnectWithoutStorageConfigurationInput = {
@@ -92444,11 +94923,7 @@ export namespace Prisma {
   export type VocabularyEntryCreateWithoutUploadedFilesInput = {
     id?: string
     word?: string
-    partOfSpeech?: string
-    pronunciation?: string
     meaning?: string
-    synonyms?: string
-    antonyms?: string
     imageUrl?: string
     imagePath?: string
     sortOrder?: number
@@ -92464,11 +94939,7 @@ export namespace Prisma {
     id?: string
     vocabularyId: string
     word?: string
-    partOfSpeech?: string
-    pronunciation?: string
     meaning?: string
-    synonyms?: string
-    antonyms?: string
     imageUrl?: string
     imagePath?: string
     sortOrder?: number
@@ -92496,6 +94967,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: string
     localRoot?: string
     forcePathStyle?: boolean
+    publicBaseUrl?: string
+    privateBucket?: string
+    maxImageSizeMb?: number
+    maxVideoSizeMb?: number
+    maxModelSizeMb?: number
+    pathPrefix?: string
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: string
@@ -92520,6 +94997,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: string
     localRoot?: string
     forcePathStyle?: boolean
+    publicBaseUrl?: string
+    privateBucket?: string
+    maxImageSizeMb?: number
+    maxVideoSizeMb?: number
+    maxModelSizeMb?: number
+    pathPrefix?: string
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: string
@@ -92537,6 +95020,41 @@ export namespace Prisma {
     create: XOR<StorageConfigurationCreateWithoutUploadedFilesInput, StorageConfigurationUncheckedCreateWithoutUploadedFilesInput>
   }
 
+  export type ModelQuestionImportCreateWithoutFileInput = {
+    id?: string
+    title: string
+    status?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    class: ClassCreateNestedOneWithoutModelQuestionImportsInput
+    subject: SubjectCreateNestedOneWithoutModelQuestionImportsInput
+    board?: BoardCreateNestedOneWithoutModelQuestionImportsInput
+    academicYear?: AcademicYearCreateNestedOneWithoutModelQuestionImportsInput
+  }
+
+  export type ModelQuestionImportUncheckedCreateWithoutFileInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    boardId?: string | null
+    academicYearId?: string | null
+    title: string
+    status?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ModelQuestionImportCreateOrConnectWithoutFileInput = {
+    where: ModelQuestionImportWhereUniqueInput
+    create: XOR<ModelQuestionImportCreateWithoutFileInput, ModelQuestionImportUncheckedCreateWithoutFileInput>
+  }
+
   export type VocabularyEntryUpsertWithoutUploadedFilesInput = {
     update: XOR<VocabularyEntryUpdateWithoutUploadedFilesInput, VocabularyEntryUncheckedUpdateWithoutUploadedFilesInput>
     create: XOR<VocabularyEntryCreateWithoutUploadedFilesInput, VocabularyEntryUncheckedCreateWithoutUploadedFilesInput>
@@ -92551,11 +95069,7 @@ export namespace Prisma {
   export type VocabularyEntryUpdateWithoutUploadedFilesInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
-    partOfSpeech?: StringFieldUpdateOperationsInput | string
-    pronunciation?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
-    synonyms?: StringFieldUpdateOperationsInput | string
-    antonyms?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -92571,11 +95085,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     vocabularyId?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
-    partOfSpeech?: StringFieldUpdateOperationsInput | string
-    pronunciation?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
-    synonyms?: StringFieldUpdateOperationsInput | string
-    antonyms?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -92609,6 +95119,12 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
     localRoot?: StringFieldUpdateOperationsInput | string
     forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
+    publicBaseUrl?: StringFieldUpdateOperationsInput | string
+    privateBucket?: StringFieldUpdateOperationsInput | string
+    maxImageSizeMb?: IntFieldUpdateOperationsInput | number
+    maxVideoSizeMb?: IntFieldUpdateOperationsInput | number
+    maxModelSizeMb?: IntFieldUpdateOperationsInput | number
+    pathPrefix?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     everActivated?: BoolFieldUpdateOperationsInput | boolean
     lastTestStatus?: StringFieldUpdateOperationsInput | string
@@ -92633,11 +95149,58 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
     localRoot?: StringFieldUpdateOperationsInput | string
     forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
+    publicBaseUrl?: StringFieldUpdateOperationsInput | string
+    privateBucket?: StringFieldUpdateOperationsInput | string
+    maxImageSizeMb?: IntFieldUpdateOperationsInput | number
+    maxVideoSizeMb?: IntFieldUpdateOperationsInput | number
+    maxModelSizeMb?: IntFieldUpdateOperationsInput | number
+    pathPrefix?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     everActivated?: BoolFieldUpdateOperationsInput | boolean
     lastTestStatus?: StringFieldUpdateOperationsInput | string
     lastTestMessage?: StringFieldUpdateOperationsInput | string
     lastTestedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelQuestionImportUpsertWithoutFileInput = {
+    update: XOR<ModelQuestionImportUpdateWithoutFileInput, ModelQuestionImportUncheckedUpdateWithoutFileInput>
+    create: XOR<ModelQuestionImportCreateWithoutFileInput, ModelQuestionImportUncheckedCreateWithoutFileInput>
+    where?: ModelQuestionImportWhereInput
+  }
+
+  export type ModelQuestionImportUpdateToOneWithWhereWithoutFileInput = {
+    where?: ModelQuestionImportWhereInput
+    data: XOR<ModelQuestionImportUpdateWithoutFileInput, ModelQuestionImportUncheckedUpdateWithoutFileInput>
+  }
+
+  export type ModelQuestionImportUpdateWithoutFileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    class?: ClassUpdateOneRequiredWithoutModelQuestionImportsNestedInput
+    subject?: SubjectUpdateOneRequiredWithoutModelQuestionImportsNestedInput
+    board?: BoardUpdateOneWithoutModelQuestionImportsNestedInput
+    academicYear?: AcademicYearUpdateOneWithoutModelQuestionImportsNestedInput
+  }
+
+  export type ModelQuestionImportUncheckedUpdateWithoutFileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -96331,6 +98894,596 @@ export namespace Prisma {
     seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
   }
 
+  export type ModelQuestionImportCreateWithoutBoardInput = {
+    id?: string
+    title: string
+    status?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    class: ClassCreateNestedOneWithoutModelQuestionImportsInput
+    subject: SubjectCreateNestedOneWithoutModelQuestionImportsInput
+    academicYear?: AcademicYearCreateNestedOneWithoutModelQuestionImportsInput
+    file: UploadedFileCreateNestedOneWithoutModelQuestionImportInput
+  }
+
+  export type ModelQuestionImportUncheckedCreateWithoutBoardInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    academicYearId?: string | null
+    fileId: string
+    title: string
+    status?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ModelQuestionImportCreateOrConnectWithoutBoardInput = {
+    where: ModelQuestionImportWhereUniqueInput
+    create: XOR<ModelQuestionImportCreateWithoutBoardInput, ModelQuestionImportUncheckedCreateWithoutBoardInput>
+  }
+
+  export type ModelQuestionImportCreateManyBoardInputEnvelope = {
+    data: ModelQuestionImportCreateManyBoardInput | ModelQuestionImportCreateManyBoardInput[]
+  }
+
+  export type ModelQuestionImportUpsertWithWhereUniqueWithoutBoardInput = {
+    where: ModelQuestionImportWhereUniqueInput
+    update: XOR<ModelQuestionImportUpdateWithoutBoardInput, ModelQuestionImportUncheckedUpdateWithoutBoardInput>
+    create: XOR<ModelQuestionImportCreateWithoutBoardInput, ModelQuestionImportUncheckedCreateWithoutBoardInput>
+  }
+
+  export type ModelQuestionImportUpdateWithWhereUniqueWithoutBoardInput = {
+    where: ModelQuestionImportWhereUniqueInput
+    data: XOR<ModelQuestionImportUpdateWithoutBoardInput, ModelQuestionImportUncheckedUpdateWithoutBoardInput>
+  }
+
+  export type ModelQuestionImportUpdateManyWithWhereWithoutBoardInput = {
+    where: ModelQuestionImportScalarWhereInput
+    data: XOR<ModelQuestionImportUpdateManyMutationInput, ModelQuestionImportUncheckedUpdateManyWithoutBoardInput>
+  }
+
+  export type ModelQuestionImportCreateWithoutAcademicYearInput = {
+    id?: string
+    title: string
+    status?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    class: ClassCreateNestedOneWithoutModelQuestionImportsInput
+    subject: SubjectCreateNestedOneWithoutModelQuestionImportsInput
+    board?: BoardCreateNestedOneWithoutModelQuestionImportsInput
+    file: UploadedFileCreateNestedOneWithoutModelQuestionImportInput
+  }
+
+  export type ModelQuestionImportUncheckedCreateWithoutAcademicYearInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    boardId?: string | null
+    fileId: string
+    title: string
+    status?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ModelQuestionImportCreateOrConnectWithoutAcademicYearInput = {
+    where: ModelQuestionImportWhereUniqueInput
+    create: XOR<ModelQuestionImportCreateWithoutAcademicYearInput, ModelQuestionImportUncheckedCreateWithoutAcademicYearInput>
+  }
+
+  export type ModelQuestionImportCreateManyAcademicYearInputEnvelope = {
+    data: ModelQuestionImportCreateManyAcademicYearInput | ModelQuestionImportCreateManyAcademicYearInput[]
+  }
+
+  export type ModelQuestionImportUpsertWithWhereUniqueWithoutAcademicYearInput = {
+    where: ModelQuestionImportWhereUniqueInput
+    update: XOR<ModelQuestionImportUpdateWithoutAcademicYearInput, ModelQuestionImportUncheckedUpdateWithoutAcademicYearInput>
+    create: XOR<ModelQuestionImportCreateWithoutAcademicYearInput, ModelQuestionImportUncheckedCreateWithoutAcademicYearInput>
+  }
+
+  export type ModelQuestionImportUpdateWithWhereUniqueWithoutAcademicYearInput = {
+    where: ModelQuestionImportWhereUniqueInput
+    data: XOR<ModelQuestionImportUpdateWithoutAcademicYearInput, ModelQuestionImportUncheckedUpdateWithoutAcademicYearInput>
+  }
+
+  export type ModelQuestionImportUpdateManyWithWhereWithoutAcademicYearInput = {
+    where: ModelQuestionImportScalarWhereInput
+    data: XOR<ModelQuestionImportUpdateManyMutationInput, ModelQuestionImportUncheckedUpdateManyWithoutAcademicYearInput>
+  }
+
+  export type ClassCreateWithoutModelQuestionImportsInput = {
+    id?: string
+    name: string
+    slug: string
+    code?: string
+    description?: string
+    status?: $Enums.PublishStatus
+    sortOrder?: number
+    iconType?: string
+    iconLibrary?: string
+    iconName?: string
+    iconColor?: string
+    imagePath?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    subjects?: SubjectCreateNestedManyWithoutClassInput
+    units?: UnitCreateNestedManyWithoutClassInput
+    contents?: ContentCreateNestedManyWithoutClassInput
+    unseenCompositions?: UnseenCompositionCreateNestedManyWithoutClassInput
+    students?: UserCreateNestedManyWithoutClassInput
+  }
+
+  export type ClassUncheckedCreateWithoutModelQuestionImportsInput = {
+    id?: string
+    name: string
+    slug: string
+    code?: string
+    description?: string
+    status?: $Enums.PublishStatus
+    sortOrder?: number
+    iconType?: string
+    iconLibrary?: string
+    iconName?: string
+    iconColor?: string
+    imagePath?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    subjects?: SubjectUncheckedCreateNestedManyWithoutClassInput
+    units?: UnitUncheckedCreateNestedManyWithoutClassInput
+    contents?: ContentUncheckedCreateNestedManyWithoutClassInput
+    unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutClassInput
+    students?: UserUncheckedCreateNestedManyWithoutClassInput
+  }
+
+  export type ClassCreateOrConnectWithoutModelQuestionImportsInput = {
+    where: ClassWhereUniqueInput
+    create: XOR<ClassCreateWithoutModelQuestionImportsInput, ClassUncheckedCreateWithoutModelQuestionImportsInput>
+  }
+
+  export type SubjectCreateWithoutModelQuestionImportsInput = {
+    id?: string
+    name: string
+    slug: string
+    code?: string
+    description?: string
+    status?: $Enums.PublishStatus
+    sortOrder?: number
+    iconType?: string
+    iconLibrary?: string
+    iconName?: string
+    iconColor?: string
+    imagePath?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    class: ClassCreateNestedOneWithoutSubjectsInput
+    units?: UnitCreateNestedManyWithoutSubjectInput
+    contents?: ContentCreateNestedManyWithoutSubjectInput
+    unseenCompositions?: UnseenCompositionCreateNestedManyWithoutSubjectInput
+  }
+
+  export type SubjectUncheckedCreateWithoutModelQuestionImportsInput = {
+    id?: string
+    classId: string
+    name: string
+    slug: string
+    code?: string
+    description?: string
+    status?: $Enums.PublishStatus
+    sortOrder?: number
+    iconType?: string
+    iconLibrary?: string
+    iconName?: string
+    iconColor?: string
+    imagePath?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    units?: UnitUncheckedCreateNestedManyWithoutSubjectInput
+    contents?: ContentUncheckedCreateNestedManyWithoutSubjectInput
+    unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutSubjectInput
+  }
+
+  export type SubjectCreateOrConnectWithoutModelQuestionImportsInput = {
+    where: SubjectWhereUniqueInput
+    create: XOR<SubjectCreateWithoutModelQuestionImportsInput, SubjectUncheckedCreateWithoutModelQuestionImportsInput>
+  }
+
+  export type BoardCreateWithoutModelQuestionImportsInput = {
+    id?: string
+    name: string
+    isActive?: boolean
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BoardUncheckedCreateWithoutModelQuestionImportsInput = {
+    id?: string
+    name: string
+    isActive?: boolean
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BoardCreateOrConnectWithoutModelQuestionImportsInput = {
+    where: BoardWhereUniqueInput
+    create: XOR<BoardCreateWithoutModelQuestionImportsInput, BoardUncheckedCreateWithoutModelQuestionImportsInput>
+  }
+
+  export type AcademicYearCreateWithoutModelQuestionImportsInput = {
+    id?: string
+    year: number
+    isActive?: boolean
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AcademicYearUncheckedCreateWithoutModelQuestionImportsInput = {
+    id?: string
+    year: number
+    isActive?: boolean
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AcademicYearCreateOrConnectWithoutModelQuestionImportsInput = {
+    where: AcademicYearWhereUniqueInput
+    create: XOR<AcademicYearCreateWithoutModelQuestionImportsInput, AcademicYearUncheckedCreateWithoutModelQuestionImportsInput>
+  }
+
+  export type UploadedFileCreateWithoutModelQuestionImportInput = {
+    id?: string
+    purpose?: string
+    ownerType?: string
+    ownerId?: string
+    url?: string
+    path?: string
+    originalName?: string
+    sourceMimeType?: string
+    mimeType?: string
+    extension?: string
+    sizeBytes?: number
+    width?: number
+    height?: number
+    checksumSha256?: string
+    status?: string
+    isCurrent?: boolean
+    replacedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    storageDeletedAt?: Date | string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vocabularyEntry?: VocabularyEntryCreateNestedOneWithoutUploadedFilesInput
+    storageConfiguration?: StorageConfigurationCreateNestedOneWithoutUploadedFilesInput
+  }
+
+  export type UploadedFileUncheckedCreateWithoutModelQuestionImportInput = {
+    id?: string
+    purpose?: string
+    ownerType?: string
+    ownerId?: string
+    vocabularyEntryId?: string | null
+    storageConfigurationId?: string | null
+    url?: string
+    path?: string
+    originalName?: string
+    sourceMimeType?: string
+    mimeType?: string
+    extension?: string
+    sizeBytes?: number
+    width?: number
+    height?: number
+    checksumSha256?: string
+    status?: string
+    isCurrent?: boolean
+    replacedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    storageDeletedAt?: Date | string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UploadedFileCreateOrConnectWithoutModelQuestionImportInput = {
+    where: UploadedFileWhereUniqueInput
+    create: XOR<UploadedFileCreateWithoutModelQuestionImportInput, UploadedFileUncheckedCreateWithoutModelQuestionImportInput>
+  }
+
+  export type ClassUpsertWithoutModelQuestionImportsInput = {
+    update: XOR<ClassUpdateWithoutModelQuestionImportsInput, ClassUncheckedUpdateWithoutModelQuestionImportsInput>
+    create: XOR<ClassCreateWithoutModelQuestionImportsInput, ClassUncheckedCreateWithoutModelQuestionImportsInput>
+    where?: ClassWhereInput
+  }
+
+  export type ClassUpdateToOneWithWhereWithoutModelQuestionImportsInput = {
+    where?: ClassWhereInput
+    data: XOR<ClassUpdateWithoutModelQuestionImportsInput, ClassUncheckedUpdateWithoutModelQuestionImportsInput>
+  }
+
+  export type ClassUpdateWithoutModelQuestionImportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    iconType?: StringFieldUpdateOperationsInput | string
+    iconLibrary?: StringFieldUpdateOperationsInput | string
+    iconName?: StringFieldUpdateOperationsInput | string
+    iconColor?: StringFieldUpdateOperationsInput | string
+    imagePath?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subjects?: SubjectUpdateManyWithoutClassNestedInput
+    units?: UnitUpdateManyWithoutClassNestedInput
+    contents?: ContentUpdateManyWithoutClassNestedInput
+    unseenCompositions?: UnseenCompositionUpdateManyWithoutClassNestedInput
+    students?: UserUpdateManyWithoutClassNestedInput
+  }
+
+  export type ClassUncheckedUpdateWithoutModelQuestionImportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    iconType?: StringFieldUpdateOperationsInput | string
+    iconLibrary?: StringFieldUpdateOperationsInput | string
+    iconName?: StringFieldUpdateOperationsInput | string
+    iconColor?: StringFieldUpdateOperationsInput | string
+    imagePath?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subjects?: SubjectUncheckedUpdateManyWithoutClassNestedInput
+    units?: UnitUncheckedUpdateManyWithoutClassNestedInput
+    contents?: ContentUncheckedUpdateManyWithoutClassNestedInput
+    unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutClassNestedInput
+    students?: UserUncheckedUpdateManyWithoutClassNestedInput
+  }
+
+  export type SubjectUpsertWithoutModelQuestionImportsInput = {
+    update: XOR<SubjectUpdateWithoutModelQuestionImportsInput, SubjectUncheckedUpdateWithoutModelQuestionImportsInput>
+    create: XOR<SubjectCreateWithoutModelQuestionImportsInput, SubjectUncheckedCreateWithoutModelQuestionImportsInput>
+    where?: SubjectWhereInput
+  }
+
+  export type SubjectUpdateToOneWithWhereWithoutModelQuestionImportsInput = {
+    where?: SubjectWhereInput
+    data: XOR<SubjectUpdateWithoutModelQuestionImportsInput, SubjectUncheckedUpdateWithoutModelQuestionImportsInput>
+  }
+
+  export type SubjectUpdateWithoutModelQuestionImportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    iconType?: StringFieldUpdateOperationsInput | string
+    iconLibrary?: StringFieldUpdateOperationsInput | string
+    iconName?: StringFieldUpdateOperationsInput | string
+    iconColor?: StringFieldUpdateOperationsInput | string
+    imagePath?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    class?: ClassUpdateOneRequiredWithoutSubjectsNestedInput
+    units?: UnitUpdateManyWithoutSubjectNestedInput
+    contents?: ContentUpdateManyWithoutSubjectNestedInput
+    unseenCompositions?: UnseenCompositionUpdateManyWithoutSubjectNestedInput
+  }
+
+  export type SubjectUncheckedUpdateWithoutModelQuestionImportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    iconType?: StringFieldUpdateOperationsInput | string
+    iconLibrary?: StringFieldUpdateOperationsInput | string
+    iconName?: StringFieldUpdateOperationsInput | string
+    iconColor?: StringFieldUpdateOperationsInput | string
+    imagePath?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    units?: UnitUncheckedUpdateManyWithoutSubjectNestedInput
+    contents?: ContentUncheckedUpdateManyWithoutSubjectNestedInput
+    unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutSubjectNestedInput
+  }
+
+  export type BoardUpsertWithoutModelQuestionImportsInput = {
+    update: XOR<BoardUpdateWithoutModelQuestionImportsInput, BoardUncheckedUpdateWithoutModelQuestionImportsInput>
+    create: XOR<BoardCreateWithoutModelQuestionImportsInput, BoardUncheckedCreateWithoutModelQuestionImportsInput>
+    where?: BoardWhereInput
+  }
+
+  export type BoardUpdateToOneWithWhereWithoutModelQuestionImportsInput = {
+    where?: BoardWhereInput
+    data: XOR<BoardUpdateWithoutModelQuestionImportsInput, BoardUncheckedUpdateWithoutModelQuestionImportsInput>
+  }
+
+  export type BoardUpdateWithoutModelQuestionImportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BoardUncheckedUpdateWithoutModelQuestionImportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AcademicYearUpsertWithoutModelQuestionImportsInput = {
+    update: XOR<AcademicYearUpdateWithoutModelQuestionImportsInput, AcademicYearUncheckedUpdateWithoutModelQuestionImportsInput>
+    create: XOR<AcademicYearCreateWithoutModelQuestionImportsInput, AcademicYearUncheckedCreateWithoutModelQuestionImportsInput>
+    where?: AcademicYearWhereInput
+  }
+
+  export type AcademicYearUpdateToOneWithWhereWithoutModelQuestionImportsInput = {
+    where?: AcademicYearWhereInput
+    data: XOR<AcademicYearUpdateWithoutModelQuestionImportsInput, AcademicYearUncheckedUpdateWithoutModelQuestionImportsInput>
+  }
+
+  export type AcademicYearUpdateWithoutModelQuestionImportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AcademicYearUncheckedUpdateWithoutModelQuestionImportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UploadedFileUpsertWithoutModelQuestionImportInput = {
+    update: XOR<UploadedFileUpdateWithoutModelQuestionImportInput, UploadedFileUncheckedUpdateWithoutModelQuestionImportInput>
+    create: XOR<UploadedFileCreateWithoutModelQuestionImportInput, UploadedFileUncheckedCreateWithoutModelQuestionImportInput>
+    where?: UploadedFileWhereInput
+  }
+
+  export type UploadedFileUpdateToOneWithWhereWithoutModelQuestionImportInput = {
+    where?: UploadedFileWhereInput
+    data: XOR<UploadedFileUpdateWithoutModelQuestionImportInput, UploadedFileUncheckedUpdateWithoutModelQuestionImportInput>
+  }
+
+  export type UploadedFileUpdateWithoutModelQuestionImportInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    purpose?: StringFieldUpdateOperationsInput | string
+    ownerType?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    path?: StringFieldUpdateOperationsInput | string
+    originalName?: StringFieldUpdateOperationsInput | string
+    sourceMimeType?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    extension?: StringFieldUpdateOperationsInput | string
+    sizeBytes?: IntFieldUpdateOperationsInput | number
+    width?: IntFieldUpdateOperationsInput | number
+    height?: IntFieldUpdateOperationsInput | number
+    checksumSha256?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vocabularyEntry?: VocabularyEntryUpdateOneWithoutUploadedFilesNestedInput
+    storageConfiguration?: StorageConfigurationUpdateOneWithoutUploadedFilesNestedInput
+  }
+
+  export type UploadedFileUncheckedUpdateWithoutModelQuestionImportInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    purpose?: StringFieldUpdateOperationsInput | string
+    ownerType?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    vocabularyEntryId?: NullableStringFieldUpdateOperationsInput | string | null
+    storageConfigurationId?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: StringFieldUpdateOperationsInput | string
+    path?: StringFieldUpdateOperationsInput | string
+    originalName?: StringFieldUpdateOperationsInput | string
+    sourceMimeType?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    extension?: StringFieldUpdateOperationsInput | string
+    sizeBytes?: IntFieldUpdateOperationsInput | number
+    width?: IntFieldUpdateOperationsInput | number
+    height?: IntFieldUpdateOperationsInput | number
+    checksumSha256?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type AuthSessionCreateManyUserInput = {
     id?: string
     tokenHash: string
@@ -96485,6 +99638,21 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ModelQuestionImportCreateManyClassInput = {
+    id?: string
+    subjectId: string
+    boardId?: string | null
+    academicYearId?: string | null
+    fileId: string
+    title: string
+    status?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type SubjectUpdateWithoutClassInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -96506,6 +99674,7 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutSubjectNestedInput
     contents?: ContentUpdateManyWithoutSubjectNestedInput
     unseenCompositions?: UnseenCompositionUpdateManyWithoutSubjectNestedInput
+    modelQuestionImports?: ModelQuestionImportUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutClassInput = {
@@ -96529,6 +99698,7 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutSubjectNestedInput
     contents?: ContentUncheckedUpdateManyWithoutSubjectNestedInput
     unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutSubjectNestedInput
+    modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateManyWithoutClassInput = {
@@ -96771,6 +99941,51 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ModelQuestionImportUpdateWithoutClassInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: SubjectUpdateOneRequiredWithoutModelQuestionImportsNestedInput
+    board?: BoardUpdateOneWithoutModelQuestionImportsNestedInput
+    academicYear?: AcademicYearUpdateOneWithoutModelQuestionImportsNestedInput
+    file?: UploadedFileUpdateOneRequiredWithoutModelQuestionImportNestedInput
+  }
+
+  export type ModelQuestionImportUncheckedUpdateWithoutClassInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    fileId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelQuestionImportUncheckedUpdateManyWithoutClassInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    fileId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UnitCreateManySubjectInput = {
     id?: string
     classId: string
@@ -96811,6 +100026,21 @@ export namespace Prisma {
     classId: string
     title: string
     documentJson?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ModelQuestionImportCreateManySubjectInput = {
+    id?: string
+    classId: string
+    boardId?: string | null
+    academicYearId?: string | null
+    fileId: string
+    title: string
+    status?: string
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -96958,6 +100188,51 @@ export namespace Prisma {
     classId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     documentJson?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelQuestionImportUpdateWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    class?: ClassUpdateOneRequiredWithoutModelQuestionImportsNestedInput
+    board?: BoardUpdateOneWithoutModelQuestionImportsNestedInput
+    academicYear?: AcademicYearUpdateOneWithoutModelQuestionImportsNestedInput
+    file?: UploadedFileUpdateOneRequiredWithoutModelQuestionImportNestedInput
+  }
+
+  export type ModelQuestionImportUncheckedUpdateWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    fileId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelQuestionImportUncheckedUpdateManyWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    fileId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -97400,11 +100675,7 @@ export namespace Prisma {
   export type VocabularyEntryCreateManyVocabularyInput = {
     id?: string
     word?: string
-    partOfSpeech?: string
-    pronunciation?: string
     meaning?: string
-    synonyms?: string
-    antonyms?: string
     imageUrl?: string
     imagePath?: string
     sortOrder?: number
@@ -97418,11 +100689,7 @@ export namespace Prisma {
   export type VocabularyEntryUpdateWithoutVocabularyInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
-    partOfSpeech?: StringFieldUpdateOperationsInput | string
-    pronunciation?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
-    synonyms?: StringFieldUpdateOperationsInput | string
-    antonyms?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -97437,11 +100704,7 @@ export namespace Prisma {
   export type VocabularyEntryUncheckedUpdateWithoutVocabularyInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
-    partOfSpeech?: StringFieldUpdateOperationsInput | string
-    pronunciation?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
-    synonyms?: StringFieldUpdateOperationsInput | string
-    antonyms?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -97456,11 +100719,7 @@ export namespace Prisma {
   export type VocabularyEntryUncheckedUpdateManyWithoutVocabularyInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
-    partOfSpeech?: StringFieldUpdateOperationsInput | string
-    pronunciation?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
-    synonyms?: StringFieldUpdateOperationsInput | string
-    antonyms?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
@@ -97484,7 +100743,6 @@ export namespace Prisma {
     mimeType?: string
     extension?: string
     sizeBytes?: number
-    sortOrder?: number
     width?: number
     height?: number
     checksumSha256?: string
@@ -97512,7 +100770,6 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     extension?: StringFieldUpdateOperationsInput | string
     sizeBytes?: IntFieldUpdateOperationsInput | number
-    sortOrder?: IntFieldUpdateOperationsInput | number
     width?: IntFieldUpdateOperationsInput | number
     height?: IntFieldUpdateOperationsInput | number
     checksumSha256?: StringFieldUpdateOperationsInput | string
@@ -97527,6 +100784,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     storageConfiguration?: StorageConfigurationUpdateOneWithoutUploadedFilesNestedInput
+    modelQuestionImport?: ModelQuestionImportUpdateOneWithoutFileNestedInput
   }
 
   export type UploadedFileUncheckedUpdateWithoutVocabularyEntryInput = {
@@ -97542,7 +100800,6 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     extension?: StringFieldUpdateOperationsInput | string
     sizeBytes?: IntFieldUpdateOperationsInput | number
-    sortOrder?: IntFieldUpdateOperationsInput | number
     width?: IntFieldUpdateOperationsInput | number
     height?: IntFieldUpdateOperationsInput | number
     checksumSha256?: StringFieldUpdateOperationsInput | string
@@ -97556,6 +100813,7 @@ export namespace Prisma {
     updatedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    modelQuestionImport?: ModelQuestionImportUncheckedUpdateOneWithoutFileNestedInput
   }
 
   export type UploadedFileUncheckedUpdateManyWithoutVocabularyEntryInput = {
@@ -97571,7 +100829,6 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     extension?: StringFieldUpdateOperationsInput | string
     sizeBytes?: IntFieldUpdateOperationsInput | number
-    sortOrder?: IntFieldUpdateOperationsInput | number
     width?: IntFieldUpdateOperationsInput | number
     height?: IntFieldUpdateOperationsInput | number
     checksumSha256?: StringFieldUpdateOperationsInput | string
@@ -97600,7 +100857,6 @@ export namespace Prisma {
     mimeType?: string
     extension?: string
     sizeBytes?: number
-    sortOrder?: number
     width?: number
     height?: number
     checksumSha256?: string
@@ -97628,7 +100884,6 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     extension?: StringFieldUpdateOperationsInput | string
     sizeBytes?: IntFieldUpdateOperationsInput | number
-    sortOrder?: IntFieldUpdateOperationsInput | number
     width?: IntFieldUpdateOperationsInput | number
     height?: IntFieldUpdateOperationsInput | number
     checksumSha256?: StringFieldUpdateOperationsInput | string
@@ -97643,6 +100898,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vocabularyEntry?: VocabularyEntryUpdateOneWithoutUploadedFilesNestedInput
+    modelQuestionImport?: ModelQuestionImportUpdateOneWithoutFileNestedInput
   }
 
   export type UploadedFileUncheckedUpdateWithoutStorageConfigurationInput = {
@@ -97658,7 +100914,6 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     extension?: StringFieldUpdateOperationsInput | string
     sizeBytes?: IntFieldUpdateOperationsInput | number
-    sortOrder?: IntFieldUpdateOperationsInput | number
     width?: IntFieldUpdateOperationsInput | number
     height?: IntFieldUpdateOperationsInput | number
     checksumSha256?: StringFieldUpdateOperationsInput | string
@@ -97672,6 +100927,7 @@ export namespace Prisma {
     updatedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    modelQuestionImport?: ModelQuestionImportUncheckedUpdateOneWithoutFileNestedInput
   }
 
   export type UploadedFileUncheckedUpdateManyWithoutStorageConfigurationInput = {
@@ -97687,7 +100943,6 @@ export namespace Prisma {
     mimeType?: StringFieldUpdateOperationsInput | string
     extension?: StringFieldUpdateOperationsInput | string
     sizeBytes?: IntFieldUpdateOperationsInput | number
-    sortOrder?: IntFieldUpdateOperationsInput | number
     width?: IntFieldUpdateOperationsInput | number
     height?: IntFieldUpdateOperationsInput | number
     checksumSha256?: StringFieldUpdateOperationsInput | string
@@ -97756,6 +101011,126 @@ export namespace Prisma {
     antonyms?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelQuestionImportCreateManyBoardInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    academicYearId?: string | null
+    fileId: string
+    title: string
+    status?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ModelQuestionImportUpdateWithoutBoardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    class?: ClassUpdateOneRequiredWithoutModelQuestionImportsNestedInput
+    subject?: SubjectUpdateOneRequiredWithoutModelQuestionImportsNestedInput
+    academicYear?: AcademicYearUpdateOneWithoutModelQuestionImportsNestedInput
+    file?: UploadedFileUpdateOneRequiredWithoutModelQuestionImportNestedInput
+  }
+
+  export type ModelQuestionImportUncheckedUpdateWithoutBoardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    fileId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelQuestionImportUncheckedUpdateManyWithoutBoardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    fileId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelQuestionImportCreateManyAcademicYearInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    boardId?: string | null
+    fileId: string
+    title: string
+    status?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ModelQuestionImportUpdateWithoutAcademicYearInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    class?: ClassUpdateOneRequiredWithoutModelQuestionImportsNestedInput
+    subject?: SubjectUpdateOneRequiredWithoutModelQuestionImportsNestedInput
+    board?: BoardUpdateOneWithoutModelQuestionImportsNestedInput
+    file?: UploadedFileUpdateOneRequiredWithoutModelQuestionImportNestedInput
+  }
+
+  export type ModelQuestionImportUncheckedUpdateWithoutAcademicYearInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    fileId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelQuestionImportUncheckedUpdateManyWithoutAcademicYearInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    fileId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string

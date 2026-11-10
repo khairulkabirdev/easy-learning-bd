@@ -1,4 +1,6 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { isEnglishSecondPaperSubject } from "@/app/admin/content/navigation-helpers";
+import { getPublishedSubjectMeta } from "@/app/user/chapter-preparation/first-paper-data";
 
 import { getPublishedSubjectDetail } from "@/app/user/lessons/data";
 import { TopicContentList } from "@/components/app/TopicContentList";
@@ -15,6 +17,11 @@ export default async function UserChapterPreparationLessonPage({
 
   if (!user.classId) {
     notFound();
+  }
+
+  const subject = await getPublishedSubjectMeta(user.organizationId, user.classId, subjectId);
+  if (subject && isEnglishSecondPaperSubject(subject)) {
+    redirect(`/user/chapter-preparation/subjects/${subjectId}`);
   }
 
   const detail = await getPublishedSubjectDetail(user.organizationId, user.classId, subjectId);

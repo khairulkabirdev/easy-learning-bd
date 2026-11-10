@@ -1,3 +1,4 @@
+import { APP_NAME } from "@/lib/app-branding";
 import "server-only";
 
 import bcrypt from "bcryptjs";
@@ -412,7 +413,7 @@ export async function requestPasswordReset(email: string) {
       body: JSON.stringify({
         from,
         to: user.email,
-        subject: "Reset your EasyLearningBD password",
+        subject: `Reset your ${APP_NAME} password`,
         html: `<p>Hello ${escapeHtml(user.name)},</p><p>Use this link to reset your password. It expires in 30 minutes.</p><p><a href="${escapeHtml(resetUrl.toString())}">Reset password</a></p>`,
         text: `Hello ${user.name},\n\nUse this link to reset your password. It expires in 30 minutes:\n${resetUrl.toString()}`,
       }),

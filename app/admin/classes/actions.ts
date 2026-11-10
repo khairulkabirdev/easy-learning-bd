@@ -168,6 +168,13 @@ export async function deleteClass(id: string) {
     throw new Error("Class not found.");
   }
 
+  const modelQuestionFiles = await prisma.modelQuestionImport.count({
+    where: { classId: id, organizationId: user.organizationId },
+  });
+  if (modelQuestionFiles > 0) {
+    throw new Error("Delete the class's model-question source files in Model Question Import before deleting this class.");
+  }
+
   const deleted = await prisma.class.delete({
     where: { id, organizationId: user.organizationId },
   });

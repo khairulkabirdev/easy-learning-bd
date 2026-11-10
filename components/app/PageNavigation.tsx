@@ -54,6 +54,7 @@ const STATIC_LABELS: Record<string, string> = {
   storage: "Storage Setting",
   "media-library": "Media Library",
   "email-settings": "Email Settings",
+  "model-question-import": "Model Question Import",
   configuration: "Configuration",
   "audit-logs": "Audit Logs",
   "chapter-preparation": "অধ্যায়ভিত্তিক প্রস্তুতি",
@@ -215,57 +216,6 @@ function buildAutoItems(pathname: string, labels: Record<string, string>) {
   return items;
 }
 
-
-function buildHrefWithSearch(pathname: string, params: URLSearchParams) {
-  const query = params.toString();
-  return query ? `${pathname}?${query}` : pathname;
-}
-
-function getQueryStepBackHref(pathname: string, searchParams: URLSearchParams) {
-  const isFirstPaperSection = /^\/user\/chapter-preparation\/subjects\/[^/]+\/[^/]+$/.test(pathname);
-  if (!isFirstPaperSection) return null;
-
-  const params = new URLSearchParams(searchParams.toString());
-
-  if (params.has("contentId")) {
-    params.delete("contentId");
-    return buildHrefWithSearch(pathname, params);
-  }
-
-  if (params.has("recordId")) {
-    params.delete("recordId");
-    return buildHrefWithSearch(pathname, params);
-  }
-
-  if (pathname.endsWith("/seen-composition")) {
-    if (params.has("lessonId")) {
-      params.delete("lessonId");
-      params.delete("q");
-      params.delete("page");
-      return buildHrefWithSearch(pathname, params);
-    }
-
-    if (params.has("unitId")) {
-      params.delete("unitId");
-      params.delete("lessonId");
-      params.delete("q");
-      params.delete("page");
-      return buildHrefWithSearch(pathname, params);
-    }
-
-    if (params.has("passage")) {
-      params.delete("passage");
-      params.delete("unitId");
-      params.delete("lessonId");
-      params.delete("q");
-      params.delete("page");
-      return buildHrefWithSearch(pathname, params);
-    }
-  }
-
-  return null;
-}
-
 function computeParentPath(pathname: string) {
   const segments = pathname.split("/").filter(Boolean);
   if (segments.length <= 1) return "/";
@@ -376,19 +326,9 @@ export function PageNavigation({
   );
 
   const handleBack = () => {
-    if (backHref) {
-      router.push(backHref);
-      return;
-    }
-
-    const stepBackHref = getQueryStepBackHref(pathname, new URLSearchParams(searchParams.toString()));
-    if (stepBackHref) {
-      router.push(stepBackHref);
-      return;
-    }
-
-    if (resolvedRouteBackHref) {
-      router.push(resolvedRouteBackHref);
+    const preferredBackHref = backHref ?? resolvedRouteBackHref;
+    if (preferredBackHref) {
+      router.push(preferredBackHref);
       return;
     }
 

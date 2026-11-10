@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/combobox";
 import { Field, FieldContent, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { APP_NAME } from "@/lib/app-branding";
 import { cn } from "@/lib/utils";
 
 type ClassOption = {
@@ -43,7 +44,7 @@ export function RegisterForm({ classes }: { classes: ClassOption[] }) {
       <Card className="w-full max-w-lg">
         <CardHeader>
           <CardTitle>Create account</CardTitle>
-          <CardDescription>Register as a student or teacher to enter EasyLearningBD.</CardDescription>
+          <CardDescription>Register as a student or teacher to enter {APP_NAME}.</CardDescription>
         </CardHeader>
         <CardContent>
           <form action={formAction} className="space-y-4">

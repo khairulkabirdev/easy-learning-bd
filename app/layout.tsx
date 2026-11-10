@@ -4,6 +4,7 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/toast";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { APP_DESCRIPTION, APP_NAME } from "@/lib/app-branding";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -18,8 +19,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Easy Learning BD",
-  description: "Student and teacher profile management.",
+  title: APP_NAME,
+  description: APP_DESCRIPTION,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

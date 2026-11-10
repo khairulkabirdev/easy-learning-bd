@@ -129,6 +129,7 @@ model Class {
   contents       Content[]
   unseenCompositions UnseenComposition[]
   students       User[]        @relation("StudentClass")
+  modelQuestionImports ModelQuestionImport[]
 
   @@index([organizationId, status, sortOrder])
 }
@@ -157,6 +158,7 @@ model Subject {
   units          Unit[]
   contents       Content[]
   unseenCompositions UnseenComposition[]
+  modelQuestionImports ModelQuestionImport[]
 
   @@index([organizationId, classId, status, sortOrder])
 }
@@ -423,11 +425,7 @@ model VocabularyEntry {
   id             String   @id @default(cuid())
   vocabularyId   String
   word           String   @default("")
-  partOfSpeech   String   @default("")
-  pronunciation  String   @default("")
   meaning        String   @default("")
-  synonyms       String   @default("")
-  antonyms       String   @default("")
   imageUrl       String   @default("")
   imagePath      String   @default("")
   sortOrder      Int      @default(0)
@@ -456,6 +454,12 @@ model StorageConfiguration {
   sessionTokenEncrypted   String   @default("")
   localRoot               String   @default("storage/private")
   forcePathStyle          Boolean  @default(false)
+  publicBaseUrl           String   @default("")
+  privateBucket           String   @default("")
+  maxImageSizeMb          Int      @default(20)
+  maxVideoSizeMb          Int      @default(1024)
+  maxModelSizeMb          Int      @default(500)
+  pathPrefix              String   @default("uploads")
   isActive                Boolean  @default(false)
   everActivated           Boolean  @default(false)
   lastTestStatus          String   @default("unknown")
@@ -488,7 +492,6 @@ model UploadedFile {
   mimeType           String   @default("")
   extension          String   @default("")
   sizeBytes          Int      @default(0)
-  sortOrder          Int      @default(0)
   width              Int      @default(0)
   height             Int      @default(0)
   checksumSha256     String   @default("")
@@ -505,6 +508,7 @@ model UploadedFile {
 
   vocabularyEntry    VocabularyEntry? @relation(fields: [vocabularyEntryId], references: [id], onDelete: SetNull)
   storageConfiguration StorageConfiguration? @relation(fields: [storageConfigurationId], references: [id], onDelete: SetNull)
+  modelQuestionImport ModelQuestionImport?
 
   @@index([vocabularyEntryId, isCurrent, status])
   @@index([organizationId, status, createdAt])
@@ -1187,6 +1191,7 @@ model SubjectEnglishSecondPaperBlock {
 
 // Admin-only master data used for board/year setup.
 model Board {
+  modelQuestionImports ModelQuestionImport[]
   id             String   @id @default(cuid())
   name           String
   isActive       Boolean  @default(true)
@@ -1201,6 +1206,7 @@ model Board {
 }
 
 model AcademicYear {
+  modelQuestionImports ModelQuestionImport[]
   id             String   @id @default(cuid())
   year           Int
   isActive       Boolean  @default(true)
@@ -1212,4 +1218,33 @@ model AcademicYear {
 
   @@unique([organizationId, year])
   @@index([organizationId, isActive, year])
+}
+
+
+// Private model-question source files and parsed question drafts (not published to students).
+model ModelQuestionImport {
+  id             String   @id @default(cuid())
+  classId        String
+  subjectId      String
+  boardId        String?
+  academicYearId String?
+  fileId         String   @unique
+  title          String
+  status         String   @default("file_uploaded")
+  questionsJson  String   @default("[]")
+  questionCount  Int      @default(0)
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  class          Class        @relation(fields: [classId], references: [id], onDelete: Cascade)
+  subject        Subject      @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  board          Board?       @relation(fields: [boardId], references: [id], onDelete: SetNull)
+  academicYear   AcademicYear? @relation(fields: [academicYearId], references: [id], onDelete: SetNull)
+  file           UploadedFile @relation(fields: [fileId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, classId, subjectId, createdAt])
+  @@index([organizationId, classId, subjectId, boardId, academicYearId])
 }

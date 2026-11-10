@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import { isEnglishSecondPaperKind } from "@/app/admin/content/english-second-paper-blocks/types";
+import { UserEnglishSecondPaperSectionPage } from "@/app/user/chapter-preparation/UserEnglishSecondPaperSectionPage";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
@@ -96,10 +98,14 @@ export default async function UserEnglishFirstPaperSectionPage({
   params: Promise<{ subjectId: string; section: string }>;
   searchParams: SearchParams;
 }) {
-  const user = await requireStudent();
   const { subjectId, section } = await params;
   const queryParams = await searchParams;
 
+  if (isEnglishSecondPaperKind(section)) {
+    return <UserEnglishSecondPaperSectionPage subjectId={subjectId} kind={section} queryParams={queryParams} />;
+  }
+
+  const user = await requireStudent();
   if (!user.classId || !isFirstPaperSectionSlug(section)) notFound();
 
   const subject = await getPublishedSubjectMeta(user.organizationId, user.classId, subjectId);
@@ -198,7 +204,7 @@ export default async function UserEnglishFirstPaperSectionPage({
 
             <div className="border-t border-border/70 pt-6">
               {nextStep.type === "content" ? (
-                <div className="flex flex-col gap-3 rounded-2xl border bg-muted/20 p-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-col gap-3 rounded-2xl border border-border/70 bg-card p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
                   <div className="min-w-0">
                     <p className="font-medium">Continue this lesson</p>
                     <p className="mt-1 text-sm text-muted-foreground">Open the next {passageLabel.toLowerCase()} content.</p>
@@ -216,7 +222,7 @@ export default async function UserEnglishFirstPaperSectionPage({
                   </Link>
                 </div>
               ) : nextStep.type === "lesson" ? (
-                <div className="flex flex-col gap-3 rounded-2xl border border-primary/20 bg-primary/5 p-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-col gap-3 rounded-2xl border border-primary/20 bg-card p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
                   <div className="min-w-0">
                     <p className="font-medium">Lesson complete</p>
                     <p className="mt-1 text-sm text-muted-foreground">Next: {nextStep.lessonTitle}</p>
@@ -233,7 +239,7 @@ export default async function UserEnglishFirstPaperSectionPage({
                   </Link>
                 </div>
               ) : (
-                <div className="flex items-center gap-3 rounded-2xl border border-primary/20 bg-primary/5 p-4 text-sm">
+                <div className="flex items-center gap-3 rounded-2xl border border-primary/20 bg-card p-4 text-sm shadow-sm">
                   <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                     <CheckCircle2 className="h-5 w-5" />
                   </span>
@@ -372,7 +378,7 @@ export default async function UserEnglishFirstPaperSectionPage({
             <UserFirstPaperPracticeViewer kind={section} record={record} />
             <div className="border-t border-border/70 pt-6">
               {nextStep.type === "record" ? (
-                <div className="flex flex-col gap-3 rounded-2xl border bg-muted/20 p-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-col gap-3 rounded-2xl border border-border/70 bg-card p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
                   <div className="min-w-0">
                     <p className="font-medium">Continue practicing</p>
                     <p className="mt-1 text-sm text-muted-foreground">Open the next {meta.title} exercise.</p>
@@ -389,7 +395,7 @@ export default async function UserEnglishFirstPaperSectionPage({
                   </Link>
                 </div>
               ) : (
-                <div className="flex items-center gap-3 rounded-2xl border border-primary/20 bg-primary/5 p-4">
+                <div className="flex items-center gap-3 rounded-2xl border border-primary/20 bg-card p-4 shadow-sm">
                   <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                     <CheckCircle2 className="h-5 w-5" />
                   </span>

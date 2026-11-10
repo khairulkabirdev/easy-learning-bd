@@ -402,11 +402,7 @@ exports.Prisma.VocabularyEntryScalarFieldEnum = {
   id: 'id',
   vocabularyId: 'vocabularyId',
   word: 'word',
-  partOfSpeech: 'partOfSpeech',
-  pronunciation: 'pronunciation',
   meaning: 'meaning',
-  synonyms: 'synonyms',
-  antonyms: 'antonyms',
   imageUrl: 'imageUrl',
   imagePath: 'imagePath',
   sortOrder: 'sortOrder',
@@ -429,6 +425,12 @@ exports.Prisma.StorageConfigurationScalarFieldEnum = {
   sessionTokenEncrypted: 'sessionTokenEncrypted',
   localRoot: 'localRoot',
   forcePathStyle: 'forcePathStyle',
+  publicBaseUrl: 'publicBaseUrl',
+  privateBucket: 'privateBucket',
+  maxImageSizeMb: 'maxImageSizeMb',
+  maxVideoSizeMb: 'maxVideoSizeMb',
+  maxModelSizeMb: 'maxModelSizeMb',
+  pathPrefix: 'pathPrefix',
   isActive: 'isActive',
   everActivated: 'everActivated',
   lastTestStatus: 'lastTestStatus',
@@ -455,7 +457,6 @@ exports.Prisma.UploadedFileScalarFieldEnum = {
   mimeType: 'mimeType',
   extension: 'extension',
   sizeBytes: 'sizeBytes',
-  sortOrder: 'sortOrder',
   width: 'width',
   height: 'height',
   checksumSha256: 'checksumSha256',
@@ -1050,6 +1051,22 @@ exports.Prisma.AcademicYearScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ModelQuestionImportScalarFieldEnum = {
+  id: 'id',
+  classId: 'classId',
+  subjectId: 'subjectId',
+  boardId: 'boardId',
+  academicYearId: 'academicYearId',
+  fileId: 'fileId',
+  title: 'title',
+  status: 'status',
+  organizationId: 'organizationId',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1121,7 +1138,8 @@ exports.Prisma.ModelName = {
   SubjectQuestionFromStoryBlock: 'SubjectQuestionFromStoryBlock',
   SubjectEnglishSecondPaperBlock: 'SubjectEnglishSecondPaperBlock',
   Board: 'Board',
-  AcademicYear: 'AcademicYear'
+  AcademicYear: 'AcademicYear',
+  ModelQuestionImport: 'ModelQuestionImport'
 };
 
 /**

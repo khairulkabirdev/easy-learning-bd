@@ -101,6 +101,25 @@ export async function GET(request: NextRequest) {
   }
 
   const organizationId = user.organizationId;
+
+  // Model Question Import has a short Class → Subject route without literal
+  // `class`/`subject` path segments, so resolve breadcrumb names explicitly.
+  const modelImportRoute = pathname.match(/^\/admin\/model-question-import(?:\/([^/]+))?(?:\/([^/]+))?\/?$/);
+  if (modelImportRoute) {
+    const classId = modelImportRoute[1];
+    const subjectId = modelImportRoute[2];
+    const classItem = classId ? await prisma.class.findFirst({
+      where: { id: classId, organizationId }, select: { id: true, name: true },
+    }) : null;
+    const subject = classItem && subjectId ? await prisma.subject.findFirst({
+      where: { id: subjectId, classId: classItem.id, organizationId }, select: { id: true, name: true },
+    }) : null;
+    const items = [{ label: "Model Question Import", href: classItem ? "/admin/model-question-import" : undefined }];
+    if (classItem) items.push({ label: classItem.name, href: subject ? `/admin/model-question-import/${classItem.id}` : undefined });
+    if (subject) items.push({ label: subject.name, href: undefined });
+    const backHref = subject ? `/admin/model-question-import/${classItem?.id}` : classItem ? "/admin/model-question-import" : "/admin/dashboard";
+    return NextResponse.json({ labels: {}, items, backHref });
+  }
   const editorMode = request.nextUrl.searchParams.get("editorMode") || "";
   const editorSection = CONTENT_EDITOR_MODES[editorMode as ContentEditorMode];
   const contentEditorMatch = pathname.match(/^\/admin\/content\/([^/]+)$/);

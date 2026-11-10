@@ -98,6 +98,12 @@ export async function saveSubject(input: unknown) {
   }
 
   if (existing && existing.classId !== parsed.classId) {
+    const modelQuestionFiles = await prisma.modelQuestionImport.count({
+      where: { subjectId: existing.id, organizationId: user.organizationId },
+    });
+    if (modelQuestionFiles > 0) {
+      throw new Error("Delete or move the subject's model-question files before changing its class.");
+    }
     const dependentCount = existing._count.units + existing._count.contents + existing._count.unseenCompositions;
     if (dependentCount > 0) {
       throw new Error("This subject already has units or content. Move those records first before changing its class.");
@@ -198,6 +204,13 @@ export async function deleteSubject(id: string) {
 
   if (!ownedSubject) {
     throw new Error("Subject not found.");
+  }
+
+  const modelQuestionFiles = await prisma.modelQuestionImport.count({
+    where: { subjectId: id, organizationId: user.organizationId },
+  });
+  if (modelQuestionFiles > 0) {
+    throw new Error("Delete the subject's model-question source files in Model Question Import before deleting this subject.");
   }
 
   const deleted = await prisma.subject.delete({

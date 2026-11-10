@@ -1,9 +1,10 @@
 import type { ReactNode } from "react";
 
 import Link from "next/link";
-import { BookOpen, CalendarDays, ChevronDown, FolderOpen, HardDrive, Landmark, LayoutDashboard, LogOut, Mail, Shapes, User2 } from "lucide-react";
+import { BookOpen, CalendarDays, ChevronDown, FolderOpen, HardDrive, Landmark, LayoutDashboard, LogOut, Mail, FileUp, Shapes, User2 } from "lucide-react";
 
 import { SidebarNavLinks } from "@/components/app/SidebarNavLinks";
+import { MobileDashboardSidebar } from "@/components/app/MobileDashboardSidebar";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -45,6 +46,7 @@ export const adminNavGroups: ShellNavGroup[] = [
       { title: "Lessons", href: "/admin/lessons", icon: <FolderOpen className="h-4 w-4" /> },
       { title: "Topics", href: "/admin/topics", icon: <FolderOpen className="h-4 w-4" /> },
       { title: "Content", href: "/admin/content", icon: <FolderOpen className="h-4 w-4" /> },
+      { title: "Model Question Import", href: "/admin/model-question-import", icon: <FileUp className="h-4 w-4" /> },
       {
         title: "Board",
         icon: <Landmark className="h-4 w-4" />,
@@ -118,6 +120,7 @@ export function AppDashboardShell({
 
   return (
     <SidebarProvider>
+      <MobileDashboardSidebar title={title} workspaceLabel={workspaceLabel} groups={groups} />
       <aside className="sticky top-0 hidden h-svh w-64 shrink-0 border-r bg-background md:flex md:flex-col">
         <div className="flex h-16 items-center gap-3 border-b px-4">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">

@@ -1,39 +1,41 @@
-import { AppDashboardShell, userNavGroups } from "@/components/app/AppShellNav";
-import { PageNavigation } from "@/components/app/PageNavigation";
-import { ShellActions } from "@/components/app/ShellActions";
+import { StudentWorkspaceShell } from "@/components/app/StudentWorkspaceShell";
+import { StudentNestedPageNavigation } from "@/components/app/StudentNestedPageNavigation";
 import { requireStudent } from "@/lib/app-auth";
 import { prisma } from "@/lib/db";
+import "./student-workspace.css";
 
-export default async function UserLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function UserLayout({ children }: { children: React.ReactNode }) {
   const user = await requireStudent();
-  const classItem = user.classId
-    ? await prisma.class.findFirst({
-        where: { id: user.classId, organizationId: user.organizationId },
-        select: { name: true },
-      })
-    : null;
+  const [classItem, subjects] = await Promise.all([
+    user.classId
+      ? prisma.class.findFirst({
+          where: { id: user.classId, organizationId: user.organizationId },
+          select: { name: true },
+        })
+      : Promise.resolve(null),
+    user.classId
+      ? prisma.subject.findMany({
+          where: {
+            classId: user.classId,
+            organizationId: user.organizationId,
+            status: "published",
+          },
+          select: { id: true, name: true },
+          orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
+        })
+      : Promise.resolve([]),
+  ]);
 
   return (
-    <AppDashboardShell
-      workspaceLabel="Student workspace"
-      title="Learning Panel"
-      subtitle="Open your learning dashboard and continue through the published curriculum."
-      roleLabel="Student"
+    <StudentWorkspaceShell
       userName={user.name}
       userEmail={user.email}
-      userMeta={classItem?.name ? `Student · ${classItem.name}` : "Student"}
-      profileHref="/user/profile"
-      groups={userNavGroups}
-      action={<ShellActions />}
+      className={classItem?.name ?? null}
+      subjects={subjects}
     >
-      <div className="space-y-6">
-        <PageNavigation />
-        <div>{children}</div>
-      </div>
-    </AppDashboardShell>
+      <StudentNestedPageNavigation />
+      {children}
+    </StudentWorkspaceShell>
   );
 }
+

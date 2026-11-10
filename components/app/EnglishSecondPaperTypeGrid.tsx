@@ -17,60 +17,70 @@ const TYPES = [
   {
     title: "Gap Filling",
     description: "Create inline blanks with matching answers.",
+    studentDescription: "Fill in missing words in short passages.",
     slug: "gap-filling",
     icon: TextCursorInput,
   },
   {
     title: "Substitution Table",
     description: "Build sentence-part columns and valid combinations.",
+    studentDescription: "Select phrases to build complete sentences.",
     slug: "substitution-table",
     icon: Rows3,
   },
   {
     title: "Right Form of Verb",
     description: "Create verb blanks with matching answers.",
+    studentDescription: "Choose the correct form of each verb.",
     slug: "right-form-of-verb",
     icon: SpellCheck2,
   },
   {
     title: "Narration",
     description: "Create narration questions and answers.",
+    studentDescription: "Practice direct and indirect speech.",
     slug: "narration",
     icon: MessageSquareQuote,
   },
   {
     title: "Changing Sentence",
     description: "Add sentence transformations as separate items.",
+    studentDescription: "Change sentences into new forms.",
     slug: "changing-sentence",
     icon: ListRestart,
   },
   {
     title: "Punctuation and Capitalization",
     description: "Create punctuation and capitalization practice.",
+    studentDescription: "Correct punctuation and capital letters.",
     slug: "punctuation-and-capitalization",
     icon: CaseUpper,
   },
   {
     title: "Preposition",
     description: "Create preposition blanks with answers.",
+    studentDescription: "Complete sentences using prepositions.",
     slug: "preposition",
     icon: FilePenLine,
   },
   {
     title: "Suffix and Prefix",
     description: "Mark root words and save completed-word answers.",
+    studentDescription: "Form new words with prefixes and suffixes.",
     slug: "suffix-and-prefix",
     icon: Braces,
   },
   {
     title: "Tag Question",
     description: "Create per-item or paragraph-based tag questions.",
+    studentDescription: "Complete the question tags.",
     slug: "tag-question",
     icon: FileQuestion,
   },
   {
     title: "Connector",
     description: "Create connector blanks with matching answers.",
+    studentDescription: "Join ideas using suitable connectors.",
     slug: "connector",
     icon: Link2,
   },
@@ -79,9 +89,11 @@ const TYPES = [
 export function EnglishSecondPaperTypeGrid({
   classId,
   subjectId,
+  hrefBase,
 }: {
-  classId: string;
+  classId?: string;
   subjectId: string;
+  hrefBase?: string;
 }) {
   return (
     <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -90,7 +102,7 @@ export function EnglishSecondPaperTypeGrid({
         return (
           <Link
             key={item.slug}
-            href={`/admin/content/class/${classId}/subject/${subjectId}/${item.slug}`}
+            href={hrefBase ? `${hrefBase}/${item.slug}` : `/admin/content/class/${classId}/subject/${subjectId}/${item.slug}`}
             className="group flex min-h-32 flex-col justify-between rounded-2xl border border-border bg-background p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10 dark:hover:border-primary/50 dark:hover:shadow-primary/20"
           >
             <div className="flex items-start gap-3">
@@ -99,7 +111,7 @@ export function EnglishSecondPaperTypeGrid({
               </div>
               <div className="min-w-0 flex-1">
                 <div className="font-semibold">{item.title}</div>
-                <p className="mt-1 text-sm leading-6 text-muted-foreground">{item.description}</p>
+                <p className="mt-1 text-sm leading-6 text-muted-foreground">{hrefBase ? item.studentDescription : item.description}</p>
               </div>
             </div>
             <div className="mt-4 flex justify-end text-primary/70">

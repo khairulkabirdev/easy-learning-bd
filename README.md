@@ -1,5 +1,4 @@
-# Easy Learning BD
-
+# eLesson
 Next.js 16 education CMS and student learning platform using Prisma and SQLite.
 
 ## Current database

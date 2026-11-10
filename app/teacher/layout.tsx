@@ -4,6 +4,7 @@ import { PageNavigation } from "@/components/app/PageNavigation";
 import { AppDashboardShell, type ShellNavGroup } from "@/components/app/AppShellNav";
 import { ShellActions } from "@/components/app/ShellActions";
 import { requireTeacher } from "@/lib/app-auth";
+import { APP_NAME } from "@/lib/app-branding";
 
 const teacherNavGroups: ShellNavGroup[] = [
   {
@@ -22,7 +23,7 @@ export default async function TeacherLayout({
   return (
     <AppDashboardShell
       workspaceLabel="Teacher workspace"
-      title="Teacher Panel"
+      title={`${APP_NAME} Teacher`}
       subtitle="Your teacher account is ready. Teaching tools can be added here next."
       roleLabel="Teacher"
       userName={user.name}
