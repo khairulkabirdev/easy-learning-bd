@@ -1217,7 +1217,7 @@ model AcademicYear {
   @@index([organizationId, isActive, year])
 }
 
-// Private uploaded source files for model questions; parsing/publishing is a separate step.
+// Private model-question source files and parsed question drafts (not published to students).
 model ModelQuestionImport {
   id             String   @id @default(cuid())
   classId        String
@@ -1227,6 +1227,8 @@ model ModelQuestionImport {
   fileId         String   @unique
   title          String
   status         String   @default("file_uploaded")
+  questionsJson  String   @default("[]")
+  questionCount  Int      @default(0)
   organizationId String
   createdBy      String
   updatedBy      String

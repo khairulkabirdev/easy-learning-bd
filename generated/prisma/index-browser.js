@@ -1060,6 +1060,8 @@ exports.Prisma.ModelQuestionImportScalarFieldEnum = {
   fileId: 'fileId',
   title: 'title',
   status: 'status',
+  questionsJson: 'questionsJson',
+  questionCount: 'questionCount',
   organizationId: 'organizationId',
   createdBy: 'createdBy',
   updatedBy: 'updatedBy',

@@ -67176,8 +67176,18 @@ export namespace Prisma {
 
   export type AggregateModelQuestionImport = {
     _count: ModelQuestionImportCountAggregateOutputType | null
+    _avg: ModelQuestionImportAvgAggregateOutputType | null
+    _sum: ModelQuestionImportSumAggregateOutputType | null
     _min: ModelQuestionImportMinAggregateOutputType | null
     _max: ModelQuestionImportMaxAggregateOutputType | null
+  }
+
+  export type ModelQuestionImportAvgAggregateOutputType = {
+    questionCount: number | null
+  }
+
+  export type ModelQuestionImportSumAggregateOutputType = {
+    questionCount: number | null
   }
 
   export type ModelQuestionImportMinAggregateOutputType = {
@@ -67189,6 +67199,8 @@ export namespace Prisma {
     fileId: string | null
     title: string | null
     status: string | null
+    questionsJson: string | null
+    questionCount: number | null
     organizationId: string | null
     createdBy: string | null
     updatedBy: string | null
@@ -67205,6 +67217,8 @@ export namespace Prisma {
     fileId: string | null
     title: string | null
     status: string | null
+    questionsJson: string | null
+    questionCount: number | null
     organizationId: string | null
     createdBy: string | null
     updatedBy: string | null
@@ -67221,6 +67235,8 @@ export namespace Prisma {
     fileId: number
     title: number
     status: number
+    questionsJson: number
+    questionCount: number
     organizationId: number
     createdBy: number
     updatedBy: number
@@ -67229,6 +67245,14 @@ export namespace Prisma {
     _all: number
   }
 
+
+  export type ModelQuestionImportAvgAggregateInputType = {
+    questionCount?: true
+  }
+
+  export type ModelQuestionImportSumAggregateInputType = {
+    questionCount?: true
+  }
 
   export type ModelQuestionImportMinAggregateInputType = {
     id?: true
@@ -67239,6 +67263,8 @@ export namespace Prisma {
     fileId?: true
     title?: true
     status?: true
+    questionsJson?: true
+    questionCount?: true
     organizationId?: true
     createdBy?: true
     updatedBy?: true
@@ -67255,6 +67281,8 @@ export namespace Prisma {
     fileId?: true
     title?: true
     status?: true
+    questionsJson?: true
+    questionCount?: true
     organizationId?: true
     createdBy?: true
     updatedBy?: true
@@ -67271,6 +67299,8 @@ export namespace Prisma {
     fileId?: true
     title?: true
     status?: true
+    questionsJson?: true
+    questionCount?: true
     organizationId?: true
     createdBy?: true
     updatedBy?: true
@@ -67317,6 +67347,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: ModelQuestionImportAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ModelQuestionImportSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: ModelQuestionImportMinAggregateInputType
@@ -67347,6 +67389,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: ModelQuestionImportCountAggregateInputType | true
+    _avg?: ModelQuestionImportAvgAggregateInputType
+    _sum?: ModelQuestionImportSumAggregateInputType
     _min?: ModelQuestionImportMinAggregateInputType
     _max?: ModelQuestionImportMaxAggregateInputType
   }
@@ -67360,12 +67404,16 @@ export namespace Prisma {
     fileId: string
     title: string
     status: string
+    questionsJson: string
+    questionCount: number
     organizationId: string
     createdBy: string
     updatedBy: string
     createdAt: Date
     updatedAt: Date
     _count: ModelQuestionImportCountAggregateOutputType | null
+    _avg: ModelQuestionImportAvgAggregateOutputType | null
+    _sum: ModelQuestionImportSumAggregateOutputType | null
     _min: ModelQuestionImportMinAggregateOutputType | null
     _max: ModelQuestionImportMaxAggregateOutputType | null
   }
@@ -67393,6 +67441,8 @@ export namespace Prisma {
     fileId?: boolean
     title?: boolean
     status?: boolean
+    questionsJson?: boolean
+    questionCount?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -67414,6 +67464,8 @@ export namespace Prisma {
     fileId?: boolean
     title?: boolean
     status?: boolean
+    questionsJson?: boolean
+    questionCount?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -67435,6 +67487,8 @@ export namespace Prisma {
     fileId?: boolean
     title?: boolean
     status?: boolean
+    questionsJson?: boolean
+    questionCount?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -67456,6 +67510,8 @@ export namespace Prisma {
     fileId?: boolean
     title?: boolean
     status?: boolean
+    questionsJson?: boolean
+    questionCount?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -67463,7 +67519,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ModelQuestionImportOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "subjectId" | "boardId" | "academicYearId" | "fileId" | "title" | "status" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["modelQuestionImport"]>
+  export type ModelQuestionImportOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "subjectId" | "boardId" | "academicYearId" | "fileId" | "title" | "status" | "questionsJson" | "questionCount" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["modelQuestionImport"]>
   export type ModelQuestionImportInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     class?: boolean | ClassDefaultArgs<ExtArgs>
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
@@ -67504,6 +67560,8 @@ export namespace Prisma {
       fileId: string
       title: string
       status: string
+      questionsJson: string
+      questionCount: number
       organizationId: string
       createdBy: string
       updatedBy: string
@@ -67945,6 +68003,8 @@ export namespace Prisma {
     readonly fileId: FieldRef<"ModelQuestionImport", 'String'>
     readonly title: FieldRef<"ModelQuestionImport", 'String'>
     readonly status: FieldRef<"ModelQuestionImport", 'String'>
+    readonly questionsJson: FieldRef<"ModelQuestionImport", 'String'>
+    readonly questionCount: FieldRef<"ModelQuestionImport", 'Int'>
     readonly organizationId: FieldRef<"ModelQuestionImport", 'String'>
     readonly createdBy: FieldRef<"ModelQuestionImport", 'String'>
     readonly updatedBy: FieldRef<"ModelQuestionImport", 'String'>
@@ -69503,6 +69563,8 @@ export namespace Prisma {
     fileId: 'fileId',
     title: 'title',
     status: 'status',
+    questionsJson: 'questionsJson',
+    questionCount: 'questionCount',
     organizationId: 'organizationId',
     createdBy: 'createdBy',
     updatedBy: 'updatedBy',
@@ -75189,6 +75251,8 @@ export namespace Prisma {
     fileId?: StringFilter<"ModelQuestionImport"> | string
     title?: StringFilter<"ModelQuestionImport"> | string
     status?: StringFilter<"ModelQuestionImport"> | string
+    questionsJson?: StringFilter<"ModelQuestionImport"> | string
+    questionCount?: IntFilter<"ModelQuestionImport"> | number
     organizationId?: StringFilter<"ModelQuestionImport"> | string
     createdBy?: StringFilter<"ModelQuestionImport"> | string
     updatedBy?: StringFilter<"ModelQuestionImport"> | string
@@ -75210,6 +75274,8 @@ export namespace Prisma {
     fileId?: SortOrder
     title?: SortOrder
     status?: SortOrder
+    questionsJson?: SortOrder
+    questionCount?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -75234,6 +75300,8 @@ export namespace Prisma {
     academicYearId?: StringNullableFilter<"ModelQuestionImport"> | string | null
     title?: StringFilter<"ModelQuestionImport"> | string
     status?: StringFilter<"ModelQuestionImport"> | string
+    questionsJson?: StringFilter<"ModelQuestionImport"> | string
+    questionCount?: IntFilter<"ModelQuestionImport"> | number
     organizationId?: StringFilter<"ModelQuestionImport"> | string
     createdBy?: StringFilter<"ModelQuestionImport"> | string
     updatedBy?: StringFilter<"ModelQuestionImport"> | string
@@ -75255,14 +75323,18 @@ export namespace Prisma {
     fileId?: SortOrder
     title?: SortOrder
     status?: SortOrder
+    questionsJson?: SortOrder
+    questionCount?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ModelQuestionImportCountOrderByAggregateInput
+    _avg?: ModelQuestionImportAvgOrderByAggregateInput
     _max?: ModelQuestionImportMaxOrderByAggregateInput
     _min?: ModelQuestionImportMinOrderByAggregateInput
+    _sum?: ModelQuestionImportSumOrderByAggregateInput
   }
 
   export type ModelQuestionImportScalarWhereWithAggregatesInput = {
@@ -75277,6 +75349,8 @@ export namespace Prisma {
     fileId?: StringWithAggregatesFilter<"ModelQuestionImport"> | string
     title?: StringWithAggregatesFilter<"ModelQuestionImport"> | string
     status?: StringWithAggregatesFilter<"ModelQuestionImport"> | string
+    questionsJson?: StringWithAggregatesFilter<"ModelQuestionImport"> | string
+    questionCount?: IntWithAggregatesFilter<"ModelQuestionImport"> | number
     organizationId?: StringWithAggregatesFilter<"ModelQuestionImport"> | string
     createdBy?: StringWithAggregatesFilter<"ModelQuestionImport"> | string
     updatedBy?: StringWithAggregatesFilter<"ModelQuestionImport"> | string
@@ -81977,6 +82051,8 @@ export namespace Prisma {
     id?: string
     title: string
     status?: string
+    questionsJson?: string
+    questionCount?: number
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -81998,6 +82074,8 @@ export namespace Prisma {
     fileId: string
     title: string
     status?: string
+    questionsJson?: string
+    questionCount?: number
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -82009,6 +82087,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    questionsJson?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -82030,6 +82110,8 @@ export namespace Prisma {
     fileId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    questionsJson?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -82046,6 +82128,8 @@ export namespace Prisma {
     fileId: string
     title: string
     status?: string
+    questionsJson?: string
+    questionCount?: number
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -82057,6 +82141,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    questionsJson?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -82073,6 +82159,8 @@ export namespace Prisma {
     fileId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    questionsJson?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -85585,11 +85673,17 @@ export namespace Prisma {
     fileId?: SortOrder
     title?: SortOrder
     status?: SortOrder
+    questionsJson?: SortOrder
+    questionCount?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type ModelQuestionImportAvgOrderByAggregateInput = {
+    questionCount?: SortOrder
   }
 
   export type ModelQuestionImportMaxOrderByAggregateInput = {
@@ -85601,6 +85695,8 @@ export namespace Prisma {
     fileId?: SortOrder
     title?: SortOrder
     status?: SortOrder
+    questionsJson?: SortOrder
+    questionCount?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -85617,11 +85713,17 @@ export namespace Prisma {
     fileId?: SortOrder
     title?: SortOrder
     status?: SortOrder
+    questionsJson?: SortOrder
+    questionCount?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type ModelQuestionImportSumOrderByAggregateInput = {
+    questionCount?: SortOrder
   }
 
   export type ClassCreateNestedOneWithoutStudentsInput = {
@@ -89167,6 +89269,8 @@ export namespace Prisma {
     id?: string
     title: string
     status?: string
+    questionsJson?: string
+    questionCount?: number
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -89186,6 +89290,8 @@ export namespace Prisma {
     fileId: string
     title: string
     status?: string
+    questionsJson?: string
+    questionCount?: number
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -89420,6 +89526,8 @@ export namespace Prisma {
     fileId?: StringFilter<"ModelQuestionImport"> | string
     title?: StringFilter<"ModelQuestionImport"> | string
     status?: StringFilter<"ModelQuestionImport"> | string
+    questionsJson?: StringFilter<"ModelQuestionImport"> | string
+    questionCount?: IntFilter<"ModelQuestionImport"> | number
     organizationId?: StringFilter<"ModelQuestionImport"> | string
     createdBy?: StringFilter<"ModelQuestionImport"> | string
     updatedBy?: StringFilter<"ModelQuestionImport"> | string
@@ -89613,6 +89721,8 @@ export namespace Prisma {
     id?: string
     title: string
     status?: string
+    questionsJson?: string
+    questionCount?: number
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -89632,6 +89742,8 @@ export namespace Prisma {
     fileId: string
     title: string
     status?: string
+    questionsJson?: string
+    questionCount?: number
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -95024,6 +95136,8 @@ export namespace Prisma {
     id?: string
     title: string
     status?: string
+    questionsJson?: string
+    questionCount?: number
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -95043,6 +95157,8 @@ export namespace Prisma {
     academicYearId?: string | null
     title: string
     status?: string
+    questionsJson?: string
+    questionCount?: number
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -95182,6 +95298,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    questionsJson?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -95201,6 +95319,8 @@ export namespace Prisma {
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    questionsJson?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -98898,6 +99018,8 @@ export namespace Prisma {
     id?: string
     title: string
     status?: string
+    questionsJson?: string
+    questionCount?: number
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -98917,6 +99039,8 @@ export namespace Prisma {
     fileId: string
     title: string
     status?: string
+    questionsJson?: string
+    questionCount?: number
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -98953,6 +99077,8 @@ export namespace Prisma {
     id?: string
     title: string
     status?: string
+    questionsJson?: string
+    questionCount?: number
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -98972,6 +99098,8 @@ export namespace Prisma {
     fileId: string
     title: string
     status?: string
+    questionsJson?: string
+    questionCount?: number
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -99646,6 +99774,8 @@ export namespace Prisma {
     fileId: string
     title: string
     status?: string
+    questionsJson?: string
+    questionCount?: number
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -99945,6 +100075,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    questionsJson?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -99964,6 +100096,8 @@ export namespace Prisma {
     fileId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    questionsJson?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -99979,6 +100113,8 @@ export namespace Prisma {
     fileId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    questionsJson?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -100041,6 +100177,8 @@ export namespace Prisma {
     fileId: string
     title: string
     status?: string
+    questionsJson?: string
+    questionCount?: number
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -100199,6 +100337,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    questionsJson?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -100218,6 +100358,8 @@ export namespace Prisma {
     fileId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    questionsJson?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -100233,6 +100375,8 @@ export namespace Prisma {
     fileId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    questionsJson?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -101026,6 +101170,8 @@ export namespace Prisma {
     fileId: string
     title: string
     status?: string
+    questionsJson?: string
+    questionCount?: number
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -101037,6 +101183,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    questionsJson?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -101056,6 +101204,8 @@ export namespace Prisma {
     fileId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    questionsJson?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -101071,6 +101221,8 @@ export namespace Prisma {
     fileId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    questionsJson?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -101086,6 +101238,8 @@ export namespace Prisma {
     fileId: string
     title: string
     status?: string
+    questionsJson?: string
+    questionCount?: number
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -101097,6 +101251,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    questionsJson?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -101116,6 +101272,8 @@ export namespace Prisma {
     fileId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    questionsJson?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -101131,6 +101289,8 @@ export namespace Prisma {
     fileId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    questionsJson?: StringFieldUpdateOperationsInput | string
+    questionCount?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
