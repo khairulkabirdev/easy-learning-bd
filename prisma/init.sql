@@ -1045,3 +1045,46 @@ CREATE TABLE IF NOT EXISTS "ModelQuestionImport" (
 CREATE UNIQUE INDEX IF NOT EXISTS "ModelQuestionImport_fileId_key" ON "ModelQuestionImport" ("fileId");
 CREATE INDEX IF NOT EXISTS "ModelQuestionImport_organizationId_classId_subjectId_createdAt_idx" ON "ModelQuestionImport" ("organizationId", "classId", "subjectId", "createdAt");
 CREATE INDEX IF NOT EXISTS "ModelQuestionImport_organizationId_classId_subjectId_boardId_academicYearId_idx" ON "ModelQuestionImport" ("organizationId", "classId", "subjectId", "boardId", "academicYearId");
+
+
+-- Additive 2026-11-10: editable model-question sets and subject-specific blocks.
+-- Existing ModelQuestionImport, uploaded files and their data are NOT changed.
+CREATE TABLE IF NOT EXISTS "ModelQuestionSet" (
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "classId" TEXT NOT NULL,
+  "subjectId" TEXT NOT NULL,
+  "boardId" TEXT,
+  "academicYearId" TEXT,
+  "name" TEXT NOT NULL,
+  "organizationId" TEXT NOT NULL,
+  "createdBy" TEXT NOT NULL,
+  "updatedBy" TEXT NOT NULL,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" DATETIME NOT NULL,
+  FOREIGN KEY ("classId") REFERENCES "Class"("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY ("subjectId") REFERENCES "Subject"("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY ("boardId") REFERENCES "Board"("id") ON DELETE SET NULL ON UPDATE CASCADE,
+  FOREIGN KEY ("academicYearId") REFERENCES "AcademicYear"("id") ON DELETE SET NULL ON UPDATE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "ModelQuestionSetBlock" (
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "setId" TEXT NOT NULL,
+  "kind" TEXT NOT NULL,
+  "title" TEXT NOT NULL,
+  "instructions" TEXT NOT NULL DEFAULT '',
+  "passage" TEXT NOT NULL DEFAULT '',
+  "question" TEXT NOT NULL,
+  "optionsJson" TEXT NOT NULL DEFAULT '[]',
+  "answer" TEXT NOT NULL DEFAULT '',
+  "marks" INTEGER NOT NULL DEFAULT 1,
+  "sortOrder" INTEGER NOT NULL DEFAULT 0,
+  "organizationId" TEXT NOT NULL,
+  "createdBy" TEXT NOT NULL,
+  "updatedBy" TEXT NOT NULL,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" DATETIME NOT NULL,
+  FOREIGN KEY ("setId") REFERENCES "ModelQuestionSet"("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE INDEX IF NOT EXISTS "ModelQuestionSet_organizationId_classId_subjectId_createdAt_idx" ON "ModelQuestionSet"("organizationId", "classId", "subjectId", "createdAt");
+CREATE INDEX IF NOT EXISTS "ModelQuestionSet_organizationId_classId_subjectId_boardId_academicYearId_idx" ON "ModelQuestionSet"("organizationId", "classId", "subjectId", "boardId", "academicYearId");
+CREATE INDEX IF NOT EXISTS "ModelQuestionSetBlock_organizationId_setId_sortOrder_idx" ON "ModelQuestionSetBlock"("organizationId", "setId", "sortOrder");

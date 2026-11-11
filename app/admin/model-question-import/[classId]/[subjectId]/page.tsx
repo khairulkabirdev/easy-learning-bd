@@ -28,6 +28,8 @@ export default async function ModelQuestionImportSubjectPage({
   const boardId = first(query.boardId);
   const yearId = first(query.yearId);
   const requestedPage = Number.parseInt(first(query.page), 10);
+  const requestedSetPage = Number.parseInt(first(query.setPage), 10);
+  const setPage = Number.isFinite(requestedSetPage) ? Math.max(1, Math.min(requestedSetPage, 100000)) : 1;
   const page = Number.isFinite(requestedPage) ? Math.max(1, Math.min(requestedPage, 100000)) : 1;
 
   const where: Prisma.ModelQuestionImportWhereInput = {
@@ -38,14 +40,22 @@ export default async function ModelQuestionImportSubjectPage({
     ...(yearId && yearId !== "all" ? { academicYearId: yearId } : {}),
     ...(search ? { OR: [{ title: { contains: search } }, { file: { is: { originalName: { contains: search } } } }] } : {}),
   };
-  const [boards, years, total] = await Promise.all([
+  const setsWhere: Prisma.ModelQuestionSetWhereInput = {
+    organizationId: user.organizationId, classId, subjectId,
+    ...(boardId && boardId !== "all" ? { boardId } : {}),
+    ...(yearId && yearId !== "all" ? { academicYearId: yearId } : {}),
+    ...(search ? { name: { contains: search } } : {}),
+  };
+  const [boards, years, total, setsTotal] = await Promise.all([
     prisma.board.findMany({ where: { organizationId: user.organizationId }, orderBy: { name: "asc" }, select: { id: true, name: true, isActive: true } }),
     prisma.academicYear.findMany({ where: { organizationId: user.organizationId }, orderBy: { year: "desc" }, select: { id: true, year: true, isActive: true } }),
     prisma.modelQuestionImport.count({ where }),
+    prisma.modelQuestionSet.count({ where: setsWhere }),
   ]);
   const maxPage = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const safePage = Math.min(page, maxPage);
-  const records = await prisma.modelQuestionImport.findMany({
+  const safeSetPage = Math.min(setPage, Math.max(1, Math.ceil(setsTotal / PAGE_SIZE)));
+  const [records, sets] = await Promise.all([prisma.modelQuestionImport.findMany({
     where,
     orderBy: [{ createdAt: "desc" }, { id: "desc" }],
     skip: (safePage - 1) * PAGE_SIZE,
@@ -55,7 +65,14 @@ export default async function ModelQuestionImportSubjectPage({
       board: { select: { name: true } }, academicYear: { select: { year: true } },
       file: { select: { id: true, originalName: true, mimeType: true, sizeBytes: true, status: true } },
     },
-  });
+  }), prisma.modelQuestionSet.findMany({
+    where: setsWhere, orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+    skip: (safeSetPage - 1) * PAGE_SIZE, take: PAGE_SIZE,
+    select: {
+      id: true, name: true, createdAt: true, board: { select: { name: true } },
+      academicYear: { select: { year: true } }, _count: { select: { blocks: true } },
+    },
+  })]);
 
   return (
     <ModelQuestionImportWorkspace
@@ -63,6 +80,10 @@ export default async function ModelQuestionImportSubjectPage({
       subject={{ id: subject.id, name: subject.name }}
       boards={boards}
       years={years}
+      sets={sets.map((item) => ({ id: item.id, name: item.name, createdAt: item.createdAt.toISOString(),
+        board: item.board?.name ?? "—", year: item.academicYear?.year?.toString() ?? "—", blockCount: item._count.blocks }))}
+      setsTotal={setsTotal}
+      setPage={safeSetPage}
       records={records.map((entry) => ({
         id: entry.id,
         title: entry.title,

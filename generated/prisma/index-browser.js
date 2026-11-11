@@ -402,6 +402,10 @@ exports.Prisma.VocabularyEntryScalarFieldEnum = {
   id: 'id',
   vocabularyId: 'vocabularyId',
   word: 'word',
+  partOfSpeech: 'partOfSpeech',
+  pronunciation: 'pronunciation',
+  synonyms: 'synonyms',
+  antonyms: 'antonyms',
   meaning: 'meaning',
   imageUrl: 'imageUrl',
   imagePath: 'imagePath',
@@ -462,6 +466,7 @@ exports.Prisma.UploadedFileScalarFieldEnum = {
   checksumSha256: 'checksumSha256',
   status: 'status',
   isCurrent: 'isCurrent',
+  sortOrder: 'sortOrder',
   replacedAt: 'replacedAt',
   deletedAt: 'deletedAt',
   storageDeletedAt: 'storageDeletedAt',
@@ -1069,6 +1074,40 @@ exports.Prisma.ModelQuestionImportScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ModelQuestionSetScalarFieldEnum = {
+  id: 'id',
+  classId: 'classId',
+  subjectId: 'subjectId',
+  boardId: 'boardId',
+  academicYearId: 'academicYearId',
+  name: 'name',
+  editorContentId: 'editorContentId',
+  organizationId: 'organizationId',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ModelQuestionSetBlockScalarFieldEnum = {
+  id: 'id',
+  setId: 'setId',
+  kind: 'kind',
+  title: 'title',
+  instructions: 'instructions',
+  passage: 'passage',
+  question: 'question',
+  optionsJson: 'optionsJson',
+  answer: 'answer',
+  marks: 'marks',
+  sortOrder: 'sortOrder',
+  organizationId: 'organizationId',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1141,7 +1180,9 @@ exports.Prisma.ModelName = {
   SubjectEnglishSecondPaperBlock: 'SubjectEnglishSecondPaperBlock',
   Board: 'Board',
   AcademicYear: 'AcademicYear',
-  ModelQuestionImport: 'ModelQuestionImport'
+  ModelQuestionImport: 'ModelQuestionImport',
+  ModelQuestionSet: 'ModelQuestionSet',
+  ModelQuestionSetBlock: 'ModelQuestionSetBlock'
 };
 
 /**

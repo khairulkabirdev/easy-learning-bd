@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, useTransition, type FormEvent } from "react";
+import { useEffect, useRef, useState, useTransition, type FormEvent } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ArrowLeft, CheckCircle2, ChevronLeft, ChevronRight, ClipboardList, Eye, FileUp, FolderOpen, Loader2, Plus, Search, Trash2, Upload, X } from "lucide-react";
+import { ArrowLeft, CheckCircle2, ChevronLeft, ChevronRight, ClipboardList, Eye, FileUp, FolderOpen, Loader2, Plus, Search, Trash2, Upload, X, BookOpen } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -11,11 +11,11 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Textarea } from "@/components/ui/textarea";
-import { MODEL_QUESTION_TEXT_LIMIT, parseModelQuestions, type ImportedModelQuestion } from "@/lib/model-question-parser";
+import type { ImportedModelQuestion } from "@/lib/model-question-parser";
 
 type Option = { id: string; name: string; isActive: boolean };
 type YearOption = { id: string; year: number; isActive: boolean };
+type SetRow = { id: string; name: string; board: string; year: string; blockCount: number; createdAt: string };
 type ImportRow = {
   id: string;
   title: string;
@@ -37,19 +37,20 @@ type Props = {
   boards: Option[];
   years: YearOption[];
   records: ImportRow[];
+  sets: SetRow[];
+  setsTotal: number;
+  setPage: number;
   total: number;
   page: number;
   pageSize: number;
   currentFilters: { q: string; boardId: string; yearId: string };
 };
 
-const EXAMPLE = `1. Which word is a noun?\nA) Happy\nB) Teacher\nC) Quickly\nD) Beautiful\nAnswer: B\n\n2. Change into indirect speech: He said, "I am happy."\nAnswer: He said that he was happy.`;
-
 function formatSize(value: number) {
   return value >= 1024 * 1024 ? `${(value / 1024 / 1024).toFixed(1)} MB` : `${Math.max(1, Math.round(value / 1024))} KB`;
 }
 
-export function ModelQuestionImportWorkspace({ classItem, subject, boards, years, records, total, page, pageSize, currentFilters }: Props) {
+export function ModelQuestionImportWorkspace({ classItem, subject, boards, years, records, sets, setsTotal, setPage, total, page, pageSize, currentFilters }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const [isPending, startTransition] = useTransition();
@@ -57,13 +58,11 @@ export function ModelQuestionImportWorkspace({ classItem, subject, boards, years
   const [boardId, setBoardId] = useState(currentFilters.boardId);
   const [yearId, setYearId] = useState(currentFilters.yearId);
   const [modalOpen, setModalOpen] = useState(false);
-  const [mode, setMode] = useState<"files" | "questions">("files");
+  const [mode, setMode] = useState<"files" | "add">("files");
   const [fileTitle, setFileTitle] = useState("");
   const [uploadBoardId, setUploadBoardId] = useState("");
   const [uploadYearId, setUploadYearId] = useState("");
   const [files, setFiles] = useState<File[]>([]);
-  const [questionText, setQuestionText] = useState("");
-  const [fileQuestionsText, setFileQuestionsText] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -73,9 +72,6 @@ export function ModelQuestionImportWorkspace({ classItem, subject, boards, years
   const [previewLoading, setPreviewLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const maxPage = Math.max(1, Math.ceil(total / pageSize));
-  const draft = questionText.trim() || fileQuestionsText;
-  const parsedPreview = useMemo(() => draft ? parseModelQuestions(draft) : null, [draft]);
-  const canImport = mode === "questions" && !!parsedPreview && parsedPreview.questions.length > 0 && !parsedPreview.errors.length;
 
   useEffect(() => {
     setSearch(currentFilters.q);
@@ -94,61 +90,63 @@ export function ModelQuestionImportWorkspace({ classItem, subject, boards, years
 
   function resetUpload() {
     setMode("files"); setFileTitle(""); setUploadBoardId(""); setUploadYearId("");
-    setFiles([]); setQuestionText(""); setFileQuestionsText(""); setError("");
+    setFiles([]); setError("");
     if (fileInputRef.current) fileInputRef.current.value = "";
   }
 
-  function changeMode(next: "files" | "questions") {
-    setMode(next); setFiles([]); setFileQuestionsText(""); setError("");
+  function changeMode(next: "files" | "add") {
+    setMode(next); setFiles([]); setError("");
     if (fileInputRef.current) fileInputRef.current.value = "";
   }
 
-  async function selectFiles(chosen: File[]) {
-    setFiles(chosen); setFileQuestionsText(""); setError("");
-    if (mode === "questions" && chosen.length === 1 && /\.(txt|json)$/i.test(chosen[0].name)) {
-      if (chosen[0].size > MODEL_QUESTION_TEXT_LIMIT * 4) {
-        setError("TXT/JSON import file is too large. Use at most 250,000 text characters.");
-        return;
-      }
-      try { setFileQuestionsText(await chosen[0].text()); }
-      catch { setError("Could not read the selected question file."); }
-    }
+  function goToSetPage(nextPage: number) {
+    const query = new URLSearchParams();
+    if (currentFilters.q.trim()) query.set("q", currentFilters.q.trim());
+    if (currentFilters.boardId && currentFilters.boardId !== "all") query.set("boardId", currentFilters.boardId);
+    if (currentFilters.yearId && currentFilters.yearId !== "all") query.set("yearId", currentFilters.yearId);
+    if (page > 1) query.set("page", String(page));
+    if (nextPage > 1) query.set("setPage", String(nextPage));
+    startTransition(() => router.push(`${pathname}${query.size ? `?${query.toString()}` : ""}`));
   }
 
   async function upload(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!uploadBoardId || !uploadYearId || (mode === "files" ? !files.length : !canImport)) {
-      setError(mode === "files" ? "Select a Board, Year and at least one source file." : "Select a Board and Year, and provide valid numbered questions or JSON.");
-      return;
+    if (mode === "add" && !fileTitle.trim()) { setError("Name is required."); return; }
+    if (mode === "files" && (!uploadBoardId || !uploadYearId || !files.length)) {
+      setError("Select a Board, Year and at least one source file."); return;
     }
-    if (files.length > (mode === "files" ? 5 : 1) || files.some((file) => file.size > 25 * 1024 * 1024) || files.reduce((sum, file) => sum + file.size, 0) > 100 * 1024 * 1024) {
-      setError("Choose up to 5 files (1 for question import), max 25 MB per file and 100 MB per upload.");
-      return;
+    if (files.length > 5 || files.some((file) => file.size > 25 * 1024 * 1024) || files.reduce((sum, file) => sum + file.size, 0) > 100 * 1024 * 1024) {
+      setError("Choose up to 5 files, max 25 MB per file and 100 MB per upload."); return;
     }
     setBusy(true); setError(""); setMessage("");
-    const form = new FormData();
-    form.set("classId", classItem.id);
-    form.set("subjectId", subject.id);
-    form.set("boardId", uploadBoardId);
-    form.set("academicYearId", uploadYearId);
-    form.set("title", fileTitle.trim());
-    form.set("mode", mode);
-    // When TXT/JSON is selected, the API reads it directly. Pasted text overrides it.
-    if (mode === "questions") form.set("questionsText", questionText.trim());
-    files.forEach((file) => form.append("files", file));
     try {
-      const response = await fetch("/api/admin/model-question-import", { method: "POST", body: form });
-      const payload = (await response.json()) as { error?: string; success?: boolean; uploaded?: number; questionCount?: number };
-      if (!response.ok || !payload.success) throw new Error(payload.error || "Upload failed.");
-      setModalOpen(false);
-      setMessage(mode === "questions" ? `Imported ${payload.questionCount ?? 0} questions as a draft. Review them using View Questions.` : `Uploaded ${payload.uploaded ?? files.length} model-question source file(s).`);
-      resetUpload();
-      router.refresh();
-    } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "Could not upload the files.");
-    } finally {
-      setBusy(false);
-    }
+      if (mode === "add") {
+        const response = await fetch("/api/admin/model-question-sets", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ classId: classItem.id, subjectId: subject.id,
+            name: fileTitle.trim(), boardId: uploadBoardId || null, academicYearId: uploadYearId || null }),
+        });
+        const payload = (await response.json()) as { success?: boolean; id?: string; error?: string };
+        if (!response.ok || !payload.success || !payload.id) throw new Error(payload.error || "Could not create model questions.");
+        setModalOpen(false);
+        resetUpload();
+        router.push(`${pathname}/${encodeURIComponent(payload.id)}`);
+      } else {
+        const form = new FormData();
+        form.set("classId", classItem.id); form.set("subjectId", subject.id);
+        form.set("boardId", uploadBoardId); form.set("academicYearId", uploadYearId);
+        form.set("title", fileTitle.trim()); form.set("mode", "files");
+        files.forEach((file) => form.append("files", file));
+        const response = await fetch("/api/admin/model-question-import", { method: "POST", body: form });
+        const payload = (await response.json()) as { error?: string; success?: boolean; uploaded?: number };
+        if (!response.ok || !payload.success) throw new Error(payload.error || "Upload failed.");
+        setModalOpen(false);
+        setMessage(`Uploaded ${payload.uploaded ?? files.length} model-question source file(s).`);
+        resetUpload();
+        router.refresh();
+      }
+    } catch (cause) { setError(cause instanceof Error ? cause.message : "Could not save model questions."); }
+    finally { setBusy(false); }
   }
 
   async function openQuestions(row: ImportRow) {
@@ -183,10 +181,10 @@ export function ModelQuestionImportWorkspace({ classItem, subject, boards, years
         <div className="min-w-0 space-y-1">
           <Link href={`/admin/model-question-import/${classItem.id}`} className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary"><ArrowLeft className="size-4" /> Back to subjects</Link>
           <h2 className="text-2xl font-semibold tracking-tight">{subject.name}</h2>
-          <p className="text-sm text-muted-foreground">{classItem.name} · Model Question Import · Board and year wise question library</p>
+          <p className="text-sm text-muted-foreground">{classItem.name} · Model Questions · Subject-wise question library</p>
         </div>
         <Button type="button" size="lg" className="w-full sm:w-auto" onClick={() => { resetUpload(); setModalOpen(true); }}>
-          <Plus className="size-4" /> Upload / Import Model Questions
+          <Plus className="size-4" /> Upload / Add Model Questions
         </Button>
       </div>
 
@@ -194,12 +192,20 @@ export function ModelQuestionImportWorkspace({ classItem, subject, boards, years
       {!modalOpen && error ? <div role="alert" className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">{error}</div> : null}
 
       <div className="rounded-2xl border bg-card p-4 shadow-sm sm:p-5">
+        <div className="mb-4 flex items-center justify-between gap-2"><div className="flex items-center gap-2"><BookOpen className="size-4 text-primary" /><h3 className="font-semibold">Created model question sets</h3><Badge variant="secondary">{setsTotal}</Badge></div><span className="text-xs text-muted-foreground">{sets.length} on this page</span></div>
+        {sets.length ? <div className="overflow-x-auto"><Table><TableHeader><TableRow><TableHead>Model question name</TableHead><TableHead>Board / Year</TableHead><TableHead>Blocks</TableHead><TableHead>Created</TableHead><TableHead className="text-right">Action</TableHead></TableRow></TableHeader><TableBody>
+          {sets.map((item) => <TableRow key={item.id}><TableCell className="min-w-48 max-w-72 whitespace-normal font-medium break-words">{item.name}</TableCell><TableCell><div className="text-sm">{item.board}</div><span className="text-xs text-muted-foreground">{item.year}</span></TableCell><TableCell><Badge variant="outline">{item.blockCount} blocks</Badge></TableCell><TableCell className="whitespace-nowrap text-muted-foreground">{new Date(item.createdAt).toLocaleDateString()}</TableCell><TableCell className="text-right"><Link href={`${pathname}/${item.id}`} className="inline-flex h-8 items-center justify-center gap-1 rounded-lg border px-3 text-sm font-medium transition-colors hover:bg-muted"><BookOpen className="size-4"/>Open / Add Blocks</Link></TableCell></TableRow>)}
+        </TableBody></Table></div> : <div className="rounded-xl border border-dashed px-4 py-8 text-center"><BookOpen className="mx-auto mb-2 size-8 text-muted-foreground"/><p className="font-medium">No model question sets yet</p><p className="mt-1 text-sm text-muted-foreground">Choose Add to create a named set and then add subject-specific question blocks.</p></div>}
+        {setsTotal > pageSize && <div className="mt-4 flex flex-col items-center justify-between gap-3 border-t pt-4 text-sm sm:flex-row"><span className="text-muted-foreground">Page {setPage} of {Math.ceil(setsTotal / pageSize)}</span><div className="flex gap-2"><Button size="sm" variant="outline" disabled={isPending || setPage <= 1} onClick={() => goToSetPage(setPage - 1)}><ChevronLeft className="size-4"/>Previous</Button><Button size="sm" variant="outline" disabled={isPending || setPage >= Math.ceil(setsTotal / pageSize)} onClick={() => goToSetPage(setPage + 1)}>Next<ChevronRight className="size-4"/></Button></div></div>}
+      </div>
+
+      <div className="rounded-2xl border bg-card p-4 shadow-sm sm:p-5">
         <div className="mb-4 flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2"><ClipboardList className="size-4 text-primary" /><h3 className="font-semibold">Model questions</h3><Badge variant="secondary">{total}</Badge></div>
+          <div className="flex items-center gap-2"><ClipboardList className="size-4 text-primary" /><h3 className="font-semibold">Uploaded source files & earlier imported questions</h3><Badge variant="secondary">{total}</Badge></div>
           <span className="text-xs text-muted-foreground">{isPending ? "Filtering…" : `${records.length} on this page`}</span>
         </div>
         <form onSubmit={(event) => { event.preventDefault(); goTo(1); }} className="mb-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-[minmax(180px,1fr)_minmax(150px,180px)_minmax(135px,155px)_auto]">
-          <label className="sr-only" htmlFor="model-import-search">Search files</label>
+          <label className="sr-only" htmlFor="model-import-search">Search model questions</label>
           <Input id="model-import-search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search title or filename…" className="h-10" />
           <Select value={boardId} onValueChange={(value) => setBoardId(String(value || "all"))}>
             <SelectTrigger className="h-10 w-full"><SelectValue /></SelectTrigger>
@@ -238,7 +244,7 @@ export function ModelQuestionImportWorkspace({ classItem, subject, boards, years
             </Table>
           </div>
         ) : (
-          <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed px-4 py-12 text-center"><FolderOpen className="size-9 text-muted-foreground" /><p className="font-medium">No model questions found</p><p className="text-sm text-muted-foreground">Choose another Board/Year, upload source files, or import questions.</p></div>
+          <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed px-4 py-12 text-center"><FolderOpen className="size-9 text-muted-foreground" /><p className="font-medium">No model questions found</p><p className="text-sm text-muted-foreground">Choose another Board/Year or upload a source file. Your previously imported questions remain available.</p></div>
         )}
         <div className="mt-4 flex flex-col items-center justify-between gap-3 border-t pt-4 text-sm sm:flex-row">
           <span className="text-muted-foreground">Page {page} of {maxPage} · {total} total records</span>
@@ -250,48 +256,37 @@ export function ModelQuestionImportWorkspace({ classItem, subject, boards, years
       </div>
 
       <Dialog open={modalOpen} onOpenChange={(open) => { if (!busy) { setModalOpen(open); if (!open) resetUpload(); } }}>
-        <DialogContent className="w-[min(95vw,680px)] max-w-2xl gap-4 p-5 sm:max-w-2xl">
-          <DialogHeader><DialogTitle className="text-lg">Upload / Import Model Questions</DialogTitle><DialogDescription>{classItem.name} → {subject.name}. Upload reference papers or import structured questions into an admin-only draft.</DialogDescription></DialogHeader>
-          <div role="group" aria-label="Upload mode" className="grid grid-cols-2 gap-1 rounded-xl bg-muted p-1">
-            <button type="button" aria-pressed={mode === "files"} disabled={busy} onClick={() => changeMode("files")} className={`rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${mode === "files" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}><FileUp className="mr-1.5 inline size-4" />Upload Source Files</button>
-            <button type="button" aria-pressed={mode === "questions"} disabled={busy} onClick={() => changeMode("questions")} className={`rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${mode === "questions" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}><ClipboardList className="mr-1.5 inline size-4" />Import Questions</button>
+        <DialogContent className="w-[min(95vw,650px)] max-w-2xl gap-4 p-5 sm:max-w-2xl">
+          <DialogHeader><DialogTitle>Upload / Add Model Questions</DialogTitle><DialogDescription>{classItem.name} → {subject.name}. Upload source files, or create a named question set and add blocks on its own page.</DialogDescription></DialogHeader>
+          <div role="group" aria-label="Model question action" className="grid grid-cols-2 gap-1 rounded-xl bg-muted p-1">
+            <button type="button" aria-pressed={mode === "files"} disabled={busy} onClick={() => changeMode("files")} className={`rounded-lg px-3 py-2.5 text-sm font-medium ${mode === "files" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}><FileUp className="mr-1.5 inline size-4" />Upload</button>
+            <button type="button" aria-pressed={mode === "add"} disabled={busy} onClick={() => changeMode("add")} className={`rounded-lg px-3 py-2.5 text-sm font-medium ${mode === "add" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}><Plus className="mr-1.5 inline size-4" />Add</button>
           </div>
           <form className="max-h-[68vh] space-y-4 overflow-y-auto pr-1" onSubmit={(event) => void upload(event)}>
+            <div className="space-y-1.5"><label htmlFor="upload-title" className="text-sm font-medium">{mode === "add" ? "Name" : "Title"} {mode === "add" ? <span className="text-destructive">*</span> : <span className="font-normal text-muted-foreground">(optional)</span>}</label><Input id="upload-title" required={mode === "add"} value={fileTitle} onChange={(event) => setFileTitle(event.target.value)} placeholder={mode === "add" ? "e.g. English Second Paper — Model Test 01" : "e.g. English Model Test — Dhaka 2026"} maxLength={180} className="h-10" /></div>
             <div className="grid gap-3 sm:grid-cols-2">
-              <div className="space-y-1.5"><label htmlFor="upload-board" className="text-sm font-medium">Board <span className="text-destructive">*</span></label>
-                <Select value={uploadBoardId || undefined} onValueChange={(value) => setUploadBoardId(String(value || ""))}>
+              <div className="space-y-1.5"><label htmlFor="upload-board" className="text-sm font-medium">Board {mode === "add" ? <span className="font-normal text-muted-foreground">(optional)</span> : <span className="text-destructive">*</span>}</label>
+                <Select value={uploadBoardId || "none"} onValueChange={(value) => setUploadBoardId(String(value || "") === "none" ? "" : String(value))}>
                   <SelectTrigger id="upload-board" className="h-10 w-full"><SelectValue placeholder="Select Board" /></SelectTrigger>
-                  <SelectContent>{boards.filter((item) => item.isActive).map((item) => <SelectItem key={item.id} value={item.id}>{item.name}</SelectItem>)}</SelectContent>
+                  <SelectContent><SelectItem value="none">{mode === "add" ? "All Boards / Not specified" : "Select Board"}</SelectItem>{boards.filter((item) => item.isActive).map((item) => <SelectItem key={item.id} value={item.id}>{item.name}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
-              <div className="space-y-1.5"><label htmlFor="upload-year" className="text-sm font-medium">Academic Year <span className="text-destructive">*</span></label>
-                <Select value={uploadYearId || undefined} onValueChange={(value) => setUploadYearId(String(value || ""))}>
+              <div className="space-y-1.5"><label htmlFor="upload-year" className="text-sm font-medium">Academic Year {mode === "add" ? <span className="font-normal text-muted-foreground">(optional)</span> : <span className="text-destructive">*</span>}</label>
+                <Select value={uploadYearId || "none"} onValueChange={(value) => setUploadYearId(String(value || "") === "none" ? "" : String(value))}>
                   <SelectTrigger id="upload-year" className="h-10 w-full"><SelectValue placeholder="Select Year" /></SelectTrigger>
-                  <SelectContent>{years.filter((item) => item.isActive).map((item) => <SelectItem key={item.id} value={item.id}>{item.year}</SelectItem>)}</SelectContent>
+                  <SelectContent><SelectItem value="none">{mode === "add" ? "All Years / Not specified" : "Select Year"}</SelectItem>{years.filter((item) => item.isActive).map((item) => <SelectItem key={item.id} value={item.id}>{item.year}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
             </div>
-            {boards.every((item) => !item.isActive) || years.every((item) => !item.isActive) ? <p className="text-xs text-destructive">Create and activate a Board and Academic Year in Admin → Board first.</p> : null}
-            <div className="space-y-1.5"><label htmlFor="upload-title" className="text-sm font-medium">Title <span className="font-normal text-muted-foreground">(optional)</span></label><Input id="upload-title" value={fileTitle} onChange={(event) => setFileTitle(event.target.value)} placeholder="e.g. English Model Test — Dhaka 2026" maxLength={180} className="h-10" /><p className="text-xs text-muted-foreground">{mode === "files" ? "Multiple files use their filenames as titles." : "If blank, the source filename or Model Questions is used."}</p></div>
-            <div className="space-y-1.5"><label htmlFor="upload-files" className="text-sm font-medium">{mode === "questions" ? "Question file or reference paper (optional)" : "Source files *"}</label>
-              <label htmlFor="upload-files" className="flex cursor-pointer flex-col items-center rounded-xl border border-dashed border-primary/35 bg-primary/5 px-4 py-5 text-center hover:border-primary/60">
-                <FileUp className="mb-2 size-7 text-primary" /><span className="text-sm font-medium">{mode === "questions" ? "Choose TXT/JSON for automatic structured import" : "Choose PDF, Word, image or text files"}</span><span className="mt-1 text-xs text-muted-foreground">{mode === "questions" ? "Or attach one PDF/Word/image plus pasted questions below. No OCR." : "Up to 5 files · 25 MB each · saved to active storage"}</span>
-              </label>
-              <Input ref={fileInputRef} id="upload-files" type="file" accept={mode === "questions" ? ".txt,.json,.pdf,.doc,.docx,.jpg,.jpeg,.png,.webp" : ".pdf,.doc,.docx,.jpg,.jpeg,.png,.webp,.txt,.json"} multiple={mode === "files"} className="sr-only" onChange={(event) => void selectFiles(Array.from(event.target.files || []))} />
-              {files.length ? <div className="space-y-1 rounded-lg border p-2 text-xs">{files.map((file, index) => <div className="flex items-center justify-between gap-2" key={`${file.name}-${index}`}><span className="min-w-0 truncate">{file.name} ({formatSize(file.size)})</span><button type="button" aria-label={`Remove ${file.name}`} onClick={() => {setFiles((list) => list.filter((_, i) => i !== index));setFileQuestionsText("");if (fileInputRef.current) fileInputRef.current.value = "";}}><X className="size-4" /></button></div>)}</div> : null}
-            </div>
-            {mode === "questions" ? <div className="space-y-2">
-              <div className="flex flex-wrap items-center justify-between gap-2"><label htmlFor="question-import-text" className="text-sm font-medium">Question text (TXT / numbered questions / JSON)</label><Button size="sm" variant="ghost" type="button" onClick={() => setQuestionText(EXAMPLE)}>Use example</Button></div>
-              <Textarea id="question-import-text" rows={9} className="min-h-44 resize-y font-mono text-xs leading-5" value={questionText} onChange={(event) => setQuestionText(event.target.value)} placeholder={EXAMPLE} />
-              <p className="text-xs text-muted-foreground">Write each question with a number. MCQ options use A) B) C) D) or ক) খ) গ) ঘ). Use Answer: B or উত্তর: খ. Answers are optional. Supports JSON arrays with question, options, answer, explanation. Maximum 250 questions.</p>
-              {parsedPreview ? <div className={`rounded-lg border p-3 text-sm ${parsedPreview.errors.length ? "border-destructive/30 bg-destructive/5" : "border-primary/20 bg-primary/5"}`}>
-                <div className="font-medium">{parsedPreview.errors.length ? "Check import format" : `${parsedPreview.questions.length} questions ready to import`}</div>
-                {parsedPreview.errors.length ? <ul className="mt-1 list-inside list-disc text-xs text-destructive">{parsedPreview.errors.slice(0, 4).map((err, i) => <li key={i}>{err}</li>)}</ul> : <div className="mt-1 text-xs text-muted-foreground">{parsedPreview.questions.filter((q) => q.type === "mcq").length} MCQ · {parsedPreview.questions.filter((q) => q.type === "short").length} short answer</div>}
-                {parsedPreview.questions[0] ? <div className="mt-2 line-clamp-2 text-xs"><span className="font-semibold">Preview:</span> {parsedPreview.questions[0].question}</div> : null}
-              </div> : <div className="rounded-lg border border-dashed p-3 text-xs text-muted-foreground">Paste questions above or upload a .txt/.json file to see an import preview. PDF, Word and images are saved as references only unless you also paste their questions here.</div>}
-            </div> : null}
+            {mode === "files" ? <>
+              {boards.every((item) => !item.isActive) || years.every((item) => !item.isActive) ? <p className="text-xs text-destructive">Create and activate a Board and Academic Year in Admin → Board first to upload source files.</p> : null}
+              <div className="space-y-1.5"><label htmlFor="upload-files" className="text-sm font-medium">Source files *</label><label htmlFor="upload-files" className="flex cursor-pointer flex-col items-center rounded-xl border border-dashed border-primary/35 bg-primary/5 px-4 py-5 text-center hover:border-primary/60"><FileUp className="mb-2 size-7 text-primary"/><span className="text-sm font-medium">Choose PDF, Word, image, TXT or JSON files</span><span className="mt-1 text-xs text-muted-foreground">Up to 5 files · 25 MB each · saved to active storage</span></label>
+                <Input ref={fileInputRef} id="upload-files" type="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.webp,.txt,.json" multiple className="sr-only" onChange={(event) => {setFiles(Array.from(event.target.files || []));setError("");}}/>
+                {files.length ? <div className="space-y-1 rounded-lg border p-2 text-xs">{files.map((file, index) => <div key={`${file.name}-${index}`} className="flex items-center justify-between gap-2"><span className="min-w-0 truncate">{file.name} ({formatSize(file.size)})</span><button type="button" aria-label={`Remove ${file.name}`} onClick={() => {setFiles((all) => all.filter((_, i) => i !== index));if (fileInputRef.current) fileInputRef.current.value = "";}}><X className="size-4" /></button></div>)}</div> : null}
+              </div>
+            </> : <div className="rounded-lg border bg-muted/40 px-4 py-3 text-sm text-muted-foreground">After creation, the new model-question page opens automatically. Add subject-specific question blocks for {subject.name}. Board and Year are optional filters for this set.</div>}
             {error ? <div role="alert" className="rounded-lg border border-destructive/30 bg-destructive/5 p-3 text-sm text-destructive">{error}</div> : null}
-            <DialogFooter className="sticky bottom-0 -mx-1 bg-background px-1 pt-3"><Button type="button" variant="outline" size="lg" disabled={busy} onClick={() => {setModalOpen(false);resetUpload();}}>Cancel</Button><Button type="submit" size="lg" disabled={busy || !uploadBoardId || !uploadYearId || (mode === "questions" ? !canImport : !files.length)}>{busy ? <Loader2 className="size-4 animate-spin" /> : <Upload className="size-4" />}{busy ? "Saving…" : mode === "questions" ? `Import ${parsedPreview?.questions.length ?? 0} Questions` : "Upload Files"}</Button></DialogFooter>
+            <DialogFooter><Button type="button" variant="outline" size="lg" disabled={busy} onClick={() => {setModalOpen(false);resetUpload();}}>Cancel</Button><Button type="submit" size="lg" disabled={busy || (mode === "add" ? !fileTitle.trim() : !uploadBoardId || !uploadYearId || !files.length)}>{busy ? <Loader2 className="size-4 animate-spin" /> : mode === "add" ? <Plus className="size-4"/> : <Upload className="size-4"/>}{busy ? "Saving…" : mode === "add" ? "Create & Open" : "Upload Files"}</Button></DialogFooter>
           </form>
         </DialogContent>
       </Dialog>

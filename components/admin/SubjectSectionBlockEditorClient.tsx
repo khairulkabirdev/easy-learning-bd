@@ -27,7 +27,7 @@ import { TiptapRichTextEditor } from "@/components/admin/TiptapRichTextEditor";
 import { TableCompletionChoiceCombobox } from "@/components/app/TableCompletionChoiceCombobox";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Field,
@@ -327,15 +327,13 @@ export function SubjectSectionBlockEditorClient({
     >
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="space-y-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="-ml-2"
-            render={<Link href={basePath} />}
+          <Link
+            href={basePath}
+            className={buttonVariants({ variant: "ghost", size: "sm", className: "-ml-2" })}
           >
             <ArrowLeft data-icon="inline-start" />
             Back to {meta.title}
-          </Button>
+          </Link>
           <div>
             <div className="text-sm text-muted-foreground">
               {classItem.name} • {subject.name}

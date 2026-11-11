@@ -1,0 +1,28 @@
+eLesson — Model Question Import: Upload / Add with subject-specific question blocks
+
+ONLY changed or new files are included. No SQLite database, old uploads, .env or entire project is included.
+
+1. STOP Next.js and BACK UP your LIVE database & uploads before merging:
+   PowerShell example: Copy-Item .\prisma\dev.db .\prisma\dev.db.pre-model-add-backup
+   (Only if that is your real DATABASE_URL database, and all writers are stopped.)
+
+2. Extract this archive into your EXISTING eLesson project root.
+   Preserve the folder structure, replacing ONLY same-path source files.
+
+3. Run:
+   npm run prisma:generate
+   npm run db:repair:sqlite
+   npm run build
+   npm run dev
+
+4. Open /admin/model-question-import/<classId>/<subjectId>
+   Upload remains available, "Import" is now "Add" (name required,
+   board/year optional). "Create & Open" opens the new block-editor page.
+   Previously imported questions stay listed in the original upload library.
+
+5. New tables: ModelQuestionSet and ModelQuestionSetBlock. No old table is rebuilt.
+   The repair script now retains legacy tables and does not purge expired sessions by default.
+
+Do NOT use prisma migrate reset, db push --force-reset, or overwrite prisma/dev.db.
+
+See docs/MODEL_QUESTION_ADD.md for the full workflow and verification notes.

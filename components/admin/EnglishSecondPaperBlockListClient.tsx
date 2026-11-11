@@ -28,7 +28,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export type EnglishSecondPaperListItem = {
@@ -136,10 +136,10 @@ export function EnglishSecondPaperBlockListClient({
             >
               <ArrowDown />
             </Button>
-            <Button variant="outline" size="sm" render={<Link href={`${basePath}/${row.id}`} />}>
+            <Link href={`${basePath}/${row.id}`} className={buttonVariants({ variant: "outline", size: "sm" })}>
               <Edit3 data-icon="inline-start" />
               Edit
-            </Button>
+            </Link>
             <Button
               type="button"
               variant="destructive"
@@ -169,10 +169,10 @@ export function EnglishSecondPaperBlockListClient({
           <h1 className="text-2xl font-bold tracking-tight">{meta.title}</h1>
           <p className="max-w-3xl text-sm text-muted-foreground">{meta.description}</p>
         </div>
-        <Button render={<Link href={`${basePath}/add`} />}>
+        <Link href={`${basePath}/add`} className={buttonVariants()}>
           <Plus data-icon="inline-start" />
           Add {meta.title}
-        </Button>
+        </Link>
       </div>
 
       {error ? (

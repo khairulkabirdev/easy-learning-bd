@@ -24,7 +24,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -206,14 +206,13 @@ export function AdminCurriculumContentManager({
         cellClassName: "text-right",
         cell: (row) => (
           <div className="flex min-w-max items-center justify-end gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              render={<Link href={`/admin/content/${row.id}${editorMode ? `?editorMode=${editorMode}` : ""}`} />}
+            <Link
+              href={`/admin/content/${row.id}${editorMode ? `?editorMode=${editorMode}` : ""}`}
+              className={buttonVariants({ variant: "outline", size: "sm" })}
             >
               <Edit3 data-icon="inline-start" />
               Edit
-            </Button>
+            </Link>
             <Button
               type="button"
               variant="destructive"

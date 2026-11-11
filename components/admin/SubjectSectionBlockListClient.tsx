@@ -29,7 +29,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export type SubjectSectionListItem = {
@@ -154,14 +154,10 @@ export function SubjectSectionBlockListClient({ kind, classItem, subject, record
             >
               <ArrowDown />
             </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              render={<Link href={`${basePath}/${row.id}`} />}
-            >
+            <Link href={`${basePath}/${row.id}`} className={buttonVariants({ variant: "outline", size: "sm" })}>
               <Edit3 data-icon="inline-start" />
               Edit
-            </Button>
+            </Link>
             <Button
               type="button"
               variant="destructive"
@@ -191,10 +187,10 @@ export function SubjectSectionBlockListClient({ kind, classItem, subject, record
           <h1 className="text-2xl font-bold tracking-tight">{meta.title}</h1>
           <p className="max-w-3xl text-sm text-muted-foreground">{meta.description}</p>
         </div>
-        <Button size="default" render={<Link href={`${basePath}/add`} />}>
+        <Link href={`${basePath}/add`} className={buttonVariants({ size: "default" })}>
           <Plus data-icon="inline-start" />
           Add {meta.title}
-        </Button>
+        </Link>
       </div>
 
       {error ? (

@@ -130,6 +130,7 @@ model Class {
   unseenCompositions UnseenComposition[]
   students       User[]        @relation("StudentClass")
   modelQuestionImports ModelQuestionImport[]
+  modelQuestionSets ModelQuestionSet[]
 
   @@index([organizationId, status, sortOrder])
 }
@@ -159,6 +160,7 @@ model Subject {
   contents       Content[]
   unseenCompositions UnseenComposition[]
   modelQuestionImports ModelQuestionImport[]
+  modelQuestionSets ModelQuestionSet[]
 
   @@index([organizationId, classId, status, sortOrder])
 }
@@ -425,6 +427,10 @@ model VocabularyEntry {
   id             String   @id @default(cuid())
   vocabularyId   String
   word           String   @default("")
+  partOfSpeech      String   @default("")
+  pronunciation     String   @default("")
+  synonyms          String   @default("")
+  antonyms          String   @default("")
   meaning        String   @default("")
   imageUrl       String   @default("")
   imagePath      String   @default("")
@@ -497,6 +503,7 @@ model UploadedFile {
   checksumSha256     String   @default("")
   status             String   @default("active")
   isCurrent          Boolean  @default(true)
+  sortOrder          Int      @default(0)
   replacedAt         DateTime?
   deletedAt          DateTime?
   storageDeletedAt   DateTime?
@@ -1192,6 +1199,7 @@ model SubjectEnglishSecondPaperBlock {
 // Admin-only master data used for board/year setup.
 model Board {
   modelQuestionImports ModelQuestionImport[]
+  modelQuestionSets ModelQuestionSet[]
   id             String   @id @default(cuid())
   name           String
   isActive       Boolean  @default(true)
@@ -1207,6 +1215,7 @@ model Board {
 
 model AcademicYear {
   modelQuestionImports ModelQuestionImport[]
+  modelQuestionSets ModelQuestionSet[]
   id             String   @id @default(cuid())
   year           Int
   isActive       Boolean  @default(true)
@@ -1247,4 +1256,54 @@ model ModelQuestionImport {
 
   @@index([organizationId, classId, subjectId, createdAt])
   @@index([organizationId, classId, subjectId, boardId, academicYearId])
+}
+
+
+// Editable model test sets are independent of legacy uploaded source records.
+// No existing ModelQuestionImport row or UploadedFile is rewritten by this feature.
+model ModelQuestionSet {
+  id             String   @id @default(cuid())
+  classId        String
+  subjectId      String
+  boardId        String?
+  academicYearId String?
+  name           String
+  editorContentId String? @unique
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  class          Class        @relation(fields: [classId], references: [id], onDelete: Cascade)
+  subject        Subject      @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  board          Board?       @relation(fields: [boardId], references: [id], onDelete: SetNull)
+  academicYear   AcademicYear? @relation(fields: [academicYearId], references: [id], onDelete: SetNull)
+  blocks         ModelQuestionSetBlock[]
+
+  @@index([organizationId, classId, subjectId, createdAt])
+  @@index([organizationId, classId, subjectId, boardId, academicYearId])
+}
+
+model ModelQuestionSetBlock {
+  id             String   @id @default(cuid())
+  setId          String
+  kind           String
+  title          String
+  instructions   String   @default("")
+  passage        String   @default("")
+  question       String
+  optionsJson    String   @default("[]")
+  answer         String   @default("")
+  marks          Int      @default(1)
+  sortOrder      Int      @default(0)
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  set            ModelQuestionSet @relation(fields: [setId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, setId, sortOrder])
 }

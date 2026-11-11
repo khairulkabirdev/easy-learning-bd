@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { isEnglishFirstPaperSubject, isEnglishSecondPaperSubject } from "@/app/admin/content/navigation-helpers";
 
 import { ContentBlocksEditorClient } from "@/app/admin/content/[contentId]/ContentBlocksEditorClient";
 import { SeenCompositionTitleEditor } from "@/components/admin/SeenCompositionTitleEditor";
@@ -460,11 +461,11 @@ export default async function AdminContentBlocksPage({
   searchParams,
 }: {
   params: Promise<{ contentId: string }>;
-  searchParams: Promise<{ editorMode?: string }>;
+  searchParams: Promise<{ editorMode?: string; addBlock?: string }>;
 }) {
   const user = await requireAdmin();
   const { contentId } = await params;
-  const { editorMode } = await searchParams;
+  const { editorMode, addBlock } = await searchParams;
 
   const content = await prisma.content.findFirst({
     where: {
@@ -552,19 +553,10 @@ export default async function AdminContentBlocksPage({
                   id: true,
                   vocabularyId: true,
                   word: true,
-                  partOfSpeech: true,
-                  pronunciation: true,
                   meaning: true,
-                  synonyms: true,
-                  antonyms: true,
                   imageUrl: true,
                   imagePath: true,
                   sortOrder: true,
-                  uploadedFiles: {
-                    where: { purpose: "vocabulary-item-image", isCurrent: true, status: "active" },
-                    orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
-                    select: { id: true, url: true, path: true, sortOrder: true },
-                  },
                 },
               },
             },
@@ -977,23 +969,6 @@ export default async function AdminContentBlocksPage({
     return paragraphBlockId;
   };
 
-  const vocabularyBlockIds = content.blocks.filter((block) => block.kind === "vocabulary").map((block) => block.id);
-  const galleryRows = vocabularyBlockIds.length ? await prisma.uploadedFile.findMany({
-    where: {
-      organizationId: user.organizationId,
-      ownerType: "VocabularyBlock",
-      ownerId: { in: vocabularyBlockIds },
-      purpose: "vocabulary-block-gallery",
-      status: "active",
-      isCurrent: true,
-    },
-    select: { id: true, ownerId: true, url: true, path: true, sortOrder: true },
-    orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
-  }) : [];
-  const galleryForBlock = (blockId: string) => galleryRows
-    .filter((row) => row.ownerId === blockId)
-    .map(({ id, url, path, sortOrder }) => ({ id, url, path, sortOrder }));
-
   const typedContent: ContentRecordWithBlocks = {
     ...content,
     blocks: content.blocks.map((block) => ({
@@ -1002,7 +977,6 @@ export default async function AdminContentBlocksPage({
       vocabulary: block.vocabulary
         ? {
             ...block.vocabulary,
-            galleryImages: galleryForBlock(block.id),
             passageSource: block.vocabulary.passageSource === "paragraph" ? "paragraph" as const : "manual" as const,
             paragraphBlockId: normalizeSeenPassageLink(block.vocabulary.paragraphBlockId || null),
           }
@@ -1210,8 +1184,40 @@ export default async function AdminContentBlocksPage({
     })),
   };
 
+  const modelQuestionMode = editorMode === "model-question";
+  // Class 6/7 English 1st Paper has a shorter, ordered question-paper menu.
+  // Restrict new choices only; existing saved blocks must remain accessible.
+  const classLabel = content.class.name.trim().toLowerCase();
+  const isClassSixOrSeven =
+    /^(?:6|7|৬|৭)(?:th)?$/.test(classLabel) ||
+    /\b(?:class|grade|standard|std\.?)\s*[-:]?\s*(?:6|7)(?:th)?\b/.test(classLabel) ||
+    /(?:ক্লাস|শ্রেণি)\s*(?:৬|৭|ষষ্ঠ|সপ্তম)|(?:৬ষ্ঠ|৭ম|ষষ্ঠ|সপ্তম)\s*(?:শ্রেণি|ক্লাস)/.test(classLabel);
+  const classSixSevenFirstPaper = modelQuestionMode && isClassSixOrSeven && isEnglishFirstPaperSubject(content.subject);
+  const classSixSevenKinds: ContentBlockKind[] = [
+    "seen-passage-one", "mcq", "question-answer",
+    "seen-passage-two", "information-transfer", "true-false",
+    "gap-fill-first-paper", "table-completion", "rearrange-sentence",
+  ];
+  const modelQuestionKinds: ContentBlockKind[] = isEnglishSecondPaperSubject(content.subject)
+    ? [
+        "gap-fill-second-paper", "substitution-table", "right-form-of-verb",
+        "narration", "changing-sentence", "punctuation-and-capitalization",
+        "preposition", "suffix-and-prefix", "tag-question", "connector",
+      ]
+    : classSixSevenFirstPaper
+      ? classSixSevenKinds
+      : isEnglishFirstPaperSubject(content.subject)
+        ? [
+          "seen-passage-one", "seen-passage-two", "mcq", "question-answer",
+          "information-transfer", "true-false", "gap-fill-first-paper",
+          "table-completion", "column-matching", "question-from-poems",
+          "question-from-story", "rearrange-sentence", "synonyms-antonyms",
+          ]
+        : ["mcq", "question-answer", "gap-fill-first-paper", "table-completion", "column-matching"];
   const modeConfig =
-    editorMode === "seen-composition"
+    modelQuestionMode
+      ? { label: "Model Questions", slug: "model-question", kinds: modelQuestionKinds }
+      : editorMode === "seen-composition"
       ? {
           label: "Seen Composition",
           slug: "seen-composition",
@@ -1245,6 +1251,14 @@ export default async function AdminContentBlocksPage({
       <ContentBlocksEditorClient
         content={typedContent}
         allowedBlockKindsOverride={allowedBlockKinds}
+        chooserGroupMode={modelQuestionMode ? "model-question" : undefined}
+        classSixSevenModelQuestion={classSixSevenFirstPaper}
+        blockTitleOverrides={classSixSevenFirstPaper ? {
+          "seen-passage-one": "Passage 1",
+          "seen-passage-two": "Passage 2",
+          "question-answer": "Answering Questions",
+        } : undefined}
+        initialChooserOpen={modelQuestionMode && addBlock === "1"}
       />
     </div>
   );

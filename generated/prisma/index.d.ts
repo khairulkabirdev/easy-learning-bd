@@ -268,6 +268,16 @@ export type AcademicYear = $Result.DefaultSelection<Prisma.$AcademicYearPayload>
  * 
  */
 export type ModelQuestionImport = $Result.DefaultSelection<Prisma.$ModelQuestionImportPayload>
+/**
+ * Model ModelQuestionSet
+ * 
+ */
+export type ModelQuestionSet = $Result.DefaultSelection<Prisma.$ModelQuestionSetPayload>
+/**
+ * Model ModelQuestionSetBlock
+ * 
+ */
+export type ModelQuestionSetBlock = $Result.DefaultSelection<Prisma.$ModelQuestionSetBlockPayload>
 
 /**
  * Enums
@@ -927,6 +937,26 @@ export class PrismaClient<
     * ```
     */
   get modelQuestionImport(): Prisma.ModelQuestionImportDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.modelQuestionSet`: Exposes CRUD operations for the **ModelQuestionSet** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ModelQuestionSets
+    * const modelQuestionSets = await prisma.modelQuestionSet.findMany()
+    * ```
+    */
+  get modelQuestionSet(): Prisma.ModelQuestionSetDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.modelQuestionSetBlock`: Exposes CRUD operations for the **ModelQuestionSetBlock** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ModelQuestionSetBlocks
+    * const modelQuestionSetBlocks = await prisma.modelQuestionSetBlock.findMany()
+    * ```
+    */
+  get modelQuestionSetBlock(): Prisma.ModelQuestionSetBlockDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1418,7 +1448,9 @@ export namespace Prisma {
     SubjectEnglishSecondPaperBlock: 'SubjectEnglishSecondPaperBlock',
     Board: 'Board',
     AcademicYear: 'AcademicYear',
-    ModelQuestionImport: 'ModelQuestionImport'
+    ModelQuestionImport: 'ModelQuestionImport',
+    ModelQuestionSet: 'ModelQuestionSet',
+    ModelQuestionSetBlock: 'ModelQuestionSetBlock'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1437,7 +1469,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "authSession" | "passwordResetToken" | "authEmailSetting" | "auditLog" | "class" | "subject" | "unit" | "lesson" | "topic" | "content" | "seenPassageOne" | "seenPassageTwo" | "unseenComposition" | "contentBlock" | "paragraph" | "vocabulary" | "vocabularyEntry" | "storageConfiguration" | "uploadedFile" | "synonymsAntonyms" | "synonymsAntonymsEntry" | "gapFillExercise" | "gapFillFirstPaper" | "gapFillSecondPaper" | "mcqSection" | "questionAnswerExercise" | "tableCompletionExercise" | "columnMatchingExercise" | "rearrangeSentenceExercise" | "questionFromPoems" | "questionFromStory" | "trueFalseExercise" | "informationTransfer" | "substitutionTable" | "rightFormOfVerb" | "narration" | "changingSentence" | "punctuationAndCapitalization" | "preposition" | "suffixAndPrefix" | "tagQuestion" | "connector" | "subjectMatchingSentencesBlock" | "subjectRearrangeSentenceBlock" | "subjectQuestionFromPoemsBlock" | "subjectQuestionFromStoryBlock" | "subjectEnglishSecondPaperBlock" | "board" | "academicYear" | "modelQuestionImport"
+      modelProps: "user" | "authSession" | "passwordResetToken" | "authEmailSetting" | "auditLog" | "class" | "subject" | "unit" | "lesson" | "topic" | "content" | "seenPassageOne" | "seenPassageTwo" | "unseenComposition" | "contentBlock" | "paragraph" | "vocabulary" | "vocabularyEntry" | "storageConfiguration" | "uploadedFile" | "synonymsAntonyms" | "synonymsAntonymsEntry" | "gapFillExercise" | "gapFillFirstPaper" | "gapFillSecondPaper" | "mcqSection" | "questionAnswerExercise" | "tableCompletionExercise" | "columnMatchingExercise" | "rearrangeSentenceExercise" | "questionFromPoems" | "questionFromStory" | "trueFalseExercise" | "informationTransfer" | "substitutionTable" | "rightFormOfVerb" | "narration" | "changingSentence" | "punctuationAndCapitalization" | "preposition" | "suffixAndPrefix" | "tagQuestion" | "connector" | "subjectMatchingSentencesBlock" | "subjectRearrangeSentenceBlock" | "subjectQuestionFromPoemsBlock" | "subjectQuestionFromStoryBlock" | "subjectEnglishSecondPaperBlock" | "board" | "academicYear" | "modelQuestionImport" | "modelQuestionSet" | "modelQuestionSetBlock"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5215,6 +5247,154 @@ export namespace Prisma {
           }
         }
       }
+      ModelQuestionSet: {
+        payload: Prisma.$ModelQuestionSetPayload<ExtArgs>
+        fields: Prisma.ModelQuestionSetFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ModelQuestionSetFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionSetPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ModelQuestionSetFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionSetPayload>
+          }
+          findFirst: {
+            args: Prisma.ModelQuestionSetFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionSetPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ModelQuestionSetFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionSetPayload>
+          }
+          findMany: {
+            args: Prisma.ModelQuestionSetFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionSetPayload>[]
+          }
+          create: {
+            args: Prisma.ModelQuestionSetCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionSetPayload>
+          }
+          createMany: {
+            args: Prisma.ModelQuestionSetCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ModelQuestionSetCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionSetPayload>[]
+          }
+          delete: {
+            args: Prisma.ModelQuestionSetDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionSetPayload>
+          }
+          update: {
+            args: Prisma.ModelQuestionSetUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionSetPayload>
+          }
+          deleteMany: {
+            args: Prisma.ModelQuestionSetDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ModelQuestionSetUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ModelQuestionSetUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionSetPayload>[]
+          }
+          upsert: {
+            args: Prisma.ModelQuestionSetUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionSetPayload>
+          }
+          aggregate: {
+            args: Prisma.ModelQuestionSetAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateModelQuestionSet>
+          }
+          groupBy: {
+            args: Prisma.ModelQuestionSetGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ModelQuestionSetGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ModelQuestionSetCountArgs<ExtArgs>
+            result: $Utils.Optional<ModelQuestionSetCountAggregateOutputType> | number
+          }
+        }
+      }
+      ModelQuestionSetBlock: {
+        payload: Prisma.$ModelQuestionSetBlockPayload<ExtArgs>
+        fields: Prisma.ModelQuestionSetBlockFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ModelQuestionSetBlockFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionSetBlockPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ModelQuestionSetBlockFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionSetBlockPayload>
+          }
+          findFirst: {
+            args: Prisma.ModelQuestionSetBlockFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionSetBlockPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ModelQuestionSetBlockFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionSetBlockPayload>
+          }
+          findMany: {
+            args: Prisma.ModelQuestionSetBlockFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionSetBlockPayload>[]
+          }
+          create: {
+            args: Prisma.ModelQuestionSetBlockCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionSetBlockPayload>
+          }
+          createMany: {
+            args: Prisma.ModelQuestionSetBlockCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ModelQuestionSetBlockCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionSetBlockPayload>[]
+          }
+          delete: {
+            args: Prisma.ModelQuestionSetBlockDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionSetBlockPayload>
+          }
+          update: {
+            args: Prisma.ModelQuestionSetBlockUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionSetBlockPayload>
+          }
+          deleteMany: {
+            args: Prisma.ModelQuestionSetBlockDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ModelQuestionSetBlockUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ModelQuestionSetBlockUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionSetBlockPayload>[]
+          }
+          upsert: {
+            args: Prisma.ModelQuestionSetBlockUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ModelQuestionSetBlockPayload>
+          }
+          aggregate: {
+            args: Prisma.ModelQuestionSetBlockAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateModelQuestionSetBlock>
+          }
+          groupBy: {
+            args: Prisma.ModelQuestionSetBlockGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ModelQuestionSetBlockGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ModelQuestionSetBlockCountArgs<ExtArgs>
+            result: $Utils.Optional<ModelQuestionSetBlockCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -5362,6 +5542,8 @@ export namespace Prisma {
     board?: BoardOmit
     academicYear?: AcademicYearOmit
     modelQuestionImport?: ModelQuestionImportOmit
+    modelQuestionSet?: ModelQuestionSetOmit
+    modelQuestionSetBlock?: ModelQuestionSetBlockOmit
   }
 
   /* Types for Logging */
@@ -5488,6 +5670,7 @@ export namespace Prisma {
     unseenCompositions: number
     students: number
     modelQuestionImports: number
+    modelQuestionSets: number
   }
 
   export type ClassCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5497,6 +5680,7 @@ export namespace Prisma {
     unseenCompositions?: boolean | ClassCountOutputTypeCountUnseenCompositionsArgs
     students?: boolean | ClassCountOutputTypeCountStudentsArgs
     modelQuestionImports?: boolean | ClassCountOutputTypeCountModelQuestionImportsArgs
+    modelQuestionSets?: boolean | ClassCountOutputTypeCountModelQuestionSetsArgs
   }
 
   // Custom InputTypes
@@ -5552,6 +5736,13 @@ export namespace Prisma {
     where?: ModelQuestionImportWhereInput
   }
 
+  /**
+   * ClassCountOutputType without action
+   */
+  export type ClassCountOutputTypeCountModelQuestionSetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ModelQuestionSetWhereInput
+  }
+
 
   /**
    * Count Type SubjectCountOutputType
@@ -5562,6 +5753,7 @@ export namespace Prisma {
     contents: number
     unseenCompositions: number
     modelQuestionImports: number
+    modelQuestionSets: number
   }
 
   export type SubjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5569,6 +5761,7 @@ export namespace Prisma {
     contents?: boolean | SubjectCountOutputTypeCountContentsArgs
     unseenCompositions?: boolean | SubjectCountOutputTypeCountUnseenCompositionsArgs
     modelQuestionImports?: boolean | SubjectCountOutputTypeCountModelQuestionImportsArgs
+    modelQuestionSets?: boolean | SubjectCountOutputTypeCountModelQuestionSetsArgs
   }
 
   // Custom InputTypes
@@ -5608,6 +5801,13 @@ export namespace Prisma {
    */
   export type SubjectCountOutputTypeCountModelQuestionImportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ModelQuestionImportWhereInput
+  }
+
+  /**
+   * SubjectCountOutputType without action
+   */
+  export type SubjectCountOutputTypeCountModelQuestionSetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ModelQuestionSetWhereInput
   }
 
 
@@ -5883,10 +6083,12 @@ export namespace Prisma {
 
   export type BoardCountOutputType = {
     modelQuestionImports: number
+    modelQuestionSets: number
   }
 
   export type BoardCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     modelQuestionImports?: boolean | BoardCountOutputTypeCountModelQuestionImportsArgs
+    modelQuestionSets?: boolean | BoardCountOutputTypeCountModelQuestionSetsArgs
   }
 
   // Custom InputTypes
@@ -5907,6 +6109,13 @@ export namespace Prisma {
     where?: ModelQuestionImportWhereInput
   }
 
+  /**
+   * BoardCountOutputType without action
+   */
+  export type BoardCountOutputTypeCountModelQuestionSetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ModelQuestionSetWhereInput
+  }
+
 
   /**
    * Count Type AcademicYearCountOutputType
@@ -5914,10 +6123,12 @@ export namespace Prisma {
 
   export type AcademicYearCountOutputType = {
     modelQuestionImports: number
+    modelQuestionSets: number
   }
 
   export type AcademicYearCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     modelQuestionImports?: boolean | AcademicYearCountOutputTypeCountModelQuestionImportsArgs
+    modelQuestionSets?: boolean | AcademicYearCountOutputTypeCountModelQuestionSetsArgs
   }
 
   // Custom InputTypes
@@ -5936,6 +6147,44 @@ export namespace Prisma {
    */
   export type AcademicYearCountOutputTypeCountModelQuestionImportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ModelQuestionImportWhereInput
+  }
+
+  /**
+   * AcademicYearCountOutputType without action
+   */
+  export type AcademicYearCountOutputTypeCountModelQuestionSetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ModelQuestionSetWhereInput
+  }
+
+
+  /**
+   * Count Type ModelQuestionSetCountOutputType
+   */
+
+  export type ModelQuestionSetCountOutputType = {
+    blocks: number
+  }
+
+  export type ModelQuestionSetCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    blocks?: boolean | ModelQuestionSetCountOutputTypeCountBlocksArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ModelQuestionSetCountOutputType without action
+   */
+  export type ModelQuestionSetCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSetCountOutputType
+     */
+    select?: ModelQuestionSetCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ModelQuestionSetCountOutputType without action
+   */
+  export type ModelQuestionSetCountOutputTypeCountBlocksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ModelQuestionSetBlockWhereInput
   }
 
 
@@ -11812,6 +12061,7 @@ export namespace Prisma {
     unseenCompositions?: boolean | Class$unseenCompositionsArgs<ExtArgs>
     students?: boolean | Class$studentsArgs<ExtArgs>
     modelQuestionImports?: boolean | Class$modelQuestionImportsArgs<ExtArgs>
+    modelQuestionSets?: boolean | Class$modelQuestionSetsArgs<ExtArgs>
     _count?: boolean | ClassCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["class"]>
 
@@ -11883,6 +12133,7 @@ export namespace Prisma {
     unseenCompositions?: boolean | Class$unseenCompositionsArgs<ExtArgs>
     students?: boolean | Class$studentsArgs<ExtArgs>
     modelQuestionImports?: boolean | Class$modelQuestionImportsArgs<ExtArgs>
+    modelQuestionSets?: boolean | Class$modelQuestionSetsArgs<ExtArgs>
     _count?: boolean | ClassCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ClassIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -11897,6 +12148,7 @@ export namespace Prisma {
       unseenCompositions: Prisma.$UnseenCompositionPayload<ExtArgs>[]
       students: Prisma.$UserPayload<ExtArgs>[]
       modelQuestionImports: Prisma.$ModelQuestionImportPayload<ExtArgs>[]
+      modelQuestionSets: Prisma.$ModelQuestionSetPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -12316,6 +12568,7 @@ export namespace Prisma {
     unseenCompositions<T extends Class$unseenCompositionsArgs<ExtArgs> = {}>(args?: Subset<T, Class$unseenCompositionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnseenCompositionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     students<T extends Class$studentsArgs<ExtArgs> = {}>(args?: Subset<T, Class$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     modelQuestionImports<T extends Class$modelQuestionImportsArgs<ExtArgs> = {}>(args?: Subset<T, Class$modelQuestionImportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelQuestionImportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    modelQuestionSets<T extends Class$modelQuestionSetsArgs<ExtArgs> = {}>(args?: Subset<T, Class$modelQuestionSetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelQuestionSetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12892,6 +13145,30 @@ export namespace Prisma {
   }
 
   /**
+   * Class.modelQuestionSets
+   */
+  export type Class$modelQuestionSetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSet
+     */
+    select?: ModelQuestionSetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSet
+     */
+    omit?: ModelQuestionSetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetInclude<ExtArgs> | null
+    where?: ModelQuestionSetWhereInput
+    orderBy?: ModelQuestionSetOrderByWithRelationInput | ModelQuestionSetOrderByWithRelationInput[]
+    cursor?: ModelQuestionSetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ModelQuestionSetScalarFieldEnum | ModelQuestionSetScalarFieldEnum[]
+  }
+
+  /**
    * Class without action
    */
   export type ClassDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13217,6 +13494,7 @@ export namespace Prisma {
     contents?: boolean | Subject$contentsArgs<ExtArgs>
     unseenCompositions?: boolean | Subject$unseenCompositionsArgs<ExtArgs>
     modelQuestionImports?: boolean | Subject$modelQuestionImportsArgs<ExtArgs>
+    modelQuestionSets?: boolean | Subject$modelQuestionSetsArgs<ExtArgs>
     _count?: boolean | SubjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["subject"]>
 
@@ -13292,6 +13570,7 @@ export namespace Prisma {
     contents?: boolean | Subject$contentsArgs<ExtArgs>
     unseenCompositions?: boolean | Subject$unseenCompositionsArgs<ExtArgs>
     modelQuestionImports?: boolean | Subject$modelQuestionImportsArgs<ExtArgs>
+    modelQuestionSets?: boolean | Subject$modelQuestionSetsArgs<ExtArgs>
     _count?: boolean | SubjectCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SubjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13309,6 +13588,7 @@ export namespace Prisma {
       contents: Prisma.$ContentPayload<ExtArgs>[]
       unseenCompositions: Prisma.$UnseenCompositionPayload<ExtArgs>[]
       modelQuestionImports: Prisma.$ModelQuestionImportPayload<ExtArgs>[]
+      modelQuestionSets: Prisma.$ModelQuestionSetPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -13728,6 +14008,7 @@ export namespace Prisma {
     contents<T extends Subject$contentsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$contentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     unseenCompositions<T extends Subject$unseenCompositionsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$unseenCompositionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UnseenCompositionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     modelQuestionImports<T extends Subject$modelQuestionImportsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$modelQuestionImportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelQuestionImportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    modelQuestionSets<T extends Subject$modelQuestionSetsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$modelQuestionSetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelQuestionSetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14262,6 +14543,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ModelQuestionImportScalarFieldEnum | ModelQuestionImportScalarFieldEnum[]
+  }
+
+  /**
+   * Subject.modelQuestionSets
+   */
+  export type Subject$modelQuestionSetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSet
+     */
+    select?: ModelQuestionSetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSet
+     */
+    omit?: ModelQuestionSetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetInclude<ExtArgs> | null
+    where?: ModelQuestionSetWhereInput
+    orderBy?: ModelQuestionSetOrderByWithRelationInput | ModelQuestionSetOrderByWithRelationInput[]
+    cursor?: ModelQuestionSetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ModelQuestionSetScalarFieldEnum | ModelQuestionSetScalarFieldEnum[]
   }
 
   /**
@@ -27083,6 +27388,10 @@ export namespace Prisma {
     id: string | null
     vocabularyId: string | null
     word: string | null
+    partOfSpeech: string | null
+    pronunciation: string | null
+    synonyms: string | null
+    antonyms: string | null
     meaning: string | null
     imageUrl: string | null
     imagePath: string | null
@@ -27098,6 +27407,10 @@ export namespace Prisma {
     id: string | null
     vocabularyId: string | null
     word: string | null
+    partOfSpeech: string | null
+    pronunciation: string | null
+    synonyms: string | null
+    antonyms: string | null
     meaning: string | null
     imageUrl: string | null
     imagePath: string | null
@@ -27113,6 +27426,10 @@ export namespace Prisma {
     id: number
     vocabularyId: number
     word: number
+    partOfSpeech: number
+    pronunciation: number
+    synonyms: number
+    antonyms: number
     meaning: number
     imageUrl: number
     imagePath: number
@@ -27138,6 +27455,10 @@ export namespace Prisma {
     id?: true
     vocabularyId?: true
     word?: true
+    partOfSpeech?: true
+    pronunciation?: true
+    synonyms?: true
+    antonyms?: true
     meaning?: true
     imageUrl?: true
     imagePath?: true
@@ -27153,6 +27474,10 @@ export namespace Prisma {
     id?: true
     vocabularyId?: true
     word?: true
+    partOfSpeech?: true
+    pronunciation?: true
+    synonyms?: true
+    antonyms?: true
     meaning?: true
     imageUrl?: true
     imagePath?: true
@@ -27168,6 +27493,10 @@ export namespace Prisma {
     id?: true
     vocabularyId?: true
     word?: true
+    partOfSpeech?: true
+    pronunciation?: true
+    synonyms?: true
+    antonyms?: true
     meaning?: true
     imageUrl?: true
     imagePath?: true
@@ -27270,6 +27599,10 @@ export namespace Prisma {
     id: string
     vocabularyId: string
     word: string
+    partOfSpeech: string
+    pronunciation: string
+    synonyms: string
+    antonyms: string
     meaning: string
     imageUrl: string
     imagePath: string
@@ -27304,6 +27637,10 @@ export namespace Prisma {
     id?: boolean
     vocabularyId?: boolean
     word?: boolean
+    partOfSpeech?: boolean
+    pronunciation?: boolean
+    synonyms?: boolean
+    antonyms?: boolean
     meaning?: boolean
     imageUrl?: boolean
     imagePath?: boolean
@@ -27322,6 +27659,10 @@ export namespace Prisma {
     id?: boolean
     vocabularyId?: boolean
     word?: boolean
+    partOfSpeech?: boolean
+    pronunciation?: boolean
+    synonyms?: boolean
+    antonyms?: boolean
     meaning?: boolean
     imageUrl?: boolean
     imagePath?: boolean
@@ -27338,6 +27679,10 @@ export namespace Prisma {
     id?: boolean
     vocabularyId?: boolean
     word?: boolean
+    partOfSpeech?: boolean
+    pronunciation?: boolean
+    synonyms?: boolean
+    antonyms?: boolean
     meaning?: boolean
     imageUrl?: boolean
     imagePath?: boolean
@@ -27354,6 +27699,10 @@ export namespace Prisma {
     id?: boolean
     vocabularyId?: boolean
     word?: boolean
+    partOfSpeech?: boolean
+    pronunciation?: boolean
+    synonyms?: boolean
+    antonyms?: boolean
     meaning?: boolean
     imageUrl?: boolean
     imagePath?: boolean
@@ -27365,7 +27714,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type VocabularyEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vocabularyId" | "word" | "meaning" | "imageUrl" | "imagePath" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["vocabularyEntry"]>
+  export type VocabularyEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vocabularyId" | "word" | "partOfSpeech" | "pronunciation" | "synonyms" | "antonyms" | "meaning" | "imageUrl" | "imagePath" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["vocabularyEntry"]>
   export type VocabularyEntryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vocabulary?: boolean | VocabularyDefaultArgs<ExtArgs>
     uploadedFiles?: boolean | VocabularyEntry$uploadedFilesArgs<ExtArgs>
@@ -27388,6 +27737,10 @@ export namespace Prisma {
       id: string
       vocabularyId: string
       word: string
+      partOfSpeech: string
+      pronunciation: string
+      synonyms: string
+      antonyms: string
       meaning: string
       imageUrl: string
       imagePath: string
@@ -27825,6 +28178,10 @@ export namespace Prisma {
     readonly id: FieldRef<"VocabularyEntry", 'String'>
     readonly vocabularyId: FieldRef<"VocabularyEntry", 'String'>
     readonly word: FieldRef<"VocabularyEntry", 'String'>
+    readonly partOfSpeech: FieldRef<"VocabularyEntry", 'String'>
+    readonly pronunciation: FieldRef<"VocabularyEntry", 'String'>
+    readonly synonyms: FieldRef<"VocabularyEntry", 'String'>
+    readonly antonyms: FieldRef<"VocabularyEntry", 'String'>
     readonly meaning: FieldRef<"VocabularyEntry", 'String'>
     readonly imageUrl: FieldRef<"VocabularyEntry", 'String'>
     readonly imagePath: FieldRef<"VocabularyEntry", 'String'>
@@ -29682,12 +30039,14 @@ export namespace Prisma {
     sizeBytes: number | null
     width: number | null
     height: number | null
+    sortOrder: number | null
   }
 
   export type UploadedFileSumAggregateOutputType = {
     sizeBytes: number | null
     width: number | null
     height: number | null
+    sortOrder: number | null
   }
 
   export type UploadedFileMinAggregateOutputType = {
@@ -29709,6 +30068,7 @@ export namespace Prisma {
     checksumSha256: string | null
     status: string | null
     isCurrent: boolean | null
+    sortOrder: number | null
     replacedAt: Date | null
     deletedAt: Date | null
     storageDeletedAt: Date | null
@@ -29738,6 +30098,7 @@ export namespace Prisma {
     checksumSha256: string | null
     status: string | null
     isCurrent: boolean | null
+    sortOrder: number | null
     replacedAt: Date | null
     deletedAt: Date | null
     storageDeletedAt: Date | null
@@ -29767,6 +30128,7 @@ export namespace Prisma {
     checksumSha256: number
     status: number
     isCurrent: number
+    sortOrder: number
     replacedAt: number
     deletedAt: number
     storageDeletedAt: number
@@ -29783,12 +30145,14 @@ export namespace Prisma {
     sizeBytes?: true
     width?: true
     height?: true
+    sortOrder?: true
   }
 
   export type UploadedFileSumAggregateInputType = {
     sizeBytes?: true
     width?: true
     height?: true
+    sortOrder?: true
   }
 
   export type UploadedFileMinAggregateInputType = {
@@ -29810,6 +30174,7 @@ export namespace Prisma {
     checksumSha256?: true
     status?: true
     isCurrent?: true
+    sortOrder?: true
     replacedAt?: true
     deletedAt?: true
     storageDeletedAt?: true
@@ -29839,6 +30204,7 @@ export namespace Prisma {
     checksumSha256?: true
     status?: true
     isCurrent?: true
+    sortOrder?: true
     replacedAt?: true
     deletedAt?: true
     storageDeletedAt?: true
@@ -29868,6 +30234,7 @@ export namespace Prisma {
     checksumSha256?: true
     status?: true
     isCurrent?: true
+    sortOrder?: true
     replacedAt?: true
     deletedAt?: true
     storageDeletedAt?: true
@@ -29984,6 +30351,7 @@ export namespace Prisma {
     checksumSha256: string
     status: string
     isCurrent: boolean
+    sortOrder: number
     replacedAt: Date | null
     deletedAt: Date | null
     storageDeletedAt: Date | null
@@ -30032,6 +30400,7 @@ export namespace Prisma {
     checksumSha256?: boolean
     status?: boolean
     isCurrent?: boolean
+    sortOrder?: boolean
     replacedAt?: boolean
     deletedAt?: boolean
     storageDeletedAt?: boolean
@@ -30064,6 +30433,7 @@ export namespace Prisma {
     checksumSha256?: boolean
     status?: boolean
     isCurrent?: boolean
+    sortOrder?: boolean
     replacedAt?: boolean
     deletedAt?: boolean
     storageDeletedAt?: boolean
@@ -30095,6 +30465,7 @@ export namespace Prisma {
     checksumSha256?: boolean
     status?: boolean
     isCurrent?: boolean
+    sortOrder?: boolean
     replacedAt?: boolean
     deletedAt?: boolean
     storageDeletedAt?: boolean
@@ -30126,6 +30497,7 @@ export namespace Prisma {
     checksumSha256?: boolean
     status?: boolean
     isCurrent?: boolean
+    sortOrder?: boolean
     replacedAt?: boolean
     deletedAt?: boolean
     storageDeletedAt?: boolean
@@ -30136,7 +30508,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UploadedFileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purpose" | "ownerType" | "ownerId" | "vocabularyEntryId" | "storageConfigurationId" | "url" | "path" | "originalName" | "sourceMimeType" | "mimeType" | "extension" | "sizeBytes" | "width" | "height" | "checksumSha256" | "status" | "isCurrent" | "replacedAt" | "deletedAt" | "storageDeletedAt" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["uploadedFile"]>
+  export type UploadedFileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purpose" | "ownerType" | "ownerId" | "vocabularyEntryId" | "storageConfigurationId" | "url" | "path" | "originalName" | "sourceMimeType" | "mimeType" | "extension" | "sizeBytes" | "width" | "height" | "checksumSha256" | "status" | "isCurrent" | "sortOrder" | "replacedAt" | "deletedAt" | "storageDeletedAt" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["uploadedFile"]>
   export type UploadedFileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vocabularyEntry?: boolean | UploadedFile$vocabularyEntryArgs<ExtArgs>
     storageConfiguration?: boolean | UploadedFile$storageConfigurationArgs<ExtArgs>
@@ -30177,6 +30549,7 @@ export namespace Prisma {
       checksumSha256: string
       status: string
       isCurrent: boolean
+      sortOrder: number
       replacedAt: Date | null
       deletedAt: Date | null
       storageDeletedAt: Date | null
@@ -30629,6 +31002,7 @@ export namespace Prisma {
     readonly checksumSha256: FieldRef<"UploadedFile", 'String'>
     readonly status: FieldRef<"UploadedFile", 'String'>
     readonly isCurrent: FieldRef<"UploadedFile", 'Boolean'>
+    readonly sortOrder: FieldRef<"UploadedFile", 'Int'>
     readonly replacedAt: FieldRef<"UploadedFile", 'DateTime'>
     readonly deletedAt: FieldRef<"UploadedFile", 'DateTime'>
     readonly storageDeletedAt: FieldRef<"UploadedFile", 'DateTime'>
@@ -65111,6 +65485,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     modelQuestionImports?: boolean | Board$modelQuestionImportsArgs<ExtArgs>
+    modelQuestionSets?: boolean | Board$modelQuestionSetsArgs<ExtArgs>
     _count?: boolean | BoardCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["board"]>
 
@@ -65150,6 +65525,7 @@ export namespace Prisma {
   export type BoardOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "isActive" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["board"]>
   export type BoardInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     modelQuestionImports?: boolean | Board$modelQuestionImportsArgs<ExtArgs>
+    modelQuestionSets?: boolean | Board$modelQuestionSetsArgs<ExtArgs>
     _count?: boolean | BoardCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type BoardIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -65159,6 +65535,7 @@ export namespace Prisma {
     name: "Board"
     objects: {
       modelQuestionImports: Prisma.$ModelQuestionImportPayload<ExtArgs>[]
+      modelQuestionSets: Prisma.$ModelQuestionSetPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -65564,6 +65941,7 @@ export namespace Prisma {
   export interface Prisma__BoardClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     modelQuestionImports<T extends Board$modelQuestionImportsArgs<ExtArgs> = {}>(args?: Subset<T, Board$modelQuestionImportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelQuestionImportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    modelQuestionSets<T extends Board$modelQuestionSetsArgs<ExtArgs> = {}>(args?: Subset<T, Board$modelQuestionSetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelQuestionSetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -66011,6 +66389,30 @@ export namespace Prisma {
   }
 
   /**
+   * Board.modelQuestionSets
+   */
+  export type Board$modelQuestionSetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSet
+     */
+    select?: ModelQuestionSetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSet
+     */
+    omit?: ModelQuestionSetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetInclude<ExtArgs> | null
+    where?: ModelQuestionSetWhereInput
+    orderBy?: ModelQuestionSetOrderByWithRelationInput | ModelQuestionSetOrderByWithRelationInput[]
+    cursor?: ModelQuestionSetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ModelQuestionSetScalarFieldEnum | ModelQuestionSetScalarFieldEnum[]
+  }
+
+  /**
    * Board without action
    */
   export type BoardDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -66252,6 +66654,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     modelQuestionImports?: boolean | AcademicYear$modelQuestionImportsArgs<ExtArgs>
+    modelQuestionSets?: boolean | AcademicYear$modelQuestionSetsArgs<ExtArgs>
     _count?: boolean | AcademicYearCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["academicYear"]>
 
@@ -66291,6 +66694,7 @@ export namespace Prisma {
   export type AcademicYearOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "year" | "isActive" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["academicYear"]>
   export type AcademicYearInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     modelQuestionImports?: boolean | AcademicYear$modelQuestionImportsArgs<ExtArgs>
+    modelQuestionSets?: boolean | AcademicYear$modelQuestionSetsArgs<ExtArgs>
     _count?: boolean | AcademicYearCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AcademicYearIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -66300,6 +66704,7 @@ export namespace Prisma {
     name: "AcademicYear"
     objects: {
       modelQuestionImports: Prisma.$ModelQuestionImportPayload<ExtArgs>[]
+      modelQuestionSets: Prisma.$ModelQuestionSetPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -66705,6 +67110,7 @@ export namespace Prisma {
   export interface Prisma__AcademicYearClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     modelQuestionImports<T extends AcademicYear$modelQuestionImportsArgs<ExtArgs> = {}>(args?: Subset<T, AcademicYear$modelQuestionImportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelQuestionImportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    modelQuestionSets<T extends AcademicYear$modelQuestionSetsArgs<ExtArgs> = {}>(args?: Subset<T, AcademicYear$modelQuestionSetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelQuestionSetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -67149,6 +67555,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ModelQuestionImportScalarFieldEnum | ModelQuestionImportScalarFieldEnum[]
+  }
+
+  /**
+   * AcademicYear.modelQuestionSets
+   */
+  export type AcademicYear$modelQuestionSetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSet
+     */
+    select?: ModelQuestionSetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSet
+     */
+    omit?: ModelQuestionSetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetInclude<ExtArgs> | null
+    where?: ModelQuestionSetWhereInput
+    orderBy?: ModelQuestionSetOrderByWithRelationInput | ModelQuestionSetOrderByWithRelationInput[]
+    cursor?: ModelQuestionSetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ModelQuestionSetScalarFieldEnum | ModelQuestionSetScalarFieldEnum[]
   }
 
   /**
@@ -68461,6 +68891,2482 @@ export namespace Prisma {
 
 
   /**
+   * Model ModelQuestionSet
+   */
+
+  export type AggregateModelQuestionSet = {
+    _count: ModelQuestionSetCountAggregateOutputType | null
+    _min: ModelQuestionSetMinAggregateOutputType | null
+    _max: ModelQuestionSetMaxAggregateOutputType | null
+  }
+
+  export type ModelQuestionSetMinAggregateOutputType = {
+    id: string | null
+    classId: string | null
+    subjectId: string | null
+    boardId: string | null
+    academicYearId: string | null
+    name: string | null
+    editorContentId: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ModelQuestionSetMaxAggregateOutputType = {
+    id: string | null
+    classId: string | null
+    subjectId: string | null
+    boardId: string | null
+    academicYearId: string | null
+    name: string | null
+    editorContentId: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ModelQuestionSetCountAggregateOutputType = {
+    id: number
+    classId: number
+    subjectId: number
+    boardId: number
+    academicYearId: number
+    name: number
+    editorContentId: number
+    organizationId: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ModelQuestionSetMinAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    boardId?: true
+    academicYearId?: true
+    name?: true
+    editorContentId?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ModelQuestionSetMaxAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    boardId?: true
+    academicYearId?: true
+    name?: true
+    editorContentId?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ModelQuestionSetCountAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    boardId?: true
+    academicYearId?: true
+    name?: true
+    editorContentId?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ModelQuestionSetAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ModelQuestionSet to aggregate.
+     */
+    where?: ModelQuestionSetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ModelQuestionSets to fetch.
+     */
+    orderBy?: ModelQuestionSetOrderByWithRelationInput | ModelQuestionSetOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ModelQuestionSetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ModelQuestionSets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ModelQuestionSets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ModelQuestionSets
+    **/
+    _count?: true | ModelQuestionSetCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ModelQuestionSetMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ModelQuestionSetMaxAggregateInputType
+  }
+
+  export type GetModelQuestionSetAggregateType<T extends ModelQuestionSetAggregateArgs> = {
+        [P in keyof T & keyof AggregateModelQuestionSet]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateModelQuestionSet[P]>
+      : GetScalarType<T[P], AggregateModelQuestionSet[P]>
+  }
+
+
+
+
+  export type ModelQuestionSetGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ModelQuestionSetWhereInput
+    orderBy?: ModelQuestionSetOrderByWithAggregationInput | ModelQuestionSetOrderByWithAggregationInput[]
+    by: ModelQuestionSetScalarFieldEnum[] | ModelQuestionSetScalarFieldEnum
+    having?: ModelQuestionSetScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ModelQuestionSetCountAggregateInputType | true
+    _min?: ModelQuestionSetMinAggregateInputType
+    _max?: ModelQuestionSetMaxAggregateInputType
+  }
+
+  export type ModelQuestionSetGroupByOutputType = {
+    id: string
+    classId: string
+    subjectId: string
+    boardId: string | null
+    academicYearId: string | null
+    name: string
+    editorContentId: string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: ModelQuestionSetCountAggregateOutputType | null
+    _min: ModelQuestionSetMinAggregateOutputType | null
+    _max: ModelQuestionSetMaxAggregateOutputType | null
+  }
+
+  type GetModelQuestionSetGroupByPayload<T extends ModelQuestionSetGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ModelQuestionSetGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ModelQuestionSetGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ModelQuestionSetGroupByOutputType[P]>
+            : GetScalarType<T[P], ModelQuestionSetGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ModelQuestionSetSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
+    name?: boolean
+    editorContentId?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    board?: boolean | ModelQuestionSet$boardArgs<ExtArgs>
+    academicYear?: boolean | ModelQuestionSet$academicYearArgs<ExtArgs>
+    blocks?: boolean | ModelQuestionSet$blocksArgs<ExtArgs>
+    _count?: boolean | ModelQuestionSetCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["modelQuestionSet"]>
+
+  export type ModelQuestionSetSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
+    name?: boolean
+    editorContentId?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    board?: boolean | ModelQuestionSet$boardArgs<ExtArgs>
+    academicYear?: boolean | ModelQuestionSet$academicYearArgs<ExtArgs>
+  }, ExtArgs["result"]["modelQuestionSet"]>
+
+  export type ModelQuestionSetSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
+    name?: boolean
+    editorContentId?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    board?: boolean | ModelQuestionSet$boardArgs<ExtArgs>
+    academicYear?: boolean | ModelQuestionSet$academicYearArgs<ExtArgs>
+  }, ExtArgs["result"]["modelQuestionSet"]>
+
+  export type ModelQuestionSetSelectScalar = {
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
+    name?: boolean
+    editorContentId?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ModelQuestionSetOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "subjectId" | "boardId" | "academicYearId" | "name" | "editorContentId" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["modelQuestionSet"]>
+  export type ModelQuestionSetInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    board?: boolean | ModelQuestionSet$boardArgs<ExtArgs>
+    academicYear?: boolean | ModelQuestionSet$academicYearArgs<ExtArgs>
+    blocks?: boolean | ModelQuestionSet$blocksArgs<ExtArgs>
+    _count?: boolean | ModelQuestionSetCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ModelQuestionSetIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    board?: boolean | ModelQuestionSet$boardArgs<ExtArgs>
+    academicYear?: boolean | ModelQuestionSet$academicYearArgs<ExtArgs>
+  }
+  export type ModelQuestionSetIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    class?: boolean | ClassDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
+    board?: boolean | ModelQuestionSet$boardArgs<ExtArgs>
+    academicYear?: boolean | ModelQuestionSet$academicYearArgs<ExtArgs>
+  }
+
+  export type $ModelQuestionSetPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ModelQuestionSet"
+    objects: {
+      class: Prisma.$ClassPayload<ExtArgs>
+      subject: Prisma.$SubjectPayload<ExtArgs>
+      board: Prisma.$BoardPayload<ExtArgs> | null
+      academicYear: Prisma.$AcademicYearPayload<ExtArgs> | null
+      blocks: Prisma.$ModelQuestionSetBlockPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      classId: string
+      subjectId: string
+      boardId: string | null
+      academicYearId: string | null
+      name: string
+      editorContentId: string | null
+      organizationId: string
+      createdBy: string
+      updatedBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["modelQuestionSet"]>
+    composites: {}
+  }
+
+  type ModelQuestionSetGetPayload<S extends boolean | null | undefined | ModelQuestionSetDefaultArgs> = $Result.GetResult<Prisma.$ModelQuestionSetPayload, S>
+
+  type ModelQuestionSetCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ModelQuestionSetFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ModelQuestionSetCountAggregateInputType | true
+    }
+
+  export interface ModelQuestionSetDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ModelQuestionSet'], meta: { name: 'ModelQuestionSet' } }
+    /**
+     * Find zero or one ModelQuestionSet that matches the filter.
+     * @param {ModelQuestionSetFindUniqueArgs} args - Arguments to find a ModelQuestionSet
+     * @example
+     * // Get one ModelQuestionSet
+     * const modelQuestionSet = await prisma.modelQuestionSet.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ModelQuestionSetFindUniqueArgs>(args: SelectSubset<T, ModelQuestionSetFindUniqueArgs<ExtArgs>>): Prisma__ModelQuestionSetClient<$Result.GetResult<Prisma.$ModelQuestionSetPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ModelQuestionSet that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ModelQuestionSetFindUniqueOrThrowArgs} args - Arguments to find a ModelQuestionSet
+     * @example
+     * // Get one ModelQuestionSet
+     * const modelQuestionSet = await prisma.modelQuestionSet.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ModelQuestionSetFindUniqueOrThrowArgs>(args: SelectSubset<T, ModelQuestionSetFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ModelQuestionSetClient<$Result.GetResult<Prisma.$ModelQuestionSetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ModelQuestionSet that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelQuestionSetFindFirstArgs} args - Arguments to find a ModelQuestionSet
+     * @example
+     * // Get one ModelQuestionSet
+     * const modelQuestionSet = await prisma.modelQuestionSet.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ModelQuestionSetFindFirstArgs>(args?: SelectSubset<T, ModelQuestionSetFindFirstArgs<ExtArgs>>): Prisma__ModelQuestionSetClient<$Result.GetResult<Prisma.$ModelQuestionSetPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ModelQuestionSet that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelQuestionSetFindFirstOrThrowArgs} args - Arguments to find a ModelQuestionSet
+     * @example
+     * // Get one ModelQuestionSet
+     * const modelQuestionSet = await prisma.modelQuestionSet.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ModelQuestionSetFindFirstOrThrowArgs>(args?: SelectSubset<T, ModelQuestionSetFindFirstOrThrowArgs<ExtArgs>>): Prisma__ModelQuestionSetClient<$Result.GetResult<Prisma.$ModelQuestionSetPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ModelQuestionSets that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelQuestionSetFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ModelQuestionSets
+     * const modelQuestionSets = await prisma.modelQuestionSet.findMany()
+     * 
+     * // Get first 10 ModelQuestionSets
+     * const modelQuestionSets = await prisma.modelQuestionSet.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const modelQuestionSetWithIdOnly = await prisma.modelQuestionSet.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ModelQuestionSetFindManyArgs>(args?: SelectSubset<T, ModelQuestionSetFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelQuestionSetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ModelQuestionSet.
+     * @param {ModelQuestionSetCreateArgs} args - Arguments to create a ModelQuestionSet.
+     * @example
+     * // Create one ModelQuestionSet
+     * const ModelQuestionSet = await prisma.modelQuestionSet.create({
+     *   data: {
+     *     // ... data to create a ModelQuestionSet
+     *   }
+     * })
+     * 
+     */
+    create<T extends ModelQuestionSetCreateArgs>(args: SelectSubset<T, ModelQuestionSetCreateArgs<ExtArgs>>): Prisma__ModelQuestionSetClient<$Result.GetResult<Prisma.$ModelQuestionSetPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ModelQuestionSets.
+     * @param {ModelQuestionSetCreateManyArgs} args - Arguments to create many ModelQuestionSets.
+     * @example
+     * // Create many ModelQuestionSets
+     * const modelQuestionSet = await prisma.modelQuestionSet.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ModelQuestionSetCreateManyArgs>(args?: SelectSubset<T, ModelQuestionSetCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ModelQuestionSets and returns the data saved in the database.
+     * @param {ModelQuestionSetCreateManyAndReturnArgs} args - Arguments to create many ModelQuestionSets.
+     * @example
+     * // Create many ModelQuestionSets
+     * const modelQuestionSet = await prisma.modelQuestionSet.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ModelQuestionSets and only return the `id`
+     * const modelQuestionSetWithIdOnly = await prisma.modelQuestionSet.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ModelQuestionSetCreateManyAndReturnArgs>(args?: SelectSubset<T, ModelQuestionSetCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelQuestionSetPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ModelQuestionSet.
+     * @param {ModelQuestionSetDeleteArgs} args - Arguments to delete one ModelQuestionSet.
+     * @example
+     * // Delete one ModelQuestionSet
+     * const ModelQuestionSet = await prisma.modelQuestionSet.delete({
+     *   where: {
+     *     // ... filter to delete one ModelQuestionSet
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ModelQuestionSetDeleteArgs>(args: SelectSubset<T, ModelQuestionSetDeleteArgs<ExtArgs>>): Prisma__ModelQuestionSetClient<$Result.GetResult<Prisma.$ModelQuestionSetPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ModelQuestionSet.
+     * @param {ModelQuestionSetUpdateArgs} args - Arguments to update one ModelQuestionSet.
+     * @example
+     * // Update one ModelQuestionSet
+     * const modelQuestionSet = await prisma.modelQuestionSet.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ModelQuestionSetUpdateArgs>(args: SelectSubset<T, ModelQuestionSetUpdateArgs<ExtArgs>>): Prisma__ModelQuestionSetClient<$Result.GetResult<Prisma.$ModelQuestionSetPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ModelQuestionSets.
+     * @param {ModelQuestionSetDeleteManyArgs} args - Arguments to filter ModelQuestionSets to delete.
+     * @example
+     * // Delete a few ModelQuestionSets
+     * const { count } = await prisma.modelQuestionSet.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ModelQuestionSetDeleteManyArgs>(args?: SelectSubset<T, ModelQuestionSetDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ModelQuestionSets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelQuestionSetUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ModelQuestionSets
+     * const modelQuestionSet = await prisma.modelQuestionSet.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ModelQuestionSetUpdateManyArgs>(args: SelectSubset<T, ModelQuestionSetUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ModelQuestionSets and returns the data updated in the database.
+     * @param {ModelQuestionSetUpdateManyAndReturnArgs} args - Arguments to update many ModelQuestionSets.
+     * @example
+     * // Update many ModelQuestionSets
+     * const modelQuestionSet = await prisma.modelQuestionSet.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ModelQuestionSets and only return the `id`
+     * const modelQuestionSetWithIdOnly = await prisma.modelQuestionSet.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ModelQuestionSetUpdateManyAndReturnArgs>(args: SelectSubset<T, ModelQuestionSetUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelQuestionSetPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ModelQuestionSet.
+     * @param {ModelQuestionSetUpsertArgs} args - Arguments to update or create a ModelQuestionSet.
+     * @example
+     * // Update or create a ModelQuestionSet
+     * const modelQuestionSet = await prisma.modelQuestionSet.upsert({
+     *   create: {
+     *     // ... data to create a ModelQuestionSet
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ModelQuestionSet we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ModelQuestionSetUpsertArgs>(args: SelectSubset<T, ModelQuestionSetUpsertArgs<ExtArgs>>): Prisma__ModelQuestionSetClient<$Result.GetResult<Prisma.$ModelQuestionSetPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ModelQuestionSets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelQuestionSetCountArgs} args - Arguments to filter ModelQuestionSets to count.
+     * @example
+     * // Count the number of ModelQuestionSets
+     * const count = await prisma.modelQuestionSet.count({
+     *   where: {
+     *     // ... the filter for the ModelQuestionSets we want to count
+     *   }
+     * })
+    **/
+    count<T extends ModelQuestionSetCountArgs>(
+      args?: Subset<T, ModelQuestionSetCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ModelQuestionSetCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ModelQuestionSet.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelQuestionSetAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ModelQuestionSetAggregateArgs>(args: Subset<T, ModelQuestionSetAggregateArgs>): Prisma.PrismaPromise<GetModelQuestionSetAggregateType<T>>
+
+    /**
+     * Group by ModelQuestionSet.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelQuestionSetGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ModelQuestionSetGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ModelQuestionSetGroupByArgs['orderBy'] }
+        : { orderBy?: ModelQuestionSetGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ModelQuestionSetGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetModelQuestionSetGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ModelQuestionSet model
+   */
+  readonly fields: ModelQuestionSetFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ModelQuestionSet.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ModelQuestionSetClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    class<T extends ClassDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClassDefaultArgs<ExtArgs>>): Prisma__ClassClient<$Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    subject<T extends SubjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SubjectDefaultArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    board<T extends ModelQuestionSet$boardArgs<ExtArgs> = {}>(args?: Subset<T, ModelQuestionSet$boardArgs<ExtArgs>>): Prisma__BoardClient<$Result.GetResult<Prisma.$BoardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    academicYear<T extends ModelQuestionSet$academicYearArgs<ExtArgs> = {}>(args?: Subset<T, ModelQuestionSet$academicYearArgs<ExtArgs>>): Prisma__AcademicYearClient<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    blocks<T extends ModelQuestionSet$blocksArgs<ExtArgs> = {}>(args?: Subset<T, ModelQuestionSet$blocksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelQuestionSetBlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ModelQuestionSet model
+   */
+  interface ModelQuestionSetFieldRefs {
+    readonly id: FieldRef<"ModelQuestionSet", 'String'>
+    readonly classId: FieldRef<"ModelQuestionSet", 'String'>
+    readonly subjectId: FieldRef<"ModelQuestionSet", 'String'>
+    readonly boardId: FieldRef<"ModelQuestionSet", 'String'>
+    readonly academicYearId: FieldRef<"ModelQuestionSet", 'String'>
+    readonly name: FieldRef<"ModelQuestionSet", 'String'>
+    readonly editorContentId: FieldRef<"ModelQuestionSet", 'String'>
+    readonly organizationId: FieldRef<"ModelQuestionSet", 'String'>
+    readonly createdBy: FieldRef<"ModelQuestionSet", 'String'>
+    readonly updatedBy: FieldRef<"ModelQuestionSet", 'String'>
+    readonly createdAt: FieldRef<"ModelQuestionSet", 'DateTime'>
+    readonly updatedAt: FieldRef<"ModelQuestionSet", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ModelQuestionSet findUnique
+   */
+  export type ModelQuestionSetFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSet
+     */
+    select?: ModelQuestionSetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSet
+     */
+    omit?: ModelQuestionSetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetInclude<ExtArgs> | null
+    /**
+     * Filter, which ModelQuestionSet to fetch.
+     */
+    where: ModelQuestionSetWhereUniqueInput
+  }
+
+  /**
+   * ModelQuestionSet findUniqueOrThrow
+   */
+  export type ModelQuestionSetFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSet
+     */
+    select?: ModelQuestionSetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSet
+     */
+    omit?: ModelQuestionSetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetInclude<ExtArgs> | null
+    /**
+     * Filter, which ModelQuestionSet to fetch.
+     */
+    where: ModelQuestionSetWhereUniqueInput
+  }
+
+  /**
+   * ModelQuestionSet findFirst
+   */
+  export type ModelQuestionSetFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSet
+     */
+    select?: ModelQuestionSetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSet
+     */
+    omit?: ModelQuestionSetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetInclude<ExtArgs> | null
+    /**
+     * Filter, which ModelQuestionSet to fetch.
+     */
+    where?: ModelQuestionSetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ModelQuestionSets to fetch.
+     */
+    orderBy?: ModelQuestionSetOrderByWithRelationInput | ModelQuestionSetOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ModelQuestionSets.
+     */
+    cursor?: ModelQuestionSetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ModelQuestionSets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ModelQuestionSets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ModelQuestionSets.
+     */
+    distinct?: ModelQuestionSetScalarFieldEnum | ModelQuestionSetScalarFieldEnum[]
+  }
+
+  /**
+   * ModelQuestionSet findFirstOrThrow
+   */
+  export type ModelQuestionSetFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSet
+     */
+    select?: ModelQuestionSetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSet
+     */
+    omit?: ModelQuestionSetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetInclude<ExtArgs> | null
+    /**
+     * Filter, which ModelQuestionSet to fetch.
+     */
+    where?: ModelQuestionSetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ModelQuestionSets to fetch.
+     */
+    orderBy?: ModelQuestionSetOrderByWithRelationInput | ModelQuestionSetOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ModelQuestionSets.
+     */
+    cursor?: ModelQuestionSetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ModelQuestionSets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ModelQuestionSets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ModelQuestionSets.
+     */
+    distinct?: ModelQuestionSetScalarFieldEnum | ModelQuestionSetScalarFieldEnum[]
+  }
+
+  /**
+   * ModelQuestionSet findMany
+   */
+  export type ModelQuestionSetFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSet
+     */
+    select?: ModelQuestionSetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSet
+     */
+    omit?: ModelQuestionSetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetInclude<ExtArgs> | null
+    /**
+     * Filter, which ModelQuestionSets to fetch.
+     */
+    where?: ModelQuestionSetWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ModelQuestionSets to fetch.
+     */
+    orderBy?: ModelQuestionSetOrderByWithRelationInput | ModelQuestionSetOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ModelQuestionSets.
+     */
+    cursor?: ModelQuestionSetWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ModelQuestionSets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ModelQuestionSets.
+     */
+    skip?: number
+    distinct?: ModelQuestionSetScalarFieldEnum | ModelQuestionSetScalarFieldEnum[]
+  }
+
+  /**
+   * ModelQuestionSet create
+   */
+  export type ModelQuestionSetCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSet
+     */
+    select?: ModelQuestionSetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSet
+     */
+    omit?: ModelQuestionSetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ModelQuestionSet.
+     */
+    data: XOR<ModelQuestionSetCreateInput, ModelQuestionSetUncheckedCreateInput>
+  }
+
+  /**
+   * ModelQuestionSet createMany
+   */
+  export type ModelQuestionSetCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ModelQuestionSets.
+     */
+    data: ModelQuestionSetCreateManyInput | ModelQuestionSetCreateManyInput[]
+  }
+
+  /**
+   * ModelQuestionSet createManyAndReturn
+   */
+  export type ModelQuestionSetCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSet
+     */
+    select?: ModelQuestionSetSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSet
+     */
+    omit?: ModelQuestionSetOmit<ExtArgs> | null
+    /**
+     * The data used to create many ModelQuestionSets.
+     */
+    data: ModelQuestionSetCreateManyInput | ModelQuestionSetCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ModelQuestionSet update
+   */
+  export type ModelQuestionSetUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSet
+     */
+    select?: ModelQuestionSetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSet
+     */
+    omit?: ModelQuestionSetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ModelQuestionSet.
+     */
+    data: XOR<ModelQuestionSetUpdateInput, ModelQuestionSetUncheckedUpdateInput>
+    /**
+     * Choose, which ModelQuestionSet to update.
+     */
+    where: ModelQuestionSetWhereUniqueInput
+  }
+
+  /**
+   * ModelQuestionSet updateMany
+   */
+  export type ModelQuestionSetUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ModelQuestionSets.
+     */
+    data: XOR<ModelQuestionSetUpdateManyMutationInput, ModelQuestionSetUncheckedUpdateManyInput>
+    /**
+     * Filter which ModelQuestionSets to update
+     */
+    where?: ModelQuestionSetWhereInput
+    /**
+     * Limit how many ModelQuestionSets to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ModelQuestionSet updateManyAndReturn
+   */
+  export type ModelQuestionSetUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSet
+     */
+    select?: ModelQuestionSetSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSet
+     */
+    omit?: ModelQuestionSetOmit<ExtArgs> | null
+    /**
+     * The data used to update ModelQuestionSets.
+     */
+    data: XOR<ModelQuestionSetUpdateManyMutationInput, ModelQuestionSetUncheckedUpdateManyInput>
+    /**
+     * Filter which ModelQuestionSets to update
+     */
+    where?: ModelQuestionSetWhereInput
+    /**
+     * Limit how many ModelQuestionSets to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ModelQuestionSet upsert
+   */
+  export type ModelQuestionSetUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSet
+     */
+    select?: ModelQuestionSetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSet
+     */
+    omit?: ModelQuestionSetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ModelQuestionSet to update in case it exists.
+     */
+    where: ModelQuestionSetWhereUniqueInput
+    /**
+     * In case the ModelQuestionSet found by the `where` argument doesn't exist, create a new ModelQuestionSet with this data.
+     */
+    create: XOR<ModelQuestionSetCreateInput, ModelQuestionSetUncheckedCreateInput>
+    /**
+     * In case the ModelQuestionSet was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ModelQuestionSetUpdateInput, ModelQuestionSetUncheckedUpdateInput>
+  }
+
+  /**
+   * ModelQuestionSet delete
+   */
+  export type ModelQuestionSetDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSet
+     */
+    select?: ModelQuestionSetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSet
+     */
+    omit?: ModelQuestionSetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetInclude<ExtArgs> | null
+    /**
+     * Filter which ModelQuestionSet to delete.
+     */
+    where: ModelQuestionSetWhereUniqueInput
+  }
+
+  /**
+   * ModelQuestionSet deleteMany
+   */
+  export type ModelQuestionSetDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ModelQuestionSets to delete
+     */
+    where?: ModelQuestionSetWhereInput
+    /**
+     * Limit how many ModelQuestionSets to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ModelQuestionSet.board
+   */
+  export type ModelQuestionSet$boardArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Board
+     */
+    select?: BoardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Board
+     */
+    omit?: BoardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BoardInclude<ExtArgs> | null
+    where?: BoardWhereInput
+  }
+
+  /**
+   * ModelQuestionSet.academicYear
+   */
+  export type ModelQuestionSet$academicYearArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicYearInclude<ExtArgs> | null
+    where?: AcademicYearWhereInput
+  }
+
+  /**
+   * ModelQuestionSet.blocks
+   */
+  export type ModelQuestionSet$blocksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSetBlock
+     */
+    select?: ModelQuestionSetBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSetBlock
+     */
+    omit?: ModelQuestionSetBlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetBlockInclude<ExtArgs> | null
+    where?: ModelQuestionSetBlockWhereInput
+    orderBy?: ModelQuestionSetBlockOrderByWithRelationInput | ModelQuestionSetBlockOrderByWithRelationInput[]
+    cursor?: ModelQuestionSetBlockWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ModelQuestionSetBlockScalarFieldEnum | ModelQuestionSetBlockScalarFieldEnum[]
+  }
+
+  /**
+   * ModelQuestionSet without action
+   */
+  export type ModelQuestionSetDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSet
+     */
+    select?: ModelQuestionSetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSet
+     */
+    omit?: ModelQuestionSetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ModelQuestionSetBlock
+   */
+
+  export type AggregateModelQuestionSetBlock = {
+    _count: ModelQuestionSetBlockCountAggregateOutputType | null
+    _avg: ModelQuestionSetBlockAvgAggregateOutputType | null
+    _sum: ModelQuestionSetBlockSumAggregateOutputType | null
+    _min: ModelQuestionSetBlockMinAggregateOutputType | null
+    _max: ModelQuestionSetBlockMaxAggregateOutputType | null
+  }
+
+  export type ModelQuestionSetBlockAvgAggregateOutputType = {
+    marks: number | null
+    sortOrder: number | null
+  }
+
+  export type ModelQuestionSetBlockSumAggregateOutputType = {
+    marks: number | null
+    sortOrder: number | null
+  }
+
+  export type ModelQuestionSetBlockMinAggregateOutputType = {
+    id: string | null
+    setId: string | null
+    kind: string | null
+    title: string | null
+    instructions: string | null
+    passage: string | null
+    question: string | null
+    optionsJson: string | null
+    answer: string | null
+    marks: number | null
+    sortOrder: number | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ModelQuestionSetBlockMaxAggregateOutputType = {
+    id: string | null
+    setId: string | null
+    kind: string | null
+    title: string | null
+    instructions: string | null
+    passage: string | null
+    question: string | null
+    optionsJson: string | null
+    answer: string | null
+    marks: number | null
+    sortOrder: number | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ModelQuestionSetBlockCountAggregateOutputType = {
+    id: number
+    setId: number
+    kind: number
+    title: number
+    instructions: number
+    passage: number
+    question: number
+    optionsJson: number
+    answer: number
+    marks: number
+    sortOrder: number
+    organizationId: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ModelQuestionSetBlockAvgAggregateInputType = {
+    marks?: true
+    sortOrder?: true
+  }
+
+  export type ModelQuestionSetBlockSumAggregateInputType = {
+    marks?: true
+    sortOrder?: true
+  }
+
+  export type ModelQuestionSetBlockMinAggregateInputType = {
+    id?: true
+    setId?: true
+    kind?: true
+    title?: true
+    instructions?: true
+    passage?: true
+    question?: true
+    optionsJson?: true
+    answer?: true
+    marks?: true
+    sortOrder?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ModelQuestionSetBlockMaxAggregateInputType = {
+    id?: true
+    setId?: true
+    kind?: true
+    title?: true
+    instructions?: true
+    passage?: true
+    question?: true
+    optionsJson?: true
+    answer?: true
+    marks?: true
+    sortOrder?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ModelQuestionSetBlockCountAggregateInputType = {
+    id?: true
+    setId?: true
+    kind?: true
+    title?: true
+    instructions?: true
+    passage?: true
+    question?: true
+    optionsJson?: true
+    answer?: true
+    marks?: true
+    sortOrder?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ModelQuestionSetBlockAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ModelQuestionSetBlock to aggregate.
+     */
+    where?: ModelQuestionSetBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ModelQuestionSetBlocks to fetch.
+     */
+    orderBy?: ModelQuestionSetBlockOrderByWithRelationInput | ModelQuestionSetBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ModelQuestionSetBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ModelQuestionSetBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ModelQuestionSetBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ModelQuestionSetBlocks
+    **/
+    _count?: true | ModelQuestionSetBlockCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ModelQuestionSetBlockAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ModelQuestionSetBlockSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ModelQuestionSetBlockMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ModelQuestionSetBlockMaxAggregateInputType
+  }
+
+  export type GetModelQuestionSetBlockAggregateType<T extends ModelQuestionSetBlockAggregateArgs> = {
+        [P in keyof T & keyof AggregateModelQuestionSetBlock]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateModelQuestionSetBlock[P]>
+      : GetScalarType<T[P], AggregateModelQuestionSetBlock[P]>
+  }
+
+
+
+
+  export type ModelQuestionSetBlockGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ModelQuestionSetBlockWhereInput
+    orderBy?: ModelQuestionSetBlockOrderByWithAggregationInput | ModelQuestionSetBlockOrderByWithAggregationInput[]
+    by: ModelQuestionSetBlockScalarFieldEnum[] | ModelQuestionSetBlockScalarFieldEnum
+    having?: ModelQuestionSetBlockScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ModelQuestionSetBlockCountAggregateInputType | true
+    _avg?: ModelQuestionSetBlockAvgAggregateInputType
+    _sum?: ModelQuestionSetBlockSumAggregateInputType
+    _min?: ModelQuestionSetBlockMinAggregateInputType
+    _max?: ModelQuestionSetBlockMaxAggregateInputType
+  }
+
+  export type ModelQuestionSetBlockGroupByOutputType = {
+    id: string
+    setId: string
+    kind: string
+    title: string
+    instructions: string
+    passage: string
+    question: string
+    optionsJson: string
+    answer: string
+    marks: number
+    sortOrder: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: ModelQuestionSetBlockCountAggregateOutputType | null
+    _avg: ModelQuestionSetBlockAvgAggregateOutputType | null
+    _sum: ModelQuestionSetBlockSumAggregateOutputType | null
+    _min: ModelQuestionSetBlockMinAggregateOutputType | null
+    _max: ModelQuestionSetBlockMaxAggregateOutputType | null
+  }
+
+  type GetModelQuestionSetBlockGroupByPayload<T extends ModelQuestionSetBlockGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ModelQuestionSetBlockGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ModelQuestionSetBlockGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ModelQuestionSetBlockGroupByOutputType[P]>
+            : GetScalarType<T[P], ModelQuestionSetBlockGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ModelQuestionSetBlockSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    setId?: boolean
+    kind?: boolean
+    title?: boolean
+    instructions?: boolean
+    passage?: boolean
+    question?: boolean
+    optionsJson?: boolean
+    answer?: boolean
+    marks?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    set?: boolean | ModelQuestionSetDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["modelQuestionSetBlock"]>
+
+  export type ModelQuestionSetBlockSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    setId?: boolean
+    kind?: boolean
+    title?: boolean
+    instructions?: boolean
+    passage?: boolean
+    question?: boolean
+    optionsJson?: boolean
+    answer?: boolean
+    marks?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    set?: boolean | ModelQuestionSetDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["modelQuestionSetBlock"]>
+
+  export type ModelQuestionSetBlockSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    setId?: boolean
+    kind?: boolean
+    title?: boolean
+    instructions?: boolean
+    passage?: boolean
+    question?: boolean
+    optionsJson?: boolean
+    answer?: boolean
+    marks?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    set?: boolean | ModelQuestionSetDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["modelQuestionSetBlock"]>
+
+  export type ModelQuestionSetBlockSelectScalar = {
+    id?: boolean
+    setId?: boolean
+    kind?: boolean
+    title?: boolean
+    instructions?: boolean
+    passage?: boolean
+    question?: boolean
+    optionsJson?: boolean
+    answer?: boolean
+    marks?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ModelQuestionSetBlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "setId" | "kind" | "title" | "instructions" | "passage" | "question" | "optionsJson" | "answer" | "marks" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["modelQuestionSetBlock"]>
+  export type ModelQuestionSetBlockInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    set?: boolean | ModelQuestionSetDefaultArgs<ExtArgs>
+  }
+  export type ModelQuestionSetBlockIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    set?: boolean | ModelQuestionSetDefaultArgs<ExtArgs>
+  }
+  export type ModelQuestionSetBlockIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    set?: boolean | ModelQuestionSetDefaultArgs<ExtArgs>
+  }
+
+  export type $ModelQuestionSetBlockPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ModelQuestionSetBlock"
+    objects: {
+      set: Prisma.$ModelQuestionSetPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      setId: string
+      kind: string
+      title: string
+      instructions: string
+      passage: string
+      question: string
+      optionsJson: string
+      answer: string
+      marks: number
+      sortOrder: number
+      organizationId: string
+      createdBy: string
+      updatedBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["modelQuestionSetBlock"]>
+    composites: {}
+  }
+
+  type ModelQuestionSetBlockGetPayload<S extends boolean | null | undefined | ModelQuestionSetBlockDefaultArgs> = $Result.GetResult<Prisma.$ModelQuestionSetBlockPayload, S>
+
+  type ModelQuestionSetBlockCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ModelQuestionSetBlockFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ModelQuestionSetBlockCountAggregateInputType | true
+    }
+
+  export interface ModelQuestionSetBlockDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ModelQuestionSetBlock'], meta: { name: 'ModelQuestionSetBlock' } }
+    /**
+     * Find zero or one ModelQuestionSetBlock that matches the filter.
+     * @param {ModelQuestionSetBlockFindUniqueArgs} args - Arguments to find a ModelQuestionSetBlock
+     * @example
+     * // Get one ModelQuestionSetBlock
+     * const modelQuestionSetBlock = await prisma.modelQuestionSetBlock.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ModelQuestionSetBlockFindUniqueArgs>(args: SelectSubset<T, ModelQuestionSetBlockFindUniqueArgs<ExtArgs>>): Prisma__ModelQuestionSetBlockClient<$Result.GetResult<Prisma.$ModelQuestionSetBlockPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ModelQuestionSetBlock that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ModelQuestionSetBlockFindUniqueOrThrowArgs} args - Arguments to find a ModelQuestionSetBlock
+     * @example
+     * // Get one ModelQuestionSetBlock
+     * const modelQuestionSetBlock = await prisma.modelQuestionSetBlock.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ModelQuestionSetBlockFindUniqueOrThrowArgs>(args: SelectSubset<T, ModelQuestionSetBlockFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ModelQuestionSetBlockClient<$Result.GetResult<Prisma.$ModelQuestionSetBlockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ModelQuestionSetBlock that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelQuestionSetBlockFindFirstArgs} args - Arguments to find a ModelQuestionSetBlock
+     * @example
+     * // Get one ModelQuestionSetBlock
+     * const modelQuestionSetBlock = await prisma.modelQuestionSetBlock.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ModelQuestionSetBlockFindFirstArgs>(args?: SelectSubset<T, ModelQuestionSetBlockFindFirstArgs<ExtArgs>>): Prisma__ModelQuestionSetBlockClient<$Result.GetResult<Prisma.$ModelQuestionSetBlockPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ModelQuestionSetBlock that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelQuestionSetBlockFindFirstOrThrowArgs} args - Arguments to find a ModelQuestionSetBlock
+     * @example
+     * // Get one ModelQuestionSetBlock
+     * const modelQuestionSetBlock = await prisma.modelQuestionSetBlock.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ModelQuestionSetBlockFindFirstOrThrowArgs>(args?: SelectSubset<T, ModelQuestionSetBlockFindFirstOrThrowArgs<ExtArgs>>): Prisma__ModelQuestionSetBlockClient<$Result.GetResult<Prisma.$ModelQuestionSetBlockPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ModelQuestionSetBlocks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelQuestionSetBlockFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ModelQuestionSetBlocks
+     * const modelQuestionSetBlocks = await prisma.modelQuestionSetBlock.findMany()
+     * 
+     * // Get first 10 ModelQuestionSetBlocks
+     * const modelQuestionSetBlocks = await prisma.modelQuestionSetBlock.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const modelQuestionSetBlockWithIdOnly = await prisma.modelQuestionSetBlock.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ModelQuestionSetBlockFindManyArgs>(args?: SelectSubset<T, ModelQuestionSetBlockFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelQuestionSetBlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ModelQuestionSetBlock.
+     * @param {ModelQuestionSetBlockCreateArgs} args - Arguments to create a ModelQuestionSetBlock.
+     * @example
+     * // Create one ModelQuestionSetBlock
+     * const ModelQuestionSetBlock = await prisma.modelQuestionSetBlock.create({
+     *   data: {
+     *     // ... data to create a ModelQuestionSetBlock
+     *   }
+     * })
+     * 
+     */
+    create<T extends ModelQuestionSetBlockCreateArgs>(args: SelectSubset<T, ModelQuestionSetBlockCreateArgs<ExtArgs>>): Prisma__ModelQuestionSetBlockClient<$Result.GetResult<Prisma.$ModelQuestionSetBlockPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ModelQuestionSetBlocks.
+     * @param {ModelQuestionSetBlockCreateManyArgs} args - Arguments to create many ModelQuestionSetBlocks.
+     * @example
+     * // Create many ModelQuestionSetBlocks
+     * const modelQuestionSetBlock = await prisma.modelQuestionSetBlock.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ModelQuestionSetBlockCreateManyArgs>(args?: SelectSubset<T, ModelQuestionSetBlockCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ModelQuestionSetBlocks and returns the data saved in the database.
+     * @param {ModelQuestionSetBlockCreateManyAndReturnArgs} args - Arguments to create many ModelQuestionSetBlocks.
+     * @example
+     * // Create many ModelQuestionSetBlocks
+     * const modelQuestionSetBlock = await prisma.modelQuestionSetBlock.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ModelQuestionSetBlocks and only return the `id`
+     * const modelQuestionSetBlockWithIdOnly = await prisma.modelQuestionSetBlock.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ModelQuestionSetBlockCreateManyAndReturnArgs>(args?: SelectSubset<T, ModelQuestionSetBlockCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelQuestionSetBlockPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ModelQuestionSetBlock.
+     * @param {ModelQuestionSetBlockDeleteArgs} args - Arguments to delete one ModelQuestionSetBlock.
+     * @example
+     * // Delete one ModelQuestionSetBlock
+     * const ModelQuestionSetBlock = await prisma.modelQuestionSetBlock.delete({
+     *   where: {
+     *     // ... filter to delete one ModelQuestionSetBlock
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ModelQuestionSetBlockDeleteArgs>(args: SelectSubset<T, ModelQuestionSetBlockDeleteArgs<ExtArgs>>): Prisma__ModelQuestionSetBlockClient<$Result.GetResult<Prisma.$ModelQuestionSetBlockPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ModelQuestionSetBlock.
+     * @param {ModelQuestionSetBlockUpdateArgs} args - Arguments to update one ModelQuestionSetBlock.
+     * @example
+     * // Update one ModelQuestionSetBlock
+     * const modelQuestionSetBlock = await prisma.modelQuestionSetBlock.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ModelQuestionSetBlockUpdateArgs>(args: SelectSubset<T, ModelQuestionSetBlockUpdateArgs<ExtArgs>>): Prisma__ModelQuestionSetBlockClient<$Result.GetResult<Prisma.$ModelQuestionSetBlockPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ModelQuestionSetBlocks.
+     * @param {ModelQuestionSetBlockDeleteManyArgs} args - Arguments to filter ModelQuestionSetBlocks to delete.
+     * @example
+     * // Delete a few ModelQuestionSetBlocks
+     * const { count } = await prisma.modelQuestionSetBlock.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ModelQuestionSetBlockDeleteManyArgs>(args?: SelectSubset<T, ModelQuestionSetBlockDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ModelQuestionSetBlocks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelQuestionSetBlockUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ModelQuestionSetBlocks
+     * const modelQuestionSetBlock = await prisma.modelQuestionSetBlock.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ModelQuestionSetBlockUpdateManyArgs>(args: SelectSubset<T, ModelQuestionSetBlockUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ModelQuestionSetBlocks and returns the data updated in the database.
+     * @param {ModelQuestionSetBlockUpdateManyAndReturnArgs} args - Arguments to update many ModelQuestionSetBlocks.
+     * @example
+     * // Update many ModelQuestionSetBlocks
+     * const modelQuestionSetBlock = await prisma.modelQuestionSetBlock.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ModelQuestionSetBlocks and only return the `id`
+     * const modelQuestionSetBlockWithIdOnly = await prisma.modelQuestionSetBlock.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ModelQuestionSetBlockUpdateManyAndReturnArgs>(args: SelectSubset<T, ModelQuestionSetBlockUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModelQuestionSetBlockPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ModelQuestionSetBlock.
+     * @param {ModelQuestionSetBlockUpsertArgs} args - Arguments to update or create a ModelQuestionSetBlock.
+     * @example
+     * // Update or create a ModelQuestionSetBlock
+     * const modelQuestionSetBlock = await prisma.modelQuestionSetBlock.upsert({
+     *   create: {
+     *     // ... data to create a ModelQuestionSetBlock
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ModelQuestionSetBlock we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ModelQuestionSetBlockUpsertArgs>(args: SelectSubset<T, ModelQuestionSetBlockUpsertArgs<ExtArgs>>): Prisma__ModelQuestionSetBlockClient<$Result.GetResult<Prisma.$ModelQuestionSetBlockPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ModelQuestionSetBlocks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelQuestionSetBlockCountArgs} args - Arguments to filter ModelQuestionSetBlocks to count.
+     * @example
+     * // Count the number of ModelQuestionSetBlocks
+     * const count = await prisma.modelQuestionSetBlock.count({
+     *   where: {
+     *     // ... the filter for the ModelQuestionSetBlocks we want to count
+     *   }
+     * })
+    **/
+    count<T extends ModelQuestionSetBlockCountArgs>(
+      args?: Subset<T, ModelQuestionSetBlockCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ModelQuestionSetBlockCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ModelQuestionSetBlock.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelQuestionSetBlockAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ModelQuestionSetBlockAggregateArgs>(args: Subset<T, ModelQuestionSetBlockAggregateArgs>): Prisma.PrismaPromise<GetModelQuestionSetBlockAggregateType<T>>
+
+    /**
+     * Group by ModelQuestionSetBlock.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModelQuestionSetBlockGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ModelQuestionSetBlockGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ModelQuestionSetBlockGroupByArgs['orderBy'] }
+        : { orderBy?: ModelQuestionSetBlockGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ModelQuestionSetBlockGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetModelQuestionSetBlockGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ModelQuestionSetBlock model
+   */
+  readonly fields: ModelQuestionSetBlockFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ModelQuestionSetBlock.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ModelQuestionSetBlockClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    set<T extends ModelQuestionSetDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ModelQuestionSetDefaultArgs<ExtArgs>>): Prisma__ModelQuestionSetClient<$Result.GetResult<Prisma.$ModelQuestionSetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ModelQuestionSetBlock model
+   */
+  interface ModelQuestionSetBlockFieldRefs {
+    readonly id: FieldRef<"ModelQuestionSetBlock", 'String'>
+    readonly setId: FieldRef<"ModelQuestionSetBlock", 'String'>
+    readonly kind: FieldRef<"ModelQuestionSetBlock", 'String'>
+    readonly title: FieldRef<"ModelQuestionSetBlock", 'String'>
+    readonly instructions: FieldRef<"ModelQuestionSetBlock", 'String'>
+    readonly passage: FieldRef<"ModelQuestionSetBlock", 'String'>
+    readonly question: FieldRef<"ModelQuestionSetBlock", 'String'>
+    readonly optionsJson: FieldRef<"ModelQuestionSetBlock", 'String'>
+    readonly answer: FieldRef<"ModelQuestionSetBlock", 'String'>
+    readonly marks: FieldRef<"ModelQuestionSetBlock", 'Int'>
+    readonly sortOrder: FieldRef<"ModelQuestionSetBlock", 'Int'>
+    readonly organizationId: FieldRef<"ModelQuestionSetBlock", 'String'>
+    readonly createdBy: FieldRef<"ModelQuestionSetBlock", 'String'>
+    readonly updatedBy: FieldRef<"ModelQuestionSetBlock", 'String'>
+    readonly createdAt: FieldRef<"ModelQuestionSetBlock", 'DateTime'>
+    readonly updatedAt: FieldRef<"ModelQuestionSetBlock", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ModelQuestionSetBlock findUnique
+   */
+  export type ModelQuestionSetBlockFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSetBlock
+     */
+    select?: ModelQuestionSetBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSetBlock
+     */
+    omit?: ModelQuestionSetBlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetBlockInclude<ExtArgs> | null
+    /**
+     * Filter, which ModelQuestionSetBlock to fetch.
+     */
+    where: ModelQuestionSetBlockWhereUniqueInput
+  }
+
+  /**
+   * ModelQuestionSetBlock findUniqueOrThrow
+   */
+  export type ModelQuestionSetBlockFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSetBlock
+     */
+    select?: ModelQuestionSetBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSetBlock
+     */
+    omit?: ModelQuestionSetBlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetBlockInclude<ExtArgs> | null
+    /**
+     * Filter, which ModelQuestionSetBlock to fetch.
+     */
+    where: ModelQuestionSetBlockWhereUniqueInput
+  }
+
+  /**
+   * ModelQuestionSetBlock findFirst
+   */
+  export type ModelQuestionSetBlockFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSetBlock
+     */
+    select?: ModelQuestionSetBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSetBlock
+     */
+    omit?: ModelQuestionSetBlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetBlockInclude<ExtArgs> | null
+    /**
+     * Filter, which ModelQuestionSetBlock to fetch.
+     */
+    where?: ModelQuestionSetBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ModelQuestionSetBlocks to fetch.
+     */
+    orderBy?: ModelQuestionSetBlockOrderByWithRelationInput | ModelQuestionSetBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ModelQuestionSetBlocks.
+     */
+    cursor?: ModelQuestionSetBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ModelQuestionSetBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ModelQuestionSetBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ModelQuestionSetBlocks.
+     */
+    distinct?: ModelQuestionSetBlockScalarFieldEnum | ModelQuestionSetBlockScalarFieldEnum[]
+  }
+
+  /**
+   * ModelQuestionSetBlock findFirstOrThrow
+   */
+  export type ModelQuestionSetBlockFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSetBlock
+     */
+    select?: ModelQuestionSetBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSetBlock
+     */
+    omit?: ModelQuestionSetBlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetBlockInclude<ExtArgs> | null
+    /**
+     * Filter, which ModelQuestionSetBlock to fetch.
+     */
+    where?: ModelQuestionSetBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ModelQuestionSetBlocks to fetch.
+     */
+    orderBy?: ModelQuestionSetBlockOrderByWithRelationInput | ModelQuestionSetBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ModelQuestionSetBlocks.
+     */
+    cursor?: ModelQuestionSetBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ModelQuestionSetBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ModelQuestionSetBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ModelQuestionSetBlocks.
+     */
+    distinct?: ModelQuestionSetBlockScalarFieldEnum | ModelQuestionSetBlockScalarFieldEnum[]
+  }
+
+  /**
+   * ModelQuestionSetBlock findMany
+   */
+  export type ModelQuestionSetBlockFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSetBlock
+     */
+    select?: ModelQuestionSetBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSetBlock
+     */
+    omit?: ModelQuestionSetBlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetBlockInclude<ExtArgs> | null
+    /**
+     * Filter, which ModelQuestionSetBlocks to fetch.
+     */
+    where?: ModelQuestionSetBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ModelQuestionSetBlocks to fetch.
+     */
+    orderBy?: ModelQuestionSetBlockOrderByWithRelationInput | ModelQuestionSetBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ModelQuestionSetBlocks.
+     */
+    cursor?: ModelQuestionSetBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ModelQuestionSetBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ModelQuestionSetBlocks.
+     */
+    skip?: number
+    distinct?: ModelQuestionSetBlockScalarFieldEnum | ModelQuestionSetBlockScalarFieldEnum[]
+  }
+
+  /**
+   * ModelQuestionSetBlock create
+   */
+  export type ModelQuestionSetBlockCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSetBlock
+     */
+    select?: ModelQuestionSetBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSetBlock
+     */
+    omit?: ModelQuestionSetBlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetBlockInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ModelQuestionSetBlock.
+     */
+    data: XOR<ModelQuestionSetBlockCreateInput, ModelQuestionSetBlockUncheckedCreateInput>
+  }
+
+  /**
+   * ModelQuestionSetBlock createMany
+   */
+  export type ModelQuestionSetBlockCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ModelQuestionSetBlocks.
+     */
+    data: ModelQuestionSetBlockCreateManyInput | ModelQuestionSetBlockCreateManyInput[]
+  }
+
+  /**
+   * ModelQuestionSetBlock createManyAndReturn
+   */
+  export type ModelQuestionSetBlockCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSetBlock
+     */
+    select?: ModelQuestionSetBlockSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSetBlock
+     */
+    omit?: ModelQuestionSetBlockOmit<ExtArgs> | null
+    /**
+     * The data used to create many ModelQuestionSetBlocks.
+     */
+    data: ModelQuestionSetBlockCreateManyInput | ModelQuestionSetBlockCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetBlockIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ModelQuestionSetBlock update
+   */
+  export type ModelQuestionSetBlockUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSetBlock
+     */
+    select?: ModelQuestionSetBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSetBlock
+     */
+    omit?: ModelQuestionSetBlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetBlockInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ModelQuestionSetBlock.
+     */
+    data: XOR<ModelQuestionSetBlockUpdateInput, ModelQuestionSetBlockUncheckedUpdateInput>
+    /**
+     * Choose, which ModelQuestionSetBlock to update.
+     */
+    where: ModelQuestionSetBlockWhereUniqueInput
+  }
+
+  /**
+   * ModelQuestionSetBlock updateMany
+   */
+  export type ModelQuestionSetBlockUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ModelQuestionSetBlocks.
+     */
+    data: XOR<ModelQuestionSetBlockUpdateManyMutationInput, ModelQuestionSetBlockUncheckedUpdateManyInput>
+    /**
+     * Filter which ModelQuestionSetBlocks to update
+     */
+    where?: ModelQuestionSetBlockWhereInput
+    /**
+     * Limit how many ModelQuestionSetBlocks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ModelQuestionSetBlock updateManyAndReturn
+   */
+  export type ModelQuestionSetBlockUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSetBlock
+     */
+    select?: ModelQuestionSetBlockSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSetBlock
+     */
+    omit?: ModelQuestionSetBlockOmit<ExtArgs> | null
+    /**
+     * The data used to update ModelQuestionSetBlocks.
+     */
+    data: XOR<ModelQuestionSetBlockUpdateManyMutationInput, ModelQuestionSetBlockUncheckedUpdateManyInput>
+    /**
+     * Filter which ModelQuestionSetBlocks to update
+     */
+    where?: ModelQuestionSetBlockWhereInput
+    /**
+     * Limit how many ModelQuestionSetBlocks to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetBlockIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ModelQuestionSetBlock upsert
+   */
+  export type ModelQuestionSetBlockUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSetBlock
+     */
+    select?: ModelQuestionSetBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSetBlock
+     */
+    omit?: ModelQuestionSetBlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetBlockInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ModelQuestionSetBlock to update in case it exists.
+     */
+    where: ModelQuestionSetBlockWhereUniqueInput
+    /**
+     * In case the ModelQuestionSetBlock found by the `where` argument doesn't exist, create a new ModelQuestionSetBlock with this data.
+     */
+    create: XOR<ModelQuestionSetBlockCreateInput, ModelQuestionSetBlockUncheckedCreateInput>
+    /**
+     * In case the ModelQuestionSetBlock was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ModelQuestionSetBlockUpdateInput, ModelQuestionSetBlockUncheckedUpdateInput>
+  }
+
+  /**
+   * ModelQuestionSetBlock delete
+   */
+  export type ModelQuestionSetBlockDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSetBlock
+     */
+    select?: ModelQuestionSetBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSetBlock
+     */
+    omit?: ModelQuestionSetBlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetBlockInclude<ExtArgs> | null
+    /**
+     * Filter which ModelQuestionSetBlock to delete.
+     */
+    where: ModelQuestionSetBlockWhereUniqueInput
+  }
+
+  /**
+   * ModelQuestionSetBlock deleteMany
+   */
+  export type ModelQuestionSetBlockDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ModelQuestionSetBlocks to delete
+     */
+    where?: ModelQuestionSetBlockWhereInput
+    /**
+     * Limit how many ModelQuestionSetBlocks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ModelQuestionSetBlock without action
+   */
+  export type ModelQuestionSetBlockDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ModelQuestionSetBlock
+     */
+    select?: ModelQuestionSetBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ModelQuestionSetBlock
+     */
+    omit?: ModelQuestionSetBlockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ModelQuestionSetBlockInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -68806,6 +71712,10 @@ export namespace Prisma {
     id: 'id',
     vocabularyId: 'vocabularyId',
     word: 'word',
+    partOfSpeech: 'partOfSpeech',
+    pronunciation: 'pronunciation',
+    synonyms: 'synonyms',
+    antonyms: 'antonyms',
     meaning: 'meaning',
     imageUrl: 'imageUrl',
     imagePath: 'imagePath',
@@ -68872,6 +71782,7 @@ export namespace Prisma {
     checksumSha256: 'checksumSha256',
     status: 'status',
     isCurrent: 'isCurrent',
+    sortOrder: 'sortOrder',
     replacedAt: 'replacedAt',
     deletedAt: 'deletedAt',
     storageDeletedAt: 'storageDeletedAt',
@@ -69575,6 +72486,46 @@ export namespace Prisma {
   export type ModelQuestionImportScalarFieldEnum = (typeof ModelQuestionImportScalarFieldEnum)[keyof typeof ModelQuestionImportScalarFieldEnum]
 
 
+  export const ModelQuestionSetScalarFieldEnum: {
+    id: 'id',
+    classId: 'classId',
+    subjectId: 'subjectId',
+    boardId: 'boardId',
+    academicYearId: 'academicYearId',
+    name: 'name',
+    editorContentId: 'editorContentId',
+    organizationId: 'organizationId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ModelQuestionSetScalarFieldEnum = (typeof ModelQuestionSetScalarFieldEnum)[keyof typeof ModelQuestionSetScalarFieldEnum]
+
+
+  export const ModelQuestionSetBlockScalarFieldEnum: {
+    id: 'id',
+    setId: 'setId',
+    kind: 'kind',
+    title: 'title',
+    instructions: 'instructions',
+    passage: 'passage',
+    question: 'question',
+    optionsJson: 'optionsJson',
+    answer: 'answer',
+    marks: 'marks',
+    sortOrder: 'sortOrder',
+    organizationId: 'organizationId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ModelQuestionSetBlockScalarFieldEnum = (typeof ModelQuestionSetBlockScalarFieldEnum)[keyof typeof ModelQuestionSetBlockScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -70080,6 +73031,7 @@ export namespace Prisma {
     unseenCompositions?: UnseenCompositionListRelationFilter
     students?: UserListRelationFilter
     modelQuestionImports?: ModelQuestionImportListRelationFilter
+    modelQuestionSets?: ModelQuestionSetListRelationFilter
   }
 
   export type ClassOrderByWithRelationInput = {
@@ -70106,6 +73058,7 @@ export namespace Prisma {
     unseenCompositions?: UnseenCompositionOrderByRelationAggregateInput
     students?: UserOrderByRelationAggregateInput
     modelQuestionImports?: ModelQuestionImportOrderByRelationAggregateInput
+    modelQuestionSets?: ModelQuestionSetOrderByRelationAggregateInput
   }
 
   export type ClassWhereUniqueInput = Prisma.AtLeast<{
@@ -70135,6 +73088,7 @@ export namespace Prisma {
     unseenCompositions?: UnseenCompositionListRelationFilter
     students?: UserListRelationFilter
     modelQuestionImports?: ModelQuestionImportListRelationFilter
+    modelQuestionSets?: ModelQuestionSetListRelationFilter
   }, "id" | "slug">
 
   export type ClassOrderByWithAggregationInput = {
@@ -70212,6 +73166,7 @@ export namespace Prisma {
     contents?: ContentListRelationFilter
     unseenCompositions?: UnseenCompositionListRelationFilter
     modelQuestionImports?: ModelQuestionImportListRelationFilter
+    modelQuestionSets?: ModelQuestionSetListRelationFilter
   }
 
   export type SubjectOrderByWithRelationInput = {
@@ -70238,6 +73193,7 @@ export namespace Prisma {
     contents?: ContentOrderByRelationAggregateInput
     unseenCompositions?: UnseenCompositionOrderByRelationAggregateInput
     modelQuestionImports?: ModelQuestionImportOrderByRelationAggregateInput
+    modelQuestionSets?: ModelQuestionSetOrderByRelationAggregateInput
   }
 
   export type SubjectWhereUniqueInput = Prisma.AtLeast<{
@@ -70267,6 +73223,7 @@ export namespace Prisma {
     contents?: ContentListRelationFilter
     unseenCompositions?: UnseenCompositionListRelationFilter
     modelQuestionImports?: ModelQuestionImportListRelationFilter
+    modelQuestionSets?: ModelQuestionSetListRelationFilter
   }, "id" | "slug">
 
   export type SubjectOrderByWithAggregationInput = {
@@ -71466,6 +74423,10 @@ export namespace Prisma {
     id?: StringFilter<"VocabularyEntry"> | string
     vocabularyId?: StringFilter<"VocabularyEntry"> | string
     word?: StringFilter<"VocabularyEntry"> | string
+    partOfSpeech?: StringFilter<"VocabularyEntry"> | string
+    pronunciation?: StringFilter<"VocabularyEntry"> | string
+    synonyms?: StringFilter<"VocabularyEntry"> | string
+    antonyms?: StringFilter<"VocabularyEntry"> | string
     meaning?: StringFilter<"VocabularyEntry"> | string
     imageUrl?: StringFilter<"VocabularyEntry"> | string
     imagePath?: StringFilter<"VocabularyEntry"> | string
@@ -71483,6 +74444,10 @@ export namespace Prisma {
     id?: SortOrder
     vocabularyId?: SortOrder
     word?: SortOrder
+    partOfSpeech?: SortOrder
+    pronunciation?: SortOrder
+    synonyms?: SortOrder
+    antonyms?: SortOrder
     meaning?: SortOrder
     imageUrl?: SortOrder
     imagePath?: SortOrder
@@ -71503,6 +74468,10 @@ export namespace Prisma {
     NOT?: VocabularyEntryWhereInput | VocabularyEntryWhereInput[]
     vocabularyId?: StringFilter<"VocabularyEntry"> | string
     word?: StringFilter<"VocabularyEntry"> | string
+    partOfSpeech?: StringFilter<"VocabularyEntry"> | string
+    pronunciation?: StringFilter<"VocabularyEntry"> | string
+    synonyms?: StringFilter<"VocabularyEntry"> | string
+    antonyms?: StringFilter<"VocabularyEntry"> | string
     meaning?: StringFilter<"VocabularyEntry"> | string
     imageUrl?: StringFilter<"VocabularyEntry"> | string
     imagePath?: StringFilter<"VocabularyEntry"> | string
@@ -71520,6 +74489,10 @@ export namespace Prisma {
     id?: SortOrder
     vocabularyId?: SortOrder
     word?: SortOrder
+    partOfSpeech?: SortOrder
+    pronunciation?: SortOrder
+    synonyms?: SortOrder
+    antonyms?: SortOrder
     meaning?: SortOrder
     imageUrl?: SortOrder
     imagePath?: SortOrder
@@ -71543,6 +74516,10 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     vocabularyId?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     word?: StringWithAggregatesFilter<"VocabularyEntry"> | string
+    partOfSpeech?: StringWithAggregatesFilter<"VocabularyEntry"> | string
+    pronunciation?: StringWithAggregatesFilter<"VocabularyEntry"> | string
+    synonyms?: StringWithAggregatesFilter<"VocabularyEntry"> | string
+    antonyms?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     meaning?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     imageUrl?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     imagePath?: StringWithAggregatesFilter<"VocabularyEntry"> | string
@@ -71744,6 +74721,7 @@ export namespace Prisma {
     checksumSha256?: StringFilter<"UploadedFile"> | string
     status?: StringFilter<"UploadedFile"> | string
     isCurrent?: BoolFilter<"UploadedFile"> | boolean
+    sortOrder?: IntFilter<"UploadedFile"> | number
     replacedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
     storageDeletedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
@@ -71776,6 +74754,7 @@ export namespace Prisma {
     checksumSha256?: SortOrder
     status?: SortOrder
     isCurrent?: SortOrder
+    sortOrder?: SortOrder
     replacedAt?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
     storageDeletedAt?: SortOrderInput | SortOrder
@@ -71811,6 +74790,7 @@ export namespace Prisma {
     checksumSha256?: StringFilter<"UploadedFile"> | string
     status?: StringFilter<"UploadedFile"> | string
     isCurrent?: BoolFilter<"UploadedFile"> | boolean
+    sortOrder?: IntFilter<"UploadedFile"> | number
     replacedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
     storageDeletedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
@@ -71843,6 +74823,7 @@ export namespace Prisma {
     checksumSha256?: SortOrder
     status?: SortOrder
     isCurrent?: SortOrder
+    sortOrder?: SortOrder
     replacedAt?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
     storageDeletedAt?: SortOrderInput | SortOrder
@@ -71880,6 +74861,7 @@ export namespace Prisma {
     checksumSha256?: StringWithAggregatesFilter<"UploadedFile"> | string
     status?: StringWithAggregatesFilter<"UploadedFile"> | string
     isCurrent?: BoolWithAggregatesFilter<"UploadedFile"> | boolean
+    sortOrder?: IntWithAggregatesFilter<"UploadedFile"> | number
     replacedAt?: DateTimeNullableWithAggregatesFilter<"UploadedFile"> | Date | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"UploadedFile"> | Date | string | null
     storageDeletedAt?: DateTimeNullableWithAggregatesFilter<"UploadedFile"> | Date | string | null
@@ -75108,6 +78090,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Board"> | Date | string
     updatedAt?: DateTimeFilter<"Board"> | Date | string
     modelQuestionImports?: ModelQuestionImportListRelationFilter
+    modelQuestionSets?: ModelQuestionSetListRelationFilter
   }
 
   export type BoardOrderByWithRelationInput = {
@@ -75120,6 +78103,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     modelQuestionImports?: ModelQuestionImportOrderByRelationAggregateInput
+    modelQuestionSets?: ModelQuestionSetOrderByRelationAggregateInput
   }
 
   export type BoardWhereUniqueInput = Prisma.AtLeast<{
@@ -75136,6 +78120,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Board"> | Date | string
     updatedAt?: DateTimeFilter<"Board"> | Date | string
     modelQuestionImports?: ModelQuestionImportListRelationFilter
+    modelQuestionSets?: ModelQuestionSetListRelationFilter
   }, "id" | "organizationId_name">
 
   export type BoardOrderByWithAggregationInput = {
@@ -75179,6 +78164,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"AcademicYear"> | Date | string
     updatedAt?: DateTimeFilter<"AcademicYear"> | Date | string
     modelQuestionImports?: ModelQuestionImportListRelationFilter
+    modelQuestionSets?: ModelQuestionSetListRelationFilter
   }
 
   export type AcademicYearOrderByWithRelationInput = {
@@ -75191,6 +78177,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     modelQuestionImports?: ModelQuestionImportOrderByRelationAggregateInput
+    modelQuestionSets?: ModelQuestionSetOrderByRelationAggregateInput
   }
 
   export type AcademicYearWhereUniqueInput = Prisma.AtLeast<{
@@ -75207,6 +78194,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"AcademicYear"> | Date | string
     updatedAt?: DateTimeFilter<"AcademicYear"> | Date | string
     modelQuestionImports?: ModelQuestionImportListRelationFilter
+    modelQuestionSets?: ModelQuestionSetListRelationFilter
   }, "id" | "organizationId_year">
 
   export type AcademicYearOrderByWithAggregationInput = {
@@ -75356,6 +78344,220 @@ export namespace Prisma {
     updatedBy?: StringWithAggregatesFilter<"ModelQuestionImport"> | string
     createdAt?: DateTimeWithAggregatesFilter<"ModelQuestionImport"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ModelQuestionImport"> | Date | string
+  }
+
+  export type ModelQuestionSetWhereInput = {
+    AND?: ModelQuestionSetWhereInput | ModelQuestionSetWhereInput[]
+    OR?: ModelQuestionSetWhereInput[]
+    NOT?: ModelQuestionSetWhereInput | ModelQuestionSetWhereInput[]
+    id?: StringFilter<"ModelQuestionSet"> | string
+    classId?: StringFilter<"ModelQuestionSet"> | string
+    subjectId?: StringFilter<"ModelQuestionSet"> | string
+    boardId?: StringNullableFilter<"ModelQuestionSet"> | string | null
+    academicYearId?: StringNullableFilter<"ModelQuestionSet"> | string | null
+    name?: StringFilter<"ModelQuestionSet"> | string
+    editorContentId?: StringNullableFilter<"ModelQuestionSet"> | string | null
+    organizationId?: StringFilter<"ModelQuestionSet"> | string
+    createdBy?: StringFilter<"ModelQuestionSet"> | string
+    updatedBy?: StringFilter<"ModelQuestionSet"> | string
+    createdAt?: DateTimeFilter<"ModelQuestionSet"> | Date | string
+    updatedAt?: DateTimeFilter<"ModelQuestionSet"> | Date | string
+    class?: XOR<ClassScalarRelationFilter, ClassWhereInput>
+    subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
+    board?: XOR<BoardNullableScalarRelationFilter, BoardWhereInput> | null
+    academicYear?: XOR<AcademicYearNullableScalarRelationFilter, AcademicYearWhereInput> | null
+    blocks?: ModelQuestionSetBlockListRelationFilter
+  }
+
+  export type ModelQuestionSetOrderByWithRelationInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    boardId?: SortOrderInput | SortOrder
+    academicYearId?: SortOrderInput | SortOrder
+    name?: SortOrder
+    editorContentId?: SortOrderInput | SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    class?: ClassOrderByWithRelationInput
+    subject?: SubjectOrderByWithRelationInput
+    board?: BoardOrderByWithRelationInput
+    academicYear?: AcademicYearOrderByWithRelationInput
+    blocks?: ModelQuestionSetBlockOrderByRelationAggregateInput
+  }
+
+  export type ModelQuestionSetWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    editorContentId?: string
+    AND?: ModelQuestionSetWhereInput | ModelQuestionSetWhereInput[]
+    OR?: ModelQuestionSetWhereInput[]
+    NOT?: ModelQuestionSetWhereInput | ModelQuestionSetWhereInput[]
+    classId?: StringFilter<"ModelQuestionSet"> | string
+    subjectId?: StringFilter<"ModelQuestionSet"> | string
+    boardId?: StringNullableFilter<"ModelQuestionSet"> | string | null
+    academicYearId?: StringNullableFilter<"ModelQuestionSet"> | string | null
+    name?: StringFilter<"ModelQuestionSet"> | string
+    organizationId?: StringFilter<"ModelQuestionSet"> | string
+    createdBy?: StringFilter<"ModelQuestionSet"> | string
+    updatedBy?: StringFilter<"ModelQuestionSet"> | string
+    createdAt?: DateTimeFilter<"ModelQuestionSet"> | Date | string
+    updatedAt?: DateTimeFilter<"ModelQuestionSet"> | Date | string
+    class?: XOR<ClassScalarRelationFilter, ClassWhereInput>
+    subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
+    board?: XOR<BoardNullableScalarRelationFilter, BoardWhereInput> | null
+    academicYear?: XOR<AcademicYearNullableScalarRelationFilter, AcademicYearWhereInput> | null
+    blocks?: ModelQuestionSetBlockListRelationFilter
+  }, "id" | "editorContentId">
+
+  export type ModelQuestionSetOrderByWithAggregationInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    boardId?: SortOrderInput | SortOrder
+    academicYearId?: SortOrderInput | SortOrder
+    name?: SortOrder
+    editorContentId?: SortOrderInput | SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ModelQuestionSetCountOrderByAggregateInput
+    _max?: ModelQuestionSetMaxOrderByAggregateInput
+    _min?: ModelQuestionSetMinOrderByAggregateInput
+  }
+
+  export type ModelQuestionSetScalarWhereWithAggregatesInput = {
+    AND?: ModelQuestionSetScalarWhereWithAggregatesInput | ModelQuestionSetScalarWhereWithAggregatesInput[]
+    OR?: ModelQuestionSetScalarWhereWithAggregatesInput[]
+    NOT?: ModelQuestionSetScalarWhereWithAggregatesInput | ModelQuestionSetScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ModelQuestionSet"> | string
+    classId?: StringWithAggregatesFilter<"ModelQuestionSet"> | string
+    subjectId?: StringWithAggregatesFilter<"ModelQuestionSet"> | string
+    boardId?: StringNullableWithAggregatesFilter<"ModelQuestionSet"> | string | null
+    academicYearId?: StringNullableWithAggregatesFilter<"ModelQuestionSet"> | string | null
+    name?: StringWithAggregatesFilter<"ModelQuestionSet"> | string
+    editorContentId?: StringNullableWithAggregatesFilter<"ModelQuestionSet"> | string | null
+    organizationId?: StringWithAggregatesFilter<"ModelQuestionSet"> | string
+    createdBy?: StringWithAggregatesFilter<"ModelQuestionSet"> | string
+    updatedBy?: StringWithAggregatesFilter<"ModelQuestionSet"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ModelQuestionSet"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ModelQuestionSet"> | Date | string
+  }
+
+  export type ModelQuestionSetBlockWhereInput = {
+    AND?: ModelQuestionSetBlockWhereInput | ModelQuestionSetBlockWhereInput[]
+    OR?: ModelQuestionSetBlockWhereInput[]
+    NOT?: ModelQuestionSetBlockWhereInput | ModelQuestionSetBlockWhereInput[]
+    id?: StringFilter<"ModelQuestionSetBlock"> | string
+    setId?: StringFilter<"ModelQuestionSetBlock"> | string
+    kind?: StringFilter<"ModelQuestionSetBlock"> | string
+    title?: StringFilter<"ModelQuestionSetBlock"> | string
+    instructions?: StringFilter<"ModelQuestionSetBlock"> | string
+    passage?: StringFilter<"ModelQuestionSetBlock"> | string
+    question?: StringFilter<"ModelQuestionSetBlock"> | string
+    optionsJson?: StringFilter<"ModelQuestionSetBlock"> | string
+    answer?: StringFilter<"ModelQuestionSetBlock"> | string
+    marks?: IntFilter<"ModelQuestionSetBlock"> | number
+    sortOrder?: IntFilter<"ModelQuestionSetBlock"> | number
+    organizationId?: StringFilter<"ModelQuestionSetBlock"> | string
+    createdBy?: StringFilter<"ModelQuestionSetBlock"> | string
+    updatedBy?: StringFilter<"ModelQuestionSetBlock"> | string
+    createdAt?: DateTimeFilter<"ModelQuestionSetBlock"> | Date | string
+    updatedAt?: DateTimeFilter<"ModelQuestionSetBlock"> | Date | string
+    set?: XOR<ModelQuestionSetScalarRelationFilter, ModelQuestionSetWhereInput>
+  }
+
+  export type ModelQuestionSetBlockOrderByWithRelationInput = {
+    id?: SortOrder
+    setId?: SortOrder
+    kind?: SortOrder
+    title?: SortOrder
+    instructions?: SortOrder
+    passage?: SortOrder
+    question?: SortOrder
+    optionsJson?: SortOrder
+    answer?: SortOrder
+    marks?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    set?: ModelQuestionSetOrderByWithRelationInput
+  }
+
+  export type ModelQuestionSetBlockWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ModelQuestionSetBlockWhereInput | ModelQuestionSetBlockWhereInput[]
+    OR?: ModelQuestionSetBlockWhereInput[]
+    NOT?: ModelQuestionSetBlockWhereInput | ModelQuestionSetBlockWhereInput[]
+    setId?: StringFilter<"ModelQuestionSetBlock"> | string
+    kind?: StringFilter<"ModelQuestionSetBlock"> | string
+    title?: StringFilter<"ModelQuestionSetBlock"> | string
+    instructions?: StringFilter<"ModelQuestionSetBlock"> | string
+    passage?: StringFilter<"ModelQuestionSetBlock"> | string
+    question?: StringFilter<"ModelQuestionSetBlock"> | string
+    optionsJson?: StringFilter<"ModelQuestionSetBlock"> | string
+    answer?: StringFilter<"ModelQuestionSetBlock"> | string
+    marks?: IntFilter<"ModelQuestionSetBlock"> | number
+    sortOrder?: IntFilter<"ModelQuestionSetBlock"> | number
+    organizationId?: StringFilter<"ModelQuestionSetBlock"> | string
+    createdBy?: StringFilter<"ModelQuestionSetBlock"> | string
+    updatedBy?: StringFilter<"ModelQuestionSetBlock"> | string
+    createdAt?: DateTimeFilter<"ModelQuestionSetBlock"> | Date | string
+    updatedAt?: DateTimeFilter<"ModelQuestionSetBlock"> | Date | string
+    set?: XOR<ModelQuestionSetScalarRelationFilter, ModelQuestionSetWhereInput>
+  }, "id">
+
+  export type ModelQuestionSetBlockOrderByWithAggregationInput = {
+    id?: SortOrder
+    setId?: SortOrder
+    kind?: SortOrder
+    title?: SortOrder
+    instructions?: SortOrder
+    passage?: SortOrder
+    question?: SortOrder
+    optionsJson?: SortOrder
+    answer?: SortOrder
+    marks?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ModelQuestionSetBlockCountOrderByAggregateInput
+    _avg?: ModelQuestionSetBlockAvgOrderByAggregateInput
+    _max?: ModelQuestionSetBlockMaxOrderByAggregateInput
+    _min?: ModelQuestionSetBlockMinOrderByAggregateInput
+    _sum?: ModelQuestionSetBlockSumOrderByAggregateInput
+  }
+
+  export type ModelQuestionSetBlockScalarWhereWithAggregatesInput = {
+    AND?: ModelQuestionSetBlockScalarWhereWithAggregatesInput | ModelQuestionSetBlockScalarWhereWithAggregatesInput[]
+    OR?: ModelQuestionSetBlockScalarWhereWithAggregatesInput[]
+    NOT?: ModelQuestionSetBlockScalarWhereWithAggregatesInput | ModelQuestionSetBlockScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ModelQuestionSetBlock"> | string
+    setId?: StringWithAggregatesFilter<"ModelQuestionSetBlock"> | string
+    kind?: StringWithAggregatesFilter<"ModelQuestionSetBlock"> | string
+    title?: StringWithAggregatesFilter<"ModelQuestionSetBlock"> | string
+    instructions?: StringWithAggregatesFilter<"ModelQuestionSetBlock"> | string
+    passage?: StringWithAggregatesFilter<"ModelQuestionSetBlock"> | string
+    question?: StringWithAggregatesFilter<"ModelQuestionSetBlock"> | string
+    optionsJson?: StringWithAggregatesFilter<"ModelQuestionSetBlock"> | string
+    answer?: StringWithAggregatesFilter<"ModelQuestionSetBlock"> | string
+    marks?: IntWithAggregatesFilter<"ModelQuestionSetBlock"> | number
+    sortOrder?: IntWithAggregatesFilter<"ModelQuestionSetBlock"> | number
+    organizationId?: StringWithAggregatesFilter<"ModelQuestionSetBlock"> | string
+    createdBy?: StringWithAggregatesFilter<"ModelQuestionSetBlock"> | string
+    updatedBy?: StringWithAggregatesFilter<"ModelQuestionSetBlock"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ModelQuestionSetBlock"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ModelQuestionSetBlock"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -75849,6 +79051,7 @@ export namespace Prisma {
     unseenCompositions?: UnseenCompositionCreateNestedManyWithoutClassInput
     students?: UserCreateNestedManyWithoutClassInput
     modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutClassInput
+    modelQuestionSets?: ModelQuestionSetCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateInput = {
@@ -75875,6 +79078,7 @@ export namespace Prisma {
     unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutClassInput
     students?: UserUncheckedCreateNestedManyWithoutClassInput
     modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutClassInput
+    modelQuestionSets?: ModelQuestionSetUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassUpdateInput = {
@@ -75901,6 +79105,7 @@ export namespace Prisma {
     unseenCompositions?: UnseenCompositionUpdateManyWithoutClassNestedInput
     students?: UserUpdateManyWithoutClassNestedInput
     modelQuestionImports?: ModelQuestionImportUpdateManyWithoutClassNestedInput
+    modelQuestionSets?: ModelQuestionSetUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateInput = {
@@ -75927,6 +79132,7 @@ export namespace Prisma {
     unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutClassNestedInput
     students?: UserUncheckedUpdateManyWithoutClassNestedInput
     modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutClassNestedInput
+    modelQuestionSets?: ModelQuestionSetUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type ClassCreateManyInput = {
@@ -76012,6 +79218,7 @@ export namespace Prisma {
     contents?: ContentCreateNestedManyWithoutSubjectInput
     unseenCompositions?: UnseenCompositionCreateNestedManyWithoutSubjectInput
     modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutSubjectInput
+    modelQuestionSets?: ModelQuestionSetCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateInput = {
@@ -76037,6 +79244,7 @@ export namespace Prisma {
     contents?: ContentUncheckedCreateNestedManyWithoutSubjectInput
     unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutSubjectInput
     modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutSubjectInput
+    modelQuestionSets?: ModelQuestionSetUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUpdateInput = {
@@ -76062,6 +79270,7 @@ export namespace Prisma {
     contents?: ContentUpdateManyWithoutSubjectNestedInput
     unseenCompositions?: UnseenCompositionUpdateManyWithoutSubjectNestedInput
     modelQuestionImports?: ModelQuestionImportUpdateManyWithoutSubjectNestedInput
+    modelQuestionSets?: ModelQuestionSetUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateInput = {
@@ -76087,6 +79296,7 @@ export namespace Prisma {
     contents?: ContentUncheckedUpdateManyWithoutSubjectNestedInput
     unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutSubjectNestedInput
     modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutSubjectNestedInput
+    modelQuestionSets?: ModelQuestionSetUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectCreateManyInput = {
@@ -77481,6 +80691,10 @@ export namespace Prisma {
   export type VocabularyEntryCreateInput = {
     id?: string
     word?: string
+    partOfSpeech?: string
+    pronunciation?: string
+    synonyms?: string
+    antonyms?: string
     meaning?: string
     imageUrl?: string
     imagePath?: string
@@ -77498,6 +80712,10 @@ export namespace Prisma {
     id?: string
     vocabularyId: string
     word?: string
+    partOfSpeech?: string
+    pronunciation?: string
+    synonyms?: string
+    antonyms?: string
     meaning?: string
     imageUrl?: string
     imagePath?: string
@@ -77513,6 +80731,10 @@ export namespace Prisma {
   export type VocabularyEntryUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
+    partOfSpeech?: StringFieldUpdateOperationsInput | string
+    pronunciation?: StringFieldUpdateOperationsInput | string
+    synonyms?: StringFieldUpdateOperationsInput | string
+    antonyms?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
@@ -77530,6 +80752,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     vocabularyId?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
+    partOfSpeech?: StringFieldUpdateOperationsInput | string
+    pronunciation?: StringFieldUpdateOperationsInput | string
+    synonyms?: StringFieldUpdateOperationsInput | string
+    antonyms?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
@@ -77546,6 +80772,10 @@ export namespace Prisma {
     id?: string
     vocabularyId: string
     word?: string
+    partOfSpeech?: string
+    pronunciation?: string
+    synonyms?: string
+    antonyms?: string
     meaning?: string
     imageUrl?: string
     imagePath?: string
@@ -77560,6 +80790,10 @@ export namespace Prisma {
   export type VocabularyEntryUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
+    partOfSpeech?: StringFieldUpdateOperationsInput | string
+    pronunciation?: StringFieldUpdateOperationsInput | string
+    synonyms?: StringFieldUpdateOperationsInput | string
+    antonyms?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
@@ -77575,6 +80809,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     vocabularyId?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
+    partOfSpeech?: StringFieldUpdateOperationsInput | string
+    pronunciation?: StringFieldUpdateOperationsInput | string
+    synonyms?: StringFieldUpdateOperationsInput | string
+    antonyms?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
@@ -77817,6 +81055,7 @@ export namespace Prisma {
     checksumSha256?: string
     status?: string
     isCurrent?: boolean
+    sortOrder?: number
     replacedAt?: Date | string | null
     deletedAt?: Date | string | null
     storageDeletedAt?: Date | string | null
@@ -77849,6 +81088,7 @@ export namespace Prisma {
     checksumSha256?: string
     status?: string
     isCurrent?: boolean
+    sortOrder?: number
     replacedAt?: Date | string | null
     deletedAt?: Date | string | null
     storageDeletedAt?: Date | string | null
@@ -77877,6 +81117,7 @@ export namespace Prisma {
     checksumSha256?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
     replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -77909,6 +81150,7 @@ export namespace Prisma {
     checksumSha256?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
     replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -77939,6 +81181,7 @@ export namespace Prisma {
     checksumSha256?: string
     status?: string
     isCurrent?: boolean
+    sortOrder?: number
     replacedAt?: Date | string | null
     deletedAt?: Date | string | null
     storageDeletedAt?: Date | string | null
@@ -77966,6 +81209,7 @@ export namespace Prisma {
     checksumSha256?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
     replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -77995,6 +81239,7 @@ export namespace Prisma {
     checksumSha256?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
     replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -81895,6 +85140,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutBoardInput
+    modelQuestionSets?: ModelQuestionSetCreateNestedManyWithoutBoardInput
   }
 
   export type BoardUncheckedCreateInput = {
@@ -81907,6 +85153,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutBoardInput
+    modelQuestionSets?: ModelQuestionSetUncheckedCreateNestedManyWithoutBoardInput
   }
 
   export type BoardUpdateInput = {
@@ -81919,6 +85166,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     modelQuestionImports?: ModelQuestionImportUpdateManyWithoutBoardNestedInput
+    modelQuestionSets?: ModelQuestionSetUpdateManyWithoutBoardNestedInput
   }
 
   export type BoardUncheckedUpdateInput = {
@@ -81931,6 +85179,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutBoardNestedInput
+    modelQuestionSets?: ModelQuestionSetUncheckedUpdateManyWithoutBoardNestedInput
   }
 
   export type BoardCreateManyInput = {
@@ -81976,6 +85225,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutAcademicYearInput
+    modelQuestionSets?: ModelQuestionSetCreateNestedManyWithoutAcademicYearInput
   }
 
   export type AcademicYearUncheckedCreateInput = {
@@ -81988,6 +85238,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutAcademicYearInput
+    modelQuestionSets?: ModelQuestionSetUncheckedCreateNestedManyWithoutAcademicYearInput
   }
 
   export type AcademicYearUpdateInput = {
@@ -82000,6 +85251,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     modelQuestionImports?: ModelQuestionImportUpdateManyWithoutAcademicYearNestedInput
+    modelQuestionSets?: ModelQuestionSetUpdateManyWithoutAcademicYearNestedInput
   }
 
   export type AcademicYearUncheckedUpdateInput = {
@@ -82012,6 +85264,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutAcademicYearNestedInput
+    modelQuestionSets?: ModelQuestionSetUncheckedUpdateManyWithoutAcademicYearNestedInput
   }
 
   export type AcademicYearCreateManyInput = {
@@ -82161,6 +85414,243 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     questionsJson?: StringFieldUpdateOperationsInput | string
     questionCount?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelQuestionSetCreateInput = {
+    id?: string
+    name: string
+    editorContentId?: string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    class: ClassCreateNestedOneWithoutModelQuestionSetsInput
+    subject: SubjectCreateNestedOneWithoutModelQuestionSetsInput
+    board?: BoardCreateNestedOneWithoutModelQuestionSetsInput
+    academicYear?: AcademicYearCreateNestedOneWithoutModelQuestionSetsInput
+    blocks?: ModelQuestionSetBlockCreateNestedManyWithoutSetInput
+  }
+
+  export type ModelQuestionSetUncheckedCreateInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    boardId?: string | null
+    academicYearId?: string | null
+    name: string
+    editorContentId?: string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    blocks?: ModelQuestionSetBlockUncheckedCreateNestedManyWithoutSetInput
+  }
+
+  export type ModelQuestionSetUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    class?: ClassUpdateOneRequiredWithoutModelQuestionSetsNestedInput
+    subject?: SubjectUpdateOneRequiredWithoutModelQuestionSetsNestedInput
+    board?: BoardUpdateOneWithoutModelQuestionSetsNestedInput
+    academicYear?: AcademicYearUpdateOneWithoutModelQuestionSetsNestedInput
+    blocks?: ModelQuestionSetBlockUpdateManyWithoutSetNestedInput
+  }
+
+  export type ModelQuestionSetUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blocks?: ModelQuestionSetBlockUncheckedUpdateManyWithoutSetNestedInput
+  }
+
+  export type ModelQuestionSetCreateManyInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    boardId?: string | null
+    academicYearId?: string | null
+    name: string
+    editorContentId?: string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ModelQuestionSetUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelQuestionSetUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelQuestionSetBlockCreateInput = {
+    id?: string
+    kind: string
+    title: string
+    instructions?: string
+    passage?: string
+    question: string
+    optionsJson?: string
+    answer?: string
+    marks?: number
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    set: ModelQuestionSetCreateNestedOneWithoutBlocksInput
+  }
+
+  export type ModelQuestionSetBlockUncheckedCreateInput = {
+    id?: string
+    setId: string
+    kind: string
+    title: string
+    instructions?: string
+    passage?: string
+    question: string
+    optionsJson?: string
+    answer?: string
+    marks?: number
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ModelQuestionSetBlockUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    instructions?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    optionsJson?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    marks?: IntFieldUpdateOperationsInput | number
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    set?: ModelQuestionSetUpdateOneRequiredWithoutBlocksNestedInput
+  }
+
+  export type ModelQuestionSetBlockUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    setId?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    instructions?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    optionsJson?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    marks?: IntFieldUpdateOperationsInput | number
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelQuestionSetBlockCreateManyInput = {
+    id?: string
+    setId: string
+    kind: string
+    title: string
+    instructions?: string
+    passage?: string
+    question: string
+    optionsJson?: string
+    answer?: string
+    marks?: number
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ModelQuestionSetBlockUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    instructions?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    optionsJson?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    marks?: IntFieldUpdateOperationsInput | number
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelQuestionSetBlockUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    setId?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    instructions?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    optionsJson?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    marks?: IntFieldUpdateOperationsInput | number
+    sortOrder?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -82597,6 +86087,12 @@ export namespace Prisma {
     none?: ModelQuestionImportWhereInput
   }
 
+  export type ModelQuestionSetListRelationFilter = {
+    every?: ModelQuestionSetWhereInput
+    some?: ModelQuestionSetWhereInput
+    none?: ModelQuestionSetWhereInput
+  }
+
   export type SubjectOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -82618,6 +86114,10 @@ export namespace Prisma {
   }
 
   export type ModelQuestionImportOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ModelQuestionSetOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -83561,6 +87061,10 @@ export namespace Prisma {
     id?: SortOrder
     vocabularyId?: SortOrder
     word?: SortOrder
+    partOfSpeech?: SortOrder
+    pronunciation?: SortOrder
+    synonyms?: SortOrder
+    antonyms?: SortOrder
     meaning?: SortOrder
     imageUrl?: SortOrder
     imagePath?: SortOrder
@@ -83580,6 +87084,10 @@ export namespace Prisma {
     id?: SortOrder
     vocabularyId?: SortOrder
     word?: SortOrder
+    partOfSpeech?: SortOrder
+    pronunciation?: SortOrder
+    synonyms?: SortOrder
+    antonyms?: SortOrder
     meaning?: SortOrder
     imageUrl?: SortOrder
     imagePath?: SortOrder
@@ -83595,6 +87103,10 @@ export namespace Prisma {
     id?: SortOrder
     vocabularyId?: SortOrder
     word?: SortOrder
+    partOfSpeech?: SortOrder
+    pronunciation?: SortOrder
+    synonyms?: SortOrder
+    antonyms?: SortOrder
     meaning?: SortOrder
     imageUrl?: SortOrder
     imagePath?: SortOrder
@@ -83751,6 +87263,7 @@ export namespace Prisma {
     checksumSha256?: SortOrder
     status?: SortOrder
     isCurrent?: SortOrder
+    sortOrder?: SortOrder
     replacedAt?: SortOrder
     deletedAt?: SortOrder
     storageDeletedAt?: SortOrder
@@ -83765,6 +87278,7 @@ export namespace Prisma {
     sizeBytes?: SortOrder
     width?: SortOrder
     height?: SortOrder
+    sortOrder?: SortOrder
   }
 
   export type UploadedFileMaxOrderByAggregateInput = {
@@ -83786,6 +87300,7 @@ export namespace Prisma {
     checksumSha256?: SortOrder
     status?: SortOrder
     isCurrent?: SortOrder
+    sortOrder?: SortOrder
     replacedAt?: SortOrder
     deletedAt?: SortOrder
     storageDeletedAt?: SortOrder
@@ -83815,6 +87330,7 @@ export namespace Prisma {
     checksumSha256?: SortOrder
     status?: SortOrder
     isCurrent?: SortOrder
+    sortOrder?: SortOrder
     replacedAt?: SortOrder
     deletedAt?: SortOrder
     storageDeletedAt?: SortOrder
@@ -83829,6 +87345,7 @@ export namespace Prisma {
     sizeBytes?: SortOrder
     width?: SortOrder
     height?: SortOrder
+    sortOrder?: SortOrder
   }
 
   export type SynonymsAntonymsEntryListRelationFilter = {
@@ -85726,6 +89243,133 @@ export namespace Prisma {
     questionCount?: SortOrder
   }
 
+  export type ModelQuestionSetBlockListRelationFilter = {
+    every?: ModelQuestionSetBlockWhereInput
+    some?: ModelQuestionSetBlockWhereInput
+    none?: ModelQuestionSetBlockWhereInput
+  }
+
+  export type ModelQuestionSetBlockOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ModelQuestionSetCountOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
+    name?: SortOrder
+    editorContentId?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ModelQuestionSetMaxOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
+    name?: SortOrder
+    editorContentId?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ModelQuestionSetMinOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
+    name?: SortOrder
+    editorContentId?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ModelQuestionSetScalarRelationFilter = {
+    is?: ModelQuestionSetWhereInput
+    isNot?: ModelQuestionSetWhereInput
+  }
+
+  export type ModelQuestionSetBlockCountOrderByAggregateInput = {
+    id?: SortOrder
+    setId?: SortOrder
+    kind?: SortOrder
+    title?: SortOrder
+    instructions?: SortOrder
+    passage?: SortOrder
+    question?: SortOrder
+    optionsJson?: SortOrder
+    answer?: SortOrder
+    marks?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ModelQuestionSetBlockAvgOrderByAggregateInput = {
+    marks?: SortOrder
+    sortOrder?: SortOrder
+  }
+
+  export type ModelQuestionSetBlockMaxOrderByAggregateInput = {
+    id?: SortOrder
+    setId?: SortOrder
+    kind?: SortOrder
+    title?: SortOrder
+    instructions?: SortOrder
+    passage?: SortOrder
+    question?: SortOrder
+    optionsJson?: SortOrder
+    answer?: SortOrder
+    marks?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ModelQuestionSetBlockMinOrderByAggregateInput = {
+    id?: SortOrder
+    setId?: SortOrder
+    kind?: SortOrder
+    title?: SortOrder
+    instructions?: SortOrder
+    passage?: SortOrder
+    question?: SortOrder
+    optionsJson?: SortOrder
+    answer?: SortOrder
+    marks?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ModelQuestionSetBlockSumOrderByAggregateInput = {
+    marks?: SortOrder
+    sortOrder?: SortOrder
+  }
+
   export type ClassCreateNestedOneWithoutStudentsInput = {
     create?: XOR<ClassCreateWithoutStudentsInput, ClassUncheckedCreateWithoutStudentsInput>
     connectOrCreate?: ClassCreateOrConnectWithoutStudentsInput
@@ -85920,6 +89564,13 @@ export namespace Prisma {
     connect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
   }
 
+  export type ModelQuestionSetCreateNestedManyWithoutClassInput = {
+    create?: XOR<ModelQuestionSetCreateWithoutClassInput, ModelQuestionSetUncheckedCreateWithoutClassInput> | ModelQuestionSetCreateWithoutClassInput[] | ModelQuestionSetUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: ModelQuestionSetCreateOrConnectWithoutClassInput | ModelQuestionSetCreateOrConnectWithoutClassInput[]
+    createMany?: ModelQuestionSetCreateManyClassInputEnvelope
+    connect?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+  }
+
   export type SubjectUncheckedCreateNestedManyWithoutClassInput = {
     create?: XOR<SubjectCreateWithoutClassInput, SubjectUncheckedCreateWithoutClassInput> | SubjectCreateWithoutClassInput[] | SubjectUncheckedCreateWithoutClassInput[]
     connectOrCreate?: SubjectCreateOrConnectWithoutClassInput | SubjectCreateOrConnectWithoutClassInput[]
@@ -85960,6 +89611,13 @@ export namespace Prisma {
     connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutClassInput | ModelQuestionImportCreateOrConnectWithoutClassInput[]
     createMany?: ModelQuestionImportCreateManyClassInputEnvelope
     connect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+  }
+
+  export type ModelQuestionSetUncheckedCreateNestedManyWithoutClassInput = {
+    create?: XOR<ModelQuestionSetCreateWithoutClassInput, ModelQuestionSetUncheckedCreateWithoutClassInput> | ModelQuestionSetCreateWithoutClassInput[] | ModelQuestionSetUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: ModelQuestionSetCreateOrConnectWithoutClassInput | ModelQuestionSetCreateOrConnectWithoutClassInput[]
+    createMany?: ModelQuestionSetCreateManyClassInputEnvelope
+    connect?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
   }
 
   export type EnumPublishStatusFieldUpdateOperationsInput = {
@@ -86058,6 +89716,20 @@ export namespace Prisma {
     deleteMany?: ModelQuestionImportScalarWhereInput | ModelQuestionImportScalarWhereInput[]
   }
 
+  export type ModelQuestionSetUpdateManyWithoutClassNestedInput = {
+    create?: XOR<ModelQuestionSetCreateWithoutClassInput, ModelQuestionSetUncheckedCreateWithoutClassInput> | ModelQuestionSetCreateWithoutClassInput[] | ModelQuestionSetUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: ModelQuestionSetCreateOrConnectWithoutClassInput | ModelQuestionSetCreateOrConnectWithoutClassInput[]
+    upsert?: ModelQuestionSetUpsertWithWhereUniqueWithoutClassInput | ModelQuestionSetUpsertWithWhereUniqueWithoutClassInput[]
+    createMany?: ModelQuestionSetCreateManyClassInputEnvelope
+    set?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    disconnect?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    delete?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    connect?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    update?: ModelQuestionSetUpdateWithWhereUniqueWithoutClassInput | ModelQuestionSetUpdateWithWhereUniqueWithoutClassInput[]
+    updateMany?: ModelQuestionSetUpdateManyWithWhereWithoutClassInput | ModelQuestionSetUpdateManyWithWhereWithoutClassInput[]
+    deleteMany?: ModelQuestionSetScalarWhereInput | ModelQuestionSetScalarWhereInput[]
+  }
+
   export type SubjectUncheckedUpdateManyWithoutClassNestedInput = {
     create?: XOR<SubjectCreateWithoutClassInput, SubjectUncheckedCreateWithoutClassInput> | SubjectCreateWithoutClassInput[] | SubjectUncheckedCreateWithoutClassInput[]
     connectOrCreate?: SubjectCreateOrConnectWithoutClassInput | SubjectCreateOrConnectWithoutClassInput[]
@@ -86142,6 +89814,20 @@ export namespace Prisma {
     deleteMany?: ModelQuestionImportScalarWhereInput | ModelQuestionImportScalarWhereInput[]
   }
 
+  export type ModelQuestionSetUncheckedUpdateManyWithoutClassNestedInput = {
+    create?: XOR<ModelQuestionSetCreateWithoutClassInput, ModelQuestionSetUncheckedCreateWithoutClassInput> | ModelQuestionSetCreateWithoutClassInput[] | ModelQuestionSetUncheckedCreateWithoutClassInput[]
+    connectOrCreate?: ModelQuestionSetCreateOrConnectWithoutClassInput | ModelQuestionSetCreateOrConnectWithoutClassInput[]
+    upsert?: ModelQuestionSetUpsertWithWhereUniqueWithoutClassInput | ModelQuestionSetUpsertWithWhereUniqueWithoutClassInput[]
+    createMany?: ModelQuestionSetCreateManyClassInputEnvelope
+    set?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    disconnect?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    delete?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    connect?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    update?: ModelQuestionSetUpdateWithWhereUniqueWithoutClassInput | ModelQuestionSetUpdateWithWhereUniqueWithoutClassInput[]
+    updateMany?: ModelQuestionSetUpdateManyWithWhereWithoutClassInput | ModelQuestionSetUpdateManyWithWhereWithoutClassInput[]
+    deleteMany?: ModelQuestionSetScalarWhereInput | ModelQuestionSetScalarWhereInput[]
+  }
+
   export type ClassCreateNestedOneWithoutSubjectsInput = {
     create?: XOR<ClassCreateWithoutSubjectsInput, ClassUncheckedCreateWithoutSubjectsInput>
     connectOrCreate?: ClassCreateOrConnectWithoutSubjectsInput
@@ -86176,6 +89862,13 @@ export namespace Prisma {
     connect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
   }
 
+  export type ModelQuestionSetCreateNestedManyWithoutSubjectInput = {
+    create?: XOR<ModelQuestionSetCreateWithoutSubjectInput, ModelQuestionSetUncheckedCreateWithoutSubjectInput> | ModelQuestionSetCreateWithoutSubjectInput[] | ModelQuestionSetUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: ModelQuestionSetCreateOrConnectWithoutSubjectInput | ModelQuestionSetCreateOrConnectWithoutSubjectInput[]
+    createMany?: ModelQuestionSetCreateManySubjectInputEnvelope
+    connect?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+  }
+
   export type UnitUncheckedCreateNestedManyWithoutSubjectInput = {
     create?: XOR<UnitCreateWithoutSubjectInput, UnitUncheckedCreateWithoutSubjectInput> | UnitCreateWithoutSubjectInput[] | UnitUncheckedCreateWithoutSubjectInput[]
     connectOrCreate?: UnitCreateOrConnectWithoutSubjectInput | UnitCreateOrConnectWithoutSubjectInput[]
@@ -86202,6 +89895,13 @@ export namespace Prisma {
     connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutSubjectInput | ModelQuestionImportCreateOrConnectWithoutSubjectInput[]
     createMany?: ModelQuestionImportCreateManySubjectInputEnvelope
     connect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+  }
+
+  export type ModelQuestionSetUncheckedCreateNestedManyWithoutSubjectInput = {
+    create?: XOR<ModelQuestionSetCreateWithoutSubjectInput, ModelQuestionSetUncheckedCreateWithoutSubjectInput> | ModelQuestionSetCreateWithoutSubjectInput[] | ModelQuestionSetUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: ModelQuestionSetCreateOrConnectWithoutSubjectInput | ModelQuestionSetCreateOrConnectWithoutSubjectInput[]
+    createMany?: ModelQuestionSetCreateManySubjectInputEnvelope
+    connect?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
   }
 
   export type ClassUpdateOneRequiredWithoutSubjectsNestedInput = {
@@ -86268,6 +89968,20 @@ export namespace Prisma {
     deleteMany?: ModelQuestionImportScalarWhereInput | ModelQuestionImportScalarWhereInput[]
   }
 
+  export type ModelQuestionSetUpdateManyWithoutSubjectNestedInput = {
+    create?: XOR<ModelQuestionSetCreateWithoutSubjectInput, ModelQuestionSetUncheckedCreateWithoutSubjectInput> | ModelQuestionSetCreateWithoutSubjectInput[] | ModelQuestionSetUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: ModelQuestionSetCreateOrConnectWithoutSubjectInput | ModelQuestionSetCreateOrConnectWithoutSubjectInput[]
+    upsert?: ModelQuestionSetUpsertWithWhereUniqueWithoutSubjectInput | ModelQuestionSetUpsertWithWhereUniqueWithoutSubjectInput[]
+    createMany?: ModelQuestionSetCreateManySubjectInputEnvelope
+    set?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    disconnect?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    delete?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    connect?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    update?: ModelQuestionSetUpdateWithWhereUniqueWithoutSubjectInput | ModelQuestionSetUpdateWithWhereUniqueWithoutSubjectInput[]
+    updateMany?: ModelQuestionSetUpdateManyWithWhereWithoutSubjectInput | ModelQuestionSetUpdateManyWithWhereWithoutSubjectInput[]
+    deleteMany?: ModelQuestionSetScalarWhereInput | ModelQuestionSetScalarWhereInput[]
+  }
+
   export type UnitUncheckedUpdateManyWithoutSubjectNestedInput = {
     create?: XOR<UnitCreateWithoutSubjectInput, UnitUncheckedCreateWithoutSubjectInput> | UnitCreateWithoutSubjectInput[] | UnitUncheckedCreateWithoutSubjectInput[]
     connectOrCreate?: UnitCreateOrConnectWithoutSubjectInput | UnitCreateOrConnectWithoutSubjectInput[]
@@ -86322,6 +90036,20 @@ export namespace Prisma {
     update?: ModelQuestionImportUpdateWithWhereUniqueWithoutSubjectInput | ModelQuestionImportUpdateWithWhereUniqueWithoutSubjectInput[]
     updateMany?: ModelQuestionImportUpdateManyWithWhereWithoutSubjectInput | ModelQuestionImportUpdateManyWithWhereWithoutSubjectInput[]
     deleteMany?: ModelQuestionImportScalarWhereInput | ModelQuestionImportScalarWhereInput[]
+  }
+
+  export type ModelQuestionSetUncheckedUpdateManyWithoutSubjectNestedInput = {
+    create?: XOR<ModelQuestionSetCreateWithoutSubjectInput, ModelQuestionSetUncheckedCreateWithoutSubjectInput> | ModelQuestionSetCreateWithoutSubjectInput[] | ModelQuestionSetUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: ModelQuestionSetCreateOrConnectWithoutSubjectInput | ModelQuestionSetCreateOrConnectWithoutSubjectInput[]
+    upsert?: ModelQuestionSetUpsertWithWhereUniqueWithoutSubjectInput | ModelQuestionSetUpsertWithWhereUniqueWithoutSubjectInput[]
+    createMany?: ModelQuestionSetCreateManySubjectInputEnvelope
+    set?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    disconnect?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    delete?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    connect?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    update?: ModelQuestionSetUpdateWithWhereUniqueWithoutSubjectInput | ModelQuestionSetUpdateWithWhereUniqueWithoutSubjectInput[]
+    updateMany?: ModelQuestionSetUpdateManyWithWhereWithoutSubjectInput | ModelQuestionSetUpdateManyWithWhereWithoutSubjectInput[]
+    deleteMany?: ModelQuestionSetScalarWhereInput | ModelQuestionSetScalarWhereInput[]
   }
 
   export type ClassCreateNestedOneWithoutUnitsInput = {
@@ -88209,11 +91937,25 @@ export namespace Prisma {
     connect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
   }
 
+  export type ModelQuestionSetCreateNestedManyWithoutBoardInput = {
+    create?: XOR<ModelQuestionSetCreateWithoutBoardInput, ModelQuestionSetUncheckedCreateWithoutBoardInput> | ModelQuestionSetCreateWithoutBoardInput[] | ModelQuestionSetUncheckedCreateWithoutBoardInput[]
+    connectOrCreate?: ModelQuestionSetCreateOrConnectWithoutBoardInput | ModelQuestionSetCreateOrConnectWithoutBoardInput[]
+    createMany?: ModelQuestionSetCreateManyBoardInputEnvelope
+    connect?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+  }
+
   export type ModelQuestionImportUncheckedCreateNestedManyWithoutBoardInput = {
     create?: XOR<ModelQuestionImportCreateWithoutBoardInput, ModelQuestionImportUncheckedCreateWithoutBoardInput> | ModelQuestionImportCreateWithoutBoardInput[] | ModelQuestionImportUncheckedCreateWithoutBoardInput[]
     connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutBoardInput | ModelQuestionImportCreateOrConnectWithoutBoardInput[]
     createMany?: ModelQuestionImportCreateManyBoardInputEnvelope
     connect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+  }
+
+  export type ModelQuestionSetUncheckedCreateNestedManyWithoutBoardInput = {
+    create?: XOR<ModelQuestionSetCreateWithoutBoardInput, ModelQuestionSetUncheckedCreateWithoutBoardInput> | ModelQuestionSetCreateWithoutBoardInput[] | ModelQuestionSetUncheckedCreateWithoutBoardInput[]
+    connectOrCreate?: ModelQuestionSetCreateOrConnectWithoutBoardInput | ModelQuestionSetCreateOrConnectWithoutBoardInput[]
+    createMany?: ModelQuestionSetCreateManyBoardInputEnvelope
+    connect?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
   }
 
   export type ModelQuestionImportUpdateManyWithoutBoardNestedInput = {
@@ -88230,6 +91972,20 @@ export namespace Prisma {
     deleteMany?: ModelQuestionImportScalarWhereInput | ModelQuestionImportScalarWhereInput[]
   }
 
+  export type ModelQuestionSetUpdateManyWithoutBoardNestedInput = {
+    create?: XOR<ModelQuestionSetCreateWithoutBoardInput, ModelQuestionSetUncheckedCreateWithoutBoardInput> | ModelQuestionSetCreateWithoutBoardInput[] | ModelQuestionSetUncheckedCreateWithoutBoardInput[]
+    connectOrCreate?: ModelQuestionSetCreateOrConnectWithoutBoardInput | ModelQuestionSetCreateOrConnectWithoutBoardInput[]
+    upsert?: ModelQuestionSetUpsertWithWhereUniqueWithoutBoardInput | ModelQuestionSetUpsertWithWhereUniqueWithoutBoardInput[]
+    createMany?: ModelQuestionSetCreateManyBoardInputEnvelope
+    set?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    disconnect?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    delete?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    connect?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    update?: ModelQuestionSetUpdateWithWhereUniqueWithoutBoardInput | ModelQuestionSetUpdateWithWhereUniqueWithoutBoardInput[]
+    updateMany?: ModelQuestionSetUpdateManyWithWhereWithoutBoardInput | ModelQuestionSetUpdateManyWithWhereWithoutBoardInput[]
+    deleteMany?: ModelQuestionSetScalarWhereInput | ModelQuestionSetScalarWhereInput[]
+  }
+
   export type ModelQuestionImportUncheckedUpdateManyWithoutBoardNestedInput = {
     create?: XOR<ModelQuestionImportCreateWithoutBoardInput, ModelQuestionImportUncheckedCreateWithoutBoardInput> | ModelQuestionImportCreateWithoutBoardInput[] | ModelQuestionImportUncheckedCreateWithoutBoardInput[]
     connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutBoardInput | ModelQuestionImportCreateOrConnectWithoutBoardInput[]
@@ -88244,6 +92000,20 @@ export namespace Prisma {
     deleteMany?: ModelQuestionImportScalarWhereInput | ModelQuestionImportScalarWhereInput[]
   }
 
+  export type ModelQuestionSetUncheckedUpdateManyWithoutBoardNestedInput = {
+    create?: XOR<ModelQuestionSetCreateWithoutBoardInput, ModelQuestionSetUncheckedCreateWithoutBoardInput> | ModelQuestionSetCreateWithoutBoardInput[] | ModelQuestionSetUncheckedCreateWithoutBoardInput[]
+    connectOrCreate?: ModelQuestionSetCreateOrConnectWithoutBoardInput | ModelQuestionSetCreateOrConnectWithoutBoardInput[]
+    upsert?: ModelQuestionSetUpsertWithWhereUniqueWithoutBoardInput | ModelQuestionSetUpsertWithWhereUniqueWithoutBoardInput[]
+    createMany?: ModelQuestionSetCreateManyBoardInputEnvelope
+    set?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    disconnect?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    delete?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    connect?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    update?: ModelQuestionSetUpdateWithWhereUniqueWithoutBoardInput | ModelQuestionSetUpdateWithWhereUniqueWithoutBoardInput[]
+    updateMany?: ModelQuestionSetUpdateManyWithWhereWithoutBoardInput | ModelQuestionSetUpdateManyWithWhereWithoutBoardInput[]
+    deleteMany?: ModelQuestionSetScalarWhereInput | ModelQuestionSetScalarWhereInput[]
+  }
+
   export type ModelQuestionImportCreateNestedManyWithoutAcademicYearInput = {
     create?: XOR<ModelQuestionImportCreateWithoutAcademicYearInput, ModelQuestionImportUncheckedCreateWithoutAcademicYearInput> | ModelQuestionImportCreateWithoutAcademicYearInput[] | ModelQuestionImportUncheckedCreateWithoutAcademicYearInput[]
     connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutAcademicYearInput | ModelQuestionImportCreateOrConnectWithoutAcademicYearInput[]
@@ -88251,11 +92021,25 @@ export namespace Prisma {
     connect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
   }
 
+  export type ModelQuestionSetCreateNestedManyWithoutAcademicYearInput = {
+    create?: XOR<ModelQuestionSetCreateWithoutAcademicYearInput, ModelQuestionSetUncheckedCreateWithoutAcademicYearInput> | ModelQuestionSetCreateWithoutAcademicYearInput[] | ModelQuestionSetUncheckedCreateWithoutAcademicYearInput[]
+    connectOrCreate?: ModelQuestionSetCreateOrConnectWithoutAcademicYearInput | ModelQuestionSetCreateOrConnectWithoutAcademicYearInput[]
+    createMany?: ModelQuestionSetCreateManyAcademicYearInputEnvelope
+    connect?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+  }
+
   export type ModelQuestionImportUncheckedCreateNestedManyWithoutAcademicYearInput = {
     create?: XOR<ModelQuestionImportCreateWithoutAcademicYearInput, ModelQuestionImportUncheckedCreateWithoutAcademicYearInput> | ModelQuestionImportCreateWithoutAcademicYearInput[] | ModelQuestionImportUncheckedCreateWithoutAcademicYearInput[]
     connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutAcademicYearInput | ModelQuestionImportCreateOrConnectWithoutAcademicYearInput[]
     createMany?: ModelQuestionImportCreateManyAcademicYearInputEnvelope
     connect?: ModelQuestionImportWhereUniqueInput | ModelQuestionImportWhereUniqueInput[]
+  }
+
+  export type ModelQuestionSetUncheckedCreateNestedManyWithoutAcademicYearInput = {
+    create?: XOR<ModelQuestionSetCreateWithoutAcademicYearInput, ModelQuestionSetUncheckedCreateWithoutAcademicYearInput> | ModelQuestionSetCreateWithoutAcademicYearInput[] | ModelQuestionSetUncheckedCreateWithoutAcademicYearInput[]
+    connectOrCreate?: ModelQuestionSetCreateOrConnectWithoutAcademicYearInput | ModelQuestionSetCreateOrConnectWithoutAcademicYearInput[]
+    createMany?: ModelQuestionSetCreateManyAcademicYearInputEnvelope
+    connect?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
   }
 
   export type ModelQuestionImportUpdateManyWithoutAcademicYearNestedInput = {
@@ -88272,6 +92056,20 @@ export namespace Prisma {
     deleteMany?: ModelQuestionImportScalarWhereInput | ModelQuestionImportScalarWhereInput[]
   }
 
+  export type ModelQuestionSetUpdateManyWithoutAcademicYearNestedInput = {
+    create?: XOR<ModelQuestionSetCreateWithoutAcademicYearInput, ModelQuestionSetUncheckedCreateWithoutAcademicYearInput> | ModelQuestionSetCreateWithoutAcademicYearInput[] | ModelQuestionSetUncheckedCreateWithoutAcademicYearInput[]
+    connectOrCreate?: ModelQuestionSetCreateOrConnectWithoutAcademicYearInput | ModelQuestionSetCreateOrConnectWithoutAcademicYearInput[]
+    upsert?: ModelQuestionSetUpsertWithWhereUniqueWithoutAcademicYearInput | ModelQuestionSetUpsertWithWhereUniqueWithoutAcademicYearInput[]
+    createMany?: ModelQuestionSetCreateManyAcademicYearInputEnvelope
+    set?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    disconnect?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    delete?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    connect?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    update?: ModelQuestionSetUpdateWithWhereUniqueWithoutAcademicYearInput | ModelQuestionSetUpdateWithWhereUniqueWithoutAcademicYearInput[]
+    updateMany?: ModelQuestionSetUpdateManyWithWhereWithoutAcademicYearInput | ModelQuestionSetUpdateManyWithWhereWithoutAcademicYearInput[]
+    deleteMany?: ModelQuestionSetScalarWhereInput | ModelQuestionSetScalarWhereInput[]
+  }
+
   export type ModelQuestionImportUncheckedUpdateManyWithoutAcademicYearNestedInput = {
     create?: XOR<ModelQuestionImportCreateWithoutAcademicYearInput, ModelQuestionImportUncheckedCreateWithoutAcademicYearInput> | ModelQuestionImportCreateWithoutAcademicYearInput[] | ModelQuestionImportUncheckedCreateWithoutAcademicYearInput[]
     connectOrCreate?: ModelQuestionImportCreateOrConnectWithoutAcademicYearInput | ModelQuestionImportCreateOrConnectWithoutAcademicYearInput[]
@@ -88284,6 +92082,20 @@ export namespace Prisma {
     update?: ModelQuestionImportUpdateWithWhereUniqueWithoutAcademicYearInput | ModelQuestionImportUpdateWithWhereUniqueWithoutAcademicYearInput[]
     updateMany?: ModelQuestionImportUpdateManyWithWhereWithoutAcademicYearInput | ModelQuestionImportUpdateManyWithWhereWithoutAcademicYearInput[]
     deleteMany?: ModelQuestionImportScalarWhereInput | ModelQuestionImportScalarWhereInput[]
+  }
+
+  export type ModelQuestionSetUncheckedUpdateManyWithoutAcademicYearNestedInput = {
+    create?: XOR<ModelQuestionSetCreateWithoutAcademicYearInput, ModelQuestionSetUncheckedCreateWithoutAcademicYearInput> | ModelQuestionSetCreateWithoutAcademicYearInput[] | ModelQuestionSetUncheckedCreateWithoutAcademicYearInput[]
+    connectOrCreate?: ModelQuestionSetCreateOrConnectWithoutAcademicYearInput | ModelQuestionSetCreateOrConnectWithoutAcademicYearInput[]
+    upsert?: ModelQuestionSetUpsertWithWhereUniqueWithoutAcademicYearInput | ModelQuestionSetUpsertWithWhereUniqueWithoutAcademicYearInput[]
+    createMany?: ModelQuestionSetCreateManyAcademicYearInputEnvelope
+    set?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    disconnect?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    delete?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    connect?: ModelQuestionSetWhereUniqueInput | ModelQuestionSetWhereUniqueInput[]
+    update?: ModelQuestionSetUpdateWithWhereUniqueWithoutAcademicYearInput | ModelQuestionSetUpdateWithWhereUniqueWithoutAcademicYearInput[]
+    updateMany?: ModelQuestionSetUpdateManyWithWhereWithoutAcademicYearInput | ModelQuestionSetUpdateManyWithWhereWithoutAcademicYearInput[]
+    deleteMany?: ModelQuestionSetScalarWhereInput | ModelQuestionSetScalarWhereInput[]
   }
 
   export type ClassCreateNestedOneWithoutModelQuestionImportsInput = {
@@ -88358,6 +92170,122 @@ export namespace Prisma {
     upsert?: UploadedFileUpsertWithoutModelQuestionImportInput
     connect?: UploadedFileWhereUniqueInput
     update?: XOR<XOR<UploadedFileUpdateToOneWithWhereWithoutModelQuestionImportInput, UploadedFileUpdateWithoutModelQuestionImportInput>, UploadedFileUncheckedUpdateWithoutModelQuestionImportInput>
+  }
+
+  export type ClassCreateNestedOneWithoutModelQuestionSetsInput = {
+    create?: XOR<ClassCreateWithoutModelQuestionSetsInput, ClassUncheckedCreateWithoutModelQuestionSetsInput>
+    connectOrCreate?: ClassCreateOrConnectWithoutModelQuestionSetsInput
+    connect?: ClassWhereUniqueInput
+  }
+
+  export type SubjectCreateNestedOneWithoutModelQuestionSetsInput = {
+    create?: XOR<SubjectCreateWithoutModelQuestionSetsInput, SubjectUncheckedCreateWithoutModelQuestionSetsInput>
+    connectOrCreate?: SubjectCreateOrConnectWithoutModelQuestionSetsInput
+    connect?: SubjectWhereUniqueInput
+  }
+
+  export type BoardCreateNestedOneWithoutModelQuestionSetsInput = {
+    create?: XOR<BoardCreateWithoutModelQuestionSetsInput, BoardUncheckedCreateWithoutModelQuestionSetsInput>
+    connectOrCreate?: BoardCreateOrConnectWithoutModelQuestionSetsInput
+    connect?: BoardWhereUniqueInput
+  }
+
+  export type AcademicYearCreateNestedOneWithoutModelQuestionSetsInput = {
+    create?: XOR<AcademicYearCreateWithoutModelQuestionSetsInput, AcademicYearUncheckedCreateWithoutModelQuestionSetsInput>
+    connectOrCreate?: AcademicYearCreateOrConnectWithoutModelQuestionSetsInput
+    connect?: AcademicYearWhereUniqueInput
+  }
+
+  export type ModelQuestionSetBlockCreateNestedManyWithoutSetInput = {
+    create?: XOR<ModelQuestionSetBlockCreateWithoutSetInput, ModelQuestionSetBlockUncheckedCreateWithoutSetInput> | ModelQuestionSetBlockCreateWithoutSetInput[] | ModelQuestionSetBlockUncheckedCreateWithoutSetInput[]
+    connectOrCreate?: ModelQuestionSetBlockCreateOrConnectWithoutSetInput | ModelQuestionSetBlockCreateOrConnectWithoutSetInput[]
+    createMany?: ModelQuestionSetBlockCreateManySetInputEnvelope
+    connect?: ModelQuestionSetBlockWhereUniqueInput | ModelQuestionSetBlockWhereUniqueInput[]
+  }
+
+  export type ModelQuestionSetBlockUncheckedCreateNestedManyWithoutSetInput = {
+    create?: XOR<ModelQuestionSetBlockCreateWithoutSetInput, ModelQuestionSetBlockUncheckedCreateWithoutSetInput> | ModelQuestionSetBlockCreateWithoutSetInput[] | ModelQuestionSetBlockUncheckedCreateWithoutSetInput[]
+    connectOrCreate?: ModelQuestionSetBlockCreateOrConnectWithoutSetInput | ModelQuestionSetBlockCreateOrConnectWithoutSetInput[]
+    createMany?: ModelQuestionSetBlockCreateManySetInputEnvelope
+    connect?: ModelQuestionSetBlockWhereUniqueInput | ModelQuestionSetBlockWhereUniqueInput[]
+  }
+
+  export type ClassUpdateOneRequiredWithoutModelQuestionSetsNestedInput = {
+    create?: XOR<ClassCreateWithoutModelQuestionSetsInput, ClassUncheckedCreateWithoutModelQuestionSetsInput>
+    connectOrCreate?: ClassCreateOrConnectWithoutModelQuestionSetsInput
+    upsert?: ClassUpsertWithoutModelQuestionSetsInput
+    connect?: ClassWhereUniqueInput
+    update?: XOR<XOR<ClassUpdateToOneWithWhereWithoutModelQuestionSetsInput, ClassUpdateWithoutModelQuestionSetsInput>, ClassUncheckedUpdateWithoutModelQuestionSetsInput>
+  }
+
+  export type SubjectUpdateOneRequiredWithoutModelQuestionSetsNestedInput = {
+    create?: XOR<SubjectCreateWithoutModelQuestionSetsInput, SubjectUncheckedCreateWithoutModelQuestionSetsInput>
+    connectOrCreate?: SubjectCreateOrConnectWithoutModelQuestionSetsInput
+    upsert?: SubjectUpsertWithoutModelQuestionSetsInput
+    connect?: SubjectWhereUniqueInput
+    update?: XOR<XOR<SubjectUpdateToOneWithWhereWithoutModelQuestionSetsInput, SubjectUpdateWithoutModelQuestionSetsInput>, SubjectUncheckedUpdateWithoutModelQuestionSetsInput>
+  }
+
+  export type BoardUpdateOneWithoutModelQuestionSetsNestedInput = {
+    create?: XOR<BoardCreateWithoutModelQuestionSetsInput, BoardUncheckedCreateWithoutModelQuestionSetsInput>
+    connectOrCreate?: BoardCreateOrConnectWithoutModelQuestionSetsInput
+    upsert?: BoardUpsertWithoutModelQuestionSetsInput
+    disconnect?: BoardWhereInput | boolean
+    delete?: BoardWhereInput | boolean
+    connect?: BoardWhereUniqueInput
+    update?: XOR<XOR<BoardUpdateToOneWithWhereWithoutModelQuestionSetsInput, BoardUpdateWithoutModelQuestionSetsInput>, BoardUncheckedUpdateWithoutModelQuestionSetsInput>
+  }
+
+  export type AcademicYearUpdateOneWithoutModelQuestionSetsNestedInput = {
+    create?: XOR<AcademicYearCreateWithoutModelQuestionSetsInput, AcademicYearUncheckedCreateWithoutModelQuestionSetsInput>
+    connectOrCreate?: AcademicYearCreateOrConnectWithoutModelQuestionSetsInput
+    upsert?: AcademicYearUpsertWithoutModelQuestionSetsInput
+    disconnect?: AcademicYearWhereInput | boolean
+    delete?: AcademicYearWhereInput | boolean
+    connect?: AcademicYearWhereUniqueInput
+    update?: XOR<XOR<AcademicYearUpdateToOneWithWhereWithoutModelQuestionSetsInput, AcademicYearUpdateWithoutModelQuestionSetsInput>, AcademicYearUncheckedUpdateWithoutModelQuestionSetsInput>
+  }
+
+  export type ModelQuestionSetBlockUpdateManyWithoutSetNestedInput = {
+    create?: XOR<ModelQuestionSetBlockCreateWithoutSetInput, ModelQuestionSetBlockUncheckedCreateWithoutSetInput> | ModelQuestionSetBlockCreateWithoutSetInput[] | ModelQuestionSetBlockUncheckedCreateWithoutSetInput[]
+    connectOrCreate?: ModelQuestionSetBlockCreateOrConnectWithoutSetInput | ModelQuestionSetBlockCreateOrConnectWithoutSetInput[]
+    upsert?: ModelQuestionSetBlockUpsertWithWhereUniqueWithoutSetInput | ModelQuestionSetBlockUpsertWithWhereUniqueWithoutSetInput[]
+    createMany?: ModelQuestionSetBlockCreateManySetInputEnvelope
+    set?: ModelQuestionSetBlockWhereUniqueInput | ModelQuestionSetBlockWhereUniqueInput[]
+    disconnect?: ModelQuestionSetBlockWhereUniqueInput | ModelQuestionSetBlockWhereUniqueInput[]
+    delete?: ModelQuestionSetBlockWhereUniqueInput | ModelQuestionSetBlockWhereUniqueInput[]
+    connect?: ModelQuestionSetBlockWhereUniqueInput | ModelQuestionSetBlockWhereUniqueInput[]
+    update?: ModelQuestionSetBlockUpdateWithWhereUniqueWithoutSetInput | ModelQuestionSetBlockUpdateWithWhereUniqueWithoutSetInput[]
+    updateMany?: ModelQuestionSetBlockUpdateManyWithWhereWithoutSetInput | ModelQuestionSetBlockUpdateManyWithWhereWithoutSetInput[]
+    deleteMany?: ModelQuestionSetBlockScalarWhereInput | ModelQuestionSetBlockScalarWhereInput[]
+  }
+
+  export type ModelQuestionSetBlockUncheckedUpdateManyWithoutSetNestedInput = {
+    create?: XOR<ModelQuestionSetBlockCreateWithoutSetInput, ModelQuestionSetBlockUncheckedCreateWithoutSetInput> | ModelQuestionSetBlockCreateWithoutSetInput[] | ModelQuestionSetBlockUncheckedCreateWithoutSetInput[]
+    connectOrCreate?: ModelQuestionSetBlockCreateOrConnectWithoutSetInput | ModelQuestionSetBlockCreateOrConnectWithoutSetInput[]
+    upsert?: ModelQuestionSetBlockUpsertWithWhereUniqueWithoutSetInput | ModelQuestionSetBlockUpsertWithWhereUniqueWithoutSetInput[]
+    createMany?: ModelQuestionSetBlockCreateManySetInputEnvelope
+    set?: ModelQuestionSetBlockWhereUniqueInput | ModelQuestionSetBlockWhereUniqueInput[]
+    disconnect?: ModelQuestionSetBlockWhereUniqueInput | ModelQuestionSetBlockWhereUniqueInput[]
+    delete?: ModelQuestionSetBlockWhereUniqueInput | ModelQuestionSetBlockWhereUniqueInput[]
+    connect?: ModelQuestionSetBlockWhereUniqueInput | ModelQuestionSetBlockWhereUniqueInput[]
+    update?: ModelQuestionSetBlockUpdateWithWhereUniqueWithoutSetInput | ModelQuestionSetBlockUpdateWithWhereUniqueWithoutSetInput[]
+    updateMany?: ModelQuestionSetBlockUpdateManyWithWhereWithoutSetInput | ModelQuestionSetBlockUpdateManyWithWhereWithoutSetInput[]
+    deleteMany?: ModelQuestionSetBlockScalarWhereInput | ModelQuestionSetBlockScalarWhereInput[]
+  }
+
+  export type ModelQuestionSetCreateNestedOneWithoutBlocksInput = {
+    create?: XOR<ModelQuestionSetCreateWithoutBlocksInput, ModelQuestionSetUncheckedCreateWithoutBlocksInput>
+    connectOrCreate?: ModelQuestionSetCreateOrConnectWithoutBlocksInput
+    connect?: ModelQuestionSetWhereUniqueInput
+  }
+
+  export type ModelQuestionSetUpdateOneRequiredWithoutBlocksNestedInput = {
+    create?: XOR<ModelQuestionSetCreateWithoutBlocksInput, ModelQuestionSetUncheckedCreateWithoutBlocksInput>
+    connectOrCreate?: ModelQuestionSetCreateOrConnectWithoutBlocksInput
+    upsert?: ModelQuestionSetUpsertWithoutBlocksInput
+    connect?: ModelQuestionSetWhereUniqueInput
+    update?: XOR<XOR<ModelQuestionSetUpdateToOneWithWhereWithoutBlocksInput, ModelQuestionSetUpdateWithoutBlocksInput>, ModelQuestionSetUncheckedUpdateWithoutBlocksInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -88591,6 +92519,7 @@ export namespace Prisma {
     contents?: ContentCreateNestedManyWithoutClassInput
     unseenCompositions?: UnseenCompositionCreateNestedManyWithoutClassInput
     modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutClassInput
+    modelQuestionSets?: ModelQuestionSetCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutStudentsInput = {
@@ -88616,6 +92545,7 @@ export namespace Prisma {
     contents?: ContentUncheckedCreateNestedManyWithoutClassInput
     unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutClassInput
     modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutClassInput
+    modelQuestionSets?: ModelQuestionSetUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutStudentsInput = {
@@ -88707,6 +92637,7 @@ export namespace Prisma {
     contents?: ContentUpdateManyWithoutClassNestedInput
     unseenCompositions?: UnseenCompositionUpdateManyWithoutClassNestedInput
     modelQuestionImports?: ModelQuestionImportUpdateManyWithoutClassNestedInput
+    modelQuestionSets?: ModelQuestionSetUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutStudentsInput = {
@@ -88732,6 +92663,7 @@ export namespace Prisma {
     contents?: ContentUncheckedUpdateManyWithoutClassNestedInput
     unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutClassNestedInput
     modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutClassNestedInput
+    modelQuestionSets?: ModelQuestionSetUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type AuthSessionUpsertWithWhereUniqueWithoutUserInput = {
@@ -89044,6 +92976,7 @@ export namespace Prisma {
     contents?: ContentCreateNestedManyWithoutSubjectInput
     unseenCompositions?: UnseenCompositionCreateNestedManyWithoutSubjectInput
     modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutSubjectInput
+    modelQuestionSets?: ModelQuestionSetCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateWithoutClassInput = {
@@ -89068,6 +93001,7 @@ export namespace Prisma {
     contents?: ContentUncheckedCreateNestedManyWithoutSubjectInput
     unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutSubjectInput
     modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutSubjectInput
+    modelQuestionSets?: ModelQuestionSetUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectCreateOrConnectWithoutClassInput = {
@@ -89308,6 +93242,45 @@ export namespace Prisma {
     data: ModelQuestionImportCreateManyClassInput | ModelQuestionImportCreateManyClassInput[]
   }
 
+  export type ModelQuestionSetCreateWithoutClassInput = {
+    id?: string
+    name: string
+    editorContentId?: string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    subject: SubjectCreateNestedOneWithoutModelQuestionSetsInput
+    board?: BoardCreateNestedOneWithoutModelQuestionSetsInput
+    academicYear?: AcademicYearCreateNestedOneWithoutModelQuestionSetsInput
+    blocks?: ModelQuestionSetBlockCreateNestedManyWithoutSetInput
+  }
+
+  export type ModelQuestionSetUncheckedCreateWithoutClassInput = {
+    id?: string
+    subjectId: string
+    boardId?: string | null
+    academicYearId?: string | null
+    name: string
+    editorContentId?: string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    blocks?: ModelQuestionSetBlockUncheckedCreateNestedManyWithoutSetInput
+  }
+
+  export type ModelQuestionSetCreateOrConnectWithoutClassInput = {
+    where: ModelQuestionSetWhereUniqueInput
+    create: XOR<ModelQuestionSetCreateWithoutClassInput, ModelQuestionSetUncheckedCreateWithoutClassInput>
+  }
+
+  export type ModelQuestionSetCreateManyClassInputEnvelope = {
+    data: ModelQuestionSetCreateManyClassInput | ModelQuestionSetCreateManyClassInput[]
+  }
+
   export type SubjectUpsertWithWhereUniqueWithoutClassInput = {
     where: SubjectWhereUniqueInput
     update: XOR<SubjectUpdateWithoutClassInput, SubjectUncheckedUpdateWithoutClassInput>
@@ -89535,6 +93508,40 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"ModelQuestionImport"> | Date | string
   }
 
+  export type ModelQuestionSetUpsertWithWhereUniqueWithoutClassInput = {
+    where: ModelQuestionSetWhereUniqueInput
+    update: XOR<ModelQuestionSetUpdateWithoutClassInput, ModelQuestionSetUncheckedUpdateWithoutClassInput>
+    create: XOR<ModelQuestionSetCreateWithoutClassInput, ModelQuestionSetUncheckedCreateWithoutClassInput>
+  }
+
+  export type ModelQuestionSetUpdateWithWhereUniqueWithoutClassInput = {
+    where: ModelQuestionSetWhereUniqueInput
+    data: XOR<ModelQuestionSetUpdateWithoutClassInput, ModelQuestionSetUncheckedUpdateWithoutClassInput>
+  }
+
+  export type ModelQuestionSetUpdateManyWithWhereWithoutClassInput = {
+    where: ModelQuestionSetScalarWhereInput
+    data: XOR<ModelQuestionSetUpdateManyMutationInput, ModelQuestionSetUncheckedUpdateManyWithoutClassInput>
+  }
+
+  export type ModelQuestionSetScalarWhereInput = {
+    AND?: ModelQuestionSetScalarWhereInput | ModelQuestionSetScalarWhereInput[]
+    OR?: ModelQuestionSetScalarWhereInput[]
+    NOT?: ModelQuestionSetScalarWhereInput | ModelQuestionSetScalarWhereInput[]
+    id?: StringFilter<"ModelQuestionSet"> | string
+    classId?: StringFilter<"ModelQuestionSet"> | string
+    subjectId?: StringFilter<"ModelQuestionSet"> | string
+    boardId?: StringNullableFilter<"ModelQuestionSet"> | string | null
+    academicYearId?: StringNullableFilter<"ModelQuestionSet"> | string | null
+    name?: StringFilter<"ModelQuestionSet"> | string
+    editorContentId?: StringNullableFilter<"ModelQuestionSet"> | string | null
+    organizationId?: StringFilter<"ModelQuestionSet"> | string
+    createdBy?: StringFilter<"ModelQuestionSet"> | string
+    updatedBy?: StringFilter<"ModelQuestionSet"> | string
+    createdAt?: DateTimeFilter<"ModelQuestionSet"> | Date | string
+    updatedAt?: DateTimeFilter<"ModelQuestionSet"> | Date | string
+  }
+
   export type ClassCreateWithoutSubjectsInput = {
     id?: string
     name: string
@@ -89558,6 +93565,7 @@ export namespace Prisma {
     unseenCompositions?: UnseenCompositionCreateNestedManyWithoutClassInput
     students?: UserCreateNestedManyWithoutClassInput
     modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutClassInput
+    modelQuestionSets?: ModelQuestionSetCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutSubjectsInput = {
@@ -89583,6 +93591,7 @@ export namespace Prisma {
     unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutClassInput
     students?: UserUncheckedCreateNestedManyWithoutClassInput
     modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutClassInput
+    modelQuestionSets?: ModelQuestionSetUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutSubjectsInput = {
@@ -89760,6 +93769,45 @@ export namespace Prisma {
     data: ModelQuestionImportCreateManySubjectInput | ModelQuestionImportCreateManySubjectInput[]
   }
 
+  export type ModelQuestionSetCreateWithoutSubjectInput = {
+    id?: string
+    name: string
+    editorContentId?: string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    class: ClassCreateNestedOneWithoutModelQuestionSetsInput
+    board?: BoardCreateNestedOneWithoutModelQuestionSetsInput
+    academicYear?: AcademicYearCreateNestedOneWithoutModelQuestionSetsInput
+    blocks?: ModelQuestionSetBlockCreateNestedManyWithoutSetInput
+  }
+
+  export type ModelQuestionSetUncheckedCreateWithoutSubjectInput = {
+    id?: string
+    classId: string
+    boardId?: string | null
+    academicYearId?: string | null
+    name: string
+    editorContentId?: string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    blocks?: ModelQuestionSetBlockUncheckedCreateNestedManyWithoutSetInput
+  }
+
+  export type ModelQuestionSetCreateOrConnectWithoutSubjectInput = {
+    where: ModelQuestionSetWhereUniqueInput
+    create: XOR<ModelQuestionSetCreateWithoutSubjectInput, ModelQuestionSetUncheckedCreateWithoutSubjectInput>
+  }
+
+  export type ModelQuestionSetCreateManySubjectInputEnvelope = {
+    data: ModelQuestionSetCreateManySubjectInput | ModelQuestionSetCreateManySubjectInput[]
+  }
+
   export type ClassUpsertWithoutSubjectsInput = {
     update: XOR<ClassUpdateWithoutSubjectsInput, ClassUncheckedUpdateWithoutSubjectsInput>
     create: XOR<ClassCreateWithoutSubjectsInput, ClassUncheckedCreateWithoutSubjectsInput>
@@ -89794,6 +93842,7 @@ export namespace Prisma {
     unseenCompositions?: UnseenCompositionUpdateManyWithoutClassNestedInput
     students?: UserUpdateManyWithoutClassNestedInput
     modelQuestionImports?: ModelQuestionImportUpdateManyWithoutClassNestedInput
+    modelQuestionSets?: ModelQuestionSetUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutSubjectsInput = {
@@ -89819,6 +93868,7 @@ export namespace Prisma {
     unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutClassNestedInput
     students?: UserUncheckedUpdateManyWithoutClassNestedInput
     modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutClassNestedInput
+    modelQuestionSets?: ModelQuestionSetUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type UnitUpsertWithWhereUniqueWithoutSubjectInput = {
@@ -89885,6 +93935,22 @@ export namespace Prisma {
     data: XOR<ModelQuestionImportUpdateManyMutationInput, ModelQuestionImportUncheckedUpdateManyWithoutSubjectInput>
   }
 
+  export type ModelQuestionSetUpsertWithWhereUniqueWithoutSubjectInput = {
+    where: ModelQuestionSetWhereUniqueInput
+    update: XOR<ModelQuestionSetUpdateWithoutSubjectInput, ModelQuestionSetUncheckedUpdateWithoutSubjectInput>
+    create: XOR<ModelQuestionSetCreateWithoutSubjectInput, ModelQuestionSetUncheckedCreateWithoutSubjectInput>
+  }
+
+  export type ModelQuestionSetUpdateWithWhereUniqueWithoutSubjectInput = {
+    where: ModelQuestionSetWhereUniqueInput
+    data: XOR<ModelQuestionSetUpdateWithoutSubjectInput, ModelQuestionSetUncheckedUpdateWithoutSubjectInput>
+  }
+
+  export type ModelQuestionSetUpdateManyWithWhereWithoutSubjectInput = {
+    where: ModelQuestionSetScalarWhereInput
+    data: XOR<ModelQuestionSetUpdateManyMutationInput, ModelQuestionSetUncheckedUpdateManyWithoutSubjectInput>
+  }
+
   export type ClassCreateWithoutUnitsInput = {
     id?: string
     name: string
@@ -89908,6 +93974,7 @@ export namespace Prisma {
     unseenCompositions?: UnseenCompositionCreateNestedManyWithoutClassInput
     students?: UserCreateNestedManyWithoutClassInput
     modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutClassInput
+    modelQuestionSets?: ModelQuestionSetCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutUnitsInput = {
@@ -89933,6 +94000,7 @@ export namespace Prisma {
     unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutClassInput
     students?: UserUncheckedCreateNestedManyWithoutClassInput
     modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutClassInput
+    modelQuestionSets?: ModelQuestionSetUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutUnitsInput = {
@@ -89962,6 +94030,7 @@ export namespace Prisma {
     contents?: ContentCreateNestedManyWithoutSubjectInput
     unseenCompositions?: UnseenCompositionCreateNestedManyWithoutSubjectInput
     modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutSubjectInput
+    modelQuestionSets?: ModelQuestionSetCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateWithoutUnitsInput = {
@@ -89986,6 +94055,7 @@ export namespace Prisma {
     contents?: ContentUncheckedCreateNestedManyWithoutSubjectInput
     unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutSubjectInput
     modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutSubjectInput
+    modelQuestionSets?: ModelQuestionSetUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectCreateOrConnectWithoutUnitsInput = {
@@ -90119,6 +94189,7 @@ export namespace Prisma {
     unseenCompositions?: UnseenCompositionUpdateManyWithoutClassNestedInput
     students?: UserUpdateManyWithoutClassNestedInput
     modelQuestionImports?: ModelQuestionImportUpdateManyWithoutClassNestedInput
+    modelQuestionSets?: ModelQuestionSetUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutUnitsInput = {
@@ -90144,6 +94215,7 @@ export namespace Prisma {
     unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutClassNestedInput
     students?: UserUncheckedUpdateManyWithoutClassNestedInput
     modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutClassNestedInput
+    modelQuestionSets?: ModelQuestionSetUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type SubjectUpsertWithoutUnitsInput = {
@@ -90179,6 +94251,7 @@ export namespace Prisma {
     contents?: ContentUpdateManyWithoutSubjectNestedInput
     unseenCompositions?: UnseenCompositionUpdateManyWithoutSubjectNestedInput
     modelQuestionImports?: ModelQuestionImportUpdateManyWithoutSubjectNestedInput
+    modelQuestionSets?: ModelQuestionSetUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutUnitsInput = {
@@ -90203,6 +94276,7 @@ export namespace Prisma {
     contents?: ContentUncheckedUpdateManyWithoutSubjectNestedInput
     unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutSubjectNestedInput
     modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutSubjectNestedInput
+    modelQuestionSets?: ModelQuestionSetUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type LessonUpsertWithWhereUniqueWithoutUnitInput = {
@@ -90697,6 +94771,7 @@ export namespace Prisma {
     unseenCompositions?: UnseenCompositionCreateNestedManyWithoutClassInput
     students?: UserCreateNestedManyWithoutClassInput
     modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutClassInput
+    modelQuestionSets?: ModelQuestionSetCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutContentsInput = {
@@ -90722,6 +94797,7 @@ export namespace Prisma {
     unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutClassInput
     students?: UserUncheckedCreateNestedManyWithoutClassInput
     modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutClassInput
+    modelQuestionSets?: ModelQuestionSetUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutContentsInput = {
@@ -90751,6 +94827,7 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutSubjectInput
     unseenCompositions?: UnseenCompositionCreateNestedManyWithoutSubjectInput
     modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutSubjectInput
+    modelQuestionSets?: ModelQuestionSetCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateWithoutContentsInput = {
@@ -90775,6 +94852,7 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutSubjectInput
     unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutSubjectInput
     modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutSubjectInput
+    modelQuestionSets?: ModelQuestionSetUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectCreateOrConnectWithoutContentsInput = {
@@ -91044,6 +95122,7 @@ export namespace Prisma {
     unseenCompositions?: UnseenCompositionUpdateManyWithoutClassNestedInput
     students?: UserUpdateManyWithoutClassNestedInput
     modelQuestionImports?: ModelQuestionImportUpdateManyWithoutClassNestedInput
+    modelQuestionSets?: ModelQuestionSetUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutContentsInput = {
@@ -91069,6 +95148,7 @@ export namespace Prisma {
     unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutClassNestedInput
     students?: UserUncheckedUpdateManyWithoutClassNestedInput
     modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutClassNestedInput
+    modelQuestionSets?: ModelQuestionSetUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type SubjectUpsertWithoutContentsInput = {
@@ -91104,6 +95184,7 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutSubjectNestedInput
     unseenCompositions?: UnseenCompositionUpdateManyWithoutSubjectNestedInput
     modelQuestionImports?: ModelQuestionImportUpdateManyWithoutSubjectNestedInput
+    modelQuestionSets?: ModelQuestionSetUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutContentsInput = {
@@ -91128,6 +95209,7 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutSubjectNestedInput
     unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutSubjectNestedInput
     modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutSubjectNestedInput
+    modelQuestionSets?: ModelQuestionSetUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type UnitUpsertWithoutContentsInput = {
@@ -91668,6 +95750,7 @@ export namespace Prisma {
     contents?: ContentCreateNestedManyWithoutClassInput
     students?: UserCreateNestedManyWithoutClassInput
     modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutClassInput
+    modelQuestionSets?: ModelQuestionSetCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutUnseenCompositionsInput = {
@@ -91693,6 +95776,7 @@ export namespace Prisma {
     contents?: ContentUncheckedCreateNestedManyWithoutClassInput
     students?: UserUncheckedCreateNestedManyWithoutClassInput
     modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutClassInput
+    modelQuestionSets?: ModelQuestionSetUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutUnseenCompositionsInput = {
@@ -91722,6 +95806,7 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutSubjectInput
     contents?: ContentCreateNestedManyWithoutSubjectInput
     modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutSubjectInput
+    modelQuestionSets?: ModelQuestionSetCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateWithoutUnseenCompositionsInput = {
@@ -91746,6 +95831,7 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutSubjectInput
     contents?: ContentUncheckedCreateNestedManyWithoutSubjectInput
     modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutSubjectInput
+    modelQuestionSets?: ModelQuestionSetUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectCreateOrConnectWithoutUnseenCompositionsInput = {
@@ -91787,6 +95873,7 @@ export namespace Prisma {
     contents?: ContentUpdateManyWithoutClassNestedInput
     students?: UserUpdateManyWithoutClassNestedInput
     modelQuestionImports?: ModelQuestionImportUpdateManyWithoutClassNestedInput
+    modelQuestionSets?: ModelQuestionSetUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutUnseenCompositionsInput = {
@@ -91812,6 +95899,7 @@ export namespace Prisma {
     contents?: ContentUncheckedUpdateManyWithoutClassNestedInput
     students?: UserUncheckedUpdateManyWithoutClassNestedInput
     modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutClassNestedInput
+    modelQuestionSets?: ModelQuestionSetUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type SubjectUpsertWithoutUnseenCompositionsInput = {
@@ -91847,6 +95935,7 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutSubjectNestedInput
     contents?: ContentUpdateManyWithoutSubjectNestedInput
     modelQuestionImports?: ModelQuestionImportUpdateManyWithoutSubjectNestedInput
+    modelQuestionSets?: ModelQuestionSetUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutUnseenCompositionsInput = {
@@ -91871,6 +95960,7 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutSubjectNestedInput
     contents?: ContentUncheckedUpdateManyWithoutSubjectNestedInput
     modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutSubjectNestedInput
+    modelQuestionSets?: ModelQuestionSetUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type ContentCreateWithoutBlocksInput = {
@@ -94589,6 +98679,10 @@ export namespace Prisma {
   export type VocabularyEntryCreateWithoutVocabularyInput = {
     id?: string
     word?: string
+    partOfSpeech?: string
+    pronunciation?: string
+    synonyms?: string
+    antonyms?: string
     meaning?: string
     imageUrl?: string
     imagePath?: string
@@ -94604,6 +98698,10 @@ export namespace Prisma {
   export type VocabularyEntryUncheckedCreateWithoutVocabularyInput = {
     id?: string
     word?: string
+    partOfSpeech?: string
+    pronunciation?: string
+    synonyms?: string
+    antonyms?: string
     meaning?: string
     imageUrl?: string
     imagePath?: string
@@ -94731,6 +98829,10 @@ export namespace Prisma {
     id?: StringFilter<"VocabularyEntry"> | string
     vocabularyId?: StringFilter<"VocabularyEntry"> | string
     word?: StringFilter<"VocabularyEntry"> | string
+    partOfSpeech?: StringFilter<"VocabularyEntry"> | string
+    pronunciation?: StringFilter<"VocabularyEntry"> | string
+    synonyms?: StringFilter<"VocabularyEntry"> | string
+    antonyms?: StringFilter<"VocabularyEntry"> | string
     meaning?: StringFilter<"VocabularyEntry"> | string
     imageUrl?: StringFilter<"VocabularyEntry"> | string
     imagePath?: StringFilter<"VocabularyEntry"> | string
@@ -94802,6 +98904,7 @@ export namespace Prisma {
     checksumSha256?: string
     status?: string
     isCurrent?: boolean
+    sortOrder?: number
     replacedAt?: Date | string | null
     deletedAt?: Date | string | null
     storageDeletedAt?: Date | string | null
@@ -94832,6 +98935,7 @@ export namespace Prisma {
     checksumSha256?: string
     status?: string
     isCurrent?: boolean
+    sortOrder?: number
     replacedAt?: Date | string | null
     deletedAt?: Date | string | null
     storageDeletedAt?: Date | string | null
@@ -94939,6 +99043,7 @@ export namespace Prisma {
     checksumSha256?: StringFilter<"UploadedFile"> | string
     status?: StringFilter<"UploadedFile"> | string
     isCurrent?: BoolFilter<"UploadedFile"> | boolean
+    sortOrder?: IntFilter<"UploadedFile"> | number
     replacedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
     storageDeletedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
@@ -94966,6 +99071,7 @@ export namespace Prisma {
     checksumSha256?: string
     status?: string
     isCurrent?: boolean
+    sortOrder?: number
     replacedAt?: Date | string | null
     deletedAt?: Date | string | null
     storageDeletedAt?: Date | string | null
@@ -94996,6 +99102,7 @@ export namespace Prisma {
     checksumSha256?: string
     status?: string
     isCurrent?: boolean
+    sortOrder?: number
     replacedAt?: Date | string | null
     deletedAt?: Date | string | null
     storageDeletedAt?: Date | string | null
@@ -95035,6 +99142,10 @@ export namespace Prisma {
   export type VocabularyEntryCreateWithoutUploadedFilesInput = {
     id?: string
     word?: string
+    partOfSpeech?: string
+    pronunciation?: string
+    synonyms?: string
+    antonyms?: string
     meaning?: string
     imageUrl?: string
     imagePath?: string
@@ -95051,6 +99162,10 @@ export namespace Prisma {
     id?: string
     vocabularyId: string
     word?: string
+    partOfSpeech?: string
+    pronunciation?: string
+    synonyms?: string
+    antonyms?: string
     meaning?: string
     imageUrl?: string
     imagePath?: string
@@ -95185,6 +99300,10 @@ export namespace Prisma {
   export type VocabularyEntryUpdateWithoutUploadedFilesInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
+    partOfSpeech?: StringFieldUpdateOperationsInput | string
+    pronunciation?: StringFieldUpdateOperationsInput | string
+    synonyms?: StringFieldUpdateOperationsInput | string
+    antonyms?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
@@ -95201,6 +99320,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     vocabularyId?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
+    partOfSpeech?: StringFieldUpdateOperationsInput | string
+    pronunciation?: StringFieldUpdateOperationsInput | string
+    synonyms?: StringFieldUpdateOperationsInput | string
+    antonyms?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
@@ -99057,6 +103180,45 @@ export namespace Prisma {
     data: ModelQuestionImportCreateManyBoardInput | ModelQuestionImportCreateManyBoardInput[]
   }
 
+  export type ModelQuestionSetCreateWithoutBoardInput = {
+    id?: string
+    name: string
+    editorContentId?: string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    class: ClassCreateNestedOneWithoutModelQuestionSetsInput
+    subject: SubjectCreateNestedOneWithoutModelQuestionSetsInput
+    academicYear?: AcademicYearCreateNestedOneWithoutModelQuestionSetsInput
+    blocks?: ModelQuestionSetBlockCreateNestedManyWithoutSetInput
+  }
+
+  export type ModelQuestionSetUncheckedCreateWithoutBoardInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    academicYearId?: string | null
+    name: string
+    editorContentId?: string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    blocks?: ModelQuestionSetBlockUncheckedCreateNestedManyWithoutSetInput
+  }
+
+  export type ModelQuestionSetCreateOrConnectWithoutBoardInput = {
+    where: ModelQuestionSetWhereUniqueInput
+    create: XOR<ModelQuestionSetCreateWithoutBoardInput, ModelQuestionSetUncheckedCreateWithoutBoardInput>
+  }
+
+  export type ModelQuestionSetCreateManyBoardInputEnvelope = {
+    data: ModelQuestionSetCreateManyBoardInput | ModelQuestionSetCreateManyBoardInput[]
+  }
+
   export type ModelQuestionImportUpsertWithWhereUniqueWithoutBoardInput = {
     where: ModelQuestionImportWhereUniqueInput
     update: XOR<ModelQuestionImportUpdateWithoutBoardInput, ModelQuestionImportUncheckedUpdateWithoutBoardInput>
@@ -99071,6 +103233,22 @@ export namespace Prisma {
   export type ModelQuestionImportUpdateManyWithWhereWithoutBoardInput = {
     where: ModelQuestionImportScalarWhereInput
     data: XOR<ModelQuestionImportUpdateManyMutationInput, ModelQuestionImportUncheckedUpdateManyWithoutBoardInput>
+  }
+
+  export type ModelQuestionSetUpsertWithWhereUniqueWithoutBoardInput = {
+    where: ModelQuestionSetWhereUniqueInput
+    update: XOR<ModelQuestionSetUpdateWithoutBoardInput, ModelQuestionSetUncheckedUpdateWithoutBoardInput>
+    create: XOR<ModelQuestionSetCreateWithoutBoardInput, ModelQuestionSetUncheckedCreateWithoutBoardInput>
+  }
+
+  export type ModelQuestionSetUpdateWithWhereUniqueWithoutBoardInput = {
+    where: ModelQuestionSetWhereUniqueInput
+    data: XOR<ModelQuestionSetUpdateWithoutBoardInput, ModelQuestionSetUncheckedUpdateWithoutBoardInput>
+  }
+
+  export type ModelQuestionSetUpdateManyWithWhereWithoutBoardInput = {
+    where: ModelQuestionSetScalarWhereInput
+    data: XOR<ModelQuestionSetUpdateManyMutationInput, ModelQuestionSetUncheckedUpdateManyWithoutBoardInput>
   }
 
   export type ModelQuestionImportCreateWithoutAcademicYearInput = {
@@ -99116,6 +103294,45 @@ export namespace Prisma {
     data: ModelQuestionImportCreateManyAcademicYearInput | ModelQuestionImportCreateManyAcademicYearInput[]
   }
 
+  export type ModelQuestionSetCreateWithoutAcademicYearInput = {
+    id?: string
+    name: string
+    editorContentId?: string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    class: ClassCreateNestedOneWithoutModelQuestionSetsInput
+    subject: SubjectCreateNestedOneWithoutModelQuestionSetsInput
+    board?: BoardCreateNestedOneWithoutModelQuestionSetsInput
+    blocks?: ModelQuestionSetBlockCreateNestedManyWithoutSetInput
+  }
+
+  export type ModelQuestionSetUncheckedCreateWithoutAcademicYearInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    boardId?: string | null
+    name: string
+    editorContentId?: string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    blocks?: ModelQuestionSetBlockUncheckedCreateNestedManyWithoutSetInput
+  }
+
+  export type ModelQuestionSetCreateOrConnectWithoutAcademicYearInput = {
+    where: ModelQuestionSetWhereUniqueInput
+    create: XOR<ModelQuestionSetCreateWithoutAcademicYearInput, ModelQuestionSetUncheckedCreateWithoutAcademicYearInput>
+  }
+
+  export type ModelQuestionSetCreateManyAcademicYearInputEnvelope = {
+    data: ModelQuestionSetCreateManyAcademicYearInput | ModelQuestionSetCreateManyAcademicYearInput[]
+  }
+
   export type ModelQuestionImportUpsertWithWhereUniqueWithoutAcademicYearInput = {
     where: ModelQuestionImportWhereUniqueInput
     update: XOR<ModelQuestionImportUpdateWithoutAcademicYearInput, ModelQuestionImportUncheckedUpdateWithoutAcademicYearInput>
@@ -99130,6 +103347,22 @@ export namespace Prisma {
   export type ModelQuestionImportUpdateManyWithWhereWithoutAcademicYearInput = {
     where: ModelQuestionImportScalarWhereInput
     data: XOR<ModelQuestionImportUpdateManyMutationInput, ModelQuestionImportUncheckedUpdateManyWithoutAcademicYearInput>
+  }
+
+  export type ModelQuestionSetUpsertWithWhereUniqueWithoutAcademicYearInput = {
+    where: ModelQuestionSetWhereUniqueInput
+    update: XOR<ModelQuestionSetUpdateWithoutAcademicYearInput, ModelQuestionSetUncheckedUpdateWithoutAcademicYearInput>
+    create: XOR<ModelQuestionSetCreateWithoutAcademicYearInput, ModelQuestionSetUncheckedCreateWithoutAcademicYearInput>
+  }
+
+  export type ModelQuestionSetUpdateWithWhereUniqueWithoutAcademicYearInput = {
+    where: ModelQuestionSetWhereUniqueInput
+    data: XOR<ModelQuestionSetUpdateWithoutAcademicYearInput, ModelQuestionSetUncheckedUpdateWithoutAcademicYearInput>
+  }
+
+  export type ModelQuestionSetUpdateManyWithWhereWithoutAcademicYearInput = {
+    where: ModelQuestionSetScalarWhereInput
+    data: XOR<ModelQuestionSetUpdateManyMutationInput, ModelQuestionSetUncheckedUpdateManyWithoutAcademicYearInput>
   }
 
   export type ClassCreateWithoutModelQuestionImportsInput = {
@@ -99155,6 +103388,7 @@ export namespace Prisma {
     contents?: ContentCreateNestedManyWithoutClassInput
     unseenCompositions?: UnseenCompositionCreateNestedManyWithoutClassInput
     students?: UserCreateNestedManyWithoutClassInput
+    modelQuestionSets?: ModelQuestionSetCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutModelQuestionImportsInput = {
@@ -99180,6 +103414,7 @@ export namespace Prisma {
     contents?: ContentUncheckedCreateNestedManyWithoutClassInput
     unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutClassInput
     students?: UserUncheckedCreateNestedManyWithoutClassInput
+    modelQuestionSets?: ModelQuestionSetUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassCreateOrConnectWithoutModelQuestionImportsInput = {
@@ -99209,6 +103444,7 @@ export namespace Prisma {
     units?: UnitCreateNestedManyWithoutSubjectInput
     contents?: ContentCreateNestedManyWithoutSubjectInput
     unseenCompositions?: UnseenCompositionCreateNestedManyWithoutSubjectInput
+    modelQuestionSets?: ModelQuestionSetCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectUncheckedCreateWithoutModelQuestionImportsInput = {
@@ -99233,6 +103469,7 @@ export namespace Prisma {
     units?: UnitUncheckedCreateNestedManyWithoutSubjectInput
     contents?: ContentUncheckedCreateNestedManyWithoutSubjectInput
     unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutSubjectInput
+    modelQuestionSets?: ModelQuestionSetUncheckedCreateNestedManyWithoutSubjectInput
   }
 
   export type SubjectCreateOrConnectWithoutModelQuestionImportsInput = {
@@ -99249,6 +103486,7 @@ export namespace Prisma {
     updatedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    modelQuestionSets?: ModelQuestionSetCreateNestedManyWithoutBoardInput
   }
 
   export type BoardUncheckedCreateWithoutModelQuestionImportsInput = {
@@ -99260,6 +103498,7 @@ export namespace Prisma {
     updatedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    modelQuestionSets?: ModelQuestionSetUncheckedCreateNestedManyWithoutBoardInput
   }
 
   export type BoardCreateOrConnectWithoutModelQuestionImportsInput = {
@@ -99276,6 +103515,7 @@ export namespace Prisma {
     updatedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    modelQuestionSets?: ModelQuestionSetCreateNestedManyWithoutAcademicYearInput
   }
 
   export type AcademicYearUncheckedCreateWithoutModelQuestionImportsInput = {
@@ -99287,6 +103527,7 @@ export namespace Prisma {
     updatedBy: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    modelQuestionSets?: ModelQuestionSetUncheckedCreateNestedManyWithoutAcademicYearInput
   }
 
   export type AcademicYearCreateOrConnectWithoutModelQuestionImportsInput = {
@@ -99311,6 +103552,7 @@ export namespace Prisma {
     checksumSha256?: string
     status?: string
     isCurrent?: boolean
+    sortOrder?: number
     replacedAt?: Date | string | null
     deletedAt?: Date | string | null
     storageDeletedAt?: Date | string | null
@@ -99342,6 +103584,7 @@ export namespace Prisma {
     checksumSha256?: string
     status?: string
     isCurrent?: boolean
+    sortOrder?: number
     replacedAt?: Date | string | null
     deletedAt?: Date | string | null
     storageDeletedAt?: Date | string | null
@@ -99391,6 +103634,7 @@ export namespace Prisma {
     contents?: ContentUpdateManyWithoutClassNestedInput
     unseenCompositions?: UnseenCompositionUpdateManyWithoutClassNestedInput
     students?: UserUpdateManyWithoutClassNestedInput
+    modelQuestionSets?: ModelQuestionSetUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutModelQuestionImportsInput = {
@@ -99416,6 +103660,7 @@ export namespace Prisma {
     contents?: ContentUncheckedUpdateManyWithoutClassNestedInput
     unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutClassNestedInput
     students?: UserUncheckedUpdateManyWithoutClassNestedInput
+    modelQuestionSets?: ModelQuestionSetUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type SubjectUpsertWithoutModelQuestionImportsInput = {
@@ -99451,6 +103696,7 @@ export namespace Prisma {
     units?: UnitUpdateManyWithoutSubjectNestedInput
     contents?: ContentUpdateManyWithoutSubjectNestedInput
     unseenCompositions?: UnseenCompositionUpdateManyWithoutSubjectNestedInput
+    modelQuestionSets?: ModelQuestionSetUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutModelQuestionImportsInput = {
@@ -99475,6 +103721,7 @@ export namespace Prisma {
     units?: UnitUncheckedUpdateManyWithoutSubjectNestedInput
     contents?: ContentUncheckedUpdateManyWithoutSubjectNestedInput
     unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutSubjectNestedInput
+    modelQuestionSets?: ModelQuestionSetUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type BoardUpsertWithoutModelQuestionImportsInput = {
@@ -99497,6 +103744,7 @@ export namespace Prisma {
     updatedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    modelQuestionSets?: ModelQuestionSetUpdateManyWithoutBoardNestedInput
   }
 
   export type BoardUncheckedUpdateWithoutModelQuestionImportsInput = {
@@ -99508,6 +103756,7 @@ export namespace Prisma {
     updatedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    modelQuestionSets?: ModelQuestionSetUncheckedUpdateManyWithoutBoardNestedInput
   }
 
   export type AcademicYearUpsertWithoutModelQuestionImportsInput = {
@@ -99530,6 +103779,7 @@ export namespace Prisma {
     updatedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    modelQuestionSets?: ModelQuestionSetUpdateManyWithoutAcademicYearNestedInput
   }
 
   export type AcademicYearUncheckedUpdateWithoutModelQuestionImportsInput = {
@@ -99541,6 +103791,7 @@ export namespace Prisma {
     updatedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    modelQuestionSets?: ModelQuestionSetUncheckedUpdateManyWithoutAcademicYearNestedInput
   }
 
   export type UploadedFileUpsertWithoutModelQuestionImportInput = {
@@ -99571,6 +103822,7 @@ export namespace Prisma {
     checksumSha256?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
     replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -99602,9 +103854,533 @@ export namespace Prisma {
     checksumSha256?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
     replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClassCreateWithoutModelQuestionSetsInput = {
+    id?: string
+    name: string
+    slug: string
+    code?: string
+    description?: string
+    status?: $Enums.PublishStatus
+    sortOrder?: number
+    iconType?: string
+    iconLibrary?: string
+    iconName?: string
+    iconColor?: string
+    imagePath?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    subjects?: SubjectCreateNestedManyWithoutClassInput
+    units?: UnitCreateNestedManyWithoutClassInput
+    contents?: ContentCreateNestedManyWithoutClassInput
+    unseenCompositions?: UnseenCompositionCreateNestedManyWithoutClassInput
+    students?: UserCreateNestedManyWithoutClassInput
+    modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutClassInput
+  }
+
+  export type ClassUncheckedCreateWithoutModelQuestionSetsInput = {
+    id?: string
+    name: string
+    slug: string
+    code?: string
+    description?: string
+    status?: $Enums.PublishStatus
+    sortOrder?: number
+    iconType?: string
+    iconLibrary?: string
+    iconName?: string
+    iconColor?: string
+    imagePath?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    subjects?: SubjectUncheckedCreateNestedManyWithoutClassInput
+    units?: UnitUncheckedCreateNestedManyWithoutClassInput
+    contents?: ContentUncheckedCreateNestedManyWithoutClassInput
+    unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutClassInput
+    students?: UserUncheckedCreateNestedManyWithoutClassInput
+    modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutClassInput
+  }
+
+  export type ClassCreateOrConnectWithoutModelQuestionSetsInput = {
+    where: ClassWhereUniqueInput
+    create: XOR<ClassCreateWithoutModelQuestionSetsInput, ClassUncheckedCreateWithoutModelQuestionSetsInput>
+  }
+
+  export type SubjectCreateWithoutModelQuestionSetsInput = {
+    id?: string
+    name: string
+    slug: string
+    code?: string
+    description?: string
+    status?: $Enums.PublishStatus
+    sortOrder?: number
+    iconType?: string
+    iconLibrary?: string
+    iconName?: string
+    iconColor?: string
+    imagePath?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    class: ClassCreateNestedOneWithoutSubjectsInput
+    units?: UnitCreateNestedManyWithoutSubjectInput
+    contents?: ContentCreateNestedManyWithoutSubjectInput
+    unseenCompositions?: UnseenCompositionCreateNestedManyWithoutSubjectInput
+    modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutSubjectInput
+  }
+
+  export type SubjectUncheckedCreateWithoutModelQuestionSetsInput = {
+    id?: string
+    classId: string
+    name: string
+    slug: string
+    code?: string
+    description?: string
+    status?: $Enums.PublishStatus
+    sortOrder?: number
+    iconType?: string
+    iconLibrary?: string
+    iconName?: string
+    iconColor?: string
+    imagePath?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    units?: UnitUncheckedCreateNestedManyWithoutSubjectInput
+    contents?: ContentUncheckedCreateNestedManyWithoutSubjectInput
+    unseenCompositions?: UnseenCompositionUncheckedCreateNestedManyWithoutSubjectInput
+    modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutSubjectInput
+  }
+
+  export type SubjectCreateOrConnectWithoutModelQuestionSetsInput = {
+    where: SubjectWhereUniqueInput
+    create: XOR<SubjectCreateWithoutModelQuestionSetsInput, SubjectUncheckedCreateWithoutModelQuestionSetsInput>
+  }
+
+  export type BoardCreateWithoutModelQuestionSetsInput = {
+    id?: string
+    name: string
+    isActive?: boolean
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutBoardInput
+  }
+
+  export type BoardUncheckedCreateWithoutModelQuestionSetsInput = {
+    id?: string
+    name: string
+    isActive?: boolean
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutBoardInput
+  }
+
+  export type BoardCreateOrConnectWithoutModelQuestionSetsInput = {
+    where: BoardWhereUniqueInput
+    create: XOR<BoardCreateWithoutModelQuestionSetsInput, BoardUncheckedCreateWithoutModelQuestionSetsInput>
+  }
+
+  export type AcademicYearCreateWithoutModelQuestionSetsInput = {
+    id?: string
+    year: number
+    isActive?: boolean
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    modelQuestionImports?: ModelQuestionImportCreateNestedManyWithoutAcademicYearInput
+  }
+
+  export type AcademicYearUncheckedCreateWithoutModelQuestionSetsInput = {
+    id?: string
+    year: number
+    isActive?: boolean
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    modelQuestionImports?: ModelQuestionImportUncheckedCreateNestedManyWithoutAcademicYearInput
+  }
+
+  export type AcademicYearCreateOrConnectWithoutModelQuestionSetsInput = {
+    where: AcademicYearWhereUniqueInput
+    create: XOR<AcademicYearCreateWithoutModelQuestionSetsInput, AcademicYearUncheckedCreateWithoutModelQuestionSetsInput>
+  }
+
+  export type ModelQuestionSetBlockCreateWithoutSetInput = {
+    id?: string
+    kind: string
+    title: string
+    instructions?: string
+    passage?: string
+    question: string
+    optionsJson?: string
+    answer?: string
+    marks?: number
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ModelQuestionSetBlockUncheckedCreateWithoutSetInput = {
+    id?: string
+    kind: string
+    title: string
+    instructions?: string
+    passage?: string
+    question: string
+    optionsJson?: string
+    answer?: string
+    marks?: number
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ModelQuestionSetBlockCreateOrConnectWithoutSetInput = {
+    where: ModelQuestionSetBlockWhereUniqueInput
+    create: XOR<ModelQuestionSetBlockCreateWithoutSetInput, ModelQuestionSetBlockUncheckedCreateWithoutSetInput>
+  }
+
+  export type ModelQuestionSetBlockCreateManySetInputEnvelope = {
+    data: ModelQuestionSetBlockCreateManySetInput | ModelQuestionSetBlockCreateManySetInput[]
+  }
+
+  export type ClassUpsertWithoutModelQuestionSetsInput = {
+    update: XOR<ClassUpdateWithoutModelQuestionSetsInput, ClassUncheckedUpdateWithoutModelQuestionSetsInput>
+    create: XOR<ClassCreateWithoutModelQuestionSetsInput, ClassUncheckedCreateWithoutModelQuestionSetsInput>
+    where?: ClassWhereInput
+  }
+
+  export type ClassUpdateToOneWithWhereWithoutModelQuestionSetsInput = {
+    where?: ClassWhereInput
+    data: XOR<ClassUpdateWithoutModelQuestionSetsInput, ClassUncheckedUpdateWithoutModelQuestionSetsInput>
+  }
+
+  export type ClassUpdateWithoutModelQuestionSetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    iconType?: StringFieldUpdateOperationsInput | string
+    iconLibrary?: StringFieldUpdateOperationsInput | string
+    iconName?: StringFieldUpdateOperationsInput | string
+    iconColor?: StringFieldUpdateOperationsInput | string
+    imagePath?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subjects?: SubjectUpdateManyWithoutClassNestedInput
+    units?: UnitUpdateManyWithoutClassNestedInput
+    contents?: ContentUpdateManyWithoutClassNestedInput
+    unseenCompositions?: UnseenCompositionUpdateManyWithoutClassNestedInput
+    students?: UserUpdateManyWithoutClassNestedInput
+    modelQuestionImports?: ModelQuestionImportUpdateManyWithoutClassNestedInput
+  }
+
+  export type ClassUncheckedUpdateWithoutModelQuestionSetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    iconType?: StringFieldUpdateOperationsInput | string
+    iconLibrary?: StringFieldUpdateOperationsInput | string
+    iconName?: StringFieldUpdateOperationsInput | string
+    iconColor?: StringFieldUpdateOperationsInput | string
+    imagePath?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subjects?: SubjectUncheckedUpdateManyWithoutClassNestedInput
+    units?: UnitUncheckedUpdateManyWithoutClassNestedInput
+    contents?: ContentUncheckedUpdateManyWithoutClassNestedInput
+    unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutClassNestedInput
+    students?: UserUncheckedUpdateManyWithoutClassNestedInput
+    modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutClassNestedInput
+  }
+
+  export type SubjectUpsertWithoutModelQuestionSetsInput = {
+    update: XOR<SubjectUpdateWithoutModelQuestionSetsInput, SubjectUncheckedUpdateWithoutModelQuestionSetsInput>
+    create: XOR<SubjectCreateWithoutModelQuestionSetsInput, SubjectUncheckedCreateWithoutModelQuestionSetsInput>
+    where?: SubjectWhereInput
+  }
+
+  export type SubjectUpdateToOneWithWhereWithoutModelQuestionSetsInput = {
+    where?: SubjectWhereInput
+    data: XOR<SubjectUpdateWithoutModelQuestionSetsInput, SubjectUncheckedUpdateWithoutModelQuestionSetsInput>
+  }
+
+  export type SubjectUpdateWithoutModelQuestionSetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    iconType?: StringFieldUpdateOperationsInput | string
+    iconLibrary?: StringFieldUpdateOperationsInput | string
+    iconName?: StringFieldUpdateOperationsInput | string
+    iconColor?: StringFieldUpdateOperationsInput | string
+    imagePath?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    class?: ClassUpdateOneRequiredWithoutSubjectsNestedInput
+    units?: UnitUpdateManyWithoutSubjectNestedInput
+    contents?: ContentUpdateManyWithoutSubjectNestedInput
+    unseenCompositions?: UnseenCompositionUpdateManyWithoutSubjectNestedInput
+    modelQuestionImports?: ModelQuestionImportUpdateManyWithoutSubjectNestedInput
+  }
+
+  export type SubjectUncheckedUpdateWithoutModelQuestionSetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    status?: EnumPublishStatusFieldUpdateOperationsInput | $Enums.PublishStatus
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    iconType?: StringFieldUpdateOperationsInput | string
+    iconLibrary?: StringFieldUpdateOperationsInput | string
+    iconName?: StringFieldUpdateOperationsInput | string
+    iconColor?: StringFieldUpdateOperationsInput | string
+    imagePath?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    units?: UnitUncheckedUpdateManyWithoutSubjectNestedInput
+    contents?: ContentUncheckedUpdateManyWithoutSubjectNestedInput
+    unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutSubjectNestedInput
+    modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutSubjectNestedInput
+  }
+
+  export type BoardUpsertWithoutModelQuestionSetsInput = {
+    update: XOR<BoardUpdateWithoutModelQuestionSetsInput, BoardUncheckedUpdateWithoutModelQuestionSetsInput>
+    create: XOR<BoardCreateWithoutModelQuestionSetsInput, BoardUncheckedCreateWithoutModelQuestionSetsInput>
+    where?: BoardWhereInput
+  }
+
+  export type BoardUpdateToOneWithWhereWithoutModelQuestionSetsInput = {
+    where?: BoardWhereInput
+    data: XOR<BoardUpdateWithoutModelQuestionSetsInput, BoardUncheckedUpdateWithoutModelQuestionSetsInput>
+  }
+
+  export type BoardUpdateWithoutModelQuestionSetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    modelQuestionImports?: ModelQuestionImportUpdateManyWithoutBoardNestedInput
+  }
+
+  export type BoardUncheckedUpdateWithoutModelQuestionSetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutBoardNestedInput
+  }
+
+  export type AcademicYearUpsertWithoutModelQuestionSetsInput = {
+    update: XOR<AcademicYearUpdateWithoutModelQuestionSetsInput, AcademicYearUncheckedUpdateWithoutModelQuestionSetsInput>
+    create: XOR<AcademicYearCreateWithoutModelQuestionSetsInput, AcademicYearUncheckedCreateWithoutModelQuestionSetsInput>
+    where?: AcademicYearWhereInput
+  }
+
+  export type AcademicYearUpdateToOneWithWhereWithoutModelQuestionSetsInput = {
+    where?: AcademicYearWhereInput
+    data: XOR<AcademicYearUpdateWithoutModelQuestionSetsInput, AcademicYearUncheckedUpdateWithoutModelQuestionSetsInput>
+  }
+
+  export type AcademicYearUpdateWithoutModelQuestionSetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    modelQuestionImports?: ModelQuestionImportUpdateManyWithoutAcademicYearNestedInput
+  }
+
+  export type AcademicYearUncheckedUpdateWithoutModelQuestionSetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutAcademicYearNestedInput
+  }
+
+  export type ModelQuestionSetBlockUpsertWithWhereUniqueWithoutSetInput = {
+    where: ModelQuestionSetBlockWhereUniqueInput
+    update: XOR<ModelQuestionSetBlockUpdateWithoutSetInput, ModelQuestionSetBlockUncheckedUpdateWithoutSetInput>
+    create: XOR<ModelQuestionSetBlockCreateWithoutSetInput, ModelQuestionSetBlockUncheckedCreateWithoutSetInput>
+  }
+
+  export type ModelQuestionSetBlockUpdateWithWhereUniqueWithoutSetInput = {
+    where: ModelQuestionSetBlockWhereUniqueInput
+    data: XOR<ModelQuestionSetBlockUpdateWithoutSetInput, ModelQuestionSetBlockUncheckedUpdateWithoutSetInput>
+  }
+
+  export type ModelQuestionSetBlockUpdateManyWithWhereWithoutSetInput = {
+    where: ModelQuestionSetBlockScalarWhereInput
+    data: XOR<ModelQuestionSetBlockUpdateManyMutationInput, ModelQuestionSetBlockUncheckedUpdateManyWithoutSetInput>
+  }
+
+  export type ModelQuestionSetBlockScalarWhereInput = {
+    AND?: ModelQuestionSetBlockScalarWhereInput | ModelQuestionSetBlockScalarWhereInput[]
+    OR?: ModelQuestionSetBlockScalarWhereInput[]
+    NOT?: ModelQuestionSetBlockScalarWhereInput | ModelQuestionSetBlockScalarWhereInput[]
+    id?: StringFilter<"ModelQuestionSetBlock"> | string
+    setId?: StringFilter<"ModelQuestionSetBlock"> | string
+    kind?: StringFilter<"ModelQuestionSetBlock"> | string
+    title?: StringFilter<"ModelQuestionSetBlock"> | string
+    instructions?: StringFilter<"ModelQuestionSetBlock"> | string
+    passage?: StringFilter<"ModelQuestionSetBlock"> | string
+    question?: StringFilter<"ModelQuestionSetBlock"> | string
+    optionsJson?: StringFilter<"ModelQuestionSetBlock"> | string
+    answer?: StringFilter<"ModelQuestionSetBlock"> | string
+    marks?: IntFilter<"ModelQuestionSetBlock"> | number
+    sortOrder?: IntFilter<"ModelQuestionSetBlock"> | number
+    organizationId?: StringFilter<"ModelQuestionSetBlock"> | string
+    createdBy?: StringFilter<"ModelQuestionSetBlock"> | string
+    updatedBy?: StringFilter<"ModelQuestionSetBlock"> | string
+    createdAt?: DateTimeFilter<"ModelQuestionSetBlock"> | Date | string
+    updatedAt?: DateTimeFilter<"ModelQuestionSetBlock"> | Date | string
+  }
+
+  export type ModelQuestionSetCreateWithoutBlocksInput = {
+    id?: string
+    name: string
+    editorContentId?: string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    class: ClassCreateNestedOneWithoutModelQuestionSetsInput
+    subject: SubjectCreateNestedOneWithoutModelQuestionSetsInput
+    board?: BoardCreateNestedOneWithoutModelQuestionSetsInput
+    academicYear?: AcademicYearCreateNestedOneWithoutModelQuestionSetsInput
+  }
+
+  export type ModelQuestionSetUncheckedCreateWithoutBlocksInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    boardId?: string | null
+    academicYearId?: string | null
+    name: string
+    editorContentId?: string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ModelQuestionSetCreateOrConnectWithoutBlocksInput = {
+    where: ModelQuestionSetWhereUniqueInput
+    create: XOR<ModelQuestionSetCreateWithoutBlocksInput, ModelQuestionSetUncheckedCreateWithoutBlocksInput>
+  }
+
+  export type ModelQuestionSetUpsertWithoutBlocksInput = {
+    update: XOR<ModelQuestionSetUpdateWithoutBlocksInput, ModelQuestionSetUncheckedUpdateWithoutBlocksInput>
+    create: XOR<ModelQuestionSetCreateWithoutBlocksInput, ModelQuestionSetUncheckedCreateWithoutBlocksInput>
+    where?: ModelQuestionSetWhereInput
+  }
+
+  export type ModelQuestionSetUpdateToOneWithWhereWithoutBlocksInput = {
+    where?: ModelQuestionSetWhereInput
+    data: XOR<ModelQuestionSetUpdateWithoutBlocksInput, ModelQuestionSetUncheckedUpdateWithoutBlocksInput>
+  }
+
+  export type ModelQuestionSetUpdateWithoutBlocksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    class?: ClassUpdateOneRequiredWithoutModelQuestionSetsNestedInput
+    subject?: SubjectUpdateOneRequiredWithoutModelQuestionSetsNestedInput
+    board?: BoardUpdateOneWithoutModelQuestionSetsNestedInput
+    academicYear?: AcademicYearUpdateOneWithoutModelQuestionSetsNestedInput
+  }
+
+  export type ModelQuestionSetUncheckedUpdateWithoutBlocksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -99783,6 +104559,20 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ModelQuestionSetCreateManyClassInput = {
+    id?: string
+    subjectId: string
+    boardId?: string | null
+    academicYearId?: string | null
+    name: string
+    editorContentId?: string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type SubjectUpdateWithoutClassInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -99805,6 +104595,7 @@ export namespace Prisma {
     contents?: ContentUpdateManyWithoutSubjectNestedInput
     unseenCompositions?: UnseenCompositionUpdateManyWithoutSubjectNestedInput
     modelQuestionImports?: ModelQuestionImportUpdateManyWithoutSubjectNestedInput
+    modelQuestionSets?: ModelQuestionSetUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateWithoutClassInput = {
@@ -99829,6 +104620,7 @@ export namespace Prisma {
     contents?: ContentUncheckedUpdateManyWithoutSubjectNestedInput
     unseenCompositions?: UnseenCompositionUncheckedUpdateManyWithoutSubjectNestedInput
     modelQuestionImports?: ModelQuestionImportUncheckedUpdateManyWithoutSubjectNestedInput
+    modelQuestionSets?: ModelQuestionSetUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type SubjectUncheckedUpdateManyWithoutClassInput = {
@@ -100122,6 +104914,50 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ModelQuestionSetUpdateWithoutClassInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: SubjectUpdateOneRequiredWithoutModelQuestionSetsNestedInput
+    board?: BoardUpdateOneWithoutModelQuestionSetsNestedInput
+    academicYear?: AcademicYearUpdateOneWithoutModelQuestionSetsNestedInput
+    blocks?: ModelQuestionSetBlockUpdateManyWithoutSetNestedInput
+  }
+
+  export type ModelQuestionSetUncheckedUpdateWithoutClassInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blocks?: ModelQuestionSetBlockUncheckedUpdateManyWithoutSetNestedInput
+  }
+
+  export type ModelQuestionSetUncheckedUpdateManyWithoutClassInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UnitCreateManySubjectInput = {
     id?: string
     classId: string
@@ -100179,6 +105015,20 @@ export namespace Prisma {
     status?: string
     questionsJson?: string
     questionCount?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ModelQuestionSetCreateManySubjectInput = {
+    id?: string
+    classId: string
+    boardId?: string | null
+    academicYearId?: string | null
+    name: string
+    editorContentId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -100377,6 +105227,50 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     questionsJson?: StringFieldUpdateOperationsInput | string
     questionCount?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelQuestionSetUpdateWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    class?: ClassUpdateOneRequiredWithoutModelQuestionSetsNestedInput
+    board?: BoardUpdateOneWithoutModelQuestionSetsNestedInput
+    academicYear?: AcademicYearUpdateOneWithoutModelQuestionSetsNestedInput
+    blocks?: ModelQuestionSetBlockUpdateManyWithoutSetNestedInput
+  }
+
+  export type ModelQuestionSetUncheckedUpdateWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blocks?: ModelQuestionSetBlockUncheckedUpdateManyWithoutSetNestedInput
+  }
+
+  export type ModelQuestionSetUncheckedUpdateManyWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -100819,6 +105713,10 @@ export namespace Prisma {
   export type VocabularyEntryCreateManyVocabularyInput = {
     id?: string
     word?: string
+    partOfSpeech?: string
+    pronunciation?: string
+    synonyms?: string
+    antonyms?: string
     meaning?: string
     imageUrl?: string
     imagePath?: string
@@ -100833,6 +105731,10 @@ export namespace Prisma {
   export type VocabularyEntryUpdateWithoutVocabularyInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
+    partOfSpeech?: StringFieldUpdateOperationsInput | string
+    pronunciation?: StringFieldUpdateOperationsInput | string
+    synonyms?: StringFieldUpdateOperationsInput | string
+    antonyms?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
@@ -100848,6 +105750,10 @@ export namespace Prisma {
   export type VocabularyEntryUncheckedUpdateWithoutVocabularyInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
+    partOfSpeech?: StringFieldUpdateOperationsInput | string
+    pronunciation?: StringFieldUpdateOperationsInput | string
+    synonyms?: StringFieldUpdateOperationsInput | string
+    antonyms?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
@@ -100863,6 +105769,10 @@ export namespace Prisma {
   export type VocabularyEntryUncheckedUpdateManyWithoutVocabularyInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
+    partOfSpeech?: StringFieldUpdateOperationsInput | string
+    pronunciation?: StringFieldUpdateOperationsInput | string
+    synonyms?: StringFieldUpdateOperationsInput | string
+    antonyms?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
@@ -100892,6 +105802,7 @@ export namespace Prisma {
     checksumSha256?: string
     status?: string
     isCurrent?: boolean
+    sortOrder?: number
     replacedAt?: Date | string | null
     deletedAt?: Date | string | null
     storageDeletedAt?: Date | string | null
@@ -100919,6 +105830,7 @@ export namespace Prisma {
     checksumSha256?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
     replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -100949,6 +105861,7 @@ export namespace Prisma {
     checksumSha256?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
     replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -100978,6 +105891,7 @@ export namespace Prisma {
     checksumSha256?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
     replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -101006,6 +105920,7 @@ export namespace Prisma {
     checksumSha256?: string
     status?: string
     isCurrent?: boolean
+    sortOrder?: number
     replacedAt?: Date | string | null
     deletedAt?: Date | string | null
     storageDeletedAt?: Date | string | null
@@ -101033,6 +105948,7 @@ export namespace Prisma {
     checksumSha256?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
     replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -101063,6 +105979,7 @@ export namespace Prisma {
     checksumSha256?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
     replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -101092,6 +106009,7 @@ export namespace Prisma {
     checksumSha256?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     isCurrent?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
     replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -101179,6 +106097,20 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ModelQuestionSetCreateManyBoardInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    academicYearId?: string | null
+    name: string
+    editorContentId?: string | null
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type ModelQuestionImportUpdateWithoutBoardInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
@@ -101230,6 +106162,50 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ModelQuestionSetUpdateWithoutBoardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    class?: ClassUpdateOneRequiredWithoutModelQuestionSetsNestedInput
+    subject?: SubjectUpdateOneRequiredWithoutModelQuestionSetsNestedInput
+    academicYear?: AcademicYearUpdateOneWithoutModelQuestionSetsNestedInput
+    blocks?: ModelQuestionSetBlockUpdateManyWithoutSetNestedInput
+  }
+
+  export type ModelQuestionSetUncheckedUpdateWithoutBoardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blocks?: ModelQuestionSetBlockUncheckedUpdateManyWithoutSetNestedInput
+  }
+
+  export type ModelQuestionSetUncheckedUpdateManyWithoutBoardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ModelQuestionImportCreateManyAcademicYearInput = {
     id?: string
     classId: string
@@ -101240,6 +106216,20 @@ export namespace Prisma {
     status?: string
     questionsJson?: string
     questionCount?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ModelQuestionSetCreateManyAcademicYearInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    boardId?: string | null
+    name: string
+    editorContentId?: string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -101291,6 +106281,122 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     questionsJson?: StringFieldUpdateOperationsInput | string
     questionCount?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelQuestionSetUpdateWithoutAcademicYearInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    class?: ClassUpdateOneRequiredWithoutModelQuestionSetsNestedInput
+    subject?: SubjectUpdateOneRequiredWithoutModelQuestionSetsNestedInput
+    board?: BoardUpdateOneWithoutModelQuestionSetsNestedInput
+    blocks?: ModelQuestionSetBlockUpdateManyWithoutSetNestedInput
+  }
+
+  export type ModelQuestionSetUncheckedUpdateWithoutAcademicYearInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blocks?: ModelQuestionSetBlockUncheckedUpdateManyWithoutSetNestedInput
+  }
+
+  export type ModelQuestionSetUncheckedUpdateManyWithoutAcademicYearInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelQuestionSetBlockCreateManySetInput = {
+    id?: string
+    kind: string
+    title: string
+    instructions?: string
+    passage?: string
+    question: string
+    optionsJson?: string
+    answer?: string
+    marks?: number
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ModelQuestionSetBlockUpdateWithoutSetInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    instructions?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    optionsJson?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    marks?: IntFieldUpdateOperationsInput | number
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelQuestionSetBlockUncheckedUpdateWithoutSetInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    instructions?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    optionsJson?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    marks?: IntFieldUpdateOperationsInput | number
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ModelQuestionSetBlockUncheckedUpdateManyWithoutSetInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    instructions?: StringFieldUpdateOperationsInput | string
+    passage?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    optionsJson?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    marks?: IntFieldUpdateOperationsInput | number
+    sortOrder?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string

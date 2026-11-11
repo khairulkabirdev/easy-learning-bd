@@ -1,22 +1,47 @@
-eLesson — Model Question Import changes only
+eLesson — Class 6/7 Model Question categorized Add Content Block popup
 
-This folder contains ONLY modified/new files, in their original relative directory structure.
+Replace only these files in your eLesson project root:
+  components/admin/ModelQuestionSetEditor.tsx
+  app/admin/content/[contentId]/ContentBlocksEditorClient.tsx
+  app/admin/model-question-import/[classId]/[subjectId]/[setId]/page.tsx
 
-1) Back up your SQLite database (prisma/dev.db).
-2) Copy these files into your eLesson project root (overwrite matching paths).
-3) In PowerShell, from the eLesson project root, run:
+If you already customized these files after the last update, merge the changes
+instead of replacing your newer local edits.
 
-   npm run prepare:sqlite
-   npm run build
-   npm run dev
+HOW IT WORKS
+- In Class 6 and Class 7, subject English / English 1st Paper, Add Content
+  Block uses the existing curriculum editor's grouped picker:
 
-4) Open your existing class/subject admin URL:
-   /admin/model-question-import/<classId>/<subjectId>
+  Seen — Passage 1:
+  1. Passage 1; 2. MCQ; 3. Answering Questions
 
-5) Click "Upload / Import Model Questions" → "Import Questions".
+  Seen — Passage 2:
+  4. Passage 2; 5. Information Transfer; 6. True / False
 
-Supports TXT/JSON/numbered pasted questions as admin-only drafts.
-PDF/Word/image papers can be uploaded; automatic OCR/extraction is NOT implemented.
+  Other Reading Questions:
+  7. Fill in the Blanks; 8. Table Completion; 9. Rearrange Sentence
 
-Full production compilation couldn't be run here because npm dependencies aren't present.
-See docs/MODEL_QUESTION_IMPORT.md for formats and restrictions.
+- The old standalone picker no longer appears in this model-question flow.
+- Clicking Add Content Block in Previous question blocks & TXT/JSON import
+  opens the same native grouped picker instead of creating incompatible copies.
+- Each click on a block type creates an independent block; the same type may be
+  added repeatedly, using the existing ContentBlock create action and editors.
+- Older TXT/JSON-imported question records remain editable and are not converted.
+- Other class/subject menus keep their existing choices.
+
+DATA SAFETY
+This package changes UI files only. It contains NO database files, SQL,
+Prisma schema, migration, API route, uploaded files, or environment files.
+No database reset, reseeding, or schema commands are required.
+
+STEPS
+1. Stop the Next.js development server.
+2. Back up the three existing TSX files before replacing or merging.
+3. Extract this ZIP at the project root (not inside an extra folder).
+4. Start the existing development server: npm run dev
+5. Open the Model Question detail route and click Add Content Block.
+
+VERIFICATION
+TSX transpilation/syntax checks passed for all three modified files.
+The full Next.js build and browser interaction could not be run here because
+node_modules were not installed in the provided project snapshot.

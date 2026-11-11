@@ -370,8 +370,8 @@ async function ensureEnglishFirstPaperSectionTables() {
           "createdBy","updatedBy","createdAt","updatedAt"
         FROM "SentenceOrderingExercise"
       `);
-      await prisma.$executeRawUnsafe('DROP TABLE "SentenceOrderingExercise"');
-      console.log("Merged legacy SentenceOrderingExercise rows into RearrangeSentenceExercise.");
+      // Preserve the legacy table as a read-only fallback. Never drop existing user data automatically.
+      console.log("Copied legacy SentenceOrderingExercise rows into RearrangeSentenceExercise; original table retained.");
     }
   }
 
@@ -673,7 +673,8 @@ async function migrateProfileTempImages() {
       migrated += 1;
     } catch (error) {
       if (error?.code === "ENOENT") {
-        await prisma.user.update({ where: { id: user.id }, data: { profileImage: null } });
+        // Keep the original profileImage reference even when the file is currently unavailable.
+        console.warn(`Missing temporary profile image for user ${user.id}; original reference preserved.`);
       } else {
         throw error;
       }
@@ -682,6 +683,33 @@ async function migrateProfileTempImages() {
   return migrated;
 }
 
+
+async function ensureModelQuestionSetTables() {
+  // CREATE TABLE / INDEX IF NOT EXISTS only: no rewrite, reset, or deletion.
+  await prisma.$executeRawUnsafe(`CREATE TABLE IF NOT EXISTS "ModelQuestionSet" (
+    "id" TEXT NOT NULL PRIMARY KEY, "classId" TEXT NOT NULL, "subjectId" TEXT NOT NULL,
+    "boardId" TEXT, "academicYearId" TEXT, "name" TEXT NOT NULL,
+    "organizationId" TEXT NOT NULL, "createdBy" TEXT NOT NULL, "updatedBy" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, "updatedAt" DATETIME NOT NULL,
+    FOREIGN KEY ("classId") REFERENCES "Class"("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY ("subjectId") REFERENCES "Subject"("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY ("boardId") REFERENCES "Board"("id") ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY ("academicYearId") REFERENCES "AcademicYear"("id") ON DELETE SET NULL ON UPDATE CASCADE
+  )`);
+  await prisma.$executeRawUnsafe(`CREATE TABLE IF NOT EXISTS "ModelQuestionSetBlock" (
+    "id" TEXT NOT NULL PRIMARY KEY, "setId" TEXT NOT NULL, "kind" TEXT NOT NULL,
+    "title" TEXT NOT NULL, "instructions" TEXT NOT NULL DEFAULT '',
+    "passage" TEXT NOT NULL DEFAULT '', "question" TEXT NOT NULL,
+    "optionsJson" TEXT NOT NULL DEFAULT '[]', "answer" TEXT NOT NULL DEFAULT '',
+    "marks" INTEGER NOT NULL DEFAULT 1, "sortOrder" INTEGER NOT NULL DEFAULT 0,
+    "organizationId" TEXT NOT NULL, "createdBy" TEXT NOT NULL, "updatedBy" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, "updatedAt" DATETIME NOT NULL,
+    FOREIGN KEY ("setId") REFERENCES "ModelQuestionSet"("id") ON DELETE CASCADE ON UPDATE CASCADE
+  )`);
+  await prisma.$executeRawUnsafe('CREATE INDEX IF NOT EXISTS "ModelQuestionSet_organizationId_classId_subjectId_createdAt_idx" ON "ModelQuestionSet"("organizationId", "classId", "subjectId", "createdAt")');
+  await prisma.$executeRawUnsafe('CREATE INDEX IF NOT EXISTS "ModelQuestionSet_organizationId_classId_subjectId_boardId_academicYearId_idx" ON "ModelQuestionSet"("organizationId", "classId", "subjectId", "boardId", "academicYearId")');
+  await prisma.$executeRawUnsafe('CREATE INDEX IF NOT EXISTS "ModelQuestionSetBlock_organizationId_setId_sortOrder_idx" ON "ModelQuestionSetBlock"("organizationId", "setId", "sortOrder")');
+}
 
 async function ensureModelQuestionImportTable() {
   await prisma.$executeRawUnsafe(`CREATE TABLE IF NOT EXISTS "ModelQuestionImport" (
@@ -761,6 +789,7 @@ async function main() {
   await ensureStorageConfigurationTable();
   await ensureUploadedFileTable();
   await ensureModelQuestionImportTable();
+  await ensureModelQuestionSetTables();
   await ensureColumn("InformationTransfer", "passage", "TEXT NOT NULL DEFAULT ''");
   await ensureColumn("InformationTransfer", "passageSource", "TEXT NOT NULL DEFAULT 'manual'");
   await ensureColumn("InformationTransfer", "paragraphBlockId", "TEXT");
@@ -771,14 +800,17 @@ async function main() {
     console.log(`Ensured index ${name}`);
   }
 
-  const now = new Date();
-  const expiredSessions = await prisma.authSession.deleteMany({ where: { expiresAt: { lte: now } } });
-  const expiredResetTokens = await prisma.passwordResetToken.deleteMany({
-    where: { OR: [{ expiresAt: { lte: now } }, { usedAt: { not: null } }] },
-  });
-  const migratedProfiles = await migrateProfileTempImages();
-  console.log(`Removed ${expiredSessions.count} expired sessions and ${expiredResetTokens.count} expired/used reset tokens.`);
-  console.log(`Migrated ${migratedProfiles} profile image(s) out of temporary storage.`);
+  // Optional maintenance tasks are opt-in. Schema repair must never delete data by default.
+  if (process.env.ELESSON_ALLOW_LEGACY_DATA_MAINTENANCE === "1") {
+    const now = new Date();
+    const expiredSessions = await prisma.authSession.deleteMany({ where: { expiresAt: { lte: now } } });
+    const expiredResetTokens = await prisma.passwordResetToken.deleteMany({
+      where: { OR: [{ expiresAt: { lte: now } }, { usedAt: { not: null } }] },
+    });
+    const migratedProfiles = await migrateProfileTempImages();
+    console.log(`Opt-in cleanup: ${expiredSessions.count} expired sessions and ${expiredResetTokens.count} expired/used reset tokens.`);
+    console.log(`Opt-in migration: ${migratedProfiles} profile images moved from temporary storage.`);
+  }
 
   const integrity = await prisma.$queryRawUnsafe("PRAGMA integrity_check");
   const ok = integrity.some((row) => String(row.integrity_check).toLowerCase() === "ok");
