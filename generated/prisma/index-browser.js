@@ -402,10 +402,6 @@ exports.Prisma.VocabularyEntryScalarFieldEnum = {
   id: 'id',
   vocabularyId: 'vocabularyId',
   word: 'word',
-  partOfSpeech: 'partOfSpeech',
-  pronunciation: 'pronunciation',
-  synonyms: 'synonyms',
-  antonyms: 'antonyms',
   meaning: 'meaning',
   imageUrl: 'imageUrl',
   imagePath: 'imagePath',
@@ -429,12 +425,6 @@ exports.Prisma.StorageConfigurationScalarFieldEnum = {
   sessionTokenEncrypted: 'sessionTokenEncrypted',
   localRoot: 'localRoot',
   forcePathStyle: 'forcePathStyle',
-  publicBaseUrl: 'publicBaseUrl',
-  privateBucket: 'privateBucket',
-  maxImageSizeMb: 'maxImageSizeMb',
-  maxVideoSizeMb: 'maxVideoSizeMb',
-  maxModelSizeMb: 'maxModelSizeMb',
-  pathPrefix: 'pathPrefix',
   isActive: 'isActive',
   everActivated: 'everActivated',
   lastTestStatus: 'lastTestStatus',
@@ -466,7 +456,6 @@ exports.Prisma.UploadedFileScalarFieldEnum = {
   checksumSha256: 'checksumSha256',
   status: 'status',
   isCurrent: 'isCurrent',
-  sortOrder: 'sortOrder',
   replacedAt: 'replacedAt',
   deletedAt: 'deletedAt',
   storageDeletedAt: 'storageDeletedAt',
@@ -905,6 +894,25 @@ exports.Prisma.SuffixAndPrefixScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PartsOfSpeechScalarFieldEnum = {
+  id: 'id',
+  contentBlockId: 'contentBlockId',
+  contentId: 'contentId',
+  classId: 'classId',
+  subjectId: 'subjectId',
+  unitId: 'unitId',
+  lessonId: 'lessonId',
+  topicId: 'topicId',
+  question: 'question',
+  answer: 'answer',
+  details: 'details',
+  organizationId: 'organizationId',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.TagQuestionScalarFieldEnum = {
   id: 'id',
   contentBlockId: 'contentBlockId',
@@ -1016,6 +1024,25 @@ exports.Prisma.SubjectQuestionFromStoryBlockScalarFieldEnum = {
 };
 
 exports.Prisma.SubjectEnglishSecondPaperBlockScalarFieldEnum = {
+  id: 'id',
+  classId: 'classId',
+  subjectId: 'subjectId',
+  kind: 'kind',
+  boardId: 'boardId',
+  academicYearId: 'academicYearId',
+  title: 'title',
+  instruction: 'instruction',
+  details: 'details',
+  documentJson: 'documentJson',
+  sortOrder: 'sortOrder',
+  organizationId: 'organizationId',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SubjectPartsOfSpeechBlockScalarFieldEnum = {
   id: 'id',
   classId: 'classId',
   subjectId: 'subjectId',
@@ -1171,6 +1198,7 @@ exports.Prisma.ModelName = {
   PunctuationAndCapitalization: 'PunctuationAndCapitalization',
   Preposition: 'Preposition',
   SuffixAndPrefix: 'SuffixAndPrefix',
+  PartsOfSpeech: 'PartsOfSpeech',
   TagQuestion: 'TagQuestion',
   Connector: 'Connector',
   SubjectMatchingSentencesBlock: 'SubjectMatchingSentencesBlock',
@@ -1178,6 +1206,7 @@ exports.Prisma.ModelName = {
   SubjectQuestionFromPoemsBlock: 'SubjectQuestionFromPoemsBlock',
   SubjectQuestionFromStoryBlock: 'SubjectQuestionFromStoryBlock',
   SubjectEnglishSecondPaperBlock: 'SubjectEnglishSecondPaperBlock',
+  SubjectPartsOfSpeechBlock: 'SubjectPartsOfSpeechBlock',
   Board: 'Board',
   AcademicYear: 'AcademicYear',
   ModelQuestionImport: 'ModelQuestionImport',

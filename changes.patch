@@ -1,0 +1,627 @@
+diff --git a/lib/model-question-fixed-blocks.ts b/lib/model-question-fixed-blocks.ts
+--- a/lib/model-question-fixed-blocks.ts
++++ b/lib/model-question-fixed-blocks.ts
+@@ -8,6 +8,7 @@
+   "seen-passage-two",
+   "gap-fill-first-paper",
+   "synonyms-antonyms",
++  "paragraph", // Reuse native Paragraph as the Unseen Passage source.
+   "information-transfer",
+   "true-false",
+   "writing-summary",
+@@ -27,3 +28,38 @@
+     /(?:ক্লাস|শ্রেণি)\s*(?:৬|৭|ষষ্ঠ|সপ্তম)|(?:৬ষ্ঠ|৭ম|ষষ্ঠ|সপ্তম)\s*(?:শ্রেণি|ক্লাস)/.test(label);
+   return isClassSixOrSeven && isEnglishFirstPaperSubject(subject);
+ }
++
++/** Each fixed section uses the passage block saved in the SAME model-question set.
++ * The parent is the existing native ContentBlock; no extra relation table is required.
++ */
++export const CLASS_6_7_MODEL_QUESTION_PASSAGE_PARENTS = {
++  mcq: "seen-passage-one",
++  "question-answer": "seen-passage-one",
++  "gap-fill-first-paper": "seen-passage-two",
++  "synonyms-antonyms": "seen-passage-two",
++  "information-transfer": "paragraph",
++  "true-false": "paragraph",
++  "writing-summary": "paragraph",
++} as const;
++
++export function getFixedPassageParentKind(kind: string): string | null {
++  return CLASS_6_7_MODEL_QUESTION_PASSAGE_PARENTS[
++    kind as keyof typeof CLASS_6_7_MODEL_QUESTION_PASSAGE_PARENTS
++  ] ?? null;
++}
++
++export function getFixedPassageLabel(kind: string): string {
++  return kind === "paragraph" ? "Unseen Passage" :
++    kind === "seen-passage-one" ? "Passage 1" : "Passage 2";
++}
++
++/** Unseen Passage is a source block, not a numbered question item.
++ * Preserve the previously agreed 1–12 question-paper numbering.
++ */
++export function getClassSixSevenQuestionNumber(kind: string): number | null {
++  if (kind === "paragraph") return null;
++  const index = CLASS_6_7_MODEL_QUESTION_KINDS.findIndex((item) => item === kind);
++  if (index < 0) return null;
++  const unseenIndex = CLASS_6_7_MODEL_QUESTION_KINDS.indexOf("paragraph");
++  return index >= unseenIndex ? index : index + 1;
++}
+diff --git a/app/admin/content/[contentId]/ContentBlocksEditorClient.tsx b/app/admin/content/[contentId]/ContentBlocksEditorClient.tsx
+--- a/app/admin/content/[contentId]/ContentBlocksEditorClient.tsx
++++ b/app/admin/content/[contentId]/ContentBlocksEditorClient.tsx
+@@ -78,7 +78,12 @@
+   type CrudValidationErrors,
+ } from "@/app/admin/content/content-block-validation";
+ import { BlockBoardYearFields } from "@/components/admin/BlockBoardYearFields";
+-import { CLASS_6_7_MODEL_QUESTION_KINDS } from "@/lib/model-question-fixed-blocks";
++import {
++  CLASS_6_7_MODEL_QUESTION_KINDS,
++  getFixedPassageParentKind,
++  getFixedPassageLabel,
++  getClassSixSevenQuestionNumber,
++} from "@/lib/model-question-fixed-blocks";
+ import { WritingSummaryEditor } from "@/components/admin/UnseenCompositionEditorClient";
+ import { ResponsiveEntityEditor } from "@/components/admin/ResponsiveEntityEditor";
+ import { TableCompletionChoiceCombobox } from "@/components/app/TableCompletionChoiceCombobox";
+@@ -900,7 +905,7 @@
+ ];
+ 
+ /**
+- * Class 6–7, English 1st Paper. Only these twelve choices appear in this
++ * Class 6–7, English 1st Paper. Only these thirteen choices appear in this
+  * question-paper picker, in this exact reading-paper sequence.
+  * The class-specific server action enforces one block per kind; existing
+  * duplicate blocks from older releases are kept and remain editable.
+@@ -918,8 +923,8 @@
+   },
+   {
+     title: "Unseen",
+-    description: "Information Transfer, True / False, and Summary.",
+-    sections: [{ title: "", kinds: ["information-transfer", "true-false", "writing-summary"] }],
++    description: "First add Unseen Passage, then its Information Transfer, True / False, and Summary questions.",
++    sections: [{ title: "", kinds: ["paragraph", "information-transfer", "true-false", "writing-summary"] }],
+   },
+   {
+     title: "Other Reading Questions",
+@@ -930,6 +935,7 @@
+ 
+ const CLASS_6_7_BLOCK_SEQUENCE: readonly ContentBlockKind[] = CLASS_6_7_MODEL_QUESTION_KINDS;
+ const CLASS_6_7_BLOCK_LABELS: Partial<Record<ContentBlockKind, string>> = {
++  paragraph: "Unseen Passage",
+   "seen-passage-one": "Passage 1",
+   "question-answer": "Answering Questions",
+   "gap-fill-first-paper": "Fill in the Gaps",
+@@ -1333,6 +1339,21 @@
+       ),
+     [blocks],
+   );
++  const fixedPassageForKind = (kind: ContentBlockKind): BlockDraft | undefined => {
++    if (!classSixSevenModelQuestion) return undefined;
++    const parentKind = getFixedPassageParentKind(kind);
++    return parentKind ? blocks.find((entry) => entry.kind === parentKind) : undefined;
++  };
++  const fixedPassageBody = (kind: ContentBlockKind): string => {
++    const source = fixedPassageForKind(kind);
++    return source?.seenPassageOne?.body ?? source?.seenPassageTwo?.body ?? source?.paragraph?.body ?? "";
++  };
++  const fixedPassageMissing = (kind: ContentBlockKind): string | null => {
++    if (!classSixSevenModelQuestion) return null;
++    const parentKind = getFixedPassageParentKind(kind);
++    return parentKind && !occupiedPaperKinds.has(parentKind)
++      ? getFixedPassageLabel(parentKind) : null;
++  };
+   const displayBlockTitleForBlock = (block: BlockDraft) => {
+     const overriddenTitle = blockTitleOverrides?.[block.kind];
+     if (overriddenTitle) return overriddenTitle;
+@@ -1341,21 +1362,21 @@
+     return getBlockTitle(block.kind);
+   };
+   const paragraphPassageOptions = useMemo(
+-    () =>
+-      isSeenCompositionMode
+-        ? seenPassageBlocks.map((block) => {
+-            const isPassageOne = block.kind === "seen-passage-one";
+-            const body = isPassageOne ? block.seenPassageOne?.body || "" : block.seenPassageTwo?.body || "";
+-            return {
+-              id: block.id,
+-              label: `${isPassageOne ? "Passage" : "Passage 2"} — ${paragraphPreview(body)}`,
+-            };
+-          })
+-        : paragraphBlocks.map((block, index) => ({
+-            id: block.id,
+-            label: `Paragraph ${index + 1} — ${paragraphPreview(block.paragraph!.body)}`,
+-          })),
+-    [paragraphBlocks, seenPassageBlocks, isSeenCompositionMode],
++    () => {
++      const seenOptions = seenPassageBlocks.map((block) => ({
++        id: block.id,
++        label: `${block.kind === "seen-passage-one" ? "Passage 1" : "Passage 2"} — ${paragraphPreview(
++          block.kind === "seen-passage-one" ? block.seenPassageOne?.body || "" : block.seenPassageTwo?.body || ""
++        )}`,
++      }));
++      const paragraphOptions = paragraphBlocks.map((block, index) => ({
++        id: block.id,
++        label: `${classSixSevenModelQuestion ? "Unseen Passage" : `Paragraph ${index + 1}`} — ${paragraphPreview(block.paragraph!.body)}`,
++      }));
++      return classSixSevenModelQuestion ? [...seenOptions, ...paragraphOptions]
++        : isSeenCompositionMode ? seenOptions : paragraphOptions;
++    },
++    [paragraphBlocks, seenPassageBlocks, isSeenCompositionMode, classSixSevenModelQuestion],
+   );
+ 
+   const pathLabel = useMemo(() => {
+@@ -1555,6 +1576,11 @@
+     if (classSixSevenModelQuestion) {
+       if (!CLASS_6_7_BLOCK_SEQUENCE.includes(kind)) {
+         setActionError("This question type is not part of the Class 6/7 English 1st Paper layout.");
++        return;
++      }
++      const missing = fixedPassageMissing(kind);
++      if (missing) {
++        setActionError(`Add ${missing} before adding this question section.`);
+         return;
+       }
+       if (occupiedPaperKinds.has(kind) || creatingKindsRef.current.has(kind)) {
+@@ -3470,7 +3496,11 @@
+       ...patch,
+     };
+ 
+-    const nextDocumentJson = JSON.stringify({ rows: next.rows });
++    const fixedSourceBlockId = classSixSevenModelQuestion ? fixedPassageForKind("true-false")?.id : undefined;
++    const nextDocumentJson = JSON.stringify({
++      rows: next.rows,
++      ...(fixedSourceBlockId ? { passageSource: "paragraph", paragraphBlockId: fixedSourceBlockId } : {}),
++    });
+     const persisted = { ...next, documentJson: nextDocumentJson };
+ 
+     patchBlock(blockId, (block) => ({
+@@ -4122,18 +4152,19 @@
+                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                   {group.sections.flatMap((section) => section.kinds).map((kind) => {
+                     const exists = occupiedPaperKinds.has(kind);
++                    const missingParent = fixedPassageMissing(kind);
+                     const name = CLASS_6_7_BLOCK_LABELS[kind] ?? getBlockTitle(kind);
+                     return (
+                       <div key={kind} className="flex flex-col justify-between gap-3 rounded-xl border p-4">
+                         <div className="flex items-center gap-2">
+                           <span className="rounded-md border p-2">{getBlockIcon(kind)}</span>
+                           <span className="min-w-0 flex-1 text-sm font-medium">{name}</span>
+-                          <Badge variant="outline">{CLASS_6_7_BLOCK_SEQUENCE.indexOf(kind) + 1}</Badge>
++                          <Badge variant="outline">{getClassSixSevenQuestionNumber(kind) ?? "Source"}</Badge>
+                         </div>
+                         <Button type="button" className="w-full" variant={exists ? "outline" : "default"}
+-                          disabled={exists || isPending || creatingKind !== null}
++                          disabled={exists || Boolean(missingParent) || isPending || creatingKind !== null}
+                           onClick={() => void handleAddBlock(kind)}>
+-                          {exists ? "Added · Edit below" : creatingKind === kind ? "Adding..." : `Add ${name}`}
++                          {exists ? "Added · Edit below" : missingParent ? `Add ${missingParent} first` : creatingKind === kind ? "Adding..." : `Add ${name}`}
+                         </Button>
+                       </div>
+                     );
+@@ -4154,7 +4185,7 @@
+       <div className="flex justify-end">
+         <Button type="button" onClick={() => setIsChooserOpen(true)} disabled={isPending || allFixedPaperKindsUsed}>
+           <Plus className="mr-2 h-4 w-4" />
+-          {allFixedPaperKindsUsed ? "All 12 sections added" : "Add block"}
++          {allFixedPaperKindsUsed ? "All paper blocks added" : "Add block"}
+         </Button>
+       </div>
+ 
+@@ -4180,10 +4211,15 @@
+                     <div className="rounded-md border p-2">{getBlockIcon(block.kind)}</div>
+                     <CardTitle className="text-base">{displayBlockTitleForBlock(block)}</CardTitle>
+                     <Badge variant="secondary">#{classSixSevenModelQuestion && CLASS_6_7_BLOCK_SEQUENCE.includes(block.kind)
+-                      ? CLASS_6_7_BLOCK_SEQUENCE.indexOf(block.kind) + 1
++                      ? getClassSixSevenQuestionNumber(block.kind) ?? "Source"
+                       : chooserGroupMode === "model-question" ? index + 1 : block.sortOrder + 1}</Badge>
+                   </div>
+                   <CardDescription>Block type: {block.kind}</CardDescription>
++                  {classSixSevenModelQuestion && fixedPassageForKind(block.kind) ? (
++                    <CardDescription className="font-medium text-emerald-700 dark:text-emerald-400">
++                      Connected to {getFixedPassageLabel(getFixedPassageParentKind(block.kind)!)}
++                    </CardDescription>
++                  ) : null}
+                 </div>
+                 {!classSixSevenModelQuestion ? <div className="flex items-center gap-2">
+                   <Button type="button" variant="outline" size="icon">
+@@ -4224,6 +4260,21 @@
+                 />
+               </CardContent>
+ 
++              {classSixSevenModelQuestion && fixedPassageForKind(block.kind) ? (
++                <CardContent className="border-t pt-4">
++                  <div className="rounded-xl border bg-muted/30 p-4">
++                    <p className="text-sm font-semibold">
++                      Linked source: {getFixedPassageLabel(getFixedPassageParentKind(block.kind)!)}
++                    </p>
++                    <p className="mt-1 text-sm text-muted-foreground">
++                      {paragraphPreview(fixedPassageBody(block.kind), 200)}
++                    </p>
++                    <p className="mt-2 text-xs text-muted-foreground">
++                      Edit the source passage in its own section. The linked preview updates without copying or deleting the saved questions.
++                    </p>
++                  </div>
++                </CardContent>
++              ) : null}
+               {block.kind === "paragraph" && block.paragraph ? (
+                 <CardContent className={BLOCK_CONTENT_CLASS}>
+                   <Field>
+@@ -4233,7 +4284,7 @@
+                         value={block.paragraph.body}
+                         onChange={(value) => void handleParagraphChange(block.id, block.paragraph!.id, value)}
+                         minHeight={240}
+-                        placeholder="Write the paragraph here..."
++                        placeholder={classSixSevenModelQuestion ? "Write the Unseen Passage here..." : "Write the paragraph here..."}
+                       />
+                     </FieldContent>
+                   </Field>
+@@ -4487,6 +4538,7 @@
+                           <span>{isSeenCompositionMode ? "Use Passage" : "Use Paragraph block"}</span>
+                           <Switch
+                             checked={block.synonymsAntonyms.passageSource === "paragraph"}
++                              disabled={classSixSevenModelQuestion}
+                             onCheckedChange={(checked) =>
+                               void handleSynonymsAntonymsPassageChange(block.id, { passageSource: checked ? "paragraph" : "manual" })
+                             }
+@@ -4498,6 +4550,7 @@
+                         <div className="mt-3 space-y-2 rounded-xl border bg-muted/20 p-4">
+                           <FieldLabel>{isSeenCompositionMode ? "Passage" : "Paragraph"}</FieldLabel>
+                           <QuestionAnswerPassageCombobox
++                              disabled={classSixSevenModelQuestion}
+                             value={block.synonymsAntonyms.paragraphBlockId || ""}
+                             options={paragraphPassageOptions}
+                             onChange={(paragraphBlockId) =>
+@@ -4666,6 +4719,7 @@
+                             <span>Use Paragraph block</span>
+                             <Switch
+                               checked={block.mcqSection.passageSource === "paragraph"}
++                              disabled={classSixSevenModelQuestion}
+                               onCheckedChange={(checked) =>
+                                 void handleMcqSectionChange(block.id, { passageSource: checked ? "paragraph" : "manual" })
+                               }
+@@ -4676,6 +4730,7 @@
+                           <div className="mt-3 space-y-2 rounded-xl border bg-muted/20 p-4">
+                             <FieldLabel>Paragraph</FieldLabel>
+                             <QuestionAnswerPassageCombobox
++                              disabled={classSixSevenModelQuestion}
+                               value={block.mcqSection.paragraphBlockId || ""}
+                               options={paragraphPassageOptions}
+                               onChange={(paragraphBlockId) => void handleMcqSectionChange(block.id, { paragraphBlockId: paragraphBlockId || null })}
+@@ -4834,12 +4889,18 @@
+                     <Field>
+                       <FieldContent>
+                         <FieldLabel>Passage</FieldLabel>
+-                        <BufferedTextarea
+-                          value={block.trueFalseExercise.passage}
+-                          onCommit={(value) => void handleTrueFalseExerciseChange(block.id, { passage: value })}
+-                          placeholder="Write the passage here..."
+-                          rows={5}
+-                        />
++                        {classSixSevenModelQuestion ? (
++                          <p className="rounded-lg border bg-muted/20 p-3 text-sm text-muted-foreground">
++                            Uses Unseen Passage above. Edit that source block to update the linked preview.
++                          </p>
++                        ) : (
++                          <BufferedTextarea
++                            value={block.trueFalseExercise.passage}
++                            onCommit={(value) => void handleTrueFalseExerciseChange(block.id, { passage: value })}
++                            placeholder="Write the passage here..."
++                            rows={5}
++                          />
++                        )}
+                       </FieldContent>
+                     </Field>
+                   </FieldGroup>
+@@ -4956,6 +5017,7 @@
+                             <span>Use Paragraph block</span>
+                             <Switch
+                               checked={block.questionAnswerExercise.passageSource === "paragraph"}
++                              disabled={classSixSevenModelQuestion}
+                               onCheckedChange={(checked) =>
+                                 void handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, {
+                                   passageSource: checked ? "paragraph" : "manual",
+@@ -4969,6 +5031,7 @@
+                           <div className="space-y-2 rounded-xl border bg-muted/20 p-4">
+                             <FieldLabel>Paragraph</FieldLabel>
+                             <QuestionAnswerPassageCombobox
++                              disabled={classSixSevenModelQuestion}
+                               value={block.questionAnswerExercise.paragraphBlockId || ""}
+                               options={paragraphPassageOptions}
+                               onChange={(paragraphBlockId) =>
+@@ -6012,6 +6075,7 @@
+                             <span>Use Passage</span>
+                             <Switch
+                               checked={block.informationTransfer.passageSource === "paragraph"}
++                              disabled={classSixSevenModelQuestion}
+                               onCheckedChange={(checked) =>
+                                 void handleInformationTransferPassageChange(block.id, { passageSource: checked ? "paragraph" : "manual" })
+                               }
+@@ -6023,6 +6087,7 @@
+                           <div className="mt-3 space-y-2 rounded-xl border bg-muted/20 p-4">
+                             <FieldLabel>Passage</FieldLabel>
+                             <QuestionAnswerPassageCombobox
++                              disabled={classSixSevenModelQuestion}
+                               value={block.informationTransfer.paragraphBlockId || ""}
+                               options={paragraphPassageOptions}
+                               onChange={(paragraphBlockId) =>
+@@ -6462,6 +6527,7 @@
+                             <span>Use Paragraph block</span>
+                             <Switch
+                               checked={block.gapFillFirstPaper.passageSource === "paragraph"}
++                              disabled={classSixSevenModelQuestion}
+                               onCheckedChange={(checked) => void handleFillBlankFirstPaperChange(block.id, { passageSource: checked ? "paragraph" : "manual" })}
+                             />
+                           </label>
+@@ -6470,6 +6536,7 @@
+                           <div className="mt-3 space-y-2 rounded-xl border bg-muted/20 p-4">
+                             <FieldLabel>Paragraph</FieldLabel>
+                             <QuestionAnswerPassageCombobox
++                              disabled={classSixSevenModelQuestion}
+                               value={block.gapFillFirstPaper.paragraphBlockId || ""}
+                               options={paragraphPassageOptions}
+                               onChange={(paragraphBlockId) => void handleFillBlankFirstPaperChange(block.id, { paragraphBlockId: paragraphBlockId || null })}
+@@ -7198,7 +7265,7 @@
+             <div className="space-y-7">
+               {classSixSevenModelQuestion ? (
+                 <p className="text-sm text-muted-foreground">
+-                  Class 6–7 English 1st Paper · Twelve fixed block types in paper order.
++                  Class 6–7 English 1st Paper · 12 numbered questions plus one Unseen Passage source block, in fixed order.
+                   Each type can be added once. Existing sections are shown as disabled,
+                   and saved blocks keep their fixed position in the paper.
+                 </p>
+@@ -7232,7 +7299,7 @@
+                                     {classSixSevenModelQuestion ? CLASS_6_7_BLOCK_LABELS[item.kind] ?? item.title : item.title}
+                                   </CardTitle>
+                                   {classSixSevenModelQuestion ? (
+-                                    <Badge variant="outline">{CLASS_6_7_BLOCK_SEQUENCE.indexOf(item.kind) + 1}</Badge>
++                                    <Badge variant="outline">{getClassSixSevenQuestionNumber(item.kind) ?? "Source"}</Badge>
+                                   ) : null}
+                                 </div>
+                                 <CardDescription>{item.description}</CardDescription>
+@@ -7240,15 +7307,17 @@
+                               <CardContent>
+                                 <Button type="button" className="w-full"
+                                   variant={classSixSevenModelQuestion && occupiedPaperKinds.has(item.kind) ? "outline" : "default"}
+-                                  disabled={isPending || creatingKind !== null || (classSixSevenModelQuestion && occupiedPaperKinds.has(item.kind))}
++                                  disabled={isPending || creatingKind !== null || (classSixSevenModelQuestion && (occupiedPaperKinds.has(item.kind) || Boolean(fixedPassageMissing(item.kind))))}
+                                   onClick={() => {
+-                                    if (classSixSevenModelQuestion && occupiedPaperKinds.has(item.kind)) return;
++                                    if (classSixSevenModelQuestion && (occupiedPaperKinds.has(item.kind) || fixedPassageMissing(item.kind))) return;
+                                     void handleAddBlock(item.kind);
+                                     setIsChooserOpen(false);
+                                   }}>
+                                   {classSixSevenModelQuestion && occupiedPaperKinds.has(item.kind)
+                                     ? "Already added"
+-                                    : `Use ${classSixSevenModelQuestion ? CLASS_6_7_BLOCK_LABELS[item.kind] ?? item.title : item.title}`}
++                                    : classSixSevenModelQuestion && fixedPassageMissing(item.kind)
++                                      ? `Add ${fixedPassageMissing(item.kind)} first`
++                                      : `Use ${classSixSevenModelQuestion ? CLASS_6_7_BLOCK_LABELS[item.kind] ?? item.title : item.title}`}
+                                 </Button>
+                               </CardContent>
+                             </Card>
+diff --git a/app/admin/content/actions.ts b/app/admin/content/actions.ts
+--- a/app/admin/content/actions.ts
++++ b/app/admin/content/actions.ts
+@@ -6,7 +6,12 @@
+ 
+ import { requireAdmin, assertTrustedMutationOrigin } from "@/lib/app-auth";
+ import { isEnglishFirstPaperSubject } from "@/app/admin/content/navigation-helpers";
+-import { CLASS_6_7_MODEL_QUESTION_KINDS, isClassSixSevenEnglishFirstPaper } from "@/lib/model-question-fixed-blocks";
++import {
++  CLASS_6_7_MODEL_QUESTION_KINDS,
++  getFixedPassageParentKind,
++  getFixedPassageLabel,
++  isClassSixSevenEnglishFirstPaper,
++} from "@/lib/model-question-fixed-blocks";
+ import { logAudit } from "@/lib/auditLogger";
+ import { prisma } from "@/lib/db";
+ import { SEEN_PASSAGE_ONE_REF, SEEN_PASSAGE_TWO_REF, isSeenPassageRef } from "@/lib/seen-composition-passages";
+@@ -858,7 +863,7 @@
+     isClassSixSevenEnglishFirstPaper(modelQuestionSet.class.name, modelQuestionSet.subject));
+   const fixedKindPosition = CLASS_6_7_MODEL_QUESTION_KINDS.findIndex((kind) => kind === parsed.kind);
+   if (fixedClassSixSevenPaper && fixedKindPosition === -1) {
+-    throw new Error("Only the twelve fixed English 1st Paper question types can be added for Class 6/7.");
++    throw new Error("Only the thirteen fixed English 1st Paper question types can be added for Class 6/7.");
+   }
+ 
+   const block = await prisma.$transaction(async (tx) => {
+@@ -868,6 +873,19 @@
+       });
+       if (existing) throw new Error("This question section was already added. Edit the existing block instead.");
+     }
++    const parentKind = fixedClassSixSevenPaper ? getFixedPassageParentKind(parsed.kind) : null;
++    const passageParent = parentKind ? await tx.contentBlock.findFirst({
++      where: { contentId: parsed.contentId, kind: parentKind },
++      select: { id: true },
++    }) : null;
++    if (parentKind && !passageParent) {
++      throw new Error(`Add ${getFixedPassageLabel(parentKind)} before this question block.`);
++    }
++    const passageLink = passageParent ? {
++      passageSource: "paragraph" as const,
++      paragraphBlockId: passageParent.id,
++    } : {};
++
+     const latestBlock = await tx.contentBlock.aggregate({
+       where: { contentId: parsed.contentId },
+       _max: { sortOrder: true },
+@@ -933,7 +951,7 @@
+       case "synonyms-antonyms":
+         // Keep a new block empty until the validated Add row popup creates the
+         // first real entry.
+-        await tx.synonymsAntonyms.create({ data: baseData });
++        await tx.synonymsAntonyms.create({ data: { ...baseData, ...passageLink } });
+         break;
+ 
+       case "gap-fill":
+@@ -951,6 +969,7 @@
+         await tx.gapFillFirstPaper.create({
+           data: {
+             ...baseData,
++            ...passageLink,
+             question: "",
+             answer: "",
+             details: "",
+@@ -973,6 +992,7 @@
+         await tx.mcqSection.create({
+           data: {
+             ...baseData,
++            ...passageLink,
+             title: "Multiple choice questions",
+             description: "",
+             documentJson: JSON.stringify({
+@@ -989,7 +1009,7 @@
+             title: "True / False",
+             instruction: "Write your own statements based on the passage. If false, include the correct statement.",
+             passage: "",
+-            documentJson: JSON.stringify(createTrueFalseDocument()),
++            documentJson: JSON.stringify({ ...createTrueFalseDocument(), ...passageLink }),
+           },
+         });
+         break;
+@@ -1003,7 +1023,7 @@
+             question: "",
+             answer: "",
+             details: "",
+-            documentJson: JSON.stringify(createQuestionAnswerDocument()),
++            documentJson: JSON.stringify({ ...createQuestionAnswerDocument(), ...passageLink }),
+           },
+         });
+         break;
+@@ -1073,7 +1093,7 @@
+             question: "",
+             answer: "",
+             details: "",
+-            documentJson: JSON.stringify({ version: 2, rows: [] }),
++            documentJson: JSON.stringify({ version: 2, rows: [], ...passageLink }),
+           },
+         });
+         break;
+@@ -1096,6 +1116,7 @@
+         await tx.informationTransfer.create({
+           data: {
+             ...baseData,
++            ...passageLink,
+             question: "",
+             answer: "",
+             details: "",
+diff --git a/app/admin/content/[contentId]/page.tsx b/app/admin/content/[contentId]/page.tsx
+--- a/app/admin/content/[contentId]/page.tsx
++++ b/app/admin/content/[contentId]/page.tsx
+@@ -1,6 +1,6 @@
+ import { notFound } from "next/navigation";
+ import { isEnglishFirstPaperSubject, isEnglishSecondPaperSubject } from "@/app/admin/content/navigation-helpers";
+-import { CLASS_6_7_MODEL_QUESTION_KINDS, isClassSixSevenEnglishFirstPaper } from "@/lib/model-question-fixed-blocks";
++import { CLASS_6_7_MODEL_QUESTION_KINDS, getFixedPassageParentKind, isClassSixSevenEnglishFirstPaper } from "@/lib/model-question-fixed-blocks";
+ 
+ import { ContentBlocksEditorClient } from "@/app/admin/content/[contentId]/ContentBlocksEditorClient";
+ import { SeenCompositionTitleEditor } from "@/components/admin/SeenCompositionTitleEditor";
+@@ -970,6 +970,23 @@
+     return paragraphBlockId;
+   };
+ 
++  // Link earlier saved fixed-section questions to their parent source in the editor
++  // projection. This never overwrites or deletes pre-existing database fields.
++  const isFixedClassSixSevenModelQuestion = editorMode === "model-question" &&
++    isClassSixSevenEnglishFirstPaper(content.class.name, content.subject);
++  const fixedPassageSourceId = (kind: string): string | null => {
++    if (!isFixedClassSixSevenModelQuestion) return null;
++    const parentKind = getFixedPassageParentKind(kind);
++    return parentKind ? content.blocks.find((candidate) => candidate.kind === parentKind)?.id ?? null : null;
++  };
++  const fixedLinkedSource = (kind: string, savedSource: string, savedId: string | null) => {
++    const parentId = fixedPassageSourceId(kind);
++    return {
++      passageSource: parentId ? "paragraph" as const : savedSource === "paragraph" ? "paragraph" as const : "manual" as const,
++      paragraphBlockId: parentId ?? normalizeSeenPassageLink(savedId),
++    };
++  };
++
+   const typedContent: ContentRecordWithBlocks = {
+     ...content,
+     blocks: content.blocks.map((block) => ({
+@@ -978,22 +995,19 @@
+       vocabulary: block.vocabulary
+         ? {
+             ...block.vocabulary,
+-            passageSource: block.vocabulary.passageSource === "paragraph" ? "paragraph" as const : "manual" as const,
+-            paragraphBlockId: normalizeSeenPassageLink(block.vocabulary.paragraphBlockId || null),
++            ...fixedLinkedSource(block.kind, block.vocabulary.passageSource, block.vocabulary.paragraphBlockId || null),
+           }
+         : null,
+       synonymsAntonyms: block.synonymsAntonyms
+         ? {
+             ...block.synonymsAntonyms,
+-            passageSource: block.synonymsAntonyms.passageSource === "paragraph" ? "paragraph" as const : "manual" as const,
+-            paragraphBlockId: normalizeSeenPassageLink(block.synonymsAntonyms.paragraphBlockId || null),
++            ...fixedLinkedSource(block.kind, block.synonymsAntonyms.passageSource, block.synonymsAntonyms.paragraphBlockId || null),
+           }
+         : null,
+       mcqSection: block.mcqSection
+         ? {
+             ...block.mcqSection,
+-            passageSource: block.mcqSection.passageSource === "paragraph" ? "paragraph" as const : "manual" as const,
+-            paragraphBlockId: normalizeSeenPassageLink(block.mcqSection.paragraphBlockId || null),
++            ...fixedLinkedSource(block.kind, block.mcqSection.passageSource, block.mcqSection.paragraphBlockId || null),
+             questions: (parseMcqDocument(block.mcqSection.documentJson).questions || []).map((question) => ({
+               ...question,
+               options: question.options || [],
+@@ -1043,14 +1057,11 @@
+ 
+         return {
+           ...exercise,
+-          passageSource:
+-            block.kind === "question-answer" && questionAnswerDocument.passageSource === "paragraph"
+-              ? "paragraph" as const
+-              : "manual" as const,
+-          paragraphBlockId:
+-            block.kind === "question-answer" && typeof questionAnswerDocument.paragraphBlockId === "string"
+-              ? normalizeSeenPassageLink(questionAnswerDocument.paragraphBlockId)
+-              : null,
++          ...fixedLinkedSource(
++            block.kind,
++            block.kind === "question-answer" && questionAnswerDocument.passageSource === "paragraph" ? "paragraph" : "manual",
++            typeof questionAnswerDocument.paragraphBlockId === "string" ? questionAnswerDocument.paragraphBlockId : null,
++          ),
+           rows,
+           table: block.kind === "table-completion" || block.kind === "column-matching"
+             ? parseTableCompletionDocument(exercise.documentJson, exercise.id, block.kind === "column-matching")
+@@ -1074,8 +1085,7 @@
+             const normalized = normalizeInformationTransferRecord(block.informationTransfer);
+             return {
+               ...block.informationTransfer,
+-              passageSource: block.informationTransfer.passageSource === "paragraph" ? "paragraph" as const : "manual" as const,
+-              paragraphBlockId: normalizeSeenPassageLink(block.informationTransfer.paragraphBlockId || null),
++              ...fixedLinkedSource(block.kind, block.informationTransfer.passageSource, block.informationTransfer.paragraphBlockId || null),
+               question: normalized.question,
+               rows: normalized.rows,
+               blanks: normalized.blanks,
+@@ -1098,8 +1108,7 @@
+       gapFillFirstPaper: block.gapFillFirstPaper
+         ? {
+             ...block.gapFillFirstPaper,
+-            passageSource: block.gapFillFirstPaper.passageSource === "paragraph" ? "paragraph" as const : "manual" as const,
+-            paragraphBlockId: normalizeSeenPassageLink(block.gapFillFirstPaper.paragraphBlockId || null),
++            ...fixedLinkedSource(block.kind, block.gapFillFirstPaper.passageSource, block.gapFillFirstPaper.paragraphBlockId || null),
+             blanks: parseFillBlankAnswers(
+               block.gapFillFirstPaper.answer,
+               block.gapFillFirstPaper.question,
+@@ -1188,7 +1197,7 @@
+   const modelQuestionMode = editorMode === "model-question";
+   // Only model-question content for Class 6/7 English 1st Paper uses fixed slots.
+   // Existing blocks remain visible even if they predate this rule.
+-  const classSixSevenFirstPaper = modelQuestionMode && isClassSixSevenEnglishFirstPaper(content.class.name, content.subject);
++  const classSixSevenFirstPaper = isFixedClassSixSevenModelQuestion;
+   const classSixSevenKinds: ContentBlockKind[] = [...CLASS_6_7_MODEL_QUESTION_KINDS];
+   const modelQuestionKinds: ContentBlockKind[] = isEnglishSecondPaperSubject(content.subject)
+     ? [
+@@ -1248,6 +1257,7 @@
+         blockTitleOverrides={classSixSevenFirstPaper ? {
+           "seen-passage-one": "Passage 1",
+           "seen-passage-two": "Passage 2",
++          paragraph: "Unseen Passage",
+           "question-answer": "Answering Questions",
+         } : undefined}
+         initialChooserOpen={modelQuestionMode && addBlock === "1"}

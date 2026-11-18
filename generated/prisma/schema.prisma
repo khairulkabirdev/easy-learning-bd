@@ -367,6 +367,7 @@ model ContentBlock {
   punctuationAndCapitalization PunctuationAndCapitalization?
   preposition                  Preposition?
   suffixAndPrefix              SuffixAndPrefix?
+  partsOfSpeech                PartsOfSpeech?
   tagQuestion                  TagQuestion?
   connector                    Connector?
   seenPassageOne               SeenPassageOne?
@@ -425,10 +426,6 @@ model VocabularyEntry {
   id             String   @id @default(cuid())
   vocabularyId   String
   word           String   @default("")
-  partOfSpeech   String   @default("")
-  pronunciation  String   @default("")
-  synonyms       String   @default("")
-  antonyms       String   @default("")
   meaning        String   @default("")
   imageUrl       String   @default("")
   imagePath      String   @default("")
@@ -458,12 +455,6 @@ model StorageConfiguration {
   sessionTokenEncrypted    String    @default("")
   localRoot                String    @default("storage/private")
   forcePathStyle           Boolean   @default(false)
-  publicBaseUrl            String    @default("")
-  privateBucket            String    @default("")
-  maxImageSizeMb           Int       @default(20)
-  maxVideoSizeMb           Int       @default(1024)
-  maxModelSizeMb           Int       @default(500)
-  pathPrefix               String    @default("uploads")
   isActive                 Boolean   @default(false)
   everActivated            Boolean   @default(false)
   lastTestStatus           String    @default("unknown")
@@ -501,7 +492,6 @@ model UploadedFile {
   checksumSha256         String    @default("")
   status                 String    @default("active")
   isCurrent              Boolean   @default(true)
-  sortOrder              Int       @default(0)
   replacedAt             DateTime?
   deletedAt              DateTime?
   storageDeletedAt       DateTime?
@@ -1036,6 +1026,29 @@ model SuffixAndPrefix {
   @@index([organizationId, contentId])
 }
 
+model PartsOfSpeech {
+  id             String   @id @default(cuid())
+  contentBlockId String   @unique
+  contentId      String
+  classId        String
+  subjectId      String
+  unitId         String
+  lessonId       String
+  topicId        String?
+  question       String   @default("")
+  answer         String   @default("")
+  details        String   @default("")
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  contentBlock ContentBlock @relation(fields: [contentBlockId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, contentId])
+}
+
 model TagQuestion {
   id             String   @id @default(cuid())
   contentBlockId String   @unique
@@ -1193,10 +1206,31 @@ model SubjectEnglishSecondPaperBlock {
   @@index([organizationId, boardId, academicYearId])
 }
 
+// Subject-level Parts of Speech exercises are stored separately from other grammar sections.
+model SubjectPartsOfSpeechBlock {
+  id             String   @id @default(cuid())
+  classId        String
+  subjectId      String
+  kind           String   @default("parts-of-speech")
+  boardId        String?
+  academicYearId String?
+  title          String   @default("")
+  instruction    String   @default("")
+  details        String   @default("")
+  documentJson   String   @default("{}")
+  sortOrder      Int      @default(0)
+  organizationId String
+  createdBy      String
+  updatedBy      String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([organizationId, classId, subjectId, kind, sortOrder])
+  @@index([organizationId, boardId, academicYearId])
+}
+
 // Admin-only master data used for board/year setup.
 model Board {
-  modelQuestionImports ModelQuestionImport[]
-  modelQuestionSets    ModelQuestionSet[]
   id                   String                @id @default(cuid())
   name                 String
   isActive             Boolean               @default(true)
@@ -1205,14 +1239,14 @@ model Board {
   updatedBy            String
   createdAt            DateTime              @default(now())
   updatedAt            DateTime              @updatedAt
+  modelQuestionImports ModelQuestionImport[]
+  modelQuestionSets    ModelQuestionSet[]
 
   @@unique([organizationId, name])
   @@index([organizationId, isActive, name])
 }
 
 model AcademicYear {
-  modelQuestionImports ModelQuestionImport[]
-  modelQuestionSets    ModelQuestionSet[]
   id                   String                @id @default(cuid())
   year                 Int
   isActive             Boolean               @default(true)
@@ -1221,12 +1255,13 @@ model AcademicYear {
   updatedBy            String
   createdAt            DateTime              @default(now())
   updatedAt            DateTime              @updatedAt
+  modelQuestionImports ModelQuestionImport[]
+  modelQuestionSets    ModelQuestionSet[]
 
   @@unique([organizationId, year])
   @@index([organizationId, isActive, year])
 }
 
-// Private model-question source files and parsed question drafts (not published to students).
 model ModelQuestionImport {
   id             String   @id @default(cuid())
   classId        String
@@ -1254,8 +1289,6 @@ model ModelQuestionImport {
   @@index([organizationId, classId, subjectId, boardId, academicYearId])
 }
 
-// Editable model test sets are independent of legacy uploaded source records.
-// No existing ModelQuestionImport row or UploadedFile is rewritten by this feature.
 model ModelQuestionSet {
   id              String   @id @default(cuid())
   classId         String

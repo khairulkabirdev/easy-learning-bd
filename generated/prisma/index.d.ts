@@ -219,6 +219,11 @@ export type Preposition = $Result.DefaultSelection<Prisma.$PrepositionPayload>
  */
 export type SuffixAndPrefix = $Result.DefaultSelection<Prisma.$SuffixAndPrefixPayload>
 /**
+ * Model PartsOfSpeech
+ * 
+ */
+export type PartsOfSpeech = $Result.DefaultSelection<Prisma.$PartsOfSpeechPayload>
+/**
  * Model TagQuestion
  * 
  */
@@ -253,6 +258,11 @@ export type SubjectQuestionFromStoryBlock = $Result.DefaultSelection<Prisma.$Sub
  * 
  */
 export type SubjectEnglishSecondPaperBlock = $Result.DefaultSelection<Prisma.$SubjectEnglishSecondPaperBlockPayload>
+/**
+ * Model SubjectPartsOfSpeechBlock
+ * 
+ */
+export type SubjectPartsOfSpeechBlock = $Result.DefaultSelection<Prisma.$SubjectPartsOfSpeechBlockPayload>
 /**
  * Model Board
  * 
@@ -839,6 +849,16 @@ export class PrismaClient<
   get suffixAndPrefix(): Prisma.SuffixAndPrefixDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.partsOfSpeech`: Exposes CRUD operations for the **PartsOfSpeech** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PartsOfSpeeches
+    * const partsOfSpeeches = await prisma.partsOfSpeech.findMany()
+    * ```
+    */
+  get partsOfSpeech(): Prisma.PartsOfSpeechDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.tagQuestion`: Exposes CRUD operations for the **TagQuestion** model.
     * Example usage:
     * ```ts
@@ -907,6 +927,16 @@ export class PrismaClient<
     * ```
     */
   get subjectEnglishSecondPaperBlock(): Prisma.SubjectEnglishSecondPaperBlockDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.subjectPartsOfSpeechBlock`: Exposes CRUD operations for the **SubjectPartsOfSpeechBlock** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SubjectPartsOfSpeechBlocks
+    * const subjectPartsOfSpeechBlocks = await prisma.subjectPartsOfSpeechBlock.findMany()
+    * ```
+    */
+  get subjectPartsOfSpeechBlock(): Prisma.SubjectPartsOfSpeechBlockDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.board`: Exposes CRUD operations for the **Board** model.
@@ -1439,6 +1469,7 @@ export namespace Prisma {
     PunctuationAndCapitalization: 'PunctuationAndCapitalization',
     Preposition: 'Preposition',
     SuffixAndPrefix: 'SuffixAndPrefix',
+    PartsOfSpeech: 'PartsOfSpeech',
     TagQuestion: 'TagQuestion',
     Connector: 'Connector',
     SubjectMatchingSentencesBlock: 'SubjectMatchingSentencesBlock',
@@ -1446,6 +1477,7 @@ export namespace Prisma {
     SubjectQuestionFromPoemsBlock: 'SubjectQuestionFromPoemsBlock',
     SubjectQuestionFromStoryBlock: 'SubjectQuestionFromStoryBlock',
     SubjectEnglishSecondPaperBlock: 'SubjectEnglishSecondPaperBlock',
+    SubjectPartsOfSpeechBlock: 'SubjectPartsOfSpeechBlock',
     Board: 'Board',
     AcademicYear: 'AcademicYear',
     ModelQuestionImport: 'ModelQuestionImport',
@@ -1469,7 +1501,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "authSession" | "passwordResetToken" | "authEmailSetting" | "auditLog" | "class" | "subject" | "unit" | "lesson" | "topic" | "content" | "seenPassageOne" | "seenPassageTwo" | "unseenComposition" | "contentBlock" | "paragraph" | "vocabulary" | "vocabularyEntry" | "storageConfiguration" | "uploadedFile" | "synonymsAntonyms" | "synonymsAntonymsEntry" | "gapFillExercise" | "gapFillFirstPaper" | "gapFillSecondPaper" | "mcqSection" | "questionAnswerExercise" | "tableCompletionExercise" | "columnMatchingExercise" | "rearrangeSentenceExercise" | "questionFromPoems" | "questionFromStory" | "trueFalseExercise" | "informationTransfer" | "substitutionTable" | "rightFormOfVerb" | "narration" | "changingSentence" | "punctuationAndCapitalization" | "preposition" | "suffixAndPrefix" | "tagQuestion" | "connector" | "subjectMatchingSentencesBlock" | "subjectRearrangeSentenceBlock" | "subjectQuestionFromPoemsBlock" | "subjectQuestionFromStoryBlock" | "subjectEnglishSecondPaperBlock" | "board" | "academicYear" | "modelQuestionImport" | "modelQuestionSet" | "modelQuestionSetBlock"
+      modelProps: "user" | "authSession" | "passwordResetToken" | "authEmailSetting" | "auditLog" | "class" | "subject" | "unit" | "lesson" | "topic" | "content" | "seenPassageOne" | "seenPassageTwo" | "unseenComposition" | "contentBlock" | "paragraph" | "vocabulary" | "vocabularyEntry" | "storageConfiguration" | "uploadedFile" | "synonymsAntonyms" | "synonymsAntonymsEntry" | "gapFillExercise" | "gapFillFirstPaper" | "gapFillSecondPaper" | "mcqSection" | "questionAnswerExercise" | "tableCompletionExercise" | "columnMatchingExercise" | "rearrangeSentenceExercise" | "questionFromPoems" | "questionFromStory" | "trueFalseExercise" | "informationTransfer" | "substitutionTable" | "rightFormOfVerb" | "narration" | "changingSentence" | "punctuationAndCapitalization" | "preposition" | "suffixAndPrefix" | "partsOfSpeech" | "tagQuestion" | "connector" | "subjectMatchingSentencesBlock" | "subjectRearrangeSentenceBlock" | "subjectQuestionFromPoemsBlock" | "subjectQuestionFromStoryBlock" | "subjectEnglishSecondPaperBlock" | "subjectPartsOfSpeechBlock" | "board" | "academicYear" | "modelQuestionImport" | "modelQuestionSet" | "modelQuestionSetBlock"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4507,6 +4539,80 @@ export namespace Prisma {
           }
         }
       }
+      PartsOfSpeech: {
+        payload: Prisma.$PartsOfSpeechPayload<ExtArgs>
+        fields: Prisma.PartsOfSpeechFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PartsOfSpeechFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartsOfSpeechPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PartsOfSpeechFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartsOfSpeechPayload>
+          }
+          findFirst: {
+            args: Prisma.PartsOfSpeechFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartsOfSpeechPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PartsOfSpeechFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartsOfSpeechPayload>
+          }
+          findMany: {
+            args: Prisma.PartsOfSpeechFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartsOfSpeechPayload>[]
+          }
+          create: {
+            args: Prisma.PartsOfSpeechCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartsOfSpeechPayload>
+          }
+          createMany: {
+            args: Prisma.PartsOfSpeechCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PartsOfSpeechCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartsOfSpeechPayload>[]
+          }
+          delete: {
+            args: Prisma.PartsOfSpeechDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartsOfSpeechPayload>
+          }
+          update: {
+            args: Prisma.PartsOfSpeechUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartsOfSpeechPayload>
+          }
+          deleteMany: {
+            args: Prisma.PartsOfSpeechDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PartsOfSpeechUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PartsOfSpeechUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartsOfSpeechPayload>[]
+          }
+          upsert: {
+            args: Prisma.PartsOfSpeechUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartsOfSpeechPayload>
+          }
+          aggregate: {
+            args: Prisma.PartsOfSpeechAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePartsOfSpeech>
+          }
+          groupBy: {
+            args: Prisma.PartsOfSpeechGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PartsOfSpeechGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PartsOfSpeechCountArgs<ExtArgs>
+            result: $Utils.Optional<PartsOfSpeechCountAggregateOutputType> | number
+          }
+        }
+      }
       TagQuestion: {
         payload: Prisma.$TagQuestionPayload<ExtArgs>
         fields: Prisma.TagQuestionFieldRefs
@@ -5025,6 +5131,80 @@ export namespace Prisma {
           }
         }
       }
+      SubjectPartsOfSpeechBlock: {
+        payload: Prisma.$SubjectPartsOfSpeechBlockPayload<ExtArgs>
+        fields: Prisma.SubjectPartsOfSpeechBlockFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SubjectPartsOfSpeechBlockFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectPartsOfSpeechBlockPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SubjectPartsOfSpeechBlockFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectPartsOfSpeechBlockPayload>
+          }
+          findFirst: {
+            args: Prisma.SubjectPartsOfSpeechBlockFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectPartsOfSpeechBlockPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SubjectPartsOfSpeechBlockFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectPartsOfSpeechBlockPayload>
+          }
+          findMany: {
+            args: Prisma.SubjectPartsOfSpeechBlockFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectPartsOfSpeechBlockPayload>[]
+          }
+          create: {
+            args: Prisma.SubjectPartsOfSpeechBlockCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectPartsOfSpeechBlockPayload>
+          }
+          createMany: {
+            args: Prisma.SubjectPartsOfSpeechBlockCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SubjectPartsOfSpeechBlockCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectPartsOfSpeechBlockPayload>[]
+          }
+          delete: {
+            args: Prisma.SubjectPartsOfSpeechBlockDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectPartsOfSpeechBlockPayload>
+          }
+          update: {
+            args: Prisma.SubjectPartsOfSpeechBlockUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectPartsOfSpeechBlockPayload>
+          }
+          deleteMany: {
+            args: Prisma.SubjectPartsOfSpeechBlockDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SubjectPartsOfSpeechBlockUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SubjectPartsOfSpeechBlockUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectPartsOfSpeechBlockPayload>[]
+          }
+          upsert: {
+            args: Prisma.SubjectPartsOfSpeechBlockUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubjectPartsOfSpeechBlockPayload>
+          }
+          aggregate: {
+            args: Prisma.SubjectPartsOfSpeechBlockAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSubjectPartsOfSpeechBlock>
+          }
+          groupBy: {
+            args: Prisma.SubjectPartsOfSpeechBlockGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SubjectPartsOfSpeechBlockGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SubjectPartsOfSpeechBlockCountArgs<ExtArgs>
+            result: $Utils.Optional<SubjectPartsOfSpeechBlockCountAggregateOutputType> | number
+          }
+        }
+      }
       Board: {
         payload: Prisma.$BoardPayload<ExtArgs>
         fields: Prisma.BoardFieldRefs
@@ -5532,6 +5712,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationOmit
     preposition?: PrepositionOmit
     suffixAndPrefix?: SuffixAndPrefixOmit
+    partsOfSpeech?: PartsOfSpeechOmit
     tagQuestion?: TagQuestionOmit
     connector?: ConnectorOmit
     subjectMatchingSentencesBlock?: SubjectMatchingSentencesBlockOmit
@@ -5539,6 +5720,7 @@ export namespace Prisma {
     subjectQuestionFromPoemsBlock?: SubjectQuestionFromPoemsBlockOmit
     subjectQuestionFromStoryBlock?: SubjectQuestionFromStoryBlockOmit
     subjectEnglishSecondPaperBlock?: SubjectEnglishSecondPaperBlockOmit
+    subjectPartsOfSpeechBlock?: SubjectPartsOfSpeechBlockOmit
     board?: BoardOmit
     academicYear?: AcademicYearOmit
     modelQuestionImport?: ModelQuestionImportOmit
@@ -23480,6 +23662,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: boolean | ContentBlock$punctuationAndCapitalizationArgs<ExtArgs>
     preposition?: boolean | ContentBlock$prepositionArgs<ExtArgs>
     suffixAndPrefix?: boolean | ContentBlock$suffixAndPrefixArgs<ExtArgs>
+    partsOfSpeech?: boolean | ContentBlock$partsOfSpeechArgs<ExtArgs>
     tagQuestion?: boolean | ContentBlock$tagQuestionArgs<ExtArgs>
     connector?: boolean | ContentBlock$connectorArgs<ExtArgs>
     seenPassageOne?: boolean | ContentBlock$seenPassageOneArgs<ExtArgs>
@@ -23546,6 +23729,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: boolean | ContentBlock$punctuationAndCapitalizationArgs<ExtArgs>
     preposition?: boolean | ContentBlock$prepositionArgs<ExtArgs>
     suffixAndPrefix?: boolean | ContentBlock$suffixAndPrefixArgs<ExtArgs>
+    partsOfSpeech?: boolean | ContentBlock$partsOfSpeechArgs<ExtArgs>
     tagQuestion?: boolean | ContentBlock$tagQuestionArgs<ExtArgs>
     connector?: boolean | ContentBlock$connectorArgs<ExtArgs>
     seenPassageOne?: boolean | ContentBlock$seenPassageOneArgs<ExtArgs>
@@ -23584,6 +23768,7 @@ export namespace Prisma {
       punctuationAndCapitalization: Prisma.$PunctuationAndCapitalizationPayload<ExtArgs> | null
       preposition: Prisma.$PrepositionPayload<ExtArgs> | null
       suffixAndPrefix: Prisma.$SuffixAndPrefixPayload<ExtArgs> | null
+      partsOfSpeech: Prisma.$PartsOfSpeechPayload<ExtArgs> | null
       tagQuestion: Prisma.$TagQuestionPayload<ExtArgs> | null
       connector: Prisma.$ConnectorPayload<ExtArgs> | null
       seenPassageOne: Prisma.$SeenPassageOnePayload<ExtArgs> | null
@@ -24015,6 +24200,7 @@ export namespace Prisma {
     punctuationAndCapitalization<T extends ContentBlock$punctuationAndCapitalizationArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$punctuationAndCapitalizationArgs<ExtArgs>>): Prisma__PunctuationAndCapitalizationClient<$Result.GetResult<Prisma.$PunctuationAndCapitalizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     preposition<T extends ContentBlock$prepositionArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$prepositionArgs<ExtArgs>>): Prisma__PrepositionClient<$Result.GetResult<Prisma.$PrepositionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     suffixAndPrefix<T extends ContentBlock$suffixAndPrefixArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$suffixAndPrefixArgs<ExtArgs>>): Prisma__SuffixAndPrefixClient<$Result.GetResult<Prisma.$SuffixAndPrefixPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    partsOfSpeech<T extends ContentBlock$partsOfSpeechArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$partsOfSpeechArgs<ExtArgs>>): Prisma__PartsOfSpeechClient<$Result.GetResult<Prisma.$PartsOfSpeechPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     tagQuestion<T extends ContentBlock$tagQuestionArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$tagQuestionArgs<ExtArgs>>): Prisma__TagQuestionClient<$Result.GetResult<Prisma.$TagQuestionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     connector<T extends ContentBlock$connectorArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$connectorArgs<ExtArgs>>): Prisma__ConnectorClient<$Result.GetResult<Prisma.$ConnectorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     seenPassageOne<T extends ContentBlock$seenPassageOneArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlock$seenPassageOneArgs<ExtArgs>>): Prisma__SeenPassageOneClient<$Result.GetResult<Prisma.$SeenPassageOnePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -24865,6 +25051,25 @@ export namespace Prisma {
      */
     include?: SuffixAndPrefixInclude<ExtArgs> | null
     where?: SuffixAndPrefixWhereInput
+  }
+
+  /**
+   * ContentBlock.partsOfSpeech
+   */
+  export type ContentBlock$partsOfSpeechArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartsOfSpeech
+     */
+    select?: PartsOfSpeechSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartsOfSpeech
+     */
+    omit?: PartsOfSpeechOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartsOfSpeechInclude<ExtArgs> | null
+    where?: PartsOfSpeechWhereInput
   }
 
   /**
@@ -27388,10 +27593,6 @@ export namespace Prisma {
     id: string | null
     vocabularyId: string | null
     word: string | null
-    partOfSpeech: string | null
-    pronunciation: string | null
-    synonyms: string | null
-    antonyms: string | null
     meaning: string | null
     imageUrl: string | null
     imagePath: string | null
@@ -27407,10 +27608,6 @@ export namespace Prisma {
     id: string | null
     vocabularyId: string | null
     word: string | null
-    partOfSpeech: string | null
-    pronunciation: string | null
-    synonyms: string | null
-    antonyms: string | null
     meaning: string | null
     imageUrl: string | null
     imagePath: string | null
@@ -27426,10 +27623,6 @@ export namespace Prisma {
     id: number
     vocabularyId: number
     word: number
-    partOfSpeech: number
-    pronunciation: number
-    synonyms: number
-    antonyms: number
     meaning: number
     imageUrl: number
     imagePath: number
@@ -27455,10 +27648,6 @@ export namespace Prisma {
     id?: true
     vocabularyId?: true
     word?: true
-    partOfSpeech?: true
-    pronunciation?: true
-    synonyms?: true
-    antonyms?: true
     meaning?: true
     imageUrl?: true
     imagePath?: true
@@ -27474,10 +27663,6 @@ export namespace Prisma {
     id?: true
     vocabularyId?: true
     word?: true
-    partOfSpeech?: true
-    pronunciation?: true
-    synonyms?: true
-    antonyms?: true
     meaning?: true
     imageUrl?: true
     imagePath?: true
@@ -27493,10 +27678,6 @@ export namespace Prisma {
     id?: true
     vocabularyId?: true
     word?: true
-    partOfSpeech?: true
-    pronunciation?: true
-    synonyms?: true
-    antonyms?: true
     meaning?: true
     imageUrl?: true
     imagePath?: true
@@ -27599,10 +27780,6 @@ export namespace Prisma {
     id: string
     vocabularyId: string
     word: string
-    partOfSpeech: string
-    pronunciation: string
-    synonyms: string
-    antonyms: string
     meaning: string
     imageUrl: string
     imagePath: string
@@ -27637,10 +27814,6 @@ export namespace Prisma {
     id?: boolean
     vocabularyId?: boolean
     word?: boolean
-    partOfSpeech?: boolean
-    pronunciation?: boolean
-    synonyms?: boolean
-    antonyms?: boolean
     meaning?: boolean
     imageUrl?: boolean
     imagePath?: boolean
@@ -27659,10 +27832,6 @@ export namespace Prisma {
     id?: boolean
     vocabularyId?: boolean
     word?: boolean
-    partOfSpeech?: boolean
-    pronunciation?: boolean
-    synonyms?: boolean
-    antonyms?: boolean
     meaning?: boolean
     imageUrl?: boolean
     imagePath?: boolean
@@ -27679,10 +27848,6 @@ export namespace Prisma {
     id?: boolean
     vocabularyId?: boolean
     word?: boolean
-    partOfSpeech?: boolean
-    pronunciation?: boolean
-    synonyms?: boolean
-    antonyms?: boolean
     meaning?: boolean
     imageUrl?: boolean
     imagePath?: boolean
@@ -27699,10 +27864,6 @@ export namespace Prisma {
     id?: boolean
     vocabularyId?: boolean
     word?: boolean
-    partOfSpeech?: boolean
-    pronunciation?: boolean
-    synonyms?: boolean
-    antonyms?: boolean
     meaning?: boolean
     imageUrl?: boolean
     imagePath?: boolean
@@ -27714,7 +27875,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type VocabularyEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vocabularyId" | "word" | "partOfSpeech" | "pronunciation" | "synonyms" | "antonyms" | "meaning" | "imageUrl" | "imagePath" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["vocabularyEntry"]>
+  export type VocabularyEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vocabularyId" | "word" | "meaning" | "imageUrl" | "imagePath" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["vocabularyEntry"]>
   export type VocabularyEntryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vocabulary?: boolean | VocabularyDefaultArgs<ExtArgs>
     uploadedFiles?: boolean | VocabularyEntry$uploadedFilesArgs<ExtArgs>
@@ -27737,10 +27898,6 @@ export namespace Prisma {
       id: string
       vocabularyId: string
       word: string
-      partOfSpeech: string
-      pronunciation: string
-      synonyms: string
-      antonyms: string
       meaning: string
       imageUrl: string
       imagePath: string
@@ -28178,10 +28335,6 @@ export namespace Prisma {
     readonly id: FieldRef<"VocabularyEntry", 'String'>
     readonly vocabularyId: FieldRef<"VocabularyEntry", 'String'>
     readonly word: FieldRef<"VocabularyEntry", 'String'>
-    readonly partOfSpeech: FieldRef<"VocabularyEntry", 'String'>
-    readonly pronunciation: FieldRef<"VocabularyEntry", 'String'>
-    readonly synonyms: FieldRef<"VocabularyEntry", 'String'>
-    readonly antonyms: FieldRef<"VocabularyEntry", 'String'>
     readonly meaning: FieldRef<"VocabularyEntry", 'String'>
     readonly imageUrl: FieldRef<"VocabularyEntry", 'String'>
     readonly imagePath: FieldRef<"VocabularyEntry", 'String'>
@@ -28633,22 +28786,8 @@ export namespace Prisma {
 
   export type AggregateStorageConfiguration = {
     _count: StorageConfigurationCountAggregateOutputType | null
-    _avg: StorageConfigurationAvgAggregateOutputType | null
-    _sum: StorageConfigurationSumAggregateOutputType | null
     _min: StorageConfigurationMinAggregateOutputType | null
     _max: StorageConfigurationMaxAggregateOutputType | null
-  }
-
-  export type StorageConfigurationAvgAggregateOutputType = {
-    maxImageSizeMb: number | null
-    maxVideoSizeMb: number | null
-    maxModelSizeMb: number | null
-  }
-
-  export type StorageConfigurationSumAggregateOutputType = {
-    maxImageSizeMb: number | null
-    maxVideoSizeMb: number | null
-    maxModelSizeMb: number | null
   }
 
   export type StorageConfigurationMinAggregateOutputType = {
@@ -28663,12 +28802,6 @@ export namespace Prisma {
     sessionTokenEncrypted: string | null
     localRoot: string | null
     forcePathStyle: boolean | null
-    publicBaseUrl: string | null
-    privateBucket: string | null
-    maxImageSizeMb: number | null
-    maxVideoSizeMb: number | null
-    maxModelSizeMb: number | null
-    pathPrefix: string | null
     isActive: boolean | null
     everActivated: boolean | null
     lastTestStatus: string | null
@@ -28693,12 +28826,6 @@ export namespace Prisma {
     sessionTokenEncrypted: string | null
     localRoot: string | null
     forcePathStyle: boolean | null
-    publicBaseUrl: string | null
-    privateBucket: string | null
-    maxImageSizeMb: number | null
-    maxVideoSizeMb: number | null
-    maxModelSizeMb: number | null
-    pathPrefix: string | null
     isActive: boolean | null
     everActivated: boolean | null
     lastTestStatus: string | null
@@ -28723,12 +28850,6 @@ export namespace Prisma {
     sessionTokenEncrypted: number
     localRoot: number
     forcePathStyle: number
-    publicBaseUrl: number
-    privateBucket: number
-    maxImageSizeMb: number
-    maxVideoSizeMb: number
-    maxModelSizeMb: number
-    pathPrefix: number
     isActive: number
     everActivated: number
     lastTestStatus: number
@@ -28743,18 +28864,6 @@ export namespace Prisma {
   }
 
 
-  export type StorageConfigurationAvgAggregateInputType = {
-    maxImageSizeMb?: true
-    maxVideoSizeMb?: true
-    maxModelSizeMb?: true
-  }
-
-  export type StorageConfigurationSumAggregateInputType = {
-    maxImageSizeMb?: true
-    maxVideoSizeMb?: true
-    maxModelSizeMb?: true
-  }
-
   export type StorageConfigurationMinAggregateInputType = {
     id?: true
     name?: true
@@ -28767,12 +28876,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: true
     localRoot?: true
     forcePathStyle?: true
-    publicBaseUrl?: true
-    privateBucket?: true
-    maxImageSizeMb?: true
-    maxVideoSizeMb?: true
-    maxModelSizeMb?: true
-    pathPrefix?: true
     isActive?: true
     everActivated?: true
     lastTestStatus?: true
@@ -28797,12 +28900,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: true
     localRoot?: true
     forcePathStyle?: true
-    publicBaseUrl?: true
-    privateBucket?: true
-    maxImageSizeMb?: true
-    maxVideoSizeMb?: true
-    maxModelSizeMb?: true
-    pathPrefix?: true
     isActive?: true
     everActivated?: true
     lastTestStatus?: true
@@ -28827,12 +28924,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: true
     localRoot?: true
     forcePathStyle?: true
-    publicBaseUrl?: true
-    privateBucket?: true
-    maxImageSizeMb?: true
-    maxVideoSizeMb?: true
-    maxModelSizeMb?: true
-    pathPrefix?: true
     isActive?: true
     everActivated?: true
     lastTestStatus?: true
@@ -28884,18 +28975,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: StorageConfigurationAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: StorageConfigurationSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: StorageConfigurationMinAggregateInputType
@@ -28926,8 +29005,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: StorageConfigurationCountAggregateInputType | true
-    _avg?: StorageConfigurationAvgAggregateInputType
-    _sum?: StorageConfigurationSumAggregateInputType
     _min?: StorageConfigurationMinAggregateInputType
     _max?: StorageConfigurationMaxAggregateInputType
   }
@@ -28944,12 +29021,6 @@ export namespace Prisma {
     sessionTokenEncrypted: string
     localRoot: string
     forcePathStyle: boolean
-    publicBaseUrl: string
-    privateBucket: string
-    maxImageSizeMb: number
-    maxVideoSizeMb: number
-    maxModelSizeMb: number
-    pathPrefix: string
     isActive: boolean
     everActivated: boolean
     lastTestStatus: string
@@ -28961,8 +29032,6 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     _count: StorageConfigurationCountAggregateOutputType | null
-    _avg: StorageConfigurationAvgAggregateOutputType | null
-    _sum: StorageConfigurationSumAggregateOutputType | null
     _min: StorageConfigurationMinAggregateOutputType | null
     _max: StorageConfigurationMaxAggregateOutputType | null
   }
@@ -28993,12 +29062,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: boolean
     localRoot?: boolean
     forcePathStyle?: boolean
-    publicBaseUrl?: boolean
-    privateBucket?: boolean
-    maxImageSizeMb?: boolean
-    maxVideoSizeMb?: boolean
-    maxModelSizeMb?: boolean
-    pathPrefix?: boolean
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: boolean
@@ -29025,12 +29088,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: boolean
     localRoot?: boolean
     forcePathStyle?: boolean
-    publicBaseUrl?: boolean
-    privateBucket?: boolean
-    maxImageSizeMb?: boolean
-    maxVideoSizeMb?: boolean
-    maxModelSizeMb?: boolean
-    pathPrefix?: boolean
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: boolean
@@ -29055,12 +29112,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: boolean
     localRoot?: boolean
     forcePathStyle?: boolean
-    publicBaseUrl?: boolean
-    privateBucket?: boolean
-    maxImageSizeMb?: boolean
-    maxVideoSizeMb?: boolean
-    maxModelSizeMb?: boolean
-    pathPrefix?: boolean
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: boolean
@@ -29085,12 +29136,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: boolean
     localRoot?: boolean
     forcePathStyle?: boolean
-    publicBaseUrl?: boolean
-    privateBucket?: boolean
-    maxImageSizeMb?: boolean
-    maxVideoSizeMb?: boolean
-    maxModelSizeMb?: boolean
-    pathPrefix?: boolean
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: boolean
@@ -29103,7 +29148,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type StorageConfigurationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "provider" | "endpoint" | "region" | "bucket" | "accessKeyId" | "secretAccessKeyEncrypted" | "sessionTokenEncrypted" | "localRoot" | "forcePathStyle" | "publicBaseUrl" | "privateBucket" | "maxImageSizeMb" | "maxVideoSizeMb" | "maxModelSizeMb" | "pathPrefix" | "isActive" | "everActivated" | "lastTestStatus" | "lastTestMessage" | "lastTestedAt" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["storageConfiguration"]>
+  export type StorageConfigurationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "provider" | "endpoint" | "region" | "bucket" | "accessKeyId" | "secretAccessKeyEncrypted" | "sessionTokenEncrypted" | "localRoot" | "forcePathStyle" | "isActive" | "everActivated" | "lastTestStatus" | "lastTestMessage" | "lastTestedAt" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["storageConfiguration"]>
   export type StorageConfigurationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     uploadedFiles?: boolean | StorageConfiguration$uploadedFilesArgs<ExtArgs>
     _count?: boolean | StorageConfigurationCountOutputTypeDefaultArgs<ExtArgs>
@@ -29128,12 +29173,6 @@ export namespace Prisma {
       sessionTokenEncrypted: string
       localRoot: string
       forcePathStyle: boolean
-      publicBaseUrl: string
-      privateBucket: string
-      maxImageSizeMb: number
-      maxVideoSizeMb: number
-      maxModelSizeMb: number
-      pathPrefix: string
       isActive: boolean
       everActivated: boolean
       lastTestStatus: string
@@ -29579,12 +29618,6 @@ export namespace Prisma {
     readonly sessionTokenEncrypted: FieldRef<"StorageConfiguration", 'String'>
     readonly localRoot: FieldRef<"StorageConfiguration", 'String'>
     readonly forcePathStyle: FieldRef<"StorageConfiguration", 'Boolean'>
-    readonly publicBaseUrl: FieldRef<"StorageConfiguration", 'String'>
-    readonly privateBucket: FieldRef<"StorageConfiguration", 'String'>
-    readonly maxImageSizeMb: FieldRef<"StorageConfiguration", 'Int'>
-    readonly maxVideoSizeMb: FieldRef<"StorageConfiguration", 'Int'>
-    readonly maxModelSizeMb: FieldRef<"StorageConfiguration", 'Int'>
-    readonly pathPrefix: FieldRef<"StorageConfiguration", 'String'>
     readonly isActive: FieldRef<"StorageConfiguration", 'Boolean'>
     readonly everActivated: FieldRef<"StorageConfiguration", 'Boolean'>
     readonly lastTestStatus: FieldRef<"StorageConfiguration", 'String'>
@@ -30039,14 +30072,12 @@ export namespace Prisma {
     sizeBytes: number | null
     width: number | null
     height: number | null
-    sortOrder: number | null
   }
 
   export type UploadedFileSumAggregateOutputType = {
     sizeBytes: number | null
     width: number | null
     height: number | null
-    sortOrder: number | null
   }
 
   export type UploadedFileMinAggregateOutputType = {
@@ -30068,7 +30099,6 @@ export namespace Prisma {
     checksumSha256: string | null
     status: string | null
     isCurrent: boolean | null
-    sortOrder: number | null
     replacedAt: Date | null
     deletedAt: Date | null
     storageDeletedAt: Date | null
@@ -30098,7 +30128,6 @@ export namespace Prisma {
     checksumSha256: string | null
     status: string | null
     isCurrent: boolean | null
-    sortOrder: number | null
     replacedAt: Date | null
     deletedAt: Date | null
     storageDeletedAt: Date | null
@@ -30128,7 +30157,6 @@ export namespace Prisma {
     checksumSha256: number
     status: number
     isCurrent: number
-    sortOrder: number
     replacedAt: number
     deletedAt: number
     storageDeletedAt: number
@@ -30145,14 +30173,12 @@ export namespace Prisma {
     sizeBytes?: true
     width?: true
     height?: true
-    sortOrder?: true
   }
 
   export type UploadedFileSumAggregateInputType = {
     sizeBytes?: true
     width?: true
     height?: true
-    sortOrder?: true
   }
 
   export type UploadedFileMinAggregateInputType = {
@@ -30174,7 +30200,6 @@ export namespace Prisma {
     checksumSha256?: true
     status?: true
     isCurrent?: true
-    sortOrder?: true
     replacedAt?: true
     deletedAt?: true
     storageDeletedAt?: true
@@ -30204,7 +30229,6 @@ export namespace Prisma {
     checksumSha256?: true
     status?: true
     isCurrent?: true
-    sortOrder?: true
     replacedAt?: true
     deletedAt?: true
     storageDeletedAt?: true
@@ -30234,7 +30258,6 @@ export namespace Prisma {
     checksumSha256?: true
     status?: true
     isCurrent?: true
-    sortOrder?: true
     replacedAt?: true
     deletedAt?: true
     storageDeletedAt?: true
@@ -30351,7 +30374,6 @@ export namespace Prisma {
     checksumSha256: string
     status: string
     isCurrent: boolean
-    sortOrder: number
     replacedAt: Date | null
     deletedAt: Date | null
     storageDeletedAt: Date | null
@@ -30400,7 +30422,6 @@ export namespace Prisma {
     checksumSha256?: boolean
     status?: boolean
     isCurrent?: boolean
-    sortOrder?: boolean
     replacedAt?: boolean
     deletedAt?: boolean
     storageDeletedAt?: boolean
@@ -30433,7 +30454,6 @@ export namespace Prisma {
     checksumSha256?: boolean
     status?: boolean
     isCurrent?: boolean
-    sortOrder?: boolean
     replacedAt?: boolean
     deletedAt?: boolean
     storageDeletedAt?: boolean
@@ -30465,7 +30485,6 @@ export namespace Prisma {
     checksumSha256?: boolean
     status?: boolean
     isCurrent?: boolean
-    sortOrder?: boolean
     replacedAt?: boolean
     deletedAt?: boolean
     storageDeletedAt?: boolean
@@ -30497,7 +30516,6 @@ export namespace Prisma {
     checksumSha256?: boolean
     status?: boolean
     isCurrent?: boolean
-    sortOrder?: boolean
     replacedAt?: boolean
     deletedAt?: boolean
     storageDeletedAt?: boolean
@@ -30508,7 +30526,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UploadedFileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purpose" | "ownerType" | "ownerId" | "vocabularyEntryId" | "storageConfigurationId" | "url" | "path" | "originalName" | "sourceMimeType" | "mimeType" | "extension" | "sizeBytes" | "width" | "height" | "checksumSha256" | "status" | "isCurrent" | "sortOrder" | "replacedAt" | "deletedAt" | "storageDeletedAt" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["uploadedFile"]>
+  export type UploadedFileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purpose" | "ownerType" | "ownerId" | "vocabularyEntryId" | "storageConfigurationId" | "url" | "path" | "originalName" | "sourceMimeType" | "mimeType" | "extension" | "sizeBytes" | "width" | "height" | "checksumSha256" | "status" | "isCurrent" | "replacedAt" | "deletedAt" | "storageDeletedAt" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["uploadedFile"]>
   export type UploadedFileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vocabularyEntry?: boolean | UploadedFile$vocabularyEntryArgs<ExtArgs>
     storageConfiguration?: boolean | UploadedFile$storageConfigurationArgs<ExtArgs>
@@ -30549,7 +30567,6 @@ export namespace Prisma {
       checksumSha256: string
       status: string
       isCurrent: boolean
-      sortOrder: number
       replacedAt: Date | null
       deletedAt: Date | null
       storageDeletedAt: Date | null
@@ -31002,7 +31019,6 @@ export namespace Prisma {
     readonly checksumSha256: FieldRef<"UploadedFile", 'String'>
     readonly status: FieldRef<"UploadedFile", 'String'>
     readonly isCurrent: FieldRef<"UploadedFile", 'Boolean'>
-    readonly sortOrder: FieldRef<"UploadedFile", 'Int'>
     readonly replacedAt: FieldRef<"UploadedFile", 'DateTime'>
     readonly deletedAt: FieldRef<"UploadedFile", 'DateTime'>
     readonly storageDeletedAt: FieldRef<"UploadedFile", 'DateTime'>
@@ -57101,6 +57117,1205 @@ export namespace Prisma {
 
 
   /**
+   * Model PartsOfSpeech
+   */
+
+  export type AggregatePartsOfSpeech = {
+    _count: PartsOfSpeechCountAggregateOutputType | null
+    _min: PartsOfSpeechMinAggregateOutputType | null
+    _max: PartsOfSpeechMaxAggregateOutputType | null
+  }
+
+  export type PartsOfSpeechMinAggregateOutputType = {
+    id: string | null
+    contentBlockId: string | null
+    contentId: string | null
+    classId: string | null
+    subjectId: string | null
+    unitId: string | null
+    lessonId: string | null
+    topicId: string | null
+    question: string | null
+    answer: string | null
+    details: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PartsOfSpeechMaxAggregateOutputType = {
+    id: string | null
+    contentBlockId: string | null
+    contentId: string | null
+    classId: string | null
+    subjectId: string | null
+    unitId: string | null
+    lessonId: string | null
+    topicId: string | null
+    question: string | null
+    answer: string | null
+    details: string | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PartsOfSpeechCountAggregateOutputType = {
+    id: number
+    contentBlockId: number
+    contentId: number
+    classId: number
+    subjectId: number
+    unitId: number
+    lessonId: number
+    topicId: number
+    question: number
+    answer: number
+    details: number
+    organizationId: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PartsOfSpeechMinAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    question?: true
+    answer?: true
+    details?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PartsOfSpeechMaxAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    question?: true
+    answer?: true
+    details?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PartsOfSpeechCountAggregateInputType = {
+    id?: true
+    contentBlockId?: true
+    contentId?: true
+    classId?: true
+    subjectId?: true
+    unitId?: true
+    lessonId?: true
+    topicId?: true
+    question?: true
+    answer?: true
+    details?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PartsOfSpeechAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PartsOfSpeech to aggregate.
+     */
+    where?: PartsOfSpeechWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PartsOfSpeeches to fetch.
+     */
+    orderBy?: PartsOfSpeechOrderByWithRelationInput | PartsOfSpeechOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PartsOfSpeechWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PartsOfSpeeches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PartsOfSpeeches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PartsOfSpeeches
+    **/
+    _count?: true | PartsOfSpeechCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PartsOfSpeechMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PartsOfSpeechMaxAggregateInputType
+  }
+
+  export type GetPartsOfSpeechAggregateType<T extends PartsOfSpeechAggregateArgs> = {
+        [P in keyof T & keyof AggregatePartsOfSpeech]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePartsOfSpeech[P]>
+      : GetScalarType<T[P], AggregatePartsOfSpeech[P]>
+  }
+
+
+
+
+  export type PartsOfSpeechGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PartsOfSpeechWhereInput
+    orderBy?: PartsOfSpeechOrderByWithAggregationInput | PartsOfSpeechOrderByWithAggregationInput[]
+    by: PartsOfSpeechScalarFieldEnum[] | PartsOfSpeechScalarFieldEnum
+    having?: PartsOfSpeechScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PartsOfSpeechCountAggregateInputType | true
+    _min?: PartsOfSpeechMinAggregateInputType
+    _max?: PartsOfSpeechMaxAggregateInputType
+  }
+
+  export type PartsOfSpeechGroupByOutputType = {
+    id: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId: string | null
+    question: string
+    answer: string
+    details: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: PartsOfSpeechCountAggregateOutputType | null
+    _min: PartsOfSpeechMinAggregateOutputType | null
+    _max: PartsOfSpeechMaxAggregateOutputType | null
+  }
+
+  type GetPartsOfSpeechGroupByPayload<T extends PartsOfSpeechGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PartsOfSpeechGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PartsOfSpeechGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PartsOfSpeechGroupByOutputType[P]>
+            : GetScalarType<T[P], PartsOfSpeechGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PartsOfSpeechSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["partsOfSpeech"]>
+
+  export type PartsOfSpeechSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["partsOfSpeech"]>
+
+  export type PartsOfSpeechSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["partsOfSpeech"]>
+
+  export type PartsOfSpeechSelectScalar = {
+    id?: boolean
+    contentBlockId?: boolean
+    contentId?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    unitId?: boolean
+    lessonId?: boolean
+    topicId?: boolean
+    question?: boolean
+    answer?: boolean
+    details?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PartsOfSpeechOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentBlockId" | "contentId" | "classId" | "subjectId" | "unitId" | "lessonId" | "topicId" | "question" | "answer" | "details" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["partsOfSpeech"]>
+  export type PartsOfSpeechInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+  export type PartsOfSpeechIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+  export type PartsOfSpeechIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contentBlock?: boolean | ContentBlockDefaultArgs<ExtArgs>
+  }
+
+  export type $PartsOfSpeechPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PartsOfSpeech"
+    objects: {
+      contentBlock: Prisma.$ContentBlockPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      contentBlockId: string
+      contentId: string
+      classId: string
+      subjectId: string
+      unitId: string
+      lessonId: string
+      topicId: string | null
+      question: string
+      answer: string
+      details: string
+      organizationId: string
+      createdBy: string
+      updatedBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["partsOfSpeech"]>
+    composites: {}
+  }
+
+  type PartsOfSpeechGetPayload<S extends boolean | null | undefined | PartsOfSpeechDefaultArgs> = $Result.GetResult<Prisma.$PartsOfSpeechPayload, S>
+
+  type PartsOfSpeechCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PartsOfSpeechFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PartsOfSpeechCountAggregateInputType | true
+    }
+
+  export interface PartsOfSpeechDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PartsOfSpeech'], meta: { name: 'PartsOfSpeech' } }
+    /**
+     * Find zero or one PartsOfSpeech that matches the filter.
+     * @param {PartsOfSpeechFindUniqueArgs} args - Arguments to find a PartsOfSpeech
+     * @example
+     * // Get one PartsOfSpeech
+     * const partsOfSpeech = await prisma.partsOfSpeech.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PartsOfSpeechFindUniqueArgs>(args: SelectSubset<T, PartsOfSpeechFindUniqueArgs<ExtArgs>>): Prisma__PartsOfSpeechClient<$Result.GetResult<Prisma.$PartsOfSpeechPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PartsOfSpeech that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PartsOfSpeechFindUniqueOrThrowArgs} args - Arguments to find a PartsOfSpeech
+     * @example
+     * // Get one PartsOfSpeech
+     * const partsOfSpeech = await prisma.partsOfSpeech.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PartsOfSpeechFindUniqueOrThrowArgs>(args: SelectSubset<T, PartsOfSpeechFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PartsOfSpeechClient<$Result.GetResult<Prisma.$PartsOfSpeechPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PartsOfSpeech that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PartsOfSpeechFindFirstArgs} args - Arguments to find a PartsOfSpeech
+     * @example
+     * // Get one PartsOfSpeech
+     * const partsOfSpeech = await prisma.partsOfSpeech.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PartsOfSpeechFindFirstArgs>(args?: SelectSubset<T, PartsOfSpeechFindFirstArgs<ExtArgs>>): Prisma__PartsOfSpeechClient<$Result.GetResult<Prisma.$PartsOfSpeechPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PartsOfSpeech that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PartsOfSpeechFindFirstOrThrowArgs} args - Arguments to find a PartsOfSpeech
+     * @example
+     * // Get one PartsOfSpeech
+     * const partsOfSpeech = await prisma.partsOfSpeech.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PartsOfSpeechFindFirstOrThrowArgs>(args?: SelectSubset<T, PartsOfSpeechFindFirstOrThrowArgs<ExtArgs>>): Prisma__PartsOfSpeechClient<$Result.GetResult<Prisma.$PartsOfSpeechPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PartsOfSpeeches that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PartsOfSpeechFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PartsOfSpeeches
+     * const partsOfSpeeches = await prisma.partsOfSpeech.findMany()
+     * 
+     * // Get first 10 PartsOfSpeeches
+     * const partsOfSpeeches = await prisma.partsOfSpeech.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const partsOfSpeechWithIdOnly = await prisma.partsOfSpeech.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PartsOfSpeechFindManyArgs>(args?: SelectSubset<T, PartsOfSpeechFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartsOfSpeechPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PartsOfSpeech.
+     * @param {PartsOfSpeechCreateArgs} args - Arguments to create a PartsOfSpeech.
+     * @example
+     * // Create one PartsOfSpeech
+     * const PartsOfSpeech = await prisma.partsOfSpeech.create({
+     *   data: {
+     *     // ... data to create a PartsOfSpeech
+     *   }
+     * })
+     * 
+     */
+    create<T extends PartsOfSpeechCreateArgs>(args: SelectSubset<T, PartsOfSpeechCreateArgs<ExtArgs>>): Prisma__PartsOfSpeechClient<$Result.GetResult<Prisma.$PartsOfSpeechPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PartsOfSpeeches.
+     * @param {PartsOfSpeechCreateManyArgs} args - Arguments to create many PartsOfSpeeches.
+     * @example
+     * // Create many PartsOfSpeeches
+     * const partsOfSpeech = await prisma.partsOfSpeech.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PartsOfSpeechCreateManyArgs>(args?: SelectSubset<T, PartsOfSpeechCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PartsOfSpeeches and returns the data saved in the database.
+     * @param {PartsOfSpeechCreateManyAndReturnArgs} args - Arguments to create many PartsOfSpeeches.
+     * @example
+     * // Create many PartsOfSpeeches
+     * const partsOfSpeech = await prisma.partsOfSpeech.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PartsOfSpeeches and only return the `id`
+     * const partsOfSpeechWithIdOnly = await prisma.partsOfSpeech.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PartsOfSpeechCreateManyAndReturnArgs>(args?: SelectSubset<T, PartsOfSpeechCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartsOfSpeechPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PartsOfSpeech.
+     * @param {PartsOfSpeechDeleteArgs} args - Arguments to delete one PartsOfSpeech.
+     * @example
+     * // Delete one PartsOfSpeech
+     * const PartsOfSpeech = await prisma.partsOfSpeech.delete({
+     *   where: {
+     *     // ... filter to delete one PartsOfSpeech
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PartsOfSpeechDeleteArgs>(args: SelectSubset<T, PartsOfSpeechDeleteArgs<ExtArgs>>): Prisma__PartsOfSpeechClient<$Result.GetResult<Prisma.$PartsOfSpeechPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PartsOfSpeech.
+     * @param {PartsOfSpeechUpdateArgs} args - Arguments to update one PartsOfSpeech.
+     * @example
+     * // Update one PartsOfSpeech
+     * const partsOfSpeech = await prisma.partsOfSpeech.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PartsOfSpeechUpdateArgs>(args: SelectSubset<T, PartsOfSpeechUpdateArgs<ExtArgs>>): Prisma__PartsOfSpeechClient<$Result.GetResult<Prisma.$PartsOfSpeechPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PartsOfSpeeches.
+     * @param {PartsOfSpeechDeleteManyArgs} args - Arguments to filter PartsOfSpeeches to delete.
+     * @example
+     * // Delete a few PartsOfSpeeches
+     * const { count } = await prisma.partsOfSpeech.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PartsOfSpeechDeleteManyArgs>(args?: SelectSubset<T, PartsOfSpeechDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PartsOfSpeeches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PartsOfSpeechUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PartsOfSpeeches
+     * const partsOfSpeech = await prisma.partsOfSpeech.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PartsOfSpeechUpdateManyArgs>(args: SelectSubset<T, PartsOfSpeechUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PartsOfSpeeches and returns the data updated in the database.
+     * @param {PartsOfSpeechUpdateManyAndReturnArgs} args - Arguments to update many PartsOfSpeeches.
+     * @example
+     * // Update many PartsOfSpeeches
+     * const partsOfSpeech = await prisma.partsOfSpeech.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PartsOfSpeeches and only return the `id`
+     * const partsOfSpeechWithIdOnly = await prisma.partsOfSpeech.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PartsOfSpeechUpdateManyAndReturnArgs>(args: SelectSubset<T, PartsOfSpeechUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartsOfSpeechPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PartsOfSpeech.
+     * @param {PartsOfSpeechUpsertArgs} args - Arguments to update or create a PartsOfSpeech.
+     * @example
+     * // Update or create a PartsOfSpeech
+     * const partsOfSpeech = await prisma.partsOfSpeech.upsert({
+     *   create: {
+     *     // ... data to create a PartsOfSpeech
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PartsOfSpeech we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PartsOfSpeechUpsertArgs>(args: SelectSubset<T, PartsOfSpeechUpsertArgs<ExtArgs>>): Prisma__PartsOfSpeechClient<$Result.GetResult<Prisma.$PartsOfSpeechPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PartsOfSpeeches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PartsOfSpeechCountArgs} args - Arguments to filter PartsOfSpeeches to count.
+     * @example
+     * // Count the number of PartsOfSpeeches
+     * const count = await prisma.partsOfSpeech.count({
+     *   where: {
+     *     // ... the filter for the PartsOfSpeeches we want to count
+     *   }
+     * })
+    **/
+    count<T extends PartsOfSpeechCountArgs>(
+      args?: Subset<T, PartsOfSpeechCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PartsOfSpeechCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PartsOfSpeech.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PartsOfSpeechAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PartsOfSpeechAggregateArgs>(args: Subset<T, PartsOfSpeechAggregateArgs>): Prisma.PrismaPromise<GetPartsOfSpeechAggregateType<T>>
+
+    /**
+     * Group by PartsOfSpeech.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PartsOfSpeechGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PartsOfSpeechGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PartsOfSpeechGroupByArgs['orderBy'] }
+        : { orderBy?: PartsOfSpeechGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PartsOfSpeechGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPartsOfSpeechGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PartsOfSpeech model
+   */
+  readonly fields: PartsOfSpeechFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PartsOfSpeech.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PartsOfSpeechClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    contentBlock<T extends ContentBlockDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ContentBlockDefaultArgs<ExtArgs>>): Prisma__ContentBlockClient<$Result.GetResult<Prisma.$ContentBlockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PartsOfSpeech model
+   */
+  interface PartsOfSpeechFieldRefs {
+    readonly id: FieldRef<"PartsOfSpeech", 'String'>
+    readonly contentBlockId: FieldRef<"PartsOfSpeech", 'String'>
+    readonly contentId: FieldRef<"PartsOfSpeech", 'String'>
+    readonly classId: FieldRef<"PartsOfSpeech", 'String'>
+    readonly subjectId: FieldRef<"PartsOfSpeech", 'String'>
+    readonly unitId: FieldRef<"PartsOfSpeech", 'String'>
+    readonly lessonId: FieldRef<"PartsOfSpeech", 'String'>
+    readonly topicId: FieldRef<"PartsOfSpeech", 'String'>
+    readonly question: FieldRef<"PartsOfSpeech", 'String'>
+    readonly answer: FieldRef<"PartsOfSpeech", 'String'>
+    readonly details: FieldRef<"PartsOfSpeech", 'String'>
+    readonly organizationId: FieldRef<"PartsOfSpeech", 'String'>
+    readonly createdBy: FieldRef<"PartsOfSpeech", 'String'>
+    readonly updatedBy: FieldRef<"PartsOfSpeech", 'String'>
+    readonly createdAt: FieldRef<"PartsOfSpeech", 'DateTime'>
+    readonly updatedAt: FieldRef<"PartsOfSpeech", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PartsOfSpeech findUnique
+   */
+  export type PartsOfSpeechFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartsOfSpeech
+     */
+    select?: PartsOfSpeechSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartsOfSpeech
+     */
+    omit?: PartsOfSpeechOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartsOfSpeechInclude<ExtArgs> | null
+    /**
+     * Filter, which PartsOfSpeech to fetch.
+     */
+    where: PartsOfSpeechWhereUniqueInput
+  }
+
+  /**
+   * PartsOfSpeech findUniqueOrThrow
+   */
+  export type PartsOfSpeechFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartsOfSpeech
+     */
+    select?: PartsOfSpeechSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartsOfSpeech
+     */
+    omit?: PartsOfSpeechOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartsOfSpeechInclude<ExtArgs> | null
+    /**
+     * Filter, which PartsOfSpeech to fetch.
+     */
+    where: PartsOfSpeechWhereUniqueInput
+  }
+
+  /**
+   * PartsOfSpeech findFirst
+   */
+  export type PartsOfSpeechFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartsOfSpeech
+     */
+    select?: PartsOfSpeechSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartsOfSpeech
+     */
+    omit?: PartsOfSpeechOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartsOfSpeechInclude<ExtArgs> | null
+    /**
+     * Filter, which PartsOfSpeech to fetch.
+     */
+    where?: PartsOfSpeechWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PartsOfSpeeches to fetch.
+     */
+    orderBy?: PartsOfSpeechOrderByWithRelationInput | PartsOfSpeechOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PartsOfSpeeches.
+     */
+    cursor?: PartsOfSpeechWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PartsOfSpeeches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PartsOfSpeeches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PartsOfSpeeches.
+     */
+    distinct?: PartsOfSpeechScalarFieldEnum | PartsOfSpeechScalarFieldEnum[]
+  }
+
+  /**
+   * PartsOfSpeech findFirstOrThrow
+   */
+  export type PartsOfSpeechFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartsOfSpeech
+     */
+    select?: PartsOfSpeechSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartsOfSpeech
+     */
+    omit?: PartsOfSpeechOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartsOfSpeechInclude<ExtArgs> | null
+    /**
+     * Filter, which PartsOfSpeech to fetch.
+     */
+    where?: PartsOfSpeechWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PartsOfSpeeches to fetch.
+     */
+    orderBy?: PartsOfSpeechOrderByWithRelationInput | PartsOfSpeechOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PartsOfSpeeches.
+     */
+    cursor?: PartsOfSpeechWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PartsOfSpeeches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PartsOfSpeeches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PartsOfSpeeches.
+     */
+    distinct?: PartsOfSpeechScalarFieldEnum | PartsOfSpeechScalarFieldEnum[]
+  }
+
+  /**
+   * PartsOfSpeech findMany
+   */
+  export type PartsOfSpeechFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartsOfSpeech
+     */
+    select?: PartsOfSpeechSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartsOfSpeech
+     */
+    omit?: PartsOfSpeechOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartsOfSpeechInclude<ExtArgs> | null
+    /**
+     * Filter, which PartsOfSpeeches to fetch.
+     */
+    where?: PartsOfSpeechWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PartsOfSpeeches to fetch.
+     */
+    orderBy?: PartsOfSpeechOrderByWithRelationInput | PartsOfSpeechOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PartsOfSpeeches.
+     */
+    cursor?: PartsOfSpeechWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PartsOfSpeeches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PartsOfSpeeches.
+     */
+    skip?: number
+    distinct?: PartsOfSpeechScalarFieldEnum | PartsOfSpeechScalarFieldEnum[]
+  }
+
+  /**
+   * PartsOfSpeech create
+   */
+  export type PartsOfSpeechCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartsOfSpeech
+     */
+    select?: PartsOfSpeechSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartsOfSpeech
+     */
+    omit?: PartsOfSpeechOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartsOfSpeechInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PartsOfSpeech.
+     */
+    data: XOR<PartsOfSpeechCreateInput, PartsOfSpeechUncheckedCreateInput>
+  }
+
+  /**
+   * PartsOfSpeech createMany
+   */
+  export type PartsOfSpeechCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PartsOfSpeeches.
+     */
+    data: PartsOfSpeechCreateManyInput | PartsOfSpeechCreateManyInput[]
+  }
+
+  /**
+   * PartsOfSpeech createManyAndReturn
+   */
+  export type PartsOfSpeechCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartsOfSpeech
+     */
+    select?: PartsOfSpeechSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartsOfSpeech
+     */
+    omit?: PartsOfSpeechOmit<ExtArgs> | null
+    /**
+     * The data used to create many PartsOfSpeeches.
+     */
+    data: PartsOfSpeechCreateManyInput | PartsOfSpeechCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartsOfSpeechIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PartsOfSpeech update
+   */
+  export type PartsOfSpeechUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartsOfSpeech
+     */
+    select?: PartsOfSpeechSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartsOfSpeech
+     */
+    omit?: PartsOfSpeechOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartsOfSpeechInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PartsOfSpeech.
+     */
+    data: XOR<PartsOfSpeechUpdateInput, PartsOfSpeechUncheckedUpdateInput>
+    /**
+     * Choose, which PartsOfSpeech to update.
+     */
+    where: PartsOfSpeechWhereUniqueInput
+  }
+
+  /**
+   * PartsOfSpeech updateMany
+   */
+  export type PartsOfSpeechUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PartsOfSpeeches.
+     */
+    data: XOR<PartsOfSpeechUpdateManyMutationInput, PartsOfSpeechUncheckedUpdateManyInput>
+    /**
+     * Filter which PartsOfSpeeches to update
+     */
+    where?: PartsOfSpeechWhereInput
+    /**
+     * Limit how many PartsOfSpeeches to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PartsOfSpeech updateManyAndReturn
+   */
+  export type PartsOfSpeechUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartsOfSpeech
+     */
+    select?: PartsOfSpeechSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartsOfSpeech
+     */
+    omit?: PartsOfSpeechOmit<ExtArgs> | null
+    /**
+     * The data used to update PartsOfSpeeches.
+     */
+    data: XOR<PartsOfSpeechUpdateManyMutationInput, PartsOfSpeechUncheckedUpdateManyInput>
+    /**
+     * Filter which PartsOfSpeeches to update
+     */
+    where?: PartsOfSpeechWhereInput
+    /**
+     * Limit how many PartsOfSpeeches to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartsOfSpeechIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PartsOfSpeech upsert
+   */
+  export type PartsOfSpeechUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartsOfSpeech
+     */
+    select?: PartsOfSpeechSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartsOfSpeech
+     */
+    omit?: PartsOfSpeechOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartsOfSpeechInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PartsOfSpeech to update in case it exists.
+     */
+    where: PartsOfSpeechWhereUniqueInput
+    /**
+     * In case the PartsOfSpeech found by the `where` argument doesn't exist, create a new PartsOfSpeech with this data.
+     */
+    create: XOR<PartsOfSpeechCreateInput, PartsOfSpeechUncheckedCreateInput>
+    /**
+     * In case the PartsOfSpeech was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PartsOfSpeechUpdateInput, PartsOfSpeechUncheckedUpdateInput>
+  }
+
+  /**
+   * PartsOfSpeech delete
+   */
+  export type PartsOfSpeechDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartsOfSpeech
+     */
+    select?: PartsOfSpeechSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartsOfSpeech
+     */
+    omit?: PartsOfSpeechOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartsOfSpeechInclude<ExtArgs> | null
+    /**
+     * Filter which PartsOfSpeech to delete.
+     */
+    where: PartsOfSpeechWhereUniqueInput
+  }
+
+  /**
+   * PartsOfSpeech deleteMany
+   */
+  export type PartsOfSpeechDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PartsOfSpeeches to delete
+     */
+    where?: PartsOfSpeechWhereInput
+    /**
+     * Limit how many PartsOfSpeeches to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PartsOfSpeech without action
+   */
+  export type PartsOfSpeechDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartsOfSpeech
+     */
+    select?: PartsOfSpeechSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartsOfSpeech
+     */
+    omit?: PartsOfSpeechOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartsOfSpeechInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model TagQuestion
    */
 
@@ -65297,6 +66512,1176 @@ export namespace Prisma {
 
 
   /**
+   * Model SubjectPartsOfSpeechBlock
+   */
+
+  export type AggregateSubjectPartsOfSpeechBlock = {
+    _count: SubjectPartsOfSpeechBlockCountAggregateOutputType | null
+    _avg: SubjectPartsOfSpeechBlockAvgAggregateOutputType | null
+    _sum: SubjectPartsOfSpeechBlockSumAggregateOutputType | null
+    _min: SubjectPartsOfSpeechBlockMinAggregateOutputType | null
+    _max: SubjectPartsOfSpeechBlockMaxAggregateOutputType | null
+  }
+
+  export type SubjectPartsOfSpeechBlockAvgAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type SubjectPartsOfSpeechBlockSumAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type SubjectPartsOfSpeechBlockMinAggregateOutputType = {
+    id: string | null
+    classId: string | null
+    subjectId: string | null
+    kind: string | null
+    boardId: string | null
+    academicYearId: string | null
+    title: string | null
+    instruction: string | null
+    details: string | null
+    documentJson: string | null
+    sortOrder: number | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SubjectPartsOfSpeechBlockMaxAggregateOutputType = {
+    id: string | null
+    classId: string | null
+    subjectId: string | null
+    kind: string | null
+    boardId: string | null
+    academicYearId: string | null
+    title: string | null
+    instruction: string | null
+    details: string | null
+    documentJson: string | null
+    sortOrder: number | null
+    organizationId: string | null
+    createdBy: string | null
+    updatedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SubjectPartsOfSpeechBlockCountAggregateOutputType = {
+    id: number
+    classId: number
+    subjectId: number
+    kind: number
+    boardId: number
+    academicYearId: number
+    title: number
+    instruction: number
+    details: number
+    documentJson: number
+    sortOrder: number
+    organizationId: number
+    createdBy: number
+    updatedBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SubjectPartsOfSpeechBlockAvgAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type SubjectPartsOfSpeechBlockSumAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type SubjectPartsOfSpeechBlockMinAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    kind?: true
+    boardId?: true
+    academicYearId?: true
+    title?: true
+    instruction?: true
+    details?: true
+    documentJson?: true
+    sortOrder?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SubjectPartsOfSpeechBlockMaxAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    kind?: true
+    boardId?: true
+    academicYearId?: true
+    title?: true
+    instruction?: true
+    details?: true
+    documentJson?: true
+    sortOrder?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SubjectPartsOfSpeechBlockCountAggregateInputType = {
+    id?: true
+    classId?: true
+    subjectId?: true
+    kind?: true
+    boardId?: true
+    academicYearId?: true
+    title?: true
+    instruction?: true
+    details?: true
+    documentJson?: true
+    sortOrder?: true
+    organizationId?: true
+    createdBy?: true
+    updatedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SubjectPartsOfSpeechBlockAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SubjectPartsOfSpeechBlock to aggregate.
+     */
+    where?: SubjectPartsOfSpeechBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubjectPartsOfSpeechBlocks to fetch.
+     */
+    orderBy?: SubjectPartsOfSpeechBlockOrderByWithRelationInput | SubjectPartsOfSpeechBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SubjectPartsOfSpeechBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubjectPartsOfSpeechBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubjectPartsOfSpeechBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SubjectPartsOfSpeechBlocks
+    **/
+    _count?: true | SubjectPartsOfSpeechBlockCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SubjectPartsOfSpeechBlockAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SubjectPartsOfSpeechBlockSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SubjectPartsOfSpeechBlockMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SubjectPartsOfSpeechBlockMaxAggregateInputType
+  }
+
+  export type GetSubjectPartsOfSpeechBlockAggregateType<T extends SubjectPartsOfSpeechBlockAggregateArgs> = {
+        [P in keyof T & keyof AggregateSubjectPartsOfSpeechBlock]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSubjectPartsOfSpeechBlock[P]>
+      : GetScalarType<T[P], AggregateSubjectPartsOfSpeechBlock[P]>
+  }
+
+
+
+
+  export type SubjectPartsOfSpeechBlockGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubjectPartsOfSpeechBlockWhereInput
+    orderBy?: SubjectPartsOfSpeechBlockOrderByWithAggregationInput | SubjectPartsOfSpeechBlockOrderByWithAggregationInput[]
+    by: SubjectPartsOfSpeechBlockScalarFieldEnum[] | SubjectPartsOfSpeechBlockScalarFieldEnum
+    having?: SubjectPartsOfSpeechBlockScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SubjectPartsOfSpeechBlockCountAggregateInputType | true
+    _avg?: SubjectPartsOfSpeechBlockAvgAggregateInputType
+    _sum?: SubjectPartsOfSpeechBlockSumAggregateInputType
+    _min?: SubjectPartsOfSpeechBlockMinAggregateInputType
+    _max?: SubjectPartsOfSpeechBlockMaxAggregateInputType
+  }
+
+  export type SubjectPartsOfSpeechBlockGroupByOutputType = {
+    id: string
+    classId: string
+    subjectId: string
+    kind: string
+    boardId: string | null
+    academicYearId: string | null
+    title: string
+    instruction: string
+    details: string
+    documentJson: string
+    sortOrder: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: SubjectPartsOfSpeechBlockCountAggregateOutputType | null
+    _avg: SubjectPartsOfSpeechBlockAvgAggregateOutputType | null
+    _sum: SubjectPartsOfSpeechBlockSumAggregateOutputType | null
+    _min: SubjectPartsOfSpeechBlockMinAggregateOutputType | null
+    _max: SubjectPartsOfSpeechBlockMaxAggregateOutputType | null
+  }
+
+  type GetSubjectPartsOfSpeechBlockGroupByPayload<T extends SubjectPartsOfSpeechBlockGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SubjectPartsOfSpeechBlockGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SubjectPartsOfSpeechBlockGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SubjectPartsOfSpeechBlockGroupByOutputType[P]>
+            : GetScalarType<T[P], SubjectPartsOfSpeechBlockGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SubjectPartsOfSpeechBlockSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    kind?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
+    title?: boolean
+    instruction?: boolean
+    details?: boolean
+    documentJson?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["subjectPartsOfSpeechBlock"]>
+
+  export type SubjectPartsOfSpeechBlockSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    kind?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
+    title?: boolean
+    instruction?: boolean
+    details?: boolean
+    documentJson?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["subjectPartsOfSpeechBlock"]>
+
+  export type SubjectPartsOfSpeechBlockSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    kind?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
+    title?: boolean
+    instruction?: boolean
+    details?: boolean
+    documentJson?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["subjectPartsOfSpeechBlock"]>
+
+  export type SubjectPartsOfSpeechBlockSelectScalar = {
+    id?: boolean
+    classId?: boolean
+    subjectId?: boolean
+    kind?: boolean
+    boardId?: boolean
+    academicYearId?: boolean
+    title?: boolean
+    instruction?: boolean
+    details?: boolean
+    documentJson?: boolean
+    sortOrder?: boolean
+    organizationId?: boolean
+    createdBy?: boolean
+    updatedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SubjectPartsOfSpeechBlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "subjectId" | "kind" | "boardId" | "academicYearId" | "title" | "instruction" | "details" | "documentJson" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["subjectPartsOfSpeechBlock"]>
+
+  export type $SubjectPartsOfSpeechBlockPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SubjectPartsOfSpeechBlock"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      classId: string
+      subjectId: string
+      kind: string
+      boardId: string | null
+      academicYearId: string | null
+      title: string
+      instruction: string
+      details: string
+      documentJson: string
+      sortOrder: number
+      organizationId: string
+      createdBy: string
+      updatedBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["subjectPartsOfSpeechBlock"]>
+    composites: {}
+  }
+
+  type SubjectPartsOfSpeechBlockGetPayload<S extends boolean | null | undefined | SubjectPartsOfSpeechBlockDefaultArgs> = $Result.GetResult<Prisma.$SubjectPartsOfSpeechBlockPayload, S>
+
+  type SubjectPartsOfSpeechBlockCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SubjectPartsOfSpeechBlockFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SubjectPartsOfSpeechBlockCountAggregateInputType | true
+    }
+
+  export interface SubjectPartsOfSpeechBlockDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SubjectPartsOfSpeechBlock'], meta: { name: 'SubjectPartsOfSpeechBlock' } }
+    /**
+     * Find zero or one SubjectPartsOfSpeechBlock that matches the filter.
+     * @param {SubjectPartsOfSpeechBlockFindUniqueArgs} args - Arguments to find a SubjectPartsOfSpeechBlock
+     * @example
+     * // Get one SubjectPartsOfSpeechBlock
+     * const subjectPartsOfSpeechBlock = await prisma.subjectPartsOfSpeechBlock.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SubjectPartsOfSpeechBlockFindUniqueArgs>(args: SelectSubset<T, SubjectPartsOfSpeechBlockFindUniqueArgs<ExtArgs>>): Prisma__SubjectPartsOfSpeechBlockClient<$Result.GetResult<Prisma.$SubjectPartsOfSpeechBlockPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SubjectPartsOfSpeechBlock that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SubjectPartsOfSpeechBlockFindUniqueOrThrowArgs} args - Arguments to find a SubjectPartsOfSpeechBlock
+     * @example
+     * // Get one SubjectPartsOfSpeechBlock
+     * const subjectPartsOfSpeechBlock = await prisma.subjectPartsOfSpeechBlock.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SubjectPartsOfSpeechBlockFindUniqueOrThrowArgs>(args: SelectSubset<T, SubjectPartsOfSpeechBlockFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SubjectPartsOfSpeechBlockClient<$Result.GetResult<Prisma.$SubjectPartsOfSpeechBlockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SubjectPartsOfSpeechBlock that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectPartsOfSpeechBlockFindFirstArgs} args - Arguments to find a SubjectPartsOfSpeechBlock
+     * @example
+     * // Get one SubjectPartsOfSpeechBlock
+     * const subjectPartsOfSpeechBlock = await prisma.subjectPartsOfSpeechBlock.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SubjectPartsOfSpeechBlockFindFirstArgs>(args?: SelectSubset<T, SubjectPartsOfSpeechBlockFindFirstArgs<ExtArgs>>): Prisma__SubjectPartsOfSpeechBlockClient<$Result.GetResult<Prisma.$SubjectPartsOfSpeechBlockPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SubjectPartsOfSpeechBlock that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectPartsOfSpeechBlockFindFirstOrThrowArgs} args - Arguments to find a SubjectPartsOfSpeechBlock
+     * @example
+     * // Get one SubjectPartsOfSpeechBlock
+     * const subjectPartsOfSpeechBlock = await prisma.subjectPartsOfSpeechBlock.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SubjectPartsOfSpeechBlockFindFirstOrThrowArgs>(args?: SelectSubset<T, SubjectPartsOfSpeechBlockFindFirstOrThrowArgs<ExtArgs>>): Prisma__SubjectPartsOfSpeechBlockClient<$Result.GetResult<Prisma.$SubjectPartsOfSpeechBlockPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SubjectPartsOfSpeechBlocks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectPartsOfSpeechBlockFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SubjectPartsOfSpeechBlocks
+     * const subjectPartsOfSpeechBlocks = await prisma.subjectPartsOfSpeechBlock.findMany()
+     * 
+     * // Get first 10 SubjectPartsOfSpeechBlocks
+     * const subjectPartsOfSpeechBlocks = await prisma.subjectPartsOfSpeechBlock.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const subjectPartsOfSpeechBlockWithIdOnly = await prisma.subjectPartsOfSpeechBlock.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SubjectPartsOfSpeechBlockFindManyArgs>(args?: SelectSubset<T, SubjectPartsOfSpeechBlockFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectPartsOfSpeechBlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SubjectPartsOfSpeechBlock.
+     * @param {SubjectPartsOfSpeechBlockCreateArgs} args - Arguments to create a SubjectPartsOfSpeechBlock.
+     * @example
+     * // Create one SubjectPartsOfSpeechBlock
+     * const SubjectPartsOfSpeechBlock = await prisma.subjectPartsOfSpeechBlock.create({
+     *   data: {
+     *     // ... data to create a SubjectPartsOfSpeechBlock
+     *   }
+     * })
+     * 
+     */
+    create<T extends SubjectPartsOfSpeechBlockCreateArgs>(args: SelectSubset<T, SubjectPartsOfSpeechBlockCreateArgs<ExtArgs>>): Prisma__SubjectPartsOfSpeechBlockClient<$Result.GetResult<Prisma.$SubjectPartsOfSpeechBlockPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SubjectPartsOfSpeechBlocks.
+     * @param {SubjectPartsOfSpeechBlockCreateManyArgs} args - Arguments to create many SubjectPartsOfSpeechBlocks.
+     * @example
+     * // Create many SubjectPartsOfSpeechBlocks
+     * const subjectPartsOfSpeechBlock = await prisma.subjectPartsOfSpeechBlock.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SubjectPartsOfSpeechBlockCreateManyArgs>(args?: SelectSubset<T, SubjectPartsOfSpeechBlockCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SubjectPartsOfSpeechBlocks and returns the data saved in the database.
+     * @param {SubjectPartsOfSpeechBlockCreateManyAndReturnArgs} args - Arguments to create many SubjectPartsOfSpeechBlocks.
+     * @example
+     * // Create many SubjectPartsOfSpeechBlocks
+     * const subjectPartsOfSpeechBlock = await prisma.subjectPartsOfSpeechBlock.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SubjectPartsOfSpeechBlocks and only return the `id`
+     * const subjectPartsOfSpeechBlockWithIdOnly = await prisma.subjectPartsOfSpeechBlock.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SubjectPartsOfSpeechBlockCreateManyAndReturnArgs>(args?: SelectSubset<T, SubjectPartsOfSpeechBlockCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectPartsOfSpeechBlockPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SubjectPartsOfSpeechBlock.
+     * @param {SubjectPartsOfSpeechBlockDeleteArgs} args - Arguments to delete one SubjectPartsOfSpeechBlock.
+     * @example
+     * // Delete one SubjectPartsOfSpeechBlock
+     * const SubjectPartsOfSpeechBlock = await prisma.subjectPartsOfSpeechBlock.delete({
+     *   where: {
+     *     // ... filter to delete one SubjectPartsOfSpeechBlock
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SubjectPartsOfSpeechBlockDeleteArgs>(args: SelectSubset<T, SubjectPartsOfSpeechBlockDeleteArgs<ExtArgs>>): Prisma__SubjectPartsOfSpeechBlockClient<$Result.GetResult<Prisma.$SubjectPartsOfSpeechBlockPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SubjectPartsOfSpeechBlock.
+     * @param {SubjectPartsOfSpeechBlockUpdateArgs} args - Arguments to update one SubjectPartsOfSpeechBlock.
+     * @example
+     * // Update one SubjectPartsOfSpeechBlock
+     * const subjectPartsOfSpeechBlock = await prisma.subjectPartsOfSpeechBlock.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SubjectPartsOfSpeechBlockUpdateArgs>(args: SelectSubset<T, SubjectPartsOfSpeechBlockUpdateArgs<ExtArgs>>): Prisma__SubjectPartsOfSpeechBlockClient<$Result.GetResult<Prisma.$SubjectPartsOfSpeechBlockPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SubjectPartsOfSpeechBlocks.
+     * @param {SubjectPartsOfSpeechBlockDeleteManyArgs} args - Arguments to filter SubjectPartsOfSpeechBlocks to delete.
+     * @example
+     * // Delete a few SubjectPartsOfSpeechBlocks
+     * const { count } = await prisma.subjectPartsOfSpeechBlock.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SubjectPartsOfSpeechBlockDeleteManyArgs>(args?: SelectSubset<T, SubjectPartsOfSpeechBlockDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SubjectPartsOfSpeechBlocks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectPartsOfSpeechBlockUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SubjectPartsOfSpeechBlocks
+     * const subjectPartsOfSpeechBlock = await prisma.subjectPartsOfSpeechBlock.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SubjectPartsOfSpeechBlockUpdateManyArgs>(args: SelectSubset<T, SubjectPartsOfSpeechBlockUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SubjectPartsOfSpeechBlocks and returns the data updated in the database.
+     * @param {SubjectPartsOfSpeechBlockUpdateManyAndReturnArgs} args - Arguments to update many SubjectPartsOfSpeechBlocks.
+     * @example
+     * // Update many SubjectPartsOfSpeechBlocks
+     * const subjectPartsOfSpeechBlock = await prisma.subjectPartsOfSpeechBlock.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SubjectPartsOfSpeechBlocks and only return the `id`
+     * const subjectPartsOfSpeechBlockWithIdOnly = await prisma.subjectPartsOfSpeechBlock.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SubjectPartsOfSpeechBlockUpdateManyAndReturnArgs>(args: SelectSubset<T, SubjectPartsOfSpeechBlockUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectPartsOfSpeechBlockPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SubjectPartsOfSpeechBlock.
+     * @param {SubjectPartsOfSpeechBlockUpsertArgs} args - Arguments to update or create a SubjectPartsOfSpeechBlock.
+     * @example
+     * // Update or create a SubjectPartsOfSpeechBlock
+     * const subjectPartsOfSpeechBlock = await prisma.subjectPartsOfSpeechBlock.upsert({
+     *   create: {
+     *     // ... data to create a SubjectPartsOfSpeechBlock
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SubjectPartsOfSpeechBlock we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SubjectPartsOfSpeechBlockUpsertArgs>(args: SelectSubset<T, SubjectPartsOfSpeechBlockUpsertArgs<ExtArgs>>): Prisma__SubjectPartsOfSpeechBlockClient<$Result.GetResult<Prisma.$SubjectPartsOfSpeechBlockPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SubjectPartsOfSpeechBlocks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectPartsOfSpeechBlockCountArgs} args - Arguments to filter SubjectPartsOfSpeechBlocks to count.
+     * @example
+     * // Count the number of SubjectPartsOfSpeechBlocks
+     * const count = await prisma.subjectPartsOfSpeechBlock.count({
+     *   where: {
+     *     // ... the filter for the SubjectPartsOfSpeechBlocks we want to count
+     *   }
+     * })
+    **/
+    count<T extends SubjectPartsOfSpeechBlockCountArgs>(
+      args?: Subset<T, SubjectPartsOfSpeechBlockCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SubjectPartsOfSpeechBlockCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SubjectPartsOfSpeechBlock.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectPartsOfSpeechBlockAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SubjectPartsOfSpeechBlockAggregateArgs>(args: Subset<T, SubjectPartsOfSpeechBlockAggregateArgs>): Prisma.PrismaPromise<GetSubjectPartsOfSpeechBlockAggregateType<T>>
+
+    /**
+     * Group by SubjectPartsOfSpeechBlock.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectPartsOfSpeechBlockGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SubjectPartsOfSpeechBlockGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SubjectPartsOfSpeechBlockGroupByArgs['orderBy'] }
+        : { orderBy?: SubjectPartsOfSpeechBlockGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SubjectPartsOfSpeechBlockGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSubjectPartsOfSpeechBlockGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SubjectPartsOfSpeechBlock model
+   */
+  readonly fields: SubjectPartsOfSpeechBlockFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SubjectPartsOfSpeechBlock.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SubjectPartsOfSpeechBlockClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SubjectPartsOfSpeechBlock model
+   */
+  interface SubjectPartsOfSpeechBlockFieldRefs {
+    readonly id: FieldRef<"SubjectPartsOfSpeechBlock", 'String'>
+    readonly classId: FieldRef<"SubjectPartsOfSpeechBlock", 'String'>
+    readonly subjectId: FieldRef<"SubjectPartsOfSpeechBlock", 'String'>
+    readonly kind: FieldRef<"SubjectPartsOfSpeechBlock", 'String'>
+    readonly boardId: FieldRef<"SubjectPartsOfSpeechBlock", 'String'>
+    readonly academicYearId: FieldRef<"SubjectPartsOfSpeechBlock", 'String'>
+    readonly title: FieldRef<"SubjectPartsOfSpeechBlock", 'String'>
+    readonly instruction: FieldRef<"SubjectPartsOfSpeechBlock", 'String'>
+    readonly details: FieldRef<"SubjectPartsOfSpeechBlock", 'String'>
+    readonly documentJson: FieldRef<"SubjectPartsOfSpeechBlock", 'String'>
+    readonly sortOrder: FieldRef<"SubjectPartsOfSpeechBlock", 'Int'>
+    readonly organizationId: FieldRef<"SubjectPartsOfSpeechBlock", 'String'>
+    readonly createdBy: FieldRef<"SubjectPartsOfSpeechBlock", 'String'>
+    readonly updatedBy: FieldRef<"SubjectPartsOfSpeechBlock", 'String'>
+    readonly createdAt: FieldRef<"SubjectPartsOfSpeechBlock", 'DateTime'>
+    readonly updatedAt: FieldRef<"SubjectPartsOfSpeechBlock", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SubjectPartsOfSpeechBlock findUnique
+   */
+  export type SubjectPartsOfSpeechBlockFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectPartsOfSpeechBlock
+     */
+    select?: SubjectPartsOfSpeechBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectPartsOfSpeechBlock
+     */
+    omit?: SubjectPartsOfSpeechBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectPartsOfSpeechBlock to fetch.
+     */
+    where: SubjectPartsOfSpeechBlockWhereUniqueInput
+  }
+
+  /**
+   * SubjectPartsOfSpeechBlock findUniqueOrThrow
+   */
+  export type SubjectPartsOfSpeechBlockFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectPartsOfSpeechBlock
+     */
+    select?: SubjectPartsOfSpeechBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectPartsOfSpeechBlock
+     */
+    omit?: SubjectPartsOfSpeechBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectPartsOfSpeechBlock to fetch.
+     */
+    where: SubjectPartsOfSpeechBlockWhereUniqueInput
+  }
+
+  /**
+   * SubjectPartsOfSpeechBlock findFirst
+   */
+  export type SubjectPartsOfSpeechBlockFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectPartsOfSpeechBlock
+     */
+    select?: SubjectPartsOfSpeechBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectPartsOfSpeechBlock
+     */
+    omit?: SubjectPartsOfSpeechBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectPartsOfSpeechBlock to fetch.
+     */
+    where?: SubjectPartsOfSpeechBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubjectPartsOfSpeechBlocks to fetch.
+     */
+    orderBy?: SubjectPartsOfSpeechBlockOrderByWithRelationInput | SubjectPartsOfSpeechBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SubjectPartsOfSpeechBlocks.
+     */
+    cursor?: SubjectPartsOfSpeechBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubjectPartsOfSpeechBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubjectPartsOfSpeechBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubjectPartsOfSpeechBlocks.
+     */
+    distinct?: SubjectPartsOfSpeechBlockScalarFieldEnum | SubjectPartsOfSpeechBlockScalarFieldEnum[]
+  }
+
+  /**
+   * SubjectPartsOfSpeechBlock findFirstOrThrow
+   */
+  export type SubjectPartsOfSpeechBlockFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectPartsOfSpeechBlock
+     */
+    select?: SubjectPartsOfSpeechBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectPartsOfSpeechBlock
+     */
+    omit?: SubjectPartsOfSpeechBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectPartsOfSpeechBlock to fetch.
+     */
+    where?: SubjectPartsOfSpeechBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubjectPartsOfSpeechBlocks to fetch.
+     */
+    orderBy?: SubjectPartsOfSpeechBlockOrderByWithRelationInput | SubjectPartsOfSpeechBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SubjectPartsOfSpeechBlocks.
+     */
+    cursor?: SubjectPartsOfSpeechBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubjectPartsOfSpeechBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubjectPartsOfSpeechBlocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubjectPartsOfSpeechBlocks.
+     */
+    distinct?: SubjectPartsOfSpeechBlockScalarFieldEnum | SubjectPartsOfSpeechBlockScalarFieldEnum[]
+  }
+
+  /**
+   * SubjectPartsOfSpeechBlock findMany
+   */
+  export type SubjectPartsOfSpeechBlockFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectPartsOfSpeechBlock
+     */
+    select?: SubjectPartsOfSpeechBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectPartsOfSpeechBlock
+     */
+    omit?: SubjectPartsOfSpeechBlockOmit<ExtArgs> | null
+    /**
+     * Filter, which SubjectPartsOfSpeechBlocks to fetch.
+     */
+    where?: SubjectPartsOfSpeechBlockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubjectPartsOfSpeechBlocks to fetch.
+     */
+    orderBy?: SubjectPartsOfSpeechBlockOrderByWithRelationInput | SubjectPartsOfSpeechBlockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SubjectPartsOfSpeechBlocks.
+     */
+    cursor?: SubjectPartsOfSpeechBlockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubjectPartsOfSpeechBlocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubjectPartsOfSpeechBlocks.
+     */
+    skip?: number
+    distinct?: SubjectPartsOfSpeechBlockScalarFieldEnum | SubjectPartsOfSpeechBlockScalarFieldEnum[]
+  }
+
+  /**
+   * SubjectPartsOfSpeechBlock create
+   */
+  export type SubjectPartsOfSpeechBlockCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectPartsOfSpeechBlock
+     */
+    select?: SubjectPartsOfSpeechBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectPartsOfSpeechBlock
+     */
+    omit?: SubjectPartsOfSpeechBlockOmit<ExtArgs> | null
+    /**
+     * The data needed to create a SubjectPartsOfSpeechBlock.
+     */
+    data: XOR<SubjectPartsOfSpeechBlockCreateInput, SubjectPartsOfSpeechBlockUncheckedCreateInput>
+  }
+
+  /**
+   * SubjectPartsOfSpeechBlock createMany
+   */
+  export type SubjectPartsOfSpeechBlockCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SubjectPartsOfSpeechBlocks.
+     */
+    data: SubjectPartsOfSpeechBlockCreateManyInput | SubjectPartsOfSpeechBlockCreateManyInput[]
+  }
+
+  /**
+   * SubjectPartsOfSpeechBlock createManyAndReturn
+   */
+  export type SubjectPartsOfSpeechBlockCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectPartsOfSpeechBlock
+     */
+    select?: SubjectPartsOfSpeechBlockSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectPartsOfSpeechBlock
+     */
+    omit?: SubjectPartsOfSpeechBlockOmit<ExtArgs> | null
+    /**
+     * The data used to create many SubjectPartsOfSpeechBlocks.
+     */
+    data: SubjectPartsOfSpeechBlockCreateManyInput | SubjectPartsOfSpeechBlockCreateManyInput[]
+  }
+
+  /**
+   * SubjectPartsOfSpeechBlock update
+   */
+  export type SubjectPartsOfSpeechBlockUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectPartsOfSpeechBlock
+     */
+    select?: SubjectPartsOfSpeechBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectPartsOfSpeechBlock
+     */
+    omit?: SubjectPartsOfSpeechBlockOmit<ExtArgs> | null
+    /**
+     * The data needed to update a SubjectPartsOfSpeechBlock.
+     */
+    data: XOR<SubjectPartsOfSpeechBlockUpdateInput, SubjectPartsOfSpeechBlockUncheckedUpdateInput>
+    /**
+     * Choose, which SubjectPartsOfSpeechBlock to update.
+     */
+    where: SubjectPartsOfSpeechBlockWhereUniqueInput
+  }
+
+  /**
+   * SubjectPartsOfSpeechBlock updateMany
+   */
+  export type SubjectPartsOfSpeechBlockUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SubjectPartsOfSpeechBlocks.
+     */
+    data: XOR<SubjectPartsOfSpeechBlockUpdateManyMutationInput, SubjectPartsOfSpeechBlockUncheckedUpdateManyInput>
+    /**
+     * Filter which SubjectPartsOfSpeechBlocks to update
+     */
+    where?: SubjectPartsOfSpeechBlockWhereInput
+    /**
+     * Limit how many SubjectPartsOfSpeechBlocks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubjectPartsOfSpeechBlock updateManyAndReturn
+   */
+  export type SubjectPartsOfSpeechBlockUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectPartsOfSpeechBlock
+     */
+    select?: SubjectPartsOfSpeechBlockSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectPartsOfSpeechBlock
+     */
+    omit?: SubjectPartsOfSpeechBlockOmit<ExtArgs> | null
+    /**
+     * The data used to update SubjectPartsOfSpeechBlocks.
+     */
+    data: XOR<SubjectPartsOfSpeechBlockUpdateManyMutationInput, SubjectPartsOfSpeechBlockUncheckedUpdateManyInput>
+    /**
+     * Filter which SubjectPartsOfSpeechBlocks to update
+     */
+    where?: SubjectPartsOfSpeechBlockWhereInput
+    /**
+     * Limit how many SubjectPartsOfSpeechBlocks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubjectPartsOfSpeechBlock upsert
+   */
+  export type SubjectPartsOfSpeechBlockUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectPartsOfSpeechBlock
+     */
+    select?: SubjectPartsOfSpeechBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectPartsOfSpeechBlock
+     */
+    omit?: SubjectPartsOfSpeechBlockOmit<ExtArgs> | null
+    /**
+     * The filter to search for the SubjectPartsOfSpeechBlock to update in case it exists.
+     */
+    where: SubjectPartsOfSpeechBlockWhereUniqueInput
+    /**
+     * In case the SubjectPartsOfSpeechBlock found by the `where` argument doesn't exist, create a new SubjectPartsOfSpeechBlock with this data.
+     */
+    create: XOR<SubjectPartsOfSpeechBlockCreateInput, SubjectPartsOfSpeechBlockUncheckedCreateInput>
+    /**
+     * In case the SubjectPartsOfSpeechBlock was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SubjectPartsOfSpeechBlockUpdateInput, SubjectPartsOfSpeechBlockUncheckedUpdateInput>
+  }
+
+  /**
+   * SubjectPartsOfSpeechBlock delete
+   */
+  export type SubjectPartsOfSpeechBlockDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectPartsOfSpeechBlock
+     */
+    select?: SubjectPartsOfSpeechBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectPartsOfSpeechBlock
+     */
+    omit?: SubjectPartsOfSpeechBlockOmit<ExtArgs> | null
+    /**
+     * Filter which SubjectPartsOfSpeechBlock to delete.
+     */
+    where: SubjectPartsOfSpeechBlockWhereUniqueInput
+  }
+
+  /**
+   * SubjectPartsOfSpeechBlock deleteMany
+   */
+  export type SubjectPartsOfSpeechBlockDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SubjectPartsOfSpeechBlocks to delete
+     */
+    where?: SubjectPartsOfSpeechBlockWhereInput
+    /**
+     * Limit how many SubjectPartsOfSpeechBlocks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubjectPartsOfSpeechBlock without action
+   */
+  export type SubjectPartsOfSpeechBlockDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectPartsOfSpeechBlock
+     */
+    select?: SubjectPartsOfSpeechBlockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubjectPartsOfSpeechBlock
+     */
+    omit?: SubjectPartsOfSpeechBlockOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model Board
    */
 
@@ -71712,10 +74097,6 @@ export namespace Prisma {
     id: 'id',
     vocabularyId: 'vocabularyId',
     word: 'word',
-    partOfSpeech: 'partOfSpeech',
-    pronunciation: 'pronunciation',
-    synonyms: 'synonyms',
-    antonyms: 'antonyms',
     meaning: 'meaning',
     imageUrl: 'imageUrl',
     imagePath: 'imagePath',
@@ -71742,12 +74123,6 @@ export namespace Prisma {
     sessionTokenEncrypted: 'sessionTokenEncrypted',
     localRoot: 'localRoot',
     forcePathStyle: 'forcePathStyle',
-    publicBaseUrl: 'publicBaseUrl',
-    privateBucket: 'privateBucket',
-    maxImageSizeMb: 'maxImageSizeMb',
-    maxVideoSizeMb: 'maxVideoSizeMb',
-    maxModelSizeMb: 'maxModelSizeMb',
-    pathPrefix: 'pathPrefix',
     isActive: 'isActive',
     everActivated: 'everActivated',
     lastTestStatus: 'lastTestStatus',
@@ -71782,7 +74157,6 @@ export namespace Prisma {
     checksumSha256: 'checksumSha256',
     status: 'status',
     isCurrent: 'isCurrent',
-    sortOrder: 'sortOrder',
     replacedAt: 'replacedAt',
     deletedAt: 'deletedAt',
     storageDeletedAt: 'storageDeletedAt',
@@ -72287,6 +74661,28 @@ export namespace Prisma {
   export type SuffixAndPrefixScalarFieldEnum = (typeof SuffixAndPrefixScalarFieldEnum)[keyof typeof SuffixAndPrefixScalarFieldEnum]
 
 
+  export const PartsOfSpeechScalarFieldEnum: {
+    id: 'id',
+    contentBlockId: 'contentBlockId',
+    contentId: 'contentId',
+    classId: 'classId',
+    subjectId: 'subjectId',
+    unitId: 'unitId',
+    lessonId: 'lessonId',
+    topicId: 'topicId',
+    question: 'question',
+    answer: 'answer',
+    details: 'details',
+    organizationId: 'organizationId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PartsOfSpeechScalarFieldEnum = (typeof PartsOfSpeechScalarFieldEnum)[keyof typeof PartsOfSpeechScalarFieldEnum]
+
+
   export const TagQuestionScalarFieldEnum: {
     id: 'id',
     contentBlockId: 'contentBlockId',
@@ -72435,6 +74831,28 @@ export namespace Prisma {
   };
 
   export type SubjectEnglishSecondPaperBlockScalarFieldEnum = (typeof SubjectEnglishSecondPaperBlockScalarFieldEnum)[keyof typeof SubjectEnglishSecondPaperBlockScalarFieldEnum]
+
+
+  export const SubjectPartsOfSpeechBlockScalarFieldEnum: {
+    id: 'id',
+    classId: 'classId',
+    subjectId: 'subjectId',
+    kind: 'kind',
+    boardId: 'boardId',
+    academicYearId: 'academicYearId',
+    title: 'title',
+    instruction: 'instruction',
+    details: 'details',
+    documentJson: 'documentJson',
+    sortOrder: 'sortOrder',
+    organizationId: 'organizationId',
+    createdBy: 'createdBy',
+    updatedBy: 'updatedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SubjectPartsOfSpeechBlockScalarFieldEnum = (typeof SubjectPartsOfSpeechBlockScalarFieldEnum)[keyof typeof SubjectPartsOfSpeechBlockScalarFieldEnum]
 
 
   export const BoardScalarFieldEnum: {
@@ -74088,6 +76506,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: XOR<PunctuationAndCapitalizationNullableScalarRelationFilter, PunctuationAndCapitalizationWhereInput> | null
     preposition?: XOR<PrepositionNullableScalarRelationFilter, PrepositionWhereInput> | null
     suffixAndPrefix?: XOR<SuffixAndPrefixNullableScalarRelationFilter, SuffixAndPrefixWhereInput> | null
+    partsOfSpeech?: XOR<PartsOfSpeechNullableScalarRelationFilter, PartsOfSpeechWhereInput> | null
     tagQuestion?: XOR<TagQuestionNullableScalarRelationFilter, TagQuestionWhereInput> | null
     connector?: XOR<ConnectorNullableScalarRelationFilter, ConnectorWhereInput> | null
     seenPassageOne?: XOR<SeenPassageOneNullableScalarRelationFilter, SeenPassageOneWhereInput> | null
@@ -74126,6 +76545,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationOrderByWithRelationInput
     preposition?: PrepositionOrderByWithRelationInput
     suffixAndPrefix?: SuffixAndPrefixOrderByWithRelationInput
+    partsOfSpeech?: PartsOfSpeechOrderByWithRelationInput
     tagQuestion?: TagQuestionOrderByWithRelationInput
     connector?: ConnectorOrderByWithRelationInput
     seenPassageOne?: SeenPassageOneOrderByWithRelationInput
@@ -74167,6 +76587,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: XOR<PunctuationAndCapitalizationNullableScalarRelationFilter, PunctuationAndCapitalizationWhereInput> | null
     preposition?: XOR<PrepositionNullableScalarRelationFilter, PrepositionWhereInput> | null
     suffixAndPrefix?: XOR<SuffixAndPrefixNullableScalarRelationFilter, SuffixAndPrefixWhereInput> | null
+    partsOfSpeech?: XOR<PartsOfSpeechNullableScalarRelationFilter, PartsOfSpeechWhereInput> | null
     tagQuestion?: XOR<TagQuestionNullableScalarRelationFilter, TagQuestionWhereInput> | null
     connector?: XOR<ConnectorNullableScalarRelationFilter, ConnectorWhereInput> | null
     seenPassageOne?: XOR<SeenPassageOneNullableScalarRelationFilter, SeenPassageOneWhereInput> | null
@@ -74423,10 +76844,6 @@ export namespace Prisma {
     id?: StringFilter<"VocabularyEntry"> | string
     vocabularyId?: StringFilter<"VocabularyEntry"> | string
     word?: StringFilter<"VocabularyEntry"> | string
-    partOfSpeech?: StringFilter<"VocabularyEntry"> | string
-    pronunciation?: StringFilter<"VocabularyEntry"> | string
-    synonyms?: StringFilter<"VocabularyEntry"> | string
-    antonyms?: StringFilter<"VocabularyEntry"> | string
     meaning?: StringFilter<"VocabularyEntry"> | string
     imageUrl?: StringFilter<"VocabularyEntry"> | string
     imagePath?: StringFilter<"VocabularyEntry"> | string
@@ -74444,10 +76861,6 @@ export namespace Prisma {
     id?: SortOrder
     vocabularyId?: SortOrder
     word?: SortOrder
-    partOfSpeech?: SortOrder
-    pronunciation?: SortOrder
-    synonyms?: SortOrder
-    antonyms?: SortOrder
     meaning?: SortOrder
     imageUrl?: SortOrder
     imagePath?: SortOrder
@@ -74468,10 +76881,6 @@ export namespace Prisma {
     NOT?: VocabularyEntryWhereInput | VocabularyEntryWhereInput[]
     vocabularyId?: StringFilter<"VocabularyEntry"> | string
     word?: StringFilter<"VocabularyEntry"> | string
-    partOfSpeech?: StringFilter<"VocabularyEntry"> | string
-    pronunciation?: StringFilter<"VocabularyEntry"> | string
-    synonyms?: StringFilter<"VocabularyEntry"> | string
-    antonyms?: StringFilter<"VocabularyEntry"> | string
     meaning?: StringFilter<"VocabularyEntry"> | string
     imageUrl?: StringFilter<"VocabularyEntry"> | string
     imagePath?: StringFilter<"VocabularyEntry"> | string
@@ -74489,10 +76898,6 @@ export namespace Prisma {
     id?: SortOrder
     vocabularyId?: SortOrder
     word?: SortOrder
-    partOfSpeech?: SortOrder
-    pronunciation?: SortOrder
-    synonyms?: SortOrder
-    antonyms?: SortOrder
     meaning?: SortOrder
     imageUrl?: SortOrder
     imagePath?: SortOrder
@@ -74516,10 +76921,6 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     vocabularyId?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     word?: StringWithAggregatesFilter<"VocabularyEntry"> | string
-    partOfSpeech?: StringWithAggregatesFilter<"VocabularyEntry"> | string
-    pronunciation?: StringWithAggregatesFilter<"VocabularyEntry"> | string
-    synonyms?: StringWithAggregatesFilter<"VocabularyEntry"> | string
-    antonyms?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     meaning?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     imageUrl?: StringWithAggregatesFilter<"VocabularyEntry"> | string
     imagePath?: StringWithAggregatesFilter<"VocabularyEntry"> | string
@@ -74546,12 +76947,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFilter<"StorageConfiguration"> | string
     localRoot?: StringFilter<"StorageConfiguration"> | string
     forcePathStyle?: BoolFilter<"StorageConfiguration"> | boolean
-    publicBaseUrl?: StringFilter<"StorageConfiguration"> | string
-    privateBucket?: StringFilter<"StorageConfiguration"> | string
-    maxImageSizeMb?: IntFilter<"StorageConfiguration"> | number
-    maxVideoSizeMb?: IntFilter<"StorageConfiguration"> | number
-    maxModelSizeMb?: IntFilter<"StorageConfiguration"> | number
-    pathPrefix?: StringFilter<"StorageConfiguration"> | string
     isActive?: BoolFilter<"StorageConfiguration"> | boolean
     everActivated?: BoolFilter<"StorageConfiguration"> | boolean
     lastTestStatus?: StringFilter<"StorageConfiguration"> | string
@@ -74577,12 +76972,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: SortOrder
     localRoot?: SortOrder
     forcePathStyle?: SortOrder
-    publicBaseUrl?: SortOrder
-    privateBucket?: SortOrder
-    maxImageSizeMb?: SortOrder
-    maxVideoSizeMb?: SortOrder
-    maxModelSizeMb?: SortOrder
-    pathPrefix?: SortOrder
     isActive?: SortOrder
     everActivated?: SortOrder
     lastTestStatus?: SortOrder
@@ -74612,12 +77001,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFilter<"StorageConfiguration"> | string
     localRoot?: StringFilter<"StorageConfiguration"> | string
     forcePathStyle?: BoolFilter<"StorageConfiguration"> | boolean
-    publicBaseUrl?: StringFilter<"StorageConfiguration"> | string
-    privateBucket?: StringFilter<"StorageConfiguration"> | string
-    maxImageSizeMb?: IntFilter<"StorageConfiguration"> | number
-    maxVideoSizeMb?: IntFilter<"StorageConfiguration"> | number
-    maxModelSizeMb?: IntFilter<"StorageConfiguration"> | number
-    pathPrefix?: StringFilter<"StorageConfiguration"> | string
     isActive?: BoolFilter<"StorageConfiguration"> | boolean
     everActivated?: BoolFilter<"StorageConfiguration"> | boolean
     lastTestStatus?: StringFilter<"StorageConfiguration"> | string
@@ -74643,12 +77026,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: SortOrder
     localRoot?: SortOrder
     forcePathStyle?: SortOrder
-    publicBaseUrl?: SortOrder
-    privateBucket?: SortOrder
-    maxImageSizeMb?: SortOrder
-    maxVideoSizeMb?: SortOrder
-    maxModelSizeMb?: SortOrder
-    pathPrefix?: SortOrder
     isActive?: SortOrder
     everActivated?: SortOrder
     lastTestStatus?: SortOrder
@@ -74660,10 +77037,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: StorageConfigurationCountOrderByAggregateInput
-    _avg?: StorageConfigurationAvgOrderByAggregateInput
     _max?: StorageConfigurationMaxOrderByAggregateInput
     _min?: StorageConfigurationMinOrderByAggregateInput
-    _sum?: StorageConfigurationSumOrderByAggregateInput
   }
 
   export type StorageConfigurationScalarWhereWithAggregatesInput = {
@@ -74681,12 +77056,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringWithAggregatesFilter<"StorageConfiguration"> | string
     localRoot?: StringWithAggregatesFilter<"StorageConfiguration"> | string
     forcePathStyle?: BoolWithAggregatesFilter<"StorageConfiguration"> | boolean
-    publicBaseUrl?: StringWithAggregatesFilter<"StorageConfiguration"> | string
-    privateBucket?: StringWithAggregatesFilter<"StorageConfiguration"> | string
-    maxImageSizeMb?: IntWithAggregatesFilter<"StorageConfiguration"> | number
-    maxVideoSizeMb?: IntWithAggregatesFilter<"StorageConfiguration"> | number
-    maxModelSizeMb?: IntWithAggregatesFilter<"StorageConfiguration"> | number
-    pathPrefix?: StringWithAggregatesFilter<"StorageConfiguration"> | string
     isActive?: BoolWithAggregatesFilter<"StorageConfiguration"> | boolean
     everActivated?: BoolWithAggregatesFilter<"StorageConfiguration"> | boolean
     lastTestStatus?: StringWithAggregatesFilter<"StorageConfiguration"> | string
@@ -74721,7 +77090,6 @@ export namespace Prisma {
     checksumSha256?: StringFilter<"UploadedFile"> | string
     status?: StringFilter<"UploadedFile"> | string
     isCurrent?: BoolFilter<"UploadedFile"> | boolean
-    sortOrder?: IntFilter<"UploadedFile"> | number
     replacedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
     storageDeletedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
@@ -74754,7 +77122,6 @@ export namespace Prisma {
     checksumSha256?: SortOrder
     status?: SortOrder
     isCurrent?: SortOrder
-    sortOrder?: SortOrder
     replacedAt?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
     storageDeletedAt?: SortOrderInput | SortOrder
@@ -74790,7 +77157,6 @@ export namespace Prisma {
     checksumSha256?: StringFilter<"UploadedFile"> | string
     status?: StringFilter<"UploadedFile"> | string
     isCurrent?: BoolFilter<"UploadedFile"> | boolean
-    sortOrder?: IntFilter<"UploadedFile"> | number
     replacedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
     storageDeletedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
@@ -74823,7 +77189,6 @@ export namespace Prisma {
     checksumSha256?: SortOrder
     status?: SortOrder
     isCurrent?: SortOrder
-    sortOrder?: SortOrder
     replacedAt?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
     storageDeletedAt?: SortOrderInput | SortOrder
@@ -74861,7 +77226,6 @@ export namespace Prisma {
     checksumSha256?: StringWithAggregatesFilter<"UploadedFile"> | string
     status?: StringWithAggregatesFilter<"UploadedFile"> | string
     isCurrent?: BoolWithAggregatesFilter<"UploadedFile"> | boolean
-    sortOrder?: IntWithAggregatesFilter<"UploadedFile"> | number
     replacedAt?: DateTimeNullableWithAggregatesFilter<"UploadedFile"> | Date | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"UploadedFile"> | Date | string | null
     storageDeletedAt?: DateTimeNullableWithAggregatesFilter<"UploadedFile"> | Date | string | null
@@ -77332,6 +79696,116 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"SuffixAndPrefix"> | Date | string
   }
 
+  export type PartsOfSpeechWhereInput = {
+    AND?: PartsOfSpeechWhereInput | PartsOfSpeechWhereInput[]
+    OR?: PartsOfSpeechWhereInput[]
+    NOT?: PartsOfSpeechWhereInput | PartsOfSpeechWhereInput[]
+    id?: StringFilter<"PartsOfSpeech"> | string
+    contentBlockId?: StringFilter<"PartsOfSpeech"> | string
+    contentId?: StringFilter<"PartsOfSpeech"> | string
+    classId?: StringFilter<"PartsOfSpeech"> | string
+    subjectId?: StringFilter<"PartsOfSpeech"> | string
+    unitId?: StringFilter<"PartsOfSpeech"> | string
+    lessonId?: StringFilter<"PartsOfSpeech"> | string
+    topicId?: StringNullableFilter<"PartsOfSpeech"> | string | null
+    question?: StringFilter<"PartsOfSpeech"> | string
+    answer?: StringFilter<"PartsOfSpeech"> | string
+    details?: StringFilter<"PartsOfSpeech"> | string
+    organizationId?: StringFilter<"PartsOfSpeech"> | string
+    createdBy?: StringFilter<"PartsOfSpeech"> | string
+    updatedBy?: StringFilter<"PartsOfSpeech"> | string
+    createdAt?: DateTimeFilter<"PartsOfSpeech"> | Date | string
+    updatedAt?: DateTimeFilter<"PartsOfSpeech"> | Date | string
+    contentBlock?: XOR<ContentBlockScalarRelationFilter, ContentBlockWhereInput>
+  }
+
+  export type PartsOfSpeechOrderByWithRelationInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrderInput | SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    contentBlock?: ContentBlockOrderByWithRelationInput
+  }
+
+  export type PartsOfSpeechWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    contentBlockId?: string
+    AND?: PartsOfSpeechWhereInput | PartsOfSpeechWhereInput[]
+    OR?: PartsOfSpeechWhereInput[]
+    NOT?: PartsOfSpeechWhereInput | PartsOfSpeechWhereInput[]
+    contentId?: StringFilter<"PartsOfSpeech"> | string
+    classId?: StringFilter<"PartsOfSpeech"> | string
+    subjectId?: StringFilter<"PartsOfSpeech"> | string
+    unitId?: StringFilter<"PartsOfSpeech"> | string
+    lessonId?: StringFilter<"PartsOfSpeech"> | string
+    topicId?: StringNullableFilter<"PartsOfSpeech"> | string | null
+    question?: StringFilter<"PartsOfSpeech"> | string
+    answer?: StringFilter<"PartsOfSpeech"> | string
+    details?: StringFilter<"PartsOfSpeech"> | string
+    organizationId?: StringFilter<"PartsOfSpeech"> | string
+    createdBy?: StringFilter<"PartsOfSpeech"> | string
+    updatedBy?: StringFilter<"PartsOfSpeech"> | string
+    createdAt?: DateTimeFilter<"PartsOfSpeech"> | Date | string
+    updatedAt?: DateTimeFilter<"PartsOfSpeech"> | Date | string
+    contentBlock?: XOR<ContentBlockScalarRelationFilter, ContentBlockWhereInput>
+  }, "id" | "contentBlockId">
+
+  export type PartsOfSpeechOrderByWithAggregationInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrderInput | SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PartsOfSpeechCountOrderByAggregateInput
+    _max?: PartsOfSpeechMaxOrderByAggregateInput
+    _min?: PartsOfSpeechMinOrderByAggregateInput
+  }
+
+  export type PartsOfSpeechScalarWhereWithAggregatesInput = {
+    AND?: PartsOfSpeechScalarWhereWithAggregatesInput | PartsOfSpeechScalarWhereWithAggregatesInput[]
+    OR?: PartsOfSpeechScalarWhereWithAggregatesInput[]
+    NOT?: PartsOfSpeechScalarWhereWithAggregatesInput | PartsOfSpeechScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PartsOfSpeech"> | string
+    contentBlockId?: StringWithAggregatesFilter<"PartsOfSpeech"> | string
+    contentId?: StringWithAggregatesFilter<"PartsOfSpeech"> | string
+    classId?: StringWithAggregatesFilter<"PartsOfSpeech"> | string
+    subjectId?: StringWithAggregatesFilter<"PartsOfSpeech"> | string
+    unitId?: StringWithAggregatesFilter<"PartsOfSpeech"> | string
+    lessonId?: StringWithAggregatesFilter<"PartsOfSpeech"> | string
+    topicId?: StringNullableWithAggregatesFilter<"PartsOfSpeech"> | string | null
+    question?: StringWithAggregatesFilter<"PartsOfSpeech"> | string
+    answer?: StringWithAggregatesFilter<"PartsOfSpeech"> | string
+    details?: StringWithAggregatesFilter<"PartsOfSpeech"> | string
+    organizationId?: StringWithAggregatesFilter<"PartsOfSpeech"> | string
+    createdBy?: StringWithAggregatesFilter<"PartsOfSpeech"> | string
+    updatedBy?: StringWithAggregatesFilter<"PartsOfSpeech"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"PartsOfSpeech"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PartsOfSpeech"> | Date | string
+  }
+
   export type TagQuestionWhereInput = {
     AND?: TagQuestionWhereInput | TagQuestionWhereInput[]
     OR?: TagQuestionWhereInput[]
@@ -78075,6 +80549,115 @@ export namespace Prisma {
     updatedBy?: StringWithAggregatesFilter<"SubjectEnglishSecondPaperBlock"> | string
     createdAt?: DateTimeWithAggregatesFilter<"SubjectEnglishSecondPaperBlock"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"SubjectEnglishSecondPaperBlock"> | Date | string
+  }
+
+  export type SubjectPartsOfSpeechBlockWhereInput = {
+    AND?: SubjectPartsOfSpeechBlockWhereInput | SubjectPartsOfSpeechBlockWhereInput[]
+    OR?: SubjectPartsOfSpeechBlockWhereInput[]
+    NOT?: SubjectPartsOfSpeechBlockWhereInput | SubjectPartsOfSpeechBlockWhereInput[]
+    id?: StringFilter<"SubjectPartsOfSpeechBlock"> | string
+    classId?: StringFilter<"SubjectPartsOfSpeechBlock"> | string
+    subjectId?: StringFilter<"SubjectPartsOfSpeechBlock"> | string
+    kind?: StringFilter<"SubjectPartsOfSpeechBlock"> | string
+    boardId?: StringNullableFilter<"SubjectPartsOfSpeechBlock"> | string | null
+    academicYearId?: StringNullableFilter<"SubjectPartsOfSpeechBlock"> | string | null
+    title?: StringFilter<"SubjectPartsOfSpeechBlock"> | string
+    instruction?: StringFilter<"SubjectPartsOfSpeechBlock"> | string
+    details?: StringFilter<"SubjectPartsOfSpeechBlock"> | string
+    documentJson?: StringFilter<"SubjectPartsOfSpeechBlock"> | string
+    sortOrder?: IntFilter<"SubjectPartsOfSpeechBlock"> | number
+    organizationId?: StringFilter<"SubjectPartsOfSpeechBlock"> | string
+    createdBy?: StringFilter<"SubjectPartsOfSpeechBlock"> | string
+    updatedBy?: StringFilter<"SubjectPartsOfSpeechBlock"> | string
+    createdAt?: DateTimeFilter<"SubjectPartsOfSpeechBlock"> | Date | string
+    updatedAt?: DateTimeFilter<"SubjectPartsOfSpeechBlock"> | Date | string
+  }
+
+  export type SubjectPartsOfSpeechBlockOrderByWithRelationInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    kind?: SortOrder
+    boardId?: SortOrderInput | SortOrder
+    academicYearId?: SortOrderInput | SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectPartsOfSpeechBlockWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SubjectPartsOfSpeechBlockWhereInput | SubjectPartsOfSpeechBlockWhereInput[]
+    OR?: SubjectPartsOfSpeechBlockWhereInput[]
+    NOT?: SubjectPartsOfSpeechBlockWhereInput | SubjectPartsOfSpeechBlockWhereInput[]
+    classId?: StringFilter<"SubjectPartsOfSpeechBlock"> | string
+    subjectId?: StringFilter<"SubjectPartsOfSpeechBlock"> | string
+    kind?: StringFilter<"SubjectPartsOfSpeechBlock"> | string
+    boardId?: StringNullableFilter<"SubjectPartsOfSpeechBlock"> | string | null
+    academicYearId?: StringNullableFilter<"SubjectPartsOfSpeechBlock"> | string | null
+    title?: StringFilter<"SubjectPartsOfSpeechBlock"> | string
+    instruction?: StringFilter<"SubjectPartsOfSpeechBlock"> | string
+    details?: StringFilter<"SubjectPartsOfSpeechBlock"> | string
+    documentJson?: StringFilter<"SubjectPartsOfSpeechBlock"> | string
+    sortOrder?: IntFilter<"SubjectPartsOfSpeechBlock"> | number
+    organizationId?: StringFilter<"SubjectPartsOfSpeechBlock"> | string
+    createdBy?: StringFilter<"SubjectPartsOfSpeechBlock"> | string
+    updatedBy?: StringFilter<"SubjectPartsOfSpeechBlock"> | string
+    createdAt?: DateTimeFilter<"SubjectPartsOfSpeechBlock"> | Date | string
+    updatedAt?: DateTimeFilter<"SubjectPartsOfSpeechBlock"> | Date | string
+  }, "id">
+
+  export type SubjectPartsOfSpeechBlockOrderByWithAggregationInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    kind?: SortOrder
+    boardId?: SortOrderInput | SortOrder
+    academicYearId?: SortOrderInput | SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SubjectPartsOfSpeechBlockCountOrderByAggregateInput
+    _avg?: SubjectPartsOfSpeechBlockAvgOrderByAggregateInput
+    _max?: SubjectPartsOfSpeechBlockMaxOrderByAggregateInput
+    _min?: SubjectPartsOfSpeechBlockMinOrderByAggregateInput
+    _sum?: SubjectPartsOfSpeechBlockSumOrderByAggregateInput
+  }
+
+  export type SubjectPartsOfSpeechBlockScalarWhereWithAggregatesInput = {
+    AND?: SubjectPartsOfSpeechBlockScalarWhereWithAggregatesInput | SubjectPartsOfSpeechBlockScalarWhereWithAggregatesInput[]
+    OR?: SubjectPartsOfSpeechBlockScalarWhereWithAggregatesInput[]
+    NOT?: SubjectPartsOfSpeechBlockScalarWhereWithAggregatesInput | SubjectPartsOfSpeechBlockScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SubjectPartsOfSpeechBlock"> | string
+    classId?: StringWithAggregatesFilter<"SubjectPartsOfSpeechBlock"> | string
+    subjectId?: StringWithAggregatesFilter<"SubjectPartsOfSpeechBlock"> | string
+    kind?: StringWithAggregatesFilter<"SubjectPartsOfSpeechBlock"> | string
+    boardId?: StringNullableWithAggregatesFilter<"SubjectPartsOfSpeechBlock"> | string | null
+    academicYearId?: StringNullableWithAggregatesFilter<"SubjectPartsOfSpeechBlock"> | string | null
+    title?: StringWithAggregatesFilter<"SubjectPartsOfSpeechBlock"> | string
+    instruction?: StringWithAggregatesFilter<"SubjectPartsOfSpeechBlock"> | string
+    details?: StringWithAggregatesFilter<"SubjectPartsOfSpeechBlock"> | string
+    documentJson?: StringWithAggregatesFilter<"SubjectPartsOfSpeechBlock"> | string
+    sortOrder?: IntWithAggregatesFilter<"SubjectPartsOfSpeechBlock"> | number
+    organizationId?: StringWithAggregatesFilter<"SubjectPartsOfSpeechBlock"> | string
+    createdBy?: StringWithAggregatesFilter<"SubjectPartsOfSpeechBlock"> | string
+    updatedBy?: StringWithAggregatesFilter<"SubjectPartsOfSpeechBlock"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"SubjectPartsOfSpeechBlock"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SubjectPartsOfSpeechBlock"> | Date | string
   }
 
   export type BoardWhereInput = {
@@ -80285,6 +82868,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -80322,6 +82906,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -80359,6 +82944,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -80396,6 +82982,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -80691,10 +83278,6 @@ export namespace Prisma {
   export type VocabularyEntryCreateInput = {
     id?: string
     word?: string
-    partOfSpeech?: string
-    pronunciation?: string
-    synonyms?: string
-    antonyms?: string
     meaning?: string
     imageUrl?: string
     imagePath?: string
@@ -80712,10 +83295,6 @@ export namespace Prisma {
     id?: string
     vocabularyId: string
     word?: string
-    partOfSpeech?: string
-    pronunciation?: string
-    synonyms?: string
-    antonyms?: string
     meaning?: string
     imageUrl?: string
     imagePath?: string
@@ -80731,10 +83310,6 @@ export namespace Prisma {
   export type VocabularyEntryUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
-    partOfSpeech?: StringFieldUpdateOperationsInput | string
-    pronunciation?: StringFieldUpdateOperationsInput | string
-    synonyms?: StringFieldUpdateOperationsInput | string
-    antonyms?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
@@ -80752,10 +83327,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     vocabularyId?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
-    partOfSpeech?: StringFieldUpdateOperationsInput | string
-    pronunciation?: StringFieldUpdateOperationsInput | string
-    synonyms?: StringFieldUpdateOperationsInput | string
-    antonyms?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
@@ -80772,10 +83343,6 @@ export namespace Prisma {
     id?: string
     vocabularyId: string
     word?: string
-    partOfSpeech?: string
-    pronunciation?: string
-    synonyms?: string
-    antonyms?: string
     meaning?: string
     imageUrl?: string
     imagePath?: string
@@ -80790,10 +83357,6 @@ export namespace Prisma {
   export type VocabularyEntryUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
-    partOfSpeech?: StringFieldUpdateOperationsInput | string
-    pronunciation?: StringFieldUpdateOperationsInput | string
-    synonyms?: StringFieldUpdateOperationsInput | string
-    antonyms?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
@@ -80809,10 +83372,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     vocabularyId?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
-    partOfSpeech?: StringFieldUpdateOperationsInput | string
-    pronunciation?: StringFieldUpdateOperationsInput | string
-    synonyms?: StringFieldUpdateOperationsInput | string
-    antonyms?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
@@ -80836,12 +83395,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: string
     localRoot?: string
     forcePathStyle?: boolean
-    publicBaseUrl?: string
-    privateBucket?: string
-    maxImageSizeMb?: number
-    maxVideoSizeMb?: number
-    maxModelSizeMb?: number
-    pathPrefix?: string
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: string
@@ -80867,12 +83420,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: string
     localRoot?: string
     forcePathStyle?: boolean
-    publicBaseUrl?: string
-    privateBucket?: string
-    maxImageSizeMb?: number
-    maxVideoSizeMb?: number
-    maxModelSizeMb?: number
-    pathPrefix?: string
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: string
@@ -80898,12 +83445,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
     localRoot?: StringFieldUpdateOperationsInput | string
     forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
-    publicBaseUrl?: StringFieldUpdateOperationsInput | string
-    privateBucket?: StringFieldUpdateOperationsInput | string
-    maxImageSizeMb?: IntFieldUpdateOperationsInput | number
-    maxVideoSizeMb?: IntFieldUpdateOperationsInput | number
-    maxModelSizeMb?: IntFieldUpdateOperationsInput | number
-    pathPrefix?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     everActivated?: BoolFieldUpdateOperationsInput | boolean
     lastTestStatus?: StringFieldUpdateOperationsInput | string
@@ -80929,12 +83470,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
     localRoot?: StringFieldUpdateOperationsInput | string
     forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
-    publicBaseUrl?: StringFieldUpdateOperationsInput | string
-    privateBucket?: StringFieldUpdateOperationsInput | string
-    maxImageSizeMb?: IntFieldUpdateOperationsInput | number
-    maxVideoSizeMb?: IntFieldUpdateOperationsInput | number
-    maxModelSizeMb?: IntFieldUpdateOperationsInput | number
-    pathPrefix?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     everActivated?: BoolFieldUpdateOperationsInput | boolean
     lastTestStatus?: StringFieldUpdateOperationsInput | string
@@ -80960,12 +83495,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: string
     localRoot?: string
     forcePathStyle?: boolean
-    publicBaseUrl?: string
-    privateBucket?: string
-    maxImageSizeMb?: number
-    maxVideoSizeMb?: number
-    maxModelSizeMb?: number
-    pathPrefix?: string
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: string
@@ -80990,12 +83519,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
     localRoot?: StringFieldUpdateOperationsInput | string
     forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
-    publicBaseUrl?: StringFieldUpdateOperationsInput | string
-    privateBucket?: StringFieldUpdateOperationsInput | string
-    maxImageSizeMb?: IntFieldUpdateOperationsInput | number
-    maxVideoSizeMb?: IntFieldUpdateOperationsInput | number
-    maxModelSizeMb?: IntFieldUpdateOperationsInput | number
-    pathPrefix?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     everActivated?: BoolFieldUpdateOperationsInput | boolean
     lastTestStatus?: StringFieldUpdateOperationsInput | string
@@ -81020,12 +83543,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
     localRoot?: StringFieldUpdateOperationsInput | string
     forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
-    publicBaseUrl?: StringFieldUpdateOperationsInput | string
-    privateBucket?: StringFieldUpdateOperationsInput | string
-    maxImageSizeMb?: IntFieldUpdateOperationsInput | number
-    maxVideoSizeMb?: IntFieldUpdateOperationsInput | number
-    maxModelSizeMb?: IntFieldUpdateOperationsInput | number
-    pathPrefix?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     everActivated?: BoolFieldUpdateOperationsInput | boolean
     lastTestStatus?: StringFieldUpdateOperationsInput | string
@@ -81055,7 +83572,6 @@ export namespace Prisma {
     checksumSha256?: string
     status?: string
     isCurrent?: boolean
-    sortOrder?: number
     replacedAt?: Date | string | null
     deletedAt?: Date | string | null
     storageDeletedAt?: Date | string | null
@@ -81088,7 +83604,6 @@ export namespace Prisma {
     checksumSha256?: string
     status?: string
     isCurrent?: boolean
-    sortOrder?: number
     replacedAt?: Date | string | null
     deletedAt?: Date | string | null
     storageDeletedAt?: Date | string | null
@@ -81117,7 +83632,6 @@ export namespace Prisma {
     checksumSha256?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     isCurrent?: BoolFieldUpdateOperationsInput | boolean
-    sortOrder?: IntFieldUpdateOperationsInput | number
     replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -81150,7 +83664,6 @@ export namespace Prisma {
     checksumSha256?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     isCurrent?: BoolFieldUpdateOperationsInput | boolean
-    sortOrder?: IntFieldUpdateOperationsInput | number
     replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -81181,7 +83694,6 @@ export namespace Prisma {
     checksumSha256?: string
     status?: string
     isCurrent?: boolean
-    sortOrder?: number
     replacedAt?: Date | string | null
     deletedAt?: Date | string | null
     storageDeletedAt?: Date | string | null
@@ -81209,7 +83721,6 @@ export namespace Prisma {
     checksumSha256?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     isCurrent?: BoolFieldUpdateOperationsInput | boolean
-    sortOrder?: IntFieldUpdateOperationsInput | number
     replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -81239,7 +83750,6 @@ export namespace Prisma {
     checksumSha256?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     isCurrent?: BoolFieldUpdateOperationsInput | boolean
-    sortOrder?: IntFieldUpdateOperationsInput | number
     replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -84229,6 +86739,138 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PartsOfSpeechCreateInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    question?: string
+    answer?: string
+    details?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contentBlock: ContentBlockCreateNestedOneWithoutPartsOfSpeechInput
+  }
+
+  export type PartsOfSpeechUncheckedCreateInput = {
+    id?: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    question?: string
+    answer?: string
+    details?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PartsOfSpeechUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contentBlock?: ContentBlockUpdateOneRequiredWithoutPartsOfSpeechNestedInput
+  }
+
+  export type PartsOfSpeechUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentBlockId?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PartsOfSpeechCreateManyInput = {
+    id?: string
+    contentBlockId: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    question?: string
+    answer?: string
+    details?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PartsOfSpeechUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PartsOfSpeechUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentBlockId?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type TagQuestionCreateInput = {
     id?: string
     contentId: string
@@ -85112,6 +87754,139 @@ export namespace Prisma {
   }
 
   export type SubjectEnglishSecondPaperBlockUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectPartsOfSpeechBlockCreateInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    kind?: string
+    boardId?: string | null
+    academicYearId?: string | null
+    title?: string
+    instruction?: string
+    details?: string
+    documentJson?: string
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubjectPartsOfSpeechBlockUncheckedCreateInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    kind?: string
+    boardId?: string | null
+    academicYearId?: string | null
+    title?: string
+    instruction?: string
+    details?: string
+    documentJson?: string
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubjectPartsOfSpeechBlockUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectPartsOfSpeechBlockUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectPartsOfSpeechBlockCreateManyInput = {
+    id?: string
+    classId: string
+    subjectId: string
+    kind?: string
+    boardId?: string | null
+    academicYearId?: string | null
+    title?: string
+    instruction?: string
+    details?: string
+    documentJson?: string
+    sortOrder?: number
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SubjectPartsOfSpeechBlockUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    instruction?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    documentJson?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectPartsOfSpeechBlockUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
@@ -86863,6 +89638,11 @@ export namespace Prisma {
     isNot?: SuffixAndPrefixWhereInput | null
   }
 
+  export type PartsOfSpeechNullableScalarRelationFilter = {
+    is?: PartsOfSpeechWhereInput | null
+    isNot?: PartsOfSpeechWhereInput | null
+  }
+
   export type TagQuestionNullableScalarRelationFilter = {
     is?: TagQuestionWhereInput | null
     isNot?: TagQuestionWhereInput | null
@@ -87061,10 +89841,6 @@ export namespace Prisma {
     id?: SortOrder
     vocabularyId?: SortOrder
     word?: SortOrder
-    partOfSpeech?: SortOrder
-    pronunciation?: SortOrder
-    synonyms?: SortOrder
-    antonyms?: SortOrder
     meaning?: SortOrder
     imageUrl?: SortOrder
     imagePath?: SortOrder
@@ -87084,10 +89860,6 @@ export namespace Prisma {
     id?: SortOrder
     vocabularyId?: SortOrder
     word?: SortOrder
-    partOfSpeech?: SortOrder
-    pronunciation?: SortOrder
-    synonyms?: SortOrder
-    antonyms?: SortOrder
     meaning?: SortOrder
     imageUrl?: SortOrder
     imagePath?: SortOrder
@@ -87103,10 +89875,6 @@ export namespace Prisma {
     id?: SortOrder
     vocabularyId?: SortOrder
     word?: SortOrder
-    partOfSpeech?: SortOrder
-    pronunciation?: SortOrder
-    synonyms?: SortOrder
-    antonyms?: SortOrder
     meaning?: SortOrder
     imageUrl?: SortOrder
     imagePath?: SortOrder
@@ -87139,12 +89907,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: SortOrder
     localRoot?: SortOrder
     forcePathStyle?: SortOrder
-    publicBaseUrl?: SortOrder
-    privateBucket?: SortOrder
-    maxImageSizeMb?: SortOrder
-    maxVideoSizeMb?: SortOrder
-    maxModelSizeMb?: SortOrder
-    pathPrefix?: SortOrder
     isActive?: SortOrder
     everActivated?: SortOrder
     lastTestStatus?: SortOrder
@@ -87155,12 +89917,6 @@ export namespace Prisma {
     updatedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type StorageConfigurationAvgOrderByAggregateInput = {
-    maxImageSizeMb?: SortOrder
-    maxVideoSizeMb?: SortOrder
-    maxModelSizeMb?: SortOrder
   }
 
   export type StorageConfigurationMaxOrderByAggregateInput = {
@@ -87175,12 +89931,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: SortOrder
     localRoot?: SortOrder
     forcePathStyle?: SortOrder
-    publicBaseUrl?: SortOrder
-    privateBucket?: SortOrder
-    maxImageSizeMb?: SortOrder
-    maxVideoSizeMb?: SortOrder
-    maxModelSizeMb?: SortOrder
-    pathPrefix?: SortOrder
     isActive?: SortOrder
     everActivated?: SortOrder
     lastTestStatus?: SortOrder
@@ -87205,12 +89955,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: SortOrder
     localRoot?: SortOrder
     forcePathStyle?: SortOrder
-    publicBaseUrl?: SortOrder
-    privateBucket?: SortOrder
-    maxImageSizeMb?: SortOrder
-    maxVideoSizeMb?: SortOrder
-    maxModelSizeMb?: SortOrder
-    pathPrefix?: SortOrder
     isActive?: SortOrder
     everActivated?: SortOrder
     lastTestStatus?: SortOrder
@@ -87221,12 +89965,6 @@ export namespace Prisma {
     updatedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type StorageConfigurationSumOrderByAggregateInput = {
-    maxImageSizeMb?: SortOrder
-    maxVideoSizeMb?: SortOrder
-    maxModelSizeMb?: SortOrder
   }
 
   export type VocabularyEntryNullableScalarRelationFilter = {
@@ -87263,7 +90001,6 @@ export namespace Prisma {
     checksumSha256?: SortOrder
     status?: SortOrder
     isCurrent?: SortOrder
-    sortOrder?: SortOrder
     replacedAt?: SortOrder
     deletedAt?: SortOrder
     storageDeletedAt?: SortOrder
@@ -87278,7 +90015,6 @@ export namespace Prisma {
     sizeBytes?: SortOrder
     width?: SortOrder
     height?: SortOrder
-    sortOrder?: SortOrder
   }
 
   export type UploadedFileMaxOrderByAggregateInput = {
@@ -87300,7 +90036,6 @@ export namespace Prisma {
     checksumSha256?: SortOrder
     status?: SortOrder
     isCurrent?: SortOrder
-    sortOrder?: SortOrder
     replacedAt?: SortOrder
     deletedAt?: SortOrder
     storageDeletedAt?: SortOrder
@@ -87330,7 +90065,6 @@ export namespace Prisma {
     checksumSha256?: SortOrder
     status?: SortOrder
     isCurrent?: SortOrder
-    sortOrder?: SortOrder
     replacedAt?: SortOrder
     deletedAt?: SortOrder
     storageDeletedAt?: SortOrder
@@ -87345,7 +90079,6 @@ export namespace Prisma {
     sizeBytes?: SortOrder
     width?: SortOrder
     height?: SortOrder
-    sortOrder?: SortOrder
   }
 
   export type SynonymsAntonymsEntryListRelationFilter = {
@@ -88655,6 +91388,63 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type PartsOfSpeechCountOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PartsOfSpeechMaxOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PartsOfSpeechMinOrderByAggregateInput = {
+    id?: SortOrder
+    contentBlockId?: SortOrder
+    contentId?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    unitId?: SortOrder
+    lessonId?: SortOrder
+    topicId?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    details?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type TagQuestionCountOrderByAggregateInput = {
     id?: SortOrder
     contentBlockId?: SortOrder
@@ -89079,6 +91869,71 @@ export namespace Prisma {
   }
 
   export type SubjectEnglishSecondPaperBlockSumOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
+  export type SubjectPartsOfSpeechBlockCountOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    kind?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectPartsOfSpeechBlockAvgOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
+  export type SubjectPartsOfSpeechBlockMaxOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    kind?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectPartsOfSpeechBlockMinOrderByAggregateInput = {
+    id?: SortOrder
+    classId?: SortOrder
+    subjectId?: SortOrder
+    kind?: SortOrder
+    boardId?: SortOrder
+    academicYearId?: SortOrder
+    title?: SortOrder
+    instruction?: SortOrder
+    details?: SortOrder
+    documentJson?: SortOrder
+    sortOrder?: SortOrder
+    organizationId?: SortOrder
+    createdBy?: SortOrder
+    updatedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SubjectPartsOfSpeechBlockSumOrderByAggregateInput = {
     sortOrder?: SortOrder
   }
 
@@ -90626,6 +93481,12 @@ export namespace Prisma {
     connect?: SuffixAndPrefixWhereUniqueInput
   }
 
+  export type PartsOfSpeechCreateNestedOneWithoutContentBlockInput = {
+    create?: XOR<PartsOfSpeechCreateWithoutContentBlockInput, PartsOfSpeechUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: PartsOfSpeechCreateOrConnectWithoutContentBlockInput
+    connect?: PartsOfSpeechWhereUniqueInput
+  }
+
   export type TagQuestionCreateNestedOneWithoutContentBlockInput = {
     create?: XOR<TagQuestionCreateWithoutContentBlockInput, TagQuestionUncheckedCreateWithoutContentBlockInput>
     connectOrCreate?: TagQuestionCreateOrConnectWithoutContentBlockInput
@@ -90780,6 +93641,12 @@ export namespace Prisma {
     create?: XOR<SuffixAndPrefixCreateWithoutContentBlockInput, SuffixAndPrefixUncheckedCreateWithoutContentBlockInput>
     connectOrCreate?: SuffixAndPrefixCreateOrConnectWithoutContentBlockInput
     connect?: SuffixAndPrefixWhereUniqueInput
+  }
+
+  export type PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput = {
+    create?: XOR<PartsOfSpeechCreateWithoutContentBlockInput, PartsOfSpeechUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: PartsOfSpeechCreateOrConnectWithoutContentBlockInput
+    connect?: PartsOfSpeechWhereUniqueInput
   }
 
   export type TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput = {
@@ -91032,6 +93899,16 @@ export namespace Prisma {
     delete?: SuffixAndPrefixWhereInput | boolean
     connect?: SuffixAndPrefixWhereUniqueInput
     update?: XOR<XOR<SuffixAndPrefixUpdateToOneWithWhereWithoutContentBlockInput, SuffixAndPrefixUpdateWithoutContentBlockInput>, SuffixAndPrefixUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type PartsOfSpeechUpdateOneWithoutContentBlockNestedInput = {
+    create?: XOR<PartsOfSpeechCreateWithoutContentBlockInput, PartsOfSpeechUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: PartsOfSpeechCreateOrConnectWithoutContentBlockInput
+    upsert?: PartsOfSpeechUpsertWithoutContentBlockInput
+    disconnect?: PartsOfSpeechWhereInput | boolean
+    delete?: PartsOfSpeechWhereInput | boolean
+    connect?: PartsOfSpeechWhereUniqueInput
+    update?: XOR<XOR<PartsOfSpeechUpdateToOneWithWhereWithoutContentBlockInput, PartsOfSpeechUpdateWithoutContentBlockInput>, PartsOfSpeechUncheckedUpdateWithoutContentBlockInput>
   }
 
   export type TagQuestionUpdateOneWithoutContentBlockNestedInput = {
@@ -91292,6 +94169,16 @@ export namespace Prisma {
     delete?: SuffixAndPrefixWhereInput | boolean
     connect?: SuffixAndPrefixWhereUniqueInput
     update?: XOR<XOR<SuffixAndPrefixUpdateToOneWithWhereWithoutContentBlockInput, SuffixAndPrefixUpdateWithoutContentBlockInput>, SuffixAndPrefixUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput = {
+    create?: XOR<PartsOfSpeechCreateWithoutContentBlockInput, PartsOfSpeechUncheckedCreateWithoutContentBlockInput>
+    connectOrCreate?: PartsOfSpeechCreateOrConnectWithoutContentBlockInput
+    upsert?: PartsOfSpeechUpsertWithoutContentBlockInput
+    disconnect?: PartsOfSpeechWhereInput | boolean
+    delete?: PartsOfSpeechWhereInput | boolean
+    connect?: PartsOfSpeechWhereUniqueInput
+    update?: XOR<XOR<PartsOfSpeechUpdateToOneWithWhereWithoutContentBlockInput, PartsOfSpeechUpdateWithoutContentBlockInput>, PartsOfSpeechUncheckedUpdateWithoutContentBlockInput>
   }
 
   export type TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput = {
@@ -91900,6 +94787,20 @@ export namespace Prisma {
     upsert?: ContentBlockUpsertWithoutSuffixAndPrefixInput
     connect?: ContentBlockWhereUniqueInput
     update?: XOR<XOR<ContentBlockUpdateToOneWithWhereWithoutSuffixAndPrefixInput, ContentBlockUpdateWithoutSuffixAndPrefixInput>, ContentBlockUncheckedUpdateWithoutSuffixAndPrefixInput>
+  }
+
+  export type ContentBlockCreateNestedOneWithoutPartsOfSpeechInput = {
+    create?: XOR<ContentBlockCreateWithoutPartsOfSpeechInput, ContentBlockUncheckedCreateWithoutPartsOfSpeechInput>
+    connectOrCreate?: ContentBlockCreateOrConnectWithoutPartsOfSpeechInput
+    connect?: ContentBlockWhereUniqueInput
+  }
+
+  export type ContentBlockUpdateOneRequiredWithoutPartsOfSpeechNestedInput = {
+    create?: XOR<ContentBlockCreateWithoutPartsOfSpeechInput, ContentBlockUncheckedCreateWithoutPartsOfSpeechInput>
+    connectOrCreate?: ContentBlockCreateOrConnectWithoutPartsOfSpeechInput
+    upsert?: ContentBlockUpsertWithoutPartsOfSpeechInput
+    connect?: ContentBlockWhereUniqueInput
+    update?: XOR<XOR<ContentBlockUpdateToOneWithWhereWithoutPartsOfSpeechInput, ContentBlockUpdateWithoutPartsOfSpeechInput>, ContentBlockUncheckedUpdateWithoutPartsOfSpeechInput>
   }
 
   export type ContentBlockCreateNestedOneWithoutTagQuestionInput = {
@@ -95037,6 +97938,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -95073,6 +97975,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -95438,6 +98341,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
@@ -95474,6 +98378,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
@@ -95526,6 +98431,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
@@ -95562,6 +98468,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -95598,6 +98505,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -95634,6 +98542,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -95686,6 +98595,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -95722,6 +98632,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -96962,6 +99873,47 @@ export namespace Prisma {
   export type SuffixAndPrefixCreateOrConnectWithoutContentBlockInput = {
     where: SuffixAndPrefixWhereUniqueInput
     create: XOR<SuffixAndPrefixCreateWithoutContentBlockInput, SuffixAndPrefixUncheckedCreateWithoutContentBlockInput>
+  }
+
+  export type PartsOfSpeechCreateWithoutContentBlockInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    question?: string
+    answer?: string
+    details?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PartsOfSpeechUncheckedCreateWithoutContentBlockInput = {
+    id?: string
+    contentId: string
+    classId: string
+    subjectId: string
+    unitId: string
+    lessonId: string
+    topicId?: string | null
+    question?: string
+    answer?: string
+    details?: string
+    organizationId: string
+    createdBy: string
+    updatedBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PartsOfSpeechCreateOrConnectWithoutContentBlockInput = {
+    where: PartsOfSpeechWhereUniqueInput
+    create: XOR<PartsOfSpeechCreateWithoutContentBlockInput, PartsOfSpeechUncheckedCreateWithoutContentBlockInput>
   }
 
   export type TagQuestionCreateWithoutContentBlockInput = {
@@ -98259,6 +101211,53 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PartsOfSpeechUpsertWithoutContentBlockInput = {
+    update: XOR<PartsOfSpeechUpdateWithoutContentBlockInput, PartsOfSpeechUncheckedUpdateWithoutContentBlockInput>
+    create: XOR<PartsOfSpeechCreateWithoutContentBlockInput, PartsOfSpeechUncheckedCreateWithoutContentBlockInput>
+    where?: PartsOfSpeechWhereInput
+  }
+
+  export type PartsOfSpeechUpdateToOneWithWhereWithoutContentBlockInput = {
+    where?: PartsOfSpeechWhereInput
+    data: XOR<PartsOfSpeechUpdateWithoutContentBlockInput, PartsOfSpeechUncheckedUpdateWithoutContentBlockInput>
+  }
+
+  export type PartsOfSpeechUpdateWithoutContentBlockInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PartsOfSpeechUncheckedUpdateWithoutContentBlockInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    unitId?: StringFieldUpdateOperationsInput | string
+    lessonId?: StringFieldUpdateOperationsInput | string
+    topicId?: NullableStringFieldUpdateOperationsInput | string | null
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    updatedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type TagQuestionUpsertWithoutContentBlockInput = {
     update: XOR<TagQuestionUpdateWithoutContentBlockInput, TagQuestionUncheckedUpdateWithoutContentBlockInput>
     create: XOR<TagQuestionCreateWithoutContentBlockInput, TagQuestionUncheckedCreateWithoutContentBlockInput>
@@ -98469,6 +101468,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -98505,6 +101505,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -98557,6 +101558,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -98593,6 +101595,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -98629,6 +101632,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -98665,6 +101669,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -98679,10 +101684,6 @@ export namespace Prisma {
   export type VocabularyEntryCreateWithoutVocabularyInput = {
     id?: string
     word?: string
-    partOfSpeech?: string
-    pronunciation?: string
-    synonyms?: string
-    antonyms?: string
     meaning?: string
     imageUrl?: string
     imagePath?: string
@@ -98698,10 +101699,6 @@ export namespace Prisma {
   export type VocabularyEntryUncheckedCreateWithoutVocabularyInput = {
     id?: string
     word?: string
-    partOfSpeech?: string
-    pronunciation?: string
-    synonyms?: string
-    antonyms?: string
     meaning?: string
     imageUrl?: string
     imagePath?: string
@@ -98764,6 +101761,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -98800,6 +101798,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -98829,10 +101828,6 @@ export namespace Prisma {
     id?: StringFilter<"VocabularyEntry"> | string
     vocabularyId?: StringFilter<"VocabularyEntry"> | string
     word?: StringFilter<"VocabularyEntry"> | string
-    partOfSpeech?: StringFilter<"VocabularyEntry"> | string
-    pronunciation?: StringFilter<"VocabularyEntry"> | string
-    synonyms?: StringFilter<"VocabularyEntry"> | string
-    antonyms?: StringFilter<"VocabularyEntry"> | string
     meaning?: StringFilter<"VocabularyEntry"> | string
     imageUrl?: StringFilter<"VocabularyEntry"> | string
     imagePath?: StringFilter<"VocabularyEntry"> | string
@@ -98904,7 +101899,6 @@ export namespace Prisma {
     checksumSha256?: string
     status?: string
     isCurrent?: boolean
-    sortOrder?: number
     replacedAt?: Date | string | null
     deletedAt?: Date | string | null
     storageDeletedAt?: Date | string | null
@@ -98935,7 +101929,6 @@ export namespace Prisma {
     checksumSha256?: string
     status?: string
     isCurrent?: boolean
-    sortOrder?: number
     replacedAt?: Date | string | null
     deletedAt?: Date | string | null
     storageDeletedAt?: Date | string | null
@@ -99043,7 +102036,6 @@ export namespace Prisma {
     checksumSha256?: StringFilter<"UploadedFile"> | string
     status?: StringFilter<"UploadedFile"> | string
     isCurrent?: BoolFilter<"UploadedFile"> | boolean
-    sortOrder?: IntFilter<"UploadedFile"> | number
     replacedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
     deletedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
     storageDeletedAt?: DateTimeNullableFilter<"UploadedFile"> | Date | string | null
@@ -99071,7 +102063,6 @@ export namespace Prisma {
     checksumSha256?: string
     status?: string
     isCurrent?: boolean
-    sortOrder?: number
     replacedAt?: Date | string | null
     deletedAt?: Date | string | null
     storageDeletedAt?: Date | string | null
@@ -99102,7 +102093,6 @@ export namespace Prisma {
     checksumSha256?: string
     status?: string
     isCurrent?: boolean
-    sortOrder?: number
     replacedAt?: Date | string | null
     deletedAt?: Date | string | null
     storageDeletedAt?: Date | string | null
@@ -99142,10 +102132,6 @@ export namespace Prisma {
   export type VocabularyEntryCreateWithoutUploadedFilesInput = {
     id?: string
     word?: string
-    partOfSpeech?: string
-    pronunciation?: string
-    synonyms?: string
-    antonyms?: string
     meaning?: string
     imageUrl?: string
     imagePath?: string
@@ -99162,10 +102148,6 @@ export namespace Prisma {
     id?: string
     vocabularyId: string
     word?: string
-    partOfSpeech?: string
-    pronunciation?: string
-    synonyms?: string
-    antonyms?: string
     meaning?: string
     imageUrl?: string
     imagePath?: string
@@ -99194,12 +102176,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: string
     localRoot?: string
     forcePathStyle?: boolean
-    publicBaseUrl?: string
-    privateBucket?: string
-    maxImageSizeMb?: number
-    maxVideoSizeMb?: number
-    maxModelSizeMb?: number
-    pathPrefix?: string
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: string
@@ -99224,12 +102200,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: string
     localRoot?: string
     forcePathStyle?: boolean
-    publicBaseUrl?: string
-    privateBucket?: string
-    maxImageSizeMb?: number
-    maxVideoSizeMb?: number
-    maxModelSizeMb?: number
-    pathPrefix?: string
     isActive?: boolean
     everActivated?: boolean
     lastTestStatus?: string
@@ -99300,10 +102270,6 @@ export namespace Prisma {
   export type VocabularyEntryUpdateWithoutUploadedFilesInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
-    partOfSpeech?: StringFieldUpdateOperationsInput | string
-    pronunciation?: StringFieldUpdateOperationsInput | string
-    synonyms?: StringFieldUpdateOperationsInput | string
-    antonyms?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
@@ -99320,10 +102286,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     vocabularyId?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
-    partOfSpeech?: StringFieldUpdateOperationsInput | string
-    pronunciation?: StringFieldUpdateOperationsInput | string
-    synonyms?: StringFieldUpdateOperationsInput | string
-    antonyms?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
@@ -99358,12 +102320,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
     localRoot?: StringFieldUpdateOperationsInput | string
     forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
-    publicBaseUrl?: StringFieldUpdateOperationsInput | string
-    privateBucket?: StringFieldUpdateOperationsInput | string
-    maxImageSizeMb?: IntFieldUpdateOperationsInput | number
-    maxVideoSizeMb?: IntFieldUpdateOperationsInput | number
-    maxModelSizeMb?: IntFieldUpdateOperationsInput | number
-    pathPrefix?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     everActivated?: BoolFieldUpdateOperationsInput | boolean
     lastTestStatus?: StringFieldUpdateOperationsInput | string
@@ -99388,12 +102344,6 @@ export namespace Prisma {
     sessionTokenEncrypted?: StringFieldUpdateOperationsInput | string
     localRoot?: StringFieldUpdateOperationsInput | string
     forcePathStyle?: BoolFieldUpdateOperationsInput | boolean
-    publicBaseUrl?: StringFieldUpdateOperationsInput | string
-    privateBucket?: StringFieldUpdateOperationsInput | string
-    maxImageSizeMb?: IntFieldUpdateOperationsInput | number
-    maxVideoSizeMb?: IntFieldUpdateOperationsInput | number
-    maxModelSizeMb?: IntFieldUpdateOperationsInput | number
-    pathPrefix?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     everActivated?: BoolFieldUpdateOperationsInput | boolean
     lastTestStatus?: StringFieldUpdateOperationsInput | string
@@ -99481,6 +102431,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -99517,6 +102468,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -99608,6 +102560,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -99644,6 +102597,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -99807,6 +102761,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -99843,6 +102798,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -99895,6 +102851,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -99931,6 +102888,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -99967,6 +102925,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -100003,6 +102962,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -100055,6 +103015,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -100091,6 +103052,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -100127,6 +103089,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -100163,6 +103126,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -100215,6 +103179,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -100251,6 +103216,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -100287,6 +103253,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -100323,6 +103290,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -100375,6 +103343,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -100411,6 +103380,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -100447,6 +103417,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -100483,6 +103454,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -100535,6 +103507,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -100571,6 +103544,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -100607,6 +103581,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -100643,6 +103618,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -100695,6 +103671,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -100731,6 +103708,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -100767,6 +103745,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -100803,6 +103782,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -100855,6 +103835,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -100891,6 +103872,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -100927,6 +103909,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -100963,6 +103946,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -101015,6 +103999,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -101051,6 +104036,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -101087,6 +104073,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -101123,6 +104110,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -101175,6 +104163,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -101211,6 +104200,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -101247,6 +104237,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -101283,6 +104274,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -101335,6 +104327,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -101371,6 +104364,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -101407,6 +104401,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -101443,6 +104438,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -101495,6 +104491,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -101531,6 +104528,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -101567,6 +104565,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -101603,6 +104602,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -101655,6 +104655,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -101691,6 +104692,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -101727,6 +104729,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -101763,6 +104766,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -101815,6 +104819,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -101851,6 +104856,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -101887,6 +104893,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -101923,6 +104930,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -101975,6 +104983,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -102011,6 +105020,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -102047,6 +105057,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -102083,6 +105094,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -102135,6 +105147,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -102171,6 +105184,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -102207,6 +105221,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -102243,6 +105258,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -102295,6 +105311,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -102331,6 +105348,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -102367,6 +105385,7 @@ export namespace Prisma {
     changingSentence?: ChangingSentenceCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -102403,6 +105422,7 @@ export namespace Prisma {
     changingSentence?: ChangingSentenceUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -102455,6 +105475,7 @@ export namespace Prisma {
     changingSentence?: ChangingSentenceUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -102491,6 +105512,7 @@ export namespace Prisma {
     changingSentence?: ChangingSentenceUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -102527,6 +105549,7 @@ export namespace Prisma {
     changingSentence?: ChangingSentenceCreateNestedOneWithoutContentBlockInput
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -102563,6 +105586,7 @@ export namespace Prisma {
     changingSentence?: ChangingSentenceUncheckedCreateNestedOneWithoutContentBlockInput
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -102615,6 +105639,7 @@ export namespace Prisma {
     changingSentence?: ChangingSentenceUpdateOneWithoutContentBlockNestedInput
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -102651,6 +105676,7 @@ export namespace Prisma {
     changingSentence?: ChangingSentenceUncheckedUpdateOneWithoutContentBlockNestedInput
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -102687,6 +105713,7 @@ export namespace Prisma {
     changingSentence?: ChangingSentenceCreateNestedOneWithoutContentBlockInput
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
@@ -102723,6 +105750,7 @@ export namespace Prisma {
     changingSentence?: ChangingSentenceUncheckedCreateNestedOneWithoutContentBlockInput
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
@@ -102775,6 +105803,7 @@ export namespace Prisma {
     changingSentence?: ChangingSentenceUpdateOneWithoutContentBlockNestedInput
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -102811,6 +105840,171 @@ export namespace Prisma {
     changingSentence?: ChangingSentenceUncheckedUpdateOneWithoutContentBlockNestedInput
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
+    tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
+    connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
+  }
+
+  export type ContentBlockCreateWithoutPartsOfSpeechInput = {
+    id?: string
+    kind: string
+    sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    content: ContentCreateNestedOneWithoutBlocksInput
+    paragraph?: ParagraphCreateNestedOneWithoutContentBlockInput
+    vocabulary?: VocabularyCreateNestedOneWithoutContentBlockInput
+    synonymsAntonyms?: SynonymsAntonymsCreateNestedOneWithoutContentBlockInput
+    gapFillExercise?: GapFillExerciseCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperCreateNestedOneWithoutContentBlockInput
+    mcqSection?: McqSectionCreateNestedOneWithoutContentBlockInput
+    questionAnswerExercise?: QuestionAnswerExerciseCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryCreateNestedOneWithoutContentBlockInput
+    trueFalseExercise?: TrueFalseExerciseCreateNestedOneWithoutContentBlockInput
+    informationTransfer?: InformationTransferCreateNestedOneWithoutContentBlockInput
+    substitutionTable?: SubstitutionTableCreateNestedOneWithoutContentBlockInput
+    rightFormOfVerb?: RightFormOfVerbCreateNestedOneWithoutContentBlockInput
+    narration?: NarrationCreateNestedOneWithoutContentBlockInput
+    changingSentence?: ChangingSentenceCreateNestedOneWithoutContentBlockInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
+    preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
+    suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
+    connector?: ConnectorCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
+  }
+
+  export type ContentBlockUncheckedCreateWithoutPartsOfSpeechInput = {
+    id?: string
+    contentId: string
+    kind: string
+    sortOrder?: number
+    boardId?: string | null
+    academicYearId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
+    vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
+    synonymsAntonyms?: SynonymsAntonymsUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillExercise?: GapFillExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedCreateNestedOneWithoutContentBlockInput
+    mcqSection?: McqSectionUncheckedCreateNestedOneWithoutContentBlockInput
+    questionAnswerExercise?: QuestionAnswerExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromPoems?: QuestionFromPoemsUncheckedCreateNestedOneWithoutContentBlockInput
+    questionFromStory?: QuestionFromStoryUncheckedCreateNestedOneWithoutContentBlockInput
+    trueFalseExercise?: TrueFalseExerciseUncheckedCreateNestedOneWithoutContentBlockInput
+    informationTransfer?: InformationTransferUncheckedCreateNestedOneWithoutContentBlockInput
+    substitutionTable?: SubstitutionTableUncheckedCreateNestedOneWithoutContentBlockInput
+    rightFormOfVerb?: RightFormOfVerbUncheckedCreateNestedOneWithoutContentBlockInput
+    narration?: NarrationUncheckedCreateNestedOneWithoutContentBlockInput
+    changingSentence?: ChangingSentenceUncheckedCreateNestedOneWithoutContentBlockInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
+    preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
+    suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
+    connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
+    seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
+  }
+
+  export type ContentBlockCreateOrConnectWithoutPartsOfSpeechInput = {
+    where: ContentBlockWhereUniqueInput
+    create: XOR<ContentBlockCreateWithoutPartsOfSpeechInput, ContentBlockUncheckedCreateWithoutPartsOfSpeechInput>
+  }
+
+  export type ContentBlockUpsertWithoutPartsOfSpeechInput = {
+    update: XOR<ContentBlockUpdateWithoutPartsOfSpeechInput, ContentBlockUncheckedUpdateWithoutPartsOfSpeechInput>
+    create: XOR<ContentBlockCreateWithoutPartsOfSpeechInput, ContentBlockUncheckedCreateWithoutPartsOfSpeechInput>
+    where?: ContentBlockWhereInput
+  }
+
+  export type ContentBlockUpdateToOneWithWhereWithoutPartsOfSpeechInput = {
+    where?: ContentBlockWhereInput
+    data: XOR<ContentBlockUpdateWithoutPartsOfSpeechInput, ContentBlockUncheckedUpdateWithoutPartsOfSpeechInput>
+  }
+
+  export type ContentBlockUpdateWithoutPartsOfSpeechInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
+    paragraph?: ParagraphUpdateOneWithoutContentBlockNestedInput
+    vocabulary?: VocabularyUpdateOneWithoutContentBlockNestedInput
+    synonymsAntonyms?: SynonymsAntonymsUpdateOneWithoutContentBlockNestedInput
+    gapFillExercise?: GapFillExerciseUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUpdateOneWithoutContentBlockNestedInput
+    mcqSection?: McqSectionUpdateOneWithoutContentBlockNestedInput
+    questionAnswerExercise?: QuestionAnswerExerciseUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUpdateOneWithoutContentBlockNestedInput
+    trueFalseExercise?: TrueFalseExerciseUpdateOneWithoutContentBlockNestedInput
+    informationTransfer?: InformationTransferUpdateOneWithoutContentBlockNestedInput
+    substitutionTable?: SubstitutionTableUpdateOneWithoutContentBlockNestedInput
+    rightFormOfVerb?: RightFormOfVerbUpdateOneWithoutContentBlockNestedInput
+    narration?: NarrationUpdateOneWithoutContentBlockNestedInput
+    changingSentence?: ChangingSentenceUpdateOneWithoutContentBlockNestedInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
+    preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
+    suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
+    connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
+    seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
+    seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
+  }
+
+  export type ContentBlockUncheckedUpdateWithoutPartsOfSpeechInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contentId?: StringFieldUpdateOperationsInput | string
+    kind?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    boardId?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
+    vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
+    synonymsAntonyms?: SynonymsAntonymsUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillExercise?: GapFillExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillFirstPaper?: GapFillFirstPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    gapFillSecondPaper?: GapFillSecondPaperUncheckedUpdateOneWithoutContentBlockNestedInput
+    mcqSection?: McqSectionUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionAnswerExercise?: QuestionAnswerExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    tableCompletionExercise?: TableCompletionExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    columnMatchingExercise?: ColumnMatchingExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    rearrangeSentenceExercise?: RearrangeSentenceExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromPoems?: QuestionFromPoemsUncheckedUpdateOneWithoutContentBlockNestedInput
+    questionFromStory?: QuestionFromStoryUncheckedUpdateOneWithoutContentBlockNestedInput
+    trueFalseExercise?: TrueFalseExerciseUncheckedUpdateOneWithoutContentBlockNestedInput
+    informationTransfer?: InformationTransferUncheckedUpdateOneWithoutContentBlockNestedInput
+    substitutionTable?: SubstitutionTableUncheckedUpdateOneWithoutContentBlockNestedInput
+    rightFormOfVerb?: RightFormOfVerbUncheckedUpdateOneWithoutContentBlockNestedInput
+    narration?: NarrationUncheckedUpdateOneWithoutContentBlockNestedInput
+    changingSentence?: ChangingSentenceUncheckedUpdateOneWithoutContentBlockNestedInput
+    punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
+    preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
+    suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -102848,6 +106042,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
     seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
@@ -102884,6 +106079,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     connector?: ConnectorUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
@@ -102936,6 +106132,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
     seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
@@ -102972,6 +106169,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -103008,6 +106206,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneCreateNestedOneWithoutContentBlockInput
     seenPassageTwo?: SeenPassageTwoCreateNestedOneWithoutContentBlockInput
@@ -103044,6 +106243,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedCreateNestedOneWithoutContentBlockInput
     preposition?: PrepositionUncheckedCreateNestedOneWithoutContentBlockInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedCreateNestedOneWithoutContentBlockInput
+    partsOfSpeech?: PartsOfSpeechUncheckedCreateNestedOneWithoutContentBlockInput
     tagQuestion?: TagQuestionUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageOne?: SeenPassageOneUncheckedCreateNestedOneWithoutContentBlockInput
     seenPassageTwo?: SeenPassageTwoUncheckedCreateNestedOneWithoutContentBlockInput
@@ -103096,6 +106296,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
     seenPassageTwo?: SeenPassageTwoUpdateOneWithoutContentBlockNestedInput
@@ -103132,6 +106333,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageTwo?: SeenPassageTwoUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -103552,7 +106754,6 @@ export namespace Prisma {
     checksumSha256?: string
     status?: string
     isCurrent?: boolean
-    sortOrder?: number
     replacedAt?: Date | string | null
     deletedAt?: Date | string | null
     storageDeletedAt?: Date | string | null
@@ -103584,7 +106785,6 @@ export namespace Prisma {
     checksumSha256?: string
     status?: string
     isCurrent?: boolean
-    sortOrder?: number
     replacedAt?: Date | string | null
     deletedAt?: Date | string | null
     storageDeletedAt?: Date | string | null
@@ -103822,7 +107022,6 @@ export namespace Prisma {
     checksumSha256?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     isCurrent?: BoolFieldUpdateOperationsInput | boolean
-    sortOrder?: IntFieldUpdateOperationsInput | number
     replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -103854,7 +107053,6 @@ export namespace Prisma {
     checksumSha256?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     isCurrent?: BoolFieldUpdateOperationsInput | boolean
-    sortOrder?: IntFieldUpdateOperationsInput | number
     replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -105658,6 +108856,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUpdateOneWithoutContentBlockNestedInput
@@ -105694,6 +108893,7 @@ export namespace Prisma {
     punctuationAndCapitalization?: PunctuationAndCapitalizationUncheckedUpdateOneWithoutContentBlockNestedInput
     preposition?: PrepositionUncheckedUpdateOneWithoutContentBlockNestedInput
     suffixAndPrefix?: SuffixAndPrefixUncheckedUpdateOneWithoutContentBlockNestedInput
+    partsOfSpeech?: PartsOfSpeechUncheckedUpdateOneWithoutContentBlockNestedInput
     tagQuestion?: TagQuestionUncheckedUpdateOneWithoutContentBlockNestedInput
     connector?: ConnectorUncheckedUpdateOneWithoutContentBlockNestedInput
     seenPassageOne?: SeenPassageOneUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -105713,10 +108913,6 @@ export namespace Prisma {
   export type VocabularyEntryCreateManyVocabularyInput = {
     id?: string
     word?: string
-    partOfSpeech?: string
-    pronunciation?: string
-    synonyms?: string
-    antonyms?: string
     meaning?: string
     imageUrl?: string
     imagePath?: string
@@ -105731,10 +108927,6 @@ export namespace Prisma {
   export type VocabularyEntryUpdateWithoutVocabularyInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
-    partOfSpeech?: StringFieldUpdateOperationsInput | string
-    pronunciation?: StringFieldUpdateOperationsInput | string
-    synonyms?: StringFieldUpdateOperationsInput | string
-    antonyms?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
@@ -105750,10 +108942,6 @@ export namespace Prisma {
   export type VocabularyEntryUncheckedUpdateWithoutVocabularyInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
-    partOfSpeech?: StringFieldUpdateOperationsInput | string
-    pronunciation?: StringFieldUpdateOperationsInput | string
-    synonyms?: StringFieldUpdateOperationsInput | string
-    antonyms?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
@@ -105769,10 +108957,6 @@ export namespace Prisma {
   export type VocabularyEntryUncheckedUpdateManyWithoutVocabularyInput = {
     id?: StringFieldUpdateOperationsInput | string
     word?: StringFieldUpdateOperationsInput | string
-    partOfSpeech?: StringFieldUpdateOperationsInput | string
-    pronunciation?: StringFieldUpdateOperationsInput | string
-    synonyms?: StringFieldUpdateOperationsInput | string
-    antonyms?: StringFieldUpdateOperationsInput | string
     meaning?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     imagePath?: StringFieldUpdateOperationsInput | string
@@ -105802,7 +108986,6 @@ export namespace Prisma {
     checksumSha256?: string
     status?: string
     isCurrent?: boolean
-    sortOrder?: number
     replacedAt?: Date | string | null
     deletedAt?: Date | string | null
     storageDeletedAt?: Date | string | null
@@ -105830,7 +109013,6 @@ export namespace Prisma {
     checksumSha256?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     isCurrent?: BoolFieldUpdateOperationsInput | boolean
-    sortOrder?: IntFieldUpdateOperationsInput | number
     replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -105861,7 +109043,6 @@ export namespace Prisma {
     checksumSha256?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     isCurrent?: BoolFieldUpdateOperationsInput | boolean
-    sortOrder?: IntFieldUpdateOperationsInput | number
     replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -105891,7 +109072,6 @@ export namespace Prisma {
     checksumSha256?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     isCurrent?: BoolFieldUpdateOperationsInput | boolean
-    sortOrder?: IntFieldUpdateOperationsInput | number
     replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -105920,7 +109100,6 @@ export namespace Prisma {
     checksumSha256?: string
     status?: string
     isCurrent?: boolean
-    sortOrder?: number
     replacedAt?: Date | string | null
     deletedAt?: Date | string | null
     storageDeletedAt?: Date | string | null
@@ -105948,7 +109127,6 @@ export namespace Prisma {
     checksumSha256?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     isCurrent?: BoolFieldUpdateOperationsInput | boolean
-    sortOrder?: IntFieldUpdateOperationsInput | number
     replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -105979,7 +109157,6 @@ export namespace Prisma {
     checksumSha256?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     isCurrent?: BoolFieldUpdateOperationsInput | boolean
-    sortOrder?: IntFieldUpdateOperationsInput | number
     replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -106009,7 +109186,6 @@ export namespace Prisma {
     checksumSha256?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     isCurrent?: BoolFieldUpdateOperationsInput | boolean
-    sortOrder?: IntFieldUpdateOperationsInput | number
     replacedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     storageDeletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

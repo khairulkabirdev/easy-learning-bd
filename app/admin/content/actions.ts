@@ -6,6 +6,12 @@ import { z } from "zod";
 
 import { requireAdmin, assertTrustedMutationOrigin } from "@/lib/app-auth";
 import { isEnglishFirstPaperSubject } from "@/app/admin/content/navigation-helpers";
+import {
+  FIXED_BLOCK_LABELS,
+  getFixedModelQuestionLayout,
+  getFixedModelQuestionSlots,
+  getFixedPassageParentKind,
+} from "@/lib/model-question-fixed-blocks";
 import { logAudit } from "@/lib/auditLogger";
 import { prisma } from "@/lib/db";
 import { SEEN_PASSAGE_ONE_REF, SEEN_PASSAGE_TWO_REF, isSeenPassageRef } from "@/lib/seen-composition-passages";
@@ -46,6 +52,7 @@ const contentBlockKindSchema = z.enum([
   "rearrange-sentence",
   "question-from-poems",
   "question-from-story",
+  "writing-summary",
   "information-transfer",
   "substitution-table",
   "right-form-of-verb",
@@ -53,6 +60,7 @@ const contentBlockKindSchema = z.enum([
   "changing-sentence",
   "punctuation-and-capitalization",
   "preposition",
+  "parts-of-speech",
   "suffix-and-prefix",
   "tag-question",
   "connector",
@@ -106,23 +114,6 @@ async function deleteTrackedVocabularyStorage(
       userId,
     });
   }
-}
-
-// Vocabulary galleries are owned by the block rather than by an individual word.
-// Include their files in the existing safe deletion lifecycle when a block/content is removed.
-async function getTrackedVocabularyBlockGalleryFiles(blockIds: string[], organizationId: string) {
-  if (!blockIds.length) return [];
-  return prisma.uploadedFile.findMany({
-    where: {
-      organizationId,
-      purpose: "vocabulary-block-gallery",
-      ownerType: "VocabularyBlock",
-      ownerId: { in: blockIds },
-      isCurrent: true,
-      status: "active",
-    },
-    select: { id: true, path: true, url: true, storageConfigurationId: true },
-  });
 }
 
 const contentSchema = z.object({
@@ -272,19 +263,13 @@ const vocabularyWordSchema = z.string().trim().min(1, "Word is required.").max(3
 const vocabularyMeaningSchema = z.string().trim().min(1, "Meaning is required.").max(4000, "Meaning is too long.");
 const vocabularyWordUpdateSchema = z.string().trim().max(300, "Word is too long.");
 const vocabularyMeaningUpdateSchema = z.string().trim().max(4000, "Meaning is too long.");
-const vocabularyMetaSchema = z.string().trim().max(500, "Vocabulary field is too long.");
-const vocabularyListSchema = z.string().trim().max(2000, "Vocabulary list is too long.");
 
 const createVocabularyEntrySchema = z.object({
   contentId: z.string().min(1),
   blockId: z.string().min(1),
   vocabularyId: z.string().min(1),
   word: vocabularyWordSchema,
-  partOfSpeech: vocabularyMetaSchema.default(""),
-  pronunciation: vocabularyMetaSchema.default(""),
   meaning: vocabularyMeaningSchema,
-  synonyms: vocabularyListSchema.default(""),
-  antonyms: vocabularyListSchema.default(""),
 });
 
 const updateVocabularyEntrySchema = z.object({
@@ -292,27 +277,7 @@ const updateVocabularyEntrySchema = z.object({
   blockId: z.string().min(1),
   vocabularyEntryId: z.string().min(1),
   word: vocabularyWordUpdateSchema,
-  partOfSpeech: vocabularyMetaSchema.default(""),
-  pronunciation: vocabularyMetaSchema.default(""),
   meaning: vocabularyMeaningUpdateSchema,
-  synonyms: vocabularyListSchema.default(""),
-  antonyms: vocabularyListSchema.default(""),
-});
-
-const createVocabularyEntriesSchema = z.object({
-  contentId: z.string().min(1),
-  blockId: z.string().min(1),
-  vocabularyId: z.string().min(1),
-  entries: z.array(
-    z.object({
-      word: vocabularyWordSchema,
-      partOfSpeech: vocabularyMetaSchema.default(""),
-      pronunciation: vocabularyMetaSchema.default(""),
-      meaning: vocabularyMeaningSchema,
-      synonyms: vocabularyListSchema.default(""),
-      antonyms: vocabularyListSchema.default(""),
-    }),
-  ).min(1).max(200),
 });
 
 const updateVocabularyPassageSchema = z.object({
@@ -650,6 +615,7 @@ export async function saveContent(input: unknown) {
         tx.punctuationAndCapitalization.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
         tx.preposition.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
         tx.suffixAndPrefix.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
+        tx.partsOfSpeech.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
         tx.tagQuestion.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
         tx.connector.updateMany({ where: { contentId: parsed.id, organizationId: user.organizationId }, data: hierarchyData }),
       ]);
@@ -750,8 +716,6 @@ export async function deleteContent(id: string) {
         select: { id: true, path: true, url: true, storageConfigurationId: true },
       })
     : [];
-  const ownedGalleryBlocks = await prisma.contentBlock.findMany({ where: { contentId: id, kind: "vocabulary" }, select: { id: true } });
-  trackedVocabularyFiles.push(...await getTrackedVocabularyBlockGalleryFiles(ownedGalleryBlocks.map((block) => block.id), user.organizationId));
 
   // Delete every block payload explicitly inside the same transaction before
   // deleting ContentBlock and Content. The Prisma schema also uses ON DELETE
@@ -805,6 +769,7 @@ export async function deleteContent(id: string) {
     await tx.punctuationAndCapitalization.deleteMany({ where });
     await tx.preposition.deleteMany({ where });
     await tx.suffixAndPrefix.deleteMany({ where });
+    await tx.partsOfSpeech.deleteMany({ where });
     await tx.tagQuestion.deleteMany({ where });
     await tx.connector.deleteMany({ where });
 
@@ -837,158 +802,48 @@ export async function deleteContent(id: string) {
   revalidatePath(`/admin/content/class/${owned.classId}/subject/${owned.subjectId}/seen-composition`);
 }
 
-
-const bulkDeleteContentSchema = z.object({
-  ids: z.array(z.string().trim().min(1)).min(1, "Select at least one record.").max(100),
-});
-
+/**
+ * Existing AdminCurriculumContentManager bulk-delete action.
+ * Uses the existing deleteContent() cleanup (including vocabulary assets/audit).
+ * Explicitly protects model-question editor records from accidental bulk deletion.
+ */
 export async function bulkDeleteContent(input: unknown) {
   await assertTrustedMutationOrigin();
   const user = await requireAdmin();
-  const parsed = bulkDeleteContentSchema.parse(input);
-  const ids = Array.from(new Set(parsed.ids));
+  const parsed = z.object({
+    ids: z.array(z.string().trim().min(1)).min(1).max(100).refine(
+      (ids) => new Set(ids).size === ids.length,
+      "Duplicate content ids are not allowed.",
+    ),
+  }).parse(input);
 
-  const ownedRecords = await prisma.content.findMany({
-    where: {
-      id: { in: ids },
-      organizationId: user.organizationId,
-    },
-    select: {
-      id: true,
-      title: true,
-      classId: true,
-      subjectId: true,
-    },
+  // Check the full selection BEFORE modifying any record.
+  const contents = await prisma.content.findMany({
+    where: { id: { in: parsed.ids }, organizationId: user.organizationId },
+    select: { id: true },
   });
-
-  if (ownedRecords.length !== ids.length) {
-    throw new Error("One or more selected content records were not found.");
+  if (contents.length !== parsed.ids.length) {
+    throw new Error("Some selected content records no longer exist or are not accessible.");
   }
 
-  const vocabularyEntries = await prisma.vocabularyEntry.findMany({
+  // Model Question editor content must be managed from its own set editor.
+  const linkedSets = await prisma.modelQuestionSet.findMany({
     where: {
       organizationId: user.organizationId,
-      vocabulary: {
-        contentId: { in: ids },
-        organizationId: user.organizationId,
-      },
+      editorContentId: { in: parsed.ids },
     },
-    select: { id: true, imageUrl: true, imagePath: true },
+    select: { id: true },
   });
-  const vocabularyEntryIds = vocabularyEntries.map((entry) => entry.id);
-  const trackedVocabularyFiles = vocabularyEntryIds.length > 0
-    ? await prisma.uploadedFile.findMany({
-        where: {
-          organizationId: user.organizationId,
-          purpose: VOCABULARY_IMAGE_PURPOSE,
-          vocabularyEntryId: { in: vocabularyEntryIds },
-          isCurrent: true,
-          status: "active",
-        },
-        select: { id: true, path: true, url: true, storageConfigurationId: true },
-      })
-    : [];
-  const ownedGalleryBlocks = await prisma.contentBlock.findMany({ where: { contentId: { in: ids }, kind: "vocabulary" }, select: { id: true } });
-  trackedVocabularyFiles.push(...await getTrackedVocabularyBlockGalleryFiles(ownedGalleryBlocks.map((block) => block.id), user.organizationId));
-
-  const deletedAt = new Date();
-  await prisma.$transaction(async (tx) => {
-    const where = {
-      contentId: { in: ids },
-      organizationId: user.organizationId,
-    };
-
-    await tx.paragraph.deleteMany({ where });
-    await tx.seenPassageOne.deleteMany({ where });
-    await tx.seenPassageTwo.deleteMany({ where });
-
-    if (trackedVocabularyFiles.length > 0) {
-      await tx.uploadedFile.updateMany({
-        where: {
-          id: { in: trackedVocabularyFiles.map((file) => file.id) },
-          organizationId: user.organizationId,
-        },
-        data: {
-          status: "deleted",
-          isCurrent: false,
-          deletedAt,
-          updatedBy: user.id,
-        },
-      });
-    }
-
-    await tx.vocabularyEntry.deleteMany({
-      where: {
-        organizationId: user.organizationId,
-        vocabulary: {
-          contentId: { in: ids },
-          organizationId: user.organizationId,
-        },
-      },
-    });
-    await tx.vocabulary.deleteMany({ where });
-    await tx.synonymsAntonyms.deleteMany({ where });
-    await tx.gapFillExercise.deleteMany({ where });
-    await tx.gapFillFirstPaper.deleteMany({ where });
-    await tx.gapFillSecondPaper.deleteMany({ where });
-    await tx.mcqSection.deleteMany({ where });
-    await tx.questionAnswerExercise.deleteMany({ where });
-    await tx.tableCompletionExercise.deleteMany({ where });
-    await tx.columnMatchingExercise.deleteMany({ where });
-    await tx.rearrangeSentenceExercise.deleteMany({ where });
-    await tx.questionFromPoems.deleteMany({ where });
-    await tx.questionFromStory.deleteMany({ where });
-    await tx.trueFalseExercise.deleteMany({ where });
-    await tx.informationTransfer.deleteMany({ where });
-    await tx.substitutionTable.deleteMany({ where });
-    await tx.rightFormOfVerb.deleteMany({ where });
-    await tx.narration.deleteMany({ where });
-    await tx.changingSentence.deleteMany({ where });
-    await tx.punctuationAndCapitalization.deleteMany({ where });
-    await tx.preposition.deleteMany({ where });
-    await tx.suffixAndPrefix.deleteMany({ where });
-    await tx.tagQuestion.deleteMany({ where });
-    await tx.connector.deleteMany({ where });
-    await tx.contentBlock.deleteMany({ where: { contentId: { in: ids } } });
-
-    const result = await tx.content.deleteMany({
-      where: {
-        id: { in: ids },
-        organizationId: user.organizationId,
-      },
-    });
-    if (result.count !== ids.length) {
-      throw new Error("Could not delete every selected content record.");
-    }
-  });
-
-  await deleteTrackedVocabularyStorage(
-    trackedVocabularyFiles,
-    vocabularyEntries.map((entry) => entry.imagePath || entry.imageUrl).filter(Boolean),
-    user.organizationId,
-    user.id,
-  );
-
-  for (const record of ownedRecords) {
-    await logAudit({
-      userId: user.id,
-      userName: user.name,
-      action: "DELETE",
-      entityName: "Content",
-      entityId: record.id,
-      changes: { title: record.title, bulk: true },
-      organizationId: user.organizationId,
-    });
+  if (linkedSets.length > 0) {
+    throw new Error("Cannot bulk-delete content linked to a model-question set.");
   }
 
-  revalidatePath("/admin/content");
-  for (const key of new Set(ownedRecords.map((record) => `${record.classId}:${record.subjectId}`))) {
-    const [classId, subjectId] = key.split(":");
-    revalidatePath(`/admin/content/class/${classId}/subject/${subjectId}`);
-    revalidatePath(`/admin/content/class/${classId}/subject/${subjectId}/seen-composition`);
+  // deleteContent already validates ownership and deletes each content and
+  // its dependent blocks transactionally, updates storage, and logs audits.
+  for (const id of parsed.ids) {
+    await deleteContent(id);
   }
-
-  return { deleted: ids.length };
+  return { deletedCount: parsed.ids.length };
 }
 
 export async function createContentBlock(input: unknown) {
@@ -997,8 +852,50 @@ export async function createContentBlock(input: unknown) {
   const parsed = createBlockSchema.parse(input);
 
   const content = await getOwnedContent(parsed.contentId, user.organizationId);
+  // A model-question Content record carries the set's optional Board / Year.
+  // Regular curriculum blocks continue to use their existing defaults.
+  const modelQuestionSet = await prisma.modelQuestionSet.findFirst({
+    where: { editorContentId: parsed.contentId, organizationId: user.organizationId },
+    select: {
+      boardId: true, academicYearId: true,
+      class: { select: { name: true } },
+      subject: { select: { name: true, slug: true, code: true } },
+    },
+  });
+  const fixedLayout = modelQuestionSet
+    ? getFixedModelQuestionLayout(modelQuestionSet.class.name, modelQuestionSet.subject)
+    : null;
+  const fixedKindPosition = fixedLayout
+    ? getFixedModelQuestionSlots(fixedLayout).findIndex((slot) => slot.kind === parsed.kind)
+    : -1;
+  if (parsed.kind === "parts-of-speech" && fixedLayout !== "class-6-7-second-paper") {
+    throw new Error("This Parts of Speech block is only available in Class 6–7 English 2nd Paper model question sets.");
+  }
+  if (fixedLayout && fixedKindPosition === -1) {
+    throw new Error("This block is not part of the fixed model question layout for this class and subject.");
+  }
 
   const block = await prisma.$transaction(async (tx) => {
+    if (fixedLayout) {
+      const existing = await tx.contentBlock.findFirst({
+        where: { contentId: parsed.contentId, kind: parsed.kind }, select: { id: true },
+      });
+      if (existing) throw new Error("This question section was already added. Edit the existing block instead.");
+    }
+    const parentKind = fixedLayout ? getFixedPassageParentKind(fixedLayout, parsed.kind) : null;
+    const passageParent = parentKind ? await tx.contentBlock.findFirst({
+      where: { contentId: parsed.contentId, kind: parentKind },
+      orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }, { id: "asc" }],
+      select: { id: true },
+    }) : null;
+    if (parentKind && !passageParent) {
+      throw new Error(`Add ${FIXED_BLOCK_LABELS[parentKind]} before this question block.`);
+    }
+    const passageLink = passageParent ? {
+      passageSource: "paragraph" as const,
+      paragraphBlockId: passageParent.id,
+    } : {};
+
     const latestBlock = await tx.contentBlock.aggregate({
       where: { contentId: parsed.contentId },
       _max: { sortOrder: true },
@@ -1008,7 +905,9 @@ export async function createContentBlock(input: unknown) {
       data: {
         contentId: parsed.contentId,
         kind: parsed.kind,
-        sortOrder: (latestBlock._max.sortOrder ?? -1) + 1,
+        boardId: modelQuestionSet?.boardId ?? null,
+        academicYearId: modelQuestionSet?.academicYearId ?? null,
+        sortOrder: fixedLayout ? fixedKindPosition : (latestBlock._max.sortOrder ?? -1) + 1,
       },
     });
 
@@ -1062,7 +961,7 @@ export async function createContentBlock(input: unknown) {
       case "synonyms-antonyms":
         // Keep a new block empty until the validated Add row popup creates the
         // first real entry.
-        await tx.synonymsAntonyms.create({ data: baseData });
+        await tx.synonymsAntonyms.create({ data: { ...baseData, ...passageLink } });
         break;
 
       case "gap-fill":
@@ -1080,6 +979,7 @@ export async function createContentBlock(input: unknown) {
         await tx.gapFillFirstPaper.create({
           data: {
             ...baseData,
+            ...passageLink,
             question: "",
             answer: "",
             details: "",
@@ -1102,6 +1002,7 @@ export async function createContentBlock(input: unknown) {
         await tx.mcqSection.create({
           data: {
             ...baseData,
+            ...passageLink,
             title: "Multiple choice questions",
             description: "",
             documentJson: JSON.stringify({
@@ -1118,7 +1019,7 @@ export async function createContentBlock(input: unknown) {
             title: "True / False",
             instruction: "Write your own statements based on the passage. If false, include the correct statement.",
             passage: "",
-            documentJson: JSON.stringify(createTrueFalseDocument()),
+            documentJson: JSON.stringify({ ...createTrueFalseDocument(), ...passageLink }),
           },
         });
         break;
@@ -1132,7 +1033,7 @@ export async function createContentBlock(input: unknown) {
             question: "",
             answer: "",
             details: "",
-            documentJson: JSON.stringify(createQuestionAnswerDocument()),
+            documentJson: JSON.stringify({ ...createQuestionAnswerDocument(), ...passageLink }),
           },
         });
         break;
@@ -1193,6 +1094,20 @@ export async function createContentBlock(input: unknown) {
         });
         break;
 
+      case "writing-summary":
+        await tx.questionFromStory.create({
+          data: {
+            ...baseData,
+            title: "Summary",
+            instruction: "Write a summary of the unseen passage.",
+            question: "",
+            answer: "",
+            details: "",
+            documentJson: JSON.stringify({ version: 2, rows: [], ...passageLink }),
+          },
+        });
+        break;
+
       case "question-from-story":
         await tx.questionFromStory.create({
           data: {
@@ -1211,6 +1126,7 @@ export async function createContentBlock(input: unknown) {
         await tx.informationTransfer.create({
           data: {
             ...baseData,
+            ...passageLink,
             question: "",
             answer: "",
             details: "",
@@ -1287,6 +1203,17 @@ export async function createContentBlock(input: unknown) {
 
       case "suffix-and-prefix":
         await tx.suffixAndPrefix.create({
+          data: {
+            ...baseData,
+            question: "",
+            answer: "",
+            details: "",
+          },
+        });
+        break;
+
+      case "parts-of-speech":
+        await tx.partsOfSpeech.create({
           data: {
             ...baseData,
             question: "",
@@ -1390,6 +1317,19 @@ export async function reorderContentBlocks(input: unknown) {
   if (ownedBlocks.length !== parsed.length) {
     throw new Error("One or more content blocks are not accessible.");
   }
+  const linkedSets = await prisma.modelQuestionSet.findMany({
+    where: {
+      organizationId: user.organizationId,
+      editorContentId: { in: [...new Set(ownedBlocks.map((block) => block.contentId))] },
+    },
+    select: {
+      class: { select: { name: true } },
+      subject: { select: { name: true, slug: true, code: true } },
+    },
+  });
+  if (linkedSets.some((set) => getFixedModelQuestionLayout(set.class.name, set.subject))) {
+    throw new Error("Fixed model question sections cannot be reordered.");
+  }
 
   await prisma.$transaction(
     parsed.map((item) =>
@@ -1421,6 +1361,16 @@ export async function deleteContentBlock(blockId: string) {
   await assertTrustedMutationOrigin();
   const user = await requireAdmin();
   const ownedBlock = await getOwnedContentBlock(blockId, user.organizationId);
+  const linkedModelQuestion = await prisma.modelQuestionSet.findFirst({
+    where: { editorContentId: ownedBlock.contentId, organizationId: user.organizationId },
+    select: {
+      class: { select: { name: true } },
+      subject: { select: { name: true, slug: true, code: true } },
+    },
+  });
+  if (linkedModelQuestion && getFixedModelQuestionLayout(linkedModelQuestion.class.name, linkedModelQuestion.subject)) {
+    throw new Error("Fixed model-question sections cannot be deleted. Edit the existing questions instead.");
+  }
   const vocabularyEntries = ownedBlock.kind === "vocabulary"
     ? await prisma.vocabularyEntry.findMany({
         where: {
@@ -1443,9 +1393,6 @@ export async function deleteContentBlock(blockId: string) {
         select: { id: true, path: true, url: true, storageConfigurationId: true },
       })
     : [];
-  if (ownedBlock.kind === "vocabulary") {
-    trackedVocabularyFiles.push(...await getTrackedVocabularyBlockGalleryFiles([blockId], user.organizationId));
-  }
 
   const deleted = await prisma.$transaction(async (tx) => {
     const isPassageBlock = ["paragraph", "seen-passage-one", "seen-passage-two"].includes(ownedBlock.kind);
@@ -1697,11 +1644,11 @@ export async function updateQuestionAnswerExercise(input: unknown) {
     },
   });
 
-  if (!block || !["question-answer", "table-completion", "column-matching", "rearrange-sentence", "question-from-poems", "question-from-story"].includes(block.kind)) {
+  if (!block || !["question-answer", "table-completion", "column-matching", "rearrange-sentence", "question-from-poems", "question-from-story", "writing-summary"].includes(block.kind)) {
     throw new Error("Exercise block not found.");
   }
 
-  if (["question-answer", "rearrange-sentence", "question-from-poems", "question-from-story"].includes(block.kind)) {
+  if (["question-answer", "rearrange-sentence", "question-from-poems", "question-from-story", "writing-summary"].includes(block.kind)) {
     const previousDocumentJson =
       block.kind === "question-answer"
         ? block.questionAnswerExercise?.documentJson
@@ -1786,6 +1733,7 @@ export async function updateQuestionAnswerExercise(input: unknown) {
       });
       entityName = "QuestionFromPoems";
       break;
+    case "writing-summary":
     case "question-from-story":
       updated = await prisma.questionFromStory.update({
         where: {
@@ -2065,11 +2013,7 @@ export async function createVocabularyEntry(input: unknown) {
     data: {
       vocabularyId: parsed.vocabularyId,
       word: parsed.word,
-      partOfSpeech: parsed.partOfSpeech,
-      pronunciation: parsed.pronunciation,
       meaning: parsed.meaning,
-      synonyms: parsed.synonyms,
-      antonyms: parsed.antonyms,
       sortOrder,
       organizationId: user.organizationId,
       createdBy: user.id,
@@ -2089,65 +2033,6 @@ export async function createVocabularyEntry(input: unknown) {
 
   revalidatePath(`/admin/content/${parsed.contentId}`);
 
-  return created;
-}
-
-export async function createVocabularyEntries(input: unknown) {
-  await assertTrustedMutationOrigin();
-  const user = await requireAdmin();
-  const parsed = createVocabularyEntriesSchema.parse(input);
-
-  const ownedBlock = await getOwnedContentBlock(parsed.blockId, user.organizationId);
-  if (ownedBlock.contentId !== parsed.contentId || ownedBlock.kind !== "vocabulary") {
-    throw new Error("Vocabulary block does not belong to content.");
-  }
-
-  const vocabulary = await prisma.vocabulary.findFirst({
-    where: {
-      id: parsed.vocabularyId,
-      contentBlockId: parsed.blockId,
-      contentId: parsed.contentId,
-      organizationId: user.organizationId,
-    },
-    select: { id: true },
-  });
-  if (!vocabulary) throw new Error("Vocabulary block not found.");
-
-  const startSortOrder = await prisma.vocabularyEntry.count({
-    where: { vocabularyId: parsed.vocabularyId, organizationId: user.organizationId },
-  });
-
-  const created = await prisma.$transaction(
-    parsed.entries.map((entry, index) =>
-      prisma.vocabularyEntry.create({
-        data: {
-          vocabularyId: parsed.vocabularyId,
-          word: entry.word,
-          partOfSpeech: entry.partOfSpeech,
-          pronunciation: entry.pronunciation,
-          meaning: entry.meaning,
-          synonyms: entry.synonyms,
-          antonyms: entry.antonyms,
-          sortOrder: startSortOrder + index,
-          organizationId: user.organizationId,
-          createdBy: user.id,
-          updatedBy: user.id,
-        },
-      }),
-    ),
-  );
-
-  await logAudit({
-    userId: user.id,
-    userName: user.name,
-    action: "CREATE",
-    entityName: "VocabularyEntryBulkImport",
-    entityId: parsed.vocabularyId,
-    changes: { count: created.length, entryIds: created.map((entry) => entry.id) },
-    organizationId: user.organizationId,
-  });
-
-  revalidatePath(`/admin/content/${parsed.contentId}`);
   return created;
 }
 
@@ -2194,11 +2079,7 @@ export async function updateVocabularyEntry(input: unknown) {
     },
     data: {
       word: parsed.word,
-      partOfSpeech: parsed.partOfSpeech,
-      pronunciation: parsed.pronunciation,
       meaning: parsed.meaning,
-      synonyms: parsed.synonyms,
-      antonyms: parsed.antonyms,
       updatedBy: user.id,
     },
   });
@@ -2780,6 +2661,23 @@ export async function updateSuffixAndPrefix(input: unknown) {
     expectedKind: "suffix-and-prefix",
     update: (parsed, userId, organizationId) =>
       prisma.suffixAndPrefix.update({
+        where: { id: parsed.recordId, contentBlockId: parsed.blockId, organizationId },
+        data: {
+          question: parsed.question,
+          answer: parsed.answer,
+          details: parsed.details,
+          updatedBy: userId,
+        },
+      }),
+  });
+}
+
+export async function updatePartsOfSpeech(input: unknown) {
+  return updateThreeFieldRecord(input, {
+    entityName: "PartsOfSpeech",
+    expectedKind: "parts-of-speech",
+    update: (parsed, userId, organizationId) =>
+      prisma.partsOfSpeech.update({
         where: { id: parsed.recordId, contentBlockId: parsed.blockId, organizationId },
         data: {
           question: parsed.question,

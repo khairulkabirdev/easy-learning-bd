@@ -1,5 +1,7 @@
+import { parseEnglishSecondPaperDocument, type SuffixPrefixDocument } from "@/app/admin/content/english-second-paper-blocks/types";
 import { notFound } from "next/navigation";
 import { isEnglishFirstPaperSubject, isEnglishSecondPaperSubject } from "@/app/admin/content/navigation-helpers";
+import { getFixedModelQuestionLayout, getFixedModelQuestionSlots, getFixedPassageParentKind, isFixedSecondPaperLayout } from "@/lib/model-question-fixed-blocks";
 
 import { ContentBlocksEditorClient } from "@/app/admin/content/[contentId]/ContentBlocksEditorClient";
 import { SeenCompositionTitleEditor } from "@/components/admin/SeenCompositionTitleEditor";
@@ -482,12 +484,12 @@ export default async function AdminContentBlocksPage({
       topicId: true,
       createdAt: true,
       class: { select: { id: true, name: true } },
-      subject: { select: { id: true, name: true } },
+      subject: { select: { id: true, name: true, slug: true, code: true } },
       unit: { select: { id: true, title: true } },
       lesson: { select: { id: true, title: true } },
       topic: { select: { id: true, title: true } },
       blocks: {
-        orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
+        orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }, { id: "asc" }],
         select: {
           id: true,
           contentId: true,
@@ -906,6 +908,21 @@ export default async function AdminContentBlocksPage({
               details: true,
             },
           },
+          partsOfSpeech: {
+            select: {
+              id: true,
+              contentBlockId: true,
+              contentId: true,
+              classId: true,
+              subjectId: true,
+              unitId: true,
+              lessonId: true,
+              topicId: true,
+              question: true,
+              answer: true,
+              details: true,
+            },
+          },
           tagQuestion: {
             select: {
               id: true,
@@ -969,6 +986,24 @@ export default async function AdminContentBlocksPage({
     return paragraphBlockId;
   };
 
+  // Link earlier saved fixed-section questions to their parent source in the editor
+  // projection. This never overwrites or deletes pre-existing database fields.
+  const fixedLayout = editorMode === "model-question"
+    ? getFixedModelQuestionLayout(content.class.name, content.subject)
+    : null;
+  const fixedPassageSourceId = (kind: string): string | null => {
+    if (!fixedLayout) return null;
+    const parentKind = getFixedPassageParentKind(fixedLayout, kind);
+    return parentKind ? content.blocks.find((candidate) => candidate.kind === parentKind)?.id ?? null : null;
+  };
+  const fixedLinkedSource = (kind: string, savedSource: string, savedId: string | null) => {
+    const parentId = fixedPassageSourceId(kind);
+    return {
+      passageSource: parentId ? "paragraph" as const : savedSource === "paragraph" ? "paragraph" as const : "manual" as const,
+      paragraphBlockId: parentId ?? normalizeSeenPassageLink(savedId),
+    };
+  };
+
   const typedContent: ContentRecordWithBlocks = {
     ...content,
     blocks: content.blocks.map((block) => ({
@@ -977,22 +1012,19 @@ export default async function AdminContentBlocksPage({
       vocabulary: block.vocabulary
         ? {
             ...block.vocabulary,
-            passageSource: block.vocabulary.passageSource === "paragraph" ? "paragraph" as const : "manual" as const,
-            paragraphBlockId: normalizeSeenPassageLink(block.vocabulary.paragraphBlockId || null),
+            ...fixedLinkedSource(block.kind, block.vocabulary.passageSource, block.vocabulary.paragraphBlockId || null),
           }
         : null,
       synonymsAntonyms: block.synonymsAntonyms
         ? {
             ...block.synonymsAntonyms,
-            passageSource: block.synonymsAntonyms.passageSource === "paragraph" ? "paragraph" as const : "manual" as const,
-            paragraphBlockId: normalizeSeenPassageLink(block.synonymsAntonyms.paragraphBlockId || null),
+            ...fixedLinkedSource(block.kind, block.synonymsAntonyms.passageSource, block.synonymsAntonyms.paragraphBlockId || null),
           }
         : null,
       mcqSection: block.mcqSection
         ? {
             ...block.mcqSection,
-            passageSource: block.mcqSection.passageSource === "paragraph" ? "paragraph" as const : "manual" as const,
-            paragraphBlockId: normalizeSeenPassageLink(block.mcqSection.paragraphBlockId || null),
+            ...fixedLinkedSource(block.kind, block.mcqSection.passageSource, block.mcqSection.paragraphBlockId || null),
             questions: (parseMcqDocument(block.mcqSection.documentJson).questions || []).map((question) => ({
               ...question,
               options: question.options || [],
@@ -1011,7 +1043,7 @@ export default async function AdminContentBlocksPage({
                   ? block.rearrangeSentenceExercise
                   : block.kind === "question-from-poems"
                     ? block.questionFromPoems
-                    : block.kind === "question-from-story"
+                    : block.kind === "question-from-story" || block.kind === "writing-summary"
                       ? block.questionFromStory
                       : null;
 
@@ -1042,14 +1074,11 @@ export default async function AdminContentBlocksPage({
 
         return {
           ...exercise,
-          passageSource:
-            block.kind === "question-answer" && questionAnswerDocument.passageSource === "paragraph"
-              ? "paragraph" as const
-              : "manual" as const,
-          paragraphBlockId:
-            block.kind === "question-answer" && typeof questionAnswerDocument.paragraphBlockId === "string"
-              ? normalizeSeenPassageLink(questionAnswerDocument.paragraphBlockId)
-              : null,
+          ...fixedLinkedSource(
+            block.kind,
+            block.kind === "question-answer" && questionAnswerDocument.passageSource === "paragraph" ? "paragraph" : "manual",
+            typeof questionAnswerDocument.paragraphBlockId === "string" ? questionAnswerDocument.paragraphBlockId : null,
+          ),
           rows,
           table: block.kind === "table-completion" || block.kind === "column-matching"
             ? parseTableCompletionDocument(exercise.documentJson, exercise.id, block.kind === "column-matching")
@@ -1073,8 +1102,7 @@ export default async function AdminContentBlocksPage({
             const normalized = normalizeInformationTransferRecord(block.informationTransfer);
             return {
               ...block.informationTransfer,
-              passageSource: block.informationTransfer.passageSource === "paragraph" ? "paragraph" as const : "manual" as const,
-              paragraphBlockId: normalizeSeenPassageLink(block.informationTransfer.paragraphBlockId || null),
+              ...fixedLinkedSource(block.kind, block.informationTransfer.passageSource, block.informationTransfer.paragraphBlockId || null),
               question: normalized.question,
               rows: normalized.rows,
               blanks: normalized.blanks,
@@ -1097,8 +1125,7 @@ export default async function AdminContentBlocksPage({
       gapFillFirstPaper: block.gapFillFirstPaper
         ? {
             ...block.gapFillFirstPaper,
-            passageSource: block.gapFillFirstPaper.passageSource === "paragraph" ? "paragraph" as const : "manual" as const,
-            paragraphBlockId: normalizeSeenPassageLink(block.gapFillFirstPaper.paragraphBlockId || null),
+            ...fixedLinkedSource(block.kind, block.gapFillFirstPaper.passageSource, block.gapFillFirstPaper.paragraphBlockId || null),
             blanks: parseFillBlankAnswers(
               block.gapFillFirstPaper.answer,
               block.gapFillFirstPaper.question,
@@ -1156,6 +1183,15 @@ export default async function AdminContentBlocksPage({
             ),
           }
         : null,
+      partsOfSpeech: block.partsOfSpeech
+        ? {
+            ...block.partsOfSpeech,
+            items: (parseEnglishSecondPaperDocument("parts-of-speech", JSON.stringify({
+              ...safeParseJson(block.partsOfSpeech.answer, {}),
+              question: block.partsOfSpeech.question,
+            }), block.partsOfSpeech.id) as SuffixPrefixDocument).items,
+          }
+        : null,
       tagQuestion: block.tagQuestion
         ? (() => {
             const parsed = parseTagQuestionData(
@@ -1185,33 +1221,23 @@ export default async function AdminContentBlocksPage({
   };
 
   const modelQuestionMode = editorMode === "model-question";
-  // Class 6/7 English 1st Paper has a shorter, ordered question-paper menu.
-  // Restrict new choices only; existing saved blocks must remain accessible.
-  const classLabel = content.class.name.trim().toLowerCase();
-  const isClassSixOrSeven =
-    /^(?:6|7|৬|৭)(?:th)?$/.test(classLabel) ||
-    /\b(?:class|grade|standard|std\.?)\s*[-:]?\s*(?:6|7)(?:th)?\b/.test(classLabel) ||
-    /(?:ক্লাস|শ্রেণি)\s*(?:৬|৭|ষষ্ঠ|সপ্তম)|(?:৬ষ্ঠ|৭ম|ষষ্ঠ|সপ্তম)\s*(?:শ্রেণি|ক্লাস)/.test(classLabel);
-  const classSixSevenFirstPaper = modelQuestionMode && isClassSixOrSeven && isEnglishFirstPaperSubject(content.subject);
-  const classSixSevenKinds: ContentBlockKind[] = [
-    "seen-passage-one", "mcq", "question-answer",
-    "seen-passage-two", "information-transfer", "true-false",
-    "gap-fill-first-paper", "table-completion", "rearrange-sentence",
-  ];
-  const modelQuestionKinds: ContentBlockKind[] = isEnglishSecondPaperSubject(content.subject)
-    ? [
-        "gap-fill-second-paper", "substitution-table", "right-form-of-verb",
-        "narration", "changing-sentence", "punctuation-and-capitalization",
-        "preposition", "suffix-and-prefix", "tag-question", "connector",
-      ]
-    : classSixSevenFirstPaper
-      ? classSixSevenKinds
+  const openBlockChooser = modelQuestionMode && addBlock === "1";
+  const openFixedGrammarSections = openBlockChooser && isFixedSecondPaperLayout(fixedLayout);
+  // Allowed creation kinds are independent of the stored block records.
+  const modelQuestionKinds: ContentBlockKind[] = fixedLayout
+    ? getFixedModelQuestionSlots(fixedLayout).map((slot) => slot.kind)
+    : isEnglishSecondPaperSubject(content.subject)
+      ? [
+          "gap-fill-second-paper", "substitution-table", "right-form-of-verb",
+          "narration", "changing-sentence", "punctuation-and-capitalization",
+          "preposition", "suffix-and-prefix", "tag-question", "connector",
+        ]
       : isEnglishFirstPaperSubject(content.subject)
         ? [
-          "seen-passage-one", "seen-passage-two", "mcq", "question-answer",
-          "information-transfer", "true-false", "gap-fill-first-paper",
-          "table-completion", "column-matching", "question-from-poems",
-          "question-from-story", "rearrange-sentence", "synonyms-antonyms",
+            "seen-passage-one", "seen-passage-two", "mcq", "question-answer",
+            "information-transfer", "true-false", "gap-fill-first-paper",
+            "table-completion", "column-matching", "question-from-poems",
+            "question-from-story", "rearrange-sentence", "synonyms-antonyms",
           ]
         : ["mcq", "question-answer", "gap-fill-first-paper", "table-completion", "column-matching"];
   const modeConfig =
@@ -1252,13 +1278,9 @@ export default async function AdminContentBlocksPage({
         content={typedContent}
         allowedBlockKindsOverride={allowedBlockKinds}
         chooserGroupMode={modelQuestionMode ? "model-question" : undefined}
-        classSixSevenModelQuestion={classSixSevenFirstPaper}
-        blockTitleOverrides={classSixSevenFirstPaper ? {
-          "seen-passage-one": "Passage 1",
-          "seen-passage-two": "Passage 2",
-          "question-answer": "Answering Questions",
-        } : undefined}
-        initialChooserOpen={modelQuestionMode && addBlock === "1"}
+        fixedModelQuestionLayout={fixedLayout}
+        initialChooserOpen={openBlockChooser && !openFixedGrammarSections}
+        clearInitialAddBlockParam={openFixedGrammarSections}
       />
     </div>
   );

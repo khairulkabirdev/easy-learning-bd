@@ -1,0 +1,920 @@
+diff --git a/app/admin/content/[contentId]/ContentBlocksEditorClient.tsx b/app/admin/content/[contentId]/ContentBlocksEditorClient.tsx
+index a917d6d..2f21a34 100644
+--- a/app/admin/content/[contentId]/ContentBlocksEditorClient.tsx
++++ b/app/admin/content/[contentId]/ContentBlocksEditorClient.tsx
+@@ -79,10 +79,10 @@ import {
+ } from "@/app/admin/content/content-block-validation";
+ import { BlockBoardYearFields } from "@/components/admin/BlockBoardYearFields";
+ import {
+-  CLASS_6_7_MODEL_QUESTION_KINDS,
+-  getFixedPassageParentKind,
+-  getFixedPassageLabel,
+-  getClassSixSevenQuestionNumber,
++  FIXED_BLOCK_LABELS,
++  getFixedModelQuestionGroups,
++  getFixedModelQuestionSlots,
++  type FixedModelQuestionLayout,
+ } from "@/lib/model-question-fixed-blocks";
+ import { WritingSummaryEditor } from "@/components/admin/UnseenCompositionEditorClient";
+ import { ResponsiveEntityEditor } from "@/components/admin/ResponsiveEntityEditor";
+@@ -904,44 +904,6 @@ const MODEL_QUESTION_BLOCK_GROUPS: Array<{
+   },
+ ];
+ 
+-/**
+- * Class 6–7, English 1st Paper. Only these thirteen choices appear in this
+- * question-paper picker, in this exact reading-paper sequence.
+- * The class-specific server action enforces one block per kind; existing
+- * duplicate blocks from older releases are kept and remain editable.
+- */
+-const MODEL_QUESTION_CLASS_6_7_GROUPS: typeof MODEL_QUESTION_BLOCK_GROUPS = [
+-  {
+-    title: "Seen — Passage 1",
+-    description: "Passage 1, MCQ, and Answering Questions.",
+-    sections: [{ title: "", kinds: ["seen-passage-one", "mcq", "question-answer"] }],
+-  },
+-  {
+-    title: "Seen — Passage 2",
+-    description: "Passage 2, Fill in the Gaps, and Synonyms / Antonyms.",
+-    sections: [{ title: "", kinds: ["seen-passage-two", "gap-fill-first-paper", "synonyms-antonyms"] }],
+-  },
+-  {
+-    title: "Unseen",
+-    description: "First add Unseen Passage, then its Information Transfer, True / False, and Summary questions.",
+-    sections: [{ title: "", kinds: ["paragraph", "information-transfer", "true-false", "writing-summary"] }],
+-  },
+-  {
+-    title: "Other Reading Questions",
+-    description: "Table Completion, Rearrange Sentence, and Question from Poems.",
+-    sections: [{ title: "", kinds: ["table-completion", "rearrange-sentence", "question-from-poems"] }],
+-  },
+-];
+-
+-const CLASS_6_7_BLOCK_SEQUENCE: readonly ContentBlockKind[] = CLASS_6_7_MODEL_QUESTION_KINDS;
+-const CLASS_6_7_BLOCK_LABELS: Partial<Record<ContentBlockKind, string>> = {
+-  paragraph: "Unseen Passage",
+-  "seen-passage-one": "Passage 1",
+-  "question-answer": "Answering Questions",
+-  "gap-fill-first-paper": "Fill in the Gaps",
+-  "writing-summary": "Summary",
+-};
+-
+ const ENGLISH_FIRST_PAPER_KINDS: ContentBlockKind[] = [
+   "paragraph",
+   "vocabulary",
+@@ -1199,17 +1161,29 @@ export function ContentBlocksEditorClient({
+   allowedBlockKindsOverride,
+   blockTitleOverrides,
+   chooserGroupMode,
+-  classSixSevenModelQuestion = false,
++  fixedModelQuestionLayout = null,
+   initialChooserOpen = false,
+ }: {
+   content: ContentRecordWithBlocks;
+   allowedBlockKindsOverride?: ContentBlockKind[];
+   blockTitleOverrides?: Partial<Record<ContentBlockKind, string>>;
+   chooserGroupMode?: "model-question";
+-  classSixSevenModelQuestion?: boolean;
++  fixedModelQuestionLayout?: FixedModelQuestionLayout | null;
+   initialChooserOpen?: boolean;
+ }) {
+   const router = useRouter();
++  const fixedSlots = useMemo(
++    () => fixedModelQuestionLayout ? getFixedModelQuestionSlots(fixedModelQuestionLayout) : [],
++    [fixedModelQuestionLayout],
++  );
++  const fixedSlotByKind = useMemo(() => new Map(fixedSlots.map((slot) => [slot.kind, slot])), [fixedSlots]);
++  const fixedGroups = fixedModelQuestionLayout ? getFixedModelQuestionGroups(fixedModelQuestionLayout) : [];
++  const modelQuestionGroups = fixedModelQuestionLayout
++    ? fixedGroups.map(({ title, description, slots }) => ({
++        title, description, sections: [{ title: "", kinds: slots.map((slot) => slot.kind) }],
++      }))
++    : MODEL_QUESTION_BLOCK_GROUPS;
++  const fixedLayoutName = fixedModelQuestionLayout === "class-9-10" ? "Class 9–10" : "Class 6–7";
+   const [blocks, setBlocks] = useState<BlockDraft[]>(content.blocks);
+   const [createdKindsSinceRefresh, setCreatedKindsSinceRefresh] = useState<ContentBlockKind[]>([]);
+   const creatingKindsRef = useRef(new Set<ContentBlockKind>());
+@@ -1297,19 +1271,19 @@ export function ContentBlocksEditorClient({
+   // database sortOrder values: old records (including accidental duplicates)
+   // remain intact, visible, and editable.
+   const visibleBlocks = useMemo(() => {
+-    if (classSixSevenModelQuestion) {
++    if (fixedModelQuestionLayout) {
+       return [...blocks].sort((a, b) => {
+-        const aPosition = CLASS_6_7_BLOCK_SEQUENCE.indexOf(a.kind);
+-        const bPosition = CLASS_6_7_BLOCK_SEQUENCE.indexOf(b.kind);
+-        const aOrder = aPosition === -1 ? CLASS_6_7_BLOCK_SEQUENCE.length : aPosition;
+-        const bOrder = bPosition === -1 ? CLASS_6_7_BLOCK_SEQUENCE.length : bPosition;
++        const aPosition = fixedSlots.findIndex((slot) => slot.kind === a.kind);
++        const bPosition = fixedSlots.findIndex((slot) => slot.kind === b.kind);
++        const aOrder = aPosition === -1 ? fixedSlots.length : aPosition;
++        const bOrder = bPosition === -1 ? fixedSlots.length : bPosition;
+         return aOrder - bOrder || a.sortOrder - b.sortOrder;
+       });
+     }
+     return chooserGroupMode === "model-question"
+       ? blocks
+       : (allowedBlockKinds ? blocks.filter((block) => allowedBlockKinds.has(block.kind)) : blocks);
+-  }, [allowedBlockKinds, blocks, chooserGroupMode, classSixSevenModelQuestion]);
++  }, [allowedBlockKinds, blocks, chooserGroupMode, fixedModelQuestionLayout, fixedSlots]);
+   const existingKindCounts = useMemo(() => {
+     const counts = new Map<ContentBlockKind, number>();
+     for (const block of blocks) counts.set(block.kind, (counts.get(block.kind) ?? 0) + 1);
+@@ -1319,13 +1293,14 @@ export function ContentBlocksEditorClient({
+     new Set<ContentBlockKind>([...blocks.map((block) => block.kind), ...createdKindsSinceRefresh]),
+     [blocks, createdKindsSinceRefresh],
+   );
+-  const allFixedPaperKindsUsed = classSixSevenModelQuestion &&
+-    CLASS_6_7_BLOCK_SEQUENCE.every((kind) => occupiedPaperKinds.has(kind));
++  const allFixedPaperKindsUsed = fixedModelQuestionLayout &&
++    fixedSlots.every(({ kind }) => occupiedPaperKinds.has(kind));
+   const visibleBlockChooser = useMemo(
+     () => (allowedBlockKinds ? BLOCK_META.filter((item) => allowedBlockKinds.has(item.kind)) : BLOCK_META),
+     [allowedBlockKinds],
+   );
+-  const isSeenCompositionMode = allowedBlockKindsOverride?.includes("seen-passage-one") === true;
++  const isSeenCompositionMode = chooserGroupMode !== "model-question" &&
++    allowedBlockKindsOverride?.includes("seen-passage-one") === true;
+   const paragraphBlocks = useMemo(
+     () => blocks.filter((block) => block.kind === "paragraph" && block.paragraph),
+     [blocks],
+@@ -1340,8 +1315,7 @@ export function ContentBlocksEditorClient({
+     [blocks],
+   );
+   const fixedPassageForKind = (kind: ContentBlockKind): BlockDraft | undefined => {
+-    if (!classSixSevenModelQuestion) return undefined;
+-    const parentKind = getFixedPassageParentKind(kind);
++    const parentKind = fixedSlotByKind.get(kind)?.parent;
+     return parentKind ? blocks.find((entry) => entry.kind === parentKind) : undefined;
+   };
+   const fixedPassageBody = (kind: ContentBlockKind): string => {
+@@ -1349,13 +1323,21 @@ export function ContentBlocksEditorClient({
+     return source?.seenPassageOne?.body ?? source?.seenPassageTwo?.body ?? source?.paragraph?.body ?? "";
+   };
+   const fixedPassageMissing = (kind: ContentBlockKind): string | null => {
+-    if (!classSixSevenModelQuestion) return null;
+-    const parentKind = getFixedPassageParentKind(kind);
++    const parentKind = fixedSlotByKind.get(kind)?.parent;
+     return parentKind && !occupiedPaperKinds.has(parentKind)
+-      ? getFixedPassageLabel(parentKind) : null;
++      ? FIXED_BLOCK_LABELS[parentKind] ?? null : null;
++  };
++  const fixedParentLabel = (kind: ContentBlockKind) => {
++    const parent = fixedSlotByKind.get(kind)?.parent;
++    return parent ? FIXED_BLOCK_LABELS[parent] : undefined;
++  };
++  const fixedSlotBadge = (kind: ContentBlockKind, prefix = "") => {
++    const number = fixedSlotByKind.get(kind)?.number;
++    return number === undefined ? (kind === "paragraph" ? "Source" : "Independent") : `${prefix}${number}`;
+   };
+   const displayBlockTitleForBlock = (block: BlockDraft) => {
+-    const overriddenTitle = blockTitleOverrides?.[block.kind];
++    const overriddenTitle = blockTitleOverrides?.[block.kind] ??
++      (fixedSlotByKind.has(block.kind) ? FIXED_BLOCK_LABELS[block.kind] : undefined);
+     if (overriddenTitle) return overriddenTitle;
+     if (block.kind === "seen-passage-one") return "Passage";
+     if (block.kind === "seen-passage-two") return "Passage 2";
+@@ -1371,12 +1353,12 @@ export function ContentBlocksEditorClient({
+       }));
+       const paragraphOptions = paragraphBlocks.map((block, index) => ({
+         id: block.id,
+-        label: `${classSixSevenModelQuestion ? "Unseen Passage" : `Paragraph ${index + 1}`} — ${paragraphPreview(block.paragraph!.body)}`,
++        label: `${fixedModelQuestionLayout ? "Unseen Passage" : `Paragraph ${index + 1}`} — ${paragraphPreview(block.paragraph!.body)}`,
+       }));
+-      return classSixSevenModelQuestion ? [...seenOptions, ...paragraphOptions]
++      return fixedModelQuestionLayout ? [...seenOptions, ...paragraphOptions]
+         : isSeenCompositionMode ? seenOptions : paragraphOptions;
+     },
+-    [paragraphBlocks, seenPassageBlocks, isSeenCompositionMode, classSixSevenModelQuestion],
++    [paragraphBlocks, seenPassageBlocks, isSeenCompositionMode, fixedModelQuestionLayout],
+   );
+ 
+   const pathLabel = useMemo(() => {
+@@ -1450,8 +1432,8 @@ export function ContentBlocksEditorClient({
+   }
+ 
+   async function handleMoveBlock(blockId: string, direction: "up" | "down") {
+-    if (classSixSevenModelQuestion) {
+-      setActionError("Class 6/7 English 1st Paper blocks have a fixed order.");
++    if (fixedModelQuestionLayout) {
++      setActionError("Fixed English 1st Paper blocks cannot be reordered.");
+       return;
+     }
+     const previousBlocks = blocks;
+@@ -1573,9 +1555,9 @@ export function ContentBlocksEditorClient({
+   }
+ 
+   async function handleAddBlock(kind: ContentBlockKind) {
+-    if (classSixSevenModelQuestion) {
+-      if (!CLASS_6_7_BLOCK_SEQUENCE.includes(kind)) {
+-        setActionError("This question type is not part of the Class 6/7 English 1st Paper layout.");
++    if (fixedModelQuestionLayout) {
++      if (!fixedSlotByKind.has(kind)) {
++        setActionError("This question type is not part of the fixed English 1st Paper layout for this class.");
+         return;
+       }
+       const missing = fixedPassageMissing(kind);
+@@ -1588,14 +1570,14 @@ export function ContentBlocksEditorClient({
+         return;
+       }
+     }
+-    if (classSixSevenModelQuestion && creatingKindsRef.current.size > 0) return;
++    if (fixedModelQuestionLayout && creatingKindsRef.current.size > 0) return;
+     creatingKindsRef.current.add(kind);
+     setCreatingKind(kind);
+     setActionError(null);
+     startTransition(async () => {
+       try {
+         await createContentBlock({ contentId: content.id, kind });
+-        if (classSixSevenModelQuestion) {
++        if (fixedModelQuestionLayout) {
+           setCreatedKindsSinceRefresh((current) => current.includes(kind) ? current : [...current, kind]);
+         }
+         router.refresh();
+@@ -1609,7 +1591,7 @@ export function ContentBlocksEditorClient({
+   }
+ 
+   async function handleDeleteBlock(blockId: string) {
+-    if (classSixSevenModelQuestion) {
++    if (fixedModelQuestionLayout) {
+       setActionError("Fixed model-question sections cannot be deleted. Their questions remain editable.");
+       return;
+     }
+@@ -1660,6 +1642,16 @@ export function ContentBlocksEditorClient({
+       ...patch,
+     };
+ 
++    const summarySource = currentBlock.kind === "writing-summary" ? fixedPassageForKind(currentBlock.kind) : undefined;
++    let summaryDocument: Record<string, unknown> = {};
++    if (summarySource) {
++      try {
++        const stored = JSON.parse(next.documentJson);
++        if (stored && typeof stored === "object" && !Array.isArray(stored)) summaryDocument = stored;
++      } catch {
++        // A legacy summary can have no structured document.
++      }
++    }
+     const questionAnswerDocumentJson =
+       currentBlock.kind === "question-answer"
+         ? JSON.stringify({
+@@ -1668,9 +1660,11 @@ export function ContentBlocksEditorClient({
+             paragraphBlockId: next.passageSource === "paragraph" ? next.paragraphBlockId ?? null : null,
+             rows: next.rows,
+           })
+-        : patch.rows !== undefined
+-          ? JSON.stringify({ rows: next.rows })
+-          : next.documentJson;
++        : summarySource
++          ? JSON.stringify({ ...summaryDocument, passageSource: "paragraph", paragraphBlockId: summarySource.id })
++          : patch.rows !== undefined
++            ? JSON.stringify({ rows: next.rows })
++            : next.documentJson;
+ 
+     const persisted = {
+       ...next,
+@@ -3496,7 +3490,7 @@ export function ContentBlocksEditorClient({
+       ...patch,
+     };
+ 
+-    const fixedSourceBlockId = classSixSevenModelQuestion ? fixedPassageForKind("true-false")?.id : undefined;
++    const fixedSourceBlockId = fixedPassageForKind("true-false")?.id;
+     const nextDocumentJson = JSON.stringify({
+       rows: next.rows,
+       ...(fixedSourceBlockId ? { passageSource: "paragraph", paragraphBlockId: fixedSourceBlockId } : {}),
+@@ -4136,30 +4130,30 @@ export function ContentBlocksEditorClient({
+ 
+ 
+ 
+-      {classSixSevenModelQuestion ? (
++      {fixedModelQuestionLayout ? (
+         <Card className="shadow-none">
+           <CardHeader>
+-            <CardTitle>Class 6–7 English 1st Paper · Fixed question sections</CardTitle>
++            <CardTitle>{fixedLayoutName} English 1st Paper · Fixed question sections</CardTitle>
+             <CardDescription>
+               Each section can be added once and stays in the prescribed paper order.
+               Added sections remain editable below; there is no block reordering or deletion.
+             </CardDescription>
+           </CardHeader>
+           <CardContent className="space-y-6">
+-            {MODEL_QUESTION_CLASS_6_7_GROUPS.map((group) => (
++            {fixedGroups.map((group) => (
+               <section key={group.title} className="space-y-3">
+                 <h3 className="border-b pb-2 text-sm font-semibold">{group.title}</h3>
+                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+-                  {group.sections.flatMap((section) => section.kinds).map((kind) => {
++                  {group.slots.map(({ kind }) => {
+                     const exists = occupiedPaperKinds.has(kind);
+                     const missingParent = fixedPassageMissing(kind);
+-                    const name = CLASS_6_7_BLOCK_LABELS[kind] ?? getBlockTitle(kind);
++                    const name = FIXED_BLOCK_LABELS[kind] ?? getBlockTitle(kind);
+                     return (
+                       <div key={kind} className="flex flex-col justify-between gap-3 rounded-xl border p-4">
+                         <div className="flex items-center gap-2">
+                           <span className="rounded-md border p-2">{getBlockIcon(kind)}</span>
+                           <span className="min-w-0 flex-1 text-sm font-medium">{name}</span>
+-                          <Badge variant="outline">{getClassSixSevenQuestionNumber(kind) ?? "Source"}</Badge>
++                          <Badge variant="outline">{fixedSlotBadge(kind)}</Badge>
+                         </div>
+                         <Button type="button" className="w-full" variant={exists ? "outline" : "default"}
+                           disabled={exists || Boolean(missingParent) || isPending || creatingKind !== null}
+@@ -4172,7 +4166,7 @@ export function ContentBlocksEditorClient({
+                 </div>
+               </section>
+             ))}
+-            {[...existingKindCounts.entries()].some(([kind, count]) => count > 1 && CLASS_6_7_BLOCK_SEQUENCE.includes(kind)) ? (
++            {[...existingKindCounts.entries()].some(([kind, count]) => count > 1 && fixedSlotByKind.has(kind)) ? (
+               <p className="text-sm text-amber-700 dark:text-amber-400">
+                 Some section types were previously added more than once. All existing copies are preserved below;
+                 new duplicates are disabled.
+@@ -4210,18 +4204,19 @@ export function ContentBlocksEditorClient({
+                   <div className="flex items-center gap-2">
+                     <div className="rounded-md border p-2">{getBlockIcon(block.kind)}</div>
+                     <CardTitle className="text-base">{displayBlockTitleForBlock(block)}</CardTitle>
+-                    <Badge variant="secondary">#{classSixSevenModelQuestion && CLASS_6_7_BLOCK_SEQUENCE.includes(block.kind)
+-                      ? getClassSixSevenQuestionNumber(block.kind) ?? "Source"
+-                      : chooserGroupMode === "model-question" ? index + 1 : block.sortOrder + 1}</Badge>
++                    <Badge variant="secondary">{fixedSlotByKind.has(block.kind)
++                      ? fixedSlotBadge(block.kind, "#")
++                      : fixedModelQuestionLayout ? "Existing"
++                        : `#${chooserGroupMode === "model-question" ? index + 1 : block.sortOrder + 1}`}</Badge>
+                   </div>
+                   <CardDescription>Block type: {block.kind}</CardDescription>
+-                  {classSixSevenModelQuestion && fixedPassageForKind(block.kind) ? (
++                  {fixedModelQuestionLayout && fixedPassageForKind(block.kind) ? (
+                     <CardDescription className="font-medium text-emerald-700 dark:text-emerald-400">
+-                      Connected to {getFixedPassageLabel(getFixedPassageParentKind(block.kind)!)}
++                      Connected to {fixedParentLabel(block.kind)}
+                     </CardDescription>
+                   ) : null}
+                 </div>
+-                {!classSixSevenModelQuestion ? <div className="flex items-center gap-2">
++                {!fixedModelQuestionLayout ? <div className="flex items-center gap-2">
+                   <Button type="button" variant="outline" size="icon">
+                     <GripVertical className="h-4 w-4" />
+                   </Button>
+@@ -4260,11 +4255,11 @@ export function ContentBlocksEditorClient({
+                 />
+               </CardContent>
+ 
+-              {classSixSevenModelQuestion && fixedPassageForKind(block.kind) ? (
++              {fixedModelQuestionLayout && fixedPassageForKind(block.kind) ? (
+                 <CardContent className="border-t pt-4">
+                   <div className="rounded-xl border bg-muted/30 p-4">
+                     <p className="text-sm font-semibold">
+-                      Linked source: {getFixedPassageLabel(getFixedPassageParentKind(block.kind)!)}
++                      Linked source: {fixedParentLabel(block.kind)}
+                     </p>
+                     <p className="mt-1 text-sm text-muted-foreground">
+                       {paragraphPreview(fixedPassageBody(block.kind), 200)}
+@@ -4279,12 +4274,12 @@ export function ContentBlocksEditorClient({
+                 <CardContent className={BLOCK_CONTENT_CLASS}>
+                   <Field>
+                     <FieldContent>
+-                      <FieldLabel>{blockTitleOverrides?.paragraph ?? "Paragraph"}</FieldLabel>
++                      <FieldLabel>{displayBlockTitleForBlock(block)}</FieldLabel>
+                       <TiptapRichTextEditor
+                         value={block.paragraph.body}
+                         onChange={(value) => void handleParagraphChange(block.id, block.paragraph!.id, value)}
+                         minHeight={240}
+-                        placeholder={classSixSevenModelQuestion ? "Write the Unseen Passage here..." : "Write the paragraph here..."}
++                        placeholder={fixedModelQuestionLayout ? "Write the Unseen Passage here..." : "Write the paragraph here..."}
+                       />
+                     </FieldContent>
+                   </Field>
+@@ -4295,7 +4290,7 @@ export function ContentBlocksEditorClient({
+                 <CardContent className={BLOCK_CONTENT_CLASS}>
+                   <Field>
+                     <FieldContent>
+-                      <FieldLabel>Passage</FieldLabel>
++                      <FieldLabel>{fixedSlotByKind.has(block.kind) ? "Passage 1" : "Passage"}</FieldLabel>
+                       <TiptapRichTextEditor
+                         value={block.seenPassageOne.body}
+                         onChange={(value) =>
+@@ -4538,7 +4533,7 @@ export function ContentBlocksEditorClient({
+                           <span>{isSeenCompositionMode ? "Use Passage" : "Use Paragraph block"}</span>
+                           <Switch
+                             checked={block.synonymsAntonyms.passageSource === "paragraph"}
+-                              disabled={classSixSevenModelQuestion}
++                              disabled={Boolean(fixedPassageForKind(block.kind))}
+                             onCheckedChange={(checked) =>
+                               void handleSynonymsAntonymsPassageChange(block.id, { passageSource: checked ? "paragraph" : "manual" })
+                             }
+@@ -4550,7 +4545,7 @@ export function ContentBlocksEditorClient({
+                         <div className="mt-3 space-y-2 rounded-xl border bg-muted/20 p-4">
+                           <FieldLabel>{isSeenCompositionMode ? "Passage" : "Paragraph"}</FieldLabel>
+                           <QuestionAnswerPassageCombobox
+-                              disabled={classSixSevenModelQuestion}
++                              disabled={Boolean(fixedPassageForKind(block.kind))}
+                             value={block.synonymsAntonyms.paragraphBlockId || ""}
+                             options={paragraphPassageOptions}
+                             onChange={(paragraphBlockId) =>
+@@ -4719,7 +4714,7 @@ export function ContentBlocksEditorClient({
+                             <span>Use Paragraph block</span>
+                             <Switch
+                               checked={block.mcqSection.passageSource === "paragraph"}
+-                              disabled={classSixSevenModelQuestion}
++                              disabled={Boolean(fixedPassageForKind(block.kind))}
+                               onCheckedChange={(checked) =>
+                                 void handleMcqSectionChange(block.id, { passageSource: checked ? "paragraph" : "manual" })
+                               }
+@@ -4730,7 +4725,7 @@ export function ContentBlocksEditorClient({
+                           <div className="mt-3 space-y-2 rounded-xl border bg-muted/20 p-4">
+                             <FieldLabel>Paragraph</FieldLabel>
+                             <QuestionAnswerPassageCombobox
+-                              disabled={classSixSevenModelQuestion}
++                              disabled={Boolean(fixedPassageForKind(block.kind))}
+                               value={block.mcqSection.paragraphBlockId || ""}
+                               options={paragraphPassageOptions}
+                               onChange={(paragraphBlockId) => void handleMcqSectionChange(block.id, { paragraphBlockId: paragraphBlockId || null })}
+@@ -4889,7 +4884,7 @@ export function ContentBlocksEditorClient({
+                     <Field>
+                       <FieldContent>
+                         <FieldLabel>Passage</FieldLabel>
+-                        {classSixSevenModelQuestion ? (
++                        {fixedPassageForKind(block.kind) ? (
+                           <p className="rounded-lg border bg-muted/20 p-3 text-sm text-muted-foreground">
+                             Uses Unseen Passage above. Edit that source block to update the linked preview.
+                           </p>
+@@ -5017,7 +5012,7 @@ export function ContentBlocksEditorClient({
+                             <span>Use Paragraph block</span>
+                             <Switch
+                               checked={block.questionAnswerExercise.passageSource === "paragraph"}
+-                              disabled={classSixSevenModelQuestion}
++                              disabled={Boolean(fixedPassageForKind(block.kind))}
+                               onCheckedChange={(checked) =>
+                                 void handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, {
+                                   passageSource: checked ? "paragraph" : "manual",
+@@ -5031,7 +5026,7 @@ export function ContentBlocksEditorClient({
+                           <div className="space-y-2 rounded-xl border bg-muted/20 p-4">
+                             <FieldLabel>Paragraph</FieldLabel>
+                             <QuestionAnswerPassageCombobox
+-                              disabled={classSixSevenModelQuestion}
++                              disabled={Boolean(fixedPassageForKind(block.kind))}
+                               value={block.questionAnswerExercise.paragraphBlockId || ""}
+                               options={paragraphPassageOptions}
+                               onChange={(paragraphBlockId) =>
+@@ -6075,7 +6070,7 @@ export function ContentBlocksEditorClient({
+                             <span>Use Passage</span>
+                             <Switch
+                               checked={block.informationTransfer.passageSource === "paragraph"}
+-                              disabled={classSixSevenModelQuestion}
++                              disabled={Boolean(fixedPassageForKind(block.kind))}
+                               onCheckedChange={(checked) =>
+                                 void handleInformationTransferPassageChange(block.id, { passageSource: checked ? "paragraph" : "manual" })
+                               }
+@@ -6087,7 +6082,7 @@ export function ContentBlocksEditorClient({
+                           <div className="mt-3 space-y-2 rounded-xl border bg-muted/20 p-4">
+                             <FieldLabel>Passage</FieldLabel>
+                             <QuestionAnswerPassageCombobox
+-                              disabled={classSixSevenModelQuestion}
++                              disabled={Boolean(fixedPassageForKind(block.kind))}
+                               value={block.informationTransfer.paragraphBlockId || ""}
+                               options={paragraphPassageOptions}
+                               onChange={(paragraphBlockId) =>
+@@ -6527,7 +6522,7 @@ export function ContentBlocksEditorClient({
+                             <span>Use Paragraph block</span>
+                             <Switch
+                               checked={block.gapFillFirstPaper.passageSource === "paragraph"}
+-                              disabled={classSixSevenModelQuestion}
++                              disabled={Boolean(fixedPassageForKind(block.kind))}
+                               onCheckedChange={(checked) => void handleFillBlankFirstPaperChange(block.id, { passageSource: checked ? "paragraph" : "manual" })}
+                             />
+                           </label>
+@@ -6536,7 +6531,7 @@ export function ContentBlocksEditorClient({
+                           <div className="mt-3 space-y-2 rounded-xl border bg-muted/20 p-4">
+                             <FieldLabel>Paragraph</FieldLabel>
+                             <QuestionAnswerPassageCombobox
+-                              disabled={classSixSevenModelQuestion}
++                              disabled={Boolean(fixedPassageForKind(block.kind))}
+                               value={block.gapFillFirstPaper.paragraphBlockId || ""}
+                               options={paragraphPassageOptions}
+                               onChange={(paragraphBlockId) => void handleFillBlankFirstPaperChange(block.id, { paragraphBlockId: paragraphBlockId || null })}
+@@ -7263,14 +7258,13 @@ export function ContentBlocksEditorClient({
+         <ScrollArea className="max-h-[70vh] pr-4">
+           {chooserGroupMode === "model-question" ? (
+             <div className="space-y-7">
+-              {classSixSevenModelQuestion ? (
++              {fixedModelQuestionLayout ? (
+                 <p className="text-sm text-muted-foreground">
+-                  Class 6–7 English 1st Paper · 12 numbered questions plus one Unseen Passage source block, in fixed order.
+-                  Each type can be added once. Existing sections are shown as disabled,
+-                  and saved blocks keep their fixed position in the paper.
++                  {fixedLayoutName} English 1st Paper. Each type can be added once and stays in paper order.
++                  Linked questions become available after their passage is added.
+                 </p>
+               ) : null}
+-              {(classSixSevenModelQuestion ? MODEL_QUESTION_CLASS_6_7_GROUPS : MODEL_QUESTION_BLOCK_GROUPS).map((group) => {
++              {modelQuestionGroups.map((group) => {
+                 const sections = group.sections.map((section) => ({
+                   ...section,
+                   items: section.kinds.map((kind) => visibleBlockChooser.find((item) => item.kind === kind)).filter(
+@@ -7296,28 +7290,28 @@ export function ContentBlocksEditorClient({
+                                 </div>
+                                 <div className="flex flex-wrap items-center justify-between gap-2">
+                                   <CardTitle className="text-sm">
+-                                    {classSixSevenModelQuestion ? CLASS_6_7_BLOCK_LABELS[item.kind] ?? item.title : item.title}
++                                    {fixedModelQuestionLayout ? FIXED_BLOCK_LABELS[item.kind] ?? item.title : item.title}
+                                   </CardTitle>
+-                                  {classSixSevenModelQuestion ? (
+-                                    <Badge variant="outline">{getClassSixSevenQuestionNumber(item.kind) ?? "Source"}</Badge>
++                                  {fixedModelQuestionLayout ? (
++                                    <Badge variant="outline">{fixedSlotBadge(item.kind)}</Badge>
+                                   ) : null}
+                                 </div>
+                                 <CardDescription>{item.description}</CardDescription>
+                               </CardHeader>
+                               <CardContent>
+                                 <Button type="button" className="w-full"
+-                                  variant={classSixSevenModelQuestion && occupiedPaperKinds.has(item.kind) ? "outline" : "default"}
+-                                  disabled={isPending || creatingKind !== null || (classSixSevenModelQuestion && (occupiedPaperKinds.has(item.kind) || Boolean(fixedPassageMissing(item.kind))))}
++                                  variant={fixedModelQuestionLayout && occupiedPaperKinds.has(item.kind) ? "outline" : "default"}
++                                  disabled={isPending || creatingKind !== null || (fixedSlotByKind.has(item.kind) && (occupiedPaperKinds.has(item.kind) || Boolean(fixedPassageMissing(item.kind))))}
+                                   onClick={() => {
+-                                    if (classSixSevenModelQuestion && (occupiedPaperKinds.has(item.kind) || fixedPassageMissing(item.kind))) return;
++                                    if (fixedModelQuestionLayout && (occupiedPaperKinds.has(item.kind) || fixedPassageMissing(item.kind))) return;
+                                     void handleAddBlock(item.kind);
+                                     setIsChooserOpen(false);
+                                   }}>
+-                                  {classSixSevenModelQuestion && occupiedPaperKinds.has(item.kind)
++                                  {fixedModelQuestionLayout && occupiedPaperKinds.has(item.kind)
+                                     ? "Already added"
+-                                    : classSixSevenModelQuestion && fixedPassageMissing(item.kind)
++                                    : fixedModelQuestionLayout && fixedPassageMissing(item.kind)
+                                       ? `Add ${fixedPassageMissing(item.kind)} first`
+-                                      : `Use ${classSixSevenModelQuestion ? CLASS_6_7_BLOCK_LABELS[item.kind] ?? item.title : item.title}`}
++                                      : `Use ${fixedModelQuestionLayout ? FIXED_BLOCK_LABELS[item.kind] ?? item.title : item.title}`}
+                                 </Button>
+                               </CardContent>
+                             </Card>
+diff --git a/app/admin/content/[contentId]/page.tsx b/app/admin/content/[contentId]/page.tsx
+index d25c071..b8499c2 100644
+--- a/app/admin/content/[contentId]/page.tsx
++++ b/app/admin/content/[contentId]/page.tsx
+@@ -1,6 +1,6 @@
+ import { notFound } from "next/navigation";
+ import { isEnglishFirstPaperSubject, isEnglishSecondPaperSubject } from "@/app/admin/content/navigation-helpers";
+-import { CLASS_6_7_MODEL_QUESTION_KINDS, getFixedPassageParentKind, isClassSixSevenEnglishFirstPaper } from "@/lib/model-question-fixed-blocks";
++import { getFixedModelQuestionLayout, getFixedModelQuestionSlots, getFixedPassageParentKind } from "@/lib/model-question-fixed-blocks";
+ 
+ import { ContentBlocksEditorClient } from "@/app/admin/content/[contentId]/ContentBlocksEditorClient";
+ import { SeenCompositionTitleEditor } from "@/components/admin/SeenCompositionTitleEditor";
+@@ -483,12 +483,12 @@ export default async function AdminContentBlocksPage({
+       topicId: true,
+       createdAt: true,
+       class: { select: { id: true, name: true } },
+-      subject: { select: { id: true, name: true } },
++      subject: { select: { id: true, name: true, slug: true, code: true } },
+       unit: { select: { id: true, title: true } },
+       lesson: { select: { id: true, title: true } },
+       topic: { select: { id: true, title: true } },
+       blocks: {
+-        orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
++        orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }, { id: "asc" }],
+         select: {
+           id: true,
+           contentId: true,
+@@ -972,11 +972,12 @@ export default async function AdminContentBlocksPage({
+ 
+   // Link earlier saved fixed-section questions to their parent source in the editor
+   // projection. This never overwrites or deletes pre-existing database fields.
+-  const isFixedClassSixSevenModelQuestion = editorMode === "model-question" &&
+-    isClassSixSevenEnglishFirstPaper(content.class.name, content.subject);
++  const fixedLayout = editorMode === "model-question"
++    ? getFixedModelQuestionLayout(content.class.name, content.subject)
++    : null;
+   const fixedPassageSourceId = (kind: string): string | null => {
+-    if (!isFixedClassSixSevenModelQuestion) return null;
+-    const parentKind = getFixedPassageParentKind(kind);
++    if (!fixedLayout) return null;
++    const parentKind = getFixedPassageParentKind(fixedLayout, kind);
+     return parentKind ? content.blocks.find((candidate) => candidate.kind === parentKind)?.id ?? null : null;
+   };
+   const fixedLinkedSource = (kind: string, savedSource: string, savedId: string | null) => {
+@@ -1195,24 +1196,21 @@ export default async function AdminContentBlocksPage({
+   };
+ 
+   const modelQuestionMode = editorMode === "model-question";
+-  // Only model-question content for Class 6/7 English 1st Paper uses fixed slots.
+-  // Existing blocks remain visible even if they predate this rule.
+-  const classSixSevenFirstPaper = isFixedClassSixSevenModelQuestion;
+-  const classSixSevenKinds: ContentBlockKind[] = [...CLASS_6_7_MODEL_QUESTION_KINDS];
+-  const modelQuestionKinds: ContentBlockKind[] = isEnglishSecondPaperSubject(content.subject)
+-    ? [
+-        "gap-fill-second-paper", "substitution-table", "right-form-of-verb",
+-        "narration", "changing-sentence", "punctuation-and-capitalization",
+-        "preposition", "suffix-and-prefix", "tag-question", "connector",
+-      ]
+-    : classSixSevenFirstPaper
+-      ? classSixSevenKinds
++  // Existing blocks remain visible even if they predate the fixed layout.
++  const modelQuestionKinds: ContentBlockKind[] = fixedLayout
++    ? getFixedModelQuestionSlots(fixedLayout).map((slot) => slot.kind)
++    : isEnglishSecondPaperSubject(content.subject)
++      ? [
++          "gap-fill-second-paper", "substitution-table", "right-form-of-verb",
++          "narration", "changing-sentence", "punctuation-and-capitalization",
++          "preposition", "suffix-and-prefix", "tag-question", "connector",
++        ]
+       : isEnglishFirstPaperSubject(content.subject)
+         ? [
+-          "seen-passage-one", "seen-passage-two", "mcq", "question-answer",
+-          "information-transfer", "true-false", "gap-fill-first-paper",
+-          "table-completion", "column-matching", "question-from-poems",
+-          "question-from-story", "rearrange-sentence", "synonyms-antonyms",
++            "seen-passage-one", "seen-passage-two", "mcq", "question-answer",
++            "information-transfer", "true-false", "gap-fill-first-paper",
++            "table-completion", "column-matching", "question-from-poems",
++            "question-from-story", "rearrange-sentence", "synonyms-antonyms",
+           ]
+         : ["mcq", "question-answer", "gap-fill-first-paper", "table-completion", "column-matching"];
+   const modeConfig =
+@@ -1253,13 +1251,7 @@ export default async function AdminContentBlocksPage({
+         content={typedContent}
+         allowedBlockKindsOverride={allowedBlockKinds}
+         chooserGroupMode={modelQuestionMode ? "model-question" : undefined}
+-        classSixSevenModelQuestion={classSixSevenFirstPaper}
+-        blockTitleOverrides={classSixSevenFirstPaper ? {
+-          "seen-passage-one": "Passage 1",
+-          "seen-passage-two": "Passage 2",
+-          paragraph: "Unseen Passage",
+-          "question-answer": "Answering Questions",
+-        } : undefined}
++        fixedModelQuestionLayout={fixedLayout}
+         initialChooserOpen={modelQuestionMode && addBlock === "1"}
+       />
+     </div>
+diff --git a/app/admin/content/actions.ts b/app/admin/content/actions.ts
+index 4447755..11d84a6 100644
+--- a/app/admin/content/actions.ts
++++ b/app/admin/content/actions.ts
+@@ -7,10 +7,10 @@ import { z } from "zod";
+ import { requireAdmin, assertTrustedMutationOrigin } from "@/lib/app-auth";
+ import { isEnglishFirstPaperSubject } from "@/app/admin/content/navigation-helpers";
+ import {
+-  CLASS_6_7_MODEL_QUESTION_KINDS,
++  FIXED_BLOCK_LABELS,
++  getFixedModelQuestionLayout,
++  getFixedModelQuestionSlots,
+   getFixedPassageParentKind,
+-  getFixedPassageLabel,
+-  isClassSixSevenEnglishFirstPaper,
+ } from "@/lib/model-question-fixed-blocks";
+ import { logAudit } from "@/lib/auditLogger";
+ import { prisma } from "@/lib/db";
+@@ -859,27 +859,31 @@ export async function createContentBlock(input: unknown) {
+       subject: { select: { name: true, slug: true, code: true } },
+     },
+   });
+-  const fixedClassSixSevenPaper = Boolean(modelQuestionSet &&
+-    isClassSixSevenEnglishFirstPaper(modelQuestionSet.class.name, modelQuestionSet.subject));
+-  const fixedKindPosition = CLASS_6_7_MODEL_QUESTION_KINDS.findIndex((kind) => kind === parsed.kind);
+-  if (fixedClassSixSevenPaper && fixedKindPosition === -1) {
+-    throw new Error("Only the thirteen fixed English 1st Paper question types can be added for Class 6/7.");
++  const fixedLayout = modelQuestionSet
++    ? getFixedModelQuestionLayout(modelQuestionSet.class.name, modelQuestionSet.subject)
++    : null;
++  const fixedKindPosition = fixedLayout
++    ? getFixedModelQuestionSlots(fixedLayout).findIndex((slot) => slot.kind === parsed.kind)
++    : -1;
++  if (fixedLayout && fixedKindPosition === -1) {
++    throw new Error("This block is not part of the fixed English 1st Paper layout for this class.");
+   }
+ 
+   const block = await prisma.$transaction(async (tx) => {
+-    if (fixedClassSixSevenPaper) {
++    if (fixedLayout) {
+       const existing = await tx.contentBlock.findFirst({
+         where: { contentId: parsed.contentId, kind: parsed.kind }, select: { id: true },
+       });
+       if (existing) throw new Error("This question section was already added. Edit the existing block instead.");
+     }
+-    const parentKind = fixedClassSixSevenPaper ? getFixedPassageParentKind(parsed.kind) : null;
++    const parentKind = fixedLayout ? getFixedPassageParentKind(fixedLayout, parsed.kind) : null;
+     const passageParent = parentKind ? await tx.contentBlock.findFirst({
+       where: { contentId: parsed.contentId, kind: parentKind },
++      orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }, { id: "asc" }],
+       select: { id: true },
+     }) : null;
+     if (parentKind && !passageParent) {
+-      throw new Error(`Add ${getFixedPassageLabel(parentKind)} before this question block.`);
++      throw new Error(`Add ${FIXED_BLOCK_LABELS[parentKind]} before this question block.`);
+     }
+     const passageLink = passageParent ? {
+       passageSource: "paragraph" as const,
+@@ -897,7 +901,7 @@ export async function createContentBlock(input: unknown) {
+         kind: parsed.kind,
+         boardId: modelQuestionSet?.boardId ?? null,
+         academicYearId: modelQuestionSet?.academicYearId ?? null,
+-        sortOrder: fixedClassSixSevenPaper ? fixedKindPosition : (latestBlock._max.sortOrder ?? -1) + 1,
++        sortOrder: fixedLayout ? fixedKindPosition : (latestBlock._max.sortOrder ?? -1) + 1,
+       },
+     });
+ 
+@@ -1306,8 +1310,8 @@ export async function reorderContentBlocks(input: unknown) {
+       subject: { select: { name: true, slug: true, code: true } },
+     },
+   });
+-  if (linkedSets.some((set) => isClassSixSevenEnglishFirstPaper(set.class.name, set.subject))) {
+-    throw new Error("Class 6/7 English 1st Paper model question sections have a fixed order.");
++  if (linkedSets.some((set) => getFixedModelQuestionLayout(set.class.name, set.subject))) {
++    throw new Error("Fixed English 1st Paper model-question sections cannot be reordered.");
+   }
+ 
+   await prisma.$transaction(
+@@ -1347,7 +1351,7 @@ export async function deleteContentBlock(blockId: string) {
+       subject: { select: { name: true, slug: true, code: true } },
+     },
+   });
+-  if (linkedModelQuestion && isClassSixSevenEnglishFirstPaper(linkedModelQuestion.class.name, linkedModelQuestion.subject)) {
++  if (linkedModelQuestion && getFixedModelQuestionLayout(linkedModelQuestion.class.name, linkedModelQuestion.subject)) {
+     throw new Error("Fixed model-question sections cannot be deleted. Edit the existing questions instead.");
+   }
+   const vocabularyEntries = ownedBlock.kind === "vocabulary"
+diff --git a/lib/model-question-fixed-blocks.ts b/lib/model-question-fixed-blocks.ts
+index ba30fc1..35c6d21 100644
+--- a/lib/model-question-fixed-blocks.ts
++++ b/lib/model-question-fixed-blocks.ts
+@@ -1,65 +1,131 @@
+ import { isEnglishFirstPaperSubject } from "@/app/admin/content/navigation-helpers";
++import type { ContentBlockKind } from "@/app/admin/content/content-types";
+ 
+-/** Fixed Class 6/7 English 1st Paper sections, in question-paper order. */
+-export const CLASS_6_7_MODEL_QUESTION_KINDS = [
+-  "seen-passage-one",
+-  "mcq",
+-  "question-answer",
+-  "seen-passage-two",
+-  "gap-fill-first-paper",
+-  "synonyms-antonyms",
+-  "paragraph", // Reuse native Paragraph as the Unseen Passage source.
+-  "information-transfer",
+-  "true-false",
+-  "writing-summary",
+-  "table-completion",
+-  "rearrange-sentence",
+-  "question-from-poems",
+-] as const;
++type PassageKind = "seen-passage-one" | "seen-passage-two" | "paragraph";
++type FixedQuestionSlot = {
++  kind: ContentBlockKind;
++  number?: number;
++  parent?: PassageKind;
++};
++type FixedQuestionGroup = {
++  title: string;
++  description: string;
++  slots: readonly FixedQuestionSlot[];
++};
+ 
+-export function isClassSixSevenEnglishFirstPaper(
++export type FixedModelQuestionLayout = "class-6-7" | "class-9-10";
++
++const SEEN_PASSAGE_ONE_SLOTS = [
++  { kind: "seen-passage-one", number: 1 },
++  { kind: "mcq", number: 2, parent: "seen-passage-one" },
++  { kind: "question-answer", number: 3, parent: "seen-passage-one" },
++] as const satisfies readonly FixedQuestionSlot[];
++
++const FIXED_GROUPS: Record<FixedModelQuestionLayout, readonly FixedQuestionGroup[]> = {
++  "class-6-7": [
++    {
++      title: "Seen — Passage 1",
++      description: "Passage 1, MCQ, and Answering Questions.",
++      slots: SEEN_PASSAGE_ONE_SLOTS,
++    },
++    {
++      title: "Seen — Passage 2",
++      description: "Passage 2, Fill in the Gaps, and Synonyms / Antonyms.",
++      slots: [
++        { kind: "seen-passage-two", number: 4 },
++        { kind: "gap-fill-first-paper", number: 5, parent: "seen-passage-two" },
++        { kind: "synonyms-antonyms", number: 6, parent: "seen-passage-two" },
++      ],
++    },
++    {
++      title: "Unseen",
++      description: "First add Unseen Passage, then its Information Transfer, True / False, and Summary questions.",
++      slots: [
++        { kind: "paragraph" },
++        { kind: "information-transfer", number: 7, parent: "paragraph" },
++        { kind: "true-false", number: 8, parent: "paragraph" },
++        { kind: "writing-summary", number: 9, parent: "paragraph" },
++      ],
++    },
++    {
++      title: "Other Reading Questions",
++      description: "Table Completion, Rearrange Sentence, and Question from Poems.",
++      slots: [
++        { kind: "table-completion", number: 10 },
++        { kind: "rearrange-sentence", number: 11 },
++        { kind: "question-from-poems", number: 12 },
++      ],
++    },
++  ],
++  "class-9-10": [
++    {
++      title: "Seen — Passage 1",
++      description: "First add Passage 1, then its MCQ, Answering Questions, and Fill in the Gaps.",
++      slots: [
++        ...SEEN_PASSAGE_ONE_SLOTS,
++        { kind: "gap-fill-first-paper", number: 4, parent: "seen-passage-one" },
++      ],
++    },
++    {
++      title: "Unseen",
++      description: "First add Unseen Passage, then its Information Transfer and Summary questions.",
++      slots: [
++        { kind: "paragraph" },
++        { kind: "information-transfer", number: 5, parent: "paragraph" },
++        { kind: "writing-summary", number: 6, parent: "paragraph" },
++      ],
++    },
++    {
++      title: "Other Reading Questions",
++      description: "These blocks do not require a passage.",
++      slots: [
++        { kind: "table-completion" },
++        { kind: "rearrange-sentence" },
++        { kind: "question-from-poems" },
++        { kind: "question-from-story" },
++      ],
++    },
++  ],
++};
++
++export const FIXED_BLOCK_LABELS: Partial<Record<ContentBlockKind, string>> = {
++  paragraph: "Unseen Passage",
++  "seen-passage-one": "Passage 1",
++  "seen-passage-two": "Passage 2",
++  "question-answer": "Answering Questions",
++  "gap-fill-first-paper": "Fill in the Gaps",
++  "writing-summary": "Summary",
++};
++
++export function getFixedModelQuestionLayout(
+   className: string,
+-  subject: { name: string; slug?: string | null; code?: string | null },
+-): boolean {
++  subject: Parameters<typeof isEnglishFirstPaperSubject>[0],
++): FixedModelQuestionLayout | null {
++  if (!isEnglishFirstPaperSubject(subject)) return null;
+   const label = className.trim().toLowerCase();
+-  const isClassSixOrSeven =
++  if (
+     /^(?:6|7|৬|৭)(?:th)?$/.test(label) ||
+     /\b(?:class|grade|standard|std\.?)\s*[-:]?\s*(?:6|7)(?:th)?\b/.test(label) ||
+-    /(?:ক্লাস|শ্রেণি)\s*(?:৬|৭|ষষ্ঠ|সপ্তম)|(?:৬ষ্ঠ|৭ম|ষষ্ঠ|সপ্তম)\s*(?:শ্রেণি|ক্লাস)/.test(label);
+-  return isClassSixOrSeven && isEnglishFirstPaperSubject(subject);
+-}
++    /(?:ক্লাস|শ্রেণি)\s*(?:৬|৭|ষষ্ঠ|সপ্তম)|(?:৬ষ্ঠ|৭ম|ষষ্ঠ|সপ্তম)\s*(?:শ্রেণি|ক্লাস)/.test(label)
++  ) return "class-6-7";
++
++  if (
++    /^(?:9|10|৯|১০)(?:th)?$/.test(label) ||
++    /\b(?:class|grade|standard|std\.?)\s*[-:]?\s*(?:(?:0?9|10)(?:th)?|ninth|tenth|ix|x)\b/.test(label) ||
++    /(?:ক্লাস|শ্রেণি|শ্রেণী)\s*(?:৯|১০)(?![০-৯])|(?:নবম|দশম|৯ম|১০ম)/.test(label)
++  ) return "class-9-10";
+ 
+-/** Each fixed section uses the passage block saved in the SAME model-question set.
+- * The parent is the existing native ContentBlock; no extra relation table is required.
+- */
+-export const CLASS_6_7_MODEL_QUESTION_PASSAGE_PARENTS = {
+-  mcq: "seen-passage-one",
+-  "question-answer": "seen-passage-one",
+-  "gap-fill-first-paper": "seen-passage-two",
+-  "synonyms-antonyms": "seen-passage-two",
+-  "information-transfer": "paragraph",
+-  "true-false": "paragraph",
+-  "writing-summary": "paragraph",
+-} as const;
++  return null;
++}
+ 
+-export function getFixedPassageParentKind(kind: string): string | null {
+-  return CLASS_6_7_MODEL_QUESTION_PASSAGE_PARENTS[
+-    kind as keyof typeof CLASS_6_7_MODEL_QUESTION_PASSAGE_PARENTS
+-  ] ?? null;
++export function getFixedModelQuestionGroups(layout: FixedModelQuestionLayout) {
++  return FIXED_GROUPS[layout];
+ }
+ 
+-export function getFixedPassageLabel(kind: string): string {
+-  return kind === "paragraph" ? "Unseen Passage" :
+-    kind === "seen-passage-one" ? "Passage 1" : "Passage 2";
++export function getFixedModelQuestionSlots(layout: FixedModelQuestionLayout) {
++  return getFixedModelQuestionGroups(layout).flatMap((group) => group.slots);
+ }
+ 
+-/** Unseen Passage is a source block, not a numbered question item.
+- * Preserve the previously agreed 1–12 question-paper numbering.
+- */
+-export function getClassSixSevenQuestionNumber(kind: string): number | null {
+-  if (kind === "paragraph") return null;
+-  const index = CLASS_6_7_MODEL_QUESTION_KINDS.findIndex((item) => item === kind);
+-  if (index < 0) return null;
+-  const unseenIndex = CLASS_6_7_MODEL_QUESTION_KINDS.indexOf("paragraph");
+-  return index >= unseenIndex ? index : index + 1;
++export function getFixedPassageParentKind(layout: FixedModelQuestionLayout, kind: string): PassageKind | null {
++  return getFixedModelQuestionSlots(layout).find((slot) => slot.kind === kind)?.parent ?? null;
+ }

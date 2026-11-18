@@ -693,7 +693,7 @@ export function UnseenCompositionEditorClient({ record, classItem, subject }: Pr
   );
 }
 
-function WritingSummaryEditor({
+export function WritingSummaryEditor({
   block,
   onChange,
 }: {

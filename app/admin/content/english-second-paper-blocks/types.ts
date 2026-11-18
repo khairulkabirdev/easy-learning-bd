@@ -7,6 +7,7 @@ export type EnglishSecondPaperKind =
   | "punctuation-and-capitalization"
   | "preposition"
   | "suffix-and-prefix"
+  | "parts-of-speech"
   | "tag-question"
   | "connector";
 
@@ -140,6 +141,7 @@ export const ENGLISH_SECOND_PAPER_KINDS: EnglishSecondPaperKind[] = [
   "punctuation-and-capitalization",
   "preposition",
   "suffix-and-prefix",
+  "parts-of-speech",
   "tag-question",
   "connector",
 ];
@@ -195,6 +197,12 @@ export const ENGLISH_SECOND_PAPER_META: Record<
     singular: "Suffix and Prefix block",
     description: "Mark root words in the question and save each completed-word answer.",
     blockKind: "suffix-and-prefix",
+  },
+  "parts-of-speech": {
+    title: "Parts of Speech",
+    singular: "Parts of Speech block",
+    description: "Mark words in a sentence or passage and save the part of speech of each word.",
+    blockKind: "parts-of-speech",
   },
   "tag-question": {
     title: "Tag Question",
@@ -366,6 +374,38 @@ function normalizeSuffixPrefixDocument(value: unknown, recordId: string): Suffix
   };
 }
 
+// Keep answers with their words when a new target is inserted before them.
+function normalizePartsOfSpeechDocument(value: unknown, recordId: string): SuffixPrefixDocument {
+  const parsed = (value && typeof value === "object" ? value : {}) as Partial<SuffixPrefixDocument>;
+  const question = typeof parsed.question === "string" ? parsed.question : "";
+  const sourcesByWord = new Map<string, SuffixPrefixItem[]>();
+  const occupiedIds = new Set<string>();
+  if (Array.isArray(parsed.items)) {
+    for (const item of parsed.items) {
+      if (!item || typeof item.word !== "string") continue;
+      const matching = sourcesByWord.get(item.word) || [];
+      matching.push(item);
+      sourcesByWord.set(item.word, matching);
+      if (typeof item.id === "string" && item.id) occupiedIds.add(item.id);
+    }
+  }
+  const usedIds = new Set<string>();
+  return {
+    version: 1,
+    question,
+    items: extractSuffixPrefixWords(question).map((word, sortOrder) => {
+      const source = sourcesByWord.get(word)?.shift();
+      let id = typeof source?.id === "string" && !usedIds.has(source.id) ? source.id : "";
+      if (!id) {
+        id = `${recordId}-part-of-speech-${sortOrder + 1}`;
+        while (occupiedIds.has(id) || usedIds.has(id)) id += "-new";
+      }
+      usedIds.add(id);
+      return { id, sortOrder, word, answer: typeof source?.answer === "string" ? source.answer : "" };
+    }),
+  };
+}
+
 function normalizeTagQuestionDocument(value: unknown, recordId: string): TagQuestionDocument {
   const parsed = (value && typeof value === "object" ? value : {}) as Partial<TagQuestionDocument>;
   const mode = parsed.mode === "paragraph" ? "paragraph" : "items";
@@ -412,6 +452,8 @@ export function parseEnglishSecondPaperDocument(
       return normalizeSubstitutionDocument(parsed, recordId);
     case "suffix-and-prefix":
       return normalizeSuffixPrefixDocument(parsed, recordId);
+    case "parts-of-speech":
+      return normalizePartsOfSpeechDocument(parsed, recordId);
     case "tag-question":
       return normalizeTagQuestionDocument(parsed, recordId);
   }
@@ -435,6 +477,7 @@ export function createDefaultEnglishSecondPaperDocument(
     case "substitution-table":
       return normalizeSubstitutionDocument({}, id);
     case "suffix-and-prefix":
+    case "parts-of-speech":
       return { version: 1, question: "", items: [] };
     case "tag-question":
       return { version: 1, mode: "items", question: "", blanks: [], rows: [] };
@@ -505,12 +548,16 @@ export function validateEnglishSecondPaperDraft(
       });
       break;
     }
-    case "suffix-and-prefix": {
+    case "suffix-and-prefix":
+    case "parts-of-speech": {
       const document = draft.document as SuffixPrefixDocument;
+      const isPartsOfSpeech = kind === "parts-of-speech";
       if (!richTextHasContent(document.question)) errors.question = "Question is required.";
-      if (document.items.length === 0) errors.document = "Add at least one Suffix / Prefix root word.";
+      if (document.items.length === 0) errors.document = isPartsOfSpeech ? "Mark at least one target word." : "Add at least one Suffix / Prefix root word.";
       document.items.forEach((item, index) => {
-        if (!item.answer.trim()) errors[`suffix:${item.id}`] = `Answer ${index + 1} is required.`;
+        if (!item.answer.trim()) errors[`suffix:${item.id}`] = isPartsOfSpeech
+          ? `Enter the part of speech for “${item.word}”.`
+          : `Answer ${index + 1} is required.`;
       });
       break;
     }

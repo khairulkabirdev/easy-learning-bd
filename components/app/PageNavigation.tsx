@@ -50,11 +50,8 @@ const STATIC_LABELS: Record<string, string> = {
   lessons: "Lessons",
   topics: "Topics",
   profile: "Profile",
-  settings: "Storage Setting",
-  storage: "Storage Setting",
-  "media-library": "Media Library",
-  "email-settings": "Email Settings",
-  "model-question-import": "Model Question Import",
+  settings: "Settings",
+  storage: "Storage",
   configuration: "Configuration",
   "audit-logs": "Audit Logs",
   "chapter-preparation": "অধ্যায়ভিত্তিক প্রস্তুতি",
@@ -76,6 +73,7 @@ const STATIC_LABELS: Record<string, string> = {
   "punctuation-and-capitalization": "Punctuation and Capitalization",
   preposition: "Preposition",
   "suffix-and-prefix": "Suffix and Prefix",
+  "parts-of-speech": "Parts of Speech",
   "tag-question": "Tag Question",
   connector: "Connector",
   "fill-in-the-blanks": "Fill in the Blanks",
@@ -138,6 +136,14 @@ function buildAutoItems(pathname: string, labels: Record<string, string>) {
 
   if (pathname === roleHome) return [];
 
+  if (rolePrefix === "/admin" && routeSegments[0] === "model-question-import") {
+    const fallbackLabels = ["Model Question Import", "Class", "Subject", "Model Question Set"];
+    return routeSegments.slice(0, fallbackLabels.length).map((segment, index, route) => ({
+      label: labels[segment] || fallbackLabels[index],
+      href: index === route.length - 1 ? undefined : `${rolePrefix}/${route.slice(0, index + 1).join("/")}`,
+    }));
+  }
+
   const items: PageNavigationItem[] = [];
 
   routeSegments.forEach((segment, index) => {
@@ -183,6 +189,7 @@ function buildAutoItems(pathname: string, labels: Record<string, string>) {
         previous === "punctuation-and-capitalization" ||
         previous === "preposition" ||
         previous === "suffix-and-prefix" ||
+        previous === "parts-of-speech" ||
         previous === "tag-question" ||
         previous === "connector"
       ) {

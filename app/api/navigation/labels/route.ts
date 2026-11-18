@@ -47,6 +47,7 @@ function classifyIds(pathname: string) {
   const poemIds: string[] = [];
   const storyIds: string[] = [];
   const secondPaperIds: string[] = [];
+  const partsOfSpeechIds: string[] = [];
   const contentIds: string[] = [];
 
   for (let index = 0; index < segments.length; index += 1) {
@@ -69,6 +70,7 @@ function classifyIds(pathname: string) {
     else if (previous === "rearrange-sentence") rearrangeIds.push(segment);
     else if (previous === "question-from-poems") poemIds.push(segment);
     else if (previous === "question-from-story") storyIds.push(segment);
+    else if (previous === "parts-of-speech") partsOfSpeechIds.push(segment);
     else if (ENGLISH_SECOND_PAPER_SEGMENTS.has(previous)) secondPaperIds.push(segment);
     else if (previous === "content" || previous === "chapter") contentIds.push(segment);
   }
@@ -85,6 +87,7 @@ function classifyIds(pathname: string) {
     poemIds: unique(poemIds),
     storyIds: unique(storyIds),
     secondPaperIds: unique(secondPaperIds),
+    partsOfSpeechIds: unique(partsOfSpeechIds),
     contentIds: unique(contentIds),
   };
 }
@@ -101,25 +104,49 @@ export async function GET(request: NextRequest) {
   }
 
   const organizationId = user.organizationId;
+  const modelQuestionRoot = "/admin/model-question-import";
+  const modelQuestionMatch = pathname.match(
+    /^\/admin\/model-question-import(?:\/([a-z0-9_-]{1,128})(?:\/([a-z0-9_-]{1,128})(?:\/([a-z0-9_-]{1,128}))?)?)?\/?$/i,
+  );
+  if (modelQuestionMatch) {
+    if (user.role !== "admin") return NextResponse.json({ labels: {} }, { status: 403 });
 
-  // Model Question Import has a short Class → Subject route without literal
-  // `class`/`subject` path segments, so resolve breadcrumb names explicitly.
-  const modelImportRoute = pathname.match(/^\/admin\/model-question-import(?:\/([^/]+))?(?:\/([^/]+))?\/?$/);
-  if (modelImportRoute) {
-    const classId = modelImportRoute[1];
-    const subjectId = modelImportRoute[2];
-    const classItem = classId ? await prisma.class.findFirst({
-      where: { id: classId, organizationId }, select: { id: true, name: true },
-    }) : null;
-    const subject = classItem && subjectId ? await prisma.subject.findFirst({
-      where: { id: subjectId, classId: classItem.id, organizationId }, select: { id: true, name: true },
-    }) : null;
-    const items = [{ label: "Model Question Import", href: classItem ? "/admin/model-question-import" : undefined }];
-    if (classItem) items.push({ label: classItem.name, href: subject ? `/admin/model-question-import/${classItem.id}` : undefined });
-    if (subject) items.push({ label: subject.name, href: undefined });
-    const backHref = subject ? `/admin/model-question-import/${classItem?.id}` : classItem ? "/admin/model-question-import" : "/admin/dashboard";
-    return NextResponse.json({ labels: {}, items, backHref });
+    const [, classId, subjectId, setId] = modelQuestionMatch;
+    const items: { label: string; href?: string }[] = [
+      { label: "Model Question Import", href: modelQuestionRoot },
+    ];
+    if (!classId) return NextResponse.json({ items, backHref: "/admin/dashboard" });
+
+    const classHref = `${modelQuestionRoot}/${classId}`;
+    if (!subjectId) {
+      const classItem = await prisma.class.findFirst({
+        where: { id: classId, organizationId },
+        select: { name: true },
+      });
+      items.push({ label: classItem?.name || "Class" });
+      return NextResponse.json({ items, backHref: modelQuestionRoot });
+    }
+
+    const subjectHref = `${classHref}/${subjectId}`;
+    const scope = { organizationId, classId, subjectId };
+    const [subject, set] = await Promise.all([
+      prisma.subject.findFirst({
+        where: { id: subjectId, classId, organizationId },
+        select: { name: true, class: { select: { name: true } } },
+      }),
+      setId ? prisma.modelQuestionSet.findFirst({
+        where: { ...scope, id: setId },
+        select: { name: true },
+      }) : Promise.resolve(null),
+    ]);
+    items.push(
+      { label: subject?.class.name || "Class", href: classHref },
+      { label: subject?.name || "Subject", href: subjectHref },
+    );
+    if (setId) items.push({ label: (subject && set?.name) || "Model Question Set" });
+    return NextResponse.json({ items, backHref: setId ? subjectHref : classHref });
   }
+
   const editorMode = request.nextUrl.searchParams.get("editorMode") || "";
   const editorSection = CONTENT_EDITOR_MODES[editorMode as ContentEditorMode];
   const contentEditorMatch = pathname.match(/^\/admin\/content\/([^/]+)$/);
@@ -161,7 +188,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ labels: {} });
   }
 
-  const [classes, subjects, units, lessons, topics, unseen, matching, rearrange, poems, stories, secondPaper, contents] =
+  const [classes, subjects, units, lessons, topics, unseen, matching, rearrange, poems, stories, secondPaper, partsOfSpeech, contents] =
     await Promise.all([
       ids.classIds.length
         ? prisma.class.findMany({
@@ -229,6 +256,12 @@ export async function GET(request: NextRequest) {
             select: { id: true, title: true },
           })
         : Promise.resolve([]),
+      ids.partsOfSpeechIds.length && user.role === "admin"
+        ? prisma.subjectPartsOfSpeechBlock.findMany({
+            where: { id: { in: ids.partsOfSpeechIds }, organizationId },
+            select: { id: true, title: true },
+          })
+        : Promise.resolve([]),
       ids.contentIds.length
         ? prisma.content.findMany({
             where: { id: { in: ids.contentIds }, organizationId },
@@ -254,6 +287,7 @@ export async function GET(request: NextRequest) {
   for (const item of poems) labels[item.id] = item.title || "Question from Poems";
   for (const item of stories) labels[item.id] = item.title || "Question from Story";
   for (const item of secondPaper) labels[item.id] = item.title || "Edit";
+  for (const item of partsOfSpeech) labels[item.id] = item.title || "Edit Parts of Speech";
   for (const item of contents) labels[item.id] = item.topic?.title || item.lesson.title || "Content";
 
   return NextResponse.json({ labels });

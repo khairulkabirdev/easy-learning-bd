@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { isEnglishSecondPaperSubject } from "@/app/admin/content/navigation-helpers";
 import { requireAdmin } from "@/lib/app-auth";
 import { prisma } from "@/lib/db";
+import { englishSecondPaperStore } from "./store";
 import type { EnglishSecondPaperKind, EnglishSecondPaperRecord } from "./types";
 
 export async function getEnglishSecondPaperContext(classId: string, subjectId: string) {
@@ -32,7 +33,7 @@ export async function listEnglishSecondPaperRecords(
   subjectId: string,
   organizationId: string,
 ) {
-  return prisma.subjectEnglishSecondPaperBlock.findMany({
+  return englishSecondPaperStore(kind).findMany({
     where: { kind, classId, subjectId, organizationId },
     orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
   });
@@ -45,7 +46,7 @@ export async function getEnglishSecondPaperRecord(
   subjectId: string,
   organizationId: string,
 ): Promise<EnglishSecondPaperRecord | null> {
-  const record = await prisma.subjectEnglishSecondPaperBlock.findFirst({
+  const record = await englishSecondPaperStore(kind).findFirst({
     where: { id, kind, classId, subjectId, organizationId },
   });
   if (!record) return null;

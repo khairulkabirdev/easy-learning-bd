@@ -1,0 +1,592 @@
+diff --git a/app/admin/content/english-second-paper-blocks/actions.ts b/app/admin/content/english-second-paper-blocks/actions.ts
+index 227788d..5aaae47 100644
+--- a/app/admin/content/english-second-paper-blocks/actions.ts
++++ b/app/admin/content/english-second-paper-blocks/actions.ts
+@@ -7,6 +7,7 @@ import { isEnglishSecondPaperSubject } from "@/app/admin/content/navigation-help
+ import { assertTrustedMutationOrigin, requireAdmin } from "@/lib/app-auth";
+ import { logAudit } from "@/lib/auditLogger";
+ import { prisma } from "@/lib/db";
++import { englishSecondPaperStore } from "./store";
+ import {
+   ENGLISH_SECOND_PAPER_KINDS,
+   ENGLISH_SECOND_PAPER_META,
+@@ -84,6 +85,7 @@ async function assertBoardYearSelection(
+ }
+ 
+ function auditName(kind: EnglishSecondPaperKind) {
++  if (kind === "parts-of-speech") return "SubjectPartsOfSpeechBlock";
+   return `Subject${ENGLISH_SECOND_PAPER_META[kind].title.replace(/[^A-Za-z0-9]+/g, "")}Block`;
+ }
+ 
+@@ -93,11 +95,10 @@ async function nextSortOrder(
+   subjectId: string,
+   organizationId: string,
+ ) {
+-  const row = await prisma.subjectEnglishSecondPaperBlock.aggregate({
++  const max = await englishSecondPaperStore(kind).maxSortOrder({
+     where: { kind, classId, subjectId, organizationId },
+-    _max: { sortOrder: true },
+   });
+-  return (row._max.sortOrder ?? -1) + 1;
++  return (max ?? -1) + 1;
+ }
+ 
+ function parseAndValidate(
+@@ -136,7 +137,7 @@ export async function createEnglishSecondPaperBlock(input: unknown) {
+     "new",
+   );
+   const sortOrder = await nextSortOrder(parsed.kind, parsed.classId, parsed.subjectId, user.organizationId);
+-  const created = await prisma.subjectEnglishSecondPaperBlock.create({
++  const created = await englishSecondPaperStore(parsed.kind).create({
+     data: {
+       kind: parsed.kind,
+       classId: parsed.classId,
+@@ -175,7 +176,7 @@ export async function updateEnglishSecondPaperBlock(input: unknown) {
+   await assertOwnedEnglishSecondPaperSubject(parsed.classId, parsed.subjectId, user.organizationId);
+   await assertBoardYearSelection(parsed.boardId, parsed.academicYearId, user.organizationId);
+ 
+-  const existing = await prisma.subjectEnglishSecondPaperBlock.findFirst({
++  const existing = await englishSecondPaperStore(parsed.kind).findFirst({
+     where: {
+       id: parsed.id,
+       kind: parsed.kind,
+@@ -204,8 +205,8 @@ export async function updateEnglishSecondPaperBlock(input: unknown) {
+         parsed.id,
+       );
+ 
+-  const result = await prisma.subjectEnglishSecondPaperBlock.updateMany({
+-    where: { id: parsed.id, organizationId: user.organizationId, kind: parsed.kind },
++  const result = await englishSecondPaperStore(parsed.kind).updateMany({
++    where: { id: parsed.id, classId: parsed.classId, subjectId: parsed.subjectId, organizationId: user.organizationId, kind: parsed.kind },
+     data: {
+       boardId: parsed.boardId ?? null,
+       academicYearId: parsed.academicYearId ?? null,
+@@ -243,7 +244,7 @@ export async function deleteEnglishSecondPaperBlock(input: unknown) {
+   const parsed = idSchema.parse(input);
+   await assertOwnedEnglishSecondPaperSubject(parsed.classId, parsed.subjectId, user.organizationId);
+ 
+-  const existing = await prisma.subjectEnglishSecondPaperBlock.findFirst({
++  const existing = await englishSecondPaperStore(parsed.kind).findFirst({
+     where: {
+       id: parsed.id,
+       kind: parsed.kind,
+@@ -254,7 +255,7 @@ export async function deleteEnglishSecondPaperBlock(input: unknown) {
+   });
+   if (!existing) throw new Error("Block was not found or does not belong to this subject.");
+ 
+-  await prisma.subjectEnglishSecondPaperBlock.delete({ where: { id: existing.id } });
++  await englishSecondPaperStore(parsed.kind).delete({ where: { id: existing.id, classId: parsed.classId, subjectId: parsed.subjectId, organizationId: user.organizationId, kind: parsed.kind } });
+   await logAudit({
+     userId: user.id,
+     userName: user.name,
+@@ -273,14 +274,13 @@ export async function moveEnglishSecondPaperBlock(input: unknown) {
+   const parsed = moveSchema.parse(input);
+   await assertOwnedEnglishSecondPaperSubject(parsed.classId, parsed.subjectId, user.organizationId);
+ 
+-  const rows = await prisma.subjectEnglishSecondPaperBlock.findMany({
++  const rows = await englishSecondPaperStore(parsed.kind).findMany({
+     where: {
+       kind: parsed.kind,
+       classId: parsed.classId,
+       subjectId: parsed.subjectId,
+       organizationId: user.organizationId,
+     },
+-    select: { id: true, sortOrder: true },
+     orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
+   });
+   const index = rows.findIndex((row) => row.id === parsed.id);
+@@ -293,8 +293,8 @@ export async function moveEnglishSecondPaperBlock(input: unknown) {
+   reordered.splice(target, 0, moved);
+   await prisma.$transaction(
+     reordered.map((row, sortOrder) =>
+-      prisma.subjectEnglishSecondPaperBlock.updateMany({
+-        where: { id: row.id, organizationId: user.organizationId },
++      englishSecondPaperStore(parsed.kind).updateMany({
++        where: { id: row.id, classId: parsed.classId, subjectId: parsed.subjectId, organizationId: user.organizationId, kind: parsed.kind },
+         data: { sortOrder, updatedBy: user.id },
+       }),
+     ),
+diff --git a/app/admin/content/english-second-paper-blocks/data.ts b/app/admin/content/english-second-paper-blocks/data.ts
+index 33b287c..c91d4be 100644
+--- a/app/admin/content/english-second-paper-blocks/data.ts
++++ b/app/admin/content/english-second-paper-blocks/data.ts
+@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
+ import { isEnglishSecondPaperSubject } from "@/app/admin/content/navigation-helpers";
+ import { requireAdmin } from "@/lib/app-auth";
+ import { prisma } from "@/lib/db";
++import { englishSecondPaperStore } from "./store";
+ import type { EnglishSecondPaperKind, EnglishSecondPaperRecord } from "./types";
+ 
+ export async function getEnglishSecondPaperContext(classId: string, subjectId: string) {
+@@ -32,7 +33,7 @@ export async function listEnglishSecondPaperRecords(
+   subjectId: string,
+   organizationId: string,
+ ) {
+-  return prisma.subjectEnglishSecondPaperBlock.findMany({
++  return englishSecondPaperStore(kind).findMany({
+     where: { kind, classId, subjectId, organizationId },
+     orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
+   });
+@@ -45,7 +46,7 @@ export async function getEnglishSecondPaperRecord(
+   subjectId: string,
+   organizationId: string,
+ ): Promise<EnglishSecondPaperRecord | null> {
+-  const record = await prisma.subjectEnglishSecondPaperBlock.findFirst({
++  const record = await englishSecondPaperStore(kind).findFirst({
+     where: { id, kind, classId, subjectId, organizationId },
+   });
+   if (!record) return null;
+diff --git a/app/admin/content/english-second-paper-blocks/store.ts b/app/admin/content/english-second-paper-blocks/store.ts
+new file mode 100644
+index 0000000..d76405c
+--- /dev/null
++++ b/app/admin/content/english-second-paper-blocks/store.ts
+@@ -0,0 +1,36 @@
++import "server-only";
++
++import type { Prisma } from "@/generated/prisma/client";
++import { prisma } from "@/lib/db";
++import type { EnglishSecondPaperKind } from "./types";
++
++type BlockWhere = {
++  id?: string;
++  kind?: EnglishSecondPaperKind;
++  classId?: string;
++  subjectId?: string;
++  organizationId: string;
++};
++
++export function englishSecondPaperStore(kind: EnglishSecondPaperKind) {
++  const separate = kind === "parts-of-speech";
++  return {
++    maxSortOrder: async (args: { where: BlockWhere }) => {
++      const query = { ...args, _max: { sortOrder: true } } as const;
++      const result = separate
++        ? await prisma.subjectPartsOfSpeechBlock.aggregate(query)
++        : await prisma.subjectEnglishSecondPaperBlock.aggregate(query);
++      return result._max.sortOrder;
++    },
++    create: (args: Pick<Prisma.SubjectEnglishSecondPaperBlockCreateArgs, "data">) =>
++      separate ? prisma.subjectPartsOfSpeechBlock.create(args) : prisma.subjectEnglishSecondPaperBlock.create(args),
++    findFirst: (args: { where: BlockWhere }) =>
++      separate ? prisma.subjectPartsOfSpeechBlock.findFirst(args) : prisma.subjectEnglishSecondPaperBlock.findFirst(args),
++    findMany: (args: { where: BlockWhere; orderBy: { sortOrder?: "asc" | "desc"; createdAt?: "asc" | "desc" }[] }) =>
++      separate ? prisma.subjectPartsOfSpeechBlock.findMany(args) : prisma.subjectEnglishSecondPaperBlock.findMany(args),
++    updateMany: (args: { where: BlockWhere; data: Prisma.SubjectEnglishSecondPaperBlockUpdateManyMutationInput }) =>
++      separate ? prisma.subjectPartsOfSpeechBlock.updateMany(args) : prisma.subjectEnglishSecondPaperBlock.updateMany(args),
++    delete: (args: { where: BlockWhere & { id: string } }) =>
++      separate ? prisma.subjectPartsOfSpeechBlock.delete(args) : prisma.subjectEnglishSecondPaperBlock.delete(args),
++  };
++}
+diff --git a/app/admin/content/english-second-paper-blocks/types.ts b/app/admin/content/english-second-paper-blocks/types.ts
+index 4e1cb49..bd6c2e7 100644
+--- a/app/admin/content/english-second-paper-blocks/types.ts
++++ b/app/admin/content/english-second-paper-blocks/types.ts
+@@ -7,6 +7,7 @@ export type EnglishSecondPaperKind =
+   | "punctuation-and-capitalization"
+   | "preposition"
+   | "suffix-and-prefix"
++  | "parts-of-speech"
+   | "tag-question"
+   | "connector";
+ 
+@@ -140,6 +141,7 @@ export const ENGLISH_SECOND_PAPER_KINDS: EnglishSecondPaperKind[] = [
+   "punctuation-and-capitalization",
+   "preposition",
+   "suffix-and-prefix",
++  "parts-of-speech",
+   "tag-question",
+   "connector",
+ ];
+@@ -196,6 +198,12 @@ export const ENGLISH_SECOND_PAPER_META: Record<
+     description: "Mark root words in the question and save each completed-word answer.",
+     blockKind: "suffix-and-prefix",
+   },
++  "parts-of-speech": {
++    title: "Parts of Speech",
++    singular: "Parts of Speech block",
++    description: "Mark words in a sentence or passage and save the part of speech of each word.",
++    blockKind: "parts-of-speech",
++  },
+   "tag-question": {
+     title: "Tag Question",
+     singular: "Tag Question block",
+@@ -366,6 +374,38 @@ function normalizeSuffixPrefixDocument(value: unknown, recordId: string): Suffix
+   };
+ }
+ 
++// Keep answers with their words when a new target is inserted before them.
++function normalizePartsOfSpeechDocument(value: unknown, recordId: string): SuffixPrefixDocument {
++  const parsed = (value && typeof value === "object" ? value : {}) as Partial<SuffixPrefixDocument>;
++  const question = typeof parsed.question === "string" ? parsed.question : "";
++  const sourcesByWord = new Map<string, SuffixPrefixItem[]>();
++  const occupiedIds = new Set<string>();
++  if (Array.isArray(parsed.items)) {
++    for (const item of parsed.items) {
++      if (!item || typeof item.word !== "string") continue;
++      const matching = sourcesByWord.get(item.word) || [];
++      matching.push(item);
++      sourcesByWord.set(item.word, matching);
++      if (typeof item.id === "string" && item.id) occupiedIds.add(item.id);
++    }
++  }
++  const usedIds = new Set<string>();
++  return {
++    version: 1,
++    question,
++    items: extractSuffixPrefixWords(question).map((word, sortOrder) => {
++      const source = sourcesByWord.get(word)?.shift();
++      let id = typeof source?.id === "string" && !usedIds.has(source.id) ? source.id : "";
++      if (!id) {
++        id = `${recordId}-part-of-speech-${sortOrder + 1}`;
++        while (occupiedIds.has(id) || usedIds.has(id)) id += "-new";
++      }
++      usedIds.add(id);
++      return { id, sortOrder, word, answer: typeof source?.answer === "string" ? source.answer : "" };
++    }),
++  };
++}
++
+ function normalizeTagQuestionDocument(value: unknown, recordId: string): TagQuestionDocument {
+   const parsed = (value && typeof value === "object" ? value : {}) as Partial<TagQuestionDocument>;
+   const mode = parsed.mode === "paragraph" ? "paragraph" : "items";
+@@ -412,6 +452,8 @@ export function parseEnglishSecondPaperDocument(
+       return normalizeSubstitutionDocument(parsed, recordId);
+     case "suffix-and-prefix":
+       return normalizeSuffixPrefixDocument(parsed, recordId);
++    case "parts-of-speech":
++      return normalizePartsOfSpeechDocument(parsed, recordId);
+     case "tag-question":
+       return normalizeTagQuestionDocument(parsed, recordId);
+   }
+@@ -435,6 +477,7 @@ export function createDefaultEnglishSecondPaperDocument(
+     case "substitution-table":
+       return normalizeSubstitutionDocument({}, id);
+     case "suffix-and-prefix":
++    case "parts-of-speech":
+       return { version: 1, question: "", items: [] };
+     case "tag-question":
+       return { version: 1, mode: "items", question: "", blanks: [], rows: [] };
+@@ -505,12 +548,16 @@ export function validateEnglishSecondPaperDraft(
+       });
+       break;
+     }
+-    case "suffix-and-prefix": {
++    case "suffix-and-prefix":
++    case "parts-of-speech": {
+       const document = draft.document as SuffixPrefixDocument;
++      const isPartsOfSpeech = kind === "parts-of-speech";
+       if (!richTextHasContent(document.question)) errors.question = "Question is required.";
+-      if (document.items.length === 0) errors.document = "Add at least one Suffix / Prefix root word.";
++      if (document.items.length === 0) errors.document = isPartsOfSpeech ? "Mark at least one target word." : "Add at least one Suffix / Prefix root word.";
+       document.items.forEach((item, index) => {
+-        if (!item.answer.trim()) errors[`suffix:${item.id}`] = `Answer ${index + 1} is required.`;
++        if (!item.answer.trim()) errors[`suffix:${item.id}`] = isPartsOfSpeech
++          ? `Enter the part of speech for “${item.word}”.`
++          : `Answer ${index + 1} is required.`;
+       });
+       break;
+     }
+diff --git a/app/api/navigation/labels/route.ts b/app/api/navigation/labels/route.ts
+index b1d39d7..0cde5d6 100644
+--- a/app/api/navigation/labels/route.ts
++++ b/app/api/navigation/labels/route.ts
+@@ -47,6 +47,7 @@ function classifyIds(pathname: string) {
+   const poemIds: string[] = [];
+   const storyIds: string[] = [];
+   const secondPaperIds: string[] = [];
++  const partsOfSpeechIds: string[] = [];
+   const contentIds: string[] = [];
+ 
+   for (let index = 0; index < segments.length; index += 1) {
+@@ -69,6 +70,7 @@ function classifyIds(pathname: string) {
+     else if (previous === "rearrange-sentence") rearrangeIds.push(segment);
+     else if (previous === "question-from-poems") poemIds.push(segment);
+     else if (previous === "question-from-story") storyIds.push(segment);
++    else if (previous === "parts-of-speech") partsOfSpeechIds.push(segment);
+     else if (ENGLISH_SECOND_PAPER_SEGMENTS.has(previous)) secondPaperIds.push(segment);
+     else if (previous === "content" || previous === "chapter") contentIds.push(segment);
+   }
+@@ -85,6 +87,7 @@ function classifyIds(pathname: string) {
+     poemIds: unique(poemIds),
+     storyIds: unique(storyIds),
+     secondPaperIds: unique(secondPaperIds),
++    partsOfSpeechIds: unique(partsOfSpeechIds),
+     contentIds: unique(contentIds),
+   };
+ }
+@@ -185,7 +188,7 @@ export async function GET(request: NextRequest) {
+     return NextResponse.json({ labels: {} });
+   }
+ 
+-  const [classes, subjects, units, lessons, topics, unseen, matching, rearrange, poems, stories, secondPaper, contents] =
++  const [classes, subjects, units, lessons, topics, unseen, matching, rearrange, poems, stories, secondPaper, partsOfSpeech, contents] =
+     await Promise.all([
+       ids.classIds.length
+         ? prisma.class.findMany({
+@@ -253,6 +256,12 @@ export async function GET(request: NextRequest) {
+             select: { id: true, title: true },
+           })
+         : Promise.resolve([]),
++      ids.partsOfSpeechIds.length && user.role === "admin"
++        ? prisma.subjectPartsOfSpeechBlock.findMany({
++            where: { id: { in: ids.partsOfSpeechIds }, organizationId },
++            select: { id: true, title: true },
++          })
++        : Promise.resolve([]),
+       ids.contentIds.length
+         ? prisma.content.findMany({
+             where: { id: { in: ids.contentIds }, organizationId },
+@@ -278,6 +287,7 @@ export async function GET(request: NextRequest) {
+   for (const item of poems) labels[item.id] = item.title || "Question from Poems";
+   for (const item of stories) labels[item.id] = item.title || "Question from Story";
+   for (const item of secondPaper) labels[item.id] = item.title || "Edit";
++  for (const item of partsOfSpeech) labels[item.id] = item.title || "Edit Parts of Speech";
+   for (const item of contents) labels[item.id] = item.topic?.title || item.lesson.title || "Content";
+ 
+   return NextResponse.json({ labels });
+diff --git a/components/admin/EnglishSecondPaperBlockEditorClient.tsx b/components/admin/EnglishSecondPaperBlockEditorClient.tsx
+index 4d078af..e24f5b9 100644
+--- a/components/admin/EnglishSecondPaperBlockEditorClient.tsx
++++ b/components/admin/EnglishSecondPaperBlockEditorClient.tsx
+@@ -74,11 +74,11 @@ function removeNthBlankMarker(value: string, targetIndex: number) {
+   });
+ }
+ 
+-function removeNthUnderline(value: string, targetIndex: number) {
++function removeNthUnderline(value: string, targetIndex: number, keepText = false) {
+   let index = -1;
+-  return value.replace(/<u(?:\s[^>]*)?>([\s\S]*?)<\/u>/gi, (match) => {
++  return value.replace(/<u(?:\s[^>]*)?>([\s\S]*?)<\/u>/gi, (match, text: string) => {
+     index += 1;
+-    return index === targetIndex ? "" : match;
++    return index === targetIndex ? (keepText ? text : "") : match;
+   });
+ }
+ 
+@@ -440,8 +440,9 @@ export function EnglishSecondPaperBlockEditorClient({
+             />
+           ) : null}
+ 
+-          {kind === "suffix-and-prefix" ? (
+-            <SuffixPrefixEditor
++          {kind === "suffix-and-prefix" || kind === "parts-of-speech" ? (
++            <MarkedWordEditor
++              kind={kind}
+               document={state.document as SuffixPrefixDocument}
+               onChange={patchDocument}
+               validationErrors={validationErrors}
+@@ -939,19 +940,26 @@ function SubstitutionTableEditor({
+   );
+ }
+ 
+-function SuffixPrefixEditor({
++function MarkedWordEditor({
++  kind,
+   document,
+   onChange,
+   validationErrors,
+ }: {
++  kind: "suffix-and-prefix" | "parts-of-speech";
+   document: SuffixPrefixDocument;
+   onChange: (document: EnglishSecondPaperDocument, immediate?: boolean) => void;
+   validationErrors: EnglishSecondPaperValidationErrors;
+ }) {
+   const editorRef = useRef<Editor | null>(null);
+   const [word, setWord] = useState("");
++  const isPartsOfSpeech = kind === "parts-of-speech";
+ 
+   function patchQuestion(question: string) {
++    if (isPartsOfSpeech) {
++      onChange(normalizeEnglishSecondPaperDocument(kind, { ...document, question }));
++      return;
++    }
+     const words = extractSuffixPrefixWords(question);
+     const items = words.map((targetWord, index) => ({
+       id: document.items[index]?.id || crypto.randomUUID(),
+@@ -972,7 +980,9 @@ function SuffixPrefixEditor({
+   }
+ 
+   function deleteItem(index: number) {
+-    const question = removeNthUnderline(document.question, index);
++    const question = isPartsOfSpeech
++      ? removeNthUnderline(document.question, index, true)
++      : removeNthUnderline(document.question, index);
+     const items = document.items.filter((_, itemIndex) => itemIndex !== index).map((item, sortOrder) => ({ ...item, sortOrder }));
+     onChange({ version: 1, question, items }, true);
+   }
+@@ -983,7 +993,9 @@ function SuffixPrefixEditor({
+         <div className="flex flex-wrap items-center justify-between gap-3 border-b bg-muted/30 px-4 py-3">
+           <div>
+             <div className="font-medium">Question</div>
+-            <p className="text-sm text-muted-foreground">Write the question, place the cursor, type a root word below, then insert it as a Suffix / Prefix target.</p>
++            <p className="text-sm text-muted-foreground">{isPartsOfSpeech
++              ? "Write a sentence or passage and underline each word to classify. You can also insert an underlined target at the cursor."
++              : "Write the question, place the cursor, type a root word below, then insert it as a Suffix / Prefix target."}</p>
+           </div>
+           <Badge variant="outline">{document.items.length} word{document.items.length === 1 ? "" : "s"}</Badge>
+         </div>
+@@ -993,12 +1005,12 @@ function SuffixPrefixEditor({
+             onChange={patchQuestion}
+             onEditorReady={(editor) => { editorRef.current = editor; }}
+             minHeight={230}
+-            placeholder="Write the Suffix / Prefix question here..."
++            placeholder={isPartsOfSpeech ? "Write a sentence or passage for Parts of Speech..." : "Write the Suffix / Prefix question here..."}
+           />
+           <div className="flex flex-col gap-2 sm:flex-row">
+-            <Input value={word} onChange={(event) => setWord(event.target.value)} placeholder="Root word, e.g. happy" />
++            <Input value={word} onChange={(event) => setWord(event.target.value)} placeholder={isPartsOfSpeech ? "Target word, e.g. quickly" : "Root word, e.g. happy"} />
+             <Button type="button" onMouseDown={(event) => event.preventDefault()} onClick={insertWord} disabled={!word.trim()}>
+-              <Plus data-icon="inline-start" /> Insert root word
++              <Plus data-icon="inline-start" /> {isPartsOfSpeech ? "Insert target word" : "Insert root word"}
+             </Button>
+           </div>
+         </div>
+@@ -1010,15 +1022,16 @@ function SuffixPrefixEditor({
+           <div key={item.id} className="min-w-[230px] flex-1 space-y-3 rounded-xl border p-3 md:max-w-[320px]">
+             <div className="flex items-start justify-between gap-2">
+               <div>
+-                <Label>Answer #{index + 1}</Label>
+-                <div className="mt-1 text-sm text-muted-foreground">Root word: <span className="font-medium text-foreground underline">{item.word}</span></div>
++                <Label htmlFor={`marked-word-answer-${item.id}`}>Answer #{index + 1}</Label>
++                <div className="mt-1 text-sm text-muted-foreground">{isPartsOfSpeech ? "Target word" : "Root word"}: <span className="font-medium text-foreground underline">{item.word}</span></div>
+               </div>
+-              <Button type="button" variant="ghost" size="icon-sm" className="text-destructive" onClick={() => deleteItem(index)}><Trash2 /></Button>
++              <Button type="button" variant="ghost" size="icon-sm" className="text-destructive" aria-label={`Remove target ${index + 1}`} onClick={() => deleteItem(index)}><Trash2 /></Button>
+             </div>
+             <Input
++              id={`marked-word-answer-${item.id}`}
+               value={item.answer}
+               onChange={(event) => onChange({ ...document, items: document.items.map((source) => source.id === item.id ? { ...source, answer: event.target.value } : source) })}
+-              placeholder={`Completed word for ${item.word}`}
++              placeholder={isPartsOfSpeech ? "Part of speech, e.g. adverb" : `Completed word for ${item.word}`}
+             />
+             <FieldError>{validationErrors[`suffix:${item.id}`]}</FieldError>
+           </div>
+diff --git a/components/admin/EnglishSecondPaperBlockListClient.tsx b/components/admin/EnglishSecondPaperBlockListClient.tsx
+index 6d6dd45..157e465 100644
+--- a/components/admin/EnglishSecondPaperBlockListClient.tsx
++++ b/components/admin/EnglishSecondPaperBlockListClient.tsx
+@@ -136,7 +136,7 @@ export function EnglishSecondPaperBlockListClient({
+             >
+               <ArrowDown />
+             </Button>
+-            <Button variant="outline" size="sm" render={<Link href={`${basePath}/${row.id}`} />}>
++            <Button variant="outline" size="sm" nativeButton={false} render={<Link href={`${basePath}/${row.id}`} />}>
+               <Edit3 data-icon="inline-start" />
+               Edit
+             </Button>
+@@ -169,7 +169,7 @@ export function EnglishSecondPaperBlockListClient({
+           <h1 className="text-2xl font-bold tracking-tight">{meta.title}</h1>
+           <p className="max-w-3xl text-sm text-muted-foreground">{meta.description}</p>
+         </div>
+-        <Button render={<Link href={`${basePath}/add`} />}>
++        <Button nativeButton={false} render={<Link href={`${basePath}/add`} />}>
+           <Plus data-icon="inline-start" />
+           Add {meta.title}
+         </Button>
+diff --git a/components/app/EnglishSecondPaperTypeGrid.tsx b/components/app/EnglishSecondPaperTypeGrid.tsx
+index ddd80c5..d92fa95 100644
+--- a/components/app/EnglishSecondPaperTypeGrid.tsx
++++ b/components/app/EnglishSecondPaperTypeGrid.tsx
+@@ -62,6 +62,12 @@ const TYPES = [
+     slug: "suffix-and-prefix",
+     icon: Braces,
+   },
++  {
++    title: "Parts of Speech",
++    description: "Mark words in context and save their parts of speech.",
++    slug: "parts-of-speech",
++    icon: SpellCheck2,
++  },
+   {
+     title: "Tag Question",
+     description: "Create per-item or paragraph-based tag questions.",
+diff --git a/components/app/PageNavigation.tsx b/components/app/PageNavigation.tsx
+index e3af1ef..6948b37 100644
+--- a/components/app/PageNavigation.tsx
++++ b/components/app/PageNavigation.tsx
+@@ -73,6 +73,7 @@ const STATIC_LABELS: Record<string, string> = {
+   "punctuation-and-capitalization": "Punctuation and Capitalization",
+   preposition: "Preposition",
+   "suffix-and-prefix": "Suffix and Prefix",
++  "parts-of-speech": "Parts of Speech",
+   "tag-question": "Tag Question",
+   connector: "Connector",
+   "fill-in-the-blanks": "Fill in the Blanks",
+@@ -188,6 +189,7 @@ function buildAutoItems(pathname: string, labels: Record<string, string>) {
+         previous === "punctuation-and-capitalization" ||
+         previous === "preposition" ||
+         previous === "suffix-and-prefix" ||
++        previous === "parts-of-speech" ||
+         previous === "tag-question" ||
+         previous === "connector"
+       ) {
+diff --git a/prisma/add-subject-parts-of-speech.sql b/prisma/add-subject-parts-of-speech.sql
+new file mode 100644
+index 0000000..5cd1653
+--- /dev/null
++++ b/prisma/add-subject-parts-of-speech.sql
+@@ -0,0 +1,28 @@
++BEGIN;
++
++CREATE TABLE IF NOT EXISTS "SubjectPartsOfSpeechBlock" (
++    "id" TEXT NOT NULL PRIMARY KEY,
++    "classId" TEXT NOT NULL,
++    "subjectId" TEXT NOT NULL,
++    "kind" TEXT NOT NULL DEFAULT 'parts-of-speech',
++    "boardId" TEXT,
++    "academicYearId" TEXT,
++    "title" TEXT NOT NULL DEFAULT '',
++    "instruction" TEXT NOT NULL DEFAULT '',
++    "details" TEXT NOT NULL DEFAULT '',
++    "documentJson" TEXT NOT NULL DEFAULT '{}',
++    "sortOrder" INTEGER NOT NULL DEFAULT 0,
++    "organizationId" TEXT NOT NULL,
++    "createdBy" TEXT NOT NULL,
++    "updatedBy" TEXT NOT NULL,
++    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
++    "updatedAt" DATETIME NOT NULL
++);
++
++CREATE INDEX IF NOT EXISTS "SubjectPartsOfSpeechBlock_organizationId_classId_subjectId_kind_sortOrder_idx"
++ON "SubjectPartsOfSpeechBlock"("organizationId", "classId", "subjectId", "kind", "sortOrder");
++
++CREATE INDEX IF NOT EXISTS "SubjectPartsOfSpeechBlock_organizationId_boardId_academicYearId_idx"
++ON "SubjectPartsOfSpeechBlock"("organizationId", "boardId", "academicYearId");
++
++COMMIT;
+diff --git a/prisma/schema.prisma b/prisma/schema.prisma
+index 58c1c05..6305fc5 100644
+--- a/prisma/schema.prisma
++++ b/prisma/schema.prisma
+@@ -1180,6 +1180,29 @@ model SubjectEnglishSecondPaperBlock {
+   @@index([organizationId, boardId, academicYearId])
+ }
+ 
++// Subject-level Parts of Speech exercises are stored separately from other grammar sections.
++model SubjectPartsOfSpeechBlock {
++  id             String   @id @default(cuid())
++  classId        String
++  subjectId      String
++  kind           String   @default("parts-of-speech")
++  boardId        String?
++  academicYearId String?
++  title          String   @default("")
++  instruction    String   @default("")
++  details        String   @default("")
++  documentJson   String   @default("{}")
++  sortOrder      Int      @default(0)
++  organizationId String
++  createdBy      String
++  updatedBy      String
++  createdAt      DateTime @default(now())
++  updatedAt      DateTime @updatedAt
++
++  @@index([organizationId, classId, subjectId, kind, sortOrder])
++  @@index([organizationId, boardId, academicYearId])
++}
++
+ // Admin-only master data used for board/year setup.
+ model Board {
+   id             String   @id @default(cuid())

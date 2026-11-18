@@ -7,6 +7,7 @@ import { isEnglishSecondPaperSubject } from "@/app/admin/content/navigation-help
 import { assertTrustedMutationOrigin, requireAdmin } from "@/lib/app-auth";
 import { logAudit } from "@/lib/auditLogger";
 import { prisma } from "@/lib/db";
+import { englishSecondPaperStore } from "./store";
 import {
   ENGLISH_SECOND_PAPER_KINDS,
   ENGLISH_SECOND_PAPER_META,
@@ -84,6 +85,7 @@ async function assertBoardYearSelection(
 }
 
 function auditName(kind: EnglishSecondPaperKind) {
+  if (kind === "parts-of-speech") return "SubjectPartsOfSpeechBlock";
   return `Subject${ENGLISH_SECOND_PAPER_META[kind].title.replace(/[^A-Za-z0-9]+/g, "")}Block`;
 }
 
@@ -93,11 +95,10 @@ async function nextSortOrder(
   subjectId: string,
   organizationId: string,
 ) {
-  const row = await prisma.subjectEnglishSecondPaperBlock.aggregate({
+  const max = await englishSecondPaperStore(kind).maxSortOrder({
     where: { kind, classId, subjectId, organizationId },
-    _max: { sortOrder: true },
   });
-  return (row._max.sortOrder ?? -1) + 1;
+  return (max ?? -1) + 1;
 }
 
 function parseAndValidate(
@@ -136,7 +137,7 @@ export async function createEnglishSecondPaperBlock(input: unknown) {
     "new",
   );
   const sortOrder = await nextSortOrder(parsed.kind, parsed.classId, parsed.subjectId, user.organizationId);
-  const created = await prisma.subjectEnglishSecondPaperBlock.create({
+  const created = await englishSecondPaperStore(parsed.kind).create({
     data: {
       kind: parsed.kind,
       classId: parsed.classId,
@@ -175,7 +176,7 @@ export async function updateEnglishSecondPaperBlock(input: unknown) {
   await assertOwnedEnglishSecondPaperSubject(parsed.classId, parsed.subjectId, user.organizationId);
   await assertBoardYearSelection(parsed.boardId, parsed.academicYearId, user.organizationId);
 
-  const existing = await prisma.subjectEnglishSecondPaperBlock.findFirst({
+  const existing = await englishSecondPaperStore(parsed.kind).findFirst({
     where: {
       id: parsed.id,
       kind: parsed.kind,
@@ -204,8 +205,8 @@ export async function updateEnglishSecondPaperBlock(input: unknown) {
         parsed.id,
       );
 
-  const result = await prisma.subjectEnglishSecondPaperBlock.updateMany({
-    where: { id: parsed.id, organizationId: user.organizationId, kind: parsed.kind },
+  const result = await englishSecondPaperStore(parsed.kind).updateMany({
+    where: { id: parsed.id, classId: parsed.classId, subjectId: parsed.subjectId, organizationId: user.organizationId, kind: parsed.kind },
     data: {
       boardId: parsed.boardId ?? null,
       academicYearId: parsed.academicYearId ?? null,
@@ -243,7 +244,7 @@ export async function deleteEnglishSecondPaperBlock(input: unknown) {
   const parsed = idSchema.parse(input);
   await assertOwnedEnglishSecondPaperSubject(parsed.classId, parsed.subjectId, user.organizationId);
 
-  const existing = await prisma.subjectEnglishSecondPaperBlock.findFirst({
+  const existing = await englishSecondPaperStore(parsed.kind).findFirst({
     where: {
       id: parsed.id,
       kind: parsed.kind,
@@ -254,7 +255,7 @@ export async function deleteEnglishSecondPaperBlock(input: unknown) {
   });
   if (!existing) throw new Error("Block was not found or does not belong to this subject.");
 
-  await prisma.subjectEnglishSecondPaperBlock.delete({ where: { id: existing.id } });
+  await englishSecondPaperStore(parsed.kind).delete({ where: { id: existing.id, classId: parsed.classId, subjectId: parsed.subjectId, organizationId: user.organizationId, kind: parsed.kind } });
   await logAudit({
     userId: user.id,
     userName: user.name,
@@ -273,14 +274,13 @@ export async function moveEnglishSecondPaperBlock(input: unknown) {
   const parsed = moveSchema.parse(input);
   await assertOwnedEnglishSecondPaperSubject(parsed.classId, parsed.subjectId, user.organizationId);
 
-  const rows = await prisma.subjectEnglishSecondPaperBlock.findMany({
+  const rows = await englishSecondPaperStore(parsed.kind).findMany({
     where: {
       kind: parsed.kind,
       classId: parsed.classId,
       subjectId: parsed.subjectId,
       organizationId: user.organizationId,
     },
-    select: { id: true, sortOrder: true },
     orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
   });
   const index = rows.findIndex((row) => row.id === parsed.id);
@@ -293,8 +293,8 @@ export async function moveEnglishSecondPaperBlock(input: unknown) {
   reordered.splice(target, 0, moved);
   await prisma.$transaction(
     reordered.map((row, sortOrder) =>
-      prisma.subjectEnglishSecondPaperBlock.updateMany({
-        where: { id: row.id, organizationId: user.organizationId },
+      englishSecondPaperStore(parsed.kind).updateMany({
+        where: { id: row.id, classId: parsed.classId, subjectId: parsed.subjectId, organizationId: user.organizationId, kind: parsed.kind },
         data: { sortOrder, updatedBy: user.id },
       }),
     ),

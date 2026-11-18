@@ -1,0 +1,148 @@
+diff --git a/app/admin/content/[contentId]/ContentBlocksEditorClient.tsx b/app/admin/content/[contentId]/ContentBlocksEditorClient.tsx
+index 2f21a34..a1243ce 100644
+--- a/app/admin/content/[contentId]/ContentBlocksEditorClient.tsx
++++ b/app/admin/content/[contentId]/ContentBlocksEditorClient.tsx
+@@ -574,7 +574,7 @@ function SuffixPrefixQuestionEditor({
+     const selection = selectionRef.current;
+     const chain = editor.chain().focus();
+     if (selection) chain.setTextSelection(selection);
+-    chain.insertContent(`<u>${escapeHtmlText(trimmedWord)}</u>`).run();
++    chain.insertContent(`<u>${escapeHtmlText(trimmedWord)}</u>`).unsetUnderline().run();
+ 
+     const nextValue = editor.getHTML();
+     onCommit(nextValue);
+@@ -614,6 +614,7 @@ function SuffixPrefixQuestionEditor({
+             onChange={onCommit}
+             onEditorReady={handleEditorReady}
+             minHeight={260}
++            wordScopedUnderline
+             placeholder="Write the passage here. Put the cursor where a root word should appear, then add the word."
+           />
+         </div>
+diff --git a/components/admin/EnglishSecondPaperBlockEditorClient.tsx b/components/admin/EnglishSecondPaperBlockEditorClient.tsx
+index e24f5b9..c9ad3c1 100644
+--- a/components/admin/EnglishSecondPaperBlockEditorClient.tsx
++++ b/components/admin/EnglishSecondPaperBlockEditorClient.tsx
+@@ -974,7 +974,7 @@ function MarkedWordEditor({
+     const editor = editorRef.current;
+     const trimmed = word.trim();
+     if (!editor || !trimmed) return;
+-    editor.chain().focus().insertContent(`<u>${escapeHtmlText(trimmed)}</u>`).run();
++    editor.chain().focus().insertContent(`<u>${escapeHtmlText(trimmed)}</u>`).unsetUnderline().run();
+     patchQuestion(editor.getHTML());
+     setWord("");
+   }
+@@ -1005,6 +1005,7 @@ function MarkedWordEditor({
+             onChange={patchQuestion}
+             onEditorReady={(editor) => { editorRef.current = editor; }}
+             minHeight={230}
++            wordScopedUnderline
+             placeholder={isPartsOfSpeech ? "Write a sentence or passage for Parts of Speech..." : "Write the Suffix / Prefix question here..."}
+           />
+           <div className="flex flex-col gap-2 sm:flex-row">
+diff --git a/components/tiptap-extension/word-scoped-underline.ts b/components/tiptap-extension/word-scoped-underline.ts
+new file mode 100644
+index 0000000..43f02b1
+--- /dev/null
++++ b/components/tiptap-extension/word-scoped-underline.ts
+@@ -0,0 +1,57 @@
++import Underline from "@tiptap/extension-underline";
++import { Plugin, type EditorState, type Transaction } from "@tiptap/pm/state";
++
++function insertUnmarkedSpace(
++  state: EditorState,
++  dispatch: (transaction: Transaction) => void,
++  text: string,
++) {
++  if (!state.selection.empty || !state.selection.$from.parent.inlineContent) return false;
++
++  const marks = state.storedMarks ?? state.selection.$from.marks();
++  const nextMarks = marks.filter((mark) => mark.type.name !== "underline");
++  if (nextMarks.length === marks.length) return false;
++
++  // Keep existing underlines and any other active formatting. Only the new
++  // separator and subsequent typing should lose the underline mark.
++  dispatch(
++    state.tr
++      .replaceSelectionWith(state.schema.text(text, nextMarks), false)
++      .setStoredMarks(nextMarks)
++      .scrollIntoView(),
++  );
++  return true;
++}
++
++/** Underlines represent target words in these grammar questions. */
++export const WordScopedUnderline = Underline.extend({
++  inclusive: false,
++
++  addKeyboardShortcuts() {
++    return {
++      ...this.parent?.(),
++      Space: () => {
++        const view = this.editor.view;
++        if (view.composing) return false;
++        return insertUnmarkedSpace(view.state, (transaction) => view.dispatch(transaction), " ");
++      },
++    };
++  },
++
++  addProseMirrorPlugins() {
++    return [
++      ...(this.parent?.() ?? []),
++      new Plugin({
++        props: {
++          // Some mobile keyboards enter spaces as text input instead of keydown.
++          handleTextInput(view, from, to, text) {
++            if (view.composing || from !== to || from !== view.state.selection.from || !/^[ \u00a0]+$/.test(text)) {
++              return false;
++            }
++            return insertUnmarkedSpace(view.state, (transaction) => view.dispatch(transaction), text);
++          },
++        },
++      }),
++    ];
++  },
++});
+diff --git a/components/tiptap-templates/simple/simple-editor.tsx b/components/tiptap-templates/simple/simple-editor.tsx
+index 84251be..80ff4d2 100644
+--- a/components/tiptap-templates/simple/simple-editor.tsx
++++ b/components/tiptap-templates/simple/simple-editor.tsx
+@@ -10,6 +10,7 @@ import { StarterKit } from "@tiptap/starter-kit"
+ import { Image } from "@tiptap/extension-image"
+ import Link from "@tiptap/extension-link"
+ import Underline from "@tiptap/extension-underline"
++import { WordScopedUnderline } from "@/components/tiptap-extension/word-scoped-underline"
+ import Placeholder from "@tiptap/extension-placeholder"
+ import { Table } from "@tiptap/extension-table"
+ import { TableCell } from "@tiptap/extension-table-cell"
+@@ -119,6 +120,7 @@ export type EmbeddedSimpleEditorProps = {
+   className?: string
+   placeholder?: string
+   onEditorReady?: (editor: Editor | null) => void
++  wordScopedUnderline?: boolean
+ }
+ 
+ const TABLE_PICKER_SIZE = 8
+@@ -516,6 +518,7 @@ export function SimpleEditor({
+   className,
+   placeholder = "Write here...",
+   onEditorReady,
++  wordScopedUnderline = false,
+ }: EmbeddedSimpleEditorProps) {
+   const isMobile = useIsBreakpoint()
+   const { height } = useWindowSize()
+@@ -590,12 +593,13 @@ export function SimpleEditor({
+     extensions: [
+       StarterKit.configure({
+         horizontalRule: false,
++        underline: false,
+       }),
+       Link.configure({
+         openOnClick: false,
+         enableClickSelection: true,
+       }),
+-      Underline,
++      wordScopedUnderline ? WordScopedUnderline : Underline,
+       Placeholder.configure({
+         placeholder,
+       }),

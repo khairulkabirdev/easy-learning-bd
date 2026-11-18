@@ -74,11 +74,11 @@ function removeNthBlankMarker(value: string, targetIndex: number) {
   });
 }
 
-function removeNthUnderline(value: string, targetIndex: number) {
+function removeNthUnderline(value: string, targetIndex: number, keepText = false) {
   let index = -1;
-  return value.replace(/<u(?:\s[^>]*)?>([\s\S]*?)<\/u>/gi, (match) => {
+  return value.replace(/<u(?:\s[^>]*)?>([\s\S]*?)<\/u>/gi, (match, text: string) => {
     index += 1;
-    return index === targetIndex ? "" : match;
+    return index === targetIndex ? (keepText ? text : "") : match;
   });
 }
 
@@ -440,8 +440,9 @@ export function EnglishSecondPaperBlockEditorClient({
             />
           ) : null}
 
-          {kind === "suffix-and-prefix" ? (
-            <SuffixPrefixEditor
+          {kind === "suffix-and-prefix" || kind === "parts-of-speech" ? (
+            <MarkedWordEditor
+              kind={kind}
               document={state.document as SuffixPrefixDocument}
               onChange={patchDocument}
               validationErrors={validationErrors}
@@ -939,19 +940,26 @@ function SubstitutionTableEditor({
   );
 }
 
-function SuffixPrefixEditor({
+function MarkedWordEditor({
+  kind,
   document,
   onChange,
   validationErrors,
 }: {
+  kind: "suffix-and-prefix" | "parts-of-speech";
   document: SuffixPrefixDocument;
   onChange: (document: EnglishSecondPaperDocument, immediate?: boolean) => void;
   validationErrors: EnglishSecondPaperValidationErrors;
 }) {
   const editorRef = useRef<Editor | null>(null);
   const [word, setWord] = useState("");
+  const isPartsOfSpeech = kind === "parts-of-speech";
 
   function patchQuestion(question: string) {
+    if (isPartsOfSpeech) {
+      onChange(normalizeEnglishSecondPaperDocument(kind, { ...document, question }));
+      return;
+    }
     const words = extractSuffixPrefixWords(question);
     const items = words.map((targetWord, index) => ({
       id: document.items[index]?.id || crypto.randomUUID(),
@@ -966,13 +974,15 @@ function SuffixPrefixEditor({
     const editor = editorRef.current;
     const trimmed = word.trim();
     if (!editor || !trimmed) return;
-    editor.chain().focus().insertContent(`<u>${escapeHtmlText(trimmed)}</u>`).run();
+    editor.chain().focus().insertContent(`<u>${escapeHtmlText(trimmed)}</u>`).unsetUnderline().run();
     patchQuestion(editor.getHTML());
     setWord("");
   }
 
   function deleteItem(index: number) {
-    const question = removeNthUnderline(document.question, index);
+    const question = isPartsOfSpeech
+      ? removeNthUnderline(document.question, index, true)
+      : removeNthUnderline(document.question, index);
     const items = document.items.filter((_, itemIndex) => itemIndex !== index).map((item, sortOrder) => ({ ...item, sortOrder }));
     onChange({ version: 1, question, items }, true);
   }
@@ -983,7 +993,9 @@ function SuffixPrefixEditor({
         <div className="flex flex-wrap items-center justify-between gap-3 border-b bg-muted/30 px-4 py-3">
           <div>
             <div className="font-medium">Question</div>
-            <p className="text-sm text-muted-foreground">Write the question, place the cursor, type a root word below, then insert it as a Suffix / Prefix target.</p>
+            <p className="text-sm text-muted-foreground">{isPartsOfSpeech
+              ? "Write a sentence or passage and underline each word to classify. You can also insert an underlined target at the cursor."
+              : "Write the question, place the cursor, type a root word below, then insert it as a Suffix / Prefix target."}</p>
           </div>
           <Badge variant="outline">{document.items.length} word{document.items.length === 1 ? "" : "s"}</Badge>
         </div>
@@ -993,12 +1005,13 @@ function SuffixPrefixEditor({
             onChange={patchQuestion}
             onEditorReady={(editor) => { editorRef.current = editor; }}
             minHeight={230}
-            placeholder="Write the Suffix / Prefix question here..."
+            wordScopedUnderline
+            placeholder={isPartsOfSpeech ? "Write a sentence or passage for Parts of Speech..." : "Write the Suffix / Prefix question here..."}
           />
           <div className="flex flex-col gap-2 sm:flex-row">
-            <Input value={word} onChange={(event) => setWord(event.target.value)} placeholder="Root word, e.g. happy" />
+            <Input value={word} onChange={(event) => setWord(event.target.value)} placeholder={isPartsOfSpeech ? "Target word, e.g. quickly" : "Root word, e.g. happy"} />
             <Button type="button" onMouseDown={(event) => event.preventDefault()} onClick={insertWord} disabled={!word.trim()}>
-              <Plus data-icon="inline-start" /> Insert root word
+              <Plus data-icon="inline-start" /> {isPartsOfSpeech ? "Insert target word" : "Insert root word"}
             </Button>
           </div>
         </div>
@@ -1010,15 +1023,16 @@ function SuffixPrefixEditor({
           <div key={item.id} className="min-w-[230px] flex-1 space-y-3 rounded-xl border p-3 md:max-w-[320px]">
             <div className="flex items-start justify-between gap-2">
               <div>
-                <Label>Answer #{index + 1}</Label>
-                <div className="mt-1 text-sm text-muted-foreground">Root word: <span className="font-medium text-foreground underline">{item.word}</span></div>
+                <Label htmlFor={`marked-word-answer-${item.id}`}>Answer #{index + 1}</Label>
+                <div className="mt-1 text-sm text-muted-foreground">{isPartsOfSpeech ? "Target word" : "Root word"}: <span className="font-medium text-foreground underline">{item.word}</span></div>
               </div>
-              <Button type="button" variant="ghost" size="icon-sm" className="text-destructive" onClick={() => deleteItem(index)}><Trash2 /></Button>
+              <Button type="button" variant="ghost" size="icon-sm" className="text-destructive" aria-label={`Remove target ${index + 1}`} onClick={() => deleteItem(index)}><Trash2 /></Button>
             </div>
             <Input
+              id={`marked-word-answer-${item.id}`}
               value={item.answer}
               onChange={(event) => onChange({ ...document, items: document.items.map((source) => source.id === item.id ? { ...source, answer: event.target.value } : source) })}
-              placeholder={`Completed word for ${item.word}`}
+              placeholder={isPartsOfSpeech ? "Part of speech, e.g. adverb" : `Completed word for ${item.word}`}
             />
             <FieldError>{validationErrors[`suffix:${item.id}`]}</FieldError>
           </div>

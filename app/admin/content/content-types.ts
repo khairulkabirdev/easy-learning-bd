@@ -45,6 +45,7 @@ export type ContentBlockKind =
   | "rearrange-sentence"
   | "question-from-poems"
   | "question-from-story"
+  | "writing-summary"
   | "information-transfer"
   | "substitution-table"
   | "right-form-of-verb"
@@ -52,6 +53,7 @@ export type ContentBlockKind =
   | "changing-sentence"
   | "punctuation-and-capitalization"
   | "preposition"
+  | "parts-of-speech"
   | "suffix-and-prefix"
   | "tag-question"
   | "connector";
@@ -84,14 +86,9 @@ export type VocabularyEntryRecord = {
   id: string;
   vocabularyId: string;
   word: string;
-  partOfSpeech: string;
-  pronunciation: string;
   meaning: string;
-  synonyms: string;
-  antonyms: string;
   imageUrl: string;
   imagePath: string;
-  uploadedFiles?: Array<{ id: string; url: string; path: string; sortOrder: number }>;
   sortOrder: number;
 };
 
@@ -109,7 +106,6 @@ export type VocabularyRecord = {
   paragraphBlockId: string | null;
   resolvedPassage?: string;
   entries: VocabularyEntryRecord[];
-  galleryImages?: Array<{ id: string; url: string; path: string; sortOrder: number }>;
 };
 
 export type SynonymsAntonymsEntryRecord = {
@@ -427,6 +423,7 @@ export type ContentBlockRecord = {
   punctuationAndCapitalization: PunctuationAndCapitalizationRecord | null;
   preposition: PrepositionRecord | null;
   suffixAndPrefix: SuffixAndPrefixRecord | null;
+  partsOfSpeech?: SuffixAndPrefixRecord | null;
   tagQuestion: TagQuestionRecord | null;
   connector: ConnectorRecord | null;
 };

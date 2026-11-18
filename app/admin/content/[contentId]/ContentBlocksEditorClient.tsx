@@ -51,6 +51,7 @@ import {
   updateRightFormOfVerb,
   updateSubstitutionTable,
   updateSuffixAndPrefix,
+  updatePartsOfSpeech,
   updateTagQuestion,
   updateTrueFalseExercise,
   updateVocabularyEntry,
@@ -78,6 +79,17 @@ import {
   type CrudValidationErrors,
 } from "@/app/admin/content/content-block-validation";
 import { BlockBoardYearFields } from "@/components/admin/BlockBoardYearFields";
+import {
+  FIXED_BLOCK_LABELS,
+  isFixedSecondPaperLayout,
+  getDuplicateFixedBlockIds,
+  getFixedModelQuestionGroups,
+  getFixedModelQuestionSlots,
+  getFixedModelQuestionTitle,
+  getFixedModelQuestionBlockTitle,
+  type FixedModelQuestionLayout,
+} from "@/lib/model-question-fixed-blocks";
+import { WritingSummaryEditor } from "@/components/admin/UnseenCompositionEditorClient";
 import { ResponsiveEntityEditor } from "@/components/admin/ResponsiveEntityEditor";
 import { TableCompletionChoiceCombobox } from "@/components/app/TableCompletionChoiceCombobox";
 import { QuestionAnswerPassageCombobox } from "@/components/app/QuestionAnswerPassageCombobox";
@@ -92,6 +104,8 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+
+import { parseEnglishSecondPaperDocument, type SuffixPrefixDocument } from "@/app/admin/content/english-second-paper-blocks/types";
 
 type BlockDraft = ContentRecordWithBlocks["blocks"][number];
 
@@ -301,11 +315,11 @@ function syncSuffixPrefixItems(
   }));
 }
 
-function removeSuffixPrefixWordAt(value: string, targetIndex: number) {
+function removeSuffixPrefixWordAt(value: string, targetIndex: number, keepText = false) {
   let currentIndex = -1;
-  return value.replace(/<u(?:\s[^>]*)?>[\s\S]*?<\/u>/gi, (target) => {
+  return value.replace(/<u(?:\s[^>]*)?>([\s\S]*?)<\/u>/gi, (target, text: string) => {
     currentIndex += 1;
-    return currentIndex === targetIndex ? "" : target;
+    return currentIndex === targetIndex ? (keepText ? text : "") : target;
   });
 }
 
@@ -535,9 +549,11 @@ function FillBlankQuestionEditor({
 function SuffixPrefixQuestionEditor({
   value,
   onCommit,
+  isPartsOfSpeech = false,
 }: {
   value: string;
   onCommit: (value: string) => void;
+  isPartsOfSpeech?: boolean;
 }) {
   const editorRef = useRef<Editor | null>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -567,7 +583,7 @@ function SuffixPrefixQuestionEditor({
     const selection = selectionRef.current;
     const chain = editor.chain().focus();
     if (selection) chain.setTextSelection(selection);
-    chain.insertContent(`<u>${escapeHtmlText(trimmedWord)}</u>`).run();
+    chain.insertContent(`<u>${escapeHtmlText(trimmedWord)}</u>`).unsetUnderline().run();
 
     const nextValue = editor.getHTML();
     onCommit(nextValue);
@@ -583,7 +599,7 @@ function SuffixPrefixQuestionEditor({
           <div className="space-y-1">
             <div className="text-sm font-medium">Question</div>
             <p className="text-xs text-muted-foreground">
-              Write the passage with Tiptap. Put the cursor where the root word should appear, then click Add Suffix / Prefix.
+              {isPartsOfSpeech ? "Underline the words to classify, or place the cursor and insert a target word." : "Write the passage with Tiptap. Put the cursor where the root word should appear, then click Add Suffix / Prefix."}
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
@@ -597,7 +613,7 @@ function SuffixPrefixQuestionEditor({
               onClick={openWordDialog}
             >
               <Plus className="mr-2 h-4 w-4" />
-              Add Suffix / Prefix
+              {isPartsOfSpeech ? "Add Target Word" : "Add Suffix / Prefix"}
             </Button>
           </div>
         </div>
@@ -607,7 +623,8 @@ function SuffixPrefixQuestionEditor({
             onChange={onCommit}
             onEditorReady={handleEditorReady}
             minHeight={260}
-            placeholder="Write the passage here. Put the cursor where a root word should appear, then add the word."
+            wordScopedUnderline
+            placeholder={isPartsOfSpeech ? "Write a sentence or passage and underline the target words." : "Write the passage here. Put the cursor where a root word should appear, then add the word."}
           />
         </div>
       </div>
@@ -621,8 +638,8 @@ function SuffixPrefixQuestionEditor({
             selectionRef.current = null;
           }
         }}
-        title="Add Suffix / Prefix Word"
-        description="Enter the base/root word. It will be inserted underlined at the saved Tiptap cursor position and a matching answer field will be created."
+        title={isPartsOfSpeech ? "Add Target Word" : "Add Suffix / Prefix Word"}
+        description="Enter the word to underline. A matching answer field will be added."
         className="w-[calc(100vw-1.5rem)] sm:max-w-lg"
         footer={
           <div className="flex w-full flex-col-reverse gap-2 sm:flex-row sm:justify-end">
@@ -651,7 +668,7 @@ function SuffixPrefixQuestionEditor({
               placeholder="Example: happy, use, nation"
             />
             <FieldDescription>
-              The word is inserted as an underlined target in the Question. Enter the completed word in the Answer section afterwards.
+              The word is inserted as an underlined target in the Question. {isPartsOfSpeech ? "Enter its part of speech in the Answer section." : "Enter the completed word in the Answer section."}
             </FieldDescription>
           </FieldContent>
         </Field>
@@ -835,6 +852,7 @@ const BLOCK_META: Array<{
   { kind: "gap-fill-second-paper", title: "Gap Filling", description: "Create a Tiptap question with inline blanks and matching answers.", icon: <FileQuestion className="h-4 w-4" /> },
   { kind: "mcq", title: "MCQ", description: "Add an MCQ section.", icon: <CheckSquare className="h-4 w-4" /> },
   { kind: "true-false", title: "True / False", description: "Add a true/false exercise.", icon: <CheckSquare className="h-4 w-4" /> },
+  { kind: "writing-summary", title: "Summary", description: "Write an unseen-passage summary instruction and model answer.", icon: <FileText className="h-4 w-4" /> },
   { kind: "question-answer", title: "Question Answer", description: "Add a passage and question-answer items.", icon: <Rows3 className="h-4 w-4" /> },
   { kind: "table-completion", title: "Table Completion", description: "Add question, answer, and details.", icon: <Rows3 className="h-4 w-4" /> },
   { kind: "column-matching", title: "Matching Sentences", description: "Build Column A / Column B and add Column C when needed.", icon: <FileSpreadsheet className="h-4 w-4" /> },
@@ -848,6 +866,7 @@ const BLOCK_META: Array<{
   { kind: "changing-sentence", title: "Changing Sentence", description: "Add each changing-sentence question with its own answer.", icon: <FileText className="h-4 w-4" /> },
   { kind: "punctuation-and-capitalization", title: "Punctuation and Capitalization", description: "Add question, answer, and details.", icon: <FileText className="h-4 w-4" /> },
   { kind: "preposition", title: "Preposition", description: "Create a Tiptap question with inline preposition blanks and matching answers.", icon: <FileText className="h-4 w-4" /> },
+  { kind: "parts-of-speech", title: "Parts of Speech", description: "Underline target words and enter their grammatical classes.", icon: <FileText className="h-4 w-4" /> },
   { kind: "suffix-and-prefix", title: "Suffix and Prefix", description: "Add question, answer, and details.", icon: <FileText className="h-4 w-4" /> },
   { kind: "tag-question", title: "Tag Question", description: "Add question, answer, and details.", icon: <FileText className="h-4 w-4" /> },
   { kind: "connector", title: "Connector", description: "Create a Tiptap question with inline connector blanks and matching answers.", icon: <FileText className="h-4 w-4" /> },
@@ -895,38 +914,6 @@ const MODEL_QUESTION_BLOCK_GROUPS: Array<{
     ],
   },
 ];
-
-/**
- * Class 6–7, English 1st Paper. Only these nine choices appear in this
- * question-paper picker, in this exact reading-paper sequence.
- * This is presentation configuration: the existing content editor / actions
- * handle the actual records, and a kind may be added any number of times.
- */
-const MODEL_QUESTION_CLASS_6_7_GROUPS: typeof MODEL_QUESTION_BLOCK_GROUPS = [
-  {
-    title: "Seen — Passage 1",
-    description: "Start with Passage 1, then add its MCQ and answering questions.",
-    sections: [{ title: "", kinds: ["seen-passage-one", "mcq", "question-answer"] }],
-  },
-  {
-    title: "Seen — Passage 2",
-    description: "Passage 2 and its information transfer and true/false questions.",
-    sections: [{ title: "", kinds: ["seen-passage-two", "information-transfer", "true-false"] }],
-  },
-  {
-    title: "Other Reading Questions",
-    description: "Continue with Fill in the Blanks, Table Completion, and Rearrange Sentence.",
-    sections: [{ title: "", kinds: ["gap-fill-first-paper", "table-completion", "rearrange-sentence"] }],
-  },
-];
-
-const CLASS_6_7_BLOCK_SEQUENCE = MODEL_QUESTION_CLASS_6_7_GROUPS.flatMap(
-  (group) => group.sections.flatMap((section) => section.kinds),
-);
-const CLASS_6_7_BLOCK_LABELS: Partial<Record<ContentBlockKind, string>> = {
-  "seen-passage-one": "Passage 1",
-  "question-answer": "Answering Questions",
-};
 
 const ENGLISH_FIRST_PAPER_KINDS: ContentBlockKind[] = [
   "paragraph",
@@ -1185,19 +1172,46 @@ export function ContentBlocksEditorClient({
   allowedBlockKindsOverride,
   blockTitleOverrides,
   chooserGroupMode,
-  classSixSevenModelQuestion = false,
+  fixedModelQuestionLayout = null,
   initialChooserOpen = false,
+  clearInitialAddBlockParam = false,
 }: {
   content: ContentRecordWithBlocks;
   allowedBlockKindsOverride?: ContentBlockKind[];
   blockTitleOverrides?: Partial<Record<ContentBlockKind, string>>;
   chooserGroupMode?: "model-question";
-  classSixSevenModelQuestion?: boolean;
+  fixedModelQuestionLayout?: FixedModelQuestionLayout | null;
   initialChooserOpen?: boolean;
+  clearInitialAddBlockParam?: boolean;
 }) {
   const router = useRouter();
+  const fixedSlots = useMemo(
+    () => fixedModelQuestionLayout ? getFixedModelQuestionSlots(fixedModelQuestionLayout) : [],
+    [fixedModelQuestionLayout],
+  );
+  const fixedSlotByKind = useMemo(() => new Map(fixedSlots.map((slot) => [slot.kind, slot])), [fixedSlots]);
+  const fixedGroups = fixedModelQuestionLayout ? getFixedModelQuestionGroups(fixedModelQuestionLayout) : [];
+  const modelQuestionGroups = fixedModelQuestionLayout
+    ? fixedGroups.map(({ title, description, slots }) => ({
+        title, description, sections: [{ title: "", kinds: slots.map((slot) => slot.kind) }],
+      }))
+    : MODEL_QUESTION_BLOCK_GROUPS;
+  const fixedLayoutName = fixedModelQuestionLayout ? getFixedModelQuestionTitle(fixedModelQuestionLayout) : "";
+  const fixedTitle = (kind: ContentBlockKind) => fixedModelQuestionLayout
+    ? getFixedModelQuestionBlockTitle(fixedModelQuestionLayout, kind)
+    : undefined;
   const [blocks, setBlocks] = useState<BlockDraft[]>(content.blocks);
+  const [createdKindsSinceRefresh, setCreatedKindsSinceRefresh] = useState<ContentBlockKind[]>([]);
+  const creatingKindsRef = useRef(new Set<ContentBlockKind>());
+  const [creatingKind, setCreatingKind] = useState<ContentBlockKind | null>(null);
   const [isChooserOpen, setIsChooserOpen] = useState(initialChooserOpen);
+  useEffect(() => {
+    if (!clearInitialAddBlockParam) return;
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("addBlock") !== "1") return;
+    url.searchParams.delete("addBlock");
+    window.history.replaceState(null, "", url.pathname + url.search + url.hash);
+  }, [clearInitialAddBlockParam]);
   // A previous TXT/JSON question section can open this same native picker.
   // Never open the old standalone picker with duplicate question implementations.
   useEffect(() => {
@@ -1276,19 +1290,47 @@ export function ContentBlocksEditorClient({
         : subjectAllowedBlockKinds,
     [allowedBlockKindsOverride, subjectAllowedBlockKinds],
   );
-  const visibleBlocks = useMemo(
-    // Do not hide previously saved blocks if the model-paper picker is narrowed
-    // for Class 6/7. The allowlist controls new block choices, not old data.
-    () => chooserGroupMode === "model-question"
+  // Sort and filter the editor view only. Never rewrite saved blocks or their sort order.
+  const visibleBlocks = useMemo(() => {
+    if (fixedModelQuestionLayout) {
+      const paperBlocks = fixedModelQuestionLayout === "class-8-second-paper"
+        ? blocks.filter(({ kind }) => fixedSlotByKind.has(kind))
+        : [...blocks];
+      return paperBlocks.sort((a, b) => {
+        const aPosition = fixedSlots.findIndex((slot) => slot.kind === a.kind);
+        const bPosition = fixedSlots.findIndex((slot) => slot.kind === b.kind);
+        const aOrder = aPosition === -1 ? fixedSlots.length : aPosition;
+        const bOrder = bPosition === -1 ? fixedSlots.length : bPosition;
+        return aOrder - bOrder || a.sortOrder - b.sortOrder;
+      });
+    }
+    return chooserGroupMode === "model-question"
       ? blocks
-      : (allowedBlockKinds ? blocks.filter((block) => allowedBlockKinds.has(block.kind)) : blocks),
-    [allowedBlockKinds, blocks, chooserGroupMode],
+      : (allowedBlockKinds ? blocks.filter((block) => allowedBlockKinds.has(block.kind)) : blocks);
+  }, [allowedBlockKinds, blocks, chooserGroupMode, fixedModelQuestionLayout, fixedSlotByKind, fixedSlots]);
+  const duplicateGrammarBlockIds = useMemo(
+    () => isFixedSecondPaperLayout(fixedModelQuestionLayout)
+      ? getDuplicateFixedBlockIds(fixedSlots, visibleBlocks)
+      : new Set<string>(),
+    [fixedModelQuestionLayout, fixedSlots, visibleBlocks],
   );
+  const existingKindCounts = useMemo(() => {
+    const counts = new Map<ContentBlockKind, number>();
+    for (const block of blocks) counts.set(block.kind, (counts.get(block.kind) ?? 0) + 1);
+    return counts;
+  }, [blocks]);
+  const occupiedPaperKinds = useMemo(() =>
+    new Set<ContentBlockKind>([...blocks.map((block) => block.kind), ...createdKindsSinceRefresh]),
+    [blocks, createdKindsSinceRefresh],
+  );
+  const allFixedPaperKindsUsed = fixedModelQuestionLayout !== null &&
+    fixedSlots.every(({ kind }) => occupiedPaperKinds.has(kind));
   const visibleBlockChooser = useMemo(
     () => (allowedBlockKinds ? BLOCK_META.filter((item) => allowedBlockKinds.has(item.kind)) : BLOCK_META),
     [allowedBlockKinds],
   );
-  const isSeenCompositionMode = allowedBlockKindsOverride?.includes("seen-passage-one") === true;
+  const isSeenCompositionMode = chooserGroupMode !== "model-question" &&
+    allowedBlockKindsOverride?.includes("seen-passage-one") === true;
   const paragraphBlocks = useMemo(
     () => blocks.filter((block) => block.kind === "paragraph" && block.paragraph),
     [blocks],
@@ -1302,29 +1344,51 @@ export function ContentBlocksEditorClient({
       ),
     [blocks],
   );
+  const fixedPassageForKind = (kind: ContentBlockKind): BlockDraft | undefined => {
+    const parentKind = fixedSlotByKind.get(kind)?.parent;
+    return parentKind ? blocks.find((entry) => entry.kind === parentKind) : undefined;
+  };
+  const fixedPassageBody = (kind: ContentBlockKind): string => {
+    const source = fixedPassageForKind(kind);
+    return source?.seenPassageOne?.body ?? source?.seenPassageTwo?.body ?? source?.paragraph?.body ?? "";
+  };
+  const fixedPassageMissing = (kind: ContentBlockKind): string | null => {
+    const parentKind = fixedSlotByKind.get(kind)?.parent;
+    return parentKind && !occupiedPaperKinds.has(parentKind)
+      ? FIXED_BLOCK_LABELS[parentKind] ?? null : null;
+  };
+  const fixedParentLabel = (kind: ContentBlockKind) => {
+    const parent = fixedSlotByKind.get(kind)?.parent;
+    return parent ? FIXED_BLOCK_LABELS[parent] : undefined;
+  };
+  const fixedSlotBadge = (kind: ContentBlockKind, prefix = "") => {
+    const number = fixedSlotByKind.get(kind)?.number;
+    return number === undefined ? (kind === "paragraph" ? "Source" : "Independent") : `${prefix}${number}`;
+  };
   const displayBlockTitleForBlock = (block: BlockDraft) => {
-    const overriddenTitle = blockTitleOverrides?.[block.kind];
+    const overriddenTitle = blockTitleOverrides?.[block.kind] ??
+      (fixedSlotByKind.has(block.kind) ? fixedTitle(block.kind) : undefined);
     if (overriddenTitle) return overriddenTitle;
     if (block.kind === "seen-passage-one") return "Passage";
     if (block.kind === "seen-passage-two") return "Passage 2";
     return getBlockTitle(block.kind);
   };
   const paragraphPassageOptions = useMemo(
-    () =>
-      isSeenCompositionMode
-        ? seenPassageBlocks.map((block) => {
-            const isPassageOne = block.kind === "seen-passage-one";
-            const body = isPassageOne ? block.seenPassageOne?.body || "" : block.seenPassageTwo?.body || "";
-            return {
-              id: block.id,
-              label: `${isPassageOne ? "Passage" : "Passage 2"} — ${paragraphPreview(body)}`,
-            };
-          })
-        : paragraphBlocks.map((block, index) => ({
-            id: block.id,
-            label: `Paragraph ${index + 1} — ${paragraphPreview(block.paragraph!.body)}`,
-          })),
-    [paragraphBlocks, seenPassageBlocks, isSeenCompositionMode],
+    () => {
+      const seenOptions = seenPassageBlocks.map((block) => ({
+        id: block.id,
+        label: `${block.kind === "seen-passage-one" ? "Passage 1" : "Passage 2"} — ${paragraphPreview(
+          block.kind === "seen-passage-one" ? block.seenPassageOne?.body || "" : block.seenPassageTwo?.body || ""
+        )}`,
+      }));
+      const paragraphOptions = paragraphBlocks.map((block, index) => ({
+        id: block.id,
+        label: `${fixedModelQuestionLayout ? "Unseen Passage" : `Paragraph ${index + 1}`} — ${paragraphPreview(block.paragraph!.body)}`,
+      }));
+      return fixedModelQuestionLayout ? [...seenOptions, ...paragraphOptions]
+        : isSeenCompositionMode ? seenOptions : paragraphOptions;
+    },
+    [paragraphBlocks, seenPassageBlocks, isSeenCompositionMode, fixedModelQuestionLayout],
   );
 
   const pathLabel = useMemo(() => {
@@ -1398,6 +1462,10 @@ export function ContentBlocksEditorClient({
   }
 
   async function handleMoveBlock(blockId: string, direction: "up" | "down") {
+    if (fixedModelQuestionLayout) {
+      setActionError("Fixed model question blocks cannot be reordered.");
+      return;
+    }
     const previousBlocks = blocks;
     const currentVisibleIndex = visibleBlocks.findIndex((block) => block.id === blockId);
     if (currentVisibleIndex === -1) return;
@@ -1517,18 +1585,46 @@ export function ContentBlocksEditorClient({
   }
 
   async function handleAddBlock(kind: ContentBlockKind) {
+    if (fixedModelQuestionLayout) {
+      if (!fixedSlotByKind.has(kind)) {
+        setActionError("This question type is not part of the fixed model question layout for this class and subject.");
+        return;
+      }
+      const missing = fixedPassageMissing(kind);
+      if (missing) {
+        setActionError(`Add ${missing} before adding this question section.`);
+        return;
+      }
+      if (occupiedPaperKinds.has(kind) || creatingKindsRef.current.has(kind)) {
+        setActionError("This question block already exists. Edit the existing block below.");
+        return;
+      }
+    }
+    if (fixedModelQuestionLayout && creatingKindsRef.current.size > 0) return;
+    creatingKindsRef.current.add(kind);
+    setCreatingKind(kind);
     setActionError(null);
     startTransition(async () => {
       try {
         await createContentBlock({ contentId: content.id, kind });
+        if (fixedModelQuestionLayout) {
+          setCreatedKindsSinceRefresh((current) => current.includes(kind) ? current : [...current, kind]);
+        }
         router.refresh();
       } catch (error) {
         setActionError(error instanceof Error ? error.message : "Failed to add block.");
+      } finally {
+        creatingKindsRef.current.delete(kind);
+        setCreatingKind(null);
       }
     });
   }
 
   async function handleDeleteBlock(blockId: string) {
+    if (fixedModelQuestionLayout) {
+      setActionError("Fixed model-question sections cannot be deleted. Their questions remain editable.");
+      return;
+    }
     setActionError(null);
     try {
       await deleteContentBlock(blockId);
@@ -1576,6 +1672,16 @@ export function ContentBlocksEditorClient({
       ...patch,
     };
 
+    const summarySource = currentBlock.kind === "writing-summary" ? fixedPassageForKind(currentBlock.kind) : undefined;
+    let summaryDocument: Record<string, unknown> = {};
+    if (summarySource) {
+      try {
+        const stored = JSON.parse(next.documentJson);
+        if (stored && typeof stored === "object" && !Array.isArray(stored)) summaryDocument = stored;
+      } catch {
+        // A legacy summary can have no structured document.
+      }
+    }
     const questionAnswerDocumentJson =
       currentBlock.kind === "question-answer"
         ? JSON.stringify({
@@ -1584,9 +1690,11 @@ export function ContentBlocksEditorClient({
             paragraphBlockId: next.passageSource === "paragraph" ? next.paragraphBlockId ?? null : null,
             rows: next.rows,
           })
-        : patch.rows !== undefined
-          ? JSON.stringify({ rows: next.rows })
-          : next.documentJson;
+        : summarySource
+          ? JSON.stringify({ ...summaryDocument, passageSource: "paragraph", paragraphBlockId: summarySource.id })
+          : patch.rows !== undefined
+            ? JSON.stringify({ rows: next.rows })
+            : next.documentJson;
 
     const persisted = {
       ...next,
@@ -3412,7 +3520,11 @@ export function ContentBlocksEditorClient({
       ...patch,
     };
 
-    const nextDocumentJson = JSON.stringify({ rows: next.rows });
+    const fixedSourceBlockId = fixedPassageForKind("true-false")?.id;
+    const nextDocumentJson = JSON.stringify({
+      rows: next.rows,
+      ...(fixedSourceBlockId ? { passageSource: "paragraph", paragraphBlockId: fixedSourceBlockId } : {}),
+    });
     const persisted = { ...next, documentJson: nextDocumentJson };
 
     patchBlock(blockId, (block) => ({
@@ -3924,14 +4036,17 @@ export function ContentBlocksEditorClient({
     patch: { question?: string; details?: string; items?: SuffixPrefixItemRecord[] },
   ) {
     const currentBlock = blocks.find((block) => block.id === blockId);
-    const currentValue = currentBlock?.suffixAndPrefix;
+    const isPartsOfSpeech = currentBlock?.kind === "parts-of-speech";
+    const currentValue = isPartsOfSpeech ? currentBlock?.partsOfSpeech : currentBlock?.suffixAndPrefix;
     if (!currentValue) return;
 
     const question = patch.question !== undefined ? patch.question : currentValue.question;
     const details = patch.details !== undefined ? patch.details : currentValue.details;
     const items = patch.items !== undefined
       ? patch.items.map((item, index) => ({ ...item, sortOrder: index }))
-      : syncSuffixPrefixItems(question, currentValue.items);
+      : isPartsOfSpeech
+        ? (parseEnglishSecondPaperDocument("parts-of-speech", JSON.stringify({ question, items: currentValue.items }), currentValue.id) as SuffixPrefixDocument).items
+        : syncSuffixPrefixItems(question, currentValue.items);
 
     // Preserve an old plain-text/rich-text answer until the first structured
     // suffix/prefix target is added. This prevents legacy content from being
@@ -3948,9 +4063,9 @@ export function ContentBlocksEditorClient({
       items,
     };
 
-    patchBlock(blockId, (block) => ({ ...block, suffixAndPrefix: next }));
-    saveInBackground(`suffix-and-prefix:${blockId}`, () =>
-      updateSuffixAndPrefix({
+    patchBlock(blockId, (block) => isPartsOfSpeech ? { ...block, partsOfSpeech: next } : { ...block, suffixAndPrefix: next });
+    saveInBackground(`marked-word:${blockId}`, () =>
+      (isPartsOfSpeech ? updatePartsOfSpeech : updateSuffixAndPrefix)({
         contentId: content.id,
         blockId,
         recordId: next.id,
@@ -3962,7 +4077,8 @@ export function ContentBlocksEditorClient({
   }
 
   async function handleSuffixPrefixAnswerChange(blockId: string, itemId: string, answer: string) {
-    const currentValue = blocks.find((block) => block.id === blockId)?.suffixAndPrefix;
+    const block = blocks.find((entry) => entry.id === blockId);
+    const currentValue = block?.kind === "parts-of-speech" ? block.partsOfSpeech : block?.suffixAndPrefix;
     if (!currentValue) return;
     await handleSuffixPrefixChange(blockId, {
       items: currentValue.items.map((item) => item.id === itemId ? { ...item, answer } : item),
@@ -3970,12 +4086,13 @@ export function ContentBlocksEditorClient({
   }
 
   async function handleDeleteSuffixPrefixItem(blockId: string, itemId: string) {
-    const currentValue = blocks.find((block) => block.id === blockId)?.suffixAndPrefix;
+    const block = blocks.find((entry) => entry.id === blockId);
+    const currentValue = block?.kind === "parts-of-speech" ? block.partsOfSpeech : block?.suffixAndPrefix;
     if (!currentValue) return;
     const targetIndex = currentValue.items.findIndex((item) => item.id === itemId);
     if (targetIndex < 0) return;
 
-    const question = removeSuffixPrefixWordAt(currentValue.question, targetIndex);
+    const question = removeSuffixPrefixWordAt(currentValue.question, targetIndex, block?.kind === "parts-of-speech");
     const items = currentValue.items
       .filter((item) => item.id !== itemId)
       .map((item, index) => ({ ...item, sortOrder: index }));
@@ -4048,10 +4165,61 @@ export function ContentBlocksEditorClient({
 
 
 
+      {fixedModelQuestionLayout ? (
+        <Card className="shadow-none">
+          <CardHeader>
+            <CardTitle>{fixedLayoutName} · Fixed question sections</CardTitle>
+            <CardDescription>
+              Each section can be added once and stays in the prescribed paper order.
+              Added sections remain editable below; there is no block reordering or deletion.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {fixedGroups.map((group) => (
+              <section key={group.title} className="space-y-3">
+                <h3 className="border-b pb-2 text-sm font-semibold">{group.title}</h3>
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  {group.slots.map(({ kind }) => {
+                    const exists = occupiedPaperKinds.has(kind);
+                    const missingParent = fixedPassageMissing(kind);
+                    const name = fixedTitle(kind) ?? getBlockTitle(kind);
+                    return (
+                      <div key={kind} className="flex flex-col justify-between gap-3 rounded-xl border p-4">
+                        <div className="flex items-center gap-2">
+                          <span className="rounded-md border p-2">{getBlockIcon(kind)}</span>
+                          <span className="min-w-0 flex-1 text-sm font-medium">{name}</span>
+                          <Badge variant="outline">{fixedSlotBadge(kind)}</Badge>
+                        </div>
+                        <Button type="button" className="w-full" variant={exists ? "outline" : "default"}
+                          disabled={exists || Boolean(missingParent) || isPending || creatingKind !== null}
+                          onClick={() => void handleAddBlock(kind)}>
+                          {exists ? "Added · Edit below" : missingParent ? `Add ${missingParent} first` : creatingKind === kind ? "Adding..." : `Add ${name}`}
+                        </Button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            ))}
+            {fixedModelQuestionLayout === "class-8-second-paper" && visibleBlocks.length < blocks.length ? (
+              <p className="text-sm text-muted-foreground">
+                Previously saved blocks outside this Class 8 layout are hidden. They have not been deleted.
+              </p>
+            ) : null}
+            {[...existingKindCounts.entries()].some(([kind, count]) => count > 1 && fixedSlotByKind.has(kind)) ? (
+              <p className="text-sm text-amber-700 dark:text-amber-400">
+                Some section types were previously added more than once. All existing copies are preserved below;
+                new duplicates are disabled.
+              </p>
+            ) : null}
+          </CardContent>
+        </Card>
+      ) : null}
+
       <div className="flex justify-end">
-        <Button type="button" onClick={() => setIsChooserOpen(true)} disabled={isPending}>
+        <Button type="button" onClick={() => setIsChooserOpen(true)} disabled={isPending || allFixedPaperKindsUsed}>
           <Plus className="mr-2 h-4 w-4" />
-          Add block
+          {allFixedPaperKindsUsed ? "All paper blocks added" : "Add block"}
         </Button>
       </div>
 
@@ -4076,11 +4244,23 @@ export function ContentBlocksEditorClient({
                   <div className="flex items-center gap-2">
                     <div className="rounded-md border p-2">{getBlockIcon(block.kind)}</div>
                     <CardTitle className="text-base">{displayBlockTitleForBlock(block)}</CardTitle>
-                    <Badge variant="secondary">#{chooserGroupMode === "model-question" ? index + 1 : block.sortOrder + 1}</Badge>
+                    <Badge variant="secondary">
+                      {duplicateGrammarBlockIds.has(block.id)
+                        ? "Existing copy"
+                        : fixedSlotByKind.has(block.kind)
+                          ? fixedSlotBadge(block.kind, "#")
+                          : fixedModelQuestionLayout ? "Existing"
+                            : `#${chooserGroupMode === "model-question" ? index + 1 : block.sortOrder + 1}`}
+                    </Badge>
                   </div>
                   <CardDescription>Block type: {block.kind}</CardDescription>
+                  {fixedModelQuestionLayout && fixedPassageForKind(block.kind) ? (
+                    <CardDescription className="font-medium text-emerald-700 dark:text-emerald-400">
+                      Connected to {fixedParentLabel(block.kind)}
+                    </CardDescription>
+                  ) : null}
                 </div>
-                <div className="flex items-center gap-2">
+                {!fixedModelQuestionLayout ? <div className="flex items-center gap-2">
                   <Button type="button" variant="outline" size="icon">
                     <GripVertical className="h-4 w-4" />
                   </Button>
@@ -4105,7 +4285,9 @@ export function ContentBlocksEditorClient({
                   <Button type="button" variant="outline" size="icon" onClick={() => void handleDeleteBlock(block.id)}>
                     <Trash2 className="h-4 w-4" />
                   </Button>
-                </div>
+                </div> : (
+                  <Badge variant="outline">Fixed section</Badge>
+                )}
               </CardHeader>
 
               <CardContent className="border-t pt-5">
@@ -4117,16 +4299,31 @@ export function ContentBlocksEditorClient({
                 />
               </CardContent>
 
+              {fixedModelQuestionLayout && fixedPassageForKind(block.kind) ? (
+                <CardContent className="border-t pt-4">
+                  <div className="rounded-xl border bg-muted/30 p-4">
+                    <p className="text-sm font-semibold">
+                      Linked source: {fixedParentLabel(block.kind)}
+                    </p>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {paragraphPreview(fixedPassageBody(block.kind), 200)}
+                    </p>
+                    <p className="mt-2 text-xs text-muted-foreground">
+                      Edit the source passage in its own section. The linked preview updates without copying or deleting the saved questions.
+                    </p>
+                  </div>
+                </CardContent>
+              ) : null}
               {block.kind === "paragraph" && block.paragraph ? (
                 <CardContent className={BLOCK_CONTENT_CLASS}>
                   <Field>
                     <FieldContent>
-                      <FieldLabel>{blockTitleOverrides?.paragraph ?? "Paragraph"}</FieldLabel>
+                      <FieldLabel>{displayBlockTitleForBlock(block)}</FieldLabel>
                       <TiptapRichTextEditor
                         value={block.paragraph.body}
                         onChange={(value) => void handleParagraphChange(block.id, block.paragraph!.id, value)}
                         minHeight={240}
-                        placeholder="Write the paragraph here..."
+                        placeholder={fixedModelQuestionLayout ? "Write the Unseen Passage here..." : "Write the paragraph here..."}
                       />
                     </FieldContent>
                   </Field>
@@ -4137,7 +4334,7 @@ export function ContentBlocksEditorClient({
                 <CardContent className={BLOCK_CONTENT_CLASS}>
                   <Field>
                     <FieldContent>
-                      <FieldLabel>Passage</FieldLabel>
+                      <FieldLabel>{fixedSlotByKind.has(block.kind) ? "Passage 1" : "Passage"}</FieldLabel>
                       <TiptapRichTextEditor
                         value={block.seenPassageOne.body}
                         onChange={(value) =>
@@ -4380,6 +4577,7 @@ export function ContentBlocksEditorClient({
                           <span>{isSeenCompositionMode ? "Use Passage" : "Use Paragraph block"}</span>
                           <Switch
                             checked={block.synonymsAntonyms.passageSource === "paragraph"}
+                              disabled={Boolean(fixedPassageForKind(block.kind))}
                             onCheckedChange={(checked) =>
                               void handleSynonymsAntonymsPassageChange(block.id, { passageSource: checked ? "paragraph" : "manual" })
                             }
@@ -4391,6 +4589,7 @@ export function ContentBlocksEditorClient({
                         <div className="mt-3 space-y-2 rounded-xl border bg-muted/20 p-4">
                           <FieldLabel>{isSeenCompositionMode ? "Passage" : "Paragraph"}</FieldLabel>
                           <QuestionAnswerPassageCombobox
+                              disabled={Boolean(fixedPassageForKind(block.kind))}
                             value={block.synonymsAntonyms.paragraphBlockId || ""}
                             options={paragraphPassageOptions}
                             onChange={(paragraphBlockId) =>
@@ -4559,6 +4758,7 @@ export function ContentBlocksEditorClient({
                             <span>Use Paragraph block</span>
                             <Switch
                               checked={block.mcqSection.passageSource === "paragraph"}
+                              disabled={Boolean(fixedPassageForKind(block.kind))}
                               onCheckedChange={(checked) =>
                                 void handleMcqSectionChange(block.id, { passageSource: checked ? "paragraph" : "manual" })
                               }
@@ -4569,6 +4769,7 @@ export function ContentBlocksEditorClient({
                           <div className="mt-3 space-y-2 rounded-xl border bg-muted/20 p-4">
                             <FieldLabel>Paragraph</FieldLabel>
                             <QuestionAnswerPassageCombobox
+                              disabled={Boolean(fixedPassageForKind(block.kind))}
                               value={block.mcqSection.paragraphBlockId || ""}
                               options={paragraphPassageOptions}
                               onChange={(paragraphBlockId) => void handleMcqSectionChange(block.id, { paragraphBlockId: paragraphBlockId || null })}
@@ -4727,12 +4928,18 @@ export function ContentBlocksEditorClient({
                     <Field>
                       <FieldContent>
                         <FieldLabel>Passage</FieldLabel>
-                        <BufferedTextarea
-                          value={block.trueFalseExercise.passage}
-                          onCommit={(value) => void handleTrueFalseExerciseChange(block.id, { passage: value })}
-                          placeholder="Write the passage here..."
-                          rows={5}
-                        />
+                        {fixedPassageForKind(block.kind) ? (
+                          <p className="rounded-lg border bg-muted/20 p-3 text-sm text-muted-foreground">
+                            Uses Unseen Passage above. Edit that source block to update the linked preview.
+                          </p>
+                        ) : (
+                          <BufferedTextarea
+                            value={block.trueFalseExercise.passage}
+                            onCommit={(value) => void handleTrueFalseExerciseChange(block.id, { passage: value })}
+                            placeholder="Write the passage here..."
+                            rows={5}
+                          />
+                        )}
                       </FieldContent>
                     </Field>
                   </FieldGroup>
@@ -4849,6 +5056,7 @@ export function ContentBlocksEditorClient({
                             <span>Use Paragraph block</span>
                             <Switch
                               checked={block.questionAnswerExercise.passageSource === "paragraph"}
+                              disabled={Boolean(fixedPassageForKind(block.kind))}
                               onCheckedChange={(checked) =>
                                 void handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, {
                                   passageSource: checked ? "paragraph" : "manual",
@@ -4862,6 +5070,7 @@ export function ContentBlocksEditorClient({
                           <div className="space-y-2 rounded-xl border bg-muted/20 p-4">
                             <FieldLabel>Paragraph</FieldLabel>
                             <QuestionAnswerPassageCombobox
+                              disabled={Boolean(fixedPassageForKind(block.kind))}
                               value={block.questionAnswerExercise.paragraphBlockId || ""}
                               options={paragraphPassageOptions}
                               onChange={(paragraphBlockId) =>
@@ -4983,6 +5192,28 @@ export function ContentBlocksEditorClient({
                       </div>
                     </div>
                   )}
+                </CardContent>
+              ) : null}
+
+              {block.kind === "writing-summary" && block.questionAnswerExercise ? (
+                <CardContent className={BLOCK_CONTENT_CLASS}>
+                  <WritingSummaryEditor
+                    block={{
+                      id: block.id,
+                      kind: "writing-summary",
+                      sortOrder: block.sortOrder,
+                      boardId: block.boardId,
+                      academicYearId: block.academicYearId,
+                      instruction: block.questionAnswerExercise.instruction,
+                      modelAnswer: block.questionAnswerExercise.answer,
+                    }}
+                    onChange={(next) =>
+                      void handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, {
+                        instruction: next.instruction,
+                        answer: next.modelAnswer,
+                      })
+                    }
+                  />
                 </CardContent>
               ) : null}
 
@@ -5883,6 +6114,7 @@ export function ContentBlocksEditorClient({
                             <span>Use Passage</span>
                             <Switch
                               checked={block.informationTransfer.passageSource === "paragraph"}
+                              disabled={Boolean(fixedPassageForKind(block.kind))}
                               onCheckedChange={(checked) =>
                                 void handleInformationTransferPassageChange(block.id, { passageSource: checked ? "paragraph" : "manual" })
                               }
@@ -5894,6 +6126,7 @@ export function ContentBlocksEditorClient({
                           <div className="mt-3 space-y-2 rounded-xl border bg-muted/20 p-4">
                             <FieldLabel>Passage</FieldLabel>
                             <QuestionAnswerPassageCombobox
+                              disabled={Boolean(fixedPassageForKind(block.kind))}
                               value={block.informationTransfer.paragraphBlockId || ""}
                               options={paragraphPassageOptions}
                               onChange={(paragraphBlockId) =>
@@ -6333,6 +6566,7 @@ export function ContentBlocksEditorClient({
                             <span>Use Paragraph block</span>
                             <Switch
                               checked={block.gapFillFirstPaper.passageSource === "paragraph"}
+                              disabled={Boolean(fixedPassageForKind(block.kind))}
                               onCheckedChange={(checked) => void handleFillBlankFirstPaperChange(block.id, { passageSource: checked ? "paragraph" : "manual" })}
                             />
                           </label>
@@ -6341,6 +6575,7 @@ export function ContentBlocksEditorClient({
                           <div className="mt-3 space-y-2 rounded-xl border bg-muted/20 p-4">
                             <FieldLabel>Paragraph</FieldLabel>
                             <QuestionAnswerPassageCombobox
+                              disabled={Boolean(fixedPassageForKind(block.kind))}
                               value={block.gapFillFirstPaper.paragraphBlockId || ""}
                               options={paragraphPassageOptions}
                               onChange={(paragraphBlockId) => void handleFillBlankFirstPaperChange(block.id, { paragraphBlockId: paragraphBlockId || null })}
@@ -6435,7 +6670,7 @@ export function ContentBlocksEditorClient({
                     const blankKind: BlankExerciseKind = block.kind;
                     const exercise = getBlankExerciseValue(block, blankKind);
                     if (!exercise) return null;
-                    const blockTitle = getBlockTitle(blankKind);
+                    const blockTitle = fixedTitle(blankKind) ?? getBlockTitle(blankKind);
 
                     return (
                       <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-6`}>
@@ -6446,7 +6681,9 @@ export function ContentBlocksEditorClient({
                               void handleBlankExerciseChange(blankKind, block.id, { question: value })
                             }
                             title="Question"
-                            description={`Write and format the ${blockTitle} question with Tiptap. Put the cursor where the student should answer, then click Add blank.`}
+                            description={isFixedSecondPaperLayout(fixedModelQuestionLayout) && blankKind === "gap-fill-second-paper"
+                              ? "Write the clues or word bank above the passage in the Question field, then insert the blanks."
+                              : `Write and format the ${blockTitle} question with Tiptap. Put the cursor where the student should answer, then click Add blank.`}
                             addButtonLabel="Add blank"
                             placeholder={`Write the ${blockTitle} question here. Put the cursor at each answer position and click Add blank.`}
                           />
@@ -6537,94 +6774,100 @@ export function ContentBlocksEditorClient({
                   })()
                 : null}
 
-              {block.kind === "suffix-and-prefix" && block.suffixAndPrefix ? (
-                <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-6`}>
-                  <FieldGroup className="gap-6">
-                    <SuffixPrefixQuestionEditor
-                      value={block.suffixAndPrefix.question}
-                      onCommit={(value) => void handleSuffixPrefixChange(block.id, { question: value })}
-                    />
+              {block.kind === "suffix-and-prefix" || block.kind === "parts-of-speech" ? (() => {
+                const isPartsOfSpeech = block.kind === "parts-of-speech";
+                const exercise = isPartsOfSpeech ? block.partsOfSpeech : block.suffixAndPrefix;
+                if (!exercise) return null;
+                return (
+                  <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-6`}>
+                    <FieldGroup className="gap-6">
+                      <SuffixPrefixQuestionEditor
+                        value={exercise.question}
+                        isPartsOfSpeech={isPartsOfSpeech}
+                        onCommit={(value) => void handleSuffixPrefixChange(block.id, { question: value })}
+                      />
 
-                    <div className="overflow-hidden rounded-2xl border bg-background shadow-sm">
-                      <div className="flex flex-wrap items-start justify-between gap-3 border-b bg-muted/30 px-4 py-3">
-                        <div className="space-y-1">
-                          <h3 className="text-sm font-medium">Answer</h3>
-                          <p className="text-sm text-muted-foreground">
-                            Each underlined base word in the question creates one matching completed-word answer field.
-                          </p>
-                        </div>
-                        <Badge variant="secondary">
-                          {block.suffixAndPrefix.items.length} answer{block.suffixAndPrefix.items.length === 1 ? "" : "s"}
-                        </Badge>
-                      </div>
-
-                      <div className="p-4">
-                        {block.suffixAndPrefix.items.length === 0 ? (
-                          <div className="space-y-3 rounded-xl border border-dashed p-4 text-sm text-muted-foreground">
-                            <p>
-                              No Suffix / Prefix words yet. Put the cursor in the <strong>Question</strong>, click <strong>Add Suffix / Prefix</strong>, then enter the root word.
+                      <div className="overflow-hidden rounded-2xl border bg-background shadow-sm">
+                        <div className="flex flex-wrap items-start justify-between gap-3 border-b bg-muted/30 px-4 py-3">
+                          <div className="space-y-1">
+                            <h3 className="text-sm font-medium">Answer</h3>
+                            <p className="text-sm text-muted-foreground">
+                              {isPartsOfSpeech ? "Enter the part of speech for each underlined word." : "Each underlined base word in the question creates one matching completed-word answer field."}
                             </p>
-                            {block.suffixAndPrefix.answer.trim() && !block.suffixAndPrefix.answer.trim().startsWith("{") ? (
-                              <div className="rounded-lg bg-muted/40 p-3">
-                                <div className="mb-1 font-medium text-foreground">Legacy answer preserved</div>
-                                <div>{fillBlankQuestionToText(block.suffixAndPrefix.answer)}</div>
-                              </div>
-                            ) : null}
                           </div>
-                        ) : (
-                          <div className="rounded-2xl border bg-muted/10 p-4">
-                            <div className="flex flex-wrap gap-4">
-                              {block.suffixAndPrefix.items.map((item, index) => (
-                                <div key={item.id} className="min-w-[240px] flex-1 space-y-3 rounded-xl border bg-background p-3 md:max-w-[300px]">
-                                  <div className="flex items-start justify-between gap-2">
-                                    <div>
-                                      <FieldLabel htmlFor={`suffix-prefix-${item.id}`}>Answer #{index + 1}</FieldLabel>
-                                      <div className="mt-1 text-sm text-muted-foreground">
-                                        Base word: <span className="font-medium text-foreground underline underline-offset-4">{item.word}</span>
-                                      </div>
-                                    </div>
-                                    <Button
-                                      type="button"
-                                      variant="ghost"
-                                      size="icon"
-                                      className="h-7 w-7 text-destructive hover:bg-destructive/10 hover:text-destructive"
-                                      onClick={() => void handleDeleteSuffixPrefixItem(block.id, item.id)}
-                                      aria-label={`Delete suffix/prefix word ${index + 1}`}
-                                      title="Delete this word from both Question and Answer"
-                                    >
-                                      <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                  </div>
-                                  <BufferedInput
-                                    id={`suffix-prefix-${item.id}`}
-                                    value={item.answer}
-                                    onCommit={(value) => void handleSuffixPrefixAnswerChange(block.id, item.id, value)}
-                                    placeholder={`Completed word for ${item.word}`}
-                                  />
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    <Field>
-                      <FieldContent>
-                        <FieldLabel>Details / Instruction</FieldLabel>
-                        <div className="rounded-xl border bg-background p-3">
-                          <TiptapRichTextEditor
-                            value={block.suffixAndPrefix.details}
-                            onChange={(value) => void handleSuffixPrefixChange(block.id, { details: value })}
-                            minHeight={140}
-                            placeholder="Optional instructions or explanation for students..."
-                          />
+                          <Badge variant="secondary">
+                            {exercise.items.length} answer{exercise.items.length === 1 ? "" : "s"}
+                          </Badge>
                         </div>
-                      </FieldContent>
-                    </Field>
-                  </FieldGroup>
-                </CardContent>
-              ) : null}
+
+                        <div className="p-4">
+                          {exercise.items.length === 0 ? (
+                            <div className="space-y-3 rounded-xl border border-dashed p-4 text-sm text-muted-foreground">
+                              <p>
+                                {isPartsOfSpeech ? "Underline a word in the question or click Add Target Word to begin." : "Place the cursor in the question and click Add Suffix / Prefix to add a root word."}
+                              </p>
+                              {exercise.answer.trim() && !exercise.answer.trim().startsWith("{") ? (
+                                <div className="rounded-lg bg-muted/40 p-3">
+                                  <div className="mb-1 font-medium text-foreground">Legacy answer preserved</div>
+                                  <div>{fillBlankQuestionToText(exercise.answer)}</div>
+                                </div>
+                              ) : null}
+                            </div>
+                          ) : (
+                            <div className="rounded-2xl border bg-muted/10 p-4">
+                              <div className="flex flex-wrap gap-4">
+                                {exercise.items.map((item, index) => (
+                                  <div key={item.id} className="min-w-[240px] flex-1 space-y-3 rounded-xl border bg-background p-3 md:max-w-[300px]">
+                                    <div className="flex items-start justify-between gap-2">
+                                      <div>
+                                        <FieldLabel htmlFor={`suffix-prefix-${item.id}`}>Answer #{index + 1}</FieldLabel>
+                                        <div className="mt-1 text-sm text-muted-foreground">
+                                          {isPartsOfSpeech ? "Target word" : "Base word"}: <span className="font-medium text-foreground underline underline-offset-4">{item.word}</span>
+                                        </div>
+                                      </div>
+                                      <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-7 w-7 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                                        onClick={() => void handleDeleteSuffixPrefixItem(block.id, item.id)}
+                                        aria-label={`Remove target word ${index + 1}`}
+                                        title={isPartsOfSpeech ? "Remove the underline and answer without deleting the word" : "Delete this word from both Question and Answer"}
+                                      >
+                                        <Trash2 className="h-4 w-4" />
+                                      </Button>
+                                    </div>
+                                    <BufferedInput
+                                      id={`suffix-prefix-${item.id}`}
+                                      value={item.answer}
+                                      onCommit={(value) => void handleSuffixPrefixAnswerChange(block.id, item.id, value)}
+                                      placeholder={isPartsOfSpeech ? "Part of speech, e.g. adverb" : `Completed word for ${item.word}`}
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      <Field>
+                        <FieldContent>
+                          <FieldLabel>Details / Instruction</FieldLabel>
+                          <div className="rounded-xl border bg-background p-3">
+                            <TiptapRichTextEditor
+                              value={exercise.details}
+                              onChange={(value) => void handleSuffixPrefixChange(block.id, { details: value })}
+                              minHeight={140}
+                              placeholder="Optional instructions or explanation for students..."
+                            />
+                          </div>
+                        </FieldContent>
+                      </Field>
+                    </FieldGroup>
+                  </CardContent>
+                );
+              })() : null}
 
               {block.kind === "tag-question" && block.tagQuestion ? (
                 <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-6`}>
@@ -7067,14 +7310,15 @@ export function ContentBlocksEditorClient({
         <ScrollArea className="max-h-[70vh] pr-4">
           {chooserGroupMode === "model-question" ? (
             <div className="space-y-7">
-              {classSixSevenModelQuestion ? (
+              {fixedModelQuestionLayout ? (
                 <p className="text-sm text-muted-foreground">
-                  Class 6–7 English 1st Paper · Nine existing block types in paper order.
-                  You can add the same type multiple times; each addition is a separate block.
-                  Use the up/down arrows on saved blocks to adjust their order.
+                  {fixedLayoutName}. Each type can be added once and stays in paper order.
+                  {isFixedSecondPaperLayout(fixedModelQuestionLayout)
+                    ? ` All ${fixedSlots.length} grammar sections are independent.`
+                    : " Linked questions become available after their passage is added."}
                 </p>
               ) : null}
-              {(classSixSevenModelQuestion ? MODEL_QUESTION_CLASS_6_7_GROUPS : MODEL_QUESTION_BLOCK_GROUPS).map((group) => {
+              {modelQuestionGroups.map((group) => {
                 const sections = group.sections.map((section) => ({
                   ...section,
                   items: section.kinds.map((kind) => visibleBlockChooser.find((item) => item.kind === kind)).filter(
@@ -7100,18 +7344,28 @@ export function ContentBlocksEditorClient({
                                 </div>
                                 <div className="flex flex-wrap items-center justify-between gap-2">
                                   <CardTitle className="text-sm">
-                                    {classSixSevenModelQuestion ? CLASS_6_7_BLOCK_LABELS[item.kind] ?? item.title : item.title}
+                                    {fixedModelQuestionLayout ? fixedTitle(item.kind) ?? item.title : item.title}
                                   </CardTitle>
-                                  {classSixSevenModelQuestion ? (
-                                    <Badge variant="outline">{CLASS_6_7_BLOCK_SEQUENCE.indexOf(item.kind) + 1}</Badge>
+                                  {fixedModelQuestionLayout ? (
+                                    <Badge variant="outline">{fixedSlotBadge(item.kind)}</Badge>
                                   ) : null}
                                 </div>
                                 <CardDescription>{item.description}</CardDescription>
                               </CardHeader>
                               <CardContent>
-                                <Button type="button" className="w-full" disabled={isPending}
-                                  onClick={() => { void handleAddBlock(item.kind); setIsChooserOpen(false); }}>
-                                  Use {classSixSevenModelQuestion ? CLASS_6_7_BLOCK_LABELS[item.kind] ?? item.title : item.title}
+                                <Button type="button" className="w-full"
+                                  variant={fixedModelQuestionLayout && occupiedPaperKinds.has(item.kind) ? "outline" : "default"}
+                                  disabled={isPending || creatingKind !== null || (fixedSlotByKind.has(item.kind) && (occupiedPaperKinds.has(item.kind) || Boolean(fixedPassageMissing(item.kind))))}
+                                  onClick={() => {
+                                    if (fixedModelQuestionLayout && (occupiedPaperKinds.has(item.kind) || fixedPassageMissing(item.kind))) return;
+                                    void handleAddBlock(item.kind);
+                                    setIsChooserOpen(false);
+                                  }}>
+                                  {fixedModelQuestionLayout && occupiedPaperKinds.has(item.kind)
+                                    ? "Already added"
+                                    : fixedModelQuestionLayout && fixedPassageMissing(item.kind)
+                                      ? `Add ${fixedPassageMissing(item.kind)} first`
+                                      : `Use ${fixedModelQuestionLayout ? fixedTitle(item.kind) ?? item.title : item.title}`}
                                 </Button>
                               </CardContent>
                             </Card>

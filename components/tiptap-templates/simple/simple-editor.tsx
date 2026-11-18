@@ -10,6 +10,7 @@ import { StarterKit } from "@tiptap/starter-kit"
 import { Image } from "@tiptap/extension-image"
 import Link from "@tiptap/extension-link"
 import Underline from "@tiptap/extension-underline"
+import { WordScopedUnderline } from "@/components/tiptap-extension/word-scoped-underline"
 import Placeholder from "@tiptap/extension-placeholder"
 import { Table } from "@tiptap/extension-table"
 import { TableCell } from "@tiptap/extension-table-cell"
@@ -119,6 +120,7 @@ export type EmbeddedSimpleEditorProps = {
   className?: string
   placeholder?: string
   onEditorReady?: (editor: Editor | null) => void
+  wordScopedUnderline?: boolean
 }
 
 const TABLE_PICKER_SIZE = 8
@@ -516,6 +518,7 @@ export function SimpleEditor({
   className,
   placeholder = "Write here...",
   onEditorReady,
+  wordScopedUnderline = false,
 }: EmbeddedSimpleEditorProps) {
   const isMobile = useIsBreakpoint()
   const { height } = useWindowSize()
@@ -590,12 +593,13 @@ export function SimpleEditor({
     extensions: [
       StarterKit.configure({
         horizontalRule: false,
+        underline: false,
       }),
       Link.configure({
         openOnClick: false,
         enableClickSelection: true,
       }),
-      Underline,
+      wordScopedUnderline ? WordScopedUnderline : Underline,
       Placeholder.configure({
         placeholder,
       }),
