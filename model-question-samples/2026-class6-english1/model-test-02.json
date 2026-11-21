@@ -1,0 +1,293 @@
+{
+  "title": "Set 02 — Healthy Habits, Markets and Solar Energy",
+  "p1": "Sadia gets up early and drinks a glass of water before breakfast. She walks to school with her cousin because the road is safe and the distance is short. At school she plays games during the break. Her mother packs fruit and homemade bread for lunch. In the afternoon, Sadia finishes her homework and spends some time outdoors. She knows that healthy food, physical activity and enough sleep help children stay active and cheerful.",
+  "mcq": [
+    [
+      "What does Sadia drink before breakfast?",
+      [
+        "Tea",
+        "Water",
+        "Juice",
+        "Milkshake"
+      ],
+      1
+    ],
+    [
+      "Who walks with Sadia?",
+      [
+        "Her cousin",
+        "Her teacher",
+        "Her neighbour",
+        "Her brother"
+      ],
+      0
+    ],
+    [
+      "Why does Sadia walk to school?",
+      [
+        "The journey is short and safe",
+        "She has no books",
+        "She wants to be late",
+        "The bus is fast"
+      ],
+      0
+    ],
+    [
+      "What does she eat for lunch?",
+      [
+        "Chips and cola",
+        "Fruit and homemade bread",
+        "Cake only",
+        "Noodles only"
+      ],
+      1
+    ],
+    [
+      "When does she play games at school?",
+      [
+        "During the break",
+        "At night",
+        "Before sunrise",
+        "After dinner"
+      ],
+      0
+    ],
+    [
+      "What does she finish in the afternoon?",
+      [
+        "A painting",
+        "Her homework",
+        "A long movie",
+        "Shopping"
+      ],
+      1
+    ],
+    [
+      "What helps children stay active?",
+      [
+        "Less sleep",
+        "Healthy food, activity and sleep",
+        "Skipping meals",
+        "Watching screens all night"
+      ],
+      1
+    ]
+  ],
+  "qa": [
+    [
+      "What does Sadia do after getting up?",
+      "She drinks a glass of water."
+    ],
+    [
+      "Why does she feel safe walking to school?",
+      "The road is safe and the distance is short."
+    ],
+    [
+      "What does her mother pack?",
+      "Fruit and homemade bread."
+    ],
+    [
+      "When does she do her homework?",
+      "In the afternoon."
+    ],
+    [
+      "Mention two good habits from the passage.",
+      "Eating healthy food and getting enough sleep."
+    ]
+  ],
+  "p2": "Our weekly village market opens on Friday morning. Farmers arrive with fresh vegetables, eggs and rice. Buyers compare prices before choosing what they need. Amina carries a reusable bag to reduce waste. She speaks politely with sellers and checks that the food is clean. By midday the market becomes quieter, and many farmers return home. The market helps families buy fresh food and supports local workers.",
+  "gaps": [
+    "The market opens on ________ morning.",
+    "Farmers bring fresh ________.",
+    "Buyers compare ________.",
+    "Amina carries a ________ bag.",
+    "The market supports ________ workers."
+  ],
+  "gapAnswers": [
+    "Friday",
+    "vegetables",
+    "prices",
+    "reusable",
+    "local"
+  ],
+  "vocab": [
+    [
+      "fresh",
+      "new",
+      "stale",
+      "antonym"
+    ],
+    [
+      "compare",
+      "examine",
+      "ignore",
+      "synonym"
+    ],
+    [
+      "politely",
+      "courteously",
+      "rudely",
+      "antonym"
+    ],
+    [
+      "quieter",
+      "calmer",
+      "noisier",
+      "synonym"
+    ],
+    [
+      "supports",
+      "helps",
+      "harms",
+      "synonym"
+    ]
+  ],
+  "unseen": "A school in a small town installed solar panels on its roof in June. The panels make electricity from sunlight. On sunny days, the school uses this electricity to run lights and fans in four classrooms. Science teacher Mr Hasan showed students how the system works. They measured the energy produced over five days and made a wall chart. The project encourages students to use energy carefully.",
+  "info": [
+    [
+      "Installation month",
+      "June"
+    ],
+    [
+      "Location of panels",
+      "school roof"
+    ],
+    [
+      "Energy source",
+      "sunlight"
+    ],
+    [
+      "Number of classrooms",
+      "four"
+    ],
+    [
+      "Teacher's name",
+      "Mr Hasan"
+    ]
+  ],
+  "tf": [
+    [
+      "The panels were installed in June.",
+      true,
+      ""
+    ],
+    [
+      "The panels produce electricity from wind.",
+      false,
+      "They produce electricity from sunlight."
+    ],
+    [
+      "Four classrooms use solar electricity.",
+      true,
+      ""
+    ],
+    [
+      "The students measured energy for two days.",
+      false,
+      "They measured it over five days."
+    ],
+    [
+      "The project teaches careful energy use.",
+      true,
+      ""
+    ]
+  ],
+  "summary": "A small-town school placed solar panels on its roof in June. These panels turn sunlight into electricity for lights and fans in four classrooms. Mr Hasan explained the system. Students observed the energy produced for five days and created a chart. The project teaches responsible energy use.",
+  "table": [
+    [
+      "Healthy drink",
+      "Water"
+    ],
+    [
+      "Travel companion",
+      "Cousin"
+    ],
+    [
+      "Market day",
+      "Friday"
+    ],
+    [
+      "Reusable item",
+      "Shopping bag"
+    ],
+    [
+      "Solar energy source",
+      "Sunlight"
+    ]
+  ],
+  "rearrange": [
+    "They put the fruits in clean baskets.",
+    "The shopkeeper opened the shop early.",
+    "Customers chose their favourite fruits.",
+    "He washed the fresh fruits carefully.",
+    "The shopkeeper thanked the customers.",
+    "He arranged the baskets near the entrance.",
+    "The customers paid at the counter.",
+    "The market became busy after sunrise."
+  ],
+  "rearrange_order": [
+    1,
+    3,
+    0,
+    5,
+    7,
+    2,
+    6,
+    4
+  ],
+  "poem": [
+    "Step by step we walk each day,",
+    "Choosing health along the way,",
+    "Fresh clean water, food and rest,",
+    "Help our minds to do their best,",
+    "Share a smile and lend a hand,",
+    "Happy children build our land."
+  ],
+  "poemqa": [
+    [
+      "What should we choose each day?",
+      "Health."
+    ],
+    [
+      "Mention one healthy habit in the poem.",
+      "Drinking clean water."
+    ],
+    [
+      "What helps our minds?",
+      "Water, food and rest."
+    ],
+    [
+      "What do children share?",
+      "A smile."
+    ],
+    [
+      "What can children lend?",
+      "A hand."
+    ],
+    [
+      "What do happy children build?",
+      "Our land."
+    ],
+    [
+      "What is the rhyme word for 'day'?",
+      "Way."
+    ],
+    [
+      "What is the central idea?",
+      "Healthy habits and kindness make life better."
+    ]
+  ],
+  "writing": [
+    "A girl sees a younger child struggling to cross a busy road. Complete the story, showing a safe and kind choice.",
+    "Write a paragraph of about 120 words on 'Good Health'.",
+    "Write a dialogue between two friends about the importance of physical exercise."
+  ],
+  "slug": "elesson-2026-c6-e1-original-practice-02",
+  "name": "eLesson 2026 · Class 6 English 1st Paper · Model Test 02 (Original Practice)",
+  "year": 2026,
+  "marks": {
+    "reading": 70,
+    "writing": 30,
+    "total": 100
+  }
+}

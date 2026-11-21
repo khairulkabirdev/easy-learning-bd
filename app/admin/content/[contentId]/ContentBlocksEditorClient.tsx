@@ -94,6 +94,8 @@ import { ResponsiveEntityEditor } from "@/components/admin/ResponsiveEntityEdito
 import { TableCompletionChoiceCombobox } from "@/components/app/TableCompletionChoiceCombobox";
 import { QuestionAnswerPassageCombobox } from "@/components/app/QuestionAnswerPassageCombobox";
 import { TiptapRichTextEditor } from "@/components/admin/TiptapRichTextEditor";
+import { applyModelRearrangeSlots, getModelRearrangeSlots, modelRearrangeLetter,
+  removeModelRearrangeRow, validateModelRearrangeSlots } from "@/lib/model-rearrange-answers";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -115,6 +117,82 @@ type McqQuestionDraftRecord = McqSectionDraft['questions'][number];
 type McqOptionDraftRecord = McqQuestionDraftRecord['options'][number];
 type QuestionAnswerExerciseDraft = NonNullable<BlockDraft['questionAnswerExercise']>;
 type QuestionAnswerRowRecord = QuestionAnswerExerciseDraft['rows'][number];
+
+function ModelRearrangeAnswerBoxes({ rows, onSave }: {
+  rows: QuestionAnswerRowRecord[];
+  onSave: (rows: QuestionAnswerRowRecord[]) => Promise<void>;
+}) {
+  const signature = rows.map((row) => `${row.id}:${row.answer}`).join("|");
+  const [slots, setSlots] = useState(() => getModelRearrangeSlots(rows));
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  useEffect(() => { setSlots(getModelRearrangeSlots(rows)); setSaveError(null); }, [signature]);
+
+  const errors = validateModelRearrangeSlots(slots, rows.length);
+  const dirty = slots.map((slot) => slot.trim().toLowerCase()).join("|") !== getModelRearrangeSlots(rows).join("|");
+  const letters = rows.map((_, index) => modelRearrangeLetter(index));
+
+  async function save() {
+    if (errors.some(Boolean) || !dirty || saving) return;
+    setSaving(true);
+    setSaveError(null);
+    try {
+      await onSave(applyModelRearrangeSlots(rows, slots));
+    } catch (error) {
+      setSaveError(error instanceof Error ? error.message : "Could not save the answer order.");
+    } finally { setSaving(false); }
+  }
+
+  return (
+    <div className="space-y-4 rounded-2xl border bg-muted/20 p-4">
+      <div className="space-y-1">
+        <h3 className="text-sm font-semibold">Answer — correct letter sequence</h3>
+        <p className="text-sm text-muted-foreground">One answer box is created for each book sentence.
+          Enter every letter once in its correct position (example: c, a, e, b, d).</p>
+        {letters.length > 0 ? <p className="text-xs text-muted-foreground">Available: {letters.join(", ")}</p> : null}
+      </div>
+      {rows.length === 0 ? (
+        <p className="rounded-lg border border-dashed p-4 text-sm text-muted-foreground">Add book sentences to create answer boxes.</p>
+      ) : (
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+          {rows.map((row, index) => (
+            <Field key={`${row.id}-answer-position-${index}`}>
+              <FieldContent>
+                <FieldLabel>Order {index + 1}</FieldLabel>
+                <Input
+                  aria-label={`Correct-order letter ${index + 1}`}
+                  aria-invalid={Boolean(errors[index])}
+                  autoComplete="off"
+                  className="h-12 text-center font-semibold uppercase"
+                  placeholder="a"
+                  value={slots[index] || ""}
+                  onChange={(event) => {
+                    const value = event.target.value.trim().toLowerCase().slice(0, 3);
+                    setSlots((current) => current.map((item, i) => i === index ? value : item));
+                    setSaveError(null);
+                  }}
+                />
+                {errors[index] ? <FieldError>{errors[index]}</FieldError> : null}
+              </FieldContent>
+            </Field>
+          ))}
+        </div>
+      )}
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="text-sm text-muted-foreground">
+          <span>Answer preview: {slots.map((letter) => letter || "_").join(" → ") || "—"}</span>
+          {dirty ? <p className="text-amber-700 dark:text-amber-400">Unsaved answer changes</p> : null}
+          {saveError ? <p role="alert" className="text-destructive">{saveError}</p> : null}
+        </div>
+        <Button type="button" onClick={() => void save()}
+          disabled={errors.some(Boolean) || !dirty || saving || rows.length < 2}>
+          {saving ? "Saving…" : "Save correct order"}
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 type TableCompletionDraft = NonNullable<QuestionAnswerExerciseDraft['table']>;
 type TableCompletionRowRecord = TableCompletionDraft['rows'][number];
 type TableCompletionCellRecord = TableCompletionRowRecord['cells'][number];
@@ -2822,9 +2900,7 @@ export function ContentBlocksEditorClient({
     setActionError(null);
     try {
       await handleQuestionAnswerChange(blockId, currentBlock.questionAnswerExercise.id, {
-        rows: currentBlock.questionAnswerExercise.rows
-          .filter((row) => row.id !== rowId)
-          .map((row, index) => ({ ...row, sortOrder: index })),
+        rows: removeModelRearrangeRow(currentBlock.questionAnswerExercise.rows, rowId),
       });
     } catch (error) {
       setActionError(error instanceof Error ? error.message : "Failed to delete sentence.");
@@ -5435,10 +5511,10 @@ export function ContentBlocksEditorClient({
 
                   <div className="flex flex-wrap items-center justify-between gap-4 border-t pt-5">
                     <div className="space-y-1">
-                      <h3 className="text-sm font-medium">Sentences in the correct order</h3>
+                      <h3 className="text-sm font-medium">Question — sentences as printed in the book</h3>
                       <p className="max-w-2xl text-sm text-muted-foreground">
-                        Add one full sentence at a time in the correct sequence. Students will see these items shuffled
-                        and will rearrange them back into this order.
+                        Enter the mixed-up sentences exactly as printed in the book, in their original lettered order.
+                        Set the correct sequence separately using the answer boxes below.
                       </p>
                     </div>
                     <Button type="button" onClick={() => openSentenceOrderingModal(block.id)}>
@@ -5452,7 +5528,7 @@ export function ContentBlocksEditorClient({
                       <EmptyHeader>
                         <EmptyTitle>No sentence items added yet</EmptyTitle>
                         <EmptyDescription>
-                          Add the sentences in their correct final order. The student view will shuffle them automatically.
+                          Add the sentences in their mixed-up book order; then set the correct answer below.
                         </EmptyDescription>
                       </EmptyHeader>
                       <EmptyContent>
@@ -5469,9 +5545,9 @@ export function ContentBlocksEditorClient({
                           <CardContent className="space-y-4 pt-6">
                             <div className="flex flex-wrap items-center justify-between gap-3">
                               <div className="flex items-center gap-2">
-                                <Badge variant="secondary">Correct order #{index + 1}</Badge>
+                                <Badge variant="secondary">({modelRearrangeLetter(index)}) Book item</Badge>
                                 <span className="text-xs text-muted-foreground">
-                                  Students will not see this correct-order number.
+                                  Use this letter in the answer boxes below.
                                 </span>
                               </div>
 
@@ -5518,7 +5594,7 @@ export function ContentBlocksEditorClient({
                                       void handleQuestionAnswerRowPatch(block.id, row.id, { question: value })
                                     }
                                     minHeight={120}
-                                    placeholder={`Write the full sentence for correct position ${index + 1}...`}
+                                    placeholder={`Write book item (${modelRearrangeLetter(index)})...`}
                                   />
                                 </div>
                               </FieldContent>
@@ -5535,6 +5611,10 @@ export function ContentBlocksEditorClient({
                       </div>
                     </div>
                   )}
+                  <ModelRearrangeAnswerBoxes
+                    rows={block.questionAnswerExercise.rows}
+                    onSave={(nextRows) => handleQuestionAnswerChange(block.id, block.questionAnswerExercise!.id, { rows: nextRows })}
+                  />
                 </CardContent>
               ) : null}
 
@@ -7727,7 +7807,7 @@ export function ContentBlocksEditorClient({
             <FieldContent className="min-w-0">
             <FieldLabel>Sentence</FieldLabel>
             <FieldDescription>
-              Write the full sentence for the next correct position in the sequence.
+              Enter the next mixed-up sentence as printed in the book.
             </FieldDescription>
             <div className="min-w-0 rounded-xl border bg-background p-2 sm:p-3">
               <TiptapRichTextEditor

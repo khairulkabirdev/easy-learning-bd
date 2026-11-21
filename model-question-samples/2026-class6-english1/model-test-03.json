@@ -1,0 +1,293 @@
+{
+  "title": "Set 03 — Rivers, Culture and Recycling",
+  "p1": "During the winter holidays, Karim visited his grandmother in a riverside village. Early one morning, they travelled by boat to a nearby market. Karim saw fishermen repairing nets and birds resting on the riverbank. His grandmother explained that many families depend on the river for work and transport. She also warned him not to throw rubbish into the water. Karim returned home with a new respect for the river and the people who care for it.",
+  "mcq": [
+    [
+      "Whom did Karim visit?",
+      [
+        "His uncle",
+        "His grandmother",
+        "His teacher",
+        "His friend"
+      ],
+      1
+    ],
+    [
+      "Where did his grandmother live?",
+      [
+        "A seaside city",
+        "A riverside village",
+        "A desert",
+        "A hill town"
+      ],
+      1
+    ],
+    [
+      "How did they travel to market?",
+      [
+        "By train",
+        "By bus",
+        "By boat",
+        "By bicycle"
+      ],
+      2
+    ],
+    [
+      "What were fishermen repairing?",
+      [
+        "Boats",
+        "Nets",
+        "Houses",
+        "Roads"
+      ],
+      1
+    ],
+    [
+      "Where were birds resting?",
+      [
+        "On the riverbank",
+        "In a classroom",
+        "In a shop",
+        "On a bridge"
+      ],
+      0
+    ],
+    [
+      "What did his grandmother warn him about?",
+      [
+        "Swimming lessons",
+        "Throwing rubbish into water",
+        "Buying books",
+        "Wearing a hat"
+      ],
+      1
+    ],
+    [
+      "What did Karim gain?",
+      [
+        "Respect for the river",
+        "A new motorbike",
+        "A large prize",
+        "A ticket abroad"
+      ],
+      0
+    ]
+  ],
+  "qa": [
+    [
+      "When did Karim visit his grandmother?",
+      "During the winter holidays."
+    ],
+    [
+      "What did he see near the river?",
+      "Fishermen repairing nets and birds on the riverbank."
+    ],
+    [
+      "How does the river help families?",
+      "It provides work and transport."
+    ],
+    [
+      "What should people avoid doing to the river?",
+      "Throwing rubbish into it."
+    ],
+    [
+      "How did Karim feel at the end?",
+      "He felt respect for the river and its caretakers."
+    ]
+  ],
+  "p2": "At the village fair, Nila watched an artist make colourful clay pots. The artist shaped wet clay with careful hands and placed the pots in the sun to dry. Nila learned that pottery is a traditional craft in Bangladesh. People use pots for cooking, storing water and decorating homes. The artist said that practice and patience are important for good work. Nila bought a small pot as a gift for her mother.",
+  "gaps": [
+    "Nila watched an artist make ________ pots.",
+    "The artist shaped wet ________.",
+    "The pots were placed in the sun to ________.",
+    "Pottery is a ________ craft.",
+    "Nila bought a gift for her ________."
+  ],
+  "gapAnswers": [
+    "colourful",
+    "clay",
+    "dry",
+    "traditional",
+    "mother"
+  ],
+  "vocab": [
+    [
+      "colourful",
+      "bright",
+      "dull",
+      "synonym"
+    ],
+    [
+      "careful",
+      "cautious",
+      "careless",
+      "antonym"
+    ],
+    [
+      "traditional",
+      "customary",
+      "modern",
+      "synonym"
+    ],
+    [
+      "important",
+      "significant",
+      "unimportant",
+      "antonym"
+    ],
+    [
+      "patience",
+      "calmness",
+      "impatience",
+      "synonym"
+    ]
+  ],
+  "unseen": "The students of River View School started a recycling project in September. Their classroom teacher, Ms Akter, placed three labelled bins near the gate: one for paper, one for plastic and one for metal. Twenty-five students collected clean materials every Wednesday. Once a month, volunteers took the materials to a recycling centre. The school used the money earned to buy new storybooks for its library.",
+  "info": [
+    [
+      "Starting month",
+      "September"
+    ],
+    [
+      "Teacher",
+      "Ms Akter"
+    ],
+    [
+      "Number of bins",
+      "three"
+    ],
+    [
+      "Collection day",
+      "Wednesday"
+    ],
+    [
+      "Number of students",
+      "twenty-five"
+    ]
+  ],
+  "tf": [
+    [
+      "The project began in September.",
+      true,
+      ""
+    ],
+    [
+      "There were two bins near the gate.",
+      false,
+      "There were three bins."
+    ],
+    [
+      "Students collected materials on Wednesday.",
+      true,
+      ""
+    ],
+    [
+      "Volunteers visited the centre every week.",
+      false,
+      "They took materials once a month."
+    ],
+    [
+      "The school bought new storybooks.",
+      true,
+      ""
+    ]
+  ],
+  "summary": "River View School began a recycling project in September. Ms Akter placed separate bins for paper, plastic and metal near the gate. Twenty-five students collected clean waste every Wednesday. Volunteers delivered the materials to a centre monthly. The money helped the school library buy storybooks.",
+  "table": [
+    [
+      "Holiday visitor",
+      "Karim"
+    ],
+    [
+      "Transport to market",
+      "Boat"
+    ],
+    [
+      "Traditional craft",
+      "Pottery"
+    ],
+    [
+      "Recycling teacher",
+      "Ms Akter"
+    ],
+    [
+      "Library purchase",
+      "Storybooks"
+    ]
+  ],
+  "rearrange": [
+    "The students wrote labels for each box.",
+    "They placed the boxes beside the classroom door.",
+    "Their teacher explained the benefits of recycling.",
+    "The class decided to collect recyclable materials.",
+    "At the end of the week, they counted the materials.",
+    "They found three empty boxes.",
+    "Everyone agreed to keep the school tidy.",
+    "Children put clean paper, plastic and metal in separate boxes."
+  ],
+  "rearrange_order": [
+    2,
+    3,
+    5,
+    0,
+    1,
+    7,
+    4,
+    6
+  ],
+  "poem": [
+    "River water moves along,",
+    "Carrying a gentle song,",
+    "Boats and birds pass by the shore,",
+    "We should care for it much more,",
+    "Keep the banks and waters clean,",
+    "Save the lovely world of green."
+  ],
+  "poemqa": [
+    [
+      "What moves along in the poem?",
+      "River water."
+    ],
+    [
+      "What does the river carry?",
+      "A gentle song."
+    ],
+    [
+      "Name two things passing the shore.",
+      "Boats and birds."
+    ],
+    [
+      "What should we do for the river?",
+      "Care for it."
+    ],
+    [
+      "How should we keep the water?",
+      "Clean."
+    ],
+    [
+      "What colour is the world described as?",
+      "Green."
+    ],
+    [
+      "What rhymes with 'shore'?",
+      "More."
+    ],
+    [
+      "What is the message?",
+      "Protect rivers and nature."
+    ]
+  ],
+  "writing": [
+    "Two friends find a young tree damaged by careless visitors. Complete the story about how they help protect it.",
+    "Write a paragraph of about 120 words on 'A River in Bangladesh'.",
+    "Write a dialogue between two friends about the importance of keeping rivers clean."
+  ],
+  "slug": "elesson-2026-c6-e1-original-practice-03",
+  "name": "eLesson 2026 · Class 6 English 1st Paper · Model Test 03 (Original Practice)",
+  "year": 2026,
+  "marks": {
+    "reading": 70,
+    "writing": 30,
+    "total": 100
+  }
+}

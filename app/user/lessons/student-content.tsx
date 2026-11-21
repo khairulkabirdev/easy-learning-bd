@@ -26,6 +26,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { sanitizeRichHtml } from "@/lib/sanitize-rich-html";
+import { readModelRearrangeKey } from "@/lib/model-rearrange-answers";
 
 export type StudentContentRecord = Omit<ContentRecordWithBlocks, "createdAt"> & {
   createdAt: string;
@@ -834,16 +835,26 @@ function SentenceOrderingBlock({
   instruction,
   details,
   rows,
+  displayBookOrder = false,
 }: {
   title: string;
   instruction: string;
   details: string;
   rows: Array<{ id: string; question: string; answer: string }>;
+  displayBookOrder?: boolean;
 }) {
-  const [orderedIds, setOrderedIds] = useState<string[]>(() => createInitialSentenceOrder(rows));
+  const [orderedIds, setOrderedIds] = useState<string[]>(() =>
+    displayBookOrder || readModelRearrangeKey(rows).mode === "explicit"
+      ? rows.map((row) => row.id)
+      : createInitialSentenceOrder(rows),
+  );
   const [status, setStatus] = useState<CheckStatus>("idle");
   const [showCorrectOrder, setShowCorrectOrder] = useState(false);
   const rowById = new Map(rows.map((row) => [row.id, row]));
+  // Explicit keys use rank numbers in each row's saved answer; old rows remain in
+  // their originally authored (correct) order. Never treat an invalid key as correct.
+  const answerKey = readModelRearrangeKey(rows);
+  const correctRows = answerKey.order.map((id) => rowById.get(id)).filter(Boolean) as typeof rows;
   const orderedRows = orderedIds.map((id) => rowById.get(id)).filter(Boolean) as typeof rows;
 
   function moveSentence(rowId: string, direction: "up" | "down") {
@@ -924,7 +935,7 @@ function SentenceOrderingBlock({
           <div className="rounded-xl border border-dashed p-4">
             <div className="mb-3 text-sm font-medium">Correct order</div>
             <div className="space-y-3">
-              {rows.map((row, index) => (
+              {correctRows.length > 0 ? correctRows.map((row, index) => (
                 <div key={row.id} className="flex items-start gap-3 rounded-lg bg-muted/30 p-3">
                   <Badge variant="secondary" className="mt-1 shrink-0">
                     {index + 1}
@@ -933,15 +944,16 @@ function SentenceOrderingBlock({
                     <RichContent value={row.question} />
                   </div>
                 </div>
-              ))}
+              )) : <p className="text-sm text-muted-foreground">The answer key is incomplete. Ask your teacher to complete it.</p>}
             </div>
           </div>
         ) : null}
 
         <ActionButtons
           onCheck={() => {
-            const isCorrect =
-              orderedIds.length === rows.length && orderedIds.every((rowId, index) => rowId === rows[index]?.id);
+            const isCorrect = correctRows.length >= 2 &&
+              orderedIds.length === correctRows.length &&
+              orderedIds.every((rowId, index) => rowId === correctRows[index]?.id);
             setStatus(isCorrect ? "correct" : "incorrect");
           }}
           onReveal={() => setShowCorrectOrder(true)}
@@ -1662,6 +1674,7 @@ function StudentBlockCard({
         instruction={block.questionAnswerExercise.instruction}
         details={block.questionAnswerExercise.details}
         rows={block.questionAnswerExercise.rows}
+        displayBookOrder={isPaper}
       />
     ) : (
       <ThreeFieldExerciseBlock

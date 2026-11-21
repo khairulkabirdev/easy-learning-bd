@@ -8,6 +8,7 @@ import { getFixedModelQuestionBlockTitle, getFixedModelQuestionLayout, getFixedM
 import { modelQuestionBlockOptions } from "@/lib/model-question-block-types";
 import type { ModelPaper, ModelPaperEntry } from "@/lib/model-paper-types";
 import { prisma } from "@/lib/db";
+import { readModelRearrangeKey } from "@/lib/model-rearrange-answers";
 
 export type PaperScope = { organizationId: string; classId: string; subjectId: string };
 const titles: Partial<Record<ContentBlockKind, string>> = {
@@ -172,8 +173,14 @@ export function modelPaperPromptOnly(paper: ModelPaper): ModelPaper {
       const copy = redact(entry) as ModelPaperEntry;
       const b = copy.native;
       if (b?.kind === "rearrange-sentence" && b.questionAnswerExercise) {
-        b.questionAnswerExercise.rows.sort((a, c) => a.id.localeCompare(c.id))
-          .forEach((row, i) => { row.sortOrder = i; });
+        const sourceRows = entry.native?.questionAnswerExercise?.rows ?? [];
+        // With a separately saved answer key, question rows are already in the
+        // mixed-up order shown in the book and are safe to show as written.
+        // Older records used row order as the answer; continue hiding that order.
+        if (readModelRearrangeKey(sourceRows).mode !== "explicit") {
+          b.questionAnswerExercise.rows.sort((a, c) => a.id.localeCompare(c.id));
+        }
+        b.questionAnswerExercise.rows.forEach((row, i) => { row.sortOrder = i; });
       }
       return copy;
     }),

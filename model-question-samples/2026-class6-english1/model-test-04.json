@@ -1,0 +1,293 @@
+{
+  "title": "Set 04 — Digital Learning, Crafts and Community Health",
+  "p1": "Rafi's school has a small digital learning room. Once a week, students visit the room with their English teacher. They listen to short recordings, read passages on a large screen and practise speaking in pairs. Before using a computer, they wash their hands and follow the teacher's instructions. Rafi enjoys the lessons because he can hear the correct pronunciation of new words. He has learned that technology is most useful when students use it wisely.",
+  "mcq": [
+    [
+      "What does the school have?",
+      [
+        "A swimming pool",
+        "A digital learning room",
+        "A new market",
+        "A train"
+      ],
+      1
+    ],
+    [
+      "How often do students use the room?",
+      [
+        "Once a week",
+        "Daily at night",
+        "Once a year",
+        "Never"
+      ],
+      0
+    ],
+    [
+      "Which teacher goes with them?",
+      [
+        "Science",
+        "Art",
+        "English",
+        "Mathematics"
+      ],
+      2
+    ],
+    [
+      "What do students practise in pairs?",
+      [
+        "Running",
+        "Speaking",
+        "Fishing",
+        "Cooking"
+      ],
+      1
+    ],
+    [
+      "What do students do before using computers?",
+      [
+        "Eat snacks",
+        "Wash their hands",
+        "Go home",
+        "Switch off lights"
+      ],
+      1
+    ],
+    [
+      "What does Rafi learn from recordings?",
+      [
+        "Pronunciation",
+        "Gardening",
+        "Painting",
+        "Driving"
+      ],
+      0
+    ],
+    [
+      "When is technology most useful?",
+      [
+        "When used wisely",
+        "When used all night",
+        "When used without rules",
+        "When it replaces reading"
+      ],
+      0
+    ]
+  ],
+  "qa": [
+    [
+      "How often do students visit the room?",
+      "Once a week."
+    ],
+    [
+      "Name two activities in the room.",
+      "Listening to recordings and reading passages."
+    ],
+    [
+      "What rules do students follow?",
+      "They wash their hands and follow their teacher's instructions."
+    ],
+    [
+      "Why does Rafi enjoy the lessons?",
+      "He can learn correct pronunciation."
+    ],
+    [
+      "What is the main message?",
+      "Technology is useful when used wisely."
+    ]
+  ],
+  "p2": "Salma's family makes handwoven baskets in a small village. They use bamboo and natural fibres, and each basket takes several hours to finish. Salma helps by sorting the materials and checking the shapes. Her parents sell the finished baskets at a nearby fair. Visitors appreciate the strong, beautiful designs. The work helps the family earn money while keeping a traditional skill alive.",
+  "gaps": [
+    "Salma's family makes ________ baskets.",
+    "They use bamboo and natural ________.",
+    "Each basket takes several ________.",
+    "Salma helps by ________ materials.",
+    "The work keeps a traditional ________ alive."
+  ],
+  "gapAnswers": [
+    "handwoven",
+    "fibres",
+    "hours",
+    "sorting",
+    "skill"
+  ],
+  "vocab": [
+    [
+      "natural",
+      "organic",
+      "artificial",
+      "antonym"
+    ],
+    [
+      "finish",
+      "complete",
+      "begin",
+      "synonym"
+    ],
+    [
+      "strong",
+      "sturdy",
+      "weak",
+      "antonym"
+    ],
+    [
+      "beautiful",
+      "lovely",
+      "ugly",
+      "synonym"
+    ],
+    [
+      "traditional",
+      "customary",
+      "new",
+      "antonym"
+    ]
+  ],
+  "unseen": "Every Tuesday, community health worker Farzana visits families in a rural area. She talks to parents about clean drinking water, handwashing and nutritious food. This month, she visited forty homes. At the community hall on Friday, she organised a health awareness meeting for twenty parents. A local nurse answered questions about common illnesses and explained when families should visit a clinic. Everyone received a simple health information leaflet.",
+  "info": [
+    [
+      "Health worker",
+      "Farzana"
+    ],
+    [
+      "Weekly visit day",
+      "Tuesday"
+    ],
+    [
+      "Homes visited this month",
+      "forty"
+    ],
+    [
+      "Meeting day",
+      "Friday"
+    ],
+    [
+      "Parents at meeting",
+      "twenty"
+    ]
+  ],
+  "tf": [
+    [
+      "Farzana visits on Tuesdays.",
+      true,
+      ""
+    ],
+    [
+      "She visited fourteen homes this month.",
+      false,
+      "She visited forty homes."
+    ],
+    [
+      "The meeting was held on Friday.",
+      true,
+      ""
+    ],
+    [
+      "A doctor answered all questions.",
+      false,
+      "A local nurse answered questions."
+    ],
+    [
+      "Parents received health leaflets.",
+      true,
+      ""
+    ]
+  ],
+  "summary": "Farzana is a community health worker who visits rural families every Tuesday. She teaches them about safe water, handwashing and healthy food. She visited forty homes this month. On Friday, she arranged a meeting for twenty parents. A nurse answered questions, and everyone received a health leaflet.",
+  "table": [
+    [
+      "Digital-room class",
+      "English"
+    ],
+    [
+      "Digital-room frequency",
+      "Once a week"
+    ],
+    [
+      "Craft material",
+      "Bamboo"
+    ],
+    [
+      "Health worker",
+      "Farzana"
+    ],
+    [
+      "Meeting participants",
+      "Twenty parents"
+    ]
+  ],
+  "rearrange": [
+    "They recorded their voices on a computer.",
+    "The teacher explained the speaking activity.",
+    "The teacher asked each pair to read a short dialogue.",
+    "Students listened to the recording again.",
+    "They practised the dialogue with partners.",
+    "The class entered the digital learning room.",
+    "Each pair discussed how to improve.",
+    "Finally, the teacher praised their effort."
+  ],
+  "rearrange_order": [
+    5,
+    1,
+    2,
+    4,
+    0,
+    3,
+    6,
+    7
+  ],
+  "poem": [
+    "Books and screens can help us grow,",
+    "Many useful things we know,",
+    "Listen, practise, read and write,",
+    "Learn with care from morn till night,",
+    "Share your knowledge with a friend,",
+    "Let good learning never end."
+  ],
+  "poemqa": [
+    [
+      "What two things help us grow?",
+      "Books and screens."
+    ],
+    [
+      "Name two learning activities.",
+      "Listening and reading."
+    ],
+    [
+      "How should we learn?",
+      "With care."
+    ],
+    [
+      "With whom should we share knowledge?",
+      "A friend."
+    ],
+    [
+      "What should never end?",
+      "Good learning."
+    ],
+    [
+      "What rhymes with 'grow'?",
+      "Know."
+    ],
+    [
+      "Which line tells us to practise?",
+      "Listen, practise, read and write."
+    ],
+    [
+      "What is the main idea?",
+      "Learn carefully and share knowledge."
+    ]
+  ],
+  "writing": [
+    "A student helps an elderly neighbour learn how to make a phone call safely. Complete the story with a suitable title.",
+    "Write a paragraph of about 120 words on 'Uses of Technology in Education'.",
+    "Write a dialogue between two friends about the benefits of reading books."
+  ],
+  "slug": "elesson-2026-c6-e1-original-practice-04",
+  "name": "eLesson 2026 · Class 6 English 1st Paper · Model Test 04 (Original Practice)",
+  "year": 2026,
+  "marks": {
+    "reading": 70,
+    "writing": 30,
+    "total": 100
+  }
+}
