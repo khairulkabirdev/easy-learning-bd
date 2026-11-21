@@ -545,6 +545,9 @@ model SynonymsAntonymsEntry {
   meanings           String   @default("")
   synonyms           String   @default("")
   antonyms           String   @default("")
+  // "both" keeps existing vocabulary/legacy questions unchanged.
+  // Model-question rows may select "synonym" or "antonym" as the required answer.
+  answerType         String   @default("both")
   details            String   @default("")
   sortOrder          Int      @default(0)
   organizationId     String

@@ -56,14 +56,67 @@ export function UserRearrangeSentenceViewer({ record }: { record: RearrangeRecor
     [document],
   );
   const rowMap = useMemo(() => new Map(document.rows.map((row) => [row.id, row])), [document]);
+  // eLesson: safe rearrange answer-key guard
+  // Works with legacy row-ID keys and new per-letter answer sequences.
+  // Incomplete/invalid keys must never be accepted as correct answers.
+  const safeCorrectOrder = useMemo((): string[] => {
+    const rows = Array.isArray(document.rows) ? document.rows : [];
+    const ids = rows.map((row) => row.id);
+    const idSet = new Set(ids);
+
+    const letterAt = (index: number): string => {
+      let value = index + 1;
+      let label = "";
+      while (value > 0) {
+        value -= 1;
+        label = String.fromCharCode(97 + (value % 26)) + label;
+        value = Math.floor(value / 26);
+      }
+      return label;
+    };
+    const labelToId = new Map(rows.map((row, index) => [letterAt(index), row.id]));
+    const rawDocument = document as typeof document & {
+      correctOrder?: unknown;
+      answerSequence?: unknown;
+    };
+
+    const normalizeOrder = (values: unknown[]): string[] => {
+      if (values.length !== ids.length || ids.length < 2) return [];
+      const resolved = values.map((value) => {
+        if (typeof value !== "string") return "";
+        const key = value.trim();
+        return idSet.has(key) ? key : labelToId.get(key.toLowerCase()) ?? "";
+      });
+      return resolved.every((id) => idSet.has(id)) && new Set(resolved).size === ids.length
+        ? resolved
+        : [];
+    };
+
+    if (Array.isArray(rawDocument.correctOrder)) {
+      const order = normalizeOrder(rawDocument.correctOrder);
+      if (order.length > 0) return order;
+    } else if (typeof rawDocument.correctOrder === "string") {
+      const order = normalizeOrder(rawDocument.correctOrder.trim().split(/[\s,;>→-]+/u).filter(Boolean));
+      if (order.length > 0) return order;
+    }
+
+    if (typeof rawDocument.answerSequence === "string") {
+      return normalizeOrder(rawDocument.answerSequence.trim().split(/[\s,;>→-]+/u).filter(Boolean));
+    }
+
+    // No usable answer key: show the exercise, but disable 'correct' grading.
+    // Never guess that book order is the correct order for a mixed-up question.
+    return [];
+  }, [document]);
+
   const completeAnswerKey =
-    document.correctOrder.length === document.rows.length &&
-    new Set(document.correctOrder).size === document.rows.length &&
-    document.correctOrder.every((id) => rowMap.has(id)) &&
+    safeCorrectOrder.length === document.rows.length &&
+    new Set(safeCorrectOrder).size === document.rows.length &&
+    safeCorrectOrder.every((id) => rowMap.has(id)) &&
     document.rows.length >= 2;
   const assignedCount = slots.filter(Boolean).length;
   const score = completeAnswerKey
-    ? slots.filter((id, index) => id !== null && document.correctOrder[index] === id).length
+    ? slots.filter((id, index) => id !== null && safeCorrectOrder[index] === id).length
     : 0;
 
   function resetFeedback() {
@@ -200,7 +253,7 @@ export function UserRearrangeSentenceViewer({ record }: { record: RearrangeRecor
           <div className="flex flex-wrap items-center gap-x-1.5 gap-y-3 rounded-xl border border-dashed border-border bg-background p-3 sm:gap-x-2 sm:p-4" aria-label="Your answer sequence">
             {slots.map((id, position) => {
               const index = id ? originalIndices.get(id) : undefined;
-              const isCorrect = checked && completeAnswerKey && id === document.correctOrder[position];
+              const isCorrect = checked && completeAnswerKey && id === safeCorrectOrder[position];
               const isWrong = checked && id !== null && !isCorrect;
               return (
                 <div key={position} className="flex items-center gap-1.5 sm:gap-2">
@@ -279,12 +332,12 @@ export function UserRearrangeSentenceViewer({ record }: { record: RearrangeRecor
             <div className="rounded-xl border border-primary/20 bg-primary/[0.04] p-3 sm:p-4">
               <h3 className="mb-2 text-sm font-semibold text-primary">Correct order</h3>
               <div className="flex flex-wrap items-center gap-1.5" aria-label="Correct sentence letter sequence">
-                {document.correctOrder.map((id, position) => (
+                {safeCorrectOrder.map((id, position) => (
                   <div key={id} className="flex items-center gap-1.5">
                     <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-primary/20 bg-background text-sm font-semibold text-primary">
                       {letter(originalIndices.get(id) ?? position)}
                     </span>
-                    {position < document.correctOrder.length - 1 ? (
+                    {position < safeCorrectOrder.length - 1 ? (
                       <ArrowRight className="h-3.5 w-3.5 text-muted-foreground/60" aria-hidden="true" />
                     ) : null}
                   </div>

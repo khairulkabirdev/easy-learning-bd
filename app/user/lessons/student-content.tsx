@@ -465,6 +465,64 @@ function SynonymsAntonymsBlock({
       .split(",")
       .map((item) => item.trim())
       .filter(Boolean);
+  const paperMode = useContext(ModelPaperMode);
+  const [paperAnswers, setPaperAnswers] = useState<Record<string, { synonym: string; antonym: string }>>({});
+
+  if (paperMode) {
+    return (
+      <Card className="rounded-xl">
+        <CardHeader>
+          <CardTitle className="text-lg">Synonyms / Antonyms</CardTitle>
+          <CardDescription>Write the requested synonym or antonym for each word.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {stripHtml(passage) ? <div className="rounded-xl border bg-muted/10 p-4"><RichContent value={passage} /></div> : null}
+          {entries.map((entry, index) => {
+            const kind = entry.answerType ?? "both";
+            const expected = kind === "both" ? (["synonym", "antonym"] as const) : ([kind] as const);
+            const written = paperAnswers[entry.id] ?? { synonym: "", antonym: "" };
+            return (
+              <div key={entry.id} className="space-y-3 rounded-xl border p-4">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge variant="outline">{String.fromCharCode(97 + (index % 26))}</Badge>
+                  <span className="font-medium">{entry.word}</span>
+                  <Badge variant="secondary">{kind === "both" ? "Synonym and Antonym" : kind === "synonym" ? "Synonym" : "Antonym"}</Badge>
+                </div>
+                {expected.map((answerKind) => {
+                  const key = answerKind === "synonym" ? "synonyms" : "antonyms";
+                  const accepted = splitTags(entry[key]);
+                  const studentText = written[answerKind];
+                  const isCorrect = accepted.some((answer) => normalizeAnswer(answer) === normalizeAnswer(studentText)) && Boolean(studentText.trim());
+                  return (
+                    <div key={answerKind} className="space-y-2">
+                      <label htmlFor={`model-syn-ant-${entry.id}-${answerKind}`} className="text-sm font-medium">
+                        Your {answerKind}
+                      </label>
+                      <Input
+                        id={`model-syn-ant-${entry.id}-${answerKind}`}
+                        value={studentText}
+                        onChange={(event) => setPaperAnswers((current) => ({
+                          ...current,
+                          [entry.id]: { ...(current[entry.id] ?? { synonym: "", antonym: "" }), [answerKind]: event.target.value },
+                        }))}
+                        placeholder={`Write a ${answerKind}...`}
+                        disabled={paperMode === "review"}
+                      />
+                      {paperMode === "review" ? (
+                        <p className="text-sm text-muted-foreground">
+                          {accepted.length ? `${isCorrect ? "Correct" : "Compare your answer"} · Accepted: ${accepted.join(", ")}` : "No answer key was configured for this item."}
+                        </p>
+                      ) : null}
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="rounded-xl">

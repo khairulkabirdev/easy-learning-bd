@@ -784,6 +784,8 @@ async function main() {
     await ensureColumn(table, "academicYearId", "TEXT");
   }
   await ensureColumn("Content", "title", "TEXT NOT NULL DEFAULT ''");
+  // Additive/idempotent: preserve all existing rows, meanings and answer lists.
+  await ensureColumn("SynonymsAntonymsEntry", "answerType", "TEXT NOT NULL DEFAULT 'both'");
   await ensureSeenPassageTables();
   await ensureColumn("Vocabulary", "passage", "TEXT NOT NULL DEFAULT ''");
   await ensureColumn("Vocabulary", "passageSource", "TEXT NOT NULL DEFAULT 'manual'");

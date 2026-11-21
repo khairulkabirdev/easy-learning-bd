@@ -1,70 +1,31 @@
-# eLesson
-Next.js 16 education CMS and student learning platform using Prisma and SQLite.
+# eLesson — Model Question Import: choose Synonym or Antonym answer
 
-## Current database
+This is a **surgical source update**, not an old-project replacement.
 
-This package intentionally remains on **SQLite**. Do not change the Prisma datasource provider yet.
+## Install (from the current eLesson project root)
 
-## First run
+1. Make a normal backup of your project and SQLite database before changing schema.
+2. Extract these ZIP contents into the project root. They are only a patch script and its data; they do not overwrite existing app sources.
+3. Run:
 
-1. Copy `.env.example` to `.env` and set a strong `SESSION_SECRET` (32+ characters).
-2. Install dependencies:
+   ```powershell
+   node apply-model-synonyms-antonyms.cjs
+   npm run prepare:sqlite
+   npm run dev
+   ```
 
-```bash
-npm install
-```
+The apply script checks **all eight source files before writing anything**, leaves dated copies in `.elesson-patch-backups/`, and refuses to overwrite an incompatible local edit. It is idempotent.
 
-`npm install` runs `prisma generate` automatically for the current operating system. The repaired package intentionally does not include the stale pre-fix `package-lock.json`; the first successful install regenerates a clean lockfile using the compatible Next.js 16 / ESLint 9 dependency graph. Commit that generated lockfile afterward.
+## Functionality
 
-3. Repair/verify the bundled SQLite schema and indexes:
+- In **Admin → Model Question Import → Synonyms / Antonyms**, select **Synonym** or **Antonym** per word.
+- Multiple accepted answers are supported (press Enter/comma to make tags).
+- The selected answer type is used in the student Model Question test. Answers only appear after Finish Test.
+- Existing rows default to the previous **Both** mode. Other synonyms/antonyms text is not deleted when changing type.
+- Outside Model Question Import, the existing Synonyms / Antonyms study editor is unchanged.
 
-```bash
-npm run db:repair:sqlite
-```
+## Data-safe SQL
 
-4. Start development:
+Adds one optional-mode column, `SynonymsAntonymsEntry.answerType TEXT NOT NULL DEFAULT 'both'`, through the existing idempotent SQLite schema-repair script. Existing row IDs, words, meanings, synonyms, antonyms, details, and foreign keys are unchanged. No reset, seed or deletion commands.
 
-```bash
-npm run dev
-```
-
-Open `http://localhost:3000`.
-
-### Windows clean-install helper
-
-If you previously hit `ERESOLVE`, from PowerShell you can run:
-
-```powershell
-.\scripts\clean-install.ps1
-```
-
-This removes old install artifacts, installs the repaired dependency set, then runs lint and build.
-
-## Dependency compatibility
-
-The project keeps `next@16.4.0`, `eslint@9.39.5`, and `eslint-config-next@16.4.0` aligned. Keep `eslint-config-next` on the same Next.js release line when upgrading. Prisma CLI and `@prisma/client` are both pinned to `6.19.3`. See `docs/DEPENDENCY-FIX-2026-10-19.md` for the repair details and Windows clean-install commands.
-
-## Validation commands
-
-```bash
-npm run lint
-npm run build
-```
-
-Or run both:
-
-```bash
-npm run check
-```
-
-## Important notes
-
-- Keep `prisma/dev.db` backed up before database work.
-- Uploaded images are stored under `public/uploads/` and therefore require persistent server storage.
-- Do not commit `.env` or production credentials.
-- The generated Prisma client is intentionally not stored in the repository; it is recreated by `npm install` / `npm run prisma:generate`.
-- See `STABILITY-FIXES.md` for the security, data-integrity, upload, and compatibility work included in this package.
-
-## Later database migration
-
-When you are ready to move from SQLite to MySQL or PostgreSQL, migrate from a backup using Prisma/database migration tooling and verify all structured exercise JSON and relationships. Do not hand-edit the SQLite file into another provider.
+**Note:** The patched Prisma schema requires the generated Prisma client. `npm run prepare:sqlite` handles `prisma generate` before applying the additive SQLite change. If local files conflict, the script stops before writing; don't force-apply the older source. The patch file in this ZIP is available for inspection/manual merging.

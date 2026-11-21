@@ -32752,6 +32752,7 @@ export namespace Prisma {
     meanings: string | null
     synonyms: string | null
     antonyms: string | null
+    answerType: string | null
     details: string | null
     sortOrder: number | null
     organizationId: string | null
@@ -32768,6 +32769,7 @@ export namespace Prisma {
     meanings: string | null
     synonyms: string | null
     antonyms: string | null
+    answerType: string | null
     details: string | null
     sortOrder: number | null
     organizationId: string | null
@@ -32784,6 +32786,7 @@ export namespace Prisma {
     meanings: number
     synonyms: number
     antonyms: number
+    answerType: number
     details: number
     sortOrder: number
     organizationId: number
@@ -32810,6 +32813,7 @@ export namespace Prisma {
     meanings?: true
     synonyms?: true
     antonyms?: true
+    answerType?: true
     details?: true
     sortOrder?: true
     organizationId?: true
@@ -32826,6 +32830,7 @@ export namespace Prisma {
     meanings?: true
     synonyms?: true
     antonyms?: true
+    answerType?: true
     details?: true
     sortOrder?: true
     organizationId?: true
@@ -32842,6 +32847,7 @@ export namespace Prisma {
     meanings?: true
     synonyms?: true
     antonyms?: true
+    answerType?: true
     details?: true
     sortOrder?: true
     organizationId?: true
@@ -32945,6 +32951,7 @@ export namespace Prisma {
     meanings: string
     synonyms: string
     antonyms: string
+    answerType: string
     details: string
     sortOrder: number
     organizationId: string
@@ -32980,6 +32987,7 @@ export namespace Prisma {
     meanings?: boolean
     synonyms?: boolean
     antonyms?: boolean
+    answerType?: boolean
     details?: boolean
     sortOrder?: boolean
     organizationId?: boolean
@@ -32997,6 +33005,7 @@ export namespace Prisma {
     meanings?: boolean
     synonyms?: boolean
     antonyms?: boolean
+    answerType?: boolean
     details?: boolean
     sortOrder?: boolean
     organizationId?: boolean
@@ -33014,6 +33023,7 @@ export namespace Prisma {
     meanings?: boolean
     synonyms?: boolean
     antonyms?: boolean
+    answerType?: boolean
     details?: boolean
     sortOrder?: boolean
     organizationId?: boolean
@@ -33031,6 +33041,7 @@ export namespace Prisma {
     meanings?: boolean
     synonyms?: boolean
     antonyms?: boolean
+    answerType?: boolean
     details?: boolean
     sortOrder?: boolean
     organizationId?: boolean
@@ -33040,7 +33051,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type SynonymsAntonymsEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "synonymsAntonymsId" | "word" | "meanings" | "synonyms" | "antonyms" | "details" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["synonymsAntonymsEntry"]>
+  export type SynonymsAntonymsEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "synonymsAntonymsId" | "word" | "meanings" | "synonyms" | "antonyms" | "answerType" | "details" | "sortOrder" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["synonymsAntonymsEntry"]>
   export type SynonymsAntonymsEntryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     synonymsAntonyms?: boolean | SynonymsAntonymsDefaultArgs<ExtArgs>
   }
@@ -33063,6 +33074,7 @@ export namespace Prisma {
       meanings: string
       synonyms: string
       antonyms: string
+      answerType: string
       details: string
       sortOrder: number
       organizationId: string
@@ -33500,6 +33512,7 @@ export namespace Prisma {
     readonly meanings: FieldRef<"SynonymsAntonymsEntry", 'String'>
     readonly synonyms: FieldRef<"SynonymsAntonymsEntry", 'String'>
     readonly antonyms: FieldRef<"SynonymsAntonymsEntry", 'String'>
+    readonly answerType: FieldRef<"SynonymsAntonymsEntry", 'String'>
     readonly details: FieldRef<"SynonymsAntonymsEntry", 'String'>
     readonly sortOrder: FieldRef<"SynonymsAntonymsEntry", 'Int'>
     readonly organizationId: FieldRef<"SynonymsAntonymsEntry", 'String'>
@@ -74212,6 +74225,7 @@ export namespace Prisma {
     meanings: 'meanings',
     synonyms: 'synonyms',
     antonyms: 'antonyms',
+    answerType: 'answerType',
     details: 'details',
     sortOrder: 'sortOrder',
     organizationId: 'organizationId',
@@ -77373,6 +77387,7 @@ export namespace Prisma {
     meanings?: StringFilter<"SynonymsAntonymsEntry"> | string
     synonyms?: StringFilter<"SynonymsAntonymsEntry"> | string
     antonyms?: StringFilter<"SynonymsAntonymsEntry"> | string
+    answerType?: StringFilter<"SynonymsAntonymsEntry"> | string
     details?: StringFilter<"SynonymsAntonymsEntry"> | string
     sortOrder?: IntFilter<"SynonymsAntonymsEntry"> | number
     organizationId?: StringFilter<"SynonymsAntonymsEntry"> | string
@@ -77390,6 +77405,7 @@ export namespace Prisma {
     meanings?: SortOrder
     synonyms?: SortOrder
     antonyms?: SortOrder
+    answerType?: SortOrder
     details?: SortOrder
     sortOrder?: SortOrder
     organizationId?: SortOrder
@@ -77410,6 +77426,7 @@ export namespace Prisma {
     meanings?: StringFilter<"SynonymsAntonymsEntry"> | string
     synonyms?: StringFilter<"SynonymsAntonymsEntry"> | string
     antonyms?: StringFilter<"SynonymsAntonymsEntry"> | string
+    answerType?: StringFilter<"SynonymsAntonymsEntry"> | string
     details?: StringFilter<"SynonymsAntonymsEntry"> | string
     sortOrder?: IntFilter<"SynonymsAntonymsEntry"> | number
     organizationId?: StringFilter<"SynonymsAntonymsEntry"> | string
@@ -77427,6 +77444,7 @@ export namespace Prisma {
     meanings?: SortOrder
     synonyms?: SortOrder
     antonyms?: SortOrder
+    answerType?: SortOrder
     details?: SortOrder
     sortOrder?: SortOrder
     organizationId?: SortOrder
@@ -77451,6 +77469,7 @@ export namespace Prisma {
     meanings?: StringWithAggregatesFilter<"SynonymsAntonymsEntry"> | string
     synonyms?: StringWithAggregatesFilter<"SynonymsAntonymsEntry"> | string
     antonyms?: StringWithAggregatesFilter<"SynonymsAntonymsEntry"> | string
+    answerType?: StringWithAggregatesFilter<"SynonymsAntonymsEntry"> | string
     details?: StringWithAggregatesFilter<"SynonymsAntonymsEntry"> | string
     sortOrder?: IntWithAggregatesFilter<"SynonymsAntonymsEntry"> | number
     organizationId?: StringWithAggregatesFilter<"SynonymsAntonymsEntry"> | string
@@ -83921,6 +83940,7 @@ export namespace Prisma {
     meanings?: string
     synonyms?: string
     antonyms?: string
+    answerType?: string
     details?: string
     sortOrder?: number
     organizationId: string
@@ -83938,6 +83958,7 @@ export namespace Prisma {
     meanings?: string
     synonyms?: string
     antonyms?: string
+    answerType?: string
     details?: string
     sortOrder?: number
     organizationId: string
@@ -83953,6 +83974,7 @@ export namespace Prisma {
     meanings?: StringFieldUpdateOperationsInput | string
     synonyms?: StringFieldUpdateOperationsInput | string
     antonyms?: StringFieldUpdateOperationsInput | string
+    answerType?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
@@ -83970,6 +83992,7 @@ export namespace Prisma {
     meanings?: StringFieldUpdateOperationsInput | string
     synonyms?: StringFieldUpdateOperationsInput | string
     antonyms?: StringFieldUpdateOperationsInput | string
+    answerType?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
@@ -83986,6 +84009,7 @@ export namespace Prisma {
     meanings?: string
     synonyms?: string
     antonyms?: string
+    answerType?: string
     details?: string
     sortOrder?: number
     organizationId: string
@@ -84001,6 +84025,7 @@ export namespace Prisma {
     meanings?: StringFieldUpdateOperationsInput | string
     synonyms?: StringFieldUpdateOperationsInput | string
     antonyms?: StringFieldUpdateOperationsInput | string
+    answerType?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
@@ -84017,6 +84042,7 @@ export namespace Prisma {
     meanings?: StringFieldUpdateOperationsInput | string
     synonyms?: StringFieldUpdateOperationsInput | string
     antonyms?: StringFieldUpdateOperationsInput | string
+    answerType?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
@@ -90186,6 +90212,7 @@ export namespace Prisma {
     meanings?: SortOrder
     synonyms?: SortOrder
     antonyms?: SortOrder
+    answerType?: SortOrder
     details?: SortOrder
     sortOrder?: SortOrder
     organizationId?: SortOrder
@@ -90206,6 +90233,7 @@ export namespace Prisma {
     meanings?: SortOrder
     synonyms?: SortOrder
     antonyms?: SortOrder
+    answerType?: SortOrder
     details?: SortOrder
     sortOrder?: SortOrder
     organizationId?: SortOrder
@@ -90222,6 +90250,7 @@ export namespace Prisma {
     meanings?: SortOrder
     synonyms?: SortOrder
     antonyms?: SortOrder
+    answerType?: SortOrder
     details?: SortOrder
     sortOrder?: SortOrder
     organizationId?: SortOrder
@@ -102520,6 +102549,7 @@ export namespace Prisma {
     meanings?: string
     synonyms?: string
     antonyms?: string
+    answerType?: string
     details?: string
     sortOrder?: number
     organizationId: string
@@ -102535,6 +102565,7 @@ export namespace Prisma {
     meanings?: string
     synonyms?: string
     antonyms?: string
+    answerType?: string
     details?: string
     sortOrder?: number
     organizationId: string
@@ -102664,6 +102695,7 @@ export namespace Prisma {
     meanings?: StringFilter<"SynonymsAntonymsEntry"> | string
     synonyms?: StringFilter<"SynonymsAntonymsEntry"> | string
     antonyms?: StringFilter<"SynonymsAntonymsEntry"> | string
+    answerType?: StringFilter<"SynonymsAntonymsEntry"> | string
     details?: StringFilter<"SynonymsAntonymsEntry"> | string
     sortOrder?: IntFilter<"SynonymsAntonymsEntry"> | number
     organizationId?: StringFilter<"SynonymsAntonymsEntry"> | string
@@ -109252,6 +109284,7 @@ export namespace Prisma {
     meanings?: string
     synonyms?: string
     antonyms?: string
+    answerType?: string
     details?: string
     sortOrder?: number
     organizationId: string
@@ -109267,6 +109300,7 @@ export namespace Prisma {
     meanings?: StringFieldUpdateOperationsInput | string
     synonyms?: StringFieldUpdateOperationsInput | string
     antonyms?: StringFieldUpdateOperationsInput | string
+    answerType?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
@@ -109282,6 +109316,7 @@ export namespace Prisma {
     meanings?: StringFieldUpdateOperationsInput | string
     synonyms?: StringFieldUpdateOperationsInput | string
     antonyms?: StringFieldUpdateOperationsInput | string
+    answerType?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string
@@ -109297,6 +109332,7 @@ export namespace Prisma {
     meanings?: StringFieldUpdateOperationsInput | string
     synonyms?: StringFieldUpdateOperationsInput | string
     antonyms?: StringFieldUpdateOperationsInput | string
+    answerType?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
     organizationId?: StringFieldUpdateOperationsInput | string

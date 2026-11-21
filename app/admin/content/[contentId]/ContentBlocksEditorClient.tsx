@@ -102,6 +102,7 @@ import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "
 import { Field, FieldContent, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -159,6 +160,7 @@ type SynonymsAntonymsDraft = {
   meanings: string;
   synonyms: string[];
   antonyms: string[];
+  answerType: "synonym" | "antonym" | "both";
   details: string;
 };
 
@@ -1237,6 +1239,7 @@ export function ContentBlocksEditorClient({
     meanings: "",
     synonyms: [],
     antonyms: [],
+    answerType: chooserGroupMode === "model-question" ? "synonym" : "both",
     details: "",
   });
   const [isMcqModalOpen, setIsMcqModalOpen] = useState(false);
@@ -1517,6 +1520,7 @@ export function ContentBlocksEditorClient({
       meanings: "",
       synonyms: [],
       antonyms: [],
+      answerType: chooserGroupMode === "model-question" ? "synonym" : "both",
       details: "",
     });
   }
@@ -3178,6 +3182,7 @@ export function ContentBlocksEditorClient({
       meanings: string;
       synonyms: string;
       antonyms: string;
+      answerType: "synonym" | "antonym" | "both";
       details: string;
     }>,
   ) {
@@ -3214,6 +3219,7 @@ export function ContentBlocksEditorClient({
         meanings: nextEntry.meanings,
         synonyms: nextEntry.synonyms,
         antonyms: nextEntry.antonyms,
+        answerType: nextEntry.answerType ?? "both",
         details: nextEntry.details,
       }),
     );
@@ -3230,7 +3236,16 @@ export function ContentBlocksEditorClient({
     const currentBlock = blocks.find((block) => block.id === activeSynonymsBlockId);
     if (!currentBlock?.synonymsAntonyms) return;
 
-    if (rejectInvalidCreateDraft(validateSynonymsAntonymsEntryDraft(newSynonymsDraft))) return;
+    const errors = validateSynonymsAntonymsEntryDraft(newSynonymsDraft);
+    if (chooserGroupMode === "model-question") {
+      if (newSynonymsDraft.answerType === "synonym" && !newSynonymsDraft.synonyms.some((tag) => tag.trim())) {
+        errors.synonyms = "Enter a synonym as the correct answer.";
+      }
+      if (newSynonymsDraft.answerType === "antonym" && !newSynonymsDraft.antonyms.some((tag) => tag.trim())) {
+        errors.antonyms = "Enter an antonym as the correct answer.";
+      }
+    }
+    if (rejectInvalidCreateDraft(errors)) return;
     setActionError(null);
 
     const created = await createSynonymsAntonymsEntry({
@@ -3241,6 +3256,7 @@ export function ContentBlocksEditorClient({
       meanings: newSynonymsDraft.meanings,
       synonyms: serializeTagString(newSynonymsDraft.synonyms),
       antonyms: serializeTagString(newSynonymsDraft.antonyms),
+      answerType: newSynonymsDraft.answerType,
       details: newSynonymsDraft.details,
     });
 
@@ -3258,6 +3274,7 @@ export function ContentBlocksEditorClient({
                 meanings: created.meanings,
                 synonyms: created.synonyms,
                 antonyms: created.antonyms,
+                answerType: created.answerType,
                 details: created.details,
                 sortOrder: created.sortOrder,
               },
@@ -4676,28 +4693,69 @@ export function ContentBlocksEditorClient({
                               </Field>
                             </div>
 
+                            {chooserGroupMode === "model-question" ? (
+                              <div data-elesson-synonym-question-switch="true" className="space-y-1 rounded-lg border border-primary/20 bg-primary/5 p-3">
+                                <p className="text-sm font-semibold">Make this word a question</p>
+                                <p className="text-xs text-muted-foreground">Choose which answer students must write. Turn on either Synonym or Antonym below.</p>
+                                {(entry.answerType ?? "both") === "both" ? (
+                                  <p className="text-xs font-medium text-amber-700 dark:text-amber-300">Existing row: both answers were previously accepted. Choose one switch to set the question type.</p>
+                                ) : null}
+                              </div>
+                            ) : null}
                             <div className="grid gap-4 md:grid-cols-2">
-                              <TagChipInput
-                                label="Synonyms"
-                                values={parseTagString(entry.synonyms)}
-                                onChange={(values) =>
-                                  void handleSynonymsAntonymsEntryChange(block.id, entry.id, {
-                                    synonyms: serializeTagString(values),
-                                  })
-                                }
-                                placeholder="Type and press comma or Enter"
-                              />
+                              <div className="space-y-2 rounded-xl border p-3">
+                                {chooserGroupMode === "model-question" ? (
+                                  <div className="flex items-center justify-between gap-3 rounded-lg bg-muted/30 px-3 py-2">
+                                    <span className="text-sm font-medium">Ask for a Synonym</span>
+                                    <Switch
+                                      aria-label={`Ask for a synonym of ${entry.word}`}
+                                      checked={entry.answerType === "synonym"}
+                                      onCheckedChange={(checked) => {
+                                        if (checked) void handleSynonymsAntonymsEntryChange(block.id, entry.id, { answerType: "synonym" });
+                                      }}
+                                    />
+                                  </div>
+                                ) : null}
+                                <TagChipInput
+                                  label={chooserGroupMode === "model-question" && entry.answerType === "synonym" ? "Synonyms — correct answer" : "Synonyms"}
+                                  values={parseTagString(entry.synonyms)}
+                                  onChange={(values) =>
+                                    void handleSynonymsAntonymsEntryChange(block.id, entry.id, {
+                                      synonyms: serializeTagString(values),
+                                    })
+                                  }
+                                  placeholder="Type and press comma or Enter"
+                                />
+                                {chooserGroupMode === "model-question" && entry.answerType === "synonym" && !parseTagString(entry.synonyms).length ? (
+                                  <p className="text-xs text-destructive">Add at least one synonym as the correct answer.</p>
+                                ) : null}
+                              </div>
 
-                              <TagChipInput
-                                label="Antonyms"
-                                values={parseTagString(entry.antonyms)}
-                                onChange={(values) =>
-                                  void handleSynonymsAntonymsEntryChange(block.id, entry.id, {
-                                    antonyms: serializeTagString(values),
-                                  })
-                                }
-                                placeholder="Type and press comma or Enter"
-                              />
+                              <div className="space-y-2 rounded-xl border p-3">
+                                {chooserGroupMode === "model-question" ? (
+                                  <div className="flex items-center justify-between gap-3 rounded-lg bg-muted/30 px-3 py-2">
+                                    <span className="text-sm font-medium">Ask for an Antonym</span>
+                                    <Switch
+                                      aria-label={`Ask for an antonym of ${entry.word}`}
+                                      checked={entry.answerType === "antonym"}
+                                      onCheckedChange={(checked) => {
+                                        if (checked) void handleSynonymsAntonymsEntryChange(block.id, entry.id, { answerType: "antonym" });
+                                      }}
+                                    />
+                                  </div>
+                                ) : null}
+                                <TagChipInput
+                                  label={chooserGroupMode === "model-question" && entry.answerType === "antonym" ? "Antonyms — correct answer" : "Antonyms"}
+                                  values={parseTagString(entry.antonyms)}
+                                  onChange={(values) =>
+                                    void handleSynonymsAntonymsEntryChange(block.id, entry.id, {
+                                      antonyms: serializeTagString(values),
+                                    })
+
+                                  }
+                                  placeholder="Type and press comma or Enter"
+                                />
+                              </div>
                             </div>
 
                             <Field>
@@ -7786,7 +7844,9 @@ export function ContentBlocksEditorClient({
           }
         }}
         title="Add Synonyms / Antonyms row"
-        description="Add one complete word row. Word and meaning are required; synonyms, antonyms, and details are optional."
+        description={chooserGroupMode === "model-question"
+          ? "Add the word and choose whether students must write its synonym or antonym."
+          : "Add one complete word row. Word and meaning are required; synonyms, antonyms, and details are optional."}
         className="w-[calc(100vw-1.5rem)] sm:max-w-4xl"
         footer={
           <div className="flex w-full min-w-0 flex-col-reverse gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:gap-3">
@@ -7844,19 +7904,65 @@ export function ContentBlocksEditorClient({
             </Field>
           </div>
 
+          {chooserGroupMode === "model-question" ? (
+            <div className="space-y-3 rounded-xl border border-primary/20 bg-primary/5 p-3" data-elesson-synonym-new-row-switch="true">
+              <p className="text-sm font-semibold">Make this word a question</p>
+              <p className="text-xs text-muted-foreground">Choose exactly one answer type for the student question.</p>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div className="flex items-center justify-between gap-3 rounded-lg border bg-background px-3 py-3">
+                  <span className="text-sm font-medium">Ask for a Synonym</span>
+                  <Switch
+                    aria-label="Ask for a synonym in this question"
+                    checked={newSynonymsDraft.answerType === "synonym"}
+                    onCheckedChange={(checked) => {
+                      if (checked) {
+                        setNewSynonymsDraft((current) => ({ ...current, answerType: "synonym" }));
+                        setCreateValidationErrors({});
+                      }
+                    }}
+                  />
+                </div>
+                <div className="flex items-center justify-between gap-3 rounded-lg border bg-background px-3 py-3">
+                  <span className="text-sm font-medium">Ask for an Antonym</span>
+                  <Switch
+                    aria-label="Ask for an antonym in this question"
+                    checked={newSynonymsDraft.answerType === "antonym"}
+                    onCheckedChange={(checked) => {
+                      if (checked) {
+                        setNewSynonymsDraft((current) => ({ ...current, answerType: "antonym" }));
+                        setCreateValidationErrors({});
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          ) : null}
           <div className="grid gap-4 md:grid-cols-2">
-            <TagChipInput
-              label="Synonyms"
-              values={newSynonymsDraft.synonyms}
-              onChange={(values) => setNewSynonymsDraft((current) => ({ ...current, synonyms: values }))}
+            <div className="space-y-1">
+              <TagChipInput
+                label={chooserGroupMode === "model-question" && newSynonymsDraft.answerType === "synonym" ? "Synonyms (correct answer)" : "Synonyms"}
+                values={newSynonymsDraft.synonyms}
+              onChange={(values) => {
+                clearCreateValidationError("synonyms");
+                setNewSynonymsDraft((current) => ({ ...current, synonyms: values }));
+              }}
               placeholder="Type and press comma or Enter"
-            />
+              />
+              <FieldError>{createValidationErrors.synonyms}</FieldError>
+            </div>
+            <div className="space-y-1">
             <TagChipInput
-              label="Antonyms"
+              label={chooserGroupMode === "model-question" && newSynonymsDraft.answerType === "antonym" ? "Antonyms (correct answer)" : "Antonyms"}
               values={newSynonymsDraft.antonyms}
-              onChange={(values) => setNewSynonymsDraft((current) => ({ ...current, antonyms: values }))}
+              onChange={(values) => {
+                clearCreateValidationError("antonyms");
+                setNewSynonymsDraft((current) => ({ ...current, antonyms: values }));
+              }}
               placeholder="Type and press comma or Enter"
-            />
+              />
+              <FieldError>{createValidationErrors.antonyms}</FieldError>
+            </div>
           </div>
 
           <Field>

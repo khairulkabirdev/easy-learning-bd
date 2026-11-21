@@ -35,7 +35,11 @@ function hasNativeQuestion(b: NativeBlock) {
     case "seen-passage-two": return hasText(b.seenPassageTwo?.body);
     case "mcq": return Boolean(b.mcqSection?.questions.some(q => hasText(q.prompt) && q.options.filter(o => hasText(o.text)).length >= 2));
     case "true-false": return Boolean(b.trueFalseExercise?.rows.some(row => hasText(row.statement)));
-    case "synonyms-antonyms": return Boolean(b.synonymsAntonyms?.entries.some(row => hasText(row.word) && (row.synonyms.trim() || row.antonyms.trim())));
+    case "synonyms-antonyms": return Boolean(b.synonymsAntonyms?.entries.some(row => hasText(row.word) && (
+      row.answerType === "synonym" ? row.synonyms.trim() :
+      row.answerType === "antonym" ? row.antonyms.trim() :
+      row.synonyms.trim() || row.antonyms.trim()
+    )));
     case "table-completion":
     case "column-matching":
     case "rearrange-sentence":

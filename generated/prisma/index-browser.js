@@ -492,6 +492,7 @@ exports.Prisma.SynonymsAntonymsEntryScalarFieldEnum = {
   meanings: 'meanings',
   synonyms: 'synonyms',
   antonyms: 'antonyms',
+  answerType: 'answerType',
   details: 'details',
   sortOrder: 'sortOrder',
   organizationId: 'organizationId',

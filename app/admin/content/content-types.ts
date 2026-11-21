@@ -115,6 +115,8 @@ export type SynonymsAntonymsEntryRecord = {
   meanings: string;
   synonyms: string;
   antonyms: string;
+  /** Legacy records default to both; model questions may require a single type. */
+  answerType?: "synonym" | "antonym" | "both";
   details: string;
   sortOrder: number;
 };

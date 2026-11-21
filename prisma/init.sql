@@ -418,6 +418,7 @@ CREATE TABLE "SynonymsAntonymsEntry" (
     "meanings" TEXT NOT NULL DEFAULT '',
     "synonyms" TEXT NOT NULL DEFAULT '',
     "antonyms" TEXT NOT NULL DEFAULT '',
+    "answerType" TEXT NOT NULL DEFAULT 'both',
     "details" TEXT NOT NULL DEFAULT '',
     "sortOrder" INTEGER NOT NULL DEFAULT 0,
     "organizationId" TEXT NOT NULL,

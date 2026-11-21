@@ -303,6 +303,7 @@ const createSynonymsAntonymsEntrySchema = z.object({
   meanings: synonymsMeaningSchema,
   synonyms: optionalEntryTextSchema,
   antonyms: optionalEntryTextSchema,
+  answerType: z.enum(["synonym", "antonym", "both"]).default("both"),
   details: z.string().max(200_000, "Details are too long."),
 });
 
@@ -314,6 +315,7 @@ const updateSynonymsAntonymsEntrySchema = z.object({
   meanings: synonymsMeaningUpdateSchema,
   synonyms: optionalEntryTextSchema,
   antonyms: optionalEntryTextSchema,
+  answerType: z.enum(["synonym", "antonym", "both"]).optional(),
   details: z.string().max(200_000, "Details are too long."),
 });
 
@@ -2250,6 +2252,13 @@ export async function createSynonymsAntonymsEntry(input: unknown) {
     throw new Error("Synonyms / Antonyms block not found.");
   }
 
+  if (parsed.answerType === "synonym" && !parsed.synonyms.trim()) {
+    throw new Error("Enter at least one synonym for the selected answer type.");
+  }
+  if (parsed.answerType === "antonym" && !parsed.antonyms.trim()) {
+    throw new Error("Enter at least one antonym for the selected answer type.");
+  }
+
   const sortOrder = await prisma.synonymsAntonymsEntry.count({
     where: { synonymsAntonymsId: parsed.synonymsAntonymsId, organizationId: user.organizationId },
   });
@@ -2261,6 +2270,7 @@ export async function createSynonymsAntonymsEntry(input: unknown) {
       meanings: parsed.meanings,
       synonyms: parsed.synonyms,
       antonyms: parsed.antonyms,
+      answerType: parsed.answerType,
       details: parsed.details,
       sortOrder,
       organizationId: user.organizationId,
@@ -2327,6 +2337,7 @@ export async function updateSynonymsAntonymsEntry(input: unknown) {
       meanings: parsed.meanings,
       synonyms: parsed.synonyms,
       antonyms: parsed.antonyms,
+      ...(parsed.answerType === undefined ? {} : { answerType: parsed.answerType }),
       details: parsed.details,
       updatedBy: user.id,
     },
