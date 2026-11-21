@@ -71293,6 +71293,7 @@ export namespace Prisma {
     academicYearId: string | null
     name: string | null
     editorContentId: string | null
+    publishedAt: Date | null
     organizationId: string | null
     createdBy: string | null
     updatedBy: string | null
@@ -71308,6 +71309,7 @@ export namespace Prisma {
     academicYearId: string | null
     name: string | null
     editorContentId: string | null
+    publishedAt: Date | null
     organizationId: string | null
     createdBy: string | null
     updatedBy: string | null
@@ -71323,6 +71325,7 @@ export namespace Prisma {
     academicYearId: number
     name: number
     editorContentId: number
+    publishedAt: number
     organizationId: number
     createdBy: number
     updatedBy: number
@@ -71340,6 +71343,7 @@ export namespace Prisma {
     academicYearId?: true
     name?: true
     editorContentId?: true
+    publishedAt?: true
     organizationId?: true
     createdBy?: true
     updatedBy?: true
@@ -71355,6 +71359,7 @@ export namespace Prisma {
     academicYearId?: true
     name?: true
     editorContentId?: true
+    publishedAt?: true
     organizationId?: true
     createdBy?: true
     updatedBy?: true
@@ -71370,6 +71375,7 @@ export namespace Prisma {
     academicYearId?: true
     name?: true
     editorContentId?: true
+    publishedAt?: true
     organizationId?: true
     createdBy?: true
     updatedBy?: true
@@ -71458,6 +71464,7 @@ export namespace Prisma {
     academicYearId: string | null
     name: string
     editorContentId: string | null
+    publishedAt: Date | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -71490,6 +71497,7 @@ export namespace Prisma {
     academicYearId?: boolean
     name?: boolean
     editorContentId?: boolean
+    publishedAt?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -71511,6 +71519,7 @@ export namespace Prisma {
     academicYearId?: boolean
     name?: boolean
     editorContentId?: boolean
+    publishedAt?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -71530,6 +71539,7 @@ export namespace Prisma {
     academicYearId?: boolean
     name?: boolean
     editorContentId?: boolean
+    publishedAt?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -71549,6 +71559,7 @@ export namespace Prisma {
     academicYearId?: boolean
     name?: boolean
     editorContentId?: boolean
+    publishedAt?: boolean
     organizationId?: boolean
     createdBy?: boolean
     updatedBy?: boolean
@@ -71556,7 +71567,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ModelQuestionSetOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "subjectId" | "boardId" | "academicYearId" | "name" | "editorContentId" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["modelQuestionSet"]>
+  export type ModelQuestionSetOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "subjectId" | "boardId" | "academicYearId" | "name" | "editorContentId" | "publishedAt" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["modelQuestionSet"]>
   export type ModelQuestionSetInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     class?: boolean | ClassDefaultArgs<ExtArgs>
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
@@ -71595,6 +71606,7 @@ export namespace Prisma {
       academicYearId: string | null
       name: string
       editorContentId: string | null
+      publishedAt: Date | null
       organizationId: string
       createdBy: string
       updatedBy: string
@@ -72035,6 +72047,7 @@ export namespace Prisma {
     readonly academicYearId: FieldRef<"ModelQuestionSet", 'String'>
     readonly name: FieldRef<"ModelQuestionSet", 'String'>
     readonly editorContentId: FieldRef<"ModelQuestionSet", 'String'>
+    readonly publishedAt: FieldRef<"ModelQuestionSet", 'DateTime'>
     readonly organizationId: FieldRef<"ModelQuestionSet", 'String'>
     readonly createdBy: FieldRef<"ModelQuestionSet", 'String'>
     readonly updatedBy: FieldRef<"ModelQuestionSet", 'String'>
@@ -74912,6 +74925,7 @@ export namespace Prisma {
     academicYearId: 'academicYearId',
     name: 'name',
     editorContentId: 'editorContentId',
+    publishedAt: 'publishedAt',
     organizationId: 'organizationId',
     createdBy: 'createdBy',
     updatedBy: 'updatedBy',
@@ -80940,6 +80954,7 @@ export namespace Prisma {
     academicYearId?: StringNullableFilter<"ModelQuestionSet"> | string | null
     name?: StringFilter<"ModelQuestionSet"> | string
     editorContentId?: StringNullableFilter<"ModelQuestionSet"> | string | null
+    publishedAt?: DateTimeNullableFilter<"ModelQuestionSet"> | Date | string | null
     organizationId?: StringFilter<"ModelQuestionSet"> | string
     createdBy?: StringFilter<"ModelQuestionSet"> | string
     updatedBy?: StringFilter<"ModelQuestionSet"> | string
@@ -80960,6 +80975,7 @@ export namespace Prisma {
     academicYearId?: SortOrderInput | SortOrder
     name?: SortOrder
     editorContentId?: SortOrderInput | SortOrder
+    publishedAt?: SortOrderInput | SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -80983,6 +80999,7 @@ export namespace Prisma {
     boardId?: StringNullableFilter<"ModelQuestionSet"> | string | null
     academicYearId?: StringNullableFilter<"ModelQuestionSet"> | string | null
     name?: StringFilter<"ModelQuestionSet"> | string
+    publishedAt?: DateTimeNullableFilter<"ModelQuestionSet"> | Date | string | null
     organizationId?: StringFilter<"ModelQuestionSet"> | string
     createdBy?: StringFilter<"ModelQuestionSet"> | string
     updatedBy?: StringFilter<"ModelQuestionSet"> | string
@@ -81003,6 +81020,7 @@ export namespace Prisma {
     academicYearId?: SortOrderInput | SortOrder
     name?: SortOrder
     editorContentId?: SortOrderInput | SortOrder
+    publishedAt?: SortOrderInput | SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -81024,6 +81042,7 @@ export namespace Prisma {
     academicYearId?: StringNullableWithAggregatesFilter<"ModelQuestionSet"> | string | null
     name?: StringWithAggregatesFilter<"ModelQuestionSet"> | string
     editorContentId?: StringNullableWithAggregatesFilter<"ModelQuestionSet"> | string | null
+    publishedAt?: DateTimeNullableWithAggregatesFilter<"ModelQuestionSet"> | Date | string | null
     organizationId?: StringWithAggregatesFilter<"ModelQuestionSet"> | string
     createdBy?: StringWithAggregatesFilter<"ModelQuestionSet"> | string
     updatedBy?: StringWithAggregatesFilter<"ModelQuestionSet"> | string
@@ -88200,6 +88219,7 @@ export namespace Prisma {
     id?: string
     name: string
     editorContentId?: string | null
+    publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -88220,6 +88240,7 @@ export namespace Prisma {
     academicYearId?: string | null
     name: string
     editorContentId?: string | null
+    publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -88232,6 +88253,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -88252,6 +88274,7 @@ export namespace Prisma {
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -88268,6 +88291,7 @@ export namespace Prisma {
     academicYearId?: string | null
     name: string
     editorContentId?: string | null
+    publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -88279,6 +88303,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -88294,6 +88319,7 @@ export namespace Prisma {
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -92116,6 +92142,7 @@ export namespace Prisma {
     academicYearId?: SortOrder
     name?: SortOrder
     editorContentId?: SortOrder
+    publishedAt?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -92131,6 +92158,7 @@ export namespace Prisma {
     academicYearId?: SortOrder
     name?: SortOrder
     editorContentId?: SortOrder
+    publishedAt?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -92146,6 +92174,7 @@ export namespace Prisma {
     academicYearId?: SortOrder
     name?: SortOrder
     editorContentId?: SortOrder
+    publishedAt?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -96147,6 +96176,7 @@ export namespace Prisma {
     id?: string
     name: string
     editorContentId?: string | null
+    publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -96165,6 +96195,7 @@ export namespace Prisma {
     academicYearId?: string | null
     name: string
     editorContentId?: string | null
+    publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -96436,6 +96467,7 @@ export namespace Prisma {
     academicYearId?: StringNullableFilter<"ModelQuestionSet"> | string | null
     name?: StringFilter<"ModelQuestionSet"> | string
     editorContentId?: StringNullableFilter<"ModelQuestionSet"> | string | null
+    publishedAt?: DateTimeNullableFilter<"ModelQuestionSet"> | Date | string | null
     organizationId?: StringFilter<"ModelQuestionSet"> | string
     createdBy?: StringFilter<"ModelQuestionSet"> | string
     updatedBy?: StringFilter<"ModelQuestionSet"> | string
@@ -96674,6 +96706,7 @@ export namespace Prisma {
     id?: string
     name: string
     editorContentId?: string | null
+    publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -96692,6 +96725,7 @@ export namespace Prisma {
     academicYearId?: string | null
     name: string
     editorContentId?: string | null
+    publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -106386,6 +106420,7 @@ export namespace Prisma {
     id?: string
     name: string
     editorContentId?: string | null
+    publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -106404,6 +106439,7 @@ export namespace Prisma {
     academicYearId?: string | null
     name: string
     editorContentId?: string | null
+    publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -106500,6 +106536,7 @@ export namespace Prisma {
     id?: string
     name: string
     editorContentId?: string | null
+    publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -106518,6 +106555,7 @@ export namespace Prisma {
     boardId?: string | null
     name: string
     editorContentId?: string | null
+    publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -107514,6 +107552,7 @@ export namespace Prisma {
     id?: string
     name: string
     editorContentId?: string | null
+    publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -107533,6 +107572,7 @@ export namespace Prisma {
     academicYearId?: string | null
     name: string
     editorContentId?: string | null
+    publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -107560,6 +107600,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -107579,6 +107620,7 @@ export namespace Prisma {
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -107764,6 +107806,7 @@ export namespace Prisma {
     academicYearId?: string | null
     name: string
     editorContentId?: string | null
+    publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -108116,6 +108159,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -108134,6 +108178,7 @@ export namespace Prisma {
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -108149,6 +108194,7 @@ export namespace Prisma {
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -108227,6 +108273,7 @@ export namespace Prisma {
     academicYearId?: string | null
     name: string
     editorContentId?: string | null
+    publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -108436,6 +108483,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -108454,6 +108502,7 @@ export namespace Prisma {
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -108469,6 +108518,7 @@ export namespace Prisma {
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -109280,6 +109330,7 @@ export namespace Prisma {
     academicYearId?: string | null
     name: string
     editorContentId?: string | null
+    publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -109342,6 +109393,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -109360,6 +109412,7 @@ export namespace Prisma {
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -109375,6 +109428,7 @@ export namespace Prisma {
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -109406,6 +109460,7 @@ export namespace Prisma {
     boardId?: string | null
     name: string
     editorContentId?: string | null
+    publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
     updatedBy: string
@@ -109468,6 +109523,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -109486,6 +109542,7 @@ export namespace Prisma {
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string
@@ -109501,6 +109558,7 @@ export namespace Prisma {
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
     updatedBy?: StringFieldUpdateOperationsInput | string

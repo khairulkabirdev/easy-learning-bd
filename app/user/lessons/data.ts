@@ -1,3 +1,6 @@
+import type { StudentContentRecord } from "@/app/user/lessons/student-content";
+import { parseEnglishSecondPaperDocument, type SuffixPrefixDocument } from "@/app/admin/content/english-second-paper-blocks/types";
+import type { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/db";
 import { SEEN_PASSAGE_ONE_REF, SEEN_PASSAGE_TWO_REF } from "@/lib/seen-composition-passages";
 
@@ -454,7 +457,7 @@ const contentSelect = {
         select: {
           id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true,
           passage: true, passageSource: true, paragraphBlockId: true,
-          entries: { orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }], select: { id: true, vocabularyId: true, word: true, partOfSpeech: true, pronunciation: true, meaning: true, synonyms: true, antonyms: true, imageUrl: true, imagePath: true, sortOrder: true, uploadedFiles: { where: { purpose: "vocabulary-item-image", isCurrent: true, status: "active" }, orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }], select: { id: true, url: true, path: true, sortOrder: true } } } },
+          entries: { orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }], select: { id: true, vocabularyId: true, word: true, meaning: true, sortOrder: true } },
         },
       },
       synonymsAntonyms: {
@@ -490,7 +493,7 @@ const contentSelect = {
       connector: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, question: true, answer: true, details: true } },
     },
   },
-};
+} satisfies Prisma.ContentSelect;
 
 function resolveLinkedPassage(content: any, record: any) {
   if (!record) return "";
@@ -512,8 +515,8 @@ function resolveLinkedPassage(content: any, record: any) {
   return record.passage || "";
 }
 
-async function serializeContents(contents: Array<any>, organizationId: string) {
-  const serialized = contents.map((content) => ({
+function serializeContents(contents: Array<any>) {
+  return contents.map((content) => ({
     ...content,
     createdAt: content.createdAt.toISOString(),
     blocks: content.blocks.map((block: any) => ({
@@ -539,7 +542,7 @@ async function serializeContents(contents: Array<any>, organizationId: string) {
                   ? block.rearrangeSentenceExercise
                   : block.kind === "question-from-poems"
                     ? block.questionFromPoems
-                    : block.kind === "question-from-story"
+                    : block.kind === "question-from-story" || block.kind === "writing-summary"
                       ? block.questionFromStory
                       : null;
 
@@ -566,7 +569,7 @@ async function serializeContents(contents: Array<any>, organizationId: string) {
                       answer: row.answer || "",
                     }));
 
-                    if (["question-answer", "rearrange-sentence", "question-from-poems", "question-from-story"].includes(block.kind) && rows.length === 0 && (exercise.question?.trim() || exercise.answer?.trim())) {
+                    if (["question-answer", "rearrange-sentence", "question-from-poems", "question-from-story", "writing-summary"].includes(block.kind) && rows.length === 0 && (exercise.question?.trim() || exercise.answer?.trim())) {
                       return [{
                         id: `${exercise.id}-legacy-row-1`,
                         sortOrder: 0,
@@ -675,6 +678,15 @@ async function serializeContents(contents: Array<any>, organizationId: string) {
             ),
           }
         : null,
+      ...(block.partsOfSpeech ? {
+        partsOfSpeech: {
+          ...block.partsOfSpeech,
+          items: (parseEnglishSecondPaperDocument("parts-of-speech", JSON.stringify({
+            ...(safeParseJson(block.partsOfSpeech.answer, {}) || {}),
+            question: block.partsOfSpeech.question,
+          }), block.partsOfSpeech.id) as SuffixPrefixDocument).items,
+        },
+      } : {}),
       tagQuestion: block.tagQuestion
         ? (() => {
             const parsed = parseTagQuestionData(
@@ -702,38 +714,6 @@ async function serializeContents(contents: Array<any>, organizationId: string) {
         : null,
     })),
   }));
-
-  const vocabularyBlockIds = contents.flatMap((content: any) =>
-    content.blocks.filter((block: any) => block.kind === "vocabulary").map((block: any) => block.id as string),
-  );
-  if (vocabularyBlockIds.length) {
-    const galleryFiles = await prisma.uploadedFile.findMany({
-      where: {
-        organizationId,
-        ownerType: "VocabularyBlock",
-        ownerId: { in: vocabularyBlockIds },
-        purpose: "vocabulary-block-gallery",
-        isCurrent: true,
-        status: "active",
-      },
-      select: { id: true, ownerId: true, url: true, path: true, sortOrder: true },
-      orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
-    });
-    const galleryByBlock = new Map<string, typeof galleryFiles>();
-    for (const image of galleryFiles) {
-      const items = galleryByBlock.get(image.ownerId) ?? [];
-      items.push(image);
-      galleryByBlock.set(image.ownerId, items);
-    }
-    for (const content of serialized) {
-      for (const block of content.blocks) {
-        if (!block.vocabulary) continue;
-        block.vocabulary.galleryImages = (galleryByBlock.get(block.id) ?? [])
-          .map(({ id, url, path, sortOrder }) => ({ id, url, path, sortOrder }));
-      }
-    }
-  }
-  return serialized;
 }
 
 export async function getPublishedSubjectCards(organizationId: string) {
@@ -885,7 +865,7 @@ export async function getPublishedSubjectDetail(organizationId: string, classId:
     (content: any) => publishedLessonIds.has(content.lessonId) && (!content.topicId || publishedTopicIds.has(content.topicId)),
   );
 
-  return { subject, units, lessons, topics, contents: await serializeContents(filteredContents, organizationId) };
+  return { subject, units, lessons, topics, contents: serializeContents(filteredContents) };
 }
 
 
@@ -913,7 +893,7 @@ export async function getPublishedContentByBlockKind(
 
   if (!content) return null;
 
-  return (await serializeContents([content], organizationId))[0] ?? null;
+  return serializeContents([content])[0] ?? null;
 }
 
 export async function getPublishedContentById(
@@ -939,7 +919,7 @@ export async function getPublishedContentById(
 
   if (!content) return null;
 
-  return (await serializeContents([content], organizationId))[0] ?? null;
+  return serializeContents([content])[0] ?? null;
 }
 
 export async function getPublishedQuestionAnswerContentById(
@@ -965,6 +945,33 @@ export async function getPublishedQuestionAnswerContentById(
 
   if (!content) return null;
 
-  return (await serializeContents([content], organizationId))[0] ?? null;
+  return serializeContents([content])[0] ?? null;
 }
 
+
+// Only call after authorizing access to the linked model-question set.
+export async function getModelQuestionEditorContent(scope: {
+  id: string; setId: string; organizationId: string; classId: string; subjectId: string;
+}): Promise<StudentContentRecord | null> {
+  const content = await prisma.content.findFirst({
+    where: {
+      id: scope.id, organizationId: scope.organizationId, classId: scope.classId, subjectId: scope.subjectId,
+      unit: { slug: `elesson-model-questions-${scope.subjectId}-unit`, organizationId: scope.organizationId },
+      lesson: { slug: `elesson-model-question-set-${scope.setId}-lesson`, organizationId: scope.organizationId },
+    },
+    select: {
+      ...contentSelect,
+      blocks: {
+        orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }, { id: "asc" }],
+        select: {
+          ...contentSelect.blocks.select,
+          boardId: true, academicYearId: true,
+          partsOfSpeech: {
+            select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, question: true, answer: true, details: true },
+          },
+        },
+      },
+    },
+  });
+  return content ? serializeContents([content])[0] ?? null : null;
+}

@@ -747,6 +747,31 @@ async function main() {
   await ensureEnglishFirstPaperSectionTables();
   await ensureSubjectLevelFirstPaperSectionTables();
   await ensureSubjectLevelSecondPaperSectionTable();
+  // Add the Parts of Speech table without rewriting any existing records.
+  await prisma.$transaction([
+    prisma.$executeRawUnsafe(`CREATE TABLE IF NOT EXISTS "SubjectPartsOfSpeechBlock" (
+      "id" TEXT NOT NULL PRIMARY KEY,
+      "classId" TEXT NOT NULL,
+      "subjectId" TEXT NOT NULL,
+      "kind" TEXT NOT NULL DEFAULT 'parts-of-speech',
+      "boardId" TEXT,
+      "academicYearId" TEXT,
+      "title" TEXT NOT NULL DEFAULT '',
+      "instruction" TEXT NOT NULL DEFAULT '',
+      "details" TEXT NOT NULL DEFAULT '',
+      "documentJson" TEXT NOT NULL DEFAULT '{}',
+      "sortOrder" INTEGER NOT NULL DEFAULT 0,
+      "organizationId" TEXT NOT NULL,
+      "createdBy" TEXT NOT NULL,
+      "updatedBy" TEXT NOT NULL,
+      "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      "updatedAt" DATETIME NOT NULL
+    )`),
+    prisma.$executeRawUnsafe(`CREATE INDEX IF NOT EXISTS "SubjectPartsOfSpeechBlock_organizationId_classId_subjectId_kind_sortOrder_idx"
+      ON "SubjectPartsOfSpeechBlock"("organizationId", "classId", "subjectId", "kind", "sortOrder")`),
+    prisma.$executeRawUnsafe(`CREATE INDEX IF NOT EXISTS "SubjectPartsOfSpeechBlock_organizationId_boardId_academicYearId_idx"
+      ON "SubjectPartsOfSpeechBlock"("organizationId", "boardId", "academicYearId")`),
+  ]);
   await ensureColumn("ContentBlock", "boardId", "TEXT");
   await ensureColumn("ContentBlock", "academicYearId", "TEXT");
   for (const table of [
@@ -790,6 +815,16 @@ async function main() {
   await ensureUploadedFileTable();
   await ensureModelQuestionImportTable();
   await ensureModelQuestionSetTables();
+  await ensureColumn("ModelQuestionSet", "editorContentId", "TEXT");
+  await ensureColumn("ModelQuestionSet", "publishedAt", "DATETIME");
+  await prisma.$executeRawUnsafe('CREATE INDEX IF NOT EXISTS "ModelQuestionSet_organizationId_classId_subjectId_publishedAt_idx" ON "ModelQuestionSet"("organizationId", "classId", "subjectId", "publishedAt")');
+  await prisma.$executeRawUnsafe('CREATE UNIQUE INDEX IF NOT EXISTS "ModelQuestionSet_editorContentId_key" ON "ModelQuestionSet"("editorContentId")');
+  const partsSql = fs.readFileSync(path.join(__dirname, "../prisma/add-model-question-parts-of-speech.sql"), "utf8");
+  // File is a fixed set of SQLite DDL statements bundled with the application.
+  const partsStatements = partsSql.split(";").map((text) => text.trim())
+    .filter((text) => text && text !== "BEGIN" && text !== "COMMIT");
+  await prisma.$transaction(partsStatements.map((sql) => prisma.$executeRawUnsafe(sql)));
+
   await ensureColumn("InformationTransfer", "passage", "TEXT NOT NULL DEFAULT ''");
   await ensureColumn("InformationTransfer", "passageSource", "TEXT NOT NULL DEFAULT 'manual'");
   await ensureColumn("InformationTransfer", "paragraphBlockId", "TEXT");

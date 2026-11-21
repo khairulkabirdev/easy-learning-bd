@@ -14,12 +14,8 @@ export type QuestionAnswerRow = {
 export type QuestionAnswerDocument = {
   version: 1;
   rows: QuestionAnswerRow[];
-};
-
-export type RearrangeSentenceDocument = {
-  version: 2;
-  rows: QuestionAnswerRow[];
-  correctOrder: string[];
+  /** Correct sequence of printed item letters, e.g. "c a e b d". */
+  answerSequence?: string;
 };
 
 export type MatchingColumn = {
@@ -116,10 +112,6 @@ export function createDefaultQuestionAnswerDocument(): QuestionAnswerDocument {
   return { version: 1, rows: [] };
 }
 
-export function createDefaultRearrangeSentenceDocument(): RearrangeSentenceDocument {
-  return { version: 2, rows: [], correctOrder: [] };
-}
-
 function safeParse(value: string): unknown {
   try {
     return JSON.parse(value);
@@ -176,8 +168,11 @@ export function parseMatchingDocument(value: string, recordId: string): Matching
 }
 
 export function parseQuestionAnswerDocument(value: string, recordId: string): QuestionAnswerDocument {
-  const parsed = safeParse(value) as { rows?: Array<Partial<QuestionAnswerRow>> } | null;
-  const rows = Array.isArray(parsed?.rows) ? parsed!.rows! : [];
+  const parsed = safeParse(value) as {
+    rows?: Array<Partial<QuestionAnswerRow>>;
+    answerSequence?: string;
+  } | null;
+  const rows = Array.isArray(parsed?.rows) ? parsed.rows : [];
   return {
     version: 1,
     rows: rows.map((row, index) => ({
@@ -186,32 +181,61 @@ export function parseQuestionAnswerDocument(value: string, recordId: string): Qu
       question: row.question || "",
       answer: row.answer || "",
     })),
+    // Older records have no separate key; preserve their original row order as the answer.
+    ...(typeof parsed?.answerSequence === "string" ? { answerSequence: parsed.answerSequence } : {}),
   };
 }
 
-export function parseRearrangeSentenceDocument(value: string, recordId: string): RearrangeSentenceDocument {
-  const parsed = safeParse(value) as {
-    rows?: Array<Partial<QuestionAnswerRow>>;
-    correctOrder?: string[];
-  } | null;
-  const sourceRows = Array.isArray(parsed?.rows) ? parsed!.rows! : [];
-  const rows = sourceRows.map((row, index) => ({
-    id: row.id || `${recordId}-row-${index + 1}`,
-    sortOrder: index,
-    question: row.question || "",
-    answer: row.answer || "",
-  }));
-  const validIds = new Set(rows.map((row) => row.id));
-  const sourceOrder = Array.isArray(parsed?.correctOrder) ? parsed!.correctOrder! : [];
-  const correctOrder = sourceOrder.filter((id, index) => validIds.has(id) && sourceOrder.indexOf(id) === index);
+/**
+ * Shared parser for the student Rearrange Sentence viewer and the admin editor.
+ *
+ * The book-order `rows` remain unchanged. `answerSequence` stores the correct
+ * letter order for newly authored exercises. Older records without the extra
+ * field remain valid: getRearrangeAnswerSequence() interprets their row order
+ * as the original answer key.
+ *
+ * The student viewer imports this name, so keep it as a public export.
+ */
+export function parseRearrangeSentenceDocument(
+  value: string | null | undefined,
+  recordId = "rearrange-sentence",
+): QuestionAnswerDocument {
+  return parseQuestionAnswerDocument(value ?? "", recordId);
+}
 
-  // Legacy rearrange records stored rows in their answer order. Preserve that
-  // meaning when upgrading them to the explicit question-order + answer-order model.
-  if (correctOrder.length !== rows.length) {
-    return { version: 2, rows, correctOrder: rows.map((row) => row.id) };
+/** a, b, ... z, aa, ab (in the same order the student sees in the book). */
+export function rearrangeLetter(index: number): string {
+  let position = index + 1;
+  let label = "";
+  while (position > 0) {
+    position -= 1;
+    label = String.fromCharCode(97 + (position % 26)) + label;
+    position = Math.floor(position / 26);
   }
+  return label;
+}
 
-  return { version: 2, rows, correctOrder };
+/** Existing records were authored in the correct order; only new records need a separate answer. */
+export function getRearrangeAnswerSequence(document: QuestionAnswerDocument): string {
+  return typeof document.answerSequence === "string"
+    ? document.answerSequence
+    : document.rows.map((_, index) => rearrangeLetter(index)).join(" ");
+}
+
+/** Parse a complete permutation of the displayed letter labels, without changing the item order. */
+export function validateRearrangeAnswerSequence(sequence: string, itemCount: number): string | null {
+  const letters = sequence.trim().toLowerCase().split(/[\s,;>\-→]+/u).filter(Boolean);
+  if (letters.length !== itemCount) {
+    return `Enter all ${itemCount} letters in their correct order (for example: c, a, b).`;
+  }
+  const allowed = new Set(Array.from({ length: itemCount }, (_, index) => rearrangeLetter(index)));
+  const seen = new Set<string>();
+  for (const letter of letters) {
+    if (!allowed.has(letter)) return `Unknown item letter "${letter}". Use the letters shown beside the sentences.`;
+    if (seen.has(letter)) return `Letter "${letter}" appears more than once. Use each item exactly once.`;
+    seen.add(letter);
+  }
+  return null;
 }
 
 
@@ -221,14 +245,14 @@ export type SubjectSectionDraft = {
   title: string;
   instruction: string;
   details: string;
-  document: MatchingDocument | QuestionAnswerDocument | RearrangeSentenceDocument;
+  document: MatchingDocument | QuestionAnswerDocument;
 };
 
 export function createDefaultDocumentForKind(
   kind: SubjectSectionKind,
-): MatchingDocument | QuestionAnswerDocument | RearrangeSentenceDocument {
+): MatchingDocument | QuestionAnswerDocument {
   if (kind === "matching-sentences") return createDefaultMatchingDocument();
-  if (kind === "rearrange-sentence") return createDefaultRearrangeSentenceDocument();
+  if (kind === "rearrange-sentence") return { ...createDefaultQuestionAnswerDocument(), answerSequence: "" };
   return createDefaultQuestionAnswerDocument();
 }
 
@@ -323,12 +347,13 @@ export function validateSubjectSectionDraft(
     return errors;
   }
 
+  const document = draft.document as QuestionAnswerDocument;
+  if (!Array.isArray(document.rows)) {
+    errors.document = "Exercise items are invalid.";
+    return errors;
+  }
+
   if (kind === "rearrange-sentence") {
-    const document = draft.document as RearrangeSentenceDocument;
-    if (!Array.isArray(document.rows)) {
-      errors.document = "Exercise items are invalid.";
-      return errors;
-    }
     if (document.rows.length < 2) {
       errors.document = "Add at least two sentences for a rearrange exercise.";
     }
@@ -337,22 +362,13 @@ export function validateSubjectSectionDraft(
         errors[`row:${row.id}:question`] = `Sentence ${index + 1} is required.`;
       }
     });
-    const validIds = new Set(document.rows.map((row) => row.id));
-    const answerIds = Array.isArray(document.correctOrder) ? document.correctOrder : [];
-    const uniqueAnswerIds = new Set(answerIds);
-    if (
-      answerIds.length !== document.rows.length ||
-      uniqueAnswerIds.size !== document.rows.length ||
-      answerIds.some((id) => !validIds.has(id))
-    ) {
-      errors.correctOrder = "Correct order must include every sentence exactly once.";
+    if (document.rows.length >= 2) {
+      const answerError = validateRearrangeAnswerSequence(
+        getRearrangeAnswerSequence(document),
+        document.rows.length,
+      );
+      if (answerError) errors.answerSequence = answerError;
     }
-    return errors;
-  }
-
-  const document = draft.document as QuestionAnswerDocument;
-  if (!Array.isArray(document.rows)) {
-    errors.document = "Exercise items are invalid.";
     return errors;
   }
 

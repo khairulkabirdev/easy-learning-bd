@@ -13,11 +13,12 @@ import {
   SUBJECT_SECTION_META,
   parseMatchingDocument,
   parseQuestionAnswerDocument,
-  parseRearrangeSentenceDocument,
+  rearrangeLetter,
+  getRearrangeAnswerSequence,
+  validateRearrangeAnswerSequence,
   validateSubjectSectionDraft,
   type MatchingDocument,
   type QuestionAnswerDocument,
-  type RearrangeSentenceDocument,
   type SubjectSectionKind,
   type SubjectSectionRecord,
   type SubjectSectionValidationErrors,
@@ -27,7 +28,7 @@ import { TiptapRichTextEditor } from "@/components/admin/TiptapRichTextEditor";
 import { TableCompletionChoiceCombobox } from "@/components/app/TableCompletionChoiceCombobox";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Field,
@@ -44,7 +45,7 @@ type EditorState = {
   title: string;
   instruction: string;
   details: string;
-  document: MatchingDocument | QuestionAnswerDocument | RearrangeSentenceDocument;
+  document: MatchingDocument | QuestionAnswerDocument;
 };
 
 type Props = {
@@ -57,21 +58,10 @@ type Props = {
 
 function normalizeQuestionRows(document: QuestionAnswerDocument): QuestionAnswerDocument {
   return {
+    ...document,
     version: 1,
     rows: document.rows.map((row, index) => ({ ...row, sortOrder: index })),
   };
-}
-
-function normalizeRearrangeDocument(document: RearrangeSentenceDocument): RearrangeSentenceDocument {
-  const rows = document.rows.map((row, index) => ({ ...row, sortOrder: index }));
-  const validIds = new Set(rows.map((row) => row.id));
-  const correctOrder = document.correctOrder.filter(
-    (id, index) => validIds.has(id) && document.correctOrder.indexOf(id) === index,
-  );
-  for (const row of rows) {
-    if (!correctOrder.includes(row.id)) correctOrder.push(row.id);
-  }
-  return { version: 2, rows, correctOrder };
 }
 
 function normalizeMatching(document: MatchingDocument): MatchingDocument {
@@ -120,9 +110,7 @@ export function SubjectSectionBlockEditorClient({
     document:
       kind === "matching-sentences"
         ? parseMatchingDocument(record.documentJson, record.id)
-        : kind === "rearrange-sentence"
-          ? parseRearrangeSentenceDocument(record.documentJson, record.id)
-          : parseQuestionAnswerDocument(record.documentJson, record.id),
+        : parseQuestionAnswerDocument(record.documentJson, record.id),
   }));
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -153,9 +141,7 @@ export function SubjectSectionBlockEditorClient({
       document:
         kind === "matching-sentences"
           ? normalizeMatching(value.document as MatchingDocument)
-          : kind === "rearrange-sentence"
-            ? normalizeRearrangeDocument(value.document as RearrangeSentenceDocument)
-            : normalizeQuestionRows(value.document as QuestionAnswerDocument),
+          : normalizeQuestionRows(value.document as QuestionAnswerDocument),
     };
   }
 
@@ -252,10 +238,7 @@ export function SubjectSectionBlockEditorClient({
     scheduleAutosave();
   }
 
-  function patchDocument(
-    document: MatchingDocument | QuestionAnswerDocument | RearrangeSentenceDocument,
-    immediate = false,
-  ) {
+  function patchDocument(document: MatchingDocument | QuestionAnswerDocument, immediate = false) {
     const previous = stateRef.current;
     const next = { ...previous, document };
     const revision = ++mutationRevisionRef.current;
@@ -327,13 +310,15 @@ export function SubjectSectionBlockEditorClient({
     >
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="space-y-2">
-          <Link
-            href={basePath}
-            className={buttonVariants({ variant: "ghost", size: "sm", className: "-ml-2" })}
+          <Button
+            variant="ghost"
+            size="sm"
+            className="-ml-2"
+            render={<Link href={basePath} />}
           >
             <ArrowLeft data-icon="inline-start" />
             Back to {meta.title}
-          </Link>
+          </Button>
           <div>
             <div className="text-sm text-muted-foreground">
               {classItem.name} • {subject.name}
@@ -424,7 +409,7 @@ export function SubjectSectionBlockEditorClient({
             />
           ) : kind === "rearrange-sentence" ? (
             <RearrangeSentenceEditor
-              document={state.document as RearrangeSentenceDocument}
+              document={state.document as QuestionAnswerDocument}
               onChange={patchDocument}
               validationErrors={validationErrors}
             />
@@ -739,45 +724,60 @@ function MatchingSentencesEditor({
   );
 }
 
+/**
+ * Keep each answer slot distinct, including blank slots. Persisting comma-separated
+ * values is compatible with the existing string answerSequence field, and allows
+ * partially completed answers to survive draft autosave without shifting positions.
+ */
+function parseRearrangeAnswerSlots(sequence: string, itemCount: number): string[] {
+  const values = sequence.includes(",")
+    ? sequence.split(",").map((token) => token.trim().toLowerCase())
+    : sequence.trim().split(/[\s;>\-→]+/u).filter(Boolean).map((token) => token.toLowerCase());
+  return Array.from({ length: itemCount }, (_, index) => values[index] ?? "");
+}
+
 function RearrangeSentenceEditor({
   document,
   onChange,
   validationErrors,
 }: {
-  document: RearrangeSentenceDocument;
-  onChange: (document: RearrangeSentenceDocument, immediate?: boolean) => void;
+  document: QuestionAnswerDocument;
+  onChange: (document: QuestionAnswerDocument, immediate?: boolean) => void;
   validationErrors: SubjectSectionValidationErrors;
 }) {
-  const normalized = normalizeRearrangeDocument(document);
+  const normalized = normalizeQuestionRows(document);
+  const answerSequence = getRearrangeAnswerSequence(normalized);
+  const answerSlots = parseRearrangeAnswerSlots(answerSequence, normalized.rows.length);
+  const availableLetters = normalized.rows.map((_, index) => rearrangeLetter(index));
+  const allowedLetters = new Set(availableLetters);
+  const usedLetterCounts = new Map<string, number>();
+  for (const letter of answerSlots) {
+    if (letter) usedLetterCounts.set(letter, (usedLetterCounts.get(letter) ?? 0) + 1);
+  }
+  const answerSlotErrors = answerSlots.map((letter) => {
+    if (!letter) return "This position needs a letter.";
+    if (!allowedLetters.has(letter)) return `Unknown letter \"${letter}\". Choose a letter shown above.`;
+    if ((usedLetterCounts.get(letter) ?? 0) > 1) return `Letter \"${letter}\" is used more than once.`;
+    return null;
+  });
+  const answerError = normalized.rows.length >= 2
+    ? validateRearrangeAnswerSequence(answerSequence, normalized.rows.length)
+    : null;
 
-  function itemLabel(index: number) {
-    let value = index + 1;
-    let label = "";
-    while (value > 0) {
-      value -= 1;
-      label = String.fromCharCode(97 + (value % 26)) + label;
-      value = Math.floor(value / 26);
-    }
-    return label;
+  function updateSlots(slots: string[]) {
+    onChange({ ...normalized, answerSequence: slots.join(", ") });
   }
 
-  const labelById = new Map(normalized.rows.map((row, index) => [row.id, itemLabel(index)]));
-  const rowById = new Map(normalized.rows.map((row) => [row.id, row]));
-  const correctOrderText = normalized.correctOrder
-    .map((id) => labelById.get(id))
-    .filter(Boolean)
-    .join(", ");
-
   function addRow() {
-    const id = crypto.randomUUID();
     onChange(
-      normalizeRearrangeDocument({
+      normalizeQuestionRows({
         ...normalized,
         rows: [
           ...normalized.rows,
-          { id, sortOrder: normalized.rows.length, question: "", answer: "" },
+          { id: crypto.randomUUID(), sortOrder: normalized.rows.length, question: "", answer: "" },
         ],
-        correctOrder: [...normalized.correctOrder, id],
+        // Add an empty answer box; never guess the answer for a new sentence.
+        answerSequence: [...answerSlots, ""].join(", "),
       }),
       true,
     );
@@ -791,177 +791,145 @@ function RearrangeSentenceEditor({
   }
 
   function deleteRow(id: string) {
-    onChange(
-      normalizeRearrangeDocument({
-        ...normalized,
-        rows: normalized.rows.filter((row) => row.id !== id),
-        correctOrder: normalized.correctOrder.filter((rowId) => rowId !== id),
-      }),
-      true,
-    );
-  }
-
-  function moveQuestionRow(id: string, direction: "up" | "down") {
-    const index = normalized.rows.findIndex((row) => row.id === id);
-    const target = direction === "up" ? index - 1 : index + 1;
-    if (index < 0 || target < 0 || target >= normalized.rows.length) return;
-    const rows = [...normalized.rows];
-    const [moved] = rows.splice(index, 1);
-    rows.splice(target, 0, moved);
-    onChange(normalizeRearrangeDocument({ ...normalized, rows }), true);
-  }
-
-  function moveCorrectOrder(id: string, direction: "up" | "down") {
-    const index = normalized.correctOrder.indexOf(id);
-    const target = direction === "up" ? index - 1 : index + 1;
-    if (index < 0 || target < 0 || target >= normalized.correctOrder.length) return;
-    const correctOrder = [...normalized.correctOrder];
-    const [moved] = correctOrder.splice(index, 1);
-    correctOrder.splice(target, 0, moved);
-    onChange({ ...normalized, correctOrder }, true);
-  }
-
-  function sentencePreview(value: string) {
-    return value
-      .replace(/<[^>]*>/g, " ")
-      .replace(/&nbsp;|&#160;/gi, " ")
-      .replace(/&amp;/gi, "&")
-      .replace(/\s+/g, " ")
-      .trim();
+    const nextRows = normalized.rows.filter((row) => row.id !== id);
+    const nextIndexById = new Map(nextRows.map((row, index) => [row.id, index]));
+    // Answers are letter references to book rows. After removing a book row,
+    // re-map the letters by row ID so the intended order is not corrupted.
+    const nextSlots = answerSlots.flatMap((letter) => {
+      if (!letter) return [""];
+      const oldIndex = availableLetters.indexOf(letter);
+      if (oldIndex < 0) return [""];
+      const rowId = normalized.rows[oldIndex]?.id;
+      if (rowId === id) return [];
+      const nextIndex = rowId === undefined ? undefined : nextIndexById.get(rowId);
+      return nextIndex === undefined ? [""] : [rearrangeLetter(nextIndex)];
+    });
+    // An unfinished answer can have unused blank positions. Prefer removing a
+    // blank slot rather than discarding an otherwise valid letter at the end.
+    while (nextSlots.length > nextRows.length) {
+      const lastBlank = nextSlots.lastIndexOf("");
+      nextSlots.splice(lastBlank >= 0 ? lastBlank : nextSlots.length - 1, 1);
+    }
+    const resizedSlots = Array.from({ length: nextRows.length }, (_, index) => nextSlots[index] ?? "");
+    onChange(normalizeQuestionRows({
+      ...normalized,
+      rows: nextRows,
+      answerSequence: resizedSlots.join(", "),
+    }), true);
   }
 
   return (
-    <div className="space-y-6 border-t pt-5">
+    <div className="space-y-5 border-t pt-5">
       {validationErrors.document ? <FieldError>{validationErrors.document}</FieldError> : null}
-
-      <div className="space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h3 className="font-semibold">Question sentences</h3>
-            <p className="text-sm text-muted-foreground">
-              Add the sentences exactly in the order shown to students. Labels (a), (b), (c)... are generated automatically.
-            </p>
-          </div>
-          <Button type="button" onClick={addRow}>
-            <Plus className="mr-2 h-4 w-4" />Add Sentence
-          </Button>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h3 className="font-semibold">Question — sentences as printed in the book</h3>
+          <p className="text-sm text-muted-foreground">
+            Enter each mixed-up sentence exactly as it appears in the question, from (a) onward.
+            Do not put the sentences into their correct order here.
+          </p>
         </div>
-
-        {normalized.rows.length === 0 ? (
-          <div className="rounded-xl border border-dashed p-8 text-center text-sm text-muted-foreground">
-            No sentence items yet.
-          </div>
-        ) : (
-          normalized.rows.map((row, index) => (
-            <Card key={row.id} className="shadow-none">
-              <CardContent className="space-y-4 pt-6">
-                <div className="flex items-center justify-between gap-3">
-                  <Badge variant="secondary">({itemLabel(index)}) Question item</Badge>
-                  <div className="flex gap-2">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="icon"
-                      disabled={index === 0}
-                      onClick={() => moveQuestionRow(row.id, "up")}
-                      aria-label={`Move sentence ${itemLabel(index)} up`}
-                    >
-                      <ArrowUp className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="icon"
-                      disabled={index === normalized.rows.length - 1}
-                      onClick={() => moveQuestionRow(row.id, "down")}
-                      aria-label={`Move sentence ${itemLabel(index)} down`}
-                    >
-                      <ArrowDown className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      className="text-destructive"
-                      onClick={() => deleteRow(row.id)}
-                    >
-                      <Trash2 className="mr-2 h-4 w-4" />Delete
-                    </Button>
-                  </div>
-                </div>
-                <div className="rounded-xl border bg-background p-3">
-                  <TiptapRichTextEditor
-                    value={row.question}
-                    onChange={(value) => patchRow(row.id, value)}
-                    minHeight={100}
-                    placeholder={`Write sentence (${itemLabel(index)})...`}
-                  />
-                </div>
-                <FieldError>{validationErrors[`row:${row.id}:question`]}</FieldError>
-              </CardContent>
-            </Card>
-          ))
-        )}
+        <Button type="button" onClick={addRow}><Plus className="mr-2 h-4 w-4" />Add sentence</Button>
       </div>
 
-      {normalized.rows.length > 0 ? (
-        <div className="space-y-4 rounded-xl border bg-muted/10 p-4 sm:p-5">
-          <div className="space-y-1">
-            <h3 className="font-semibold">Correct order</h3>
-            <p className="text-sm text-muted-foreground">
-              Arrange the answer independently from the printed question order. The saved answer is shown as letters.
+      {normalized.rows.length === 0 ? (
+        <div className="rounded-xl border border-dashed p-8 text-center text-sm text-muted-foreground">
+          No sentences yet. Add the mixed-up sentences from the book first.
+        </div>
+      ) : (
+        normalized.rows.map((row, index) => (
+          <Card key={row.id} className="shadow-none">
+            <CardContent className="space-y-3 pt-6">
+              <div className="flex items-center justify-between gap-3">
+                <Badge variant="secondary">({rearrangeLetter(index)}) Book item</Badge>
+                <Button type="button" variant="outline" size="sm" className="text-destructive" onClick={() => deleteRow(row.id)}>
+                  <Trash2 className="mr-2 h-4 w-4" />Remove
+                </Button>
+              </div>
+              <div className="rounded-xl border bg-background p-3">
+                <TiptapRichTextEditor
+                  value={row.question}
+                  onChange={(value) => patchRow(row.id, value)}
+                  minHeight={100}
+                  placeholder={`Enter book item (${rearrangeLetter(index)})...`}
+                />
+              </div>
+              <FieldError>{validationErrors[`row:${row.id}:question`]}</FieldError>
+            </CardContent>
+          </Card>
+        ))
+      )}
+
+      <div className="space-y-4 rounded-2xl border bg-muted/20 p-4">
+        <div>
+          <h3 className="font-semibold">Answer — correct letter sequence</h3>
+          <p className="text-sm text-muted-foreground">
+            Enter one letter in each box, in the correct sentence order. The number of boxes
+            matches the number of book items automatically. Use every letter exactly once.
+          </p>
+          {availableLetters.length > 0 ? (
+            <p className="mt-2 text-xs text-muted-foreground">
+              Available letters: {availableLetters.join(", ")}
             </p>
-          </div>
+          ) : null}
+        </div>
 
-          <Field data-invalid={Boolean(validationErrors.correctOrder)}>
-            <FieldLabel>Saved correct order</FieldLabel>
-            <Input value={correctOrderText} readOnly placeholder="h, f, e, g, c, d, b, a" />
-            <FieldError>{validationErrors.correctOrder}</FieldError>
-          </Field>
-
-          <div className="space-y-2">
-            {normalized.correctOrder.map((id, index) => {
-              const row = rowById.get(id);
-              const label = labelById.get(id) || "?";
+        {answerSlots.length === 0 ? (
+          <p className="rounded-xl border border-dashed p-4 text-sm text-muted-foreground">
+            Add book sentences above to create the answer boxes.
+          </p>
+        ) : (
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+            {answerSlots.map((letter, index) => {
+              const error = answerSlotErrors[index];
+              const showError = Boolean(error) && (Boolean(letter) || Boolean(validationErrors.answerSequence));
               return (
-                <div key={id} className="flex items-start gap-3 rounded-xl border bg-background p-3">
-                  <Badge variant="outline" className="mt-0.5 shrink-0">
-                    #{index + 1}
-                  </Badge>
-                  <Badge variant="secondary" className="mt-0.5 shrink-0">
-                    ({label})
-                  </Badge>
-                  <div className="min-w-0 flex-1 text-sm leading-6">
-                    {row ? sentencePreview(row.question) || `Sentence (${label})` : `Sentence (${label})`}
-                  </div>
-                  <div className="flex shrink-0 gap-2">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="icon"
-                      disabled={index === 0}
-                      onClick={() => moveCorrectOrder(id, "up")}
-                      aria-label={`Move answer ${index + 1} up`}
-                    >
-                      <ArrowUp className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="icon"
-                      disabled={index === normalized.correctOrder.length - 1}
-                      onClick={() => moveCorrectOrder(id, "down")}
-                      aria-label={`Move answer ${index + 1} down`}
-                    >
-                      <ArrowDown className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
+                <Field
+                  key={`answer-position-${index}`}
+                  data-invalid={showError}
+                  className="min-w-0 space-y-1 rounded-xl border bg-background p-3"
+                >
+                  <FieldLabel htmlFor={`rearrange-answer-position-${index}`}>
+                    Position {index + 1} <span className="text-destructive">*</span>
+                  </FieldLabel>
+                  <Input
+                    id={`rearrange-answer-position-${index}`}
+                    aria-label={`Correct sentence letter for position ${index + 1}`}
+                    aria-invalid={showError}
+                    autoComplete="off"
+                    spellCheck={false}
+                    value={letter}
+                    placeholder="a"
+                    className="text-center font-semibold lowercase"
+                    onChange={(event) => {
+                      const nextSlots = [...answerSlots];
+                      nextSlots[index] = event.target.value.trim().toLowerCase();
+                      updateSlots(nextSlots);
+                    }}
+                  />
+                  {showError ? <p className="text-xs text-destructive" role="alert">{error}</p> : null}
+                </Field>
               );
             })}
           </div>
-        </div>
-      ) : null}
+        )}
+        {validationErrors.answerSequence ? (
+          <FieldError>{validationErrors.answerSequence}</FieldError>
+        ) : null}
+        {!answerError && normalized.rows.length >= 2 ? (
+          <p className="text-sm font-medium text-emerald-700 dark:text-emerald-400">
+            Correct order: {answerSlots.join(" → ")}
+          </p>
+        ) : normalized.rows.length >= 2 ? (
+          <p className="text-xs text-muted-foreground" role="status">
+            Fill every box with a different letter from the book items to complete the answer.
+          </p>
+        ) : null}
+        <p className="text-xs text-muted-foreground">
+          Existing exercises without a separate answer keep their previous row order as the answer key.
+          Editing a box updates only this exercise.
+        </p>
+      </div>
     </div>
   );
 }

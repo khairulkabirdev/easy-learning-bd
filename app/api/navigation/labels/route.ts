@@ -104,6 +104,28 @@ export async function GET(request: NextRequest) {
   }
 
   const organizationId = user.organizationId;
+  const studentPaperMatch = pathname.match(/^\/user\/model-questions(?:\/([a-z0-9_-]{1,128})(?:\/([a-z0-9_-]{1,128}))?)?\/?$/i);
+  if (studentPaperMatch) {
+    if (user.role !== "student") return NextResponse.json({ labels: {} }, { status: 403 });
+    const root = "/user/model-questions";
+    const [, subjectId, setId] = studentPaperMatch;
+    const items: { label: string; href?: string }[] = [{ label: "Model Questions", href: root }];
+    if (!subjectId || !user.classId) return NextResponse.json({ items, backHref: "/user/dashboard" });
+    const scope = { organizationId, classId: user.classId };
+    const classFilter = { organizationId, status: "published" as const };
+    const subjectFilter = { ...scope, id: subjectId, status: "published" as const, class: classFilter };
+    const [subject, paper] = await Promise.all([
+      prisma.subject.findFirst({ where: subjectFilter, select: { name: true } }),
+      setId ? prisma.modelQuestionSet.findFirst({
+        where: { ...scope, subjectId, id: setId, publishedAt: { not: null }, class: classFilter, subject: subjectFilter },
+        select: { name: true },
+      }) : null,
+    ]);
+    const subjectPath = `${root}/${subjectId}`;
+    if (subject) items.push({ label: subject.name, href: setId ? subjectPath : undefined });
+    if (subject && paper) items.push({ label: paper.name });
+    return NextResponse.json({ items, backHref: setId && subject ? subjectPath : root });
+  }
   const modelQuestionRoot = "/admin/model-question-import";
   const modelQuestionMatch = pathname.match(
     /^\/admin\/model-question-import(?:\/([a-z0-9_-]{1,128})(?:\/([a-z0-9_-]{1,128})(?:\/([a-z0-9_-]{1,128}))?)?)?\/?$/i,

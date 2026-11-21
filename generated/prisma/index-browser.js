@@ -1109,6 +1109,7 @@ exports.Prisma.ModelQuestionSetScalarFieldEnum = {
   academicYearId: 'academicYearId',
   name: 'name',
   editorContentId: 'editorContentId',
+  publishedAt: 'publishedAt',
   organizationId: 'organizationId',
   createdBy: 'createdBy',
   updatedBy: 'updatedBy',

@@ -8,6 +8,7 @@ import {
   BookOpenCheck,
   BookOpen,
   ChevronDown,
+  FileText,
   FolderOpen,
   GraduationCap,
   Home,
@@ -55,12 +56,17 @@ type Props = {
   children: React.ReactNode;
 };
 
+const MODEL_QUESTIONS_HREF = "/user/model-questions";
+
 const NAV = [
   { label: "Dashboard", href: "/user", icon: Home },
   { label: "Chapter Preparation", href: "/user/chapter-preparation", icon: FolderOpen },
   { label: "Practice Library", href: "/user/practice", icon: ClipboardList },
+  { label: "Model Questions", href: MODEL_QUESTIONS_HREF, icon: FileText },
   { label: "My Profile", href: "/user/profile", icon: UserRound },
 ] as const;
+
+const BOTTOM_NAV = NAV.filter(({ href }) => href !== MODEL_QUESTIONS_HREF);
 
 const THEME_KEY = "dashboard-theme"; // compatible with existing project theme toggle
 const STUDENT_SIDEBAR_KEY = "elesson-student-sidebar-collapsed";
@@ -324,7 +330,7 @@ export function StudentWorkspaceShell({ userName, userEmail, className, subjects
       </div>
 
       <nav aria-label="Bottom navigation" className="student-bottom-nav fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 border-t px-1 pb-[env(safe-area-inset-bottom)] pt-2 backdrop-blur-xl lg:hidden">
-        {NAV.map(({ label, href, icon: Icon }) => {
+        {BOTTOM_NAV.map(({ label, href, icon: Icon }) => {
           const active = isActive(pathname, href);
           return <Link key={href} href={href} aria-current={active ? "page" : undefined} className={cn("flex min-h-13 flex-col items-center justify-center gap-1 rounded-lg px-1 text-[10px] font-medium", active ? "text-primary" : "text-muted-foreground hover:text-foreground")}>
             <span className={cn("flex size-8 items-center justify-center rounded-lg", active && "bg-primary text-primary-foreground")}><Icon className="size-4.5" /></span>

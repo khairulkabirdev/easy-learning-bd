@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useModelPaperReview } from "@/components/app/ModelPaperMode";
 import { CheckCircle2, Eye, XCircle } from "lucide-react";
 
 import type { SubstitutionTableDocumentRecord } from "@/app/admin/content/content-types";
@@ -133,6 +134,11 @@ export function SubstitutionTableExercise({
     setStatuses(next);
   }
 
+  const paperMode = useModelPaperReview(() => {
+    if (configuredAnswers.length) checkAnswers();
+    setShowAnswers(true);
+  });
+
   return (
     <Card className="rounded-xl">
       <CardHeader className="space-y-3">
@@ -218,7 +224,7 @@ export function SubstitutionTableExercise({
               })}
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            {!paperMode ? <div className="flex flex-wrap gap-2">
               <Button type="button" onClick={checkAnswers} disabled={configuredAnswers.length === 0}>
                 Check Answer
               </Button>
@@ -226,7 +232,7 @@ export function SubstitutionTableExercise({
                 <Eye className="mr-2 h-4 w-4" />
                 {showAnswers ? "Hide Answer" : "Review Answer"}
               </Button>
-            </div>
+            </div> : null}
 
             {showAnswers ? (
               <div className="rounded-xl border border-dashed p-4">

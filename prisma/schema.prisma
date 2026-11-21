@@ -1300,6 +1300,7 @@ model ModelQuestionSet {
   academicYearId String?
   name           String
   editorContentId String? @unique
+  publishedAt     DateTime?
   organizationId String
   createdBy      String
   updatedBy      String
@@ -1313,6 +1314,7 @@ model ModelQuestionSet {
   blocks         ModelQuestionSetBlock[]
 
   @@index([organizationId, classId, subjectId, createdAt])
+  @@index([organizationId, classId, subjectId, publishedAt])
   @@index([organizationId, classId, subjectId, boardId, academicYearId])
 }
 

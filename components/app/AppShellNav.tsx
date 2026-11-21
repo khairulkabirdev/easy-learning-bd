@@ -1,10 +1,9 @@
 import type { ReactNode } from "react";
 
 import Link from "next/link";
-import { BookOpen, CalendarDays, ChevronDown, FolderOpen, HardDrive, Landmark, LayoutDashboard, LogOut, Mail, FileUp, Shapes, User2 } from "lucide-react";
+import { BookOpen, CalendarDays, ChevronDown, ClipboardList, FolderOpen, HardDrive, Landmark, LayoutDashboard, LogOut, Settings, Settings2, Shapes, User2 } from "lucide-react";
 
 import { SidebarNavLinks } from "@/components/app/SidebarNavLinks";
-import { MobileDashboardSidebar } from "@/components/app/MobileDashboardSidebar";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -46,7 +45,7 @@ export const adminNavGroups: ShellNavGroup[] = [
       { title: "Lessons", href: "/admin/lessons", icon: <FolderOpen className="h-4 w-4" /> },
       { title: "Topics", href: "/admin/topics", icon: <FolderOpen className="h-4 w-4" /> },
       { title: "Content", href: "/admin/content", icon: <FolderOpen className="h-4 w-4" /> },
-      { title: "Model Question Import", href: "/admin/model-question-import", icon: <FileUp className="h-4 w-4" /> },
+      { title: "Model Question Import", href: "/admin/model-question-import", icon: <BookOpen className="h-4 w-4" /> },
       {
         title: "Board",
         icon: <Landmark className="h-4 w-4" />,
@@ -60,14 +59,20 @@ export const adminNavGroups: ShellNavGroup[] = [
   {
     label: "Storage",
     items: [
-      { title: "Storage Setting", href: "/admin/settings", icon: <HardDrive className="h-4 w-4" /> },
+      {
+        title: "Storage",
+        icon: <HardDrive className="h-4 w-4" />,
+        children: [
+          { title: "Configuration", href: "/admin/settings/storage", icon: <Settings2 className="h-4 w-4" /> },
+        ],
+      },
     ],
   },
   {
     label: "Account",
     items: [
       { title: "Audit Logs", href: "/admin/audit-logs", icon: <BookOpen className="h-4 w-4" /> },
-      { title: "Email Settings", href: "/admin/email-settings", icon: <Mail className="h-4 w-4" /> },
+      { title: "Settings", href: "/admin/settings", icon: <Settings className="h-4 w-4" /> },
       { title: "Profile", href: "/admin/profile", icon: <User2 className="h-4 w-4" /> },
     ],
   },
@@ -79,6 +84,7 @@ export const userNavGroups: ShellNavGroup[] = [
     items: [
       { title: "Dashboard", href: "/user/dashboard", icon: <LayoutDashboard className="h-4 w-4" /> },
       { title: "অধ্যায়ভিত্তিক প্রস্তুতি", href: "/user/chapter-preparation", icon: <FolderOpen className="h-4 w-4" /> },
+      { title: "Model Questions", href: "/user/model-questions", icon: <ClipboardList className="h-4 w-4" /> },
     ],
   },
 ];
@@ -120,7 +126,6 @@ export function AppDashboardShell({
 
   return (
     <SidebarProvider>
-      <MobileDashboardSidebar title={title} workspaceLabel={workspaceLabel} groups={groups} />
       <aside className="sticky top-0 hidden h-svh w-64 shrink-0 border-r bg-background md:flex md:flex-col">
         <div className="flex h-16 items-center gap-3 border-b px-4">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">

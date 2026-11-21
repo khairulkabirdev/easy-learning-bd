@@ -54,6 +54,7 @@ const STATIC_LABELS: Record<string, string> = {
   storage: "Storage",
   configuration: "Configuration",
   "audit-logs": "Audit Logs",
+  "model-questions": "Model Questions",
   "chapter-preparation": "অধ্যায়ভিত্তিক প্রস্তুতি",
   "matching-sentences": "Matching Sentences",
   "rearrange-sentence": "Rearrange Sentence",
@@ -140,6 +141,14 @@ function buildAutoItems(pathname: string, labels: Record<string, string>) {
     const fallbackLabels = ["Model Question Import", "Class", "Subject", "Model Question Set"];
     return routeSegments.slice(0, fallbackLabels.length).map((segment, index, route) => ({
       label: labels[segment] || fallbackLabels[index],
+      href: index === route.length - 1 ? undefined : `${rolePrefix}/${route.slice(0, index + 1).join("/")}`,
+    }));
+  }
+
+  if (rolePrefix === "/user" && routeSegments[0] === "model-questions") {
+    const fallback = ["Model Questions", "Subject", "Model Paper"];
+    return routeSegments.slice(0, 3).map((segment, index, route) => ({
+      label: labels[segment] || fallback[index],
       href: index === route.length - 1 ? undefined : `${rolePrefix}/${route.slice(0, index + 1).join("/")}`,
     }));
   }

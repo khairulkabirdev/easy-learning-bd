@@ -1290,18 +1290,19 @@ model ModelQuestionImport {
 }
 
 model ModelQuestionSet {
-  id              String   @id @default(cuid())
+  id              String    @id @default(cuid())
   classId         String
   subjectId       String
   boardId         String?
   academicYearId  String?
   name            String
-  editorContentId String?  @unique
+  editorContentId String?   @unique
+  publishedAt     DateTime?
   organizationId  String
   createdBy       String
   updatedBy       String
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
   class        Class                   @relation(fields: [classId], references: [id], onDelete: Cascade)
   subject      Subject                 @relation(fields: [subjectId], references: [id], onDelete: Cascade)
@@ -1310,6 +1311,7 @@ model ModelQuestionSet {
   blocks       ModelQuestionSetBlock[]
 
   @@index([organizationId, classId, subjectId, createdAt])
+  @@index([organizationId, classId, subjectId, publishedAt])
   @@index([organizationId, classId, subjectId, boardId, academicYearId])
 }
 
