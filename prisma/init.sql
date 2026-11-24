@@ -270,6 +270,9 @@ CREATE TABLE "ContentBlock" (
     "sortOrder" INTEGER NOT NULL DEFAULT 0,
     "boardId" TEXT,
     "academicYearId" TEXT,
+    "title" TEXT NOT NULL DEFAULT '',
+    "shortDescription" TEXT NOT NULL DEFAULT '',
+    "marks" INTEGER,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
     CONSTRAINT "ContentBlock_contentId_fkey" FOREIGN KEY ("contentId") REFERENCES "Content" ("id") ON DELETE CASCADE ON UPDATE CASCADE

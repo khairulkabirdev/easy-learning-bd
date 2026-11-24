@@ -37,6 +37,8 @@ import {
   updateChangingSentence,
   updateConnector,
   updateContentBlockBoardYear,
+  updateContentBlockPaperHeading,
+  updateContentBlockMarks,
   updateGapFillExercise,
   updateGapFillFirstPaper,
   updateGapFillSecondPaper,
@@ -89,6 +91,7 @@ import {
   getFixedModelQuestionBlockTitle,
   type FixedModelQuestionLayout,
 } from "@/lib/model-question-fixed-blocks";
+import { suggestedClass67Mark, class67MarkingGuide } from "@/lib/model-question-marks";
 import { WritingSummaryEditor } from "@/components/admin/UnseenCompositionEditorClient";
 import { ResponsiveEntityEditor } from "@/components/admin/ResponsiveEntityEditor";
 import { TableCompletionChoiceCombobox } from "@/components/app/TableCompletionChoiceCombobox";
@@ -1447,6 +1450,7 @@ export function ContentBlocksEditorClient({
     return number === undefined ? (kind === "paragraph" ? "Source" : "Independent") : `${prefix}${number}`;
   };
   const displayBlockTitleForBlock = (block: BlockDraft) => {
+    if (chooserGroupMode === "model-question" && block.title?.trim()) return block.title.trim();
     const overriddenTitle = blockTitleOverrides?.[block.kind] ??
       (fixedSlotByKind.has(block.kind) ? fixedTitle(block.kind) : undefined);
     if (overriddenTitle) return overriddenTitle;
@@ -1499,6 +1503,25 @@ export function ContentBlocksEditorClient({
 
   function patchBlock(blockId: string, updater: (block: BlockDraft) => BlockDraft) {
     setBlocks((current) => current.map((block) => (block.id === blockId ? updater(block) : block)));
+  }
+
+  function handleBlockPaperHeadingChange(blockId: string, field: "title" | "shortDescription", value: string) {
+    patchBlock(blockId, (block) => ({ ...block, [field]: value }));
+    saveInBackground(`paper-heading:${blockId}:${field}`, () =>
+      updateContentBlockPaperHeading({ blockId, field, value }),
+    );
+  }
+
+  function handleBlockMarksChange(blockId: string, value: string) {
+    const trimmed = value.trim();
+    const marks = trimmed === "" ? null : Number(trimmed);
+    if (marks !== null && (!Number.isInteger(marks) || marks < 0 || marks > 200)) {
+      setActionError("Marks must be a whole number from 0 to 200, or blank to use the suggested value.");
+      return;
+    }
+    setActionError("");
+    patchBlock(blockId, (block) => ({ ...block, marks }));
+    saveInBackground(`paper-marks:${blockId}`, () => updateContentBlockMarks({ blockId, marks }));
   }
 
   function handleBlockBoardYearChange(
@@ -4294,6 +4317,36 @@ export function ContentBlocksEditorClient({
                 </div>
               </section>
             ))}
+            {chooserGroupMode === "model-question" && class67MarkingGuide(fixedModelQuestionLayout, content.class.name) ? (
+              <p className="rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm leading-relaxed text-sky-900 dark:border-sky-800 dark:bg-sky-950/30 dark:text-sky-100">
+                <strong>2026 suggested marks: </strong>{class67MarkingGuide(fixedModelQuestionLayout, content.class.name)?.note}
+                {" "}Each block's Marks field can override the suggestion without changing questions or answers.
+              </p>
+            ) : null}
+            {chooserGroupMode === "model-question" && class67MarkingGuide(fixedModelQuestionLayout, content.class.name) ? (
+              <div className="rounded-lg border bg-background p-4 text-sm">
+                {(() => {
+                  const counted = fixedSlots
+                    .filter((slot) => !["paragraph", "seen-passage-one", "seen-passage-two"].includes(slot.kind))
+                    .map((slot) => blocks.find((block) => block.kind === slot.kind))
+                    .filter((block): block is BlockDraft => Boolean(block));
+                  const unallocated = counted.filter((block) =>
+                    block.marks == null && suggestedClass67Mark(fixedModelQuestionLayout, content.class.name, block.kind) === null,
+                  ).length;
+                  const total = counted.reduce((sum, block) => sum + (
+                    block.marks ?? suggestedClass67Mark(fixedModelQuestionLayout, content.class.name, block.kind)?.marks ?? 0
+                  ), 0);
+                  const guide = class67MarkingGuide(fixedModelQuestionLayout, content.class.name)!;
+                  return <>
+                    <p className="font-semibold">Configured {guide.group.toLowerCase()} block marks: {total} / {guide.groupMarks}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      From {counted.length} added question sections; {unallocated} without an allocation.
+                      Passage sources are not counted. This is not an awarded student score.
+                    </p>
+                  </>;
+                })()}
+              </div>
+            ) : null}
             {fixedModelQuestionLayout === "class-8-second-paper" && visibleBlocks.length < blocks.length ? (
               <p className="text-sm text-muted-foreground">
                 Previously saved blocks outside this Class 8 layout are hidden. They have not been deleted.
@@ -4391,6 +4444,68 @@ export function ContentBlocksEditorClient({
                   disabled={isPending}
                 />
               </CardContent>
+
+              {chooserGroupMode === "model-question" ? (
+                <CardContent className="border-t pt-5">
+                  <div className="grid gap-4 lg:grid-cols-2">
+                    <Field>
+                      <FieldContent>
+                        <FieldLabel htmlFor={`block-paper-title-${block.id}`}>Title</FieldLabel>
+                        <BufferedInput
+                          id={`block-paper-title-${block.id}`}
+                          aria-label={`${displayBlockTitleForBlock(block)} title`}
+                          value={block.title ?? ""}
+                          onCommit={(value) => handleBlockPaperHeadingChange(block.id, "title", value)}
+                          placeholder={displayBlockTitleForBlock(block)}
+                          maxLength={200}
+                        />
+                        <FieldDescription>Optional. Overrides this section's default heading on the model test paper.</FieldDescription>
+                      </FieldContent>
+                    </Field>
+                    <Field>
+                      <FieldContent>
+                        <FieldLabel htmlFor={`block-paper-description-${block.id}`}>Short Description / Instructions</FieldLabel>
+                        <BufferedTextarea
+                          id={`block-paper-description-${block.id}`}
+                          aria-label={`${displayBlockTitleForBlock(block)} short instructions`}
+                          value={block.shortDescription ?? ""}
+                          onCommit={(value) => handleBlockPaperHeadingChange(block.id, "shortDescription", value)}
+                          placeholder="Write a brief instruction for students..."
+                          rows={2}
+                          maxLength={800}
+                        />
+                        <FieldDescription>Optional. Shown below the title on the student's exam paper; separate from Details / Explanation.</FieldDescription>
+                      </FieldContent>
+                    </Field>
+                  </div>
+                  <div className="mt-4 rounded-lg border bg-muted/20 p-3">
+                    <Field>
+                      <FieldContent>
+                        <FieldLabel htmlFor={`model-paper-marks-${block.id}`}>Marks for this question block</FieldLabel>
+                        <BufferedInput
+                          id={`model-paper-marks-${block.id}`}
+                          type="number"
+                          min={0}
+                          max={200}
+                          step={1}
+                          value={block.marks === null || block.marks === undefined ? "" : String(block.marks)}
+                          onCommit={(value) => handleBlockMarksChange(block.id, value)}
+                          placeholder={String(suggestedClass67Mark(fixedModelQuestionLayout, content.class.name, block.kind)?.marks ?? "")}
+                          disabled={isPending}
+                        />
+                        <FieldDescription>
+                          {(() => {
+                            const suggested = suggestedClass67Mark(fixedModelQuestionLayout, content.class.name, block.kind);
+                            return suggested
+                              ? `2026 suggested: ${suggested.formula}. Leave blank for ${suggested.marks} marks; enter 0 if your school assigns none.`
+                              : "No automatic allocation for this block. Enter marks manually if it is assessed; leave blank to show no mark allocation.";
+                          })()}
+                        </FieldDescription>
+                      </FieldContent>
+                    </Field>
+                  </div>
+                </CardContent>
+              ) : null}
 
               {fixedModelQuestionLayout && fixedPassageForKind(block.kind) ? (
                 <CardContent className="border-t pt-4">
@@ -5353,7 +5468,8 @@ export function ContentBlocksEditorClient({
 
               {(block.kind === "question-from-poems" || block.kind === "question-from-story") && block.questionAnswerExercise ? (
                 <CardContent className={`${BLOCK_CONTENT_CLASS} space-y-5`}>
-                  <FieldGroup className="gap-5">
+                  {chooserGroupMode !== "model-question" || block.kind === "question-from-story" ? (
+                    <FieldGroup className="gap-5">
                     <Field>
                       <FieldContent>
                         <FieldLabel>Title</FieldLabel>
@@ -5366,7 +5482,8 @@ export function ContentBlocksEditorClient({
                         />
                       </FieldContent>
                     </Field>
-                  </FieldGroup>
+                    </FieldGroup>
+                  ) : null}
 
                   <div className="flex items-center justify-between gap-4 border-t pt-5">
                     <div className="space-y-1">

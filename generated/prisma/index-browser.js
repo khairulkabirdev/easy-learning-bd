@@ -358,6 +358,9 @@ exports.Prisma.ContentBlockScalarFieldEnum = {
   sortOrder: 'sortOrder',
   boardId: 'boardId',
   academicYearId: 'academicYearId',
+  title: 'title',
+  shortDescription: 'shortDescription',
+  marks: 'marks',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

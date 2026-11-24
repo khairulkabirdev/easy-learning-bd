@@ -9,6 +9,7 @@ import { modelQuestionBlockOptions } from "@/lib/model-question-block-types";
 import type { ModelPaper, ModelPaperEntry } from "@/lib/model-paper-types";
 import { prisma } from "@/lib/db";
 import { readModelRearrangeKey } from "@/lib/model-rearrange-answers";
+import { suggestedClass67Mark } from "@/lib/model-question-marks";
 
 export type PaperScope = { organizationId: string; classId: string; subjectId: string };
 const titles: Partial<Record<ContentBlockKind, string>> = {
@@ -115,10 +116,15 @@ export async function getModelPaper(scope: PaperScope, setId: string, audience: 
     const reference = passageKinds.has(block.kind);
     const index = number ?? (reference ? null : nextNumber);
     if (index !== null) nextNumber = Math.max(nextNumber, index + 1);
+    const suggested = suggestedClass67Mark(layout, set.class.name, block.kind);
     entries.push({
-      id: block.id, title: (layout && getFixedModelQuestionBlockTitle(layout, block.kind)) || titles[block.kind] ||
+      id: block.id, title: block.title?.trim() || (layout && getFixedModelQuestionBlockTitle(layout, block.kind)) || titles[block.kind] ||
         block.kind.replace(/(^|-)([a-z])/g, (_, prefix: string, c: string) => (prefix ? " " : "") + c.toUpperCase()),
-      number: index === null ? null : String(index), reference, marks: null, native: block,
+      shortDescription: block.shortDescription?.trim() || "",
+      number: index === null ? null : String(index), reference,
+      marks: reference ? null : (block.marks ?? suggested?.marks ?? null),
+      markPattern: block.marks === null || block.marks === undefined ? suggested?.formula : undefined,
+      native: block,
     });
   };
   if (layout) {

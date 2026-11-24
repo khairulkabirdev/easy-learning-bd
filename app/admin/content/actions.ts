@@ -138,6 +138,17 @@ const createBlockSchema = z.object({
   kind: contentBlockKindSchema,
 });
 
+const blockMarksSchema = z.object({
+  blockId: z.string().min(1),
+  marks: z.number().int().min(0).max(200).nullable(),
+});
+
+const blockPaperHeadingSchema = z.object({
+  blockId: z.string().min(1),
+  field: z.enum(["title", "shortDescription"]),
+  value: z.string().trim().max(800, "Block heading text is too long."),
+});
+
 const blockBoardYearSchema = z.object({
   blockId: z.string().min(1),
   boardId: z.string().min(1).nullable(),
@@ -1263,6 +1274,55 @@ export async function createContentBlock(input: unknown) {
 
   revalidatePath("/admin/content");
   revalidatePath(`/admin/content/${parsed.contentId}`);
+}
+
+// One shared action works for all native block kinds, including passage-only blocks.
+// The block is checked against the logged-in admin's organization before writing.
+export async function updateContentBlockPaperHeading(input: unknown) {
+  await assertTrustedMutationOrigin();
+  const user = await requireAdmin();
+  const parsed = blockPaperHeadingSchema.parse(input);
+  const owned = await getOwnedContentBlock(parsed.blockId, user.organizationId);
+  const updated = await prisma.contentBlock.update({
+    where: { id: owned.id },
+    data: { [parsed.field]: parsed.value },
+    select: { id: true, contentId: true, title: true, shortDescription: true },
+  });
+  await logAudit({
+    userId: user.id,
+    userName: user.name,
+    action: "UPDATE",
+    entityName: "ContentBlock",
+    entityId: updated.id,
+    changes: { [parsed.field]: parsed.value },
+    organizationId: user.organizationId,
+  });
+  revalidatePath(`/admin/content/${updated.contentId}`);
+  return { title: updated.title, shortDescription: updated.shortDescription };
+}
+
+/** Model-question mark override; null restores the 2026 suggested value. */
+export async function updateContentBlockMarks(input: unknown) {
+  await assertTrustedMutationOrigin();
+  const user = await requireAdmin();
+  const parsed = blockMarksSchema.parse(input);
+  const owned = await getOwnedContentBlock(parsed.blockId, user.organizationId);
+  const updated = await prisma.contentBlock.update({
+    where: { id: owned.id },
+    data: { marks: parsed.marks },
+    select: { id: true, contentId: true, marks: true },
+  });
+  await logAudit({
+    userId: user.id,
+    userName: user.name,
+    action: "UPDATE",
+    entityName: "ContentBlock",
+    entityId: updated.id,
+    changes: { marks: parsed.marks },
+    organizationId: user.organizationId,
+  });
+  revalidatePath(`/admin/content/${updated.contentId}`);
+  return { marks: updated.marks };
 }
 
 export async function updateContentBlockBoardYear(input: unknown) {

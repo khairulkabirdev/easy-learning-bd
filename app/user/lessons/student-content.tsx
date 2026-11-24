@@ -26,7 +26,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { sanitizeRichHtml } from "@/lib/sanitize-rich-html";
-import { readModelRearrangeKey } from "@/lib/model-rearrange-answers";
 
 export type StudentContentRecord = Omit<ContentRecordWithBlocks, "createdAt"> & {
   createdAt: string;
@@ -466,64 +465,6 @@ function SynonymsAntonymsBlock({
       .split(",")
       .map((item) => item.trim())
       .filter(Boolean);
-  const paperMode = useContext(ModelPaperMode);
-  const [paperAnswers, setPaperAnswers] = useState<Record<string, { synonym: string; antonym: string }>>({});
-
-  if (paperMode) {
-    return (
-      <Card className="rounded-xl">
-        <CardHeader>
-          <CardTitle className="text-lg">Synonyms / Antonyms</CardTitle>
-          <CardDescription>Write the requested synonym or antonym for each word.</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {stripHtml(passage) ? <div className="rounded-xl border bg-muted/10 p-4"><RichContent value={passage} /></div> : null}
-          {entries.map((entry, index) => {
-            const kind = entry.answerType ?? "both";
-            const expected = kind === "both" ? (["synonym", "antonym"] as const) : ([kind] as const);
-            const written = paperAnswers[entry.id] ?? { synonym: "", antonym: "" };
-            return (
-              <div key={entry.id} className="space-y-3 rounded-xl border p-4">
-                <div className="flex flex-wrap items-center gap-2">
-                  <Badge variant="outline">{String.fromCharCode(97 + (index % 26))}</Badge>
-                  <span className="font-medium">{entry.word}</span>
-                  <Badge variant="secondary">{kind === "both" ? "Synonym and Antonym" : kind === "synonym" ? "Synonym" : "Antonym"}</Badge>
-                </div>
-                {expected.map((answerKind) => {
-                  const key = answerKind === "synonym" ? "synonyms" : "antonyms";
-                  const accepted = splitTags(entry[key]);
-                  const studentText = written[answerKind];
-                  const isCorrect = accepted.some((answer) => normalizeAnswer(answer) === normalizeAnswer(studentText)) && Boolean(studentText.trim());
-                  return (
-                    <div key={answerKind} className="space-y-2">
-                      <label htmlFor={`model-syn-ant-${entry.id}-${answerKind}`} className="text-sm font-medium">
-                        Your {answerKind}
-                      </label>
-                      <Input
-                        id={`model-syn-ant-${entry.id}-${answerKind}`}
-                        value={studentText}
-                        onChange={(event) => setPaperAnswers((current) => ({
-                          ...current,
-                          [entry.id]: { ...(current[entry.id] ?? { synonym: "", antonym: "" }), [answerKind]: event.target.value },
-                        }))}
-                        placeholder={`Write a ${answerKind}...`}
-                        disabled={paperMode === "review"}
-                      />
-                      {paperMode === "review" ? (
-                        <p className="text-sm text-muted-foreground">
-                          {accepted.length ? `${isCorrect ? "Correct" : "Compare your answer"} · Accepted: ${accepted.join(", ")}` : "No answer key was configured for this item."}
-                        </p>
-                      ) : null}
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })}
-        </CardContent>
-      </Card>
-    );
-  }
 
   return (
     <Card className="rounded-xl">
@@ -835,26 +776,16 @@ function SentenceOrderingBlock({
   instruction,
   details,
   rows,
-  displayBookOrder = false,
 }: {
   title: string;
   instruction: string;
   details: string;
   rows: Array<{ id: string; question: string; answer: string }>;
-  displayBookOrder?: boolean;
 }) {
-  const [orderedIds, setOrderedIds] = useState<string[]>(() =>
-    displayBookOrder || readModelRearrangeKey(rows).mode === "explicit"
-      ? rows.map((row) => row.id)
-      : createInitialSentenceOrder(rows),
-  );
+  const [orderedIds, setOrderedIds] = useState<string[]>(() => createInitialSentenceOrder(rows));
   const [status, setStatus] = useState<CheckStatus>("idle");
   const [showCorrectOrder, setShowCorrectOrder] = useState(false);
   const rowById = new Map(rows.map((row) => [row.id, row]));
-  // Explicit keys use rank numbers in each row's saved answer; old rows remain in
-  // their originally authored (correct) order. Never treat an invalid key as correct.
-  const answerKey = readModelRearrangeKey(rows);
-  const correctRows = answerKey.order.map((id) => rowById.get(id)).filter(Boolean) as typeof rows;
   const orderedRows = orderedIds.map((id) => rowById.get(id)).filter(Boolean) as typeof rows;
 
   function moveSentence(rowId: string, direction: "up" | "down") {
@@ -935,7 +866,7 @@ function SentenceOrderingBlock({
           <div className="rounded-xl border border-dashed p-4">
             <div className="mb-3 text-sm font-medium">Correct order</div>
             <div className="space-y-3">
-              {correctRows.length > 0 ? correctRows.map((row, index) => (
+              {rows.map((row, index) => (
                 <div key={row.id} className="flex items-start gap-3 rounded-lg bg-muted/30 p-3">
                   <Badge variant="secondary" className="mt-1 shrink-0">
                     {index + 1}
@@ -944,16 +875,15 @@ function SentenceOrderingBlock({
                     <RichContent value={row.question} />
                   </div>
                 </div>
-              )) : <p className="text-sm text-muted-foreground">The answer key is incomplete. Ask your teacher to complete it.</p>}
+              ))}
             </div>
           </div>
         ) : null}
 
         <ActionButtons
           onCheck={() => {
-            const isCorrect = correctRows.length >= 2 &&
-              orderedIds.length === correctRows.length &&
-              orderedIds.every((rowId, index) => rowId === correctRows[index]?.id);
+            const isCorrect =
+              orderedIds.length === rows.length && orderedIds.every((rowId, index) => rowId === rows[index]?.id);
             setStatus(isCorrect ? "correct" : "incorrect");
           }}
           onReveal={() => setShowCorrectOrder(true)}
@@ -1304,27 +1234,33 @@ function QuestionAnswerRowsBlock({
   title,
   rows,
   details,
+  letteredItems = false,
 }: {
   title: string;
   rows: Array<{ id: string; question: string; answer: string }>;
   details: string;
+  letteredItems?: boolean;
 }) {
   const AnswerField = useContext(ModelPaperManualReview) ? Textarea : Input;
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [statusByRow, setStatusByRow] = useState<Record<string, CheckStatus>>({});
   const [showAnswers, setShowAnswers] = useState(false);
+  const description = stripHtml(details);
+  const visibleDetails = letteredItems
+    ? description.replace(/Answer\s+all\s+five\s+questions\.\s*2\s*[×xX*]\s*5\s*=\s*10\.?/gi, "").trim()
+    : description;
 
   return (
     <Card className="rounded-xl">
       <CardHeader className="space-y-3">
         <CardTitle className="text-lg">{title}</CardTitle>
-        {stripHtml(details) ? <CardDescription>{stripHtml(details)}</CardDescription> : null}
+        {visibleDetails ? <CardDescription>{visibleDetails}</CardDescription> : null}
       </CardHeader>
       <CardContent className="space-y-4">
         {rows.map((row, index) => (
           <div key={row.id} className="rounded-xl border p-4">
             <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-              <Badge variant="outline">Item {index + 1}</Badge>
+              <Badge variant="outline">{letteredItems ? `(${index < 26 ? String.fromCharCode(97 + index) : index + 1})` : `Item ${index + 1}`}</Badge>
               <ResultBadge status={statusByRow[row.id] || "idle"} />
             </div>
             <div className="mb-3 rounded-xl border p-4">
@@ -1610,7 +1546,7 @@ function StudentBlockCard({
     paragraphBlockId?: string | null;
     resolvedPassage?: string;
   } | null | undefined) {
-    if (!record) return "";
+    if (isPaper || !record) return "";
     if (record.resolvedPassage !== undefined) return record.resolvedPassage;
     if (record.passageSource === "paragraph" && record.paragraphBlockId) {
       const linkedBlock = content.blocks.find((item) => item.id === record.paragraphBlockId);
@@ -1632,14 +1568,27 @@ function StudentBlockCard({
     if (isPaper) {
       return <QuestionAnswerRowsBlock
         title="Synonyms / Antonyms"
-        rows={block.synonymsAntonyms.entries.filter(entry => entry.word.trim()).map(entry => ({
-          id: entry.id,
-          question: `Write a synonym and an antonym for “${escapePaperText(entry.word)}”.`,
-          answer: escapePaperText([entry.synonyms && `Synonyms: ${entry.synonyms}`, entry.antonyms && `Antonyms: ${entry.antonyms}`].filter(Boolean).join(" · ")),
-        }))}
+        letteredItems={true}
+        rows={block.synonymsAntonyms.entries.filter(entry => entry.word.trim()).map(entry => {
+          const mode = "answerType" in entry ? String(entry.answerType || "both").toLowerCase() : "both";
+          const word = escapePaperText(entry.word);
+          const question = mode === "synonym"
+            ? `Write a synonym for “${word}”.`
+            : mode === "antonym"
+              ? `Write an antonym for “${word}”.`
+              : `Write a synonym and an antonym for “${word}”.`;
+          const answer = mode === "synonym"
+            ? entry.synonyms || ""
+            : mode === "antonym"
+              ? entry.antonyms || ""
+              : [entry.synonyms && `Synonyms: ${entry.synonyms}`, entry.antonyms && `Antonyms: ${entry.antonyms}`]
+                  .filter(Boolean).join(" · ");
+          return { id: entry.id, question, answer: escapePaperText(answer) };
+        })}
         details=""
       />;
     }
+
     return (
       <SynonymsAntonymsBlock
         entries={block.synonymsAntonyms.entries}
@@ -1662,7 +1611,7 @@ function StudentBlockCard({
       <TrueFalseBlock
         title={block.trueFalseExercise.title}
         instruction={block.trueFalseExercise.instruction}
-        passage={block.trueFalseExercise.passage}
+        passage={isPaper ? "" : block.trueFalseExercise.passage}
         rows={block.trueFalseExercise.rows}
       />
     );
@@ -1674,7 +1623,6 @@ function StudentBlockCard({
         instruction={block.questionAnswerExercise.instruction}
         details={block.questionAnswerExercise.details}
         rows={block.questionAnswerExercise.rows}
-        displayBookOrder={isPaper}
       />
     ) : (
       <ThreeFieldExerciseBlock
@@ -1741,6 +1689,7 @@ function StudentBlockCard({
       <QuestionAnswerRowsBlock
         title={block.questionAnswerExercise.title || threeFieldBlockLabels[block.kind] || "Exercise"}
         rows={block.questionAnswerExercise.rows}
+        letteredItems={isPaper && block.kind === "question-answer"}
         details={block.questionAnswerExercise.details || block.questionAnswerExercise.instruction}
       />
     ) : (

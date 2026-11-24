@@ -450,6 +450,9 @@ const contentSelect = {
       contentId: true,
       kind: true,
       sortOrder: true,
+      title: true,
+      shortDescription: true,
+      marks: true,
       paragraph: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, body: true } },
       seenPassageOne: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, body: true } },
       seenPassageTwo: { select: { id: true, contentBlockId: true, contentId: true, classId: true, subjectId: true, unitId: true, lessonId: true, topicId: true, body: true } },
@@ -542,9 +545,13 @@ function serializeContents(contents: Array<any>) {
                   ? block.rearrangeSentenceExercise
                   : block.kind === "question-from-poems"
                     ? block.questionFromPoems
-                    : block.kind === "question-from-story" || block.kind === "writing-summary"
+                    : block.kind === "question-from-story"
                       ? block.questionFromStory
-                      : null;
+                      : block.kind === "writing-summary"
+                        // Older content may use QuestionFromStory; 2026 model imports
+                        // store summaries in QuestionAnswerExercise. Preserve both.
+                        ? (block.questionFromStory ?? block.questionAnswerExercise)
+                        : null;
 
         if (!exercise) return null;
         const questionAnswerDocument = parseQuestionAnswerDocument(exercise.documentJson);

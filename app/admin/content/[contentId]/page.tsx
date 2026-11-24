@@ -497,6 +497,9 @@ export default async function AdminContentBlocksPage({
           sortOrder: true,
           boardId: true,
           academicYearId: true,
+          title: true,
+          shortDescription: true,
+          marks: true,
           paragraph: {
             select: {
               id: true,

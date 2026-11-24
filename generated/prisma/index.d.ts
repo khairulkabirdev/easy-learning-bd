@@ -23431,10 +23431,12 @@ export namespace Prisma {
 
   export type ContentBlockAvgAggregateOutputType = {
     sortOrder: number | null
+    marks: number | null
   }
 
   export type ContentBlockSumAggregateOutputType = {
     sortOrder: number | null
+    marks: number | null
   }
 
   export type ContentBlockMinAggregateOutputType = {
@@ -23444,6 +23446,9 @@ export namespace Prisma {
     sortOrder: number | null
     boardId: string | null
     academicYearId: string | null
+    title: string | null
+    shortDescription: string | null
+    marks: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -23455,6 +23460,9 @@ export namespace Prisma {
     sortOrder: number | null
     boardId: string | null
     academicYearId: string | null
+    title: string | null
+    shortDescription: string | null
+    marks: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -23466,6 +23474,9 @@ export namespace Prisma {
     sortOrder: number
     boardId: number
     academicYearId: number
+    title: number
+    shortDescription: number
+    marks: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -23474,10 +23485,12 @@ export namespace Prisma {
 
   export type ContentBlockAvgAggregateInputType = {
     sortOrder?: true
+    marks?: true
   }
 
   export type ContentBlockSumAggregateInputType = {
     sortOrder?: true
+    marks?: true
   }
 
   export type ContentBlockMinAggregateInputType = {
@@ -23487,6 +23500,9 @@ export namespace Prisma {
     sortOrder?: true
     boardId?: true
     academicYearId?: true
+    title?: true
+    shortDescription?: true
+    marks?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -23498,6 +23514,9 @@ export namespace Prisma {
     sortOrder?: true
     boardId?: true
     academicYearId?: true
+    title?: true
+    shortDescription?: true
+    marks?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -23509,6 +23528,9 @@ export namespace Prisma {
     sortOrder?: true
     boardId?: true
     academicYearId?: true
+    title?: true
+    shortDescription?: true
+    marks?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -23607,6 +23629,9 @@ export namespace Prisma {
     sortOrder: number
     boardId: string | null
     academicYearId: string | null
+    title: string
+    shortDescription: string
+    marks: number | null
     createdAt: Date
     updatedAt: Date
     _count: ContentBlockCountAggregateOutputType | null
@@ -23637,6 +23662,9 @@ export namespace Prisma {
     sortOrder?: boolean
     boardId?: boolean
     academicYearId?: boolean
+    title?: boolean
+    shortDescription?: boolean
+    marks?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     content?: boolean | ContentDefaultArgs<ExtArgs>
@@ -23676,6 +23704,9 @@ export namespace Prisma {
     sortOrder?: boolean
     boardId?: boolean
     academicYearId?: boolean
+    title?: boolean
+    shortDescription?: boolean
+    marks?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     content?: boolean | ContentDefaultArgs<ExtArgs>
@@ -23688,6 +23719,9 @@ export namespace Prisma {
     sortOrder?: boolean
     boardId?: boolean
     academicYearId?: boolean
+    title?: boolean
+    shortDescription?: boolean
+    marks?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     content?: boolean | ContentDefaultArgs<ExtArgs>
@@ -23700,11 +23734,14 @@ export namespace Prisma {
     sortOrder?: boolean
     boardId?: boolean
     academicYearId?: boolean
+    title?: boolean
+    shortDescription?: boolean
+    marks?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ContentBlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentId" | "kind" | "sortOrder" | "boardId" | "academicYearId" | "createdAt" | "updatedAt", ExtArgs["result"]["contentBlock"]>
+  export type ContentBlockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentId" | "kind" | "sortOrder" | "boardId" | "academicYearId" | "title" | "shortDescription" | "marks" | "createdAt" | "updatedAt", ExtArgs["result"]["contentBlock"]>
   export type ContentBlockInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     content?: boolean | ContentDefaultArgs<ExtArgs>
     paragraph?: boolean | ContentBlock$paragraphArgs<ExtArgs>
@@ -23781,6 +23818,9 @@ export namespace Prisma {
       sortOrder: number
       boardId: string | null
       academicYearId: string | null
+      title: string
+      shortDescription: string
+      marks: number | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["contentBlock"]>
@@ -24240,6 +24280,9 @@ export namespace Prisma {
     readonly sortOrder: FieldRef<"ContentBlock", 'Int'>
     readonly boardId: FieldRef<"ContentBlock", 'String'>
     readonly academicYearId: FieldRef<"ContentBlock", 'String'>
+    readonly title: FieldRef<"ContentBlock", 'String'>
+    readonly shortDescription: FieldRef<"ContentBlock", 'String'>
+    readonly marks: FieldRef<"ContentBlock", 'Int'>
     readonly createdAt: FieldRef<"ContentBlock", 'DateTime'>
     readonly updatedAt: FieldRef<"ContentBlock", 'DateTime'>
   }
@@ -74070,6 +74113,9 @@ export namespace Prisma {
     sortOrder: 'sortOrder',
     boardId: 'boardId',
     academicYearId: 'academicYearId',
+    title: 'title',
+    shortDescription: 'shortDescription',
+    marks: 'marks',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -76509,6 +76555,9 @@ export namespace Prisma {
     sortOrder?: IntFilter<"ContentBlock"> | number
     boardId?: StringNullableFilter<"ContentBlock"> | string | null
     academicYearId?: StringNullableFilter<"ContentBlock"> | string | null
+    title?: StringFilter<"ContentBlock"> | string
+    shortDescription?: StringFilter<"ContentBlock"> | string
+    marks?: IntNullableFilter<"ContentBlock"> | number | null
     createdAt?: DateTimeFilter<"ContentBlock"> | Date | string
     updatedAt?: DateTimeFilter<"ContentBlock"> | Date | string
     content?: XOR<ContentScalarRelationFilter, ContentWhereInput>
@@ -76548,6 +76597,9 @@ export namespace Prisma {
     sortOrder?: SortOrder
     boardId?: SortOrderInput | SortOrder
     academicYearId?: SortOrderInput | SortOrder
+    title?: SortOrder
+    shortDescription?: SortOrder
+    marks?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     content?: ContentOrderByWithRelationInput
@@ -76590,6 +76642,9 @@ export namespace Prisma {
     sortOrder?: IntFilter<"ContentBlock"> | number
     boardId?: StringNullableFilter<"ContentBlock"> | string | null
     academicYearId?: StringNullableFilter<"ContentBlock"> | string | null
+    title?: StringFilter<"ContentBlock"> | string
+    shortDescription?: StringFilter<"ContentBlock"> | string
+    marks?: IntNullableFilter<"ContentBlock"> | number | null
     createdAt?: DateTimeFilter<"ContentBlock"> | Date | string
     updatedAt?: DateTimeFilter<"ContentBlock"> | Date | string
     content?: XOR<ContentScalarRelationFilter, ContentWhereInput>
@@ -76629,6 +76684,9 @@ export namespace Prisma {
     sortOrder?: SortOrder
     boardId?: SortOrderInput | SortOrder
     academicYearId?: SortOrderInput | SortOrder
+    title?: SortOrder
+    shortDescription?: SortOrder
+    marks?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ContentBlockCountOrderByAggregateInput
@@ -76648,6 +76706,9 @@ export namespace Prisma {
     sortOrder?: IntWithAggregatesFilter<"ContentBlock"> | number
     boardId?: StringNullableWithAggregatesFilter<"ContentBlock"> | string | null
     academicYearId?: StringNullableWithAggregatesFilter<"ContentBlock"> | string | null
+    title?: StringWithAggregatesFilter<"ContentBlock"> | string
+    shortDescription?: StringWithAggregatesFilter<"ContentBlock"> | string
+    marks?: IntNullableWithAggregatesFilter<"ContentBlock"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"ContentBlock"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ContentBlock"> | Date | string
   }
@@ -82881,6 +82942,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -82920,6 +82984,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -82957,6 +83024,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -82996,6 +83066,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -83034,6 +83107,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -83044,6 +83120,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -83055,6 +83134,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -89575,6 +89657,17 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type ContentScalarRelationFilter = {
     is?: ContentWhereInput
     isNot?: ContentWhereInput
@@ -89722,12 +89815,16 @@ export namespace Prisma {
     sortOrder?: SortOrder
     boardId?: SortOrder
     academicYearId?: SortOrder
+    title?: SortOrder
+    shortDescription?: SortOrder
+    marks?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type ContentBlockAvgOrderByAggregateInput = {
     sortOrder?: SortOrder
+    marks?: SortOrder
   }
 
   export type ContentBlockMaxOrderByAggregateInput = {
@@ -89737,6 +89834,9 @@ export namespace Prisma {
     sortOrder?: SortOrder
     boardId?: SortOrder
     academicYearId?: SortOrder
+    title?: SortOrder
+    shortDescription?: SortOrder
+    marks?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -89748,12 +89848,32 @@ export namespace Prisma {
     sortOrder?: SortOrder
     boardId?: SortOrder
     academicYearId?: SortOrder
+    title?: SortOrder
+    shortDescription?: SortOrder
+    marks?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type ContentBlockSumOrderByAggregateInput = {
     sortOrder?: SortOrder
+    marks?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type ParagraphCountOrderByAggregateInput = {
@@ -93731,6 +93851,14 @@ export namespace Prisma {
     connect?: SeenPassageTwoWhereUniqueInput
   }
 
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type ContentUpdateOneRequiredWithoutBlocksNestedInput = {
     create?: XOR<ContentCreateWithoutBlocksInput, ContentUncheckedCreateWithoutBlocksInput>
     connectOrCreate?: ContentCreateOrConnectWithoutBlocksInput
@@ -95453,6 +95581,33 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type ClassCreateWithoutStudentsInput = {
@@ -97977,6 +98132,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphCreateNestedOneWithoutContentBlockInput
@@ -98014,6 +98172,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -98369,6 +98530,9 @@ export namespace Prisma {
     sortOrder?: IntFilter<"ContentBlock"> | number
     boardId?: StringNullableFilter<"ContentBlock"> | string | null
     academicYearId?: StringNullableFilter<"ContentBlock"> | string | null
+    title?: StringFilter<"ContentBlock"> | string
+    shortDescription?: StringFilter<"ContentBlock"> | string
+    marks?: IntNullableFilter<"ContentBlock"> | number | null
     createdAt?: DateTimeFilter<"ContentBlock"> | Date | string
     updatedAt?: DateTimeFilter<"ContentBlock"> | Date | string
   }
@@ -98379,6 +98543,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -98417,6 +98584,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -98469,6 +98639,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -98507,6 +98680,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -98543,6 +98719,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -98581,6 +98760,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -98633,6 +98815,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -98671,6 +98856,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -101507,6 +101695,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -101545,6 +101736,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     vocabulary?: VocabularyUncheckedCreateNestedOneWithoutContentBlockInput
@@ -101597,6 +101791,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -101635,6 +101832,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vocabulary?: VocabularyUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -101671,6 +101871,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -101709,6 +101912,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -101800,6 +102006,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -101838,6 +102047,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -102470,6 +102682,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -102508,6 +102723,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -102601,6 +102819,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -102639,6 +102860,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -102803,6 +103027,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -102841,6 +103068,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -102893,6 +103123,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -102931,6 +103164,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -102967,6 +103203,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -103005,6 +103244,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -103057,6 +103299,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -103095,6 +103340,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -103131,6 +103379,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -103169,6 +103420,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -103221,6 +103475,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -103259,6 +103516,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -103295,6 +103555,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -103333,6 +103596,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -103385,6 +103651,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -103423,6 +103692,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -103459,6 +103731,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -103497,6 +103772,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -103549,6 +103827,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -103587,6 +103868,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -103623,6 +103907,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -103661,6 +103948,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -103713,6 +104003,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -103751,6 +104044,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -103787,6 +104083,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -103825,6 +104124,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -103877,6 +104179,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -103915,6 +104220,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -103951,6 +104259,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -103989,6 +104300,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -104041,6 +104355,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -104079,6 +104396,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -104115,6 +104435,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -104153,6 +104476,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -104205,6 +104531,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -104243,6 +104572,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -104279,6 +104611,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -104317,6 +104652,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -104369,6 +104707,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -104407,6 +104748,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -104443,6 +104787,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -104481,6 +104828,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -104533,6 +104883,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -104571,6 +104924,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -104607,6 +104963,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -104645,6 +105004,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -104697,6 +105059,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -104735,6 +105100,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -104771,6 +105139,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -104809,6 +105180,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -104861,6 +105235,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -104899,6 +105276,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -104935,6 +105315,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -104973,6 +105356,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -105025,6 +105411,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -105063,6 +105452,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -105099,6 +105491,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -105137,6 +105532,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -105189,6 +105587,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -105227,6 +105628,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -105263,6 +105667,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -105301,6 +105708,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -105353,6 +105763,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -105391,6 +105804,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -105427,6 +105843,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -105465,6 +105884,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -105517,6 +105939,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -105555,6 +105980,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -105591,6 +106019,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -105629,6 +106060,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -105681,6 +106115,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -105719,6 +106156,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -105755,6 +106195,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -105793,6 +106236,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -105845,6 +106291,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -105883,6 +106332,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -105919,6 +106371,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -105957,6 +106412,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -106009,6 +106467,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -106047,6 +106508,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -106083,6 +106547,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -106121,6 +106588,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -106173,6 +106643,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -106211,6 +106684,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -106247,6 +106723,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     content: ContentCreateNestedOneWithoutBlocksInput
@@ -106285,6 +106764,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     paragraph?: ParagraphUncheckedCreateNestedOneWithoutContentBlockInput
@@ -106337,6 +106819,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: ContentUpdateOneRequiredWithoutBlocksNestedInput
@@ -106375,6 +106860,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -108904,6 +109392,9 @@ export namespace Prisma {
     sortOrder?: number
     boardId?: string | null
     academicYearId?: string | null
+    title?: string
+    shortDescription?: string
+    marks?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -108914,6 +109405,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUpdateOneWithoutContentBlockNestedInput
@@ -108951,6 +109445,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     paragraph?: ParagraphUncheckedUpdateOneWithoutContentBlockNestedInput
@@ -108988,6 +109485,9 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    shortDescription?: StringFieldUpdateOperationsInput | string
+    marks?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

@@ -774,6 +774,10 @@ async function main() {
   ]);
   await ensureColumn("ContentBlock", "boardId", "TEXT");
   await ensureColumn("ContentBlock", "academicYearId", "TEXT");
+  // Add only two columns. Do not rewrite, reseed or touch existing block data.
+  await ensureColumn("ContentBlock", "title", "TEXT NOT NULL DEFAULT ''");
+  await ensureColumn("ContentBlock", "shortDescription", "TEXT NOT NULL DEFAULT ''");
+  await ensureColumn("ContentBlock", "marks", "INTEGER");
   for (const table of [
     "SubjectMatchingSentencesBlock",
     "SubjectRearrangeSentenceBlock",

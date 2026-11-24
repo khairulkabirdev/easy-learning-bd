@@ -4,8 +4,10 @@ import type { McqQuestionRecord } from "@/app/admin/content/content-types";
 export type ModelPaperEntry = {
   id: string;
   title: string;
+  shortDescription?: string;
   number: string | null;
   marks: number | null;
+  markPattern?: string;
   reference?: boolean;
   native?: StudentContentRecord["blocks"][number];
   imported?: { question: string; answer: string; passage: string; instructions: string; mcq: McqQuestionRecord | null };

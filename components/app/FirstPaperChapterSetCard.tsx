@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Flag, Heart } from "lucide-react";
 
 import {
@@ -13,18 +13,30 @@ export function FirstPaperChapterSetCard({
   content,
   title,
   setNumber,
+  children,
+  className,
+  showActions = true,
+  subtitle,
+  badgeLabel,
+  headerExtra,
 }: {
-  content: StudentContentRecord;
+  content?: StudentContentRecord;
   title: string;
   setNumber: number;
+  children?: ReactNode;
+  className?: string;
+  showActions?: boolean;
+  subtitle?: string;
+  badgeLabel?: string;
+  headerExtra?: ReactNode;
 }) {
   const [isFlagged, setIsFlagged] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-2">
+    <div className={cn("mx-auto w-full max-w-3xl px-2", className)}>
       <div
-        aria-label={`${title} set ${setNumber}`}
+        aria-label={subtitle ? `${title} — ${subtitle}` : `${title} set ${setNumber}`}
         className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900"
       >
         <div className="px-4 pb-3 pt-4 sm:px-5 sm:pt-5">
@@ -32,7 +44,7 @@ export function FirstPaperChapterSetCard({
             <div className="flex min-w-0 items-center gap-2">
               <div className="relative shrink-0">
                 <span className="poppins flex h-7 min-w-7 items-center justify-center rounded-lg bg-sky-100 px-1.5 text-xs font-bold text-sky-600 dark:bg-sky-900/30 dark:text-sky-400">
-                  {String(setNumber).padStart(2, "0")}
+                  {badgeLabel ?? String(setNumber).padStart(2, "0")}
                 </span>
                 <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-gray-900" />
               </div>
@@ -42,12 +54,13 @@ export function FirstPaperChapterSetCard({
                   {title}
                 </div>
                 <div className="poppins mt-0.5 text-[11px] text-gray-400 dark:text-gray-500">
-                  Set {String(setNumber).padStart(2, "0")}
+                  {subtitle ?? `Set ${String(setNumber).padStart(2, "0")}`}
                 </div>
               </div>
             </div>
 
-            <div className="inline-flex shrink-0 divide-x divide-gray-200 overflow-hidden rounded-full border border-gray-200 bg-gray-50 dark:divide-gray-700 dark:border-gray-700 dark:bg-gray-800">
+            {headerExtra}
+            {showActions ? <div className="inline-flex shrink-0 divide-x divide-gray-200 overflow-hidden rounded-full border border-gray-200 bg-gray-50 dark:divide-gray-700 dark:border-gray-700 dark:bg-gray-800">
               <button
                 type="button"
                 onClick={() => setIsFlagged((current) => !current)}
@@ -79,12 +92,12 @@ export function FirstPaperChapterSetCard({
                 <Heart className={cn("h-4 w-4", isFavorite && "fill-current")} />
                 <span className="poppins hidden sm:inline">Fav</span>
               </button>
-            </div>
+            </div> : null}
           </div>
         </div>
 
         <div className="border-t border-gray-100 px-3 pb-4 pt-3 dark:border-gray-800 sm:px-4 sm:pb-5">
-          <StudentContentViewer content={content} showHeader={false} />
+          {children ?? (content ? <StudentContentViewer content={content} showHeader={false} /> : null)}
         </div>
       </div>
     </div>

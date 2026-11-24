@@ -343,6 +343,10 @@ model ContentBlock {
   sortOrder                    Int      @default(0)
   boardId                      String?
   academicYearId               String?
+  // Shared optional model-paper header for every block kind; older rows default to empty.
+  title                        String   @default("")
+  shortDescription             String   @default("")
+  marks                        Int?     // Optional teacher override; null = suggested class/subject marks
   createdAt                    DateTime @default(now())
   updatedAt                    DateTime @updatedAt
 

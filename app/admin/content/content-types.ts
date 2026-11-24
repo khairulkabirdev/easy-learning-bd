@@ -406,6 +406,10 @@ export type ContentBlockRecord = {
   sortOrder: number;
   boardId: string | null;
   academicYearId: string | null;
+  // Section-specific metadata, independent of legacy title/instruction fields.
+  title: string;
+  shortDescription: string;
+  marks?: number | null;
   paragraph: ParagraphRecord | null;
   seenPassageOne: SeenCompositionPassageRecord | null;
   seenPassageTwo: SeenCompositionPassageRecord | null;

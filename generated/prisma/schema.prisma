@@ -335,14 +335,18 @@ model UnseenComposition {
 }
 
 model ContentBlock {
-  id             String   @id @default(cuid())
-  contentId      String
-  kind           String
-  sortOrder      Int      @default(0)
-  boardId        String?
-  academicYearId String?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id               String   @id @default(cuid())
+  contentId        String
+  kind             String
+  sortOrder        Int      @default(0)
+  boardId          String?
+  academicYearId   String?
+  // Shared optional model-paper header for every block kind; older rows default to empty.
+  title            String   @default("")
+  shortDescription String   @default("")
+  marks            Int? // Optional teacher override; null = suggested class/subject marks
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   content                      Content                       @relation(fields: [contentId], references: [id], onDelete: Cascade)
   paragraph                    Paragraph?
