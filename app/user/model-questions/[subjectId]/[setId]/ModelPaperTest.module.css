@@ -15,11 +15,11 @@
   justify-content: space-between;
   gap: .65rem;
 }
-.modeSwitch { display: inline-flex; gap: .15rem; padding: .2rem; border-radius: .55rem; border: 1px solid var(--border); background: var(--card); }
-.modeButton, .modeActive { display: inline-flex; align-items: center; justify-content: center; gap: .35rem; padding: .47rem .72rem; border-radius: .4rem; font: 600 .82rem/1.3 Arial, sans-serif; cursor: pointer; }
+.modeSwitch { display: inline-flex; flex-wrap: wrap; max-width: 100%; gap: .15rem; padding: .2rem; border-radius: .55rem; border: 1px solid var(--border); background: var(--card); }
+.modeButton, .modeActive { display: inline-flex; align-items: center; justify-content: center; gap: .35rem; min-height: 44px; padding: .47rem .72rem; border-radius: .4rem; font: 600 .875rem/1.3 var(--font-sans); cursor: pointer; }
 .modeButton { color: var(--muted-foreground); }
 .modeButton:hover { background: var(--muted); color: var(--foreground); }
-.modeActive { background: #172632; color: #fff; }
+.modeActive { background: var(--primary); color: var(--primary-foreground); }
 .modeButton:disabled { opacity: .5; cursor: not-allowed; }
 .timer { display: inline-flex; gap: .35rem; align-items: center; color: var(--muted-foreground); font: .81rem Arial, sans-serif; font-variant-numeric: tabular-nums; }
 .reviewNotice { display: flex; gap: .65rem; border: 1px solid #b8d9cb; border-radius: .5rem; padding: .9rem 1rem; color: #14553d; background: #ecf9f2; }
@@ -596,47 +596,56 @@
 /* eLesson Unseen / Summary update: compact student-only online layout.
    Preserve printed A4 mode, existing answers, and all teacher-provided text. */
 @media screen {
-  /* True/False: one clean question row, not nested statement boxes. */
-  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="true-false"] .questionBody :global([data-slot="card-content"] > .rounded-xl.border.p-4) {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(9rem, 11rem);
-    gap: .4rem .85rem;
-    align-items: center;
-    padding: .7rem .85rem;
-    margin: 0 0 .55rem;
-    border: 1px solid #e2e8f0;
-    border-radius: 11px;
-    background: #fff;
+  /* Shared practice row: same green number and two answer buttons in the exam. */
+  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="true-false"] .questionBody :global([data-slot="true-false-question"]) {
+    margin: 0 0 .65rem;
+    padding: .85rem;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--muted) 45%, var(--background));
+    font: 15px/1.5 var(--font-sans), Arial, sans-serif;
   }
-  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="true-false"] .questionBody :global([data-slot="card-content"] > .rounded-xl.border.p-4 > .mb-3.flex) {
-    grid-column: 1 / -1;
+  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="true-false"] .questionBody :global([data-slot="true-false-question"] p) {
     margin: 0;
+    line-height: 1.6;
   }
-  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="true-false"] .questionBody :global([data-slot="card-content"] > .rounded-xl.border.p-4 > .mb-3.rounded-xl.border) {
-    grid-column: 1;
-    min-width: 0;
-    margin: 0;
-    padding: 0;
+  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="true-false"] .questionBody :global([data-slot="true-false-options"]) {
+    width: 100%;
+    max-width: 18rem;
+  }
+  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="true-false"] .questionBody :global([data-slot="true-false-options"] button) {
+    min-height: 44px;
+    border-radius: 10px;
+    box-shadow: none;
+  }
+  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="true-false"] .questionBody :global([data-slot="true-false-options"] button[aria-pressed="true"]) {
+    border-color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 10%, var(--background));
+    color: var(--primary);
+  }
+  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="true-false"] .questionBody :global([data-slot="true-false-correction"] textarea) {
+    min-height: 80px;
+    padding: .65rem .75rem;
+    background: var(--background);
+    border-radius: 10px;
+    line-height: 1.5;
+  }
+  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="true-false"] .questionBody :global([data-slot="true-false-question"] :is(button, textarea):focus-visible) {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="true-false"] .questionBody :global([data-slot="true-false-question"] :is(button, textarea):disabled) {
+    opacity: 1;
+  }
+  /* Summary uses only the paper border and the answer field border.
+     Keep the shared question row without an extra nested card surface. */
+  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="writing-summary"] .questionBody :global([data-slot="card-content"] > .rounded-xl.border) {
     border: 0;
     border-radius: 0;
+    padding: .35rem 0 .55rem;
     background: transparent;
-    font: 15.5px/1.45 "Times New Roman", Times, serif;
-  }
-  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="true-false"] .questionBody :global([data-slot="card-content"] > .rounded-xl.border.p-4 > .max-w-xs) {
-    grid-column: 2;
-    width: 100%;
-    max-width: none;
-  }
-  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="true-false"] .questionBody :global([data-slot="card-content"] > .rounded-xl.border.p-4 > .mt-3) {
-    grid-column: 1 / -1;
-    margin-top: .2rem;
-  }
-  /* The reused Summary answer editor should feel like a single writing task. */
-  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="writing-summary"] .questionBody :global([data-slot="card-content"] > .rounded-xl.border) {
-    border: 1px solid #e2e8f0;
-    border-radius: 11px;
-    padding: .85rem;
-    background: #fff;
+    box-shadow: none;
   }
   .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="writing-summary"] .questionBody :global([data-slot="card-content"] > .rounded-xl.border > .mb-3.flex) {
     display: none;
@@ -657,6 +666,12 @@
     background: #fbfcfe;
     box-shadow: none;
   }
+  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="writing-summary"] .questionBody :global([data-slot="card-content"] > .rounded-xl.border > textarea:focus-visible) {
+    border-color: var(--primary);
+    outline: 2px solid var(--primary);
+    outline-offset: 1px;
+    box-shadow: none;
+  }
   /* Matching selection cards: reduce the dead space in each sentence. */
   .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="table-completion"] .questionBody :global([data-slot="card-content"] .space-y-4 > .rounded-xl.border.p-4),
   .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="column-matching"] .questionBody :global([data-slot="card-content"] .space-y-4 > .rounded-xl.border.p-4) {
@@ -670,12 +685,73 @@
     padding: .6rem;
   }
 }
-@media screen and (max-width: 600px) {
-  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="true-false"] .questionBody :global([data-slot="card-content"] > .rounded-xl.border.p-4) {
-    grid-template-columns: minmax(0, 1fr);
+/* Information Transfer uses the same inline blank renderer as gap filling.
+   Scope these changes to online information-transfer questions only. */
+@media screen {
+  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="information-transfer"] .questionBody :global([data-slot="inline-blank-question"]) {
+    line-height: 2.75rem !important;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
-  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="true-false"] .questionBody :global([data-slot="card-content"] > .rounded-xl.border.p-4 > .max-w-xs) {
-    grid-column: 1;
-    max-width: 13rem;
+  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="information-transfer"] .questionBody :global([data-slot="inline-blank"]) {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    line-height: 1;
+    margin: 0 .3rem;
+    max-width: calc(100% - .6rem);
   }
+  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="information-transfer"] .questionBody :global([data-slot="inline-blank"] input) {
+    display: block;
+    box-sizing: border-box;
+    min-width: 0;
+    width: clamp(6.5rem, 25vw, 11rem);
+    max-width: 100%;
+    height: 36px;
+    min-height: 36px;
+    margin: 0;
+    padding: .25rem .55rem;
+    line-height: 1.25;
+    border: 1px solid var(--input);
+    border-radius: 8px;
+    outline: none;
+    box-shadow: none;
+  }
+  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="information-transfer"] .questionBody :global([data-slot="inline-blank"] input[data-answer-status="correct"]) {
+    border-color: var(--primary);
+  }
+  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="information-transfer"] .questionBody :global([data-slot="inline-blank"] input[data-answer-status="incorrect"]) {
+    border-color: var(--destructive);
+  }
+  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="information-transfer"] .questionBody :global([data-slot="inline-blank"] input:focus),
+  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="information-transfer"] .questionBody :global([data-slot="inline-blank"] input:focus-visible) {
+    border: 1px solid var(--primary) !important;
+    outline: none !important;
+    outline-offset: 0 !important;
+    box-shadow: none !important;
+    background: color-mix(in srgb, var(--primary) 4%, var(--background));
+    --tw-ring-shadow: 0 0 #0000 !important;
+    --tw-ring-offset-shadow: 0 0 #0000 !important;
+  }
+}
+@media screen and (max-width: 640px) {
+  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="information-transfer"] .questionBody :global([data-slot="inline-blank-question"]) {
+    line-height: 3rem !important;
+  }
+  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="information-transfer"] .questionBody :global([data-slot="inline-blank"] input) {
+    height: 40px;
+    min-height: 40px;
+    font-size: 16px;
+  }
+  .paperSheet[data-paper-mode="online"] .questionSection[data-paper-kind="true-false"] .questionBody :global([data-slot="true-false-question"]) {
+    padding: .75rem;
+  }
+}
+
+/* Keep exam print styling intact; only improve interactive controls and narrow screens. */
+@media screen and (max-width: 480px) {
+  .toolbar, .toolbarControls, .finishBar { min-width: 0; gap: .5rem; }
+  .modeSwitch { width: 100%; }
+  .modeButton, .modeActive { flex: 1 1 0; white-space: normal; }
+  .reviewNotice { overflow-wrap: anywhere; }
 }

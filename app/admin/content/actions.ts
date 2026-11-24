@@ -322,12 +322,12 @@ const updateSynonymsAntonymsEntrySchema = z.object({
   contentId: z.string().min(1),
   blockId: z.string().min(1),
   synonymsAntonymsEntryId: z.string().min(1),
-  word: synonymsWordUpdateSchema,
-  meanings: synonymsMeaningUpdateSchema,
-  synonyms: optionalEntryTextSchema,
-  antonyms: optionalEntryTextSchema,
+  word: synonymsWordUpdateSchema.optional(),
+  meanings: synonymsMeaningUpdateSchema.optional(),
+  synonyms: optionalEntryTextSchema.optional(),
+  antonyms: optionalEntryTextSchema.optional(),
   answerType: z.enum(["synonym", "antonym", "both"]).optional(),
-  details: z.string().max(200_000, "Details are too long."),
+  details: z.string().max(200_000, "Details are too long.").optional(),
 });
 
 function assertCrudUpdateValidation(
@@ -2381,7 +2381,7 @@ export async function updateSynonymsAntonymsEntry(input: unknown) {
   if (!existingEntry) throw new Error("Synonyms / Antonyms row not found.");
 
   const previousRequiredCount = [existingEntry.word, existingEntry.meanings].filter((value) => value.trim()).length;
-  const nextRequiredCount = [parsed.word, parsed.meanings].filter((value) => value.trim()).length;
+  const nextRequiredCount = [parsed.word ?? existingEntry.word, parsed.meanings ?? existingEntry.meanings].filter((value) => value.trim()).length;
   if (nextRequiredCount < previousRequiredCount || (previousRequiredCount === 2 && nextRequiredCount !== 2)) {
     throw new Error("Word and meaning are required.");
   }
@@ -2393,12 +2393,12 @@ export async function updateSynonymsAntonymsEntry(input: unknown) {
       organizationId: user.organizationId,
     },
     data: {
-      word: parsed.word,
-      meanings: parsed.meanings,
-      synonyms: parsed.synonyms,
-      antonyms: parsed.antonyms,
+      ...(parsed.word === undefined ? {} : { word: parsed.word }),
+      ...(parsed.meanings === undefined ? {} : { meanings: parsed.meanings }),
+      ...(parsed.synonyms === undefined ? {} : { synonyms: parsed.synonyms }),
+      ...(parsed.antonyms === undefined ? {} : { antonyms: parsed.antonyms }),
       ...(parsed.answerType === undefined ? {} : { answerType: parsed.answerType }),
-      details: parsed.details,
+      ...(parsed.details === undefined ? {} : { details: parsed.details }),
       updatedBy: user.id,
     },
   });

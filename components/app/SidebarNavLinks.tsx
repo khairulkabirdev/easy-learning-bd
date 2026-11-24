@@ -26,7 +26,7 @@ export function SidebarNavLinks({ groups }: { groups: ShellNavGroup[] }) {
   const pathname = usePathname();
 
   return (
-    <div className="space-y-6 px-3 py-4">
+    <div className="space-y-5 px-3 py-4">
       {groups.map((group) => (
         <div key={group.label} className="space-y-2">
           <div className="px-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
@@ -43,14 +43,14 @@ export function SidebarNavLinks({ groups }: { groups: ShellNavGroup[] }) {
                   <Collapsible key={item.title} defaultOpen={childActive} className="group/collapsible">
                     <CollapsibleTrigger
                       className={cn(
-                        "group flex h-9 w-full items-center gap-2 rounded-md px-3 text-sm transition-colors",
+                        "group flex min-h-11 md:min-h-10 w-full items-center gap-2 rounded-md px-3 text-sm transition-colors",
                         childActive
                           ? "bg-accent/70 font-medium text-accent-foreground"
                           : "hover:bg-accent hover:text-accent-foreground",
                       )}
                     >
                       {item.icon}
-                      <span className="flex-1 text-left">{item.title}</span>
+                      <span className="min-w-0 flex-1 text-left">{item.title}</span>
                       <ChevronRight className="size-4 transition-transform group-data-open/collapsible:rotate-90" />
                     </CollapsibleTrigger>
                     <CollapsibleContent className="mt-1 ml-4 space-y-1 border-l pl-2">
@@ -62,9 +62,9 @@ export function SidebarNavLinks({ groups }: { groups: ShellNavGroup[] }) {
                             href={child.href}
                             aria-current={childIsActive ? "page" : undefined}
                             className={cn(
-                              "flex h-8 w-full items-center gap-2 rounded-md px-3 text-sm transition-colors",
+                              "flex min-h-11 md:min-h-9 w-full items-center gap-2 rounded-md px-3 text-sm transition-colors",
                               childIsActive
-                                ? "bg-accent font-medium text-accent-foreground"
+                                ? "bg-primary/10 font-semibold text-primary"
                                 : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
                             )}
                           >
@@ -86,9 +86,9 @@ export function SidebarNavLinks({ groups }: { groups: ShellNavGroup[] }) {
                   href={item.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "flex h-9 w-full items-center gap-2 rounded-md px-3 text-sm transition-colors",
+                    "flex min-h-11 md:min-h-10 w-full items-center gap-2 rounded-md px-3 text-sm transition-colors",
                     active
-                      ? "bg-accent font-medium text-accent-foreground"
+                      ? "bg-primary/10 font-semibold text-primary"
                       : "hover:bg-accent hover:text-accent-foreground",
                   )}
                 >

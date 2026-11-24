@@ -44,6 +44,7 @@ model User {
   updatedAt      DateTime      @updatedAt
 
   class               Class?                @relation("StudentClass", fields: [classId], references: [id], onDelete: SetNull)
+  dailyGoals          StudentDailyGoal[]
   sessions            AuthSession[]         @relation("UserSessions")
   passwordResetTokens PasswordResetToken[]  @relation("UserPasswordResetTokens")
 
@@ -1346,4 +1347,17 @@ model ModelQuestionSetBlock {
   set            ModelQuestionSet @relation(fields: [setId], references: [id], onDelete: Cascade)
 
   @@index([organizationId, setId, sortOrder])
+}
+
+// Additive per-student daily checklist. Existing curriculum and accounts are unchanged.
+model StudentDailyGoal {
+  userId String
+  day String
+  readLesson Boolean @default(false)
+  practiceExercise Boolean @default(false)
+  reviewSomething Boolean @default(false)
+  studied Boolean @default(false)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, day])
 }

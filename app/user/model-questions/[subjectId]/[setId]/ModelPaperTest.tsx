@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, CheckCircle2, ClipboardList, FileText, Printer, Timer } from "lucide-react";
 import { finishModelPaper } from "@/app/user/model-questions/actions";
-import { StudentModelPaperQuestion } from "@/app/user/lessons/student-content";
+import { StudentModelPaperQuestion, modelSynonymsAntonymsItemLabel, modelSynonymsAntonymsPrompt } from "@/app/user/lessons/student-content";
 import { ModelPaperMode } from "@/components/app/ModelPaperMode";
 import {
   AlertDialog,
@@ -177,10 +177,9 @@ function PrintedQuestion({ entry, blocks }: { entry: ModelPaperEntry; blocks: Mo
   }
   if (native.kind === "synonyms-antonyms" && native.synonymsAntonyms) {
     return <div className={styles.printedInlineRows}>
-      {native.synonymsAntonyms.entries.map((row, i) => {
-        const answerType = "answerType" in row ? row.answerType : undefined;
-        return <span key={row.id}>({String.fromCharCode(97 + i)}) {row.word} ({answerType === "antonym" ? "antonym" : answerType === "synonym" ? "synonym" : "synonym/antonym"}); </span>;
-      })}
+      {native.synonymsAntonyms.entries.filter(row => row.word.trim()).map((row, i) => (
+        <span key={row.id}>{modelSynonymsAntonymsItemLabel(i)} {modelSynonymsAntonymsPrompt(row)}</span>
+      ))}
     </div>;
   }
   if (native.kind === "true-false" && native.trueFalseExercise) {

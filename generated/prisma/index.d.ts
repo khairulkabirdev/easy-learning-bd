@@ -288,6 +288,11 @@ export type ModelQuestionSet = $Result.DefaultSelection<Prisma.$ModelQuestionSet
  * 
  */
 export type ModelQuestionSetBlock = $Result.DefaultSelection<Prisma.$ModelQuestionSetBlockPayload>
+/**
+ * Model StudentDailyGoal
+ * 
+ */
+export type StudentDailyGoal = $Result.DefaultSelection<Prisma.$StudentDailyGoalPayload>
 
 /**
  * Enums
@@ -987,6 +992,16 @@ export class PrismaClient<
     * ```
     */
   get modelQuestionSetBlock(): Prisma.ModelQuestionSetBlockDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.studentDailyGoal`: Exposes CRUD operations for the **StudentDailyGoal** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more StudentDailyGoals
+    * const studentDailyGoals = await prisma.studentDailyGoal.findMany()
+    * ```
+    */
+  get studentDailyGoal(): Prisma.StudentDailyGoalDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1482,7 +1497,8 @@ export namespace Prisma {
     AcademicYear: 'AcademicYear',
     ModelQuestionImport: 'ModelQuestionImport',
     ModelQuestionSet: 'ModelQuestionSet',
-    ModelQuestionSetBlock: 'ModelQuestionSetBlock'
+    ModelQuestionSetBlock: 'ModelQuestionSetBlock',
+    StudentDailyGoal: 'StudentDailyGoal'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1501,7 +1517,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "authSession" | "passwordResetToken" | "authEmailSetting" | "auditLog" | "class" | "subject" | "unit" | "lesson" | "topic" | "content" | "seenPassageOne" | "seenPassageTwo" | "unseenComposition" | "contentBlock" | "paragraph" | "vocabulary" | "vocabularyEntry" | "storageConfiguration" | "uploadedFile" | "synonymsAntonyms" | "synonymsAntonymsEntry" | "gapFillExercise" | "gapFillFirstPaper" | "gapFillSecondPaper" | "mcqSection" | "questionAnswerExercise" | "tableCompletionExercise" | "columnMatchingExercise" | "rearrangeSentenceExercise" | "questionFromPoems" | "questionFromStory" | "trueFalseExercise" | "informationTransfer" | "substitutionTable" | "rightFormOfVerb" | "narration" | "changingSentence" | "punctuationAndCapitalization" | "preposition" | "suffixAndPrefix" | "partsOfSpeech" | "tagQuestion" | "connector" | "subjectMatchingSentencesBlock" | "subjectRearrangeSentenceBlock" | "subjectQuestionFromPoemsBlock" | "subjectQuestionFromStoryBlock" | "subjectEnglishSecondPaperBlock" | "subjectPartsOfSpeechBlock" | "board" | "academicYear" | "modelQuestionImport" | "modelQuestionSet" | "modelQuestionSetBlock"
+      modelProps: "user" | "authSession" | "passwordResetToken" | "authEmailSetting" | "auditLog" | "class" | "subject" | "unit" | "lesson" | "topic" | "content" | "seenPassageOne" | "seenPassageTwo" | "unseenComposition" | "contentBlock" | "paragraph" | "vocabulary" | "vocabularyEntry" | "storageConfiguration" | "uploadedFile" | "synonymsAntonyms" | "synonymsAntonymsEntry" | "gapFillExercise" | "gapFillFirstPaper" | "gapFillSecondPaper" | "mcqSection" | "questionAnswerExercise" | "tableCompletionExercise" | "columnMatchingExercise" | "rearrangeSentenceExercise" | "questionFromPoems" | "questionFromStory" | "trueFalseExercise" | "informationTransfer" | "substitutionTable" | "rightFormOfVerb" | "narration" | "changingSentence" | "punctuationAndCapitalization" | "preposition" | "suffixAndPrefix" | "partsOfSpeech" | "tagQuestion" | "connector" | "subjectMatchingSentencesBlock" | "subjectRearrangeSentenceBlock" | "subjectQuestionFromPoemsBlock" | "subjectQuestionFromStoryBlock" | "subjectEnglishSecondPaperBlock" | "subjectPartsOfSpeechBlock" | "board" | "academicYear" | "modelQuestionImport" | "modelQuestionSet" | "modelQuestionSetBlock" | "studentDailyGoal"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5575,6 +5591,80 @@ export namespace Prisma {
           }
         }
       }
+      StudentDailyGoal: {
+        payload: Prisma.$StudentDailyGoalPayload<ExtArgs>
+        fields: Prisma.StudentDailyGoalFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StudentDailyGoalFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentDailyGoalPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StudentDailyGoalFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentDailyGoalPayload>
+          }
+          findFirst: {
+            args: Prisma.StudentDailyGoalFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentDailyGoalPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StudentDailyGoalFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentDailyGoalPayload>
+          }
+          findMany: {
+            args: Prisma.StudentDailyGoalFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentDailyGoalPayload>[]
+          }
+          create: {
+            args: Prisma.StudentDailyGoalCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentDailyGoalPayload>
+          }
+          createMany: {
+            args: Prisma.StudentDailyGoalCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.StudentDailyGoalCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentDailyGoalPayload>[]
+          }
+          delete: {
+            args: Prisma.StudentDailyGoalDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentDailyGoalPayload>
+          }
+          update: {
+            args: Prisma.StudentDailyGoalUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentDailyGoalPayload>
+          }
+          deleteMany: {
+            args: Prisma.StudentDailyGoalDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StudentDailyGoalUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.StudentDailyGoalUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentDailyGoalPayload>[]
+          }
+          upsert: {
+            args: Prisma.StudentDailyGoalUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentDailyGoalPayload>
+          }
+          aggregate: {
+            args: Prisma.StudentDailyGoalAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStudentDailyGoal>
+          }
+          groupBy: {
+            args: Prisma.StudentDailyGoalGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StudentDailyGoalGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StudentDailyGoalCountArgs<ExtArgs>
+            result: $Utils.Optional<StudentDailyGoalCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -5726,6 +5816,7 @@ export namespace Prisma {
     modelQuestionImport?: ModelQuestionImportOmit
     modelQuestionSet?: ModelQuestionSetOmit
     modelQuestionSetBlock?: ModelQuestionSetBlockOmit
+    studentDailyGoal?: StudentDailyGoalOmit
   }
 
   /* Types for Logging */
@@ -5806,11 +5897,13 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
+    dailyGoals: number
     sessions: number
     passwordResetTokens: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    dailyGoals?: boolean | UserCountOutputTypeCountDailyGoalsArgs
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
     passwordResetTokens?: boolean | UserCountOutputTypeCountPasswordResetTokensArgs
   }
@@ -5824,6 +5917,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the UserCountOutputType
      */
     select?: UserCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDailyGoalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StudentDailyGoalWhereInput
   }
 
   /**
@@ -6667,6 +6767,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     class?: boolean | User$classArgs<ExtArgs>
+    dailyGoals?: boolean | User$dailyGoalsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     passwordResetTokens?: boolean | User$passwordResetTokensArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -6749,6 +6850,7 @@ export namespace Prisma {
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "role" | "profileImage" | "phone" | "district" | "institutionName" | "instituteType" | "academicYear" | "rollNumber" | "section" | "groupName" | "designation" | "subject" | "experience" | "classId" | "organizationId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     class?: boolean | User$classArgs<ExtArgs>
+    dailyGoals?: boolean | User$dailyGoalsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     passwordResetTokens?: boolean | User$passwordResetTokensArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -6764,6 +6866,7 @@ export namespace Prisma {
     name: "User"
     objects: {
       class: Prisma.$ClassPayload<ExtArgs> | null
+      dailyGoals: Prisma.$StudentDailyGoalPayload<ExtArgs>[]
       sessions: Prisma.$AuthSessionPayload<ExtArgs>[]
       passwordResetTokens: Prisma.$PasswordResetTokenPayload<ExtArgs>[]
     }
@@ -7184,6 +7287,7 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     class<T extends User$classArgs<ExtArgs> = {}>(args?: Subset<T, User$classArgs<ExtArgs>>): Prisma__ClassClient<$Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    dailyGoals<T extends User$dailyGoalsArgs<ExtArgs> = {}>(args?: Subset<T, User$dailyGoalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentDailyGoalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuthSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     passwordResetTokens<T extends User$passwordResetTokensArgs<ExtArgs> = {}>(args?: Subset<T, User$passwordResetTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -7646,6 +7750,30 @@ export namespace Prisma {
      */
     include?: ClassInclude<ExtArgs> | null
     where?: ClassWhereInput
+  }
+
+  /**
+   * User.dailyGoals
+   */
+  export type User$dailyGoalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentDailyGoal
+     */
+    select?: StudentDailyGoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentDailyGoal
+     */
+    omit?: StudentDailyGoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentDailyGoalInclude<ExtArgs> | null
+    where?: StudentDailyGoalWhereInput
+    orderBy?: StudentDailyGoalOrderByWithRelationInput | StudentDailyGoalOrderByWithRelationInput[]
+    cursor?: StudentDailyGoalWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StudentDailyGoalScalarFieldEnum | StudentDailyGoalScalarFieldEnum[]
   }
 
   /**
@@ -73821,6 +73949,1075 @@ export namespace Prisma {
 
 
   /**
+   * Model StudentDailyGoal
+   */
+
+  export type AggregateStudentDailyGoal = {
+    _count: StudentDailyGoalCountAggregateOutputType | null
+    _min: StudentDailyGoalMinAggregateOutputType | null
+    _max: StudentDailyGoalMaxAggregateOutputType | null
+  }
+
+  export type StudentDailyGoalMinAggregateOutputType = {
+    userId: string | null
+    day: string | null
+    readLesson: boolean | null
+    practiceExercise: boolean | null
+    reviewSomething: boolean | null
+    studied: boolean | null
+  }
+
+  export type StudentDailyGoalMaxAggregateOutputType = {
+    userId: string | null
+    day: string | null
+    readLesson: boolean | null
+    practiceExercise: boolean | null
+    reviewSomething: boolean | null
+    studied: boolean | null
+  }
+
+  export type StudentDailyGoalCountAggregateOutputType = {
+    userId: number
+    day: number
+    readLesson: number
+    practiceExercise: number
+    reviewSomething: number
+    studied: number
+    _all: number
+  }
+
+
+  export type StudentDailyGoalMinAggregateInputType = {
+    userId?: true
+    day?: true
+    readLesson?: true
+    practiceExercise?: true
+    reviewSomething?: true
+    studied?: true
+  }
+
+  export type StudentDailyGoalMaxAggregateInputType = {
+    userId?: true
+    day?: true
+    readLesson?: true
+    practiceExercise?: true
+    reviewSomething?: true
+    studied?: true
+  }
+
+  export type StudentDailyGoalCountAggregateInputType = {
+    userId?: true
+    day?: true
+    readLesson?: true
+    practiceExercise?: true
+    reviewSomething?: true
+    studied?: true
+    _all?: true
+  }
+
+  export type StudentDailyGoalAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StudentDailyGoal to aggregate.
+     */
+    where?: StudentDailyGoalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudentDailyGoals to fetch.
+     */
+    orderBy?: StudentDailyGoalOrderByWithRelationInput | StudentDailyGoalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StudentDailyGoalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudentDailyGoals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudentDailyGoals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned StudentDailyGoals
+    **/
+    _count?: true | StudentDailyGoalCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StudentDailyGoalMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StudentDailyGoalMaxAggregateInputType
+  }
+
+  export type GetStudentDailyGoalAggregateType<T extends StudentDailyGoalAggregateArgs> = {
+        [P in keyof T & keyof AggregateStudentDailyGoal]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStudentDailyGoal[P]>
+      : GetScalarType<T[P], AggregateStudentDailyGoal[P]>
+  }
+
+
+
+
+  export type StudentDailyGoalGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StudentDailyGoalWhereInput
+    orderBy?: StudentDailyGoalOrderByWithAggregationInput | StudentDailyGoalOrderByWithAggregationInput[]
+    by: StudentDailyGoalScalarFieldEnum[] | StudentDailyGoalScalarFieldEnum
+    having?: StudentDailyGoalScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StudentDailyGoalCountAggregateInputType | true
+    _min?: StudentDailyGoalMinAggregateInputType
+    _max?: StudentDailyGoalMaxAggregateInputType
+  }
+
+  export type StudentDailyGoalGroupByOutputType = {
+    userId: string
+    day: string
+    readLesson: boolean
+    practiceExercise: boolean
+    reviewSomething: boolean
+    studied: boolean
+    _count: StudentDailyGoalCountAggregateOutputType | null
+    _min: StudentDailyGoalMinAggregateOutputType | null
+    _max: StudentDailyGoalMaxAggregateOutputType | null
+  }
+
+  type GetStudentDailyGoalGroupByPayload<T extends StudentDailyGoalGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StudentDailyGoalGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StudentDailyGoalGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StudentDailyGoalGroupByOutputType[P]>
+            : GetScalarType<T[P], StudentDailyGoalGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StudentDailyGoalSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
+    day?: boolean
+    readLesson?: boolean
+    practiceExercise?: boolean
+    reviewSomething?: boolean
+    studied?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["studentDailyGoal"]>
+
+  export type StudentDailyGoalSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
+    day?: boolean
+    readLesson?: boolean
+    practiceExercise?: boolean
+    reviewSomething?: boolean
+    studied?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["studentDailyGoal"]>
+
+  export type StudentDailyGoalSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
+    day?: boolean
+    readLesson?: boolean
+    practiceExercise?: boolean
+    reviewSomething?: boolean
+    studied?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["studentDailyGoal"]>
+
+  export type StudentDailyGoalSelectScalar = {
+    userId?: boolean
+    day?: boolean
+    readLesson?: boolean
+    practiceExercise?: boolean
+    reviewSomething?: boolean
+    studied?: boolean
+  }
+
+  export type StudentDailyGoalOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "day" | "readLesson" | "practiceExercise" | "reviewSomething" | "studied", ExtArgs["result"]["studentDailyGoal"]>
+  export type StudentDailyGoalInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type StudentDailyGoalIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type StudentDailyGoalIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $StudentDailyGoalPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "StudentDailyGoal"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      userId: string
+      day: string
+      readLesson: boolean
+      practiceExercise: boolean
+      reviewSomething: boolean
+      studied: boolean
+    }, ExtArgs["result"]["studentDailyGoal"]>
+    composites: {}
+  }
+
+  type StudentDailyGoalGetPayload<S extends boolean | null | undefined | StudentDailyGoalDefaultArgs> = $Result.GetResult<Prisma.$StudentDailyGoalPayload, S>
+
+  type StudentDailyGoalCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StudentDailyGoalFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StudentDailyGoalCountAggregateInputType | true
+    }
+
+  export interface StudentDailyGoalDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StudentDailyGoal'], meta: { name: 'StudentDailyGoal' } }
+    /**
+     * Find zero or one StudentDailyGoal that matches the filter.
+     * @param {StudentDailyGoalFindUniqueArgs} args - Arguments to find a StudentDailyGoal
+     * @example
+     * // Get one StudentDailyGoal
+     * const studentDailyGoal = await prisma.studentDailyGoal.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StudentDailyGoalFindUniqueArgs>(args: SelectSubset<T, StudentDailyGoalFindUniqueArgs<ExtArgs>>): Prisma__StudentDailyGoalClient<$Result.GetResult<Prisma.$StudentDailyGoalPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one StudentDailyGoal that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {StudentDailyGoalFindUniqueOrThrowArgs} args - Arguments to find a StudentDailyGoal
+     * @example
+     * // Get one StudentDailyGoal
+     * const studentDailyGoal = await prisma.studentDailyGoal.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StudentDailyGoalFindUniqueOrThrowArgs>(args: SelectSubset<T, StudentDailyGoalFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StudentDailyGoalClient<$Result.GetResult<Prisma.$StudentDailyGoalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StudentDailyGoal that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentDailyGoalFindFirstArgs} args - Arguments to find a StudentDailyGoal
+     * @example
+     * // Get one StudentDailyGoal
+     * const studentDailyGoal = await prisma.studentDailyGoal.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StudentDailyGoalFindFirstArgs>(args?: SelectSubset<T, StudentDailyGoalFindFirstArgs<ExtArgs>>): Prisma__StudentDailyGoalClient<$Result.GetResult<Prisma.$StudentDailyGoalPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StudentDailyGoal that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentDailyGoalFindFirstOrThrowArgs} args - Arguments to find a StudentDailyGoal
+     * @example
+     * // Get one StudentDailyGoal
+     * const studentDailyGoal = await prisma.studentDailyGoal.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StudentDailyGoalFindFirstOrThrowArgs>(args?: SelectSubset<T, StudentDailyGoalFindFirstOrThrowArgs<ExtArgs>>): Prisma__StudentDailyGoalClient<$Result.GetResult<Prisma.$StudentDailyGoalPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more StudentDailyGoals that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentDailyGoalFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all StudentDailyGoals
+     * const studentDailyGoals = await prisma.studentDailyGoal.findMany()
+     * 
+     * // Get first 10 StudentDailyGoals
+     * const studentDailyGoals = await prisma.studentDailyGoal.findMany({ take: 10 })
+     * 
+     * // Only select the `userId`
+     * const studentDailyGoalWithUserIdOnly = await prisma.studentDailyGoal.findMany({ select: { userId: true } })
+     * 
+     */
+    findMany<T extends StudentDailyGoalFindManyArgs>(args?: SelectSubset<T, StudentDailyGoalFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentDailyGoalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a StudentDailyGoal.
+     * @param {StudentDailyGoalCreateArgs} args - Arguments to create a StudentDailyGoal.
+     * @example
+     * // Create one StudentDailyGoal
+     * const StudentDailyGoal = await prisma.studentDailyGoal.create({
+     *   data: {
+     *     // ... data to create a StudentDailyGoal
+     *   }
+     * })
+     * 
+     */
+    create<T extends StudentDailyGoalCreateArgs>(args: SelectSubset<T, StudentDailyGoalCreateArgs<ExtArgs>>): Prisma__StudentDailyGoalClient<$Result.GetResult<Prisma.$StudentDailyGoalPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many StudentDailyGoals.
+     * @param {StudentDailyGoalCreateManyArgs} args - Arguments to create many StudentDailyGoals.
+     * @example
+     * // Create many StudentDailyGoals
+     * const studentDailyGoal = await prisma.studentDailyGoal.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StudentDailyGoalCreateManyArgs>(args?: SelectSubset<T, StudentDailyGoalCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many StudentDailyGoals and returns the data saved in the database.
+     * @param {StudentDailyGoalCreateManyAndReturnArgs} args - Arguments to create many StudentDailyGoals.
+     * @example
+     * // Create many StudentDailyGoals
+     * const studentDailyGoal = await prisma.studentDailyGoal.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many StudentDailyGoals and only return the `userId`
+     * const studentDailyGoalWithUserIdOnly = await prisma.studentDailyGoal.createManyAndReturn({
+     *   select: { userId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StudentDailyGoalCreateManyAndReturnArgs>(args?: SelectSubset<T, StudentDailyGoalCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentDailyGoalPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a StudentDailyGoal.
+     * @param {StudentDailyGoalDeleteArgs} args - Arguments to delete one StudentDailyGoal.
+     * @example
+     * // Delete one StudentDailyGoal
+     * const StudentDailyGoal = await prisma.studentDailyGoal.delete({
+     *   where: {
+     *     // ... filter to delete one StudentDailyGoal
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StudentDailyGoalDeleteArgs>(args: SelectSubset<T, StudentDailyGoalDeleteArgs<ExtArgs>>): Prisma__StudentDailyGoalClient<$Result.GetResult<Prisma.$StudentDailyGoalPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one StudentDailyGoal.
+     * @param {StudentDailyGoalUpdateArgs} args - Arguments to update one StudentDailyGoal.
+     * @example
+     * // Update one StudentDailyGoal
+     * const studentDailyGoal = await prisma.studentDailyGoal.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StudentDailyGoalUpdateArgs>(args: SelectSubset<T, StudentDailyGoalUpdateArgs<ExtArgs>>): Prisma__StudentDailyGoalClient<$Result.GetResult<Prisma.$StudentDailyGoalPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more StudentDailyGoals.
+     * @param {StudentDailyGoalDeleteManyArgs} args - Arguments to filter StudentDailyGoals to delete.
+     * @example
+     * // Delete a few StudentDailyGoals
+     * const { count } = await prisma.studentDailyGoal.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StudentDailyGoalDeleteManyArgs>(args?: SelectSubset<T, StudentDailyGoalDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StudentDailyGoals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentDailyGoalUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many StudentDailyGoals
+     * const studentDailyGoal = await prisma.studentDailyGoal.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StudentDailyGoalUpdateManyArgs>(args: SelectSubset<T, StudentDailyGoalUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StudentDailyGoals and returns the data updated in the database.
+     * @param {StudentDailyGoalUpdateManyAndReturnArgs} args - Arguments to update many StudentDailyGoals.
+     * @example
+     * // Update many StudentDailyGoals
+     * const studentDailyGoal = await prisma.studentDailyGoal.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more StudentDailyGoals and only return the `userId`
+     * const studentDailyGoalWithUserIdOnly = await prisma.studentDailyGoal.updateManyAndReturn({
+     *   select: { userId: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends StudentDailyGoalUpdateManyAndReturnArgs>(args: SelectSubset<T, StudentDailyGoalUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentDailyGoalPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one StudentDailyGoal.
+     * @param {StudentDailyGoalUpsertArgs} args - Arguments to update or create a StudentDailyGoal.
+     * @example
+     * // Update or create a StudentDailyGoal
+     * const studentDailyGoal = await prisma.studentDailyGoal.upsert({
+     *   create: {
+     *     // ... data to create a StudentDailyGoal
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the StudentDailyGoal we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StudentDailyGoalUpsertArgs>(args: SelectSubset<T, StudentDailyGoalUpsertArgs<ExtArgs>>): Prisma__StudentDailyGoalClient<$Result.GetResult<Prisma.$StudentDailyGoalPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of StudentDailyGoals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentDailyGoalCountArgs} args - Arguments to filter StudentDailyGoals to count.
+     * @example
+     * // Count the number of StudentDailyGoals
+     * const count = await prisma.studentDailyGoal.count({
+     *   where: {
+     *     // ... the filter for the StudentDailyGoals we want to count
+     *   }
+     * })
+    **/
+    count<T extends StudentDailyGoalCountArgs>(
+      args?: Subset<T, StudentDailyGoalCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StudentDailyGoalCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a StudentDailyGoal.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentDailyGoalAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StudentDailyGoalAggregateArgs>(args: Subset<T, StudentDailyGoalAggregateArgs>): Prisma.PrismaPromise<GetStudentDailyGoalAggregateType<T>>
+
+    /**
+     * Group by StudentDailyGoal.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentDailyGoalGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StudentDailyGoalGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StudentDailyGoalGroupByArgs['orderBy'] }
+        : { orderBy?: StudentDailyGoalGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StudentDailyGoalGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStudentDailyGoalGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the StudentDailyGoal model
+   */
+  readonly fields: StudentDailyGoalFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for StudentDailyGoal.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StudentDailyGoalClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the StudentDailyGoal model
+   */
+  interface StudentDailyGoalFieldRefs {
+    readonly userId: FieldRef<"StudentDailyGoal", 'String'>
+    readonly day: FieldRef<"StudentDailyGoal", 'String'>
+    readonly readLesson: FieldRef<"StudentDailyGoal", 'Boolean'>
+    readonly practiceExercise: FieldRef<"StudentDailyGoal", 'Boolean'>
+    readonly reviewSomething: FieldRef<"StudentDailyGoal", 'Boolean'>
+    readonly studied: FieldRef<"StudentDailyGoal", 'Boolean'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * StudentDailyGoal findUnique
+   */
+  export type StudentDailyGoalFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentDailyGoal
+     */
+    select?: StudentDailyGoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentDailyGoal
+     */
+    omit?: StudentDailyGoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentDailyGoalInclude<ExtArgs> | null
+    /**
+     * Filter, which StudentDailyGoal to fetch.
+     */
+    where: StudentDailyGoalWhereUniqueInput
+  }
+
+  /**
+   * StudentDailyGoal findUniqueOrThrow
+   */
+  export type StudentDailyGoalFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentDailyGoal
+     */
+    select?: StudentDailyGoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentDailyGoal
+     */
+    omit?: StudentDailyGoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentDailyGoalInclude<ExtArgs> | null
+    /**
+     * Filter, which StudentDailyGoal to fetch.
+     */
+    where: StudentDailyGoalWhereUniqueInput
+  }
+
+  /**
+   * StudentDailyGoal findFirst
+   */
+  export type StudentDailyGoalFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentDailyGoal
+     */
+    select?: StudentDailyGoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentDailyGoal
+     */
+    omit?: StudentDailyGoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentDailyGoalInclude<ExtArgs> | null
+    /**
+     * Filter, which StudentDailyGoal to fetch.
+     */
+    where?: StudentDailyGoalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudentDailyGoals to fetch.
+     */
+    orderBy?: StudentDailyGoalOrderByWithRelationInput | StudentDailyGoalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StudentDailyGoals.
+     */
+    cursor?: StudentDailyGoalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudentDailyGoals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudentDailyGoals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudentDailyGoals.
+     */
+    distinct?: StudentDailyGoalScalarFieldEnum | StudentDailyGoalScalarFieldEnum[]
+  }
+
+  /**
+   * StudentDailyGoal findFirstOrThrow
+   */
+  export type StudentDailyGoalFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentDailyGoal
+     */
+    select?: StudentDailyGoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentDailyGoal
+     */
+    omit?: StudentDailyGoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentDailyGoalInclude<ExtArgs> | null
+    /**
+     * Filter, which StudentDailyGoal to fetch.
+     */
+    where?: StudentDailyGoalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudentDailyGoals to fetch.
+     */
+    orderBy?: StudentDailyGoalOrderByWithRelationInput | StudentDailyGoalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StudentDailyGoals.
+     */
+    cursor?: StudentDailyGoalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudentDailyGoals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudentDailyGoals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudentDailyGoals.
+     */
+    distinct?: StudentDailyGoalScalarFieldEnum | StudentDailyGoalScalarFieldEnum[]
+  }
+
+  /**
+   * StudentDailyGoal findMany
+   */
+  export type StudentDailyGoalFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentDailyGoal
+     */
+    select?: StudentDailyGoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentDailyGoal
+     */
+    omit?: StudentDailyGoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentDailyGoalInclude<ExtArgs> | null
+    /**
+     * Filter, which StudentDailyGoals to fetch.
+     */
+    where?: StudentDailyGoalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudentDailyGoals to fetch.
+     */
+    orderBy?: StudentDailyGoalOrderByWithRelationInput | StudentDailyGoalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing StudentDailyGoals.
+     */
+    cursor?: StudentDailyGoalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudentDailyGoals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudentDailyGoals.
+     */
+    skip?: number
+    distinct?: StudentDailyGoalScalarFieldEnum | StudentDailyGoalScalarFieldEnum[]
+  }
+
+  /**
+   * StudentDailyGoal create
+   */
+  export type StudentDailyGoalCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentDailyGoal
+     */
+    select?: StudentDailyGoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentDailyGoal
+     */
+    omit?: StudentDailyGoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentDailyGoalInclude<ExtArgs> | null
+    /**
+     * The data needed to create a StudentDailyGoal.
+     */
+    data: XOR<StudentDailyGoalCreateInput, StudentDailyGoalUncheckedCreateInput>
+  }
+
+  /**
+   * StudentDailyGoal createMany
+   */
+  export type StudentDailyGoalCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many StudentDailyGoals.
+     */
+    data: StudentDailyGoalCreateManyInput | StudentDailyGoalCreateManyInput[]
+  }
+
+  /**
+   * StudentDailyGoal createManyAndReturn
+   */
+  export type StudentDailyGoalCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentDailyGoal
+     */
+    select?: StudentDailyGoalSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentDailyGoal
+     */
+    omit?: StudentDailyGoalOmit<ExtArgs> | null
+    /**
+     * The data used to create many StudentDailyGoals.
+     */
+    data: StudentDailyGoalCreateManyInput | StudentDailyGoalCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentDailyGoalIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StudentDailyGoal update
+   */
+  export type StudentDailyGoalUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentDailyGoal
+     */
+    select?: StudentDailyGoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentDailyGoal
+     */
+    omit?: StudentDailyGoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentDailyGoalInclude<ExtArgs> | null
+    /**
+     * The data needed to update a StudentDailyGoal.
+     */
+    data: XOR<StudentDailyGoalUpdateInput, StudentDailyGoalUncheckedUpdateInput>
+    /**
+     * Choose, which StudentDailyGoal to update.
+     */
+    where: StudentDailyGoalWhereUniqueInput
+  }
+
+  /**
+   * StudentDailyGoal updateMany
+   */
+  export type StudentDailyGoalUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update StudentDailyGoals.
+     */
+    data: XOR<StudentDailyGoalUpdateManyMutationInput, StudentDailyGoalUncheckedUpdateManyInput>
+    /**
+     * Filter which StudentDailyGoals to update
+     */
+    where?: StudentDailyGoalWhereInput
+    /**
+     * Limit how many StudentDailyGoals to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StudentDailyGoal updateManyAndReturn
+   */
+  export type StudentDailyGoalUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentDailyGoal
+     */
+    select?: StudentDailyGoalSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentDailyGoal
+     */
+    omit?: StudentDailyGoalOmit<ExtArgs> | null
+    /**
+     * The data used to update StudentDailyGoals.
+     */
+    data: XOR<StudentDailyGoalUpdateManyMutationInput, StudentDailyGoalUncheckedUpdateManyInput>
+    /**
+     * Filter which StudentDailyGoals to update
+     */
+    where?: StudentDailyGoalWhereInput
+    /**
+     * Limit how many StudentDailyGoals to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentDailyGoalIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StudentDailyGoal upsert
+   */
+  export type StudentDailyGoalUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentDailyGoal
+     */
+    select?: StudentDailyGoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentDailyGoal
+     */
+    omit?: StudentDailyGoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentDailyGoalInclude<ExtArgs> | null
+    /**
+     * The filter to search for the StudentDailyGoal to update in case it exists.
+     */
+    where: StudentDailyGoalWhereUniqueInput
+    /**
+     * In case the StudentDailyGoal found by the `where` argument doesn't exist, create a new StudentDailyGoal with this data.
+     */
+    create: XOR<StudentDailyGoalCreateInput, StudentDailyGoalUncheckedCreateInput>
+    /**
+     * In case the StudentDailyGoal was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StudentDailyGoalUpdateInput, StudentDailyGoalUncheckedUpdateInput>
+  }
+
+  /**
+   * StudentDailyGoal delete
+   */
+  export type StudentDailyGoalDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentDailyGoal
+     */
+    select?: StudentDailyGoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentDailyGoal
+     */
+    omit?: StudentDailyGoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentDailyGoalInclude<ExtArgs> | null
+    /**
+     * Filter which StudentDailyGoal to delete.
+     */
+    where: StudentDailyGoalWhereUniqueInput
+  }
+
+  /**
+   * StudentDailyGoal deleteMany
+   */
+  export type StudentDailyGoalDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StudentDailyGoals to delete
+     */
+    where?: StudentDailyGoalWhereInput
+    /**
+     * Limit how many StudentDailyGoals to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * StudentDailyGoal without action
+   */
+  export type StudentDailyGoalDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentDailyGoal
+     */
+    select?: StudentDailyGoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentDailyGoal
+     */
+    omit?: StudentDailyGoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentDailyGoalInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -75018,6 +76215,18 @@ export namespace Prisma {
   export type ModelQuestionSetBlockScalarFieldEnum = (typeof ModelQuestionSetBlockScalarFieldEnum)[keyof typeof ModelQuestionSetBlockScalarFieldEnum]
 
 
+  export const StudentDailyGoalScalarFieldEnum: {
+    userId: 'userId',
+    day: 'day',
+    readLesson: 'readLesson',
+    practiceExercise: 'practiceExercise',
+    reviewSomething: 'reviewSomething',
+    studied: 'studied'
+  };
+
+  export type StudentDailyGoalScalarFieldEnum = (typeof StudentDailyGoalScalarFieldEnum)[keyof typeof StudentDailyGoalScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -75117,6 +76326,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     class?: XOR<ClassNullableScalarRelationFilter, ClassWhereInput> | null
+    dailyGoals?: StudentDailyGoalListRelationFilter
     sessions?: AuthSessionListRelationFilter
     passwordResetTokens?: PasswordResetTokenListRelationFilter
   }
@@ -75144,6 +76354,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     class?: ClassOrderByWithRelationInput
+    dailyGoals?: StudentDailyGoalOrderByRelationAggregateInput
     sessions?: AuthSessionOrderByRelationAggregateInput
     passwordResetTokens?: PasswordResetTokenOrderByRelationAggregateInput
   }
@@ -75174,6 +76385,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     class?: XOR<ClassNullableScalarRelationFilter, ClassWhereInput> | null
+    dailyGoals?: StudentDailyGoalListRelationFilter
     sessions?: AuthSessionListRelationFilter
     passwordResetTokens?: PasswordResetTokenListRelationFilter
   }, "id" | "email">
@@ -81242,6 +82454,67 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"ModelQuestionSetBlock"> | Date | string
   }
 
+  export type StudentDailyGoalWhereInput = {
+    AND?: StudentDailyGoalWhereInput | StudentDailyGoalWhereInput[]
+    OR?: StudentDailyGoalWhereInput[]
+    NOT?: StudentDailyGoalWhereInput | StudentDailyGoalWhereInput[]
+    userId?: StringFilter<"StudentDailyGoal"> | string
+    day?: StringFilter<"StudentDailyGoal"> | string
+    readLesson?: BoolFilter<"StudentDailyGoal"> | boolean
+    practiceExercise?: BoolFilter<"StudentDailyGoal"> | boolean
+    reviewSomething?: BoolFilter<"StudentDailyGoal"> | boolean
+    studied?: BoolFilter<"StudentDailyGoal"> | boolean
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type StudentDailyGoalOrderByWithRelationInput = {
+    userId?: SortOrder
+    day?: SortOrder
+    readLesson?: SortOrder
+    practiceExercise?: SortOrder
+    reviewSomething?: SortOrder
+    studied?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type StudentDailyGoalWhereUniqueInput = Prisma.AtLeast<{
+    userId_day?: StudentDailyGoalUserIdDayCompoundUniqueInput
+    AND?: StudentDailyGoalWhereInput | StudentDailyGoalWhereInput[]
+    OR?: StudentDailyGoalWhereInput[]
+    NOT?: StudentDailyGoalWhereInput | StudentDailyGoalWhereInput[]
+    userId?: StringFilter<"StudentDailyGoal"> | string
+    day?: StringFilter<"StudentDailyGoal"> | string
+    readLesson?: BoolFilter<"StudentDailyGoal"> | boolean
+    practiceExercise?: BoolFilter<"StudentDailyGoal"> | boolean
+    reviewSomething?: BoolFilter<"StudentDailyGoal"> | boolean
+    studied?: BoolFilter<"StudentDailyGoal"> | boolean
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "userId_day">
+
+  export type StudentDailyGoalOrderByWithAggregationInput = {
+    userId?: SortOrder
+    day?: SortOrder
+    readLesson?: SortOrder
+    practiceExercise?: SortOrder
+    reviewSomething?: SortOrder
+    studied?: SortOrder
+    _count?: StudentDailyGoalCountOrderByAggregateInput
+    _max?: StudentDailyGoalMaxOrderByAggregateInput
+    _min?: StudentDailyGoalMinOrderByAggregateInput
+  }
+
+  export type StudentDailyGoalScalarWhereWithAggregatesInput = {
+    AND?: StudentDailyGoalScalarWhereWithAggregatesInput | StudentDailyGoalScalarWhereWithAggregatesInput[]
+    OR?: StudentDailyGoalScalarWhereWithAggregatesInput[]
+    NOT?: StudentDailyGoalScalarWhereWithAggregatesInput | StudentDailyGoalScalarWhereWithAggregatesInput[]
+    userId?: StringWithAggregatesFilter<"StudentDailyGoal"> | string
+    day?: StringWithAggregatesFilter<"StudentDailyGoal"> | string
+    readLesson?: BoolWithAggregatesFilter<"StudentDailyGoal"> | boolean
+    practiceExercise?: BoolWithAggregatesFilter<"StudentDailyGoal"> | boolean
+    reviewSomething?: BoolWithAggregatesFilter<"StudentDailyGoal"> | boolean
+    studied?: BoolWithAggregatesFilter<"StudentDailyGoal"> | boolean
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -81264,6 +82537,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     class?: ClassCreateNestedOneWithoutStudentsInput
+    dailyGoals?: StudentDailyGoalCreateNestedManyWithoutUserInput
     sessions?: AuthSessionCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
   }
@@ -81290,6 +82564,7 @@ export namespace Prisma {
     organizationId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    dailyGoals?: StudentDailyGoalUncheckedCreateNestedManyWithoutUserInput
     sessions?: AuthSessionUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   }
@@ -81316,6 +82591,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     class?: ClassUpdateOneWithoutStudentsNestedInput
+    dailyGoals?: StudentDailyGoalUpdateManyWithoutUserNestedInput
     sessions?: AuthSessionUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
   }
@@ -81342,6 +82618,7 @@ export namespace Prisma {
     organizationId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dailyGoals?: StudentDailyGoalUncheckedUpdateManyWithoutUserNestedInput
     sessions?: AuthSessionUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -88567,6 +89844,68 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type StudentDailyGoalCreateInput = {
+    day: string
+    readLesson?: boolean
+    practiceExercise?: boolean
+    reviewSomething?: boolean
+    studied?: boolean
+    user: UserCreateNestedOneWithoutDailyGoalsInput
+  }
+
+  export type StudentDailyGoalUncheckedCreateInput = {
+    userId: string
+    day: string
+    readLesson?: boolean
+    practiceExercise?: boolean
+    reviewSomething?: boolean
+    studied?: boolean
+  }
+
+  export type StudentDailyGoalUpdateInput = {
+    day?: StringFieldUpdateOperationsInput | string
+    readLesson?: BoolFieldUpdateOperationsInput | boolean
+    practiceExercise?: BoolFieldUpdateOperationsInput | boolean
+    reviewSomething?: BoolFieldUpdateOperationsInput | boolean
+    studied?: BoolFieldUpdateOperationsInput | boolean
+    user?: UserUpdateOneRequiredWithoutDailyGoalsNestedInput
+  }
+
+  export type StudentDailyGoalUncheckedUpdateInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    day?: StringFieldUpdateOperationsInput | string
+    readLesson?: BoolFieldUpdateOperationsInput | boolean
+    practiceExercise?: BoolFieldUpdateOperationsInput | boolean
+    reviewSomething?: BoolFieldUpdateOperationsInput | boolean
+    studied?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type StudentDailyGoalCreateManyInput = {
+    userId: string
+    day: string
+    readLesson?: boolean
+    practiceExercise?: boolean
+    reviewSomething?: boolean
+    studied?: boolean
+  }
+
+  export type StudentDailyGoalUpdateManyMutationInput = {
+    day?: StringFieldUpdateOperationsInput | string
+    readLesson?: BoolFieldUpdateOperationsInput | boolean
+    practiceExercise?: BoolFieldUpdateOperationsInput | boolean
+    reviewSomething?: BoolFieldUpdateOperationsInput | boolean
+    studied?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type StudentDailyGoalUncheckedUpdateManyInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    day?: StringFieldUpdateOperationsInput | string
+    readLesson?: BoolFieldUpdateOperationsInput | boolean
+    practiceExercise?: BoolFieldUpdateOperationsInput | boolean
+    reviewSomething?: BoolFieldUpdateOperationsInput | boolean
+    studied?: BoolFieldUpdateOperationsInput | boolean
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -88618,6 +89957,12 @@ export namespace Prisma {
     isNot?: ClassWhereInput | null
   }
 
+  export type StudentDailyGoalListRelationFilter = {
+    every?: StudentDailyGoalWhereInput
+    some?: StudentDailyGoalWhereInput
+    none?: StudentDailyGoalWhereInput
+  }
+
   export type AuthSessionListRelationFilter = {
     every?: AuthSessionWhereInput
     some?: AuthSessionWhereInput
@@ -88633,6 +89978,10 @@ export namespace Prisma {
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type StudentDailyGoalOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type AuthSessionOrderByRelationAggregateInput = {
@@ -92403,10 +93752,49 @@ export namespace Prisma {
     sortOrder?: SortOrder
   }
 
+  export type StudentDailyGoalUserIdDayCompoundUniqueInput = {
+    userId: string
+    day: string
+  }
+
+  export type StudentDailyGoalCountOrderByAggregateInput = {
+    userId?: SortOrder
+    day?: SortOrder
+    readLesson?: SortOrder
+    practiceExercise?: SortOrder
+    reviewSomething?: SortOrder
+    studied?: SortOrder
+  }
+
+  export type StudentDailyGoalMaxOrderByAggregateInput = {
+    userId?: SortOrder
+    day?: SortOrder
+    readLesson?: SortOrder
+    practiceExercise?: SortOrder
+    reviewSomething?: SortOrder
+    studied?: SortOrder
+  }
+
+  export type StudentDailyGoalMinOrderByAggregateInput = {
+    userId?: SortOrder
+    day?: SortOrder
+    readLesson?: SortOrder
+    practiceExercise?: SortOrder
+    reviewSomething?: SortOrder
+    studied?: SortOrder
+  }
+
   export type ClassCreateNestedOneWithoutStudentsInput = {
     create?: XOR<ClassCreateWithoutStudentsInput, ClassUncheckedCreateWithoutStudentsInput>
     connectOrCreate?: ClassCreateOrConnectWithoutStudentsInput
     connect?: ClassWhereUniqueInput
+  }
+
+  export type StudentDailyGoalCreateNestedManyWithoutUserInput = {
+    create?: XOR<StudentDailyGoalCreateWithoutUserInput, StudentDailyGoalUncheckedCreateWithoutUserInput> | StudentDailyGoalCreateWithoutUserInput[] | StudentDailyGoalUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: StudentDailyGoalCreateOrConnectWithoutUserInput | StudentDailyGoalCreateOrConnectWithoutUserInput[]
+    createMany?: StudentDailyGoalCreateManyUserInputEnvelope
+    connect?: StudentDailyGoalWhereUniqueInput | StudentDailyGoalWhereUniqueInput[]
   }
 
   export type AuthSessionCreateNestedManyWithoutUserInput = {
@@ -92421,6 +93809,13 @@ export namespace Prisma {
     connectOrCreate?: PasswordResetTokenCreateOrConnectWithoutUserInput | PasswordResetTokenCreateOrConnectWithoutUserInput[]
     createMany?: PasswordResetTokenCreateManyUserInputEnvelope
     connect?: PasswordResetTokenWhereUniqueInput | PasswordResetTokenWhereUniqueInput[]
+  }
+
+  export type StudentDailyGoalUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<StudentDailyGoalCreateWithoutUserInput, StudentDailyGoalUncheckedCreateWithoutUserInput> | StudentDailyGoalCreateWithoutUserInput[] | StudentDailyGoalUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: StudentDailyGoalCreateOrConnectWithoutUserInput | StudentDailyGoalCreateOrConnectWithoutUserInput[]
+    createMany?: StudentDailyGoalCreateManyUserInputEnvelope
+    connect?: StudentDailyGoalWhereUniqueInput | StudentDailyGoalWhereUniqueInput[]
   }
 
   export type AuthSessionUncheckedCreateNestedManyWithoutUserInput = {
@@ -92463,6 +93858,20 @@ export namespace Prisma {
     update?: XOR<XOR<ClassUpdateToOneWithWhereWithoutStudentsInput, ClassUpdateWithoutStudentsInput>, ClassUncheckedUpdateWithoutStudentsInput>
   }
 
+  export type StudentDailyGoalUpdateManyWithoutUserNestedInput = {
+    create?: XOR<StudentDailyGoalCreateWithoutUserInput, StudentDailyGoalUncheckedCreateWithoutUserInput> | StudentDailyGoalCreateWithoutUserInput[] | StudentDailyGoalUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: StudentDailyGoalCreateOrConnectWithoutUserInput | StudentDailyGoalCreateOrConnectWithoutUserInput[]
+    upsert?: StudentDailyGoalUpsertWithWhereUniqueWithoutUserInput | StudentDailyGoalUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: StudentDailyGoalCreateManyUserInputEnvelope
+    set?: StudentDailyGoalWhereUniqueInput | StudentDailyGoalWhereUniqueInput[]
+    disconnect?: StudentDailyGoalWhereUniqueInput | StudentDailyGoalWhereUniqueInput[]
+    delete?: StudentDailyGoalWhereUniqueInput | StudentDailyGoalWhereUniqueInput[]
+    connect?: StudentDailyGoalWhereUniqueInput | StudentDailyGoalWhereUniqueInput[]
+    update?: StudentDailyGoalUpdateWithWhereUniqueWithoutUserInput | StudentDailyGoalUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: StudentDailyGoalUpdateManyWithWhereWithoutUserInput | StudentDailyGoalUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: StudentDailyGoalScalarWhereInput | StudentDailyGoalScalarWhereInput[]
+  }
+
   export type AuthSessionUpdateManyWithoutUserNestedInput = {
     create?: XOR<AuthSessionCreateWithoutUserInput, AuthSessionUncheckedCreateWithoutUserInput> | AuthSessionCreateWithoutUserInput[] | AuthSessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AuthSessionCreateOrConnectWithoutUserInput | AuthSessionCreateOrConnectWithoutUserInput[]
@@ -92489,6 +93898,20 @@ export namespace Prisma {
     update?: PasswordResetTokenUpdateWithWhereUniqueWithoutUserInput | PasswordResetTokenUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: PasswordResetTokenUpdateManyWithWhereWithoutUserInput | PasswordResetTokenUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: PasswordResetTokenScalarWhereInput | PasswordResetTokenScalarWhereInput[]
+  }
+
+  export type StudentDailyGoalUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<StudentDailyGoalCreateWithoutUserInput, StudentDailyGoalUncheckedCreateWithoutUserInput> | StudentDailyGoalCreateWithoutUserInput[] | StudentDailyGoalUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: StudentDailyGoalCreateOrConnectWithoutUserInput | StudentDailyGoalCreateOrConnectWithoutUserInput[]
+    upsert?: StudentDailyGoalUpsertWithWhereUniqueWithoutUserInput | StudentDailyGoalUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: StudentDailyGoalCreateManyUserInputEnvelope
+    set?: StudentDailyGoalWhereUniqueInput | StudentDailyGoalWhereUniqueInput[]
+    disconnect?: StudentDailyGoalWhereUniqueInput | StudentDailyGoalWhereUniqueInput[]
+    delete?: StudentDailyGoalWhereUniqueInput | StudentDailyGoalWhereUniqueInput[]
+    connect?: StudentDailyGoalWhereUniqueInput | StudentDailyGoalWhereUniqueInput[]
+    update?: StudentDailyGoalUpdateWithWhereUniqueWithoutUserInput | StudentDailyGoalUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: StudentDailyGoalUpdateManyWithWhereWithoutUserInput | StudentDailyGoalUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: StudentDailyGoalScalarWhereInput | StudentDailyGoalScalarWhereInput[]
   }
 
   export type AuthSessionUncheckedUpdateManyWithoutUserNestedInput = {
@@ -95375,6 +96798,20 @@ export namespace Prisma {
     update?: XOR<XOR<ModelQuestionSetUpdateToOneWithWhereWithoutBlocksInput, ModelQuestionSetUpdateWithoutBlocksInput>, ModelQuestionSetUncheckedUpdateWithoutBlocksInput>
   }
 
+  export type UserCreateNestedOneWithoutDailyGoalsInput = {
+    create?: XOR<UserCreateWithoutDailyGoalsInput, UserUncheckedCreateWithoutDailyGoalsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDailyGoalsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutDailyGoalsNestedInput = {
+    create?: XOR<UserCreateWithoutDailyGoalsInput, UserUncheckedCreateWithoutDailyGoalsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDailyGoalsInput
+    upsert?: UserUpsertWithoutDailyGoalsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDailyGoalsInput, UserUpdateWithoutDailyGoalsInput>, UserUncheckedUpdateWithoutDailyGoalsInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -95667,6 +97104,31 @@ export namespace Prisma {
     create: XOR<ClassCreateWithoutStudentsInput, ClassUncheckedCreateWithoutStudentsInput>
   }
 
+  export type StudentDailyGoalCreateWithoutUserInput = {
+    day: string
+    readLesson?: boolean
+    practiceExercise?: boolean
+    reviewSomething?: boolean
+    studied?: boolean
+  }
+
+  export type StudentDailyGoalUncheckedCreateWithoutUserInput = {
+    day: string
+    readLesson?: boolean
+    practiceExercise?: boolean
+    reviewSomething?: boolean
+    studied?: boolean
+  }
+
+  export type StudentDailyGoalCreateOrConnectWithoutUserInput = {
+    where: StudentDailyGoalWhereUniqueInput
+    create: XOR<StudentDailyGoalCreateWithoutUserInput, StudentDailyGoalUncheckedCreateWithoutUserInput>
+  }
+
+  export type StudentDailyGoalCreateManyUserInputEnvelope = {
+    data: StudentDailyGoalCreateManyUserInput | StudentDailyGoalCreateManyUserInput[]
+  }
+
   export type AuthSessionCreateWithoutUserInput = {
     id?: string
     tokenHash: string
@@ -95780,6 +97242,34 @@ export namespace Prisma {
     modelQuestionSets?: ModelQuestionSetUncheckedUpdateManyWithoutClassNestedInput
   }
 
+  export type StudentDailyGoalUpsertWithWhereUniqueWithoutUserInput = {
+    where: StudentDailyGoalWhereUniqueInput
+    update: XOR<StudentDailyGoalUpdateWithoutUserInput, StudentDailyGoalUncheckedUpdateWithoutUserInput>
+    create: XOR<StudentDailyGoalCreateWithoutUserInput, StudentDailyGoalUncheckedCreateWithoutUserInput>
+  }
+
+  export type StudentDailyGoalUpdateWithWhereUniqueWithoutUserInput = {
+    where: StudentDailyGoalWhereUniqueInput
+    data: XOR<StudentDailyGoalUpdateWithoutUserInput, StudentDailyGoalUncheckedUpdateWithoutUserInput>
+  }
+
+  export type StudentDailyGoalUpdateManyWithWhereWithoutUserInput = {
+    where: StudentDailyGoalScalarWhereInput
+    data: XOR<StudentDailyGoalUpdateManyMutationInput, StudentDailyGoalUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type StudentDailyGoalScalarWhereInput = {
+    AND?: StudentDailyGoalScalarWhereInput | StudentDailyGoalScalarWhereInput[]
+    OR?: StudentDailyGoalScalarWhereInput[]
+    NOT?: StudentDailyGoalScalarWhereInput | StudentDailyGoalScalarWhereInput[]
+    userId?: StringFilter<"StudentDailyGoal"> | string
+    day?: StringFilter<"StudentDailyGoal"> | string
+    readLesson?: BoolFilter<"StudentDailyGoal"> | boolean
+    practiceExercise?: BoolFilter<"StudentDailyGoal"> | boolean
+    reviewSomething?: BoolFilter<"StudentDailyGoal"> | boolean
+    studied?: BoolFilter<"StudentDailyGoal"> | boolean
+  }
+
   export type AuthSessionUpsertWithWhereUniqueWithoutUserInput = {
     where: AuthSessionWhereUniqueInput
     update: XOR<AuthSessionUpdateWithoutUserInput, AuthSessionUncheckedUpdateWithoutUserInput>
@@ -95858,6 +97348,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     class?: ClassCreateNestedOneWithoutStudentsInput
+    dailyGoals?: StudentDailyGoalCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
   }
 
@@ -95883,6 +97374,7 @@ export namespace Prisma {
     organizationId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    dailyGoals?: StudentDailyGoalUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -95924,6 +97416,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     class?: ClassUpdateOneWithoutStudentsNestedInput
+    dailyGoals?: StudentDailyGoalUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
   }
 
@@ -95949,6 +97442,7 @@ export namespace Prisma {
     organizationId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dailyGoals?: StudentDailyGoalUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -95974,6 +97468,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     class?: ClassCreateNestedOneWithoutStudentsInput
+    dailyGoals?: StudentDailyGoalCreateNestedManyWithoutUserInput
     sessions?: AuthSessionCreateNestedManyWithoutUserInput
   }
 
@@ -95999,6 +97494,7 @@ export namespace Prisma {
     organizationId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    dailyGoals?: StudentDailyGoalUncheckedCreateNestedManyWithoutUserInput
     sessions?: AuthSessionUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -96040,6 +97536,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     class?: ClassUpdateOneWithoutStudentsNestedInput
+    dailyGoals?: StudentDailyGoalUpdateManyWithoutUserNestedInput
     sessions?: AuthSessionUpdateManyWithoutUserNestedInput
   }
 
@@ -96065,6 +97562,7 @@ export namespace Prisma {
     organizationId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dailyGoals?: StudentDailyGoalUncheckedUpdateManyWithoutUserNestedInput
     sessions?: AuthSessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -96275,6 +97773,7 @@ export namespace Prisma {
     organizationId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    dailyGoals?: StudentDailyGoalCreateNestedManyWithoutUserInput
     sessions?: AuthSessionCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
   }
@@ -96300,6 +97799,7 @@ export namespace Prisma {
     organizationId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    dailyGoals?: StudentDailyGoalUncheckedCreateNestedManyWithoutUserInput
     sessions?: AuthSessionUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   }
@@ -108148,6 +109648,134 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UserCreateWithoutDailyGoalsInput = {
+    id?: string
+    name: string
+    email: string
+    passwordHash: string
+    role: $Enums.UserRole
+    profileImage?: string | null
+    phone?: string | null
+    district?: string | null
+    institutionName?: string | null
+    instituteType?: string | null
+    academicYear?: string | null
+    rollNumber?: string | null
+    section?: string | null
+    groupName?: string | null
+    designation?: string | null
+    subject?: string | null
+    experience?: string | null
+    organizationId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    class?: ClassCreateNestedOneWithoutStudentsInput
+    sessions?: AuthSessionCreateNestedManyWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutDailyGoalsInput = {
+    id?: string
+    name: string
+    email: string
+    passwordHash: string
+    role: $Enums.UserRole
+    profileImage?: string | null
+    phone?: string | null
+    district?: string | null
+    institutionName?: string | null
+    instituteType?: string | null
+    academicYear?: string | null
+    rollNumber?: string | null
+    section?: string | null
+    groupName?: string | null
+    designation?: string | null
+    subject?: string | null
+    experience?: string | null
+    classId?: string | null
+    organizationId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: AuthSessionUncheckedCreateNestedManyWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutDailyGoalsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDailyGoalsInput, UserUncheckedCreateWithoutDailyGoalsInput>
+  }
+
+  export type UserUpsertWithoutDailyGoalsInput = {
+    update: XOR<UserUpdateWithoutDailyGoalsInput, UserUncheckedUpdateWithoutDailyGoalsInput>
+    create: XOR<UserCreateWithoutDailyGoalsInput, UserUncheckedCreateWithoutDailyGoalsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDailyGoalsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDailyGoalsInput, UserUncheckedUpdateWithoutDailyGoalsInput>
+  }
+
+  export type UserUpdateWithoutDailyGoalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    institutionName?: NullableStringFieldUpdateOperationsInput | string | null
+    instituteType?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYear?: NullableStringFieldUpdateOperationsInput | string | null
+    rollNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    section?: NullableStringFieldUpdateOperationsInput | string | null
+    groupName?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    class?: ClassUpdateOneWithoutStudentsNestedInput
+    sessions?: AuthSessionUpdateManyWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDailyGoalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    district?: NullableStringFieldUpdateOperationsInput | string | null
+    institutionName?: NullableStringFieldUpdateOperationsInput | string | null
+    instituteType?: NullableStringFieldUpdateOperationsInput | string | null
+    academicYear?: NullableStringFieldUpdateOperationsInput | string | null
+    rollNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    section?: NullableStringFieldUpdateOperationsInput | string | null
+    groupName?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: NullableStringFieldUpdateOperationsInput | string | null
+    subject?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableStringFieldUpdateOperationsInput | string | null
+    classId?: NullableStringFieldUpdateOperationsInput | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: AuthSessionUncheckedUpdateManyWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type StudentDailyGoalCreateManyUserInput = {
+    day: string
+    readLesson?: boolean
+    practiceExercise?: boolean
+    reviewSomething?: boolean
+    studied?: boolean
+  }
+
   export type AuthSessionCreateManyUserInput = {
     id?: string
     tokenHash: string
@@ -108162,6 +109790,30 @@ export namespace Prisma {
     expiresAt: Date | string
     usedAt?: Date | string | null
     createdAt?: Date | string
+  }
+
+  export type StudentDailyGoalUpdateWithoutUserInput = {
+    day?: StringFieldUpdateOperationsInput | string
+    readLesson?: BoolFieldUpdateOperationsInput | boolean
+    practiceExercise?: BoolFieldUpdateOperationsInput | boolean
+    reviewSomething?: BoolFieldUpdateOperationsInput | boolean
+    studied?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type StudentDailyGoalUncheckedUpdateWithoutUserInput = {
+    day?: StringFieldUpdateOperationsInput | string
+    readLesson?: BoolFieldUpdateOperationsInput | boolean
+    practiceExercise?: BoolFieldUpdateOperationsInput | boolean
+    reviewSomething?: BoolFieldUpdateOperationsInput | boolean
+    studied?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type StudentDailyGoalUncheckedUpdateManyWithoutUserInput = {
+    day?: StringFieldUpdateOperationsInput | string
+    readLesson?: BoolFieldUpdateOperationsInput | boolean
+    practiceExercise?: BoolFieldUpdateOperationsInput | boolean
+    reviewSomething?: BoolFieldUpdateOperationsInput | boolean
+    studied?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type AuthSessionUpdateWithoutUserInput = {
@@ -108572,6 +110224,7 @@ export namespace Prisma {
     organizationId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dailyGoals?: StudentDailyGoalUpdateManyWithoutUserNestedInput
     sessions?: AuthSessionUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
   }
@@ -108597,6 +110250,7 @@ export namespace Prisma {
     organizationId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    dailyGoals?: StudentDailyGoalUncheckedUpdateManyWithoutUserNestedInput
     sessions?: AuthSessionUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   }

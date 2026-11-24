@@ -91,11 +91,17 @@
 }
 
 .student-workspace :focus-visible {
-  outline: 2px solid var(--primary);
+  outline: 2px solid var(--ring);
   outline-offset: 3px;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .student-workspace .student-subject,
-  .student-workspace .student-nav-card { transition: none !important; }
+  .student-workspace .student-nav-card { transition: none !important; transform: none !important; }
 }
+
+/* Long lesson text and question panels should not expand the dashboard shell. */
+.student-workspace main { min-width: 0; overflow-wrap: break-word; }
+.student-workspace .student-hero { overflow-wrap: anywhere; }
+.student-workspace .student-panel { min-width: 0; }
+.student-workspace .student-search-popover button:focus-visible { outline-offset: -3px; }

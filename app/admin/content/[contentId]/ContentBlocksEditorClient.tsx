@@ -61,6 +61,7 @@ import {
   updateSynonymsAntonymsEntry,
   updateSynonymsAntonymsPassage,
 } from "@/app/admin/content/actions";
+import { normalizeSynonymsAntonymsAnswerType } from "@/app/admin/content/content-types";
 import type {
   ContentBlockKind,
   ContentRecordWithBlocks,
@@ -3297,14 +3298,12 @@ export function ContentBlocksEditorClient({
     if (rejectInvalidInlineUpdate(fieldErrors)) return;
     setActionError(null);
 
-    const nextEntry = { ...currentEntry, ...patch };
-
     patchBlock(blockId, (block) => ({
       ...block,
       synonymsAntonyms: block.synonymsAntonyms
         ? {
             ...block.synonymsAntonyms,
-            entries: block.synonymsAntonyms.entries.map((entry) => (entry.id === entryId ? nextEntry : entry)),
+            entries: block.synonymsAntonyms.entries.map((entry) => (entry.id === entryId ? { ...entry, ...patch } : entry)),
           }
         : null,
     }));
@@ -3314,12 +3313,7 @@ export function ContentBlocksEditorClient({
         contentId: content.id,
         blockId,
         synonymsAntonymsEntryId: entryId,
-        word: nextEntry.word,
-        meanings: nextEntry.meanings,
-        synonyms: nextEntry.synonyms,
-        antonyms: nextEntry.antonyms,
-        answerType: nextEntry.answerType ?? "both",
-        details: nextEntry.details,
+        ...patch,
       }),
     );
   }
@@ -3373,7 +3367,7 @@ export function ContentBlocksEditorClient({
                 meanings: created.meanings,
                 synonyms: created.synonyms,
                 antonyms: created.antonyms,
-                answerType: created.answerType,
+                answerType: normalizeSynonymsAntonymsAnswerType(created.answerType),
                 details: created.details,
                 sortOrder: created.sortOrder,
               },
@@ -4946,6 +4940,9 @@ export function ContentBlocksEditorClient({
                                   }
                                   placeholder="Type and press comma or Enter"
                                 />
+                                {chooserGroupMode === "model-question" && entry.answerType === "antonym" && !parseTagString(entry.antonyms).length ? (
+                                  <p className="text-xs text-destructive">Add at least one antonym as the correct answer.</p>
+                                ) : null}
                               </div>
                             </div>
 

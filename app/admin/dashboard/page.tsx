@@ -79,7 +79,7 @@ export default async function AdminDashboardPage() {
     {
       title: "Classes",
       value: classCount,
-      description: "Published curriculum levels",
+      description: "All curriculum levels",
       icon: <BookOpen className="h-4 w-4" />,
       href: "/admin/classes",
     },
@@ -135,10 +135,9 @@ export default async function AdminDashboardPage() {
             <Badge variant="secondary" className="w-fit">
               Admin overview
             </Badge>
-            <CardTitle className="text-3xl">Dashboard</CardTitle>
+            <CardTitle className="text-2xl sm:text-[28px]">Dashboard</CardTitle>
             <CardDescription className="max-w-3xl text-sm">
-              Review curriculum coverage, content production, and recent admin activity from one server-rendered
-              workspace.
+              Review curriculum coverage, content production and recent admin activity.
             </CardDescription>
           </div>
           <div className="flex flex-wrap gap-3">

@@ -1,3 +1,4 @@
+import { normalizeSynonymsAntonymsAnswerType, synonymsAntonymsEntrySelect, type SynonymsAntonymsEntryRecord } from "@/app/admin/content/content-types";
 import type { StudentContentRecord } from "@/app/user/lessons/student-content";
 import { parseEnglishSecondPaperDocument, type SuffixPrefixDocument } from "@/app/admin/content/english-second-paper-blocks/types";
 import type { Prisma } from "@/generated/prisma/client";
@@ -469,7 +470,7 @@ const contentSelect = {
           passage: true, passageSource: true, paragraphBlockId: true,
           entries: {
             orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
-            select: { id: true, synonymsAntonymsId: true, word: true, meanings: true, synonyms: true, antonyms: true, details: true, sortOrder: true },
+            select: synonymsAntonymsEntrySelect,
           },
         },
       },
@@ -528,7 +529,14 @@ function serializeContents(contents: Array<any>) {
         ? { ...block.vocabulary, resolvedPassage: resolveLinkedPassage(content, block.vocabulary) }
         : null,
       synonymsAntonyms: block.synonymsAntonyms
-        ? { ...block.synonymsAntonyms, resolvedPassage: resolveLinkedPassage(content, block.synonymsAntonyms) }
+        ? {
+            ...block.synonymsAntonyms,
+            entries: block.synonymsAntonyms.entries.map((entry: SynonymsAntonymsEntryRecord) => ({
+              ...entry,
+              answerType: normalizeSynonymsAntonymsAnswerType(entry.answerType),
+            })),
+            resolvedPassage: resolveLinkedPassage(content, block.synonymsAntonyms),
+          }
         : null,
       mcqSection: block.mcqSection
         ? { ...block.mcqSection, resolvedPassage: resolveLinkedPassage(content, block.mcqSection), questions: (parseMcqDocument(block.mcqSection.documentJson).questions || []).map((question) => ({ ...question, options: question.options || [] })) }

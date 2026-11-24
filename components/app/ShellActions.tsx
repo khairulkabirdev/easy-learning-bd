@@ -2,47 +2,28 @@
 
 import { useEffect, useState } from "react";
 import { MoonStar, SunMedium } from "lucide-react";
-
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 const THEME_STORAGE_KEY = "dashboard-theme";
 
 export function ShellActions() {
   const [isDark, setIsDark] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
   useEffect(() => {
-    const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
-    const nextIsDark = savedTheme === "dark";
-
-    document.documentElement.classList.toggle("dark", nextIsDark);
-    setIsDark(nextIsDark);
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!mounted) {
-      return;
+    function sync() {
+      let dark = document.documentElement.classList.contains("dark");
+      try { const saved = localStorage.getItem(THEME_STORAGE_KEY); if (saved) dark = saved === "dark"; } catch { /* storage unavailable */ }
+      document.documentElement.classList.toggle("dark", dark);
+      setIsDark(dark);
     }
-
-    document.documentElement.classList.toggle("dark", isDark);
-    window.localStorage.setItem(THEME_STORAGE_KEY, isDark ? "dark" : "light");
-  }, [isDark, mounted]);
-
-  return (
-    <div className="flex items-center gap-2">
-      <Button
-        type="button"
-        variant="ghost"
-        size="icon"
-        aria-label={isDark ? "Switch to day mode" : "Switch to night mode"}
-        title={isDark ? "Switch to day mode" : "Switch to night mode"}
-        onClick={() => setIsDark((current) => !current)}
-      >
-        {isDark ? <SunMedium className="h-4 w-4" /> : <MoonStar className="h-4 w-4" />}
-      </Button>
-      <Badge variant="secondary">Server-first</Badge>
-    </div>
-  );
+    sync();
+    window.addEventListener("storage", sync);
+    return () => window.removeEventListener("storage", sync);
+  }, []);
+  function toggleTheme() {
+    const next = !document.documentElement.classList.contains("dark");
+    document.documentElement.classList.toggle("dark", next);
+    try { localStorage.setItem(THEME_STORAGE_KEY, next ? "dark" : "light"); } catch { /* storage unavailable */ }
+    setIsDark(next);
+  }
+  return <Button type="button" variant="ghost" size="icon" aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"} title={isDark ? "Light mode" : "Dark mode"} onClick={toggleTheme}>{isDark ? <SunMedium className="size-5" /> : <MoonStar className="size-5" />}</Button>;
 }

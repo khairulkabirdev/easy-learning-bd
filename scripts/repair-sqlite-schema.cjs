@@ -817,6 +817,16 @@ async function main() {
      WHERE ("imageUrl" IS NULL OR "imageUrl" = '')
        AND "imagePath" LIKE 'public/uploads/vocabulary/%'`,
   );
+  // Additive and idempotent: creates only the student checklist table.
+  await prisma.$executeRawUnsafe(`CREATE TABLE IF NOT EXISTS "StudentDailyGoal" (
+    "userId" TEXT NOT NULL, "day" TEXT NOT NULL,
+    "readLesson" BOOLEAN NOT NULL DEFAULT false,
+    "practiceExercise" BOOLEAN NOT NULL DEFAULT false,
+    "reviewSomething" BOOLEAN NOT NULL DEFAULT false,
+    "studied" BOOLEAN NOT NULL DEFAULT false,
+    PRIMARY KEY ("userId", "day"),
+    FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE
+  )`);
   await ensureStorageConfigurationTable();
   await ensureUploadedFileTable();
   await ensureModelQuestionImportTable();

@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   ArrowRight,
   BookOpenCheck,
@@ -16,9 +16,7 @@ import {
   Menu,
   PanelLeftClose,
   PanelLeftOpen,
-  Moon,
   Search,
-  Sun,
   UserRound,
   X,
   ClipboardList,
@@ -43,12 +41,17 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { isStudentResumeHref } from "@/components/app/StudentNestedPageNavigation";
+import { ShellActions } from "@/components/app/ShellActions";
+import { searchStudentLearning } from "@/app/user/learning-actions";
 import { cn } from "@/lib/utils";
 import { APP_NAME } from "@/lib/app-branding";
 
 export type StudentNavSubject = { id: string; name: string };
 
 type Props = {
+  userId: string;
+  classId: string | null;
   userName: string;
   userEmail: string;
   className: string | null;
@@ -66,9 +69,8 @@ const NAV = [
   { label: "My Profile", href: "/user/profile", icon: UserRound },
 ] as const;
 
-const BOTTOM_NAV = NAV.filter(({ href }) => href !== MODEL_QUESTIONS_HREF);
+const BOTTOM_NAV = NAV;
 
-const THEME_KEY = "dashboard-theme"; // compatible with existing project theme toggle
 const STUDENT_SIDEBAR_KEY = "elesson-student-sidebar-collapsed";
 
 function isActive(pathname: string, href: string) {
@@ -94,24 +96,27 @@ function StudentBrand({ compact = false }: { compact?: boolean }) {
   );
 }
 
-export function StudentWorkspaceShell({ userName, userEmail, className, subjects, children }: Props) {
+export function StudentWorkspaceShell({ userId, classId, userName, userEmail, className, subjects, children }: Props) {
   const pathname = usePathname();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const queryString = searchParams.toString();
   const desktopSearchRef = useRef<HTMLInputElement>(null);
   const mobileSearchRef = useRef<HTMLInputElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [search, setSearch] = useState("");
-  const [darkMode, setDarkMode] = useState(false);
+  const [remoteResults, setRemoteResults] = useState<Array<{label: string; href: string; type: string}>>([]);
+  const [remoteQuery, setRemoteQuery] = useState("");
+  const [searchError, setSearchError] = useState(false);
   const firstName = userName.trim().split(/\s+/)[0] || "Student";
 
   useEffect(() => {
-    const preference = window.localStorage.getItem(THEME_KEY);
-    const isDark = preference === "dark" || (!preference && document.documentElement.classList.contains("dark"));
-    document.documentElement.classList.toggle("dark", isDark);
-    setDarkMode(isDark);
-  }, []);
+    const href = pathname + (queryString ? `?${queryString}` : "");
+    if (!classId || !isStudentResumeHref(href)) return;
+    try { localStorage.setItem(`elesson-resume:${userId}:${classId}`, href); } catch { /* storage unavailable */ }
+  }, [pathname, queryString, userId, classId]);
 
   useEffect(() => {
     try {
@@ -143,14 +148,30 @@ export function StudentWorkspaceShell({ userName, userEmail, className, subjects
     return () => window.removeEventListener("keydown", keydown);
   }, []);
 
+  useEffect(() => {
+    const term = search.trim();
+    if (!searchOpen || term.length < 2) return;
+    let active = true;
+    setSearchError(false);
+    const timer = window.setTimeout(() => {
+      searchStudentLearning(term).then((results) => {
+        if (active) { setRemoteResults(results); setRemoteQuery(term); }
+      }).catch(() => { if (active) { setSearchError(true); setRemoteResults([]); setRemoteQuery(term); } });
+    }, 300);
+    return () => { active = false; window.clearTimeout(timer); };
+  }, [search, searchOpen]);
+
   const searchResults = useMemo(() => {
     const candidates = [
       ...NAV.map(({ label, href }) => ({ label, href, type: "Page" })),
       ...subjects.map((s) => ({ label: s.name, href: `/user/chapter-preparation/subjects/${s.id}`, type: "Subject" })),
     ];
     const term = search.trim().toLowerCase();
-    return (term ? candidates.filter((c) => c.label.toLowerCase().includes(term)) : candidates).slice(0, 9);
-  }, [search, subjects]);
+    const local = term ? candidates.filter((c) => c.label.toLowerCase().includes(term)) : candidates;
+    const combined = [...local, ...(remoteQuery === search.trim() ? remoteResults : [])];
+    return [...new Map(combined.map((item) => [item.href, item])).values()].slice(0, 12);
+  }, [search, subjects, remoteQuery, remoteResults]);
+  const searching = search.trim().length >= 2 && remoteQuery !== search.trim();
 
   function toggleDesktopSidebar() {
     const next = !sidebarCollapsed;
@@ -160,13 +181,6 @@ export function StudentWorkspaceShell({ userName, userEmail, className, subjects
     } catch {
       // Keep the toggle usable if storage is blocked.
     }
-  }
-
-  function toggleTheme() {
-    const next = !darkMode;
-    document.documentElement.classList.toggle("dark", next);
-    window.localStorage.setItem(THEME_KEY, next ? "dark" : "light");
-    setDarkMode(next);
   }
 
   function navigateToSearchResult(href: string) {
@@ -287,18 +301,18 @@ export function StudentWorkspaceShell({ userName, userEmail, className, subjects
 
             <div className="relative mx-auto hidden w-full max-w-md min-w-0 flex-1 sm:block" onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setSearchOpen(false); }}>
               <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
-              <Input ref={desktopSearchRef} type="search" value={search} onChange={(e) => { setSearch(e.target.value); setSearchOpen(true); }} onFocus={() => setSearchOpen(true)} onKeyDown={(e) => { if (e.key === "Enter" && searchResults[0]) navigateToSearchResult(searchResults[0].href); }} placeholder="Search subjects and pages…" aria-label="Search subjects and pages" className="h-10 rounded-xl border-border bg-background pl-10 pr-14" />
+              <Input ref={desktopSearchRef} type="search" value={search} onChange={(e) => { setSearch(e.target.value); setSearchOpen(true); }} onFocus={() => setSearchOpen(true)} onKeyDown={(e) => { if (e.key === "Enter" && searchResults[0]) navigateToSearchResult(searchResults[0].href); }} placeholder="Search lessons, practice and papers…" aria-label="Search learning content" className="h-10 rounded-xl border-border bg-background pl-10 pr-14" />
               <kbd className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 rounded border px-1.5 text-[10px] text-muted-foreground">Ctrl K</kbd>
               {searchOpen && <div className="student-search-popover absolute inset-x-0 top-full z-50 mt-2 max-h-80 overflow-y-auto rounded-xl p-1.5">
-                {searchResults.length ? searchResults.map((r) => <button key={r.href} type="button" onClick={() => navigateToSearchResult(r.href)} className="flex min-h-10 w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm hover:bg-accent"><span className="truncate">{r.label}</span><span className="ml-3 text-[10px] text-muted-foreground">{r.type}</span></button>) : <p className="p-3 text-sm text-muted-foreground">No matching subject or page.</p>}
+                {searchResults.length ? searchResults.map((r) => <button key={r.href} type="button" onClick={() => navigateToSearchResult(r.href)} className="flex min-h-11 w-full items-center justify-between gap-2 rounded-lg px-3 py-2 text-left text-sm hover:bg-accent"><span className="truncate">{r.label}</span><span className="ml-3 text-[10px] text-muted-foreground">{r.type}</span></button>) : <p className="p-3 text-sm text-muted-foreground">{searching ? "Searching…" : searchError ? "Search unavailable. Try again." : "No matching results."}</p>}
               </div>}
             </div>
 
             <div className="ml-auto flex items-center gap-1 sm:ml-0 sm:gap-2">
               <Button variant="ghost" size="icon" className="sm:hidden" aria-label="Search" onClick={() => { setSearchOpen((x) => !x); requestAnimationFrame(() => mobileSearchRef.current?.focus()); }}><Search className="size-5" /></Button>
-              <Button variant="outline" size="icon" aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"} title={darkMode ? "Light mode" : "Dark mode"} onClick={toggleTheme}>{darkMode ? <Sun className="size-4.5" /> : <Moon className="size-4.5" />}</Button>
+              <ShellActions />
               <DropdownMenu>
-                <DropdownMenuTrigger className="flex min-h-10 items-center gap-2 rounded-xl border border-border bg-background px-2 text-left outline-none hover:bg-accent sm:px-3">
+                <DropdownMenuTrigger className="flex min-h-11 items-center gap-2 rounded-xl border border-border bg-background px-2 text-left outline-none hover:bg-accent sm:px-3">
                   <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold uppercase text-primary-foreground">{firstName[0]}</span>
                   <span className="hidden max-w-32 truncate text-sm font-medium xl:block">{firstName}</span>
                   <ChevronDown className="hidden size-3.5 text-muted-foreground sm:block" />
@@ -317,10 +331,10 @@ export function StudentWorkspaceShell({ userName, userEmail, className, subjects
             </div>
           </div>
           {searchOpen && <div className="relative pb-3 sm:hidden" onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setSearchOpen(false); }}>
-            <Input ref={mobileSearchRef} value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Find subjects or pages..." aria-label="Search subjects and pages" onKeyDown={(e) => { if (e.key === "Enter" && searchResults[0]) navigateToSearchResult(searchResults[0].href); }} className="h-10 pr-8" />
+            <Input ref={mobileSearchRef} value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search learning content…" aria-label="Search learning content" onKeyDown={(e) => { if (e.key === "Enter" && searchResults[0]) navigateToSearchResult(searchResults[0].href); }} className="h-10 pr-12" />
             <Button variant="ghost" size="icon-sm" className="absolute right-1 top-1" aria-label="Close search" onClick={() => setSearchOpen(false)}><X className="size-4" /></Button>
             <div className="student-search-popover absolute inset-x-0 top-full z-50 max-h-64 overflow-y-auto rounded-xl p-1.5">
-              {searchResults.length ? searchResults.map((r) => <button key={r.href} type="button" onClick={() => navigateToSearchResult(r.href)} className="flex min-h-10 w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm hover:bg-accent"><span>{r.label}</span><span className="text-[10px] text-muted-foreground">{r.type}</span></button>) : <p className="p-3 text-sm text-muted-foreground">No matching results.</p>}
+              {searchResults.length ? searchResults.map((r) => <button key={r.href} type="button" onClick={() => navigateToSearchResult(r.href)} className="flex min-h-11 w-full items-center justify-between gap-2 rounded-lg px-3 py-2 text-left text-sm hover:bg-accent"><span className="min-w-0 break-words">{r.label}</span><span className="shrink-0 text-[10px] text-muted-foreground">{r.type}</span></button>) : <p className="p-3 text-sm text-muted-foreground">{searching ? "Searching…" : searchError ? "Search unavailable. Try again." : "No matching results."}</p>}
             </div>
           </div>}
         </header>
@@ -329,12 +343,12 @@ export function StudentWorkspaceShell({ userName, userEmail, className, subjects
         </main>
       </div>
 
-      <nav aria-label="Bottom navigation" className="student-bottom-nav fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 border-t px-1 pb-[env(safe-area-inset-bottom)] pt-2 backdrop-blur-xl lg:hidden">
+      <nav aria-label="Bottom navigation" className="student-bottom-nav fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t px-1 pb-[env(safe-area-inset-bottom)] pt-2 backdrop-blur-xl lg:hidden">
         {BOTTOM_NAV.map(({ label, href, icon: Icon }) => {
           const active = isActive(pathname, href);
-          return <Link key={href} href={href} aria-current={active ? "page" : undefined} className={cn("flex min-h-13 flex-col items-center justify-center gap-1 rounded-lg px-1 text-[10px] font-medium", active ? "text-primary" : "text-muted-foreground hover:text-foreground")}>
+          return <Link key={href} href={href} aria-current={active ? "page" : undefined} className={cn("flex min-w-0 min-h-13 flex-col items-center justify-center gap-1 rounded-lg px-1 text-[10px] font-medium", active ? "text-primary" : "text-muted-foreground hover:text-foreground")}>
             <span className={cn("flex size-8 items-center justify-center rounded-lg", active && "bg-primary text-primary-foreground")}><Icon className="size-4.5" /></span>
-            <span className="truncate">{label === "Chapter Preparation" ? "Learn" : label === "Practice Library" ? "Practice" : label === "My Profile" ? "Profile" : "Home"}</span>
+            <span className="truncate">{label === "Chapter Preparation" ? "Learn" : label === "Practice Library" ? "Practice" : label === "My Profile" ? "Profile" : label === "Model Questions" ? "Models" : "Home"}</span>
           </Link>;
         })}
       </nav>

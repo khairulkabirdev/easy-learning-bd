@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import {
   BookOpenText,
@@ -227,11 +227,100 @@ function InformationTransferExercise({ block, number }: { block: InformationTran
   );
 }
 
+export type TrueFalseResponse = {
+  choice?: boolean;
+  correction: string;
+};
+
+type TrueFalseQuestion = UnseenTrueFalseBlock["rows"][number];
+
+/** A selected False response is complete only after the student writes a correction. */
+export function isTrueFalseResponseComplete(response?: TrueFalseResponse) {
+  return response?.choice === true || (response?.choice === false && Boolean(response.correction.trim()));
+}
+
+/** Match a saved correction conservatively; alternative wording needs self-review. */
+export function trueFalseResponseFeedback(row: TrueFalseQuestion, response?: TrueFalseResponse) {
+  if (response?.choice === undefined) return { kind: "pending", text: "Not answered" } as const;
+  if (response.choice !== row.expectedAnswer) return { kind: "incorrect", text: "Review your choice" } as const;
+  if (response.choice) return { kind: "correct", text: "Correct" } as const;
+  if (!response.correction.trim()) return { kind: "pending", text: "Correct choice — write the corrected statement" } as const;
+  if (row.correction && normalizeAnswer(response.correction) === normalizeAnswer(row.correction)) {
+    return { kind: "correct", text: "Correct" } as const;
+  }
+  return { kind: "pending", text: "Correct choice — review your correction" } as const;
+}
+
+/** Shared True/False row for chapter practice and online model papers. */
+export function TrueFalseQuestionRow({ row, index, response, onChange, checked = false, preview = false }: {
+  row: TrueFalseQuestion;
+  index: number;
+  response?: TrueFalseResponse;
+  onChange: (response: TrueFalseResponse) => void;
+  checked?: boolean;
+  preview?: boolean;
+}) {
+  const correctionId = useId();
+  const selected = response?.choice;
+  const correction = response?.correction ?? "";
+  const feedback = checked ? trueFalseResponseFeedback(row, response) : null;
+  return (
+    <div data-slot="true-false-question" className="min-w-0 space-y-3 rounded-2xl border border-border/70 bg-muted/20 p-3 sm:p-4">
+      <div className="flex items-start gap-3">
+        <span data-slot="true-false-number" className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-xs font-semibold tabular-nums text-primary">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+        <p className="min-w-0 flex-1 break-words text-sm leading-7">{row.statement || "Empty statement"}</p>
+      </div>
+      <div data-slot="true-false-options" className="grid grid-cols-2 gap-2 sm:max-w-72" role="group" aria-label={`Statement ${index + 1} answer`}>
+        {([true, false] as const).map((choice) => (
+          <Button
+            key={String(choice)}
+            type="button"
+            variant="outline"
+            aria-pressed={selected === choice}
+            className={cn("min-h-11 min-w-0 border-border/80 text-sm", selected === choice && "border-primary bg-primary/10 text-primary hover:bg-primary/15")}
+            onClick={() => onChange({ choice, correction })}
+          >
+            {choice ? "True" : "False"}
+          </Button>
+        ))}
+      </div>
+      {selected === false ? (
+        <div data-slot="true-false-correction" className="min-w-0 space-y-2">
+          <label htmlFor={correctionId} className="block text-sm font-medium">Correct the false statement <span className="text-destructive" aria-hidden="true">*</span></label>
+          <Textarea
+            id={correctionId}
+            aria-required="true"
+            value={correction}
+            onChange={(event) => onChange({ choice: false, correction: event.target.value })}
+            placeholder="Write the corrected statement..."
+            className="min-h-20 w-full resize-y bg-background"
+          />
+        </div>
+      ) : null}
+      {feedback ? (
+        <div role="status" className={cn("flex items-center gap-2 text-xs", feedback.kind === "correct" ? "text-emerald-700 dark:text-emerald-400" : "text-muted-foreground")}>
+          {feedback.kind === "correct" ? <Check className="size-4 shrink-0" /> : feedback.kind === "incorrect" ? <X className="size-4 shrink-0" /> : null}
+          {feedback.text}
+        </div>
+      ) : null}
+      {preview ? (
+        <PreviewPanel>
+          <p className="font-medium">{row.expectedAnswer ? "True" : "False"}</p>
+          {!row.expectedAnswer && row.correction ? <p className="mt-1 break-words">Correction: {row.correction}</p> : null}
+        </PreviewPanel>
+      ) : null}
+    </div>
+  );
+}
+
 function TrueFalseExercise({ block, number }: { block: UnseenTrueFalseBlock; number: number }) {
-  const [answers, setAnswers] = useState<Record<string, boolean>>({});
+  const [answers, setAnswers] = useState<Record<string, TrueFalseResponse>>({});
   const [checked, setChecked] = useState(false);
   const [preview, setPreview] = useState(false);
-  const completed = block.rows.filter((row) => answers[row.id] !== undefined).length;
+  const completed = block.rows.filter((row) => isTrueFalseResponseComplete(answers[row.id])).length;
+  const hasSelection = block.rows.some((row) => answers[row.id]?.choice !== undefined);
   const reset = () => { setAnswers({}); setChecked(false); setPreview(false); };
 
   return (
@@ -240,55 +329,20 @@ function TrueFalseExercise({ block, number }: { block: UnseenTrueFalseBlock; num
       <div className="space-y-4 p-4 sm:p-5">
         {block.instruction ? <RichContent html={block.instruction} className="text-muted-foreground" /> : null}
         <div className="space-y-3">
-          {block.rows.map((row, index) => {
-            const selected = answers[row.id];
-            return (
-              <div key={row.id} className="space-y-3 rounded-xl border border-border/70 bg-muted/20 p-3 sm:p-4">
-                <div className="flex items-start gap-3">
-                  <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-xs font-semibold tabular-nums text-primary">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <p className="min-w-0 flex-1 text-sm leading-7">{row.statement}</p>
-                </div>
-                <div className="grid grid-cols-2 gap-2 sm:max-w-72" role="group" aria-label={`Statement ${index + 1} answer`}>
-                  {([true, false] as const).map((choice) => (
-                    <Button
-                      key={String(choice)}
-                      type="button"
-                      variant="outline"
-                      aria-pressed={selected === choice}
-                      className={cn("min-h-11 border-border/80 text-sm", selected === choice && "border-primary bg-primary/10 text-primary hover:bg-primary/15")}
-                      onClick={() => {
-                        setAnswers((current) => ({ ...current, [row.id]: choice }));
-                        setChecked(false);
-                      }}
-                    >
-                      {choice ? "True" : "False"}
-                    </Button>
-                  ))}
-                </div>
-                {checked && selected !== undefined ? (
-                  <div className={cn("flex items-center gap-2 text-xs", selected === row.expectedAnswer ? "text-emerald-700 dark:text-emerald-400" : "text-muted-foreground")}>
-                    {selected === row.expectedAnswer ? <Check className="size-4" /> : <X className="size-4" />}
-                    {selected === row.expectedAnswer ? "Correct" : "Review this statement"}
-                  </div>
-                ) : null}
-                {preview ? (
-                  <PreviewPanel>
-                    <p className="font-medium">{row.expectedAnswer ? "True" : "False"}</p>
-                    {!row.expectedAnswer && row.correction ? <p className="mt-1 break-words">Correction: {row.correction}</p> : null}
-                  </PreviewPanel>
-                ) : null}
-              </div>
-            );
-          })}
+          {block.rows.map((row, index) => (
+            <TrueFalseQuestionRow key={row.id} row={row} index={index} response={answers[row.id]} checked={checked} preview={preview}
+              onChange={(response) => {
+                setAnswers((current) => ({ ...current, [row.id]: response }));
+                setChecked(false);
+              }} />
+          ))}
         </div>
         {block.rows.length > 0 ? (
           <div className="border-t border-border/60 pt-4">
             <div className="mb-3 text-xs tabular-nums text-muted-foreground">{completed}/{block.rows.length} answered</div>
             <PracticeAnswerActions
               onCheck={() => { setChecked(true); setPreview(false); }}
-              checkDisabled={completed === 0}
+              checkDisabled={!hasSelection}
               onPreview={() => setPreview((current) => !current)}
               onReset={reset}
               previewLabel={preview ? "Hide Answers" : "Preview Answers"}

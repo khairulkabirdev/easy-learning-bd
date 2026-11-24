@@ -1,7 +1,7 @@
 "use client";
 
 import { useContext, useState } from "react";
-import { ArrowDown, ArrowUp, CheckCircle2, CircleHelp, Eye, Flag, Heart, XCircle } from "lucide-react";
+import { ArrowDown, ArrowUp, CheckCircle2, CircleHelp, Flag, Heart, XCircle } from "lucide-react";
 
 import type {
   ContentBlockKind,
@@ -12,17 +12,19 @@ import type {
   TrueFalseRowRecord,
   VocabularyEntryRecord,
 } from "@/app/admin/content/content-types";
+import { normalizeSynonymsAntonymsAnswerType } from "@/app/admin/content/content-types";
 import { ModelPaperManualReview, ModelPaperMode, useModelPaperReview } from "@/components/app/ModelPaperMode";
 import type { ModelPaperEntry } from "@/lib/model-paper-types";
 import { TableCompletionChoiceCombobox } from "@/components/app/TableCompletionChoiceCombobox";
 import { SubstitutionTableExercise } from "@/components/app/SubstitutionTableExercise";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { PracticeAnswerActions } from "@/components/app/PracticeAnswerActions";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { TrueFalseQuestionRow, type TrueFalseResponse } from "@/components/app/UserUnseenCompositionViewer";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { sanitizeRichHtml } from "@/lib/sanitize-rich-html";
@@ -78,7 +80,8 @@ function RichContent({ value }: { value: string }) {
   return (
     <div
       className={cn(
-        "overflow-x-auto text-sm leading-7 text-foreground",
+        "min-w-0 max-w-full overflow-x-auto text-base leading-7 text-foreground [overflow-wrap:anywhere]",
+        "[&_img]:h-auto [&_img]:max-w-full [&_pre]:overflow-x-auto [&_td]:align-top",
         "[&_a]:text-primary [&_a]:underline",
         "[&_blockquote]:border-l-2 [&_blockquote]:border-border [&_blockquote]:pl-4 [&_blockquote]:italic",
         "[&_li]:ml-5 [&_ol]:list-decimal [&_ol]:space-y-1 [&_p]:mb-3 [&_p:last-child]:mb-0",
@@ -114,18 +117,7 @@ function ActionButtons({ onCheck, onReveal }: { onCheck: () => void; onReveal: (
   });
   if (mode) return null;
 
-  return (
-    <div className="flex flex-wrap gap-2">
-      <Button type="button" size="sm" className="cursor-pointer" onClick={onCheck}>
-        <CheckCircle2 className="mr-2 h-4 w-4" />
-        Check Answer
-      </Button>
-      <Button type="button" variant="outline" size="sm" className="cursor-pointer" onClick={onReveal}>
-        <Eye className="mr-2 h-4 w-4" />
-        Review Answer
-      </Button>
-    </div>
-  );
+  return <PracticeAnswerActions onCheck={onCheck} onPreview={onReveal} previewLabel="Review Answer" />;
 }
 
 function ThreeFieldExerciseBlock({
@@ -264,14 +256,14 @@ function FillInTheBlanksBlock({
             <RichContent value={sourcePassage} />
           </div>
         ) : null}
-        <div className="rounded-xl border bg-muted/10 p-4 text-base leading-9 whitespace-pre-wrap">
+        <div data-slot="inline-blank-question" className="rounded-xl border bg-muted/10 p-4 text-base leading-9 whitespace-pre-wrap">
           {segments.map((segment, index) => {
             const blank = blanks[index];
             return (
               <span key={`${index}-${blank?.id || "tail"}`}>
                 {segment}
                 {blank ? (
-                  <span className="mx-1 inline-flex align-middle">
+                  <span data-slot="inline-blank" className="mx-1 inline-flex align-middle">
                     <Input
                       value={studentAnswers[blank.id] || ""}
                       onChange={(event) => {
@@ -279,6 +271,7 @@ function FillInTheBlanksBlock({
                         setStatusByBlank((current) => ({ ...current, [blank.id]: "idle" }));
                       }}
                       aria-label={`Answer for blank ${index + 1}`}
+                      data-answer-status={statusByBlank[blank.id] || "idle"}
                       placeholder={`${index + 1}`}
                       className={cn(
                         "h-9 min-w-28 w-36 bg-background px-2 text-center sm:w-44",
@@ -1230,16 +1223,27 @@ function LegacyTableCompletionBlock({
   );
 }
 
+export function modelSynonymsAntonymsPrompt(entry: Pick<SynonymsAntonymsEntryRecord, "word" | "answerType">) {
+  const mode = normalizeSynonymsAntonymsAnswerType(entry.answerType);
+  return `${entry.word.trim()} (${mode === "both" ? "synonym / antonym" : mode})`;
+}
+
+export function modelSynonymsAntonymsItemLabel(index: number) {
+  return `${index < 26 ? String.fromCharCode(97 + index) : index + 1})`;
+}
+
 function QuestionAnswerRowsBlock({
   title,
   rows,
   details,
   letteredItems = false,
+  compactLetterLabels = false,
 }: {
   title: string;
   rows: Array<{ id: string; question: string; answer: string }>;
   details: string;
   letteredItems?: boolean;
+  compactLetterLabels?: boolean;
 }) {
   const AnswerField = useContext(ModelPaperManualReview) ? Textarea : Input;
   const [answers, setAnswers] = useState<Record<string, string>>({});
@@ -1260,7 +1264,7 @@ function QuestionAnswerRowsBlock({
         {rows.map((row, index) => (
           <div key={row.id} className="rounded-xl border p-4">
             <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-              <Badge variant="outline">{letteredItems ? `(${index < 26 ? String.fromCharCode(97 + index) : index + 1})` : `Item ${index + 1}`}</Badge>
+              <Badge variant="outline">{compactLetterLabels ? modelSynonymsAntonymsItemLabel(index) : letteredItems ? `(${index < 26 ? String.fromCharCode(97 + index) : index + 1})` : `Item ${index + 1}`}</Badge>
               <ResultBadge status={statusByRow[row.id] || "idle"} />
             </div>
             <div className="mb-3 rounded-xl border p-4">
@@ -1465,8 +1469,8 @@ function TrueFalseBlock({
   passage: string;
   rows: TrueFalseRowRecord[];
 }) {
-  const [answers, setAnswers] = useState<Record<string, "true" | "false" | "">>({});
-  const [statusByRow, setStatusByRow] = useState<Record<string, CheckStatus>>({});
+  const [answers, setAnswers] = useState<Record<string, TrueFalseResponse>>({});
+  const [checkedByRow, setCheckedByRow] = useState<Record<string, boolean>>({});
   const [showAnswers, setShowAnswers] = useState(false);
 
   return (
@@ -1475,54 +1479,23 @@ function TrueFalseBlock({
         <CardTitle className="text-lg">{title || "True / False"}</CardTitle>
         {instruction ? <CardDescription>{instruction}</CardDescription> : null}
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-3">
         {stripHtml(passage) ? (
           <div className="rounded-xl border p-4">
             <RichContent value={passage} />
           </div>
         ) : null}
         {rows.map((row, index) => (
-          <div key={row.id} className="rounded-xl border p-4">
-            <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-              <Badge variant="outline">Statement {index + 1}</Badge>
-              <ResultBadge status={statusByRow[row.id] || "idle"} />
-            </div>
-            <div className="mb-3 rounded-xl border p-4 text-sm">{row.statement || "Empty statement"}</div>
-            <div className="max-w-xs">
-              <Select
-                value={answers[row.id] || ""}
-                onValueChange={(value) => {
-                  setAnswers((current) => ({ ...current, [row.id]: value as "true" | "false" }));
-                  setStatusByRow((current) => ({ ...current, [row.id]: "idle" }));
-                }}
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select answer" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="true">True</SelectItem>
-                  <SelectItem value="false">False</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            {showAnswers ? (
-              <div className="mt-3 rounded-xl border border-dashed p-3 text-sm">
-                <div className="mb-1 font-medium">Correct answer: {row.expectedAnswer ? "True" : "False"}</div>
-                {!row.expectedAnswer && row.correction ? (
-                  <div className="text-muted-foreground">Correction: {row.correction}</div>
-                ) : null}
-              </div>
-            ) : null}
-          </div>
+          <TrueFalseQuestionRow key={row.id} row={row} index={index} response={answers[row.id]}
+            checked={Boolean(checkedByRow[row.id])} preview={showAnswers}
+            onChange={(response) => {
+              setAnswers((current) => ({ ...current, [row.id]: response }));
+              setCheckedByRow((current) => ({ ...current, [row.id]: false }));
+            }} />
         ))}
         <ActionButtons
           onCheck={() => {
-            const next: Record<string, CheckStatus> = {};
-            for (const row of rows) {
-              next[row.id] =
-                (answers[row.id] || "") === (row.expectedAnswer ? "true" : "false") ? "correct" : "incorrect";
-            }
-            setStatusByRow(next);
+            setCheckedByRow(Object.fromEntries(rows.map((row) => [row.id, true])));
             setShowAnswers(true);
           }}
           onReveal={() => setShowAnswers(true)}
@@ -1569,14 +1542,10 @@ function StudentBlockCard({
       return <QuestionAnswerRowsBlock
         title="Synonyms / Antonyms"
         letteredItems={true}
+        compactLetterLabels={true}
         rows={block.synonymsAntonyms.entries.filter(entry => entry.word.trim()).map(entry => {
-          const mode = "answerType" in entry ? String(entry.answerType || "both").toLowerCase() : "both";
-          const word = escapePaperText(entry.word);
-          const question = mode === "synonym"
-            ? `Write a synonym for “${word}”.`
-            : mode === "antonym"
-              ? `Write an antonym for “${word}”.`
-              : `Write a synonym and an antonym for “${word}”.`;
+          const mode = normalizeSynonymsAntonymsAnswerType(entry.answerType);
+          const question = escapePaperText(modelSynonymsAntonymsPrompt(entry));
           const answer = mode === "synonym"
             ? entry.synonyms || ""
             : mode === "antonym"
@@ -1883,7 +1852,7 @@ export function StudentContentViewer({
   showHeader?: boolean;
 }) {
   return (
-    <div className="space-y-4">
+    <div className="min-w-0 max-w-full space-y-4">
       {showHeader ? (
         <>
           <div className="space-y-1">

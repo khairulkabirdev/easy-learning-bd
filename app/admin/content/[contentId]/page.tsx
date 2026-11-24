@@ -5,7 +5,7 @@ import { getFixedModelQuestionLayout, getFixedModelQuestionSlots, getFixedPassag
 
 import { ContentBlocksEditorClient } from "@/app/admin/content/[contentId]/ContentBlocksEditorClient";
 import { SeenCompositionTitleEditor } from "@/components/admin/SeenCompositionTitleEditor";
-import type { ContentBlockKind, ContentRecordWithBlocks } from "@/app/admin/content/content-types";
+import { normalizeSynonymsAntonymsAnswerType, synonymsAntonymsEntrySelect, type ContentBlockKind, type ContentRecordWithBlocks } from "@/app/admin/content/content-types";
 import { requireAdmin } from "@/lib/app-auth";
 import { prisma } from "@/lib/db";
 import { SEEN_PASSAGE_ONE_REF, SEEN_PASSAGE_TWO_REF } from "@/lib/seen-composition-passages";
@@ -581,16 +581,7 @@ export default async function AdminContentBlocksPage({
               paragraphBlockId: true,
               entries: {
                 orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
-                select: {
-                  id: true,
-                  synonymsAntonymsId: true,
-                  word: true,
-                  meanings: true,
-                  synonyms: true,
-                  antonyms: true,
-                  details: true,
-                  sortOrder: true,
-                },
+                select: synonymsAntonymsEntrySelect,
               },
             },
           },
@@ -1021,6 +1012,10 @@ export default async function AdminContentBlocksPage({
       synonymsAntonyms: block.synonymsAntonyms
         ? {
             ...block.synonymsAntonyms,
+            entries: block.synonymsAntonyms.entries.map((entry) => ({
+              ...entry,
+              answerType: normalizeSynonymsAntonymsAnswerType(entry.answerType),
+            })),
             ...fixedLinkedSource(block.kind, block.synonymsAntonyms.passageSource, block.synonymsAntonyms.paragraphBlockId || null),
           }
         : null,

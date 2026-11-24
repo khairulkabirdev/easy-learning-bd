@@ -1140,6 +1140,15 @@ exports.Prisma.ModelQuestionSetBlockScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.StudentDailyGoalScalarFieldEnum = {
+  userId: 'userId',
+  day: 'day',
+  readLesson: 'readLesson',
+  practiceExercise: 'practiceExercise',
+  reviewSomething: 'reviewSomething',
+  studied: 'studied'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1216,7 +1225,8 @@ exports.Prisma.ModelName = {
   AcademicYear: 'AcademicYear',
   ModelQuestionImport: 'ModelQuestionImport',
   ModelQuestionSet: 'ModelQuestionSet',
-  ModelQuestionSetBlock: 'ModelQuestionSetBlock'
+  ModelQuestionSetBlock: 'ModelQuestionSetBlock',
+  StudentDailyGoal: 'StudentDailyGoal'
 };
 
 /**

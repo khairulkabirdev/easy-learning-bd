@@ -108,6 +108,23 @@ export type VocabularyRecord = {
   entries: VocabularyEntryRecord[];
 };
 
+// Shared projection for admin editing and student model-paper rendering.
+export const synonymsAntonymsEntrySelect = {
+  id: true,
+  synonymsAntonymsId: true,
+  word: true,
+  meanings: true,
+  synonyms: true,
+  antonyms: true,
+  answerType: true,
+  details: true,
+  sortOrder: true,
+} as const;
+
+export function normalizeSynonymsAntonymsAnswerType(value: unknown): "synonym" | "antonym" | "both" {
+  return value === "synonym" || value === "antonym" ? value : "both";
+}
+
 export type SynonymsAntonymsEntryRecord = {
   id: string;
   synonymsAntonymsId: string;

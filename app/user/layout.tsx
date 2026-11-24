@@ -28,6 +28,8 @@ export default async function UserLayout({ children }: { children: React.ReactNo
 
   return (
     <StudentWorkspaceShell
+      userId={user.id}
+      classId={user.classId}
       userName={user.name}
       userEmail={user.email}
       className={classItem?.name ?? null}
