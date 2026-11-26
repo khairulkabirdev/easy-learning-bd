@@ -1,3 +1,4 @@
+import { secondPaperSectionAssignmentKind, type BlockAssignmentKind } from "@/app/admin/content/content-types";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -85,13 +86,19 @@ const TYPES = [
 export function EnglishSecondPaperTypeGrid({
   classId,
   subjectId,
+  assignedKinds,
 }: {
   classId: string;
   subjectId: string;
+  assignedKinds?: BlockAssignmentKind[] | null;
 }) {
+  const enabled = TYPES.filter(item => assignedKinds == null || assignedKinds.some(kind => kind === secondPaperSectionAssignmentKind(item.slug)));
+  const disabled = TYPES.filter(item => !enabled.includes(item));
   return (
+    <div className="space-y-4">
+      {enabled.length === 0 ? <p className="rounded-lg border p-4 text-sm text-muted-foreground">No sections assigned. Update assignments in Block Manager.</p> : null}
     <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-      {TYPES.map((item) => {
+      {enabled.map((item) => {
         const Icon = item.icon;
         return (
           <Link
@@ -114,6 +121,12 @@ export function EnglishSecondPaperTypeGrid({
           </Link>
         );
       })}
+    </div>
+    {disabled.length > 0 ? <details className="rounded-lg border p-4 text-sm">
+      <summary className="cursor-pointer font-medium">Unassigned sections ({disabled.length}) — existing content</summary>
+      <p className="mt-2 text-muted-foreground">Existing records remain accessible for editing. New blocks require assignment.</p>
+      <div className="mt-3 flex flex-wrap gap-3">{disabled.map(item => <Link key={item.slug} className="text-primary underline underline-offset-4" href={`/admin/content/class/${classId}/subject/${subjectId}/${item.slug}`}>{item.title}</Link>)}</div>
+    </details> : null}
     </div>
   );
 }

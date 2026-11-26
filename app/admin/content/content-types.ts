@@ -467,3 +467,70 @@ export type ContentRecordWithBlocks = {
   topic: { id: string; title: string } | null;
   blocks: ContentBlockRecord[];
 };
+
+
+// Registered, implemented block types. Assignment never creates or deletes content.
+export type BlockAssignmentKind = ContentBlockKind | "unseen-composition";
+export const BLOCK_CATALOG: readonly { kind: BlockAssignmentKind; title: string; description: string; group: "General" | "Reading" | "Grammar" }[] = [
+  { kind: "paragraph", title: "Paragraph", description: "Add a paragraph block.", group: "General" },
+  { kind: "seen-passage-one", title: "Passage", description: "Add a repeatable Seen Composition Passage block.", group: "Reading" },
+  { kind: "seen-passage-two", title: "Passage 2", description: "Add a repeatable Seen Composition Passage 2 block.", group: "Reading" },
+  { kind: "vocabulary", title: "Vocabulary", description: "Add vocabulary words and meanings.", group: "Reading" },
+  { kind: "synonyms-antonyms", title: "Synonyms / Antonyms", description: "Add synonyms and antonyms rows.", group: "Reading" },
+  { kind: "gap-fill", title: "Gap Fill (Legacy)", description: "Legacy gap fill block.", group: "General" },
+  { kind: "gap-fill-first-paper", title: "Fill in the Blanks", description: "Add question, answer, and details for English 1st paper.", group: "Reading" },
+  { kind: "gap-fill-second-paper", title: "Gap Filling", description: "Create a Tiptap question with inline blanks and matching answers.", group: "Grammar" },
+  { kind: "mcq", title: "MCQ", description: "Add an MCQ section.", group: "General" },
+  { kind: "true-false", title: "True / False", description: "Add a true/false exercise.", group: "Reading" },
+  { kind: "writing-summary", title: "Summary", description: "Write an unseen-passage summary instruction and model answer.", group: "Reading" },
+  { kind: "question-answer", title: "Question Answer", description: "Add a passage and question-answer items.", group: "General" },
+  { kind: "table-completion", title: "Table Completion", description: "Add question, answer, and details.", group: "General" },
+  { kind: "column-matching", title: "Matching Sentences", description: "Build Column A / Column B and add Column C when needed.", group: "General" },
+  { kind: "rearrange-sentence", title: "Rearrange Sentence", description: "Add sentences one by one in the correct order for students to rearrange.", group: "General" },
+  { kind: "question-from-poems", title: "Question from Poems", description: "Add a title and repeatable question-answer items without a passage field.", group: "Reading" },
+  { kind: "question-from-story", title: "Question from Story", description: "Add a title and repeatable question-answer items without a passage field.", group: "Reading" },
+  { kind: "information-transfer", title: "Information Transfer", description: "Create a Tiptap passage with inline transfer blanks and matching answers.", group: "Reading" },
+  { kind: "substitution-table", title: "Substitution Table", description: "Build columns of sentence parts and define meaningful sentence combinations.", group: "Grammar" },
+  { kind: "right-form-of-verb", title: "Right Form of Verb", description: "Create a Tiptap question with inline verb blanks and matching answers.", group: "Grammar" },
+  { kind: "narration", title: "Narration", description: "Add question, answer, and details.", group: "Grammar" },
+  { kind: "changing-sentence", title: "Changing Sentence", description: "Add each changing-sentence question with its own answer.", group: "Grammar" },
+  { kind: "punctuation-and-capitalization", title: "Punctuation and Capitalization", description: "Add question, answer, and details.", group: "Grammar" },
+  { kind: "preposition", title: "Preposition", description: "Create a Tiptap question with inline preposition blanks and matching answers.", group: "Grammar" },
+  { kind: "parts-of-speech", title: "Parts of Speech", description: "Underline target words and enter their grammatical classes.", group: "Grammar" },
+  { kind: "suffix-and-prefix", title: "Suffix and Prefix", description: "Add question, answer, and details.", group: "Grammar" },
+  { kind: "tag-question", title: "Tag Question", description: "Add question, answer, and details.", group: "Grammar" },
+  { kind: "connector", title: "Connector", description: "Create a Tiptap question with inline connector blanks and matching answers.", group: "Grammar" },
+  { kind: "unseen-composition", title: "Unseen Composition", description: "Standalone unseen passage and its linked reading exercises.", group: "Reading" },
+];
+
+export const BLOCK_ASSIGNMENT_KINDS = BLOCK_CATALOG.map(item => item.kind);
+export function isBlockAssignmentKind(value: unknown): value is BlockAssignmentKind {
+  return typeof value === "string" && BLOCK_ASSIGNMENT_KINDS.some(kind => kind === value);
+}
+
+// null means inherit / unrestricted; [] means explicitly no blocks. Invalid
+// stored policies fail closed, not open. Class assignment is the upper limit.
+export function parseBlockAssignment(value: string | null): BlockAssignmentKind[] | null {
+  if (value === null) return null;
+  try {
+    const parsed: unknown = JSON.parse(value);
+    if (Array.isArray(parsed) && parsed.every(isBlockAssignmentKind)) return [...new Set(parsed)];
+  } catch { /* reject malformed persisted policy */ }
+  return [];
+}
+export function resolveBlockAssignment(classKinds: BlockAssignmentKind[] | null, subjectKinds: BlockAssignmentKind[] | null): BlockAssignmentKind[] | null {
+  if (classKinds === null) return subjectKinds;
+  if (subjectKinds === null) return classKinds;
+  return classKinds.filter(kind => subjectKinds.includes(kind));
+}
+
+export const SEEN_COMPOSITION_ASSIGNMENT_KINDS: readonly BlockAssignmentKind[] = ["seen-passage-one", "seen-passage-two", "mcq", "question-answer", "gap-fill-first-paper", "vocabulary", "synonyms-antonyms"];
+export function firstPaperSectionAssignmentKinds(slug: string): readonly BlockAssignmentKind[] {
+  if (slug === "seen-composition") return SEEN_COMPOSITION_ASSIGNMENT_KINDS;
+  if (slug === "matching-sentences") return ["column-matching"];
+  return isBlockAssignmentKind(slug) ? [slug] : [];
+}
+export function secondPaperSectionAssignmentKind(slug: string): BlockAssignmentKind | null {
+  if (slug === "gap-filling") return "gap-fill-second-paper";
+  return isBlockAssignmentKind(slug) ? slug : null;
+}

@@ -70,7 +70,7 @@
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --ring: var(--primary);
   --chart-1: oklch(0.871 0.15 154.449);
   --chart-2: oklch(0.723 0.219 149.579);
   --chart-3: oklch(0.627 0.194 149.214);
@@ -84,7 +84,7 @@
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-ring: var(--primary);
 }
 
 .dark {
@@ -107,7 +107,7 @@
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --ring: var(--primary);
   --chart-1: oklch(0.871 0.15 154.449);
   --chart-2: oklch(0.723 0.219 149.579);
   --chart-3: oklch(0.627 0.194 149.214);
@@ -120,7 +120,7 @@
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar-ring: var(--primary);
 }
 
 @layer base {
@@ -160,7 +160,57 @@
 @media (prefers-reduced-motion: reduce) {
   .admin-workspace *, .student-workspace * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
-.admin-workspace :where(a, button, input, select, textarea):focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 2px;
+/* Shared focus treatment for admin, student, auth and portalled UI controls.
+   A text field owns one green border; grouped inputs delegate that border to
+   the wrapper. Buttons and other keyboard targets keep a visible outline. */
+@media screen {
+  :where(.admin-workspace, .student-workspace) :focus-visible,
+  :where(button, a[href], [role="button"], [role="checkbox"], [role="radio"], [role="switch"], [role="combobox"], [data-slot="button"], summary):focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+
+  :is(input:not([type="checkbox"], [type="radio"], [type="file"], [type="range"], [type="color"], [type="hidden"], [type="button"], [type="submit"], [type="reset"]), textarea, select, [data-slot="select-trigger"]):focus {
+    --field-focus-border: var(--ring);
+    border-color: var(--field-focus-border);
+    outline: none;
+    box-shadow: none;
+  }
+
+  :is([data-slot="input-group"], [data-slot="inline-answer-field"], [data-slot="combobox-chips"]):focus-within {
+    --field-focus-border: var(--ring);
+    border-color: var(--field-focus-border);
+    outline: none;
+    box-shadow: none;
+  }
+
+  /* No second border or square outline on the inner Combobox search input. */
+  :is([data-slot="input-group"], [data-slot="inline-answer-field"], [data-slot="combobox-chips"]) :is(input, textarea):focus {
+    border-color: transparent;
+    outline: none;
+    box-shadow: none;
+  }
+  :where([data-slot="input-group"], [data-slot="combobox-chips"]) button:focus-visible {
+    outline-offset: -2px;
+  }
+
+  /* Keep validation distinct from ordinary focus. */
+  :is(input, textarea, select, [data-slot="select-trigger"])[aria-invalid="true"]:focus,
+  :is([data-slot="input-group"], [data-slot="inline-answer-field"], [data-slot="combobox-chips"]):focus-within:has([aria-invalid="true"]) {
+    --field-focus-border: var(--destructive);
+    border-color: var(--field-focus-border);
+  }
+  :is([data-slot="input-group"], [data-slot="inline-answer-field"], [data-slot="combobox-chips"]) :is(input, textarea)[aria-invalid="true"]:focus {
+    border-color: transparent;
+  }
+}
+
+@media screen and (forced-colors: active) {
+  :is(input, textarea, select, [data-slot="select-trigger"]):focus,
+  :is([data-slot="input-group"], [data-slot="inline-answer-field"], [data-slot="combobox-chips"]):focus-within {
+    outline: 2px solid Highlight !important;
+    outline-offset: 2px;
+  }
+  :is([data-slot="input-group"], [data-slot="inline-answer-field"], [data-slot="combobox-chips"]) :is(input, textarea):focus { outline: none !important; }
 }

@@ -1,7 +1,7 @@
+import { getAssignedBlockKinds, getAssignedModelQuestionPolicy } from "@/lib/admin/block-assignments";
 import { parseEnglishSecondPaperDocument, type SuffixPrefixDocument } from "@/app/admin/content/english-second-paper-blocks/types";
 import { notFound } from "next/navigation";
-import { isEnglishFirstPaperSubject, isEnglishSecondPaperSubject } from "@/app/admin/content/navigation-helpers";
-import { getFixedModelQuestionLayout, getFixedModelQuestionSlots, getFixedPassageParentKind, isFixedSecondPaperLayout } from "@/lib/model-question-fixed-blocks";
+import { getFixedModelQuestionLayout, getFixedPassageParentKind, isFixedSecondPaperLayout } from "@/lib/model-question-fixed-blocks";
 
 import { ContentBlocksEditorClient } from "@/app/admin/content/[contentId]/ContentBlocksEditorClient";
 import { SeenCompositionTitleEditor } from "@/components/admin/SeenCompositionTitleEditor";
@@ -1221,23 +1221,9 @@ export default async function AdminContentBlocksPage({
   const modelQuestionMode = editorMode === "model-question";
   const openBlockChooser = modelQuestionMode && addBlock === "1";
   const openFixedGrammarSections = openBlockChooser && isFixedSecondPaperLayout(fixedLayout);
-  // Allowed creation kinds are independent of the stored block records.
-  const modelQuestionKinds: ContentBlockKind[] = fixedLayout
-    ? getFixedModelQuestionSlots(fixedLayout).map((slot) => slot.kind)
-    : isEnglishSecondPaperSubject(content.subject)
-      ? [
-          "gap-fill-second-paper", "substitution-table", "right-form-of-verb",
-          "narration", "changing-sentence", "punctuation-and-capitalization",
-          "preposition", "suffix-and-prefix", "tag-question", "connector",
-        ]
-      : isEnglishFirstPaperSubject(content.subject)
-        ? [
-            "seen-passage-one", "seen-passage-two", "mcq", "question-answer",
-            "information-transfer", "true-false", "gap-fill-first-paper",
-            "table-completion", "column-matching", "question-from-poems",
-            "question-from-story", "rearrange-sentence", "synonyms-antonyms",
-          ]
-        : ["mcq", "question-answer", "gap-fill-first-paper", "table-completion", "column-matching"];
+  // Apply model-only categories and existing class/subject block permissions.
+  const modelPolicy = modelQuestionMode ? await getAssignedModelQuestionPolicy(user.organizationId, content.classId, content.subjectId) : null;
+  const modelQuestionKinds = modelPolicy?.kinds ?? [];
   const modeConfig =
     modelQuestionMode
       ? { label: "Model Questions", slug: "model-question", kinds: modelQuestionKinds }
@@ -1266,6 +1252,8 @@ export default async function AdminContentBlocksPage({
               : null;
 
   const allowedBlockKinds = modeConfig?.kinds;
+  const assigned = modelPolicy ? modelPolicy.kinds : await getAssignedBlockKinds(user.organizationId, content.classId, content.subjectId);
+  const assignedBlockKinds = assigned?.filter((kind): kind is ContentBlockKind => kind !== "unseen-composition") ?? null;
 
   return (
     <div className="space-y-4">
@@ -1275,8 +1263,11 @@ export default async function AdminContentBlocksPage({
       <ContentBlocksEditorClient
         content={typedContent}
         allowedBlockKindsOverride={allowedBlockKinds}
+        assignedBlockKinds={assignedBlockKinds}
         chooserGroupMode={modelQuestionMode ? "model-question" : undefined}
         fixedModelQuestionLayout={fixedLayout}
+        modelCategoryGroups={modelPolicy?.groups}
+        activeModelCategories={modelPolicy?.categories}
         initialChooserOpen={openBlockChooser && !openFixedGrammarSections}
         clearInitialAddBlockParam={openFixedGrammarSections}
       />

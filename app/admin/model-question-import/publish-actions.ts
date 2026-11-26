@@ -38,3 +38,33 @@ export async function setModelPaperVisibility(_previous: { error?: string }, for
   revalidatePath(`/user/model-questions/${set.subjectId}/${id}`);
   return {};
 }
+
+/** Save exam metadata independently of the publication state. Blank means unspecified. */
+export async function saveModelPaperDuration(_previous: { error?: string; success?: boolean }, form: FormData): Promise<{ error?: string; success?: boolean }> {
+  await assertTrustedMutationOrigin();
+  const user = await requireAdmin();
+  const id = form.get("id");
+  const raw = form.get("durationMinutes");
+  if (typeof id !== "string" || !id || id.length > 128 || typeof raw !== "string") return { error: "Invalid request." };
+  const value = raw.trim();
+  const durationMinutes = value === "" ? null : Number(value);
+  if (durationMinutes !== null && (!/^\d+$/.test(value) || !Number.isSafeInteger(durationMinutes) || durationMinutes < 1 || durationMinutes > 1440)) {
+    return { error: "Enter a whole number from 1 to 1440 minutes, or leave blank." };
+  }
+  const set = await prisma.modelQuestionSet.findFirst({
+    where: { id, organizationId: user.organizationId },
+    select: { classId: true, subjectId: true, class: { select: { organizationId: true } }, subject: { select: { organizationId: true, classId: true } } },
+  });
+  if (!set || set.class.organizationId !== user.organizationId || set.subject.organizationId !== user.organizationId || set.subject.classId !== set.classId) return { error: "Model paper not found." };
+  const updated = await prisma.modelQuestionSet.updateMany({
+    where: { id, organizationId: user.organizationId, classId: set.classId, subjectId: set.subjectId },
+    data: { durationMinutes, updatedBy: user.id },
+  });
+  if (!updated.count) return { error: "The paper is no longer available." };
+  await logAudit({ userId: user.id, userName: user.name, organizationId: user.organizationId,
+    action: "UPDATE", entityName: "ModelQuestionSet", entityId: id, changes: { durationMinutes },
+  }).catch(() => undefined);
+  revalidatePath(`/admin/model-question-import/${set.classId}/${set.subjectId}/${id}`);
+  revalidatePath(`/user/model-questions/${set.subjectId}/${id}`);
+  return { success: true };
+}

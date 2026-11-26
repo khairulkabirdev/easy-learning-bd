@@ -1,5 +1,7 @@
 "use server";
 
+import { assertBlockAssigned } from "@/lib/admin/block-assignments";
+import { secondPaperSectionAssignmentKind } from "@/app/admin/content/content-types";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
@@ -126,6 +128,9 @@ export async function createEnglishSecondPaperBlock(input: unknown) {
   const parsed = createSchema.parse(input);
   if (!isEnglishSecondPaperKind(parsed.kind)) throw new Error("Invalid English 2nd Paper section.");
   await assertOwnedEnglishSecondPaperSubject(parsed.classId, parsed.subjectId, user.organizationId);
+  const assignmentKind = secondPaperSectionAssignmentKind(parsed.kind);
+  if (!assignmentKind) throw new Error("Unsupported block type.");
+  await assertBlockAssigned(user.organizationId, parsed.classId, parsed.subjectId, assignmentKind);
   await assertBoardYearSelection(parsed.boardId, parsed.academicYearId, user.organizationId);
 
   const document = parseAndValidate(

@@ -1,5 +1,6 @@
 "use server";
 
+import { assertBlockAssigned, getAssignedModelQuestionPolicy } from "@/lib/admin/block-assignments";
 import crypto from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -865,6 +866,7 @@ export async function createContentBlock(input: unknown) {
   const parsed = createBlockSchema.parse(input);
 
   const content = await getOwnedContent(parsed.contentId, user.organizationId);
+  await assertBlockAssigned(user.organizationId, content.classId, content.subjectId, parsed.kind);
   // A model-question Content record carries the set's optional Board / Year.
   // Regular curriculum blocks continue to use their existing defaults.
   const modelQuestionSet = await prisma.modelQuestionSet.findFirst({
@@ -875,6 +877,10 @@ export async function createContentBlock(input: unknown) {
       subject: { select: { name: true, slug: true, code: true } },
     },
   });
+  if (modelQuestionSet) {
+    const policy = await getAssignedModelQuestionPolicy(user.organizationId, content.classId, content.subjectId);
+    if (!policy.kinds.includes(parsed.kind)) throw new Error("This question type is unavailable in the assigned model-question categories. Open Block Manager to change assignments.");
+  }
   const fixedLayout = modelQuestionSet
     ? getFixedModelQuestionLayout(modelQuestionSet.class.name, modelQuestionSet.subject)
     : null;

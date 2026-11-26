@@ -12092,6 +12092,8 @@ export namespace Prisma {
   }
 
   export type ClassMinAggregateOutputType = {
+    blockKindsJson: string | null
+    modelCategoryIdsJson: string | null
     id: string | null
     name: string | null
     slug: string | null
@@ -12112,6 +12114,8 @@ export namespace Prisma {
   }
 
   export type ClassMaxAggregateOutputType = {
+    blockKindsJson: string | null
+    modelCategoryIdsJson: string | null
     id: string | null
     name: string | null
     slug: string | null
@@ -12132,6 +12136,8 @@ export namespace Prisma {
   }
 
   export type ClassCountAggregateOutputType = {
+    blockKindsJson: number
+    modelCategoryIdsJson: number
     id: number
     name: number
     slug: number
@@ -12162,6 +12168,8 @@ export namespace Prisma {
   }
 
   export type ClassMinAggregateInputType = {
+    blockKindsJson?: true
+    modelCategoryIdsJson?: true
     id?: true
     name?: true
     slug?: true
@@ -12182,6 +12190,8 @@ export namespace Prisma {
   }
 
   export type ClassMaxAggregateInputType = {
+    blockKindsJson?: true
+    modelCategoryIdsJson?: true
     id?: true
     name?: true
     slug?: true
@@ -12202,6 +12212,8 @@ export namespace Prisma {
   }
 
   export type ClassCountAggregateInputType = {
+    blockKindsJson?: true
+    modelCategoryIdsJson?: true
     id?: true
     name?: true
     slug?: true
@@ -12309,6 +12321,8 @@ export namespace Prisma {
   }
 
   export type ClassGroupByOutputType = {
+    blockKindsJson: string | null
+    modelCategoryIdsJson: string | null
     id: string
     name: string
     slug: string
@@ -12348,6 +12362,8 @@ export namespace Prisma {
 
 
   export type ClassSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    blockKindsJson?: boolean
+    modelCategoryIdsJson?: boolean
     id?: boolean
     name?: boolean
     slug?: boolean
@@ -12376,6 +12392,8 @@ export namespace Prisma {
   }, ExtArgs["result"]["class"]>
 
   export type ClassSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    blockKindsJson?: boolean
+    modelCategoryIdsJson?: boolean
     id?: boolean
     name?: boolean
     slug?: boolean
@@ -12396,6 +12414,8 @@ export namespace Prisma {
   }, ExtArgs["result"]["class"]>
 
   export type ClassSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    blockKindsJson?: boolean
+    modelCategoryIdsJson?: boolean
     id?: boolean
     name?: boolean
     slug?: boolean
@@ -12416,6 +12436,8 @@ export namespace Prisma {
   }, ExtArgs["result"]["class"]>
 
   export type ClassSelectScalar = {
+    blockKindsJson?: boolean
+    modelCategoryIdsJson?: boolean
     id?: boolean
     name?: boolean
     slug?: boolean
@@ -12435,7 +12457,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ClassOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "code" | "description" | "status" | "sortOrder" | "iconType" | "iconLibrary" | "iconName" | "iconColor" | "imagePath" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["class"]>
+  export type ClassOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"blockKindsJson" | "modelCategoryIdsJson" | "id" | "name" | "slug" | "code" | "description" | "status" | "sortOrder" | "iconType" | "iconLibrary" | "iconName" | "iconColor" | "imagePath" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["class"]>
   export type ClassInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     subjects?: boolean | Class$subjectsArgs<ExtArgs>
     units?: boolean | Class$unitsArgs<ExtArgs>
@@ -12461,6 +12483,8 @@ export namespace Prisma {
       modelQuestionSets: Prisma.$ModelQuestionSetPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
+      blockKindsJson: string | null
+      modelCategoryIdsJson: string | null
       id: string
       name: string
       slug: string
@@ -12561,8 +12585,8 @@ export namespace Prisma {
      * // Get first 10 Classes
      * const classes = await prisma.class.findMany({ take: 10 })
      * 
-     * // Only select the `id`
-     * const classWithIdOnly = await prisma.class.findMany({ select: { id: true } })
+     * // Only select the `blockKindsJson`
+     * const classWithBlockKindsJsonOnly = await prisma.class.findMany({ select: { blockKindsJson: true } })
      * 
      */
     findMany<T extends ClassFindManyArgs>(args?: SelectSubset<T, ClassFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -12606,9 +12630,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Create many Classes and only return the `id`
-     * const classWithIdOnly = await prisma.class.createManyAndReturn({
-     *   select: { id: true },
+     * // Create many Classes and only return the `blockKindsJson`
+     * const classWithBlockKindsJsonOnly = await prisma.class.createManyAndReturn({
+     *   select: { blockKindsJson: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -12697,9 +12721,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more Classes and only return the `id`
-     * const classWithIdOnly = await prisma.class.updateManyAndReturn({
-     *   select: { id: true },
+     * // Update zero or more Classes and only return the `blockKindsJson`
+     * const classWithBlockKindsJsonOnly = await prisma.class.updateManyAndReturn({
+     *   select: { blockKindsJson: true },
      *   where: {
      *     // ... provide filter here
      *   },
@@ -12908,6 +12932,8 @@ export namespace Prisma {
    * Fields of the Class model
    */
   interface ClassFieldRefs {
+    readonly blockKindsJson: FieldRef<"Class", 'String'>
+    readonly modelCategoryIdsJson: FieldRef<"Class", 'String'>
     readonly id: FieldRef<"Class", 'String'>
     readonly name: FieldRef<"Class", 'String'>
     readonly slug: FieldRef<"Class", 'String'>
@@ -13518,6 +13544,8 @@ export namespace Prisma {
   }
 
   export type SubjectMinAggregateOutputType = {
+    blockKindsJson: string | null
+    modelCategoryIdsJson: string | null
     id: string | null
     classId: string | null
     name: string | null
@@ -13539,6 +13567,8 @@ export namespace Prisma {
   }
 
   export type SubjectMaxAggregateOutputType = {
+    blockKindsJson: string | null
+    modelCategoryIdsJson: string | null
     id: string | null
     classId: string | null
     name: string | null
@@ -13560,6 +13590,8 @@ export namespace Prisma {
   }
 
   export type SubjectCountAggregateOutputType = {
+    blockKindsJson: number
+    modelCategoryIdsJson: number
     id: number
     classId: number
     name: number
@@ -13591,6 +13623,8 @@ export namespace Prisma {
   }
 
   export type SubjectMinAggregateInputType = {
+    blockKindsJson?: true
+    modelCategoryIdsJson?: true
     id?: true
     classId?: true
     name?: true
@@ -13612,6 +13646,8 @@ export namespace Prisma {
   }
 
   export type SubjectMaxAggregateInputType = {
+    blockKindsJson?: true
+    modelCategoryIdsJson?: true
     id?: true
     classId?: true
     name?: true
@@ -13633,6 +13669,8 @@ export namespace Prisma {
   }
 
   export type SubjectCountAggregateInputType = {
+    blockKindsJson?: true
+    modelCategoryIdsJson?: true
     id?: true
     classId?: true
     name?: true
@@ -13741,6 +13779,8 @@ export namespace Prisma {
   }
 
   export type SubjectGroupByOutputType = {
+    blockKindsJson: string | null
+    modelCategoryIdsJson: string | null
     id: string
     classId: string
     name: string
@@ -13781,6 +13821,8 @@ export namespace Prisma {
 
 
   export type SubjectSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    blockKindsJson?: boolean
+    modelCategoryIdsJson?: boolean
     id?: boolean
     classId?: boolean
     name?: boolean
@@ -13809,6 +13851,8 @@ export namespace Prisma {
   }, ExtArgs["result"]["subject"]>
 
   export type SubjectSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    blockKindsJson?: boolean
+    modelCategoryIdsJson?: boolean
     id?: boolean
     classId?: boolean
     name?: boolean
@@ -13831,6 +13875,8 @@ export namespace Prisma {
   }, ExtArgs["result"]["subject"]>
 
   export type SubjectSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    blockKindsJson?: boolean
+    modelCategoryIdsJson?: boolean
     id?: boolean
     classId?: boolean
     name?: boolean
@@ -13853,6 +13899,8 @@ export namespace Prisma {
   }, ExtArgs["result"]["subject"]>
 
   export type SubjectSelectScalar = {
+    blockKindsJson?: boolean
+    modelCategoryIdsJson?: boolean
     id?: boolean
     classId?: boolean
     name?: boolean
@@ -13873,7 +13921,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type SubjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "name" | "slug" | "code" | "description" | "status" | "sortOrder" | "iconType" | "iconLibrary" | "iconName" | "iconColor" | "imagePath" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["subject"]>
+  export type SubjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"blockKindsJson" | "modelCategoryIdsJson" | "id" | "classId" | "name" | "slug" | "code" | "description" | "status" | "sortOrder" | "iconType" | "iconLibrary" | "iconName" | "iconColor" | "imagePath" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["subject"]>
   export type SubjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     class?: boolean | ClassDefaultArgs<ExtArgs>
     units?: boolean | Subject$unitsArgs<ExtArgs>
@@ -13901,6 +13949,8 @@ export namespace Prisma {
       modelQuestionSets: Prisma.$ModelQuestionSetPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
+      blockKindsJson: string | null
+      modelCategoryIdsJson: string | null
       id: string
       classId: string
       name: string
@@ -14002,8 +14052,8 @@ export namespace Prisma {
      * // Get first 10 Subjects
      * const subjects = await prisma.subject.findMany({ take: 10 })
      * 
-     * // Only select the `id`
-     * const subjectWithIdOnly = await prisma.subject.findMany({ select: { id: true } })
+     * // Only select the `blockKindsJson`
+     * const subjectWithBlockKindsJsonOnly = await prisma.subject.findMany({ select: { blockKindsJson: true } })
      * 
      */
     findMany<T extends SubjectFindManyArgs>(args?: SelectSubset<T, SubjectFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -14047,9 +14097,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Create many Subjects and only return the `id`
-     * const subjectWithIdOnly = await prisma.subject.createManyAndReturn({
-     *   select: { id: true },
+     * // Create many Subjects and only return the `blockKindsJson`
+     * const subjectWithBlockKindsJsonOnly = await prisma.subject.createManyAndReturn({
+     *   select: { blockKindsJson: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -14138,9 +14188,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more Subjects and only return the `id`
-     * const subjectWithIdOnly = await prisma.subject.updateManyAndReturn({
-     *   select: { id: true },
+     * // Update zero or more Subjects and only return the `blockKindsJson`
+     * const subjectWithBlockKindsJsonOnly = await prisma.subject.updateManyAndReturn({
+     *   select: { blockKindsJson: true },
      *   where: {
      *     // ... provide filter here
      *   },
@@ -14348,6 +14398,8 @@ export namespace Prisma {
    * Fields of the Subject model
    */
   interface SubjectFieldRefs {
+    readonly blockKindsJson: FieldRef<"Subject", 'String'>
+    readonly modelCategoryIdsJson: FieldRef<"Subject", 'String'>
     readonly id: FieldRef<"Subject", 'String'>
     readonly classId: FieldRef<"Subject", 'String'>
     readonly name: FieldRef<"Subject", 'String'>
@@ -71465,8 +71517,18 @@ export namespace Prisma {
 
   export type AggregateModelQuestionSet = {
     _count: ModelQuestionSetCountAggregateOutputType | null
+    _avg: ModelQuestionSetAvgAggregateOutputType | null
+    _sum: ModelQuestionSetSumAggregateOutputType | null
     _min: ModelQuestionSetMinAggregateOutputType | null
     _max: ModelQuestionSetMaxAggregateOutputType | null
+  }
+
+  export type ModelQuestionSetAvgAggregateOutputType = {
+    durationMinutes: number | null
+  }
+
+  export type ModelQuestionSetSumAggregateOutputType = {
+    durationMinutes: number | null
   }
 
   export type ModelQuestionSetMinAggregateOutputType = {
@@ -71477,6 +71539,7 @@ export namespace Prisma {
     academicYearId: string | null
     name: string | null
     editorContentId: string | null
+    durationMinutes: number | null
     publishedAt: Date | null
     organizationId: string | null
     createdBy: string | null
@@ -71493,6 +71556,7 @@ export namespace Prisma {
     academicYearId: string | null
     name: string | null
     editorContentId: string | null
+    durationMinutes: number | null
     publishedAt: Date | null
     organizationId: string | null
     createdBy: string | null
@@ -71509,6 +71573,7 @@ export namespace Prisma {
     academicYearId: number
     name: number
     editorContentId: number
+    durationMinutes: number
     publishedAt: number
     organizationId: number
     createdBy: number
@@ -71519,6 +71584,14 @@ export namespace Prisma {
   }
 
 
+  export type ModelQuestionSetAvgAggregateInputType = {
+    durationMinutes?: true
+  }
+
+  export type ModelQuestionSetSumAggregateInputType = {
+    durationMinutes?: true
+  }
+
   export type ModelQuestionSetMinAggregateInputType = {
     id?: true
     classId?: true
@@ -71527,6 +71600,7 @@ export namespace Prisma {
     academicYearId?: true
     name?: true
     editorContentId?: true
+    durationMinutes?: true
     publishedAt?: true
     organizationId?: true
     createdBy?: true
@@ -71543,6 +71617,7 @@ export namespace Prisma {
     academicYearId?: true
     name?: true
     editorContentId?: true
+    durationMinutes?: true
     publishedAt?: true
     organizationId?: true
     createdBy?: true
@@ -71559,6 +71634,7 @@ export namespace Prisma {
     academicYearId?: true
     name?: true
     editorContentId?: true
+    durationMinutes?: true
     publishedAt?: true
     organizationId?: true
     createdBy?: true
@@ -71606,6 +71682,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: ModelQuestionSetAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ModelQuestionSetSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: ModelQuestionSetMinAggregateInputType
@@ -71636,6 +71724,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: ModelQuestionSetCountAggregateInputType | true
+    _avg?: ModelQuestionSetAvgAggregateInputType
+    _sum?: ModelQuestionSetSumAggregateInputType
     _min?: ModelQuestionSetMinAggregateInputType
     _max?: ModelQuestionSetMaxAggregateInputType
   }
@@ -71648,6 +71738,7 @@ export namespace Prisma {
     academicYearId: string | null
     name: string
     editorContentId: string | null
+    durationMinutes: number | null
     publishedAt: Date | null
     organizationId: string
     createdBy: string
@@ -71655,6 +71746,8 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     _count: ModelQuestionSetCountAggregateOutputType | null
+    _avg: ModelQuestionSetAvgAggregateOutputType | null
+    _sum: ModelQuestionSetSumAggregateOutputType | null
     _min: ModelQuestionSetMinAggregateOutputType | null
     _max: ModelQuestionSetMaxAggregateOutputType | null
   }
@@ -71681,6 +71774,7 @@ export namespace Prisma {
     academicYearId?: boolean
     name?: boolean
     editorContentId?: boolean
+    durationMinutes?: boolean
     publishedAt?: boolean
     organizationId?: boolean
     createdBy?: boolean
@@ -71703,6 +71797,7 @@ export namespace Prisma {
     academicYearId?: boolean
     name?: boolean
     editorContentId?: boolean
+    durationMinutes?: boolean
     publishedAt?: boolean
     organizationId?: boolean
     createdBy?: boolean
@@ -71723,6 +71818,7 @@ export namespace Prisma {
     academicYearId?: boolean
     name?: boolean
     editorContentId?: boolean
+    durationMinutes?: boolean
     publishedAt?: boolean
     organizationId?: boolean
     createdBy?: boolean
@@ -71743,6 +71839,7 @@ export namespace Prisma {
     academicYearId?: boolean
     name?: boolean
     editorContentId?: boolean
+    durationMinutes?: boolean
     publishedAt?: boolean
     organizationId?: boolean
     createdBy?: boolean
@@ -71751,7 +71848,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ModelQuestionSetOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "subjectId" | "boardId" | "academicYearId" | "name" | "editorContentId" | "publishedAt" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["modelQuestionSet"]>
+  export type ModelQuestionSetOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classId" | "subjectId" | "boardId" | "academicYearId" | "name" | "editorContentId" | "durationMinutes" | "publishedAt" | "organizationId" | "createdBy" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["modelQuestionSet"]>
   export type ModelQuestionSetInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     class?: boolean | ClassDefaultArgs<ExtArgs>
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
@@ -71790,6 +71887,7 @@ export namespace Prisma {
       academicYearId: string | null
       name: string
       editorContentId: string | null
+      durationMinutes: number | null
       publishedAt: Date | null
       organizationId: string
       createdBy: string
@@ -72231,6 +72329,7 @@ export namespace Prisma {
     readonly academicYearId: FieldRef<"ModelQuestionSet", 'String'>
     readonly name: FieldRef<"ModelQuestionSet", 'String'>
     readonly editorContentId: FieldRef<"ModelQuestionSet", 'String'>
+    readonly durationMinutes: FieldRef<"ModelQuestionSet", 'Int'>
     readonly publishedAt: FieldRef<"ModelQuestionSet", 'DateTime'>
     readonly organizationId: FieldRef<"ModelQuestionSet", 'String'>
     readonly createdBy: FieldRef<"ModelQuestionSet", 'String'>
@@ -75110,6 +75209,8 @@ export namespace Prisma {
 
 
   export const ClassScalarFieldEnum: {
+    blockKindsJson: 'blockKindsJson',
+    modelCategoryIdsJson: 'modelCategoryIdsJson',
     id: 'id',
     name: 'name',
     slug: 'slug',
@@ -75133,6 +75234,8 @@ export namespace Prisma {
 
 
   export const SubjectScalarFieldEnum: {
+    blockKindsJson: 'blockKindsJson',
+    modelCategoryIdsJson: 'modelCategoryIdsJson',
     id: 'id',
     classId: 'classId',
     name: 'name',
@@ -76182,6 +76285,7 @@ export namespace Prisma {
     academicYearId: 'academicYearId',
     name: 'name',
     editorContentId: 'editorContentId',
+    durationMinutes: 'durationMinutes',
     publishedAt: 'publishedAt',
     organizationId: 'organizationId',
     createdBy: 'createdBy',
@@ -76712,6 +76816,8 @@ export namespace Prisma {
     AND?: ClassWhereInput | ClassWhereInput[]
     OR?: ClassWhereInput[]
     NOT?: ClassWhereInput | ClassWhereInput[]
+    blockKindsJson?: StringNullableFilter<"Class"> | string | null
+    modelCategoryIdsJson?: StringNullableFilter<"Class"> | string | null
     id?: StringFilter<"Class"> | string
     name?: StringFilter<"Class"> | string
     slug?: StringFilter<"Class"> | string
@@ -76739,6 +76845,8 @@ export namespace Prisma {
   }
 
   export type ClassOrderByWithRelationInput = {
+    blockKindsJson?: SortOrderInput | SortOrder
+    modelCategoryIdsJson?: SortOrderInput | SortOrder
     id?: SortOrder
     name?: SortOrder
     slug?: SortOrder
@@ -76771,6 +76879,8 @@ export namespace Prisma {
     AND?: ClassWhereInput | ClassWhereInput[]
     OR?: ClassWhereInput[]
     NOT?: ClassWhereInput | ClassWhereInput[]
+    blockKindsJson?: StringNullableFilter<"Class"> | string | null
+    modelCategoryIdsJson?: StringNullableFilter<"Class"> | string | null
     name?: StringFilter<"Class"> | string
     code?: StringFilter<"Class"> | string
     description?: StringFilter<"Class"> | string
@@ -76796,6 +76906,8 @@ export namespace Prisma {
   }, "id" | "slug">
 
   export type ClassOrderByWithAggregationInput = {
+    blockKindsJson?: SortOrderInput | SortOrder
+    modelCategoryIdsJson?: SortOrderInput | SortOrder
     id?: SortOrder
     name?: SortOrder
     slug?: SortOrder
@@ -76824,6 +76936,8 @@ export namespace Prisma {
     AND?: ClassScalarWhereWithAggregatesInput | ClassScalarWhereWithAggregatesInput[]
     OR?: ClassScalarWhereWithAggregatesInput[]
     NOT?: ClassScalarWhereWithAggregatesInput | ClassScalarWhereWithAggregatesInput[]
+    blockKindsJson?: StringNullableWithAggregatesFilter<"Class"> | string | null
+    modelCategoryIdsJson?: StringNullableWithAggregatesFilter<"Class"> | string | null
     id?: StringWithAggregatesFilter<"Class"> | string
     name?: StringWithAggregatesFilter<"Class"> | string
     slug?: StringWithAggregatesFilter<"Class"> | string
@@ -76847,6 +76961,8 @@ export namespace Prisma {
     AND?: SubjectWhereInput | SubjectWhereInput[]
     OR?: SubjectWhereInput[]
     NOT?: SubjectWhereInput | SubjectWhereInput[]
+    blockKindsJson?: StringNullableFilter<"Subject"> | string | null
+    modelCategoryIdsJson?: StringNullableFilter<"Subject"> | string | null
     id?: StringFilter<"Subject"> | string
     classId?: StringFilter<"Subject"> | string
     name?: StringFilter<"Subject"> | string
@@ -76874,6 +76990,8 @@ export namespace Prisma {
   }
 
   export type SubjectOrderByWithRelationInput = {
+    blockKindsJson?: SortOrderInput | SortOrder
+    modelCategoryIdsJson?: SortOrderInput | SortOrder
     id?: SortOrder
     classId?: SortOrder
     name?: SortOrder
@@ -76906,6 +77024,8 @@ export namespace Prisma {
     AND?: SubjectWhereInput | SubjectWhereInput[]
     OR?: SubjectWhereInput[]
     NOT?: SubjectWhereInput | SubjectWhereInput[]
+    blockKindsJson?: StringNullableFilter<"Subject"> | string | null
+    modelCategoryIdsJson?: StringNullableFilter<"Subject"> | string | null
     classId?: StringFilter<"Subject"> | string
     name?: StringFilter<"Subject"> | string
     code?: StringFilter<"Subject"> | string
@@ -76931,6 +77051,8 @@ export namespace Prisma {
   }, "id" | "slug">
 
   export type SubjectOrderByWithAggregationInput = {
+    blockKindsJson?: SortOrderInput | SortOrder
+    modelCategoryIdsJson?: SortOrderInput | SortOrder
     id?: SortOrder
     classId?: SortOrder
     name?: SortOrder
@@ -76960,6 +77082,8 @@ export namespace Prisma {
     AND?: SubjectScalarWhereWithAggregatesInput | SubjectScalarWhereWithAggregatesInput[]
     OR?: SubjectScalarWhereWithAggregatesInput[]
     NOT?: SubjectScalarWhereWithAggregatesInput | SubjectScalarWhereWithAggregatesInput[]
+    blockKindsJson?: StringNullableWithAggregatesFilter<"Subject"> | string | null
+    modelCategoryIdsJson?: StringNullableWithAggregatesFilter<"Subject"> | string | null
     id?: StringWithAggregatesFilter<"Subject"> | string
     classId?: StringWithAggregatesFilter<"Subject"> | string
     name?: StringWithAggregatesFilter<"Subject"> | string
@@ -82246,6 +82370,7 @@ export namespace Prisma {
     academicYearId?: StringNullableFilter<"ModelQuestionSet"> | string | null
     name?: StringFilter<"ModelQuestionSet"> | string
     editorContentId?: StringNullableFilter<"ModelQuestionSet"> | string | null
+    durationMinutes?: IntNullableFilter<"ModelQuestionSet"> | number | null
     publishedAt?: DateTimeNullableFilter<"ModelQuestionSet"> | Date | string | null
     organizationId?: StringFilter<"ModelQuestionSet"> | string
     createdBy?: StringFilter<"ModelQuestionSet"> | string
@@ -82267,6 +82392,7 @@ export namespace Prisma {
     academicYearId?: SortOrderInput | SortOrder
     name?: SortOrder
     editorContentId?: SortOrderInput | SortOrder
+    durationMinutes?: SortOrderInput | SortOrder
     publishedAt?: SortOrderInput | SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
@@ -82291,6 +82417,7 @@ export namespace Prisma {
     boardId?: StringNullableFilter<"ModelQuestionSet"> | string | null
     academicYearId?: StringNullableFilter<"ModelQuestionSet"> | string | null
     name?: StringFilter<"ModelQuestionSet"> | string
+    durationMinutes?: IntNullableFilter<"ModelQuestionSet"> | number | null
     publishedAt?: DateTimeNullableFilter<"ModelQuestionSet"> | Date | string | null
     organizationId?: StringFilter<"ModelQuestionSet"> | string
     createdBy?: StringFilter<"ModelQuestionSet"> | string
@@ -82312,6 +82439,7 @@ export namespace Prisma {
     academicYearId?: SortOrderInput | SortOrder
     name?: SortOrder
     editorContentId?: SortOrderInput | SortOrder
+    durationMinutes?: SortOrderInput | SortOrder
     publishedAt?: SortOrderInput | SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
@@ -82319,8 +82447,10 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ModelQuestionSetCountOrderByAggregateInput
+    _avg?: ModelQuestionSetAvgOrderByAggregateInput
     _max?: ModelQuestionSetMaxOrderByAggregateInput
     _min?: ModelQuestionSetMinOrderByAggregateInput
+    _sum?: ModelQuestionSetSumOrderByAggregateInput
   }
 
   export type ModelQuestionSetScalarWhereWithAggregatesInput = {
@@ -82334,6 +82464,7 @@ export namespace Prisma {
     academicYearId?: StringNullableWithAggregatesFilter<"ModelQuestionSet"> | string | null
     name?: StringWithAggregatesFilter<"ModelQuestionSet"> | string
     editorContentId?: StringNullableWithAggregatesFilter<"ModelQuestionSet"> | string | null
+    durationMinutes?: IntNullableWithAggregatesFilter<"ModelQuestionSet"> | number | null
     publishedAt?: DateTimeNullableWithAggregatesFilter<"ModelQuestionSet"> | Date | string | null
     organizationId?: StringWithAggregatesFilter<"ModelQuestionSet"> | string
     createdBy?: StringWithAggregatesFilter<"ModelQuestionSet"> | string
@@ -82987,6 +83118,8 @@ export namespace Prisma {
   }
 
   export type ClassCreateInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -83014,6 +83147,8 @@ export namespace Prisma {
   }
 
   export type ClassUncheckedCreateInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -83041,6 +83176,8 @@ export namespace Prisma {
   }
 
   export type ClassUpdateInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -83068,6 +83205,8 @@ export namespace Prisma {
   }
 
   export type ClassUncheckedUpdateInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -83095,6 +83234,8 @@ export namespace Prisma {
   }
 
   export type ClassCreateManyInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -83115,6 +83256,8 @@ export namespace Prisma {
   }
 
   export type ClassUpdateManyMutationInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -83135,6 +83278,8 @@ export namespace Prisma {
   }
 
   export type ClassUncheckedUpdateManyInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -83155,6 +83300,8 @@ export namespace Prisma {
   }
 
   export type SubjectCreateInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -83181,6 +83328,8 @@ export namespace Prisma {
   }
 
   export type SubjectUncheckedCreateInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     classId: string
     name: string
@@ -83207,6 +83356,8 @@ export namespace Prisma {
   }
 
   export type SubjectUpdateInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -83233,6 +83384,8 @@ export namespace Prisma {
   }
 
   export type SubjectUncheckedUpdateInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -83259,6 +83412,8 @@ export namespace Prisma {
   }
 
   export type SubjectCreateManyInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     classId: string
     name: string
@@ -83280,6 +83435,8 @@ export namespace Prisma {
   }
 
   export type SubjectUpdateManyMutationInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -83300,6 +83457,8 @@ export namespace Prisma {
   }
 
   export type SubjectUncheckedUpdateManyInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -89604,6 +89763,7 @@ export namespace Prisma {
     id?: string
     name: string
     editorContentId?: string | null
+    durationMinutes?: number | null
     publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
@@ -89625,6 +89785,7 @@ export namespace Prisma {
     academicYearId?: string | null
     name: string
     editorContentId?: string | null
+    durationMinutes?: number | null
     publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
@@ -89638,6 +89799,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -89659,6 +89821,7 @@ export namespace Prisma {
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -89676,6 +89839,7 @@ export namespace Prisma {
     academicYearId?: string | null
     name: string
     editorContentId?: string | null
+    durationMinutes?: number | null
     publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
@@ -89688,6 +89852,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -89704,6 +89869,7 @@ export namespace Prisma {
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -90380,6 +90546,8 @@ export namespace Prisma {
   }
 
   export type ClassCountOrderByAggregateInput = {
+    blockKindsJson?: SortOrder
+    modelCategoryIdsJson?: SortOrder
     id?: SortOrder
     name?: SortOrder
     slug?: SortOrder
@@ -90404,6 +90572,8 @@ export namespace Prisma {
   }
 
   export type ClassMaxOrderByAggregateInput = {
+    blockKindsJson?: SortOrder
+    modelCategoryIdsJson?: SortOrder
     id?: SortOrder
     name?: SortOrder
     slug?: SortOrder
@@ -90424,6 +90594,8 @@ export namespace Prisma {
   }
 
   export type ClassMinOrderByAggregateInput = {
+    blockKindsJson?: SortOrder
+    modelCategoryIdsJson?: SortOrder
     id?: SortOrder
     name?: SortOrder
     slug?: SortOrder
@@ -90479,6 +90651,8 @@ export namespace Prisma {
   }
 
   export type SubjectCountOrderByAggregateInput = {
+    blockKindsJson?: SortOrder
+    modelCategoryIdsJson?: SortOrder
     id?: SortOrder
     classId?: SortOrder
     name?: SortOrder
@@ -90504,6 +90678,8 @@ export namespace Prisma {
   }
 
   export type SubjectMaxOrderByAggregateInput = {
+    blockKindsJson?: SortOrder
+    modelCategoryIdsJson?: SortOrder
     id?: SortOrder
     classId?: SortOrder
     name?: SortOrder
@@ -90525,6 +90701,8 @@ export namespace Prisma {
   }
 
   export type SubjectMinOrderByAggregateInput = {
+    blockKindsJson?: SortOrder
+    modelCategoryIdsJson?: SortOrder
     id?: SortOrder
     classId?: SortOrder
     name?: SortOrder
@@ -93640,12 +93818,17 @@ export namespace Prisma {
     academicYearId?: SortOrder
     name?: SortOrder
     editorContentId?: SortOrder
+    durationMinutes?: SortOrder
     publishedAt?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type ModelQuestionSetAvgOrderByAggregateInput = {
+    durationMinutes?: SortOrder
   }
 
   export type ModelQuestionSetMaxOrderByAggregateInput = {
@@ -93656,6 +93839,7 @@ export namespace Prisma {
     academicYearId?: SortOrder
     name?: SortOrder
     editorContentId?: SortOrder
+    durationMinutes?: SortOrder
     publishedAt?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
@@ -93672,12 +93856,17 @@ export namespace Prisma {
     academicYearId?: SortOrder
     name?: SortOrder
     editorContentId?: SortOrder
+    durationMinutes?: SortOrder
     publishedAt?: SortOrder
     organizationId?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type ModelQuestionSetSumOrderByAggregateInput = {
+    durationMinutes?: SortOrder
   }
 
   export type ModelQuestionSetScalarRelationFilter = {
@@ -97048,6 +97237,8 @@ export namespace Prisma {
   }
 
   export type ClassCreateWithoutStudentsInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -97074,6 +97265,8 @@ export namespace Prisma {
   }
 
   export type ClassUncheckedCreateWithoutStudentsInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -97191,6 +97384,8 @@ export namespace Prisma {
   }
 
   export type ClassUpdateWithoutStudentsInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -97217,6 +97412,8 @@ export namespace Prisma {
   }
 
   export type ClassUncheckedUpdateWithoutStudentsInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -97567,6 +97764,8 @@ export namespace Prisma {
   }
 
   export type SubjectCreateWithoutClassInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -97592,6 +97791,8 @@ export namespace Prisma {
   }
 
   export type SubjectUncheckedCreateWithoutClassInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -97860,6 +98061,7 @@ export namespace Prisma {
     id?: string
     name: string
     editorContentId?: string | null
+    durationMinutes?: number | null
     publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
@@ -97879,6 +98081,7 @@ export namespace Prisma {
     academicYearId?: string | null
     name: string
     editorContentId?: string | null
+    durationMinutes?: number | null
     publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
@@ -97917,6 +98120,8 @@ export namespace Prisma {
     AND?: SubjectScalarWhereInput | SubjectScalarWhereInput[]
     OR?: SubjectScalarWhereInput[]
     NOT?: SubjectScalarWhereInput | SubjectScalarWhereInput[]
+    blockKindsJson?: StringNullableFilter<"Subject"> | string | null
+    modelCategoryIdsJson?: StringNullableFilter<"Subject"> | string | null
     id?: StringFilter<"Subject"> | string
     classId?: StringFilter<"Subject"> | string
     name?: StringFilter<"Subject"> | string
@@ -98151,6 +98356,7 @@ export namespace Prisma {
     academicYearId?: StringNullableFilter<"ModelQuestionSet"> | string | null
     name?: StringFilter<"ModelQuestionSet"> | string
     editorContentId?: StringNullableFilter<"ModelQuestionSet"> | string | null
+    durationMinutes?: IntNullableFilter<"ModelQuestionSet"> | number | null
     publishedAt?: DateTimeNullableFilter<"ModelQuestionSet"> | Date | string | null
     organizationId?: StringFilter<"ModelQuestionSet"> | string
     createdBy?: StringFilter<"ModelQuestionSet"> | string
@@ -98160,6 +98366,8 @@ export namespace Prisma {
   }
 
   export type ClassCreateWithoutSubjectsInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -98186,6 +98394,8 @@ export namespace Prisma {
   }
 
   export type ClassUncheckedCreateWithoutSubjectsInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -98390,6 +98600,7 @@ export namespace Prisma {
     id?: string
     name: string
     editorContentId?: string | null
+    durationMinutes?: number | null
     publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
@@ -98409,6 +98620,7 @@ export namespace Prisma {
     academicYearId?: string | null
     name: string
     editorContentId?: string | null
+    durationMinutes?: number | null
     publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
@@ -98439,6 +98651,8 @@ export namespace Prisma {
   }
 
   export type ClassUpdateWithoutSubjectsInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -98465,6 +98679,8 @@ export namespace Prisma {
   }
 
   export type ClassUncheckedUpdateWithoutSubjectsInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -98571,6 +98787,8 @@ export namespace Prisma {
   }
 
   export type ClassCreateWithoutUnitsInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -98597,6 +98815,8 @@ export namespace Prisma {
   }
 
   export type ClassUncheckedCreateWithoutUnitsInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -98628,6 +98848,8 @@ export namespace Prisma {
   }
 
   export type SubjectCreateWithoutUnitsInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -98653,6 +98875,8 @@ export namespace Prisma {
   }
 
   export type SubjectUncheckedCreateWithoutUnitsInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     classId: string
     name: string
@@ -98786,6 +99010,8 @@ export namespace Prisma {
   }
 
   export type ClassUpdateWithoutUnitsInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -98812,6 +99038,8 @@ export namespace Prisma {
   }
 
   export type ClassUncheckedUpdateWithoutUnitsInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -98849,6 +99077,8 @@ export namespace Prisma {
   }
 
   export type SubjectUpdateWithoutUnitsInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -98874,6 +99104,8 @@ export namespace Prisma {
   }
 
   export type SubjectUncheckedUpdateWithoutUnitsInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -99368,6 +99600,8 @@ export namespace Prisma {
   }
 
   export type ClassCreateWithoutContentsInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -99394,6 +99628,8 @@ export namespace Prisma {
   }
 
   export type ClassUncheckedCreateWithoutContentsInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -99425,6 +99661,8 @@ export namespace Prisma {
   }
 
   export type SubjectCreateWithoutContentsInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -99450,6 +99688,8 @@ export namespace Prisma {
   }
 
   export type SubjectUncheckedCreateWithoutContentsInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     classId: string
     name: string
@@ -99727,6 +99967,8 @@ export namespace Prisma {
   }
 
   export type ClassUpdateWithoutContentsInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -99753,6 +99995,8 @@ export namespace Prisma {
   }
 
   export type ClassUncheckedUpdateWithoutContentsInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -99790,6 +100034,8 @@ export namespace Prisma {
   }
 
   export type SubjectUpdateWithoutContentsInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -99815,6 +100061,8 @@ export namespace Prisma {
   }
 
   export type SubjectUncheckedUpdateWithoutContentsInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -100390,6 +100638,8 @@ export namespace Prisma {
   }
 
   export type ClassCreateWithoutUnseenCompositionsInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -100416,6 +100666,8 @@ export namespace Prisma {
   }
 
   export type ClassUncheckedCreateWithoutUnseenCompositionsInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -100447,6 +100699,8 @@ export namespace Prisma {
   }
 
   export type SubjectCreateWithoutUnseenCompositionsInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -100472,6 +100726,8 @@ export namespace Prisma {
   }
 
   export type SubjectUncheckedCreateWithoutUnseenCompositionsInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     classId: string
     name: string
@@ -100513,6 +100769,8 @@ export namespace Prisma {
   }
 
   export type ClassUpdateWithoutUnseenCompositionsInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -100539,6 +100797,8 @@ export namespace Prisma {
   }
 
   export type ClassUncheckedUpdateWithoutUnseenCompositionsInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -100576,6 +100836,8 @@ export namespace Prisma {
   }
 
   export type SubjectUpdateWithoutUnseenCompositionsInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -100601,6 +100863,8 @@ export namespace Prisma {
   }
 
   export type SubjectUncheckedUpdateWithoutUnseenCompositionsInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -108440,6 +108704,7 @@ export namespace Prisma {
     id?: string
     name: string
     editorContentId?: string | null
+    durationMinutes?: number | null
     publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
@@ -108459,6 +108724,7 @@ export namespace Prisma {
     academicYearId?: string | null
     name: string
     editorContentId?: string | null
+    durationMinutes?: number | null
     publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
@@ -108556,6 +108822,7 @@ export namespace Prisma {
     id?: string
     name: string
     editorContentId?: string | null
+    durationMinutes?: number | null
     publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
@@ -108575,6 +108842,7 @@ export namespace Prisma {
     boardId?: string | null
     name: string
     editorContentId?: string | null
+    durationMinutes?: number | null
     publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
@@ -108626,6 +108894,8 @@ export namespace Prisma {
   }
 
   export type ClassCreateWithoutModelQuestionImportsInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -108652,6 +108922,8 @@ export namespace Prisma {
   }
 
   export type ClassUncheckedCreateWithoutModelQuestionImportsInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -108683,6 +108955,8 @@ export namespace Prisma {
   }
 
   export type SubjectCreateWithoutModelQuestionImportsInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -108708,6 +108982,8 @@ export namespace Prisma {
   }
 
   export type SubjectUncheckedCreateWithoutModelQuestionImportsInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     classId: string
     name: string
@@ -108870,6 +109146,8 @@ export namespace Prisma {
   }
 
   export type ClassUpdateWithoutModelQuestionImportsInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -108896,6 +109174,8 @@ export namespace Prisma {
   }
 
   export type ClassUncheckedUpdateWithoutModelQuestionImportsInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -108933,6 +109213,8 @@ export namespace Prisma {
   }
 
   export type SubjectUpdateWithoutModelQuestionImportsInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -108958,6 +109240,8 @@ export namespace Prisma {
   }
 
   export type SubjectUncheckedUpdateWithoutModelQuestionImportsInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -109122,6 +109406,8 @@ export namespace Prisma {
   }
 
   export type ClassCreateWithoutModelQuestionSetsInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -109148,6 +109434,8 @@ export namespace Prisma {
   }
 
   export type ClassUncheckedCreateWithoutModelQuestionSetsInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -109179,6 +109467,8 @@ export namespace Prisma {
   }
 
   export type SubjectCreateWithoutModelQuestionSetsInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -109204,6 +109494,8 @@ export namespace Prisma {
   }
 
   export type SubjectUncheckedCreateWithoutModelQuestionSetsInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     classId: string
     name: string
@@ -109348,6 +109640,8 @@ export namespace Prisma {
   }
 
   export type ClassUpdateWithoutModelQuestionSetsInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -109374,6 +109668,8 @@ export namespace Prisma {
   }
 
   export type ClassUncheckedUpdateWithoutModelQuestionSetsInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -109411,6 +109707,8 @@ export namespace Prisma {
   }
 
   export type SubjectUpdateWithoutModelQuestionSetsInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -109436,6 +109734,8 @@ export namespace Prisma {
   }
 
   export type SubjectUncheckedUpdateWithoutModelQuestionSetsInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -109572,6 +109872,7 @@ export namespace Prisma {
     id?: string
     name: string
     editorContentId?: string | null
+    durationMinutes?: number | null
     publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
@@ -109592,6 +109893,7 @@ export namespace Prisma {
     academicYearId?: string | null
     name: string
     editorContentId?: string | null
+    durationMinutes?: number | null
     publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
@@ -109620,6 +109922,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -109640,6 +109943,7 @@ export namespace Prisma {
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -109865,6 +110169,8 @@ export namespace Prisma {
   }
 
   export type SubjectCreateManyClassInput = {
+    blockKindsJson?: string | null
+    modelCategoryIdsJson?: string | null
     id?: string
     name: string
     slug: string
@@ -109978,6 +110284,7 @@ export namespace Prisma {
     academicYearId?: string | null
     name: string
     editorContentId?: string | null
+    durationMinutes?: number | null
     publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
@@ -109987,6 +110294,8 @@ export namespace Prisma {
   }
 
   export type SubjectUpdateWithoutClassInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -110012,6 +110321,8 @@ export namespace Prisma {
   }
 
   export type SubjectUncheckedUpdateWithoutClassInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -110037,6 +110348,8 @@ export namespace Prisma {
   }
 
   export type SubjectUncheckedUpdateManyWithoutClassInput = {
+    blockKindsJson?: NullableStringFieldUpdateOperationsInput | string | null
+    modelCategoryIdsJson?: NullableStringFieldUpdateOperationsInput | string | null
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -110333,6 +110646,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -110352,6 +110666,7 @@ export namespace Prisma {
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -110368,6 +110683,7 @@ export namespace Prisma {
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -110447,6 +110763,7 @@ export namespace Prisma {
     academicYearId?: string | null
     name: string
     editorContentId?: string | null
+    durationMinutes?: number | null
     publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
@@ -110657,6 +110974,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -110676,6 +110994,7 @@ export namespace Prisma {
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -110692,6 +111011,7 @@ export namespace Prisma {
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -111520,6 +111840,7 @@ export namespace Prisma {
     academicYearId?: string | null
     name: string
     editorContentId?: string | null
+    durationMinutes?: number | null
     publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
@@ -111583,6 +111904,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -111602,6 +111924,7 @@ export namespace Prisma {
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -111618,6 +111941,7 @@ export namespace Prisma {
     academicYearId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -111650,6 +111974,7 @@ export namespace Prisma {
     boardId?: string | null
     name: string
     editorContentId?: string | null
+    durationMinutes?: number | null
     publishedAt?: Date | string | null
     organizationId: string
     createdBy: string
@@ -111713,6 +112038,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -111732,6 +112058,7 @@ export namespace Prisma {
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -111748,6 +112075,7 @@ export namespace Prisma {
     boardId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: StringFieldUpdateOperationsInput | string
     editorContentId?: NullableStringFieldUpdateOperationsInput | string | null
+    durationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     organizationId?: StringFieldUpdateOperationsInput | string
     createdBy?: StringFieldUpdateOperationsInput | string

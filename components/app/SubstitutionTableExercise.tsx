@@ -1,14 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { useModelPaperReview } from "@/components/app/ModelPaperMode";
-import { CheckCircle2, Eye, XCircle } from "lucide-react";
+import { CheckCircle2, XCircle } from "lucide-react";
+import { TableCompletionChoiceCombobox } from "@/components/app/TableCompletionChoiceCombobox";
+import { PracticeAnswerActions } from "@/components/app/PracticeAnswerActions";
 
 import type { SubstitutionTableDocumentRecord } from "@/app/admin/content/content-types";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 type CheckStatus = "idle" | "correct" | "incorrect";
@@ -68,6 +68,53 @@ function getCorrectSentence(
   return answer.sentence.trim() || getSelectedPartsSentence(table, answer);
 }
 
+// Keep the table cell IDs as selection values. Repeated text represents the same
+// sentence part, so display it once rather than giving the combobox duplicate labels.
+type PartChoice = { id: string; label: string; text: string };
+const BE_FORMS = ["be", "am", "is", "are", "was", "were"];
+
+function getColumnChoices(table: SubstitutionTableDocumentRecord, columnId: string): PartChoice[] {
+  const cells = table.rows.flatMap((row) => row.cells).filter((cell) => cell.columnId === columnId);
+  const choices: PartChoice[] = [];
+  const seen = new Set<string>();
+  const add = (id: string, text: string) => {
+    const label = text || "(No word)";
+    if (seen.has(label)) return;
+    seen.add(label);
+    choices.push({ id, label, text });
+  };
+  // Preserve the optional empty cell used by some existing tables.
+  for (const cell of cells) {
+    const text = stripHtml(cell.text);
+    add(cell.id, text);
+    if (text.toLowerCase() === "be") {
+      for (const form of BE_FORMS) add(`${cell.id}:be:${form}`, form);
+    }
+  }
+  if (table.answers.some((answer) => !answer.selections.find((selection) => selection.columnId === columnId)?.cellId)) {
+    add(`empty:${columnId}`, "");
+  }
+  return choices;
+}
+
+// Lock the starting phrase to its question-row position, never to the answer key.
+// Older tables with a different number of starting phrases remain selectable.
+function getFixedFirstColumn(table: SubstitutionTableDocumentRecord, choices: PartChoice[]) {
+  const columnId = table.columns[0]?.id;
+  if (!columnId || table.rows.length !== table.answers.length) return null;
+  const fixed = table.rows.map((row) => {
+    const cell = row.cells.find((item) => item.columnId === columnId);
+    const text = cell ? stripHtml(cell.text) : "";
+    return text ? choices.find((choice) => choice.text === text) : undefined;
+  });
+  return fixed.every(Boolean) ? fixed as PartChoice[] : null;
+}
+
+function buildResponse(columns: { id: string; choices: PartChoice[] }[], selection: Record<string, string> | undefined) {
+  const parts = columns.map((column) => column.choices.find((choice) => choice.id === selection?.[column.id]));
+  return parts.length && parts.every(Boolean) ? parts.map((part) => part!.text).filter(Boolean).join(" ") : "";
+}
+
 function ResultBadge({ status }: { status: CheckStatus }) {
   if (status === "correct") {
     return (
@@ -83,7 +130,7 @@ function ResultBadge({ status }: { status: CheckStatus }) {
       </Badge>
     );
   }
-  return <Badge variant="outline">Not checked</Badge>;
+  return null;
 }
 
 export function SubstitutionTableExercise({
@@ -93,10 +140,17 @@ export function SubstitutionTableExercise({
   table: SubstitutionTableDocumentRecord;
   details?: string;
 }) {
-  const [responses, setResponses] = useState<Record<number, string>>({});
+  const [responses, setResponses] = useState<Record<number, Record<string, string>>>({});
   const [statuses, setStatuses] = useState<Record<number, CheckStatus>>({});
   const [showAnswers, setShowAnswers] = useState(false);
 
+  const columns = table.columns.map((column, index) => ({
+    ...column,
+    label: column.label || `Column ${String.fromCharCode(65 + index)}`,
+    choices: getColumnChoices(table, column.id),
+  }));
+  const fixedFirstColumn = getFixedFirstColumn(table, columns[0]?.choices ?? []);
+  const firstColumnId = columns[0]?.id;
   const correctSentences = table.answers.map((answer) => getCorrectSentence(table, answer));
   const configuredAnswers = correctSentences.filter((sentence) => normalizeSentence(sentence));
   const statusList = table.answers.map((_, index) => statuses[index] || "idle");
@@ -112,7 +166,11 @@ export function SubstitutionTableExercise({
     const next: Record<number, CheckStatus> = {};
 
     table.answers.forEach((_, responseIndex) => {
-      const response = normalizeSentence(responses[responseIndex] || "");
+      const fixed = fixedFirstColumn?.[responseIndex];
+      const selection = fixed && firstColumnId
+        ? { ...responses[responseIndex], [firstColumnId]: fixed.id }
+        : responses[responseIndex];
+      const response = normalizeSentence(buildResponse(columns, selection));
       if (!response) {
         next[responseIndex] = "incorrect";
         return;
@@ -141,7 +199,7 @@ export function SubstitutionTableExercise({
 
   return (
     <Card className="rounded-xl">
-      <CardHeader className="space-y-3">
+      {!paperMode && <CardHeader className="space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <CardTitle className="text-lg">Substitution Table</CardTitle>
           <ResultBadge status={overallStatus} />
@@ -149,21 +207,21 @@ export function SubstitutionTableExercise({
         <CardDescription>
           Make meaningful and grammatically correct sentences by combining suitable parts from the columns.
         </CardDescription>
-      </CardHeader>
+      </CardHeader>}
 
-      <CardContent className="space-y-5">
+      <CardContent className="space-y-3">
         {details && stripHtml(details) ? (
           <div className="rounded-xl border border-dashed p-4 text-sm text-muted-foreground">
             {stripHtml(details)}
           </div>
         ) : null}
 
-        <div className="overflow-x-auto rounded-xl border">
-          <table className="w-full min-w-[640px] border-collapse">
+        <div className="overflow-x-auto rounded-lg border">
+          <table className="w-full table-auto border-collapse">
             <thead>
               <tr className="bg-muted/50">
                 {table.columns.map((column, columnIndex) => (
-                  <th key={column.id} className="border-b border-r px-4 py-3 text-left text-sm font-semibold last:border-r-0">
+                  <th key={column.id} scope="col" className="border-b border-r px-2 py-2 text-left text-sm font-semibold break-words last:border-r-0">
                     {column.label || `Column ${String.fromCharCode(65 + columnIndex)}`}
                   </th>
                 ))}
@@ -172,10 +230,10 @@ export function SubstitutionTableExercise({
             <tbody>
               {table.rows.map((row) => (
                 <tr key={row.id}>
-                  {table.columns.map((column, columnIndex) => {
-                    const cell = row.cells.find((item) => item.columnId === column.id) || row.cells[columnIndex];
+                  {table.columns.map((column) => {
+                    const cell = row.cells.find((item) => item.columnId === column.id);
                     return (
-                      <td key={cell?.id || `${row.id}-${column.id}`} className="border-b border-r px-4 py-3 text-sm last:border-r-0">
+                      <td key={cell?.id || `${row.id}-${column.id}`} className="border-b border-r px-2 py-2 text-sm break-words last:border-r-0">
                         {cell?.text || ""}
                       </td>
                     );
@@ -187,52 +245,54 @@ export function SubstitutionTableExercise({
         </div>
 
         {table.answers.length > 0 ? (
-          <div className="space-y-4">
-            <div>
-              <h3 className="text-sm font-semibold">Make {table.answers.length} correct sentence{table.answers.length === 1 ? "" : "s"}</h3>
-              <p className="text-sm text-muted-foreground">
-                Type complete sentences from the table. You can enter the correct sentences in any order, and table parts may be reused where needed.
-              </p>
-            </div>
-
-            <div className="space-y-3">
-              {table.answers.map((answer, index) => {
-                const status = statuses[index] || "idle";
-                return (
-                  <div
-                    key={answer.id}
-                    className={cn(
-                      "rounded-xl border p-4",
-                      status === "correct" && "border-emerald-500/50 bg-emerald-500/5",
-                      status === "incorrect" && "border-destructive/50 bg-destructive/5",
-                    )}
-                  >
-                    <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-                      <div className="text-sm font-semibold">Sentence #{index + 1}</div>
-                      <ResultBadge status={status} />
-                    </div>
-                    <Input
-                      value={responses[index] || ""}
-                      onChange={(event) => {
-                        setResponses((current) => ({ ...current, [index]: event.target.value }));
-                        setStatuses((current) => ({ ...current, [index]: "idle" }));
-                      }}
-                      placeholder="Write one complete sentence..."
-                    />
+          <div className="space-y-3" data-slot="substitution-answer-grid">
+            {table.answers.map((answer, index) => {
+              const status = statuses[index] || "idle";
+              return (
+                <div key={answer.id} role="group" aria-label={`Sentence ${index + 1}`} className="space-y-1">
+                  <div className="grid grid-cols-1 min-w-0 gap-2 sm:[grid-template-columns:var(--substitution-columns)]" style={{ "--substitution-columns": `repeat(${Math.max(1, columns.length)}, minmax(0, 1fr))` } as CSSProperties}>
+                    {columns.map((column, columnIndex) => {
+                      const fixed = columnIndex === 0 ? fixedFirstColumn?.[index] : undefined;
+                      if (fixed) return (
+                        <div
+                          key={column.id}
+                          className="flex min-h-11 min-w-0 items-center rounded-lg border border-input bg-muted/30 px-3 py-2 text-sm [overflow-wrap:anywhere]"
+                          aria-label={`Sentence ${index + 1}, ${column.label} (fixed)`}
+                        >
+                          {fixed.text}
+                        </div>
+                      );
+                      return <TableCompletionChoiceCombobox
+                        key={column.id}
+                        value={responses[index]?.[column.id] || ""}
+                        options={column.choices}
+                        placeholder={column.label}
+                        ariaLabel={`Sentence ${index + 1}, ${column.label}`}
+                        wrapOptions
+                        disabled={paperMode === "review"}
+                        className={cn(
+                          "h-11 min-w-0 w-full rounded-lg bg-background",
+                          status === "correct" && "border-primary",
+                          status === "incorrect" && "border-destructive",
+                        )}
+                        onChange={(value) => {
+                          setResponses((current) => ({ ...current, [index]: { ...current[index], [column.id]: value } }));
+                          setStatuses({});
+                        }}
+                      />;
+                    })}
                   </div>
-                );
-              })}
-            </div>
-
-            {!paperMode ? <div className="flex flex-wrap gap-2">
-              <Button type="button" onClick={checkAnswers} disabled={configuredAnswers.length === 0}>
-                Check Answer
-              </Button>
-              <Button type="button" variant="outline" onClick={() => setShowAnswers((current) => !current)}>
-                <Eye className="mr-2 h-4 w-4" />
-                {showAnswers ? "Hide Answer" : "Review Answer"}
-              </Button>
-            </div> : null}
+                  {status !== "idle" && <ResultBadge status={status} />}
+                </div>
+              );
+            })}
+            {!paperMode && <PracticeAnswerActions
+              onCheck={checkAnswers}
+              checkDisabled={configuredAnswers.length === 0}
+              onPreview={() => setShowAnswers((current) => !current)}
+              previewLabel={showAnswers ? "Hide Answer" : "Preview Answer"}
+              onReset={() => { setResponses({}); setStatuses({}); setShowAnswers(false); }}
+            />}
 
             {showAnswers ? (
               <div className="rounded-xl border border-dashed p-4">

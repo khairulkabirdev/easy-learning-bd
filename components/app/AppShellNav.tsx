@@ -55,6 +55,11 @@ export const adminNavGroups: ShellNavGroup[] = [
     label: "Content & assessment",
     items: [
       { title: "Content", href: "/admin/content", icon: <FolderOpen className="h-4 w-4" /> },
+      { title: "Block Manager", icon: <Shapes className="h-4 w-4" />, children: [
+        { title: "Block Library", href: "/admin/block-manager/library" },
+        { title: "Class Assignments", href: "/admin/block-manager/classes" },
+        { title: "Subject Assignments", href: "/admin/block-manager/subjects" },
+      ] },
       { title: "Model Question Import", href: "/admin/model-question-import", icon: <BookOpen className="h-4 w-4" /> },
       {
         title: "Board",

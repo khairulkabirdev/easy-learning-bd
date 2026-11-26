@@ -8,6 +8,7 @@ import {
   ComboboxItem,
   ComboboxList,
 } from "@/components/ui/combobox";
+import { cn } from "@/lib/utils";
 
 export type TableCompletionChoiceOption = {
   id: string;
@@ -21,6 +22,9 @@ type TableCompletionChoiceComboboxProps = {
   onChange: (value: string) => void;
   placeholder: string;
   disabled?: boolean;
+  className?: string;
+  ariaLabel?: string;
+  wrapOptions?: boolean;
 };
 
 export function TableCompletionChoiceCombobox({
@@ -29,6 +33,9 @@ export function TableCompletionChoiceCombobox({
   onChange,
   placeholder,
   disabled = false,
+  className,
+  ariaLabel,
+  wrapOptions = false,
 }: TableCompletionChoiceComboboxProps) {
   const items = options.map((option) => option.label);
   const selectedLabel = options.find((option) => option.id === value)?.label ?? null;
@@ -53,16 +60,18 @@ export function TableCompletionChoiceCombobox({
         placeholder={placeholder}
         disabled={disabled}
         showClear={Boolean(value) && !disabled}
-        className="w-full"
+        aria-label={ariaLabel}
+        title={selectedLabel ?? undefined}
+        className={cn("w-full", className)}
       />
-      <ComboboxContent>
+      <ComboboxContent className={wrapOptions ? "min-w-0 w-(--anchor-width)" : undefined}>
         <ComboboxEmpty>No row found.</ComboboxEmpty>
         <ComboboxList>
           {(item) => {
             const option = options.find((entry) => entry.label === item);
             return (
-              <ComboboxItem key={item} value={item} disabled={Boolean(option?.disabled)}>
-                <span className="min-w-0 flex-1 truncate">{item}</span>
+              <ComboboxItem key={item} value={item} disabled={Boolean(option?.disabled)} className={wrapOptions ? "min-h-10 items-start py-2" : undefined}>
+                <span className={cn("min-w-0 flex-1", wrapOptions ? "whitespace-normal [overflow-wrap:anywhere]" : "truncate")}>{item}</span>
                 {option?.disabled ? (
                   <span className="shrink-0 text-xs text-muted-foreground">Used</span>
                 ) : null}

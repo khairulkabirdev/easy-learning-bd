@@ -21,5 +21,6 @@ export type ModelPaper = {
   className: string;
   board: string | null;
   year: number | null;
+  durationMinutes: number | null;
   entries: ModelPaperEntry[];
 };

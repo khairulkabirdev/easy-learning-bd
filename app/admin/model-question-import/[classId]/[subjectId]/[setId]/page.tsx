@@ -19,7 +19,7 @@ export default async function ModelQuestionSetPage({ params, searchParams }: {
   const set = await prisma.modelQuestionSet.findFirst({
     where: { id: setId, classId, subjectId, organizationId: user.organizationId },
     select: {
-      id: true, name: true, editorContentId: true, publishedAt: true,
+      id: true, name: true, editorContentId: true, publishedAt: true, durationMinutes: true,
       class: { select: { id: true, name: true } },
       subject: { select: { id: true, name: true, slug: true, code: true } },
       board: { select: { name: true } }, academicYear: { select: { year: true } },
@@ -64,7 +64,7 @@ export default async function ModelQuestionSetPage({ params, searchParams }: {
           <Badge variant="outline">{set.board?.name ?? "All boards"}</Badge>
           <Badge variant="outline">{set.academicYear?.year ?? "All years"}</Badge>
         </div>
-        <ModelPaperVisibility id={set.id} published={set.publishedAt !== null} />
+        <ModelPaperVisibility id={set.id} published={set.publishedAt !== null} durationMinutes={set.durationMinutes} />
       </header>
       {editor}
       <details className="space-y-3 border-t pt-6" open={legacyBlocks.length > 0}>

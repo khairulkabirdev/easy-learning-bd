@@ -55,3 +55,6 @@ prisma/*.bk
 *.zip
 # Private local uploads (outside public web root)
 /storage/private/
+
+# Private SQLite maintenance backups (may contain account data)
+**/.database-cleanup-backups/

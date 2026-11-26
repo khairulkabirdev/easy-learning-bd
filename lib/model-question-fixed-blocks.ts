@@ -110,7 +110,7 @@ const FIXED_GROUPS: Record<FixedModelQuestionLayout, readonly FixedQuestionGroup
   ],
   "class-9-10": [
     {
-      title: "Seen — Passage 1",
+      title: "Seen",
       description: "First add Passage 1, then its MCQ, Answering Questions, and Fill in the Gaps.",
       slots: [
         ...SEEN_PASSAGE_ONE_SLOTS,
@@ -167,6 +167,7 @@ export function getFixedModelQuestionBlockTitle(layout: FixedModelQuestionLayout
       if (kind === "connector") return "Sentence Connectors";
     }
   }
+  if (layout === "class-9-10" && kind === "seen-passage-one") return "Seen Passage";
   return FIXED_BLOCK_LABELS[kind];
 }
 
@@ -229,4 +230,54 @@ export function getDuplicateFixedBlockIds(
     else seen.add(kind);
   }
   return duplicateIds;
+}
+
+
+// Model-paper categories control creation only, never stored or published content.
+export const MODEL_CATEGORY_LABELS = {
+  "seen-one": "Seen — Passage 1", "seen-two": "Seen — Passage 2", seen: "Seen",
+  unseen: "Unseen", "other-reading": "Other Reading Questions", grammar: "Grammar", general: "General Questions",
+} as const;
+export type ModelCategoryId = keyof typeof MODEL_CATEGORY_LABELS;
+export const MODEL_CATEGORY_IDS = Object.keys(MODEL_CATEGORY_LABELS) as ModelCategoryId[];
+export function isModelCategoryId(value: unknown): value is ModelCategoryId {
+  return typeof value === "string" && MODEL_CATEGORY_IDS.some(id => id === value);
+}
+export function parseModelCategories(value: string | null): ModelCategoryId[] | null {
+  if (value === null) return null;
+  try { const parsed: unknown = JSON.parse(value); if (Array.isArray(parsed) && parsed.every(isModelCategoryId)) return [...new Set(parsed)]; } catch { /* malformed policy */ }
+  return [];
+}
+export type ModelCategoryGroup = { id: ModelCategoryId; title: string; description: string; slots: readonly FixedQuestionSlot[] };
+const group = (id: ModelCategoryId, kinds: ContentBlockKind[], description: string): ModelCategoryGroup => ({ id, title: MODEL_CATEGORY_LABELS[id], description, slots: kinds.map(kind => ({ kind })) });
+export function getModelQuestionCategoryGroups(className: string, subject: Parameters<typeof isEnglishFirstPaperSubject>[0]): ModelCategoryGroup[] {
+  const layout = getFixedModelQuestionLayout(className, subject);
+  if (layout) return getFixedModelQuestionGroups(layout).map(g => {
+    const id: ModelCategoryId = isFixedSecondPaperLayout(layout) ? "grammar" : g.title === "Unseen" ? "unseen" : g.title === "Other Reading Questions" ? "other-reading" : layout === "class-9-10" ? "seen" : g.slots.some(s => s.kind === "seen-passage-two") ? "seen-two" : "seen-one";
+    return { ...g, id, title: MODEL_CATEGORY_LABELS[id] };
+  });
+  if (isEnglishSecondPaperSubject(subject)) return [group("grammar", ["gap-fill-second-paper", "substitution-table", "right-form-of-verb", "narration", "changing-sentence", "punctuation-and-capitalization", "preposition", "suffix-and-prefix", "tag-question", "connector"], "Supported grammar question types. No fixed mark allocation is imposed.")];
+  if (isEnglishFirstPaperSubject(subject)) return [
+    group("seen", ["seen-passage-one", "mcq", "question-answer", "gap-fill-first-paper", "synonyms-antonyms"], "Seen passage and associated reading questions."),
+    group("unseen", ["paragraph", "information-transfer", "true-false", "writing-summary"], "Unseen passage and reading exercises."),
+    group("other-reading", ["table-completion", "column-matching", "rearrange-sentence", "question-from-poems", "question-from-story"], "Independent reading questions."),
+  ];
+  return [group("general", ["mcq", "question-answer", "gap-fill-first-paper", "table-completion", "column-matching"], "Existing supported general question types.")];
+}
+// Union of subject profiles, including English papers not yet created in a class.
+export function getClassModelCategoryGroups(className: string, subjects: Parameters<typeof isEnglishFirstPaperSubject>[0][] = []): ModelCategoryGroup[] {
+  const result = new Map<ModelCategoryId, ModelCategoryGroup>();
+  for (const subject of [{ name: "English 1st Paper" }, { name: "English 2nd Paper" }, { name: "General subject" }, ...subjects]) {
+    for (const g of getModelQuestionCategoryGroups(className, subject)) {
+      const old = result.get(g.id);
+      result.set(g.id, old ? { ...old, slots: [...old.slots, ...g.slots.filter(slot => !old.slots.some(s => s.kind === slot.kind))] } : g);
+    }
+  }
+  return [...result.values()];
+}
+export function resolveModelCategories(defaults: readonly ModelCategoryId[], classCategories: ModelCategoryId[] | null, subjectCategories: ModelCategoryId[] | null = null) {
+  return defaults.filter(id => (classCategories === null || classCategories.includes(id)) && (subjectCategories === null || subjectCategories.includes(id)));
+}
+export function getModelQuestionCreationKinds(groups: readonly ModelCategoryGroup[], categories: readonly ModelCategoryId[], assignedKinds: readonly string[] | null): ContentBlockKind[] {
+  return [...new Set(groups.filter(g => categories.includes(g.id)).flatMap(g => g.slots.map(s => s.kind)))].filter(kind => assignedKinds === null || assignedKinds.includes(kind));
 }

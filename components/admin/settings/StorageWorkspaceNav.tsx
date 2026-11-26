@@ -2,21 +2,22 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { HardDrive, Images } from "lucide-react";
+import { Database, HardDrive, Images } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
 const items = [
   { href: "/admin/settings", label: "Storage Setting", icon: HardDrive, exact: true },
   { href: "/admin/settings/media-library", label: "Media Library", icon: Images, exact: false },
+  { href: "/admin/settings/database", label: "Database", icon: Database, exact: false },
 ];
 
 export function StorageWorkspaceNav() {
   const pathname = usePathname();
 
   return (
-    <nav aria-label="Storage settings" className="flex min-w-0 items-center">
-      <div className="inline-flex max-w-full items-center gap-1 rounded-full border bg-background p-1 shadow-sm">
+    <nav aria-label="Admin settings" className="flex min-w-0 items-center">
+      <div className="inline-flex max-w-full flex-wrap items-center gap-1 rounded-full border bg-background p-1 shadow-sm">
         {items.map((item) => {
           const Icon = item.icon;
           const active = item.exact ? pathname === item.href || pathname === "/admin/settings/storage" : pathname.startsWith(item.href);

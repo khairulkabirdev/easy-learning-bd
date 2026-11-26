@@ -1,5 +1,7 @@
 "use server";
 
+import { assertBlockAssigned } from "@/lib/admin/block-assignments";
+import { firstPaperSectionAssignmentKinds } from "@/app/admin/content/content-types";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
@@ -175,6 +177,9 @@ export async function createSubjectSectionBlock(input: unknown) {
   const user = await requireAdmin();
   const parsed = createSchema.parse(input);
   await assertOwnedEnglishFirstPaperSubject(parsed.classId, parsed.subjectId, user.organizationId);
+  const [assignmentKind] = firstPaperSectionAssignmentKinds(parsed.kind);
+  if (!assignmentKind) throw new Error("Unsupported block type.");
+  await assertBlockAssigned(user.organizationId, parsed.classId, parsed.subjectId, assignmentKind);
   await assertBoardYearSelection(parsed.boardId, parsed.academicYearId, user.organizationId);
 
   const document =

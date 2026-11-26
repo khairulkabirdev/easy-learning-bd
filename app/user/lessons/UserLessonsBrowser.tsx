@@ -41,6 +41,7 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { sanitizeRichHtml } from "@/lib/sanitize-rich-html";
+import { RichQuestionWithAnswers } from "@/components/app/RichQuestionWithAnswers";
 
 type ClassRecord = {
   id: string;
@@ -168,7 +169,7 @@ function normalizeAnswer(value: string) {
 }
 
 function RichContent({ value }: { value: string }) {
-  if (!stripHtml(value)) {
+  if (!stripHtml(value) && !/<img\b|<hr\b/i.test(value)) {
     return null;
   }
 
@@ -179,7 +180,7 @@ function RichContent({ value }: { value: string }) {
         "[&_a]:text-primary [&_a]:underline",
         "[&_blockquote]:border-l-2 [&_blockquote]:border-border [&_blockquote]:pl-4 [&_blockquote]:italic",
         "[&_li]:ml-5 [&_ol]:list-decimal [&_ol]:space-y-1 [&_p]:mb-3 [&_p:last-child]:mb-0",
-        "[&_table]:w-full [&_table]:border-collapse [&_td]:border [&_td]:border-border [&_td]:p-2",
+        "[&_table]:w-full [&_table]:border-collapse [&_col]:!w-auto [&_td_p]:m-0 [&_th_p]:m-0 [&_td]:border [&_td]:border-border [&_td]:p-2",
         "[&_th]:border [&_th]:border-border [&_th]:bg-muted/60 [&_th]:p-2 [&_ul]:list-disc [&_ul]:space-y-1",
       )}
       dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(value) }}
@@ -296,21 +297,6 @@ function ThreeFieldExerciseBlock({
   );
 }
 
-function fillBlankQuestionToText(value: string) {
-  return value
-    .replace(/<br\s*\/?\s*>/gi, "\n")
-    .replace(/<\/(p|div|li|h[1-6])>/gi, "\n")
-    .replace(/<[^>]+>/g, "")
-    .replace(/&nbsp;/gi, " ")
-    .replace(/&amp;/gi, "&")
-    .replace(/&lt;/gi, "<")
-    .replace(/&gt;/gi, ">")
-    .replace(/&quot;/gi, '"')
-    .replace(/&#39;/gi, "'")
-    .replace(/\n{3,}/g, "\n\n")
-    .trim();
-}
-
 function FillInTheBlanksBlock({
   question,
   blanks,
@@ -322,8 +308,6 @@ function FillInTheBlanksBlock({
   details: string;
   title?: string;
 }) {
-  const passage = fillBlankQuestionToText(question);
-  const segments = passage.split(/_{2,}/g);
   const [studentAnswers, setStudentAnswers] = useState<Record<string, string>>({});
   const [statusByBlank, setStatusByBlank] = useState<Record<string, CheckStatus>>({});
   const [showAnswers, setShowAnswers] = useState(false);
@@ -354,44 +338,35 @@ function FillInTheBlanksBlock({
         {stripHtml(details) ? <CardDescription>{stripHtml(details)}</CardDescription> : null}
       </CardHeader>
       <CardContent className="space-y-5">
-        <div className="rounded-xl border border-border/60 bg-muted/15 px-3 py-4 text-[15px] leading-[2.9rem] whitespace-pre-wrap sm:px-4 sm:text-base sm:leading-[3rem]">
-          {segments.map((segment, index) => {
+        <RichQuestionWithAnswers
+          question={question}
+          count={blanks.length}
+          className="rounded-lg border border-border/60 bg-muted/10 p-3 sm:p-4"
+          renderAnswer={(index) => {
             const blank = blanks[index];
-            const letter = String.fromCharCode(97 + index);
-            // The source may already contain (a), (b), etc. before each blank.
-            // Show the label once, inside the inline input, rather than twice.
-            const visibleText = blank
-              ? segment.replace(new RegExp(`\\s*\\(${letter}\\)\\s*$`, "i"), " ")
-              : segment;
+            if (!blank) return null;
             return (
-              <span key={`${index}-${blank?.id || "tail"}`}>
-                {visibleText}
-                {blank ? (
-                  <span
-                    className={cn(
-                      "mx-1 my-1 inline-flex max-w-full items-center gap-1 rounded-lg border border-border/80 bg-background px-1.5 py-1 align-middle shadow-xs transition-colors focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/15",
-                      statusByBlank[blank.id] === "correct" && "border-emerald-500 bg-emerald-50/60 dark:bg-emerald-950/20",
-                      statusByBlank[blank.id] === "incorrect" && "border-red-500 bg-red-50/60 dark:bg-red-950/20",
-                    )}
-                  >
-                    <span aria-hidden="true" className="flex size-6 shrink-0 items-center justify-center rounded-md bg-primary/10 text-xs font-semibold text-primary">{letter}</span>
-                    <Input
-                      value={studentAnswers[blank.id] || ""}
-                      onChange={(event) => {
-                        setStudentAnswers((current) => ({ ...current, [blank.id]: event.target.value }));
-                        setStatusByBlank((current) => ({ ...current, [blank.id]: "idle" }));
-                      }}
-                      aria-label={`Answer for blank ${letter}`}
-                      placeholder="Answer"
-                      autoComplete="off"
-                      className="h-8 w-24 min-w-0 border-0 bg-transparent px-1 text-center text-sm shadow-none outline-none focus-visible:border-0 focus-visible:ring-0 sm:w-28"
-                    />
-                  </span>
-                ) : null}
+              <span data-slot="inline-blank" className="mx-1 my-0.5 inline-flex max-w-full align-middle">
+                <Input
+                  value={studentAnswers[blank.id] || ""}
+                  onChange={(event) => {
+                    setStudentAnswers((current) => ({ ...current, [blank.id]: event.target.value }));
+                    setStatusByBlank((current) => ({ ...current, [blank.id]: "idle" }));
+                  }}
+                  aria-label={`Answer for blank ${index + 1}`}
+                  data-answer-status={statusByBlank[blank.id] || "idle"}
+                  placeholder={`${index + 1}`}
+                  autoComplete="off"
+                  className={cn(
+                    "h-9 w-24 min-w-0 max-w-full rounded-lg bg-background px-2 text-center sm:w-32",
+                    statusByBlank[blank.id] === "correct" && "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/20",
+                    statusByBlank[blank.id] === "incorrect" && "border-red-500 bg-red-50 dark:bg-red-950/20",
+                  )}
+                />
               </span>
             );
-          })}
-        </div>
+          }}
+        />
 
         <ActionButtons onCheck={checkAnswers} onReveal={() => setShowAnswers(true)} />
 
@@ -423,14 +398,6 @@ function SuffixPrefixExerciseBlock({
   items: Array<{ id: string; sortOrder: number; word: string; answer: string }>;
   details: string;
 }) {
-  let targetIndex = 0;
-  const tokenized = question.replace(/<u(?:\s[^>]*)?>[\s\S]*?<\/u>/gi, () => {
-    const token = `[[SUFFIX_PREFIX_${targetIndex}]]`;
-    targetIndex += 1;
-    return token;
-  });
-  const passage = fillBlankQuestionToText(tokenized);
-  const parts = passage.split(/(\[\[SUFFIX_PREFIX_\d+\]\])/g);
   const [studentAnswers, setStudentAnswers] = useState<Record<string, string>>({});
   const [statusByItem, setStatusByItem] = useState<Record<string, CheckStatus>>({});
   const [showAnswers, setShowAnswers] = useState(false);
@@ -460,15 +427,16 @@ function SuffixPrefixExerciseBlock({
         {stripHtml(details) ? <CardDescription>{stripHtml(details)}</CardDescription> : null}
       </CardHeader>
       <CardContent className="space-y-5">
-        <div className="rounded-xl border bg-muted/10 p-4 text-base leading-10 whitespace-pre-wrap">
-          {parts.map((part, index) => {
-            const match = part.match(/^\[\[SUFFIX_PREFIX_(\d+)\]\]$/);
-            if (!match) return <span key={`text-${index}`}>{part}</span>;
-            const item = items[Number(match[1])];
+        <RichQuestionWithAnswers
+          question={question}
+          count={items.length}
+          mode="underlines"
+          className="rounded-lg border border-border/60 bg-muted/10 p-3 sm:p-4"
+          renderAnswer={(index) => {
+            const item = items[index];
             if (!item) return null;
-
             return (
-              <span key={item.id} className="mx-1 inline-flex flex-wrap items-center gap-2 align-middle">
+              <span className="mx-1 my-0.5 inline-flex max-w-full flex-wrap items-center gap-2 align-middle">
                 <span className="font-medium underline decoration-2 underline-offset-4">{item.word}</span>
                 <Input
                   value={studentAnswers[item.id] || ""}
@@ -479,15 +447,15 @@ function SuffixPrefixExerciseBlock({
                   aria-label={`Completed word for ${item.word}`}
                   placeholder="answer"
                   className={cn(
-                    "h-9 min-w-28 w-36 bg-background px-2 text-center sm:w-44",
+                    "h-9 w-24 min-w-0 max-w-full bg-background px-2 text-center sm:w-32",
                     statusByItem[item.id] === "correct" && "border-emerald-500 bg-emerald-50",
                     statusByItem[item.id] === "incorrect" && "border-red-500 bg-red-50",
                   )}
                 />
               </span>
             );
-          })}
-        </div>
+          }}
+        />
 
         <ActionButtons onCheck={checkAnswers} onReveal={() => setShowAnswers(true)} />
 
@@ -1279,18 +1247,6 @@ function TagQuestionItemsBlock({
   const [statusByRow, setStatusByRow] = useState<Record<string, CheckStatus>>({});
   const [showAnswers, setShowAnswers] = useState(false);
 
-  function questionParts(value: string) {
-    const text = fillBlankQuestionToText(value);
-    const match = /_{2,}/.exec(text);
-    if (!match || match.index == null) {
-      return { before: text, after: "" };
-    }
-    return {
-      before: text.slice(0, match.index),
-      after: text.slice(match.index + match[0].length),
-    };
-  }
-
   return (
     <Card className="rounded-xl">
       <CardHeader className="space-y-3">
@@ -1299,7 +1255,6 @@ function TagQuestionItemsBlock({
       </CardHeader>
       <CardContent className="space-y-4">
         {rows.map((row, index) => {
-          const parts = questionParts(row.question);
           return (
             <div key={row.id} className="rounded-xl border p-4">
               <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
@@ -1307,8 +1262,12 @@ function TagQuestionItemsBlock({
                 <ResultBadge status={statusByRow[row.id] || "idle"} />
               </div>
 
-              <div className="rounded-xl border bg-muted/10 p-4 text-base leading-9 whitespace-pre-wrap">
-                <span>{parts.before}</span>
+              <RichQuestionWithAnswers
+                question={row.question}
+                count={1}
+                appendMissing
+                className="rounded-lg border border-border/60 bg-muted/10 p-3 sm:p-4"
+                renderAnswer={() => (
                 <span className="mx-1 inline-flex align-middle">
                   <Input
                     value={answers[row.id] || ""}
@@ -1325,8 +1284,8 @@ function TagQuestionItemsBlock({
                     )}
                   />
                 </span>
-                <span>{parts.after}</span>
-              </div>
+                )}
+              />
 
               {showAnswers ? (
                 <div className="mt-3 rounded-xl border border-dashed p-3">

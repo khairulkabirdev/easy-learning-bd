@@ -185,6 +185,8 @@ exports.Prisma.AuditLogScalarFieldEnum = {
 };
 
 exports.Prisma.ClassScalarFieldEnum = {
+  blockKindsJson: 'blockKindsJson',
+  modelCategoryIdsJson: 'modelCategoryIdsJson',
   id: 'id',
   name: 'name',
   slug: 'slug',
@@ -205,6 +207,8 @@ exports.Prisma.ClassScalarFieldEnum = {
 };
 
 exports.Prisma.SubjectScalarFieldEnum = {
+  blockKindsJson: 'blockKindsJson',
+  modelCategoryIdsJson: 'modelCategoryIdsJson',
   id: 'id',
   classId: 'classId',
   name: 'name',
@@ -1113,6 +1117,7 @@ exports.Prisma.ModelQuestionSetScalarFieldEnum = {
   academicYearId: 'academicYearId',
   name: 'name',
   editorContentId: 'editorContentId',
+  durationMinutes: 'durationMinutes',
   publishedAt: 'publishedAt',
   organizationId: 'organizationId',
   createdBy: 'createdBy',

@@ -1,5 +1,6 @@
 "use server";
 
+import { assertBlockAssigned } from "@/lib/admin/block-assignments";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
@@ -49,6 +50,7 @@ export async function createUnseenComposition(input: unknown) {
     throw new Error("Unseen Composition is available for English 1st Paper.");
   }
 
+  await assertBlockAssigned(user.organizationId, parsed.classId, parsed.subjectId, "unseen-composition");
   const created = await prisma.unseenComposition.create({
     data: {
       classId: parsed.classId,

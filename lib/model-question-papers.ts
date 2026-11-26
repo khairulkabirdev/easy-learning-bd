@@ -94,7 +94,7 @@ export async function getModelPaper(scope: PaperScope, setId: string, audience: 
   const set = await prisma.modelQuestionSet.findFirst({
     where: { ...(audience === "student" ? studentPaperScope(scope) : scope), id: setId },
     select: {
-      id: true, name: true, editorContentId: true,
+      id: true, name: true, editorContentId: true, durationMinutes: true,
       class: { select: { name: true } },
       subject: { select: { name: true, slug: true, code: true } },
       board: { select: { name: true } }, academicYear: { select: { year: true } },
@@ -155,7 +155,7 @@ export async function getModelPaper(scope: PaperScope, setId: string, audience: 
   if (!entries.some(entry => !entry.reference)) return null;
   return {
     id: set.id, name: set.name, subjectId: scope.subjectId, subject: set.subject.name, className: set.class.name,
-    board: set.board?.name ?? null, year: set.academicYear?.year ?? null, entries,
+    board: set.board?.name ?? null, year: set.academicYear?.year ?? null, durationMinutes: set.durationMinutes, entries,
   };
 }
 

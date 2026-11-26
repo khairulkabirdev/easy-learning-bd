@@ -1,7 +1,7 @@
 "use client";
 
 import { useContext, useState } from "react";
-import { ArrowDown, ArrowUp, CheckCircle2, CircleHelp, Flag, Heart, XCircle } from "lucide-react";
+import { CheckCircle2, CircleHelp, Flag, Heart, XCircle } from "lucide-react";
 
 import type {
   ContentBlockKind,
@@ -15,6 +15,7 @@ import type {
 import { normalizeSynonymsAntonymsAnswerType } from "@/app/admin/content/content-types";
 import { ModelPaperManualReview, ModelPaperMode, useModelPaperReview } from "@/components/app/ModelPaperMode";
 import type { ModelPaperEntry } from "@/lib/model-paper-types";
+import { modelRearrangeLetter, readModelRearrangeKey, validateModelRearrangeSlots } from "@/lib/model-rearrange-answers";
 import { TableCompletionChoiceCombobox } from "@/components/app/TableCompletionChoiceCombobox";
 import { SubstitutionTableExercise } from "@/components/app/SubstitutionTableExercise";
 import { Badge } from "@/components/ui/badge";
@@ -28,6 +29,7 @@ import { TrueFalseQuestionRow, type TrueFalseResponse } from "@/components/app/U
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { sanitizeRichHtml } from "@/lib/sanitize-rich-html";
+import { RichQuestionWithAnswers } from "@/components/app/RichQuestionWithAnswers";
 
 export type StudentContentRecord = Omit<ContentRecordWithBlocks, "createdAt"> & {
   createdAt: string;
@@ -75,7 +77,7 @@ function normalizeAnswer(value: string) {
 }
 
 function RichContent({ value }: { value: string }) {
-  if (!stripHtml(value)) return null;
+  if (!stripHtml(value) && !/<img\b|<hr\b/i.test(value)) return null;
 
   return (
     <div
@@ -85,7 +87,7 @@ function RichContent({ value }: { value: string }) {
         "[&_a]:text-primary [&_a]:underline",
         "[&_blockquote]:border-l-2 [&_blockquote]:border-border [&_blockquote]:pl-4 [&_blockquote]:italic",
         "[&_li]:ml-5 [&_ol]:list-decimal [&_ol]:space-y-1 [&_p]:mb-3 [&_p:last-child]:mb-0",
-        "[&_table]:w-full [&_table]:border-collapse [&_td]:border [&_td]:border-border [&_td]:p-2",
+        "[&_table]:w-full [&_table]:border-collapse [&_col]:!w-auto [&_td_p]:m-0 [&_th_p]:m-0 [&_td]:border [&_td]:border-border [&_td]:p-2",
         "[&_th]:border [&_th]:border-border [&_th]:bg-muted/60 [&_th]:p-2 [&_ul]:list-disc [&_ul]:space-y-1",
       )}
       dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(value) }}
@@ -125,12 +127,16 @@ function ThreeFieldExerciseBlock({
   question,
   answer,
   details,
+  hideHeader = false,
+  compactQuestion = false,
   passage = "",
 }: {
   title: string;
   question: string;
   answer: string;
   details: string;
+  hideHeader?: boolean;
+  compactQuestion?: boolean;
   passage?: string;
 }) {
   const [studentAnswer, setStudentAnswer] = useState("");
@@ -139,14 +145,14 @@ function ThreeFieldExerciseBlock({
 
   return (
     <Card className="rounded-xl">
-      <CardHeader className="space-y-3">
+      {!hideHeader && <CardHeader className="space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <CardTitle className="text-lg">{title}</CardTitle>
           <ResultBadge status={status} />
         </div>
         {stripHtml(details) ? <CardDescription>{stripHtml(details)}</CardDescription> : null}
-      </CardHeader>
-      <CardContent className="space-y-4">
+      </CardHeader>}
+      <CardContent className={compactQuestion ? "space-y-3" : "space-y-4"}>
         {stripHtml(passage) ? (
           <div className="space-y-2">
             <div className="text-sm font-medium">Passage</div>
@@ -156,21 +162,22 @@ function ThreeFieldExerciseBlock({
           </div>
         ) : null}
         <div className="space-y-2">
-          <div className="text-sm font-medium">Question</div>
-          <div className="rounded-xl border p-4">
+          {!compactQuestion && <div className="text-sm font-medium">Question</div>}
+          <div className={compactQuestion ? "min-w-0" : "rounded-xl border p-4"}>
             <RichContent value={question} />
           </div>
         </div>
         <div className="space-y-2">
-          <div className="text-sm font-medium">Your answer</div>
+          {!compactQuestion && <div className="text-sm font-medium">Your answer</div>}
           <Textarea
             value={studentAnswer}
             onChange={(event) => {
               setStudentAnswer(event.target.value);
               setStatus("idle");
             }}
-            className="min-h-24"
-            placeholder="Write your answer here..."
+            aria-label={`${title} answer`}
+            className={compactQuestion ? "min-h-[120px] w-full rounded-lg resize-y" : "min-h-24"}
+            placeholder={compactQuestion ? "Write your answer..." : "Write your answer here..."}
           />
         </div>
         <ActionButtons
@@ -191,21 +198,6 @@ function ThreeFieldExerciseBlock({
   );
 }
 
-function fillBlankQuestionToText(value: string) {
-  return value
-    .replace(/<br\s*\/?\s*>/gi, "\n")
-    .replace(/<\/(p|div|li|h[1-6])>/gi, "\n")
-    .replace(/<[^>]+>/g, "")
-    .replace(/&nbsp;/gi, " ")
-    .replace(/&amp;/gi, "&")
-    .replace(/&lt;/gi, "<")
-    .replace(/&gt;/gi, ">")
-    .replace(/&quot;/gi, '"')
-    .replace(/&#39;/gi, "'")
-    .replace(/\n{3,}/g, "\n\n")
-    .trim();
-}
-
 function FillInTheBlanksBlock({
   question,
   blanks,
@@ -219,8 +211,6 @@ function FillInTheBlanksBlock({
   passage?: string;
   title?: string;
 }) {
-  const passage = fillBlankQuestionToText(question);
-  const segments = passage.split(/_{2,}/g);
   const [studentAnswers, setStudentAnswers] = useState<Record<string, string>>({});
   const [statusByBlank, setStatusByBlank] = useState<Record<string, CheckStatus>>({});
   const [showAnswers, setShowAnswers] = useState(false);
@@ -256,35 +246,35 @@ function FillInTheBlanksBlock({
             <RichContent value={sourcePassage} />
           </div>
         ) : null}
-        <div data-slot="inline-blank-question" className="rounded-xl border bg-muted/10 p-4 text-base leading-9 whitespace-pre-wrap">
-          {segments.map((segment, index) => {
+        <RichQuestionWithAnswers
+          question={question}
+          count={blanks.length}
+          className="rounded-lg border border-border/60 bg-muted/10 p-3 sm:p-4"
+          renderAnswer={(index) => {
             const blank = blanks[index];
+            if (!blank) return null;
             return (
-              <span key={`${index}-${blank?.id || "tail"}`}>
-                {segment}
-                {blank ? (
-                  <span data-slot="inline-blank" className="mx-1 inline-flex align-middle">
-                    <Input
-                      value={studentAnswers[blank.id] || ""}
-                      onChange={(event) => {
-                        setStudentAnswers((current) => ({ ...current, [blank.id]: event.target.value }));
-                        setStatusByBlank((current) => ({ ...current, [blank.id]: "idle" }));
-                      }}
-                      aria-label={`Answer for blank ${index + 1}`}
-                      data-answer-status={statusByBlank[blank.id] || "idle"}
-                      placeholder={`${index + 1}`}
-                      className={cn(
-                        "h-9 min-w-28 w-36 bg-background px-2 text-center sm:w-44",
-                        statusByBlank[blank.id] === "correct" && "border-emerald-500 bg-emerald-50",
-                        statusByBlank[blank.id] === "incorrect" && "border-red-500 bg-red-50",
-                      )}
-                    />
-                  </span>
-                ) : null}
+              <span data-slot="inline-blank" className="mx-1 my-0.5 inline-flex max-w-full align-middle">
+                <Input
+                  value={studentAnswers[blank.id] || ""}
+                  onChange={(event) => {
+                    setStudentAnswers((current) => ({ ...current, [blank.id]: event.target.value }));
+                    setStatusByBlank((current) => ({ ...current, [blank.id]: "idle" }));
+                  }}
+                  aria-label={`Answer for blank ${index + 1}`}
+                  data-answer-status={statusByBlank[blank.id] || "idle"}
+                  placeholder={`${index + 1}`}
+                  autoComplete="off"
+                  className={cn(
+                    "h-9 w-24 min-w-0 max-w-full rounded-lg bg-background px-2 text-center sm:w-32",
+                    statusByBlank[blank.id] === "correct" && "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/20",
+                    statusByBlank[blank.id] === "incorrect" && "border-red-500 bg-red-50 dark:bg-red-950/20",
+                  )}
+                />
               </span>
             );
-          })}
-        </div>
+          }}
+        />
 
         <ActionButtons onCheck={checkAnswers} onReveal={() => setShowAnswers(true)} />
 
@@ -318,14 +308,6 @@ function SuffixPrefixExerciseBlock({
   items: Array<{ id: string; sortOrder: number; word: string; answer: string }>;
   details: string;
 }) {
-  let targetIndex = 0;
-  const tokenized = question.replace(/<u(?:\s[^>]*)?>[\s\S]*?<\/u>/gi, () => {
-    const token = `[[SUFFIX_PREFIX_${targetIndex}]]`;
-    targetIndex += 1;
-    return token;
-  });
-  const passage = fillBlankQuestionToText(tokenized);
-  const parts = passage.split(/(\[\[SUFFIX_PREFIX_\d+\]\])/g);
   const [studentAnswers, setStudentAnswers] = useState<Record<string, string>>({});
   const [statusByItem, setStatusByItem] = useState<Record<string, CheckStatus>>({});
   const [showAnswers, setShowAnswers] = useState(false);
@@ -355,15 +337,16 @@ function SuffixPrefixExerciseBlock({
         {stripHtml(details) ? <CardDescription>{stripHtml(details)}</CardDescription> : null}
       </CardHeader>
       <CardContent className="space-y-5">
-        <div className="rounded-xl border bg-muted/10 p-4 text-base leading-10 whitespace-pre-wrap">
-          {parts.map((part, index) => {
-            const match = part.match(/^\[\[SUFFIX_PREFIX_(\d+)\]\]$/);
-            if (!match) return <span key={`text-${index}`}>{part}</span>;
-            const item = items[Number(match[1])];
+        <RichQuestionWithAnswers
+          question={question}
+          count={items.length}
+          mode="underlines"
+          className="rounded-lg border border-border/60 bg-muted/10 p-3 sm:p-4"
+          renderAnswer={(index) => {
+            const item = items[index];
             if (!item) return null;
-
             return (
-              <span key={item.id} className="mx-1 inline-flex flex-wrap items-center gap-2 align-middle">
+              <span className="mx-1 my-0.5 inline-flex max-w-full flex-wrap items-center gap-2 align-middle">
                 <span className="font-medium underline decoration-2 underline-offset-4">{item.word}</span>
                 <Input
                   value={studentAnswers[item.id] || ""}
@@ -374,15 +357,15 @@ function SuffixPrefixExerciseBlock({
                   aria-label={`Completed word for ${item.word}`}
                   placeholder="answer"
                   className={cn(
-                    "h-9 min-w-28 w-36 bg-background px-2 text-center sm:w-44",
+                    "h-9 w-24 min-w-0 max-w-full bg-background px-2 text-center sm:w-32",
                     statusByItem[item.id] === "correct" && "border-emerald-500 bg-emerald-50",
                     statusByItem[item.id] === "incorrect" && "border-red-500 bg-red-50",
                   )}
                 />
               </span>
             );
-          })}
-        </div>
+          }}
+        />
 
         <ActionButtons onCheck={checkAnswers} onReveal={() => setShowAnswers(true)} />
 
@@ -764,6 +747,12 @@ function createInitialSentenceOrder(rows: Array<{ id: string }>) {
   return shuffled;
 }
 
+/** The displayed letters belong to the fixed question order, not the answer key. */
+export function modelRearrangeQuestionText(value: string, index: number) {
+  const label = modelRearrangeLetter(index);
+  return value.replace(new RegExp(`^(\\s*(?:<[^>]+>\\s*)*)(?:\\(${label}\\)|${label}[.)])(?:\\s|&nbsp;)*`, "i"), "$1");
+}
+
 function SentenceOrderingBlock({
   title,
   instruction,
@@ -775,114 +764,236 @@ function SentenceOrderingBlock({
   details: string;
   rows: Array<{ id: string; question: string; answer: string }>;
 }) {
-  const [orderedIds, setOrderedIds] = useState<string[]>(() => createInitialSentenceOrder(rows));
+  const mode = useContext(ModelPaperMode);
+  // Prompt-only papers already provide the safe book order. Preserve that
+  // exact mapping when the full answer key arrives after Finish Test.
+  const [questionIds] = useState<string[]>(() => mode || readModelRearrangeKey(rows).mode === "explicit"
+    ? rows.map((row) => row.id)
+    : createInitialSentenceOrder(rows));
+  const [slots, setSlots] = useState<string[]>(() => rows.map(() => ""));
   const [status, setStatus] = useState<CheckStatus>("idle");
   const [showCorrectOrder, setShowCorrectOrder] = useState(false);
   const rowById = new Map(rows.map((row) => [row.id, row]));
-  const orderedRows = orderedIds.map((id) => rowById.get(id)).filter(Boolean) as typeof rows;
+  const questionRows = questionIds.flatMap((id) => { const row = rowById.get(id); return row ? [row] : []; });
+  const letterById = new Map(questionIds.map((id, index) => [id, modelRearrangeLetter(index)]));
+  const maxLetterLength = modelRearrangeLetter(Math.max(0, questionIds.length - 1)).length;
+  // Never interpret the redacted prompt rows as the legacy answer key.
+  const key = mode === "attempt" ? null : readModelRearrangeKey(rows);
+  const correctLetters = key?.order.map((id) => letterById.get(id) || "") ?? [];
+  const hasKey = correctLetters.length >= 2 && correctLetters.length === questionIds.length && correctLetters.every(Boolean);
+  const errors = validateModelRearrangeSlots(slots, questionIds.length);
 
-  function moveSentence(rowId: string, direction: "up" | "down") {
-    setOrderedIds((current) => {
-      const currentIndex = current.indexOf(rowId);
-      if (currentIndex === -1) return current;
-
-      const nextIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
-      if (nextIndex < 0 || nextIndex >= current.length) return current;
-
-      const next = [...current];
-      const [moved] = next.splice(currentIndex, 1);
-      next.splice(nextIndex, 0, moved);
-      return next;
-    });
+  function updateSlot(index: number, value: string) {
+    const next = value.toLowerCase().replace(/[^a-z]/g, "").slice(0, maxLetterLength);
+    setSlots((current) => current.map((item, i) => i === index ? next : item));
     setStatus("idle");
     setShowCorrectOrder(false);
   }
 
+  function check() {
+    if (!hasKey) { setStatus("idle"); return; }
+    setStatus(!errors.some(Boolean) && slots.every((value, index) => value === correctLetters[index]) ? "correct" : "incorrect");
+  }
+
   return (
     <Card className="rounded-xl">
-      <CardHeader className="space-y-3">
-        <div className="flex flex-wrap items-start justify-between gap-3">
-          <div className="space-y-1">
-            <CardTitle className="text-lg">{title || "Rearrange Sentence"}</CardTitle>
-            {instruction ? <CardDescription>{instruction}</CardDescription> : null}
-          </div>
-          <ResultBadge status={status} />
-        </div>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {stripHtml(details) ? (
-          <div className="rounded-xl border border-dashed p-4">
-            <RichContent value={details} />
-          </div>
-        ) : null}
-
-        <div className="rounded-xl border bg-muted/20 p-3 text-sm text-muted-foreground">
-          Move the sentences up or down until they are in the correct order.
-        </div>
-
-        <div className="space-y-3">
-          {orderedRows.map((row, index) => (
-            <div key={row.id} className="flex items-start gap-3 rounded-xl border bg-background p-3">
-              <Badge variant="outline" className="mt-1 shrink-0">
-                {index + 1}
-              </Badge>
-              <div className="min-w-0 flex-1">
-                <RichContent value={row.question} />
-              </div>
-              <div className="flex shrink-0 flex-col gap-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="icon"
-                  aria-label={`Move item ${index + 1} up`}
-                  disabled={index === 0}
-                  onClick={() => moveSentence(row.id, "up")}
-                >
-                  <ArrowUp className="h-4 w-4" />
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="icon"
-                  aria-label={`Move item ${index + 1} down`}
-                  disabled={index === orderedRows.length - 1}
-                  onClick={() => moveSentence(row.id, "down")}
-                >
-                  <ArrowDown className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
+      {!mode && <CardHeader className="space-y-3">
+        <CardTitle className="text-lg">{title || "Rearrange Sentence"}</CardTitle>
+        {instruction ? <CardDescription>{instruction}</CardDescription> : null}
+      </CardHeader>}
+      <CardContent className="space-y-3">
+        {!mode && stripHtml(details) ? <RichContent value={details} /> : null}
+        <ol className="space-y-1.5" aria-label="Mixed-up sentences">
+          {questionRows.map((row, index) => (
+            <li key={row.id} className="flex min-w-0 items-baseline gap-2">
+              <span className="w-6 shrink-0 font-medium">{modelRearrangeLetter(index)})</span>
+              <div className="min-w-0 flex-1"><RichContent value={modelRearrangeQuestionText(row.question, index)} /></div>
+            </li>
+          ))}
+        </ol>
+        <div className="grid w-full min-w-0 grid-cols-[repeat(auto-fit,minmax(min(100%,2.75rem),1fr))] gap-2" role="group" aria-label="Enter the correct letter sequence">
+          {slots.map((value, index) => (
+            <label key={index} className="flex w-full min-w-0 flex-col items-center gap-1">
+              <span className="text-xs text-muted-foreground">{index + 1}</span>
+              <Input
+                type="text"
+                value={value}
+                onChange={(event) => updateSlot(index, event.target.value)}
+                aria-label={`Answer position ${index + 1}`}
+                aria-invalid={Boolean(value && errors[index]) || undefined}
+                title={value && errors[index] ? errors[index] : undefined}
+                maxLength={maxLetterLength}
+                autoComplete="off"
+                autoCapitalize="none"
+                spellCheck={false}
+                className="h-11 w-full min-w-0 rounded-[6px] px-1 text-center font-medium lowercase"
+              />
+            </label>
           ))}
         </div>
-
+        {slots.some((value, index) => value && errors[index]) && mode !== "review" ? (
+          <p role="status" className="text-xs text-destructive">Use each question letter only once.</p>
+        ) : null}
+        <ResultBadge status={status} />
         {showCorrectOrder ? (
-          <div className="rounded-xl border border-dashed p-4">
-            <div className="mb-3 text-sm font-medium">Correct order</div>
-            <div className="space-y-3">
-              {rows.map((row, index) => (
-                <div key={row.id} className="flex items-start gap-3 rounded-lg bg-muted/30 p-3">
-                  <Badge variant="secondary" className="mt-1 shrink-0">
-                    {index + 1}
-                  </Badge>
-                  <div className="min-w-0 flex-1">
-                    <RichContent value={row.question} />
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="space-y-1 text-sm">
+            {hasKey ? <><span className="font-medium">Correct sequence: </span><span className="break-words text-primary">{correctLetters.join(" – ")}</span></> : <span className="text-muted-foreground">A valid answer key is not available for this question.</span>}
           </div>
         ) : null}
-
-        <ActionButtons
-          onCheck={() => {
-            const isCorrect =
-              orderedIds.length === rows.length && orderedIds.every((rowId, index) => rowId === rows[index]?.id);
-            setStatus(isCorrect ? "correct" : "incorrect");
-          }}
-          onReveal={() => setShowCorrectOrder(true)}
-        />
+        <ActionButtons onCheck={check} onReveal={() => setShowCorrectOrder(true)} />
       </CardContent>
     </Card>
+  );
+}
+
+// Two-column exam matching uses display labels, never the saved answer order.
+function matchingLabel(index: number, columnIndex: number): string {
+  let number = index + 1;
+  if (columnIndex === 0) {
+    let label = "";
+    while (number > 0) {
+      number--;
+      label = String.fromCharCode(97 + number % 26) + label;
+      number = Math.floor(number / 26);
+    }
+    return label;
+  }
+  let label = "";
+  for (const [value, symbol] of [[1000, "m"], [900, "cm"], [500, "d"], [400, "cd"], [100, "c"], [90, "xc"], [50, "l"], [40, "xl"], [10, "x"], [9, "ix"], [5, "v"], [4, "iv"], [1, "i"]] as const) {
+    while (number >= value) {
+      label += symbol;
+      number -= value;
+    }
+  }
+  return label;
+}
+
+function matchingPrefix(text: string, columnIndex: number) {
+  const match = text.match(/^\s*(?:\(([a-z]+)\)|([a-z]+)[.)])\s*/i);
+  const code = (match?.[1] || match?.[2] || "").toLowerCase();
+  // Single-letter labels are the normal Column A convention; Roman labels are
+  // accepted only if canonical, to avoid treating ordinary words as numbers.
+  const valid = columnIndex === 0 ? /^[a-z]$/.test(code) : /^(?=[mdclxvi]+$)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})$/.test(code);
+  return match && valid ? { code, text: text.slice(match[0].length).trim() } : null;
+}
+
+function matchingInputCode(text: string) {
+  return text.trim().toLowerCase().replace(/^\(/, "").replace(/[.)]$/, "").trim();
+}
+
+function matchingChoices(table: TableCompletionDocumentRecord, question: string) {
+  if (table.columns.length !== 2 || !table.rows.length || !table.answers.length) return null;
+  const alternatives = question.replace(/<br\s*\/?\s*>|<\/(?:p|div|li)>/gi, "\n")
+    .split("\n").map(stripHtml).filter(text => matchingPrefix(text, 1));
+  const raw = table.columns.map((column, columnIndex) => table.rows.map((row, rowIndex) => {
+    const cell = row.cells.find(item => item.columnId === column.id);
+    return { id: cell?.id || "", text: stripHtml(cell?.text || ""), legacyAnswer: cell?.answer || "", mode: cell?.mode, rowIndex };
+  }));
+  // Older imports stored the visible choices in the question and only the
+  // Roman answer code in Column B cells. Never display that private answer.
+  const legacy = alternatives.length === table.rows.length && raw[1].every(cell => cell.mode === "answer" && !cell.text);
+  if (legacy) raw[1] = raw[1].map((cell, index) => ({ ...cell, text: alternatives[index] }));
+  if (raw.some(column => column.some(cell => !cell.id || !cell.text))) return null;
+  const columns = raw.map((column, columnIndex) => {
+    const reserved = new Set(column.map(cell => matchingPrefix(cell.text, columnIndex)?.code).filter(Boolean));
+    const used = new Set<string>();
+    return column.map((cell, index) => {
+      const prefix = matchingPrefix(cell.text, columnIndex);
+      let code = prefix?.code || "";
+      if (!code || used.has(code)) {
+        let next = index;
+        code = matchingLabel(next, columnIndex);
+        while (reserved.has(code) || used.has(code)) code = matchingLabel(++next, columnIndex);
+      }
+      used.add(code);
+      return { ...cell, code, text: prefix?.text ?? cell.text };
+    });
+  });
+  return { columns, legacy };
+}
+
+type MatchingChoices = NonNullable<ReturnType<typeof matchingChoices>>;
+
+function matchingAnswerPairs(table: TableCompletionDocumentRecord, choices: MatchingChoices): string[][] {
+  const [left, right] = choices.columns;
+  if (choices.legacy) return left.flatMap((cell, index) => {
+    const code = matchingInputCode(right[index]?.legacyAnswer || "");
+    return right.some(option => option.code === code) ? [[cell.code, code]] : [];
+  });
+  return table.answers.flatMap(answer => {
+    const pair = table.columns.map((column, index) => choices.columns[index].find(cell => cell.id === answer.selections.find(selection => selection.columnId === column.id)?.cellId)?.code || "");
+    return pair.every(Boolean) ? [pair] : [];
+  });
+}
+
+function matchingResponseStatuses(responses: string[][], pairs: string[][]): CheckStatus[] {
+  const usedLeft = new Set<string>();
+  const usedRight = new Set<string>();
+  return responses.map(response => {
+    const [left, right] = response.map(matchingInputCode);
+    if (!left || !right) return "incorrect";
+    if (usedLeft.has(left) || usedRight.has(right) || !pairs.some(pair => pair[0] === left && pair[1] === right)) return "incorrect";
+    usedLeft.add(left);
+    usedRight.add(right);
+    return "correct";
+  });
+}
+
+/** Shared two-column question table for online and printable model papers. */
+export function ModelMatchingQuestionTable({ table, question }: { table: TableCompletionDocumentRecord; question: string }) {
+  const choices = matchingChoices(table, question);
+  if (!choices) return null;
+  return (
+    <table data-slot="model-matching-table" className="my-2 w-full table-fixed border-collapse text-left">
+      <thead><tr>{["Column A", "Column B"].map(label => <th key={label} scope="col" className="w-1/2 border bg-muted/30 p-2 font-semibold">{label}</th>)}</tr></thead>
+      <tbody>{choices.columns[0].map((cell, index) => <tr key={cell.id}>
+        {choices.columns.map((column, columnIndex) => <td key={columnIndex} className="border p-2 align-top [overflow-wrap:anywhere]">
+          <span className="flex items-baseline gap-1.5"><span className="shrink-0">{column[index].code})</span><span className="min-w-0">{column[index].text}</span></span>
+        </td>)}
+      </tr>)}</tbody>
+    </table>
+  );
+}
+
+export function hasModelMatchingQuestion(table: TableCompletionDocumentRecord, question: string) {
+  return matchingChoices(table, question) !== null;
+}
+
+function ModelMatchingExercise({ table, question, choices }: { table: TableCompletionDocumentRecord; question: string; choices: MatchingChoices }) {
+  const [responses, setResponses] = useState<Record<string, string[]>>({});
+  const [review, setReview] = useState(false);
+  const mode = useModelPaperReview(() => setReview(true));
+  const pairs = review ? matchingAnswerPairs(table, choices) : [];
+  const statuses = review ? matchingResponseStatuses(table.answers.map(answer => responses[answer.id] || ["", ""]), pairs) : [];
+  return (
+    <div className="min-w-0 space-y-3">
+      <ModelMatchingQuestionTable table={table} question={question} />
+      <div data-slot="model-matching-answers" role="group" aria-label="Matching answers, select a letter and Roman numeral" className="grid w-full min-w-0 grid-cols-2 gap-2" data-print-hide="true">
+        {table.answers.map((answer, rowIndex) => {
+          const status = statuses[rowIndex];
+          return <div key={answer.id} className="contents">
+            {[0, 1].map(columnIndex => <TableCompletionChoiceCombobox key={columnIndex}
+              options={choices.columns[columnIndex].map(cell => ({ id: cell.code, label: `${cell.code}) ${cell.text}` }))}
+              ariaLabel={`Answer ${rowIndex + 1}, Column ${columnIndex === 0 ? "A (letter)" : "B (Roman numeral)"}`}
+              placeholder={columnIndex === 0 ? "Column A" : "Column B"}
+              wrapOptions
+              value={responses[answer.id]?.[columnIndex] || ""} disabled={mode === "review"}
+              onChange={value => {
+                setResponses(current => {
+                  const next = [...(current[answer.id] || ["", ""])];
+                  next[columnIndex] = value;
+                  return { ...current, [answer.id]: next };
+                });
+              }}
+              className={cn("h-11 min-w-0 rounded-lg bg-background has-[[data-slot=input-group-control]:focus-visible]:border-primary has-[[data-slot=input-group-control]:focus-visible]:ring-0", review && status === "correct" && "border-primary", review && pairs.length > 0 && status === "incorrect" && "border-destructive")}
+            />)}
+          </div>;
+        })}
+      </div>
+      {review && <div className="text-sm" aria-label="Answer key">
+        {pairs.length ? <><span className="font-semibold">Answer key: </span>{pairs.map(pair => `${pair[0]}) – ${pair[1]})`).join(", ")}</> : "Answer key not configured."}
+      </div>}
+    </div>
   );
 }
 
@@ -891,15 +1002,21 @@ function TableCompletionBlock({
   instruction,
   details,
   table,
+  question = "",
 }: {
   title: string;
   instruction: string;
   details: string;
   table: TableCompletionDocumentRecord;
+  question?: string;
 }) {
   const [selections, setSelections] = useState<Record<string, Record<string, string>>>({});
   const [statusByAnswer, setStatusByAnswer] = useState<Record<string, CheckStatus>>({});
   const [showAnswers, setShowAnswers] = useState(false);
+
+  const paperMode = useContext(ModelPaperMode);
+  const choices = paperMode ? matchingChoices(table, question) : null;
+  if (choices) return <ModelMatchingExercise table={table} question={question} choices={choices} />;
 
   // Keep old per-cell Table Completion records working until they are edited
   // in the new Admin connection builder.
@@ -1236,12 +1353,14 @@ function QuestionAnswerRowsBlock({
   title,
   rows,
   details,
+  hideHeader = false,
   letteredItems = false,
   compactLetterLabels = false,
 }: {
   title: string;
   rows: Array<{ id: string; question: string; answer: string }>;
   details: string;
+  hideHeader?: boolean;
   letteredItems?: boolean;
   compactLetterLabels?: boolean;
 }) {
@@ -1256,10 +1375,10 @@ function QuestionAnswerRowsBlock({
 
   return (
     <Card className="rounded-xl">
-      <CardHeader className="space-y-3">
+      {!hideHeader && <CardHeader className="space-y-3">
         <CardTitle className="text-lg">{title}</CardTitle>
         {visibleDetails ? <CardDescription>{visibleDetails}</CardDescription> : null}
-      </CardHeader>
+      </CardHeader>}
       <CardContent className="space-y-4">
         {rows.map((row, index) => (
           <div key={row.id} className="rounded-xl border p-4">
@@ -1271,6 +1390,7 @@ function QuestionAnswerRowsBlock({
               <RichContent value={row.question} />
             </div>
             <AnswerField
+              aria-label={`${title}, answer ${index + 1}`}
               value={answers[row.id] || ""}
               onChange={(event) => {
                 setAnswers((current) => ({ ...current, [row.id]: event.target.value }));
@@ -1316,18 +1436,6 @@ function TagQuestionItemsBlock({
   const [statusByRow, setStatusByRow] = useState<Record<string, CheckStatus>>({});
   const [showAnswers, setShowAnswers] = useState(false);
 
-  function questionParts(value: string) {
-    const text = fillBlankQuestionToText(value);
-    const match = /_{2,}/.exec(text);
-    if (!match || match.index == null) {
-      return { before: text, after: "" };
-    }
-    return {
-      before: text.slice(0, match.index),
-      after: text.slice(match.index + match[0].length),
-    };
-  }
-
   return (
     <Card className="rounded-xl">
       <CardHeader className="space-y-3">
@@ -1336,7 +1444,6 @@ function TagQuestionItemsBlock({
       </CardHeader>
       <CardContent className="space-y-4">
         {rows.map((row, index) => {
-          const parts = questionParts(row.question);
           return (
             <div key={row.id} className="rounded-xl border p-4">
               <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
@@ -1344,8 +1451,12 @@ function TagQuestionItemsBlock({
                 <ResultBadge status={statusByRow[row.id] || "idle"} />
               </div>
 
-              <div className="rounded-xl border bg-muted/10 p-4 text-base leading-9 whitespace-pre-wrap">
-                <span>{parts.before}</span>
+              <RichQuestionWithAnswers
+                question={row.question}
+                count={1}
+                appendMissing
+                className="rounded-lg border border-border/60 bg-muted/10 p-3 sm:p-4"
+                renderAnswer={() => (
                 <span className="mx-1 inline-flex align-middle">
                   <Input
                     value={answers[row.id] || ""}
@@ -1362,8 +1473,8 @@ function TagQuestionItemsBlock({
                     )}
                   />
                 </span>
-                <span>{parts.after}</span>
-              </div>
+                )}
+              />
 
               {showAnswers ? (
                 <div className="mt-3 rounded-xl border border-dashed p-3">
@@ -1611,6 +1722,7 @@ function StudentBlockCard({
           instruction={block.questionAnswerExercise.instruction}
           details={block.questionAnswerExercise.details}
           table={block.questionAnswerExercise.table}
+          question={block.questionAnswerExercise.question}
         />
       );
     }
@@ -1639,6 +1751,7 @@ function StudentBlockCard({
           instruction={block.questionAnswerExercise.instruction}
           details={block.questionAnswerExercise.details}
           table={block.questionAnswerExercise.table}
+          question={block.questionAnswerExercise.question}
         />
       );
     }
@@ -1658,7 +1771,8 @@ function StudentBlockCard({
       <QuestionAnswerRowsBlock
         title={block.questionAnswerExercise.title || threeFieldBlockLabels[block.kind] || "Exercise"}
         rows={block.questionAnswerExercise.rows}
-        letteredItems={isPaper && block.kind === "question-answer"}
+        letteredItems={isPaper && ["question-answer", "question-from-poems", "question-from-story"].includes(block.kind)}
+        hideHeader={isPaper && block.kind === "writing-summary"}
         details={block.questionAnswerExercise.details || block.questionAnswerExercise.instruction}
       />
     ) : (
@@ -1666,6 +1780,7 @@ function StudentBlockCard({
         title={block.questionAnswerExercise.title || threeFieldBlockLabels[block.kind] || "Exercise"}
         question={block.questionAnswerExercise.question}
         answer={block.questionAnswerExercise.answer}
+        hideHeader={isPaper && block.kind === "writing-summary"}
         details={block.questionAnswerExercise.details || block.questionAnswerExercise.instruction}
       />
     );
@@ -1759,6 +1874,7 @@ function StudentBlockCard({
       <QuestionAnswerRowsBlock
         title="Changing Sentence"
         rows={block.changingSentence.rows}
+        letteredItems={isPaper}
         details={block.changingSentence.details}
       />
     );
@@ -1823,6 +1939,7 @@ function StudentBlockCard({
         question={threeFieldBlock.question}
         answer={threeFieldBlock.answer}
         details={threeFieldBlock.details}
+        compactQuestion={isPaper && block.kind === "punctuation-and-capitalization"}
         passage={block.kind === "gap-fill" ? resolvePassage(block.gapFill) : ""}
       />
     );

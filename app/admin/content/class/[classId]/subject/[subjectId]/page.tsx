@@ -1,3 +1,4 @@
+import { getAssignedBlockKinds } from "@/lib/admin/block-assignments";
 import { notFound } from "next/navigation";
 
 import { EnglishFirstPaperTypeGrid } from "@/components/app/EnglishFirstPaperTypeGrid";
@@ -31,6 +32,7 @@ export default async function AdminContentSubjectPage({
   });
 
   if (!subject) notFound();
+  const assignedKinds = await getAssignedBlockKinds(user.organizationId, classId, subjectId);
 
   if (isEnglishFirstPaperSubject(subject)) {
     return (
@@ -40,7 +42,7 @@ export default async function AdminContentSubjectPage({
           <p className="text-sm text-muted-foreground">Choose the English 1st Paper content type.</p>
         </div>
 
-        <EnglishFirstPaperTypeGrid classId={classId} subjectId={subjectId} />
+        <EnglishFirstPaperTypeGrid classId={classId} subjectId={subjectId} assignedKinds={assignedKinds} />
       </div>
     );
   }
@@ -53,7 +55,7 @@ export default async function AdminContentSubjectPage({
           <p className="text-sm text-muted-foreground">Choose the English 2nd Paper question type.</p>
         </div>
 
-        <EnglishSecondPaperTypeGrid classId={classId} subjectId={subjectId} />
+        <EnglishSecondPaperTypeGrid classId={classId} subjectId={subjectId} assignedKinds={assignedKinds} />
       </div>
     );
   }

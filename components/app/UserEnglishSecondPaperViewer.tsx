@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { sanitizeRichHtml } from "@/lib/sanitize-rich-html";
+import { RichQuestionWithAnswers } from "@/components/app/RichQuestionWithAnswers";
 import { UserSubstitutionTableGame } from "@/components/app/UserSubstitutionTableGame";
 
 export type SecondPaperStudentRecord = {
@@ -29,7 +30,7 @@ export type SecondPaperStudentRecord = {
 
 function Rich({ html }: { html?: string }) {
   if (!html?.trim()) return null;
-  return <div className="prose prose-sm max-w-none break-words leading-7 dark:prose-invert [&_table]:w-full [&_table]:overflow-x-auto" dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(html) }} />;
+  return <div className="prose prose-sm min-w-0 max-w-none overflow-x-auto break-words leading-7 dark:prose-invert [&_table]:w-full [&_table]:border-collapse [&_col]:!w-auto [&_td]:border [&_th]:border [&_td]:border-border [&_th]:border-border [&_td]:p-2 [&_th]:p-2 [&_td_p]:m-0 [&_th_p]:m-0 [&_img]:max-w-full [&_img]:h-auto [&_ul]:list-disc [&_ol]:list-decimal [&_li]:ml-5" dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(html) }} />;
 }
 
 function normalize(value: string) {
@@ -112,6 +113,7 @@ function InlineBlanks({
   onChange,
   checked,
   preview,
+  appendMissing = false,
 }: {
   question: string;
   answers: string[];
@@ -119,28 +121,27 @@ function InlineBlanks({
   onChange: (index: number, value: string) => void;
   checked: boolean;
   preview: boolean;
+  appendMissing?: boolean;
 }) {
-  const parts = htmlToPlainText(question).split(/_{2,}/g);
   return (
-    <div className="whitespace-pre-wrap break-words text-sm leading-[2.9] sm:text-[15px]">
-      {parts.map((part, index) => (
-        <span key={index}>
-          {part}
-          {index < parts.length - 1 ? (
-            <span className="mx-1.5 inline-flex max-w-full align-middle">
-              <Input
-                aria-label={`Blank ${index + 1}`}
-                value={values[index] || ""}
-                onChange={(event) => onChange(index, event.target.value)}
-                className={`inline-block h-10 w-32 min-w-0 rounded-lg text-center text-sm sm:w-40 ${checked ? normalize(values[index] || "") === normalize(answers[index] || "") ? "border-emerald-500 bg-emerald-50/40 dark:bg-emerald-950/20" : "border-rose-500 bg-rose-50/30 dark:bg-rose-950/20" : ""}`}
-                placeholder={`${index + 1}`}
-              />
-              {preview ? <span className="ml-1.5 self-center rounded-md bg-primary/10 px-2 py-1 text-xs font-medium leading-normal text-primary">{answers[index] || "—"}</span> : null}
-            </span>
-          ) : null}
+    <RichQuestionWithAnswers
+      question={question}
+      count={answers.length}
+      appendMissing={appendMissing}
+      className="text-sm sm:text-[15px]"
+      renderAnswer={(index) => (
+        <span className="mx-1 my-0.5 inline-flex max-w-full flex-wrap align-middle">
+          <Input
+            aria-label={`Blank ${index + 1}`}
+            value={values[index] || ""}
+            onChange={(event) => onChange(index, event.target.value)}
+            className={`h-9 w-24 min-w-0 max-w-full rounded-lg text-center text-sm sm:w-32 ${checked ? normalize(values[index] || "") === normalize(answers[index] || "") ? "border-emerald-500 bg-emerald-50/40 dark:bg-emerald-950/20" : "border-rose-500 bg-rose-50/30 dark:bg-rose-950/20" : ""}`}
+            placeholder={`${index + 1}`}
+          />
+          {preview ? <span className="ml-1.5 self-center rounded-md bg-primary/10 px-2 py-1 text-xs font-medium leading-normal text-primary">{answers[index] || "—"}</span> : null}
         </span>
-      ))}
-    </div>
+      )}
+    />
   );
 }
 
@@ -321,7 +322,7 @@ export function UserEnglishSecondPaperViewer({ kind, record }: { kind: EnglishSe
             <div className="space-y-3">{tagDocument.rows.map((row, index) => (
               <div key={row.id} className="rounded-xl border bg-muted/10 p-3">
                 <span className="mb-2 block text-xs text-muted-foreground">Question {index + 1}</span>
-                <InlineBlanks question={row.question} answers={[row.answer]} values={[values[index] || ""]} onChange={(_, value) => setAt(index, value)} checked={checked} preview={preview} />
+                <InlineBlanks appendMissing question={row.question} answers={[row.answer]} values={[values[index] || ""]} onChange={(_, value) => setAt(index, value)} checked={checked} preview={preview} />
               </div>
             ))}</div>
           )}

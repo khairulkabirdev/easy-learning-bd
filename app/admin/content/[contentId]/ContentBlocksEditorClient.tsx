@@ -61,7 +61,7 @@ import {
   updateSynonymsAntonymsEntry,
   updateSynonymsAntonymsPassage,
 } from "@/app/admin/content/actions";
-import { normalizeSynonymsAntonymsAnswerType } from "@/app/admin/content/content-types";
+import { BLOCK_CATALOG, normalizeSynonymsAntonymsAnswerType } from "@/app/admin/content/content-types";
 import type {
   ContentBlockKind,
   ContentRecordWithBlocks,
@@ -91,6 +91,8 @@ import {
   getFixedModelQuestionTitle,
   getFixedModelQuestionBlockTitle,
   type FixedModelQuestionLayout,
+  type ModelCategoryGroup,
+  type ModelCategoryId,
 } from "@/lib/model-question-fixed-blocks";
 import { suggestedClass67Mark, class67MarkingGuide } from "@/lib/model-question-marks";
 import { WritingSummaryEditor } from "@/components/admin/UnseenCompositionEditorClient";
@@ -920,84 +922,43 @@ function TagChipInput({
   );
 }
 
-const BLOCK_META: Array<{
-  kind: ContentBlockKind;
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-}> = [
-  { kind: "paragraph", title: "Paragraph", description: "Add a paragraph block.", icon: <BookText className="h-4 w-4" /> },
-  { kind: "seen-passage-one", title: "Passage", description: "Add a repeatable Seen Composition Passage block.", icon: <BookText className="h-4 w-4" /> },
-  { kind: "seen-passage-two", title: "Passage 2", description: "Add a repeatable Seen Composition Passage 2 block.", icon: <BookText className="h-4 w-4" /> },
-  { kind: "vocabulary", title: "Vocabulary", description: "Add vocabulary words and meanings.", icon: <SpellCheck2 className="h-4 w-4" /> },
-  { kind: "synonyms-antonyms", title: "Synonyms / Antonyms", description: "Add synonyms and antonyms rows.", icon: <Languages className="h-4 w-4" /> },
-  { kind: "gap-fill", title: "Gap Fill (Legacy)", description: "Legacy gap fill block.", icon: <FileQuestion className="h-4 w-4" /> },
-  { kind: "gap-fill-first-paper", title: "Fill in the Blanks", description: "Add question, answer, and details for English 1st paper.", icon: <FileQuestion className="h-4 w-4" /> },
-  { kind: "gap-fill-second-paper", title: "Gap Filling", description: "Create a Tiptap question with inline blanks and matching answers.", icon: <FileQuestion className="h-4 w-4" /> },
-  { kind: "mcq", title: "MCQ", description: "Add an MCQ section.", icon: <CheckSquare className="h-4 w-4" /> },
-  { kind: "true-false", title: "True / False", description: "Add a true/false exercise.", icon: <CheckSquare className="h-4 w-4" /> },
-  { kind: "writing-summary", title: "Summary", description: "Write an unseen-passage summary instruction and model answer.", icon: <FileText className="h-4 w-4" /> },
-  { kind: "question-answer", title: "Question Answer", description: "Add a passage and question-answer items.", icon: <Rows3 className="h-4 w-4" /> },
-  { kind: "table-completion", title: "Table Completion", description: "Add question, answer, and details.", icon: <Rows3 className="h-4 w-4" /> },
-  { kind: "column-matching", title: "Matching Sentences", description: "Build Column A / Column B and add Column C when needed.", icon: <FileSpreadsheet className="h-4 w-4" /> },
-  { kind: "rearrange-sentence", title: "Rearrange Sentence", description: "Add sentences one by one in the correct order for students to rearrange.", icon: <ListOrdered className="h-4 w-4" /> },
-  { kind: "question-from-poems", title: "Question from Poems", description: "Add a title and repeatable question-answer items without a passage field.", icon: <FileQuestion className="h-4 w-4" /> },
-  { kind: "question-from-story", title: "Question from Story", description: "Add a title and repeatable question-answer items without a passage field.", icon: <FileQuestion className="h-4 w-4" /> },
-  { kind: "information-transfer", title: "Information Transfer", description: "Create a Tiptap passage with inline transfer blanks and matching answers.", icon: <FileOutput className="h-4 w-4" /> },
-  { kind: "substitution-table", title: "Substitution Table", description: "Build columns of sentence parts and define meaningful sentence combinations.", icon: <FileText className="h-4 w-4" /> },
-  { kind: "right-form-of-verb", title: "Right Form of Verb", description: "Create a Tiptap question with inline verb blanks and matching answers.", icon: <FileText className="h-4 w-4" /> },
-  { kind: "narration", title: "Narration", description: "Add question, answer, and details.", icon: <FileText className="h-4 w-4" /> },
-  { kind: "changing-sentence", title: "Changing Sentence", description: "Add each changing-sentence question with its own answer.", icon: <FileText className="h-4 w-4" /> },
-  { kind: "punctuation-and-capitalization", title: "Punctuation and Capitalization", description: "Add question, answer, and details.", icon: <FileText className="h-4 w-4" /> },
-  { kind: "preposition", title: "Preposition", description: "Create a Tiptap question with inline preposition blanks and matching answers.", icon: <FileText className="h-4 w-4" /> },
-  { kind: "parts-of-speech", title: "Parts of Speech", description: "Underline target words and enter their grammatical classes.", icon: <FileText className="h-4 w-4" /> },
-  { kind: "suffix-and-prefix", title: "Suffix and Prefix", description: "Add question, answer, and details.", icon: <FileText className="h-4 w-4" /> },
-  { kind: "tag-question", title: "Tag Question", description: "Add question, answer, and details.", icon: <FileText className="h-4 w-4" /> },
-  { kind: "connector", title: "Connector", description: "Create a Tiptap question with inline connector blanks and matching answers.", icon: <FileText className="h-4 w-4" /> },
-];
+const BLOCK_ICONS: Record<ContentBlockKind, React.ReactNode> = {
+  "paragraph": <BookText className="h-4 w-4" />,
+  "seen-passage-one": <BookText className="h-4 w-4" />,
+  "seen-passage-two": <BookText className="h-4 w-4" />,
+  "vocabulary": <SpellCheck2 className="h-4 w-4" />,
+  "synonyms-antonyms": <Languages className="h-4 w-4" />,
+  "gap-fill": <FileQuestion className="h-4 w-4" />,
+  "gap-fill-first-paper": <FileQuestion className="h-4 w-4" />,
+  "gap-fill-second-paper": <FileQuestion className="h-4 w-4" />,
+  "mcq": <CheckSquare className="h-4 w-4" />,
+  "true-false": <CheckSquare className="h-4 w-4" />,
+  "writing-summary": <FileText className="h-4 w-4" />,
+  "question-answer": <Rows3 className="h-4 w-4" />,
+  "table-completion": <Rows3 className="h-4 w-4" />,
+  "column-matching": <FileSpreadsheet className="h-4 w-4" />,
+  "rearrange-sentence": <ListOrdered className="h-4 w-4" />,
+  "question-from-poems": <FileQuestion className="h-4 w-4" />,
+  "question-from-story": <FileQuestion className="h-4 w-4" />,
+  "information-transfer": <FileOutput className="h-4 w-4" />,
+  "substitution-table": <FileText className="h-4 w-4" />,
+  "right-form-of-verb": <FileText className="h-4 w-4" />,
+  "narration": <FileText className="h-4 w-4" />,
+  "changing-sentence": <FileText className="h-4 w-4" />,
+  "punctuation-and-capitalization": <FileText className="h-4 w-4" />,
+  "preposition": <FileText className="h-4 w-4" />,
+  "parts-of-speech": <FileText className="h-4 w-4" />,
+  "suffix-and-prefix": <FileText className="h-4 w-4" />,
+  "tag-question": <FileText className="h-4 w-4" />,
+  "connector": <FileText className="h-4 w-4" />,
+};
+const BLOCK_META = BLOCK_CATALOG.filter((item): item is typeof item & { kind: ContentBlockKind } => item.kind !== "unseen-composition")
+  .map(item => ({ ...item, icon: BLOCK_ICONS[item.kind] }));
 
 const BLOCK_META_BY_KIND = Object.fromEntries(BLOCK_META.map((item) => [item.kind, item])) as Record<
   ContentBlockKind,
   (typeof BLOCK_META)[number]
 >;
-
-/**
- * Question-paper menu categories. The kind identifiers are the exact native
- * ContentBlockKind values, so every choice calls the EXISTING createContentBlock
- * action and renders the EXISTING specialized editor (not a cloned editor).
- */
-const MODEL_QUESTION_BLOCK_GROUPS: Array<{
-  title: string;
-  description: string;
-  sections: Array<{ title: string; kinds: ContentBlockKind[] }>;
-}> = [
-  {
-    title: "Seen — Reading Passage",
-    description: "Separate passage sources and the questions based on each passage.",
-    sections: [
-      { title: "Passage 1", kinds: ["seen-passage-one", "mcq", "question-answer"] },
-      { title: "Passage 2", kinds: ["seen-passage-two", "information-transfer", "true-false"] },
-    ],
-  },
-  {
-    title: "Reading — Other Questions",
-    description: "Use the already implemented first-paper exercise editors.",
-    sections: [
-      { title: "Fill in the Blanks", kinds: ["gap-fill-first-paper"] },
-      { title: "Tables & Matching", kinds: ["table-completion", "column-matching"] },
-      { title: "Literature & Writing", kinds: ["question-from-poems", "question-from-story", "rearrange-sentence", "synonyms-antonyms"] },
-    ],
-  },
-  {
-    title: "English 2nd Paper — Grammar",
-    description: "Select the grammar question type for this paper.",
-    sections: [
-      { title: "Gap Filling & Sentence Building", kinds: ["gap-fill-second-paper", "substitution-table", "right-form-of-verb"] },
-      { title: "Transformation & Editing", kinds: ["narration", "changing-sentence", "punctuation-and-capitalization"] },
-      { title: "Grammar Practice", kinds: ["preposition", "suffix-and-prefix", "tag-question", "connector"] },
-    ],
-  },
-];
 
 const ENGLISH_FIRST_PAPER_KINDS: ContentBlockKind[] = [
   "paragraph",
@@ -1254,17 +1215,23 @@ function getBlockIcon(kind: ContentBlockKind) {
 export function ContentBlocksEditorClient({
   content,
   allowedBlockKindsOverride,
+  assignedBlockKinds,
   blockTitleOverrides,
   chooserGroupMode,
   fixedModelQuestionLayout = null,
+  modelCategoryGroups,
+  activeModelCategories,
   initialChooserOpen = false,
   clearInitialAddBlockParam = false,
 }: {
   content: ContentRecordWithBlocks;
   allowedBlockKindsOverride?: ContentBlockKind[];
+  assignedBlockKinds?: ContentBlockKind[] | null;
   blockTitleOverrides?: Partial<Record<ContentBlockKind, string>>;
   chooserGroupMode?: "model-question";
   fixedModelQuestionLayout?: FixedModelQuestionLayout | null;
+  modelCategoryGroups?: ModelCategoryGroup[];
+  activeModelCategories?: ModelCategoryId[];
   initialChooserOpen?: boolean;
   clearInitialAddBlockParam?: boolean;
 }) {
@@ -1275,15 +1242,11 @@ export function ContentBlocksEditorClient({
   );
   const fixedSlotByKind = useMemo(() => new Map(fixedSlots.map((slot) => [slot.kind, slot])), [fixedSlots]);
   const fixedGroups = fixedModelQuestionLayout ? getFixedModelQuestionGroups(fixedModelQuestionLayout) : [];
-  const modelQuestionGroups = fixedModelQuestionLayout
-    ? fixedGroups.map(({ title, description, slots }) => ({
-        title, description, sections: [{ title: "", kinds: slots.map((slot) => slot.kind) }],
-      }))
-    : MODEL_QUESTION_BLOCK_GROUPS;
+  const modelQuestionGroups = (modelCategoryGroups ?? fixedGroups).filter(group => !("id" in group) || activeModelCategories == null || activeModelCategories.includes(group.id as ModelCategoryId)).map(({ title, description, slots }) => ({ title, description, sections: [{ title: "", kinds: slots.map(slot => slot.kind) }] }));
   const fixedLayoutName = fixedModelQuestionLayout ? getFixedModelQuestionTitle(fixedModelQuestionLayout) : "";
   const fixedTitle = (kind: ContentBlockKind) => fixedModelQuestionLayout
     ? getFixedModelQuestionBlockTitle(fixedModelQuestionLayout, kind)
-    : undefined;
+    : modelCategoryGroups?.some(group => group.id === "seen" && group.slots.some(slot => slot.kind === kind)) && kind === "seen-passage-one" ? "Seen Passage" : kind === "paragraph" && chooserGroupMode === "model-question" ? "Unseen Passage" : undefined;
   const [blocks, setBlocks] = useState<BlockDraft[]>(content.blocks);
   const [createdKindsSinceRefresh, setCreatedKindsSinceRefresh] = useState<ContentBlockKind[]>([]);
   const creatingKindsRef = useRef(new Set<ContentBlockKind>());
@@ -1378,9 +1341,7 @@ export function ContentBlocksEditorClient({
   // Sort and filter the editor view only. Never rewrite saved blocks or their sort order.
   const visibleBlocks = useMemo(() => {
     if (fixedModelQuestionLayout) {
-      const paperBlocks = fixedModelQuestionLayout === "class-8-second-paper"
-        ? blocks.filter(({ kind }) => fixedSlotByKind.has(kind))
-        : [...blocks];
+      const paperBlocks = [...blocks];
       return paperBlocks.sort((a, b) => {
         const aPosition = fixedSlots.findIndex((slot) => slot.kind === a.kind);
         const bPosition = fixedSlots.findIndex((slot) => slot.kind === b.kind);
@@ -1408,12 +1369,14 @@ export function ContentBlocksEditorClient({
     new Set<ContentBlockKind>([...blocks.map((block) => block.kind), ...createdKindsSinceRefresh]),
     [blocks, createdKindsSinceRefresh],
   );
-  const allFixedPaperKindsUsed = fixedModelQuestionLayout !== null &&
-    fixedSlots.every(({ kind }) => occupiedPaperKinds.has(kind));
+  const assignedFixedSlots = fixedSlots.filter(({ kind }) => assignedBlockKinds == null || assignedBlockKinds.includes(kind));
+  const allFixedPaperKindsUsed = fixedModelQuestionLayout !== null && assignedFixedSlots.length > 0 &&
+    assignedFixedSlots.every(({ kind }) => occupiedPaperKinds.has(kind));
   const visibleBlockChooser = useMemo(
-    () => (allowedBlockKinds ? BLOCK_META.filter((item) => allowedBlockKinds.has(item.kind)) : BLOCK_META),
-    [allowedBlockKinds],
+    () => BLOCK_META.filter(item => (!allowedBlockKinds || allowedBlockKinds.has(item.kind)) && (assignedBlockKinds == null || assignedBlockKinds.includes(item.kind))),
+    [allowedBlockKinds, assignedBlockKinds],
   );
+  const noAssignedPaperKinds = chooserGroupMode === "model-question" && visibleBlockChooser.length === 0;
   const isSeenCompositionMode = chooserGroupMode !== "model-question" &&
     allowedBlockKindsOverride?.includes("seen-passage-one") === true;
   const paragraphBlocks = useMemo(
@@ -1440,11 +1403,11 @@ export function ContentBlocksEditorClient({
   const fixedPassageMissing = (kind: ContentBlockKind): string | null => {
     const parentKind = fixedSlotByKind.get(kind)?.parent;
     return parentKind && !occupiedPaperKinds.has(parentKind)
-      ? FIXED_BLOCK_LABELS[parentKind] ?? null : null;
+      ? (fixedTitle(parentKind) ?? FIXED_BLOCK_LABELS[parentKind]) ?? null : null;
   };
   const fixedParentLabel = (kind: ContentBlockKind) => {
     const parent = fixedSlotByKind.get(kind)?.parent;
-    return parent ? FIXED_BLOCK_LABELS[parent] : undefined;
+    return parent ? fixedTitle(parent) ?? FIXED_BLOCK_LABELS[parent] : undefined;
   };
   const fixedSlotBadge = (kind: ContentBlockKind, prefix = "") => {
     const number = fixedSlotByKind.get(kind)?.number;
@@ -1453,7 +1416,7 @@ export function ContentBlocksEditorClient({
   const displayBlockTitleForBlock = (block: BlockDraft) => {
     if (chooserGroupMode === "model-question" && block.title?.trim()) return block.title.trim();
     const overriddenTitle = blockTitleOverrides?.[block.kind] ??
-      (fixedSlotByKind.has(block.kind) ? fixedTitle(block.kind) : undefined);
+      (chooserGroupMode === "model-question" ? fixedTitle(block.kind) : undefined);
     if (overriddenTitle) return overriddenTitle;
     if (block.kind === "seen-passage-one") return "Passage";
     if (block.kind === "seen-passage-two") return "Passage 2";
@@ -1463,18 +1426,18 @@ export function ContentBlocksEditorClient({
     () => {
       const seenOptions = seenPassageBlocks.map((block) => ({
         id: block.id,
-        label: `${block.kind === "seen-passage-one" ? "Passage 1" : "Passage 2"} — ${paragraphPreview(
+        label: `${block.kind === "seen-passage-one" ? (modelCategoryGroups?.some(group => group.id === "seen") ? "Seen Passage" : "Passage 1") : "Passage 2"} — ${paragraphPreview(
           block.kind === "seen-passage-one" ? block.seenPassageOne?.body || "" : block.seenPassageTwo?.body || ""
         )}`,
       }));
       const paragraphOptions = paragraphBlocks.map((block, index) => ({
         id: block.id,
-        label: `${fixedModelQuestionLayout ? "Unseen Passage" : `Paragraph ${index + 1}`} — ${paragraphPreview(block.paragraph!.body)}`,
+        label: `${chooserGroupMode === "model-question" ? "Unseen Passage" : `Paragraph ${index + 1}`} — ${paragraphPreview(block.paragraph!.body)}`,
       }));
-      return fixedModelQuestionLayout ? [...seenOptions, ...paragraphOptions]
+      return chooserGroupMode === "model-question" ? [...seenOptions, ...paragraphOptions]
         : isSeenCompositionMode ? seenOptions : paragraphOptions;
     },
-    [paragraphBlocks, seenPassageBlocks, isSeenCompositionMode, fixedModelQuestionLayout],
+    [paragraphBlocks, seenPassageBlocks, isSeenCompositionMode, chooserGroupMode, modelCategoryGroups],
   );
 
   const pathLabel = useMemo(() => {
@@ -1691,6 +1654,10 @@ export function ContentBlocksEditorClient({
   }
 
   async function handleAddBlock(kind: ContentBlockKind) {
+    if (assignedBlockKinds != null && !assignedBlockKinds.includes(kind)) {
+      setActionError("This block is not assigned to this class and subject. Open Block Manager to change assignments.");
+      return;
+    }
     if (fixedModelQuestionLayout) {
       if (!fixedSlotByKind.has(kind)) {
         setActionError("This question type is not part of the fixed model question layout for this class and subject.");
@@ -4285,13 +4252,14 @@ export function ContentBlocksEditorClient({
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            {fixedGroups.map((group) => (
+            {fixedGroups.filter(group => group.slots.some(({ kind }) => occupiedPaperKinds.has(kind) || assignedBlockKinds == null || assignedBlockKinds.includes(kind))).map((group) => (
               <section key={group.title} className="space-y-3">
                 <h3 className="border-b pb-2 text-sm font-semibold">{group.title}</h3>
                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  {group.slots.map(({ kind }) => {
+                  {group.slots.filter(({ kind }) => occupiedPaperKinds.has(kind) || assignedBlockKinds == null || assignedBlockKinds.includes(kind)).map(({ kind }) => {
                     const exists = occupiedPaperKinds.has(kind);
                     const missingParent = fixedPassageMissing(kind);
+                    const unassigned = assignedBlockKinds != null && !assignedBlockKinds.includes(kind);
                     const name = fixedTitle(kind) ?? getBlockTitle(kind);
                     return (
                       <div key={kind} className="flex flex-col justify-between gap-3 rounded-xl border p-4">
@@ -4301,9 +4269,9 @@ export function ContentBlocksEditorClient({
                           <Badge variant="outline">{fixedSlotBadge(kind)}</Badge>
                         </div>
                         <Button type="button" className="w-full" variant={exists ? "outline" : "default"}
-                          disabled={exists || Boolean(missingParent) || isPending || creatingKind !== null}
+                          disabled={exists || unassigned || Boolean(missingParent) || isPending || creatingKind !== null}
                           onClick={() => void handleAddBlock(kind)}>
-                          {exists ? "Added · Edit below" : missingParent ? `Add ${missingParent} first` : creatingKind === kind ? "Adding..." : `Add ${name}`}
+                          {exists ? "Added · Edit below" : unassigned ? "Not assigned" : missingParent ? `Add ${missingParent} first` : creatingKind === kind ? "Adding..." : `Add ${name}`}
                         </Button>
                       </div>
                     );
@@ -4341,11 +4309,7 @@ export function ContentBlocksEditorClient({
                 })()}
               </div>
             ) : null}
-            {fixedModelQuestionLayout === "class-8-second-paper" && visibleBlocks.length < blocks.length ? (
-              <p className="text-sm text-muted-foreground">
-                Previously saved blocks outside this Class 8 layout are hidden. They have not been deleted.
-              </p>
-            ) : null}
+
             {[...existingKindCounts.entries()].some(([kind, count]) => count > 1 && fixedSlotByKind.has(kind)) ? (
               <p className="text-sm text-amber-700 dark:text-amber-400">
                 Some section types were previously added more than once. All existing copies are preserved below;
@@ -4357,9 +4321,9 @@ export function ContentBlocksEditorClient({
       ) : null}
 
       <div className="flex justify-end">
-        <Button type="button" onClick={() => setIsChooserOpen(true)} disabled={isPending || allFixedPaperKindsUsed}>
+        <Button type="button" onClick={() => setIsChooserOpen(true)} disabled={isPending || allFixedPaperKindsUsed || noAssignedPaperKinds}>
           <Plus className="mr-2 h-4 w-4" />
-          {allFixedPaperKindsUsed ? "All paper blocks added" : "Add block"}
+          {noAssignedPaperKinds ? "No assigned question blocks" : allFixedPaperKindsUsed ? "All assigned blocks added" : "Add block"}
         </Button>
       </div>
 
@@ -4367,10 +4331,10 @@ export function ContentBlocksEditorClient({
         <Empty>
           <EmptyHeader>
             <EmptyTitle>No blocks yet</EmptyTitle>
-            <EmptyDescription>Add the first content block for this lesson path.</EmptyDescription>
+            <EmptyDescription>{noAssignedPaperKinds ? "Enable categories and blocks in Block Manager before adding questions." : "Add the first content block for this lesson path."}</EmptyDescription>
           </EmptyHeader>
           <EmptyContent>
-            <Button type="button" onClick={() => setIsChooserOpen(true)}>
+            <Button type="button" disabled={noAssignedPaperKinds} onClick={() => setIsChooserOpen(true)}>
               Add block
             </Button>
           </EmptyContent>
@@ -7560,6 +7524,7 @@ export function ContentBlocksEditorClient({
         className="sm:max-w-6xl"
       >
         <ScrollArea className="max-h-[70vh] pr-4">
+          {visibleBlockChooser.length === 0 ? <p className="p-4 text-sm text-muted-foreground">No blocks are available for this editor. Check Block Manager and the existing subject or exam layout.</p> : null}
           {chooserGroupMode === "model-question" ? (
             <div className="space-y-7">
               {fixedModelQuestionLayout ? (
@@ -7596,7 +7561,7 @@ export function ContentBlocksEditorClient({
                                 </div>
                                 <div className="flex flex-wrap items-center justify-between gap-2">
                                   <CardTitle className="text-sm">
-                                    {fixedModelQuestionLayout ? fixedTitle(item.kind) ?? item.title : item.title}
+                                    {fixedTitle(item.kind) ?? item.title}
                                   </CardTitle>
                                   {fixedModelQuestionLayout ? (
                                     <Badge variant="outline">{fixedSlotBadge(item.kind)}</Badge>
@@ -7617,7 +7582,7 @@ export function ContentBlocksEditorClient({
                                     ? "Already added"
                                     : fixedModelQuestionLayout && fixedPassageMissing(item.kind)
                                       ? `Add ${fixedPassageMissing(item.kind)} first`
-                                      : `Use ${fixedModelQuestionLayout ? fixedTitle(item.kind) ?? item.title : item.title}`}
+                                      : `Use ${fixedTitle(item.kind) ?? item.title}`}
                                 </Button>
                               </CardContent>
                             </Card>

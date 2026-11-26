@@ -56,3 +56,41 @@ export async function saveEmailSettingsAction(
   revalidatePath("/admin/settings");
   return { error: "", success: "Email settings saved." };
 }
+
+export type DatabaseCleanupActionState = {
+  error: string;
+  success: string;
+};
+
+export async function clearContentTablesAction(
+  _: DatabaseCleanupActionState,
+  formData: FormData,
+): Promise<DatabaseCleanupActionState> {
+  await assertTrustedMutationOrigin();
+  const user = await requireAdmin();
+  const { CLEANUP_CONFIRMATION, CleanupError, clearDatabaseContent } = await import("@/lib/admin/database-cleanup");
+  const token = formData.get("previewToken");
+  if (formData.get("confirmation") !== CLEANUP_CONFIRMATION || typeof token !== "string" || !/^[a-f0-9]{64}$/.test(token)) {
+    return { error: "Review the table preview and type CLEAR CONTENT to confirm.", success: "" };
+  }
+  let result: Awaited<ReturnType<typeof clearDatabaseContent>>;
+  try {
+    result = await clearDatabaseContent({
+      organizationId: user.organizationId,
+      userId: user.id,
+      userName: user.name,
+      token,
+      includeTopics: formData.get("includeTopics") === "yes",
+    });
+  } catch (error) {
+    console.error("Database cleanup failed", error);
+    return { error: error instanceof CleanupError ? error.message : "Cleanup did not commit. Check the server log and refresh the preview.", success: "" };
+  }
+  revalidatePath("/admin", "layout");
+  revalidatePath("/user", "layout");
+  revalidatePath("/teacher", "layout");
+  return {
+    error: "",
+    success: result.deleted ? `${result.deleted} records removed. Backup saved on the server: ${result.backup}.` : "The selected content tables are already empty.",
+  };
+}

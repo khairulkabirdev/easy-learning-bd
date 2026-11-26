@@ -107,6 +107,8 @@ model AuditLog {
 }
 
 model Class {
+  blockKindsJson String? // null inherits; [] explicitly disables all new blocks
+  modelCategoryIdsJson String? // null inherits model-paper categories; [] disables them
   id             String        @id @default(cuid())
   name           String
   slug           String        @unique
@@ -137,6 +139,8 @@ model Class {
 }
 
 model Subject {
+  blockKindsJson String? // null inherits; [] explicitly disables all new blocks
+  modelCategoryIdsJson String? // null inherits model-paper categories; [] disables them
   id             String        @id @default(cuid())
   classId        String
   name           String
@@ -1308,6 +1312,7 @@ model ModelQuestionSet {
   academicYearId String?
   name           String
   editorContentId String? @unique
+  durationMinutes Int?
   publishedAt     DateTime?
   organizationId String
   createdBy      String

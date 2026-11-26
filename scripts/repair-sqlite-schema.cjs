@@ -742,6 +742,10 @@ async function ensureModelQuestionImportTable() {
 }
 
 async function main() {
+  await ensureColumn("Class", "blockKindsJson", "TEXT");
+  await ensureColumn("Subject", "blockKindsJson", "TEXT");
+  await ensureColumn("Class", "modelCategoryIdsJson", "TEXT");
+  await ensureColumn("Subject", "modelCategoryIdsJson", "TEXT");
   await ensureContentPathIndex();
   await ensureBoardAndYearTables();
   await ensureEnglishFirstPaperSectionTables();
@@ -833,6 +837,7 @@ async function main() {
   await ensureModelQuestionSetTables();
   await ensureColumn("ModelQuestionSet", "editorContentId", "TEXT");
   await ensureColumn("ModelQuestionSet", "publishedAt", "DATETIME");
+  await ensureColumn("ModelQuestionSet", "durationMinutes", "INTEGER");
   await prisma.$executeRawUnsafe('CREATE INDEX IF NOT EXISTS "ModelQuestionSet_organizationId_classId_subjectId_publishedAt_idx" ON "ModelQuestionSet"("organizationId", "classId", "subjectId", "publishedAt")');
   await prisma.$executeRawUnsafe('CREATE UNIQUE INDEX IF NOT EXISTS "ModelQuestionSet_editorContentId_key" ON "ModelQuestionSet"("editorContentId")');
   const partsSql = fs.readFileSync(path.join(__dirname, "../prisma/add-model-question-parts-of-speech.sql"), "utf8");

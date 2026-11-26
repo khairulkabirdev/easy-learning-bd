@@ -129,16 +129,25 @@ function TableInsertPopover({
   onInsert,
   isActive,
 }: {
-  onInsert: (rows: number, cols: number) => void
+  onInsert: (rows: number, cols: number, withHeaderRow: boolean) => void
   isActive: boolean
 }) {
   const [open, setOpen] = useState(false)
   const [rows, setRows] = useState(1)
   const [cols, setCols] = useState(1)
+  const [withHeaderRow, setWithHeaderRow] = useState(false)
   const triggerRef = useRef<HTMLButtonElement | null>(null)
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover
+      open={open}
+      onOpenChange={(nextOpen) => {
+        if (nextOpen) {
+          setWithHeaderRow(false)
+        }
+        setOpen(nextOpen)
+      }}
+    >
       <PopoverTrigger asChild>
         <Button
           ref={triggerRef}
@@ -156,6 +165,16 @@ function TableInsertPopover({
         sideOffset={8}
         className="simple-editor-table-picker"
       >
+        <Button
+          type="button"
+          variant="check"
+          aria-checked={withHeaderRow}
+          onClick={() => setWithHeaderRow((current) => !current)}
+          className="simple-editor-table-header-option"
+        >
+          <TableHeaderRowIcon className="tiptap-button-icon" />
+          <span className="tiptap-button-text">Header row</span>
+        </Button>
         <div
           className="simple-editor-table-picker-grid"
           onMouseLeave={() => {
@@ -188,9 +207,9 @@ function TableInsertPopover({
                   onClick={() => {
                     setOpen(false)
                     triggerRef.current?.blur()
-                    onInsert(cellRow, cellCol)
+                    onInsert(cellRow, cellCol, withHeaderRow)
                   }}
-                  aria-label={`Insert ${cellRow} by ${cellCol} table`}
+                  aria-label={`Insert ${cellRow} by ${cellCol} table ${withHeaderRow ? "with" : "without"} a header row`}
                 />
               )
             }
@@ -351,9 +370,10 @@ function TableFloatingToolbar({
           type="button"
           variant="ghost"
           aria-label="Toggle header row"
-          tooltip="Toggle header row"
+          tooltip="Convert the first row between header and normal cells"
           disabled={!can.toggleHeaderRow()}
-          onMouseDown={handleAction(() => editor.commands.toggleHeaderRow())}
+          onMouseDown={(event) => event.preventDefault()}
+          onClick={() => editor.chain().focus().toggleHeaderRow().run()}
         >
           <TableHeaderRowIcon className="tiptap-button-icon" />
         </Button>
@@ -361,11 +381,23 @@ function TableFloatingToolbar({
           type="button"
           variant="ghost"
           aria-label="Toggle header column"
-          tooltip="Toggle header column"
+          tooltip="Convert the first column between header and normal cells"
           disabled={!can.toggleHeaderColumn()}
-          onMouseDown={handleAction(() => editor.commands.toggleHeaderColumn())}
+          onMouseDown={(event) => event.preventDefault()}
+          onClick={() => editor.chain().focus().toggleHeaderColumn().run()}
         >
           <TableHeaderColumnIcon className="tiptap-button-icon" />
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          aria-label="Toggle header cell (TH / TD)"
+          tooltip="Convert selected cells between header (TH) and normal (TD)"
+          disabled={!can.toggleHeaderCell()}
+          onMouseDown={(event) => event.preventDefault()}
+          onClick={() => editor.chain().focus().toggleHeaderCell().run()}
+        >
+          <span className="simple-editor-table-cell-type">TH/TD</span>
         </Button>
       </ToolbarGroup>
 
@@ -403,7 +435,7 @@ const MainToolbarContent = ({
   isSearchAndReplaceOpen: boolean
   searchAndReplaceButtonRef: React.RefObject<HTMLButtonElement | null>
   isMobile: boolean
-  onInsertTable: (rows: number, cols: number) => void
+  onInsertTable: (rows: number, cols: number, withHeaderRow: boolean) => void
   isTableActive: boolean
 }) => {
   return (
@@ -763,12 +795,12 @@ export function SimpleEditor({
     openSearchAndReplace()
   }, [closeSearchAndReplace, isSearchAndReplaceOpen, openSearchAndReplace])
 
-  const handleInsertTable = useCallback((rows: number, cols: number) => {
+  const handleInsertTable = useCallback((rows: number, cols: number, withHeaderRow = false) => {
     if (!editor || !editor.isEditable) return
     editor
       .chain()
       .focus()
-      .insertTable({ rows, cols, withHeaderRow: true })
+      .insertTable({ rows, cols, withHeaderRow })
       .run()
   }, [editor])
 

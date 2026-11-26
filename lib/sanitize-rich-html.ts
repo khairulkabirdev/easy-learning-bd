@@ -1,10 +1,10 @@
 const ALLOWED_TAGS = new Set([
   "p", "br", "strong", "b", "em", "i", "u", "s", "strike", "blockquote", "pre", "code",
   "ul", "ol", "li", "h1", "h2", "h3", "h4", "h5", "h6", "table", "thead", "tbody", "tfoot",
-  "tr", "th", "td", "a", "span", "div", "hr", "sup", "sub", "img",
+  "tr", "th", "td", "colgroup", "col", "a", "span", "div", "hr", "sup", "sub", "img", "mark",
 ]);
 
-const VOID_TAGS = new Set(["br", "hr", "img"]);
+const VOID_TAGS = new Set(["br", "hr", "img", "col"]);
 const DROP_CONTENT_TAGS = new Set(["script", "style", "iframe", "object", "embed", "svg", "math", "template"]);
 const GLOBAL_ALLOWED_ATTRIBUTES = new Set(["class"]);
 const TAG_ALLOWED_ATTRIBUTES: Record<string, Set<string>> = {
@@ -12,6 +12,9 @@ const TAG_ALLOWED_ATTRIBUTES: Record<string, Set<string>> = {
   img: new Set(["src", "alt", "title", "width", "height"]),
   th: new Set(["colspan", "rowspan", "scope"]),
   td: new Set(["colspan", "rowspan"]),
+  col: new Set(["span", "width"]),
+  colgroup: new Set(["span"]),
+  ol: new Set(["start"]),
 };
 
 function escapeAttribute(value: string) {
@@ -41,7 +44,7 @@ function isSafeUrl(value: string, tag: string, attribute: string) {
   }
 }
 
-function sanitizeStyle(value: string) {
+function sanitizeStyle(value: string, tag: string) {
   const safe: string[] = [];
   for (const declaration of value.split(";")) {
     const [rawProperty, ...rawValue] = declaration.split(":");
@@ -49,6 +52,11 @@ function sanitizeStyle(value: string) {
     const cssValue = rawValue.join(":").trim().toLowerCase();
     if (property === "text-align" && ["left", "center", "right", "justify"].includes(cssValue)) {
       safe.push(`text-align:${cssValue}`);
+    } else if (tag === "mark" && property === "background-color" &&
+      /^(?:#[0-9a-f]{3,8}|rgba?\(\s*[0-9.,%\s]+\))$/i.test(cssValue)) {
+      safe.push(`background-color:${cssValue}`);
+    } else if (tag === "col" && property === "width" && /^\d{1,4}(?:\.\d+)?(?:px|%)$/.test(cssValue)) {
+      safe.push(`width:${cssValue}`);
     }
   }
   return safe.join(";");
@@ -66,7 +74,7 @@ function parseAttributes(raw: string, tag: string) {
     if (name.startsWith("on")) continue;
 
     if (name === "style") {
-      const style = sanitizeStyle(value);
+      const style = sanitizeStyle(value, tag);
       if (style) output.push(`style="${escapeAttribute(style)}"`);
       continue;
     }
@@ -76,7 +84,7 @@ function parseAttributes(raw: string, tag: string) {
 
     if ((name === "href" || name === "src") && !isSafeUrl(value, tag, name)) continue;
 
-    if ((name === "colspan" || name === "rowspan" || name === "width" || name === "height") && !/^\d{1,4}$/.test(value)) {
+    if ((name === "colspan" || name === "rowspan" || name === "width" || name === "height" || name === "span" || name === "start") && !/^\d{1,4}$/.test(value)) {
       continue;
     }
 
@@ -164,4 +172,47 @@ export function sanitizeRichHtml(value: string) {
   }
 
   return output;
+}
+
+/** Preserve Tiptap tables; convert the older pipe-separated word bank format
+ * only at the start of a blank exercise. Input is sanitized exactly once. */
+export function normalizeBlankQuestionHtml(value: string) {
+  const safe = sanitizeRichHtml(value).trim();
+  const rows: string[][] = [];
+  let remaining = safe;
+  while (true) {
+    const match = remaining.match(/^<p(?:\s[^>]*)?>([^<>]+)<\/p>\s*/i);
+    if (!match || !match[1].includes("|")) break;
+    const cells = match[1].split("|").map(cell => cell.trim());
+    if (cells.length < 2 || cells.some(cell => !cell || /_{2,}/.test(cell)) ||
+        (rows.length && cells.length !== rows[0].length)) break;
+    rows.push(cells);
+    remaining = remaining.slice(match[0].length);
+  }
+  if (!rows.length) return safe;
+  return `<table class="elesson-word-bank" aria-label="Word bank"><tbody>${rows.map(row =>
+    `<tr>${row.map(cell => `<td><p style="text-align:center">${cell}</p></td>`).join("")}</tr>`
+  ).join("")}</tbody></table>${remaining}`;
+}
+
+/** Insert inert anchors only into sanitized text nodes, never into attributes.
+ * The client mounts the existing React input controls into these anchors. */
+export function prepareRichQuestionAnswers(value: string, count: number, mode: "blanks" | "underlines" = "blanks", appendMissing = false) {
+  let html = mode === "blanks" ? normalizeBlankQuestionHtml(value) : sanitizeRichHtml(value);
+  let index = 0;
+  const anchor = (original: string) => index < count
+    ? `<span data-elesson-answer-anchor="${index++}"></span>` : original;
+  if (mode === "underlines") {
+    html = html.replace(/<u(?:\s[^>]*)?>[\s\S]*?<\/u>/gi, anchor);
+  } else {
+    // Sanitizer emits quoted attributes. Keep every complete tag untouched.
+    html = html.split(/(<(?:[^>"']|"[^"]*"|'[^']*')*>)/g).map((part, i) =>
+      i % 2 ? part : part.replace(/_{2,}/g, anchor)
+    ).join("");
+  }
+  if (appendMissing && index === 0 && count > 0) {
+    const slot = anchor("");
+    html = /<\/p>\s*$/i.test(html) ? html.replace(/<\/p>\s*$/i, `${slot}</p>`) : html + slot;
+  }
+  return html;
 }

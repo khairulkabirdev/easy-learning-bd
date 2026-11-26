@@ -98,6 +98,7 @@ function StudentBrand({ compact = false }: { compact?: boolean }) {
 
 export function StudentWorkspaceShell({ userId, classId, userName, userEmail, className, subjects, children }: Props) {
   const pathname = usePathname();
+  const isModelPaper = /^\/user\/model-questions\/[^/]+\/[^/]+\/?$/.test(pathname);
   const router = useRouter();
   const searchParams = useSearchParams();
   const queryString = searchParams.toString();
@@ -292,7 +293,7 @@ export function StudentWorkspaceShell({ userId, classId, userName, userEmail, cl
       </aside>
 
       <div className="min-w-0 flex-1">
-        <header className="student-topbar sticky top-0 z-30 border-b px-3 backdrop-blur-xl sm:px-5 xl:px-8">
+        <header className={cn("student-topbar z-30 border-b px-3 sm:px-5 xl:px-8", isModelPaper ? "relative" : "sticky top-0 backdrop-blur-xl")}>
           <div className="mx-auto flex h-[68px] max-w-[1440px] items-center gap-3">
             <Button variant="outline" size="icon" className="shrink-0 lg:hidden" aria-label="Open navigation" onClick={() => setMenuOpen(true)}><Menu className="size-5" /></Button>
             <div className="hidden sm:block lg:hidden"><StudentBrand /></div>
